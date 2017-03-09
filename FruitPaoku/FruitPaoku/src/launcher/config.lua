@@ -2,6 +2,12 @@
 -- 0 - disable debug info, 1 - less debug info, 2 - verbose debug info
 DEBUG = 1
 
+--mobile debug console on screen
+--and do not connect internet
+MOBILE_DEBUG = false
+--gm
+GM_STATE = true
+
 -- display FPS stats on screen
 DEBUG_FPS = true
 

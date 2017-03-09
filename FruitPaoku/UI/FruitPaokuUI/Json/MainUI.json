@@ -21,7 +21,7 @@
       "classname": "Panel",
       "name": "Panel_14",
       "ZOrder": 0,
-      "actiontag": 14835533,
+      "actiontag": -1,
       "anchorPointX": 0,
       "anchorPointY": 0,
       "classType": "CocoStudio.EngineAdapterWrap.CSPanel",
