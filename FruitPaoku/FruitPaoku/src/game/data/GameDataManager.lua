@@ -4,13 +4,13 @@
 
 local GameDataManager = {}
 --local GoodsVo = require("app.data.GoodsVo")
---local ModleVo = require("app.data.ModleVo")
---local playerVo = clone(require("app.data.PlayerVo"))
+local ModleVo = require("game.data.ModleVo")
+local playerVo = clone(require("game.data.PlayerVo"))
 
 --=================玩家数据
 local userData = {}
 local modleDic = {}--角色表
-local curFightModle = 1  --出战角色
+local curRoleID = 0 --当前出战角色id
 
 local music=false
 local sound=false
@@ -19,8 +19,24 @@ local sound=false
 function GameDataManager.init()
     userData.gold = DataPersistence.getAttribute("user_gold")    --金牌
     userData.diamond = DataPersistence.getAttribute("user_diamond") --钻石
+    userData.power = DataPersistence.getAttribute("user_power")  --玩家体力
+    userData.points = DataPersistence.getAttribute("user_score")  --玩家积分
     
---    GameDataManager.initPlayerVo() --初始化角色数据
+    music=DataPersistence.getAttribute("music")
+    sound=DataPersistence.getAttribute("sound")
+    --初始化角色数据
+    curRoleID = DataPersistence.getAttribute("cur_roleID")
+    
+    local modleList = DataPersistence.getAttribute("modle_list")  --角色皮肤列表
+    for key, var in pairs(modleList) do
+        modleDic[var.roleId] = var
+    end
+    GameDataManager.initPlayerVo()
+    
+    --初始化关卡数据
+--    GameDataManager.initFightData()
+--    --初始化物品数据
+--    GameDataManager.initGoodsData()
 end
 
 function GameDataManager.isMusicOpen()
@@ -91,6 +107,64 @@ end
 --获取钻石
 function GameDataManager.getDiamond()
     return userData.diamond
+end
+
+--获取体力
+function GameDataManager.getPower()
+    return userData.power
+end
+
+--扣除体力
+--@return:true扣除成功，false扣除失败
+function GameDataManager.costPower(_value)
+--    if userData.power >= _value then
+--        local oldCost = USER_POWER_MAX-userData.power
+--
+--        userData.power = userData.power - _value
+--
+--        local _endT = GameDataManager.getPowerEndTime()
+--        local _curT = TimeUtil.getTimeStamp()
+--        if _endT > 0 then
+--            --            local _pastT = _curT+oldCost*POWER_RECOVER_TIME-_endT   --已经流失的时间
+--            --            local _newEnd = _endT+_value*POWER_RECOVER_TIME
+--            GameDataManager.setPowerEndTime(_endT+_value*POWER_RECOVER_TIME)
+--        else
+--            _endT = _curT + _value*POWER_RECOVER_TIME
+--            GameDataManager.setPowerEndTime(_endT)
+--        end
+--
+--        GameDispatcher:dispatch(EventNames.EVENT_POWER_CHANGE)
+--        return true
+--    else
+--        return false
+--    end
+end
+--增加体力
+function GameDataManager.addPower(_value)
+--    local oldCost = USER_POWER_MAX-userData.power
+--    local _curT = TimeUtil.getTimeStamp()
+--    local _endT = GameDataManager.getPowerEndTime()
+--    local _pastT = _curT+oldCost*POWER_RECOVER_TIME-_endT   --已经流失的时间
+--    --此处主要是检测是时间到加的体力还是其它调用加体力，小于则为非时间恢复所加
+--    if _pastT < _value*POWER_RECOVER_TIME then
+--        GameDataManager.setPowerEndTime(_endT-_value*POWER_RECOVER_TIME)
+--    end
+--
+--    userData.power = userData.power + _value
+--    if userData.power >= USER_POWER_MAX then
+--        userData.power = USER_POWER_MAX
+--        GameDataManager.setPowerEndTime(0)
+--    end
+--    GameDispatcher:dispatch(EventNames.EVENT_POWER_CHANGE)
+--    return userData.power
+end
+
+--设置体力回满结束时间
+function GameDataManager.setPowerEndTime(_time)
+    DataPersistence.updateAttribute("recover_power_endTime",_time) --距体力回满结束时间戳
+end
+function GameDataManager.getPowerEndTime()
+    return DataPersistence.getAttribute("recover_power_endTime") --距体力回满结束时间戳
 end
 
 --===================道具相关
@@ -197,44 +271,253 @@ function GameDataManager.resetGoodsNum(_goodsId)
     GameDataManager.SaveData()
 end
 
---===================================角色相关
+--===================角色信息相关=========================
 --初始化角色信息
 function GameDataManager.initPlayerVo()
-    local roleConfig = RoleConfig[curFightModle]
+    --    local _lv = DataPersistence.getAttribute("user_lv")
+    --    curRoleID = DataPersistence.getAttribute("cur_roleID")
+    local roleConfig = RoleConfig[curRoleID]
     if roleConfig then
-        playerVo.m_roleId = curFightModle
+        local _lv = GameDataManager.getRoleModle(curRoleID).roleLv
+        playerVo.m_roleId = curRoleID
+        playerVo.m_level = _lv
+--        playerVo.m_lifeNum = roleConfig.lifeNum
+        playerVo.m_hp = roleConfig.hp     --血量
+        playerVo.m_att = roleConfig.att           -- 攻击力
+--        playerVo.m_score_rate = GameDataManager.getScoreRate(curRoleID,_lv)   --分数加成
+--        playerVo.m_coin_rate = GameDataManager.getMoneyRate(curRoleID,_lv)    --金币加成
+--        playerVo.m_jump = roleConfig.jump --弹跳值
+--        playerVo.m_damageArea = roleConfig.damageArea    --破坏面积（以角色中心点向外扩散的矩形区域长宽半径）
+--        playerVo.m_sprintTime = roleConfig.sprintTime   --冲刺时间
+--        playerVo.m_magnetTime = roleConfig.magnetTime   --磁铁时间
+--        playerVo.m_invincibleTime = roleConfig.invincibleTime   --无敌时间
+--        playerVo.m_rocketTime = roleConfig.rocketTime
+--        playerVo.m_superRocketTime = roleConfig.superRocketTime
+--        playerVo.m_leisheqiang = roleConfig.role_qiang  --镭射枪
+--        playerVo.m_daibuji = roleConfig.role_daibuji  --代步机
+--        playerVo.m_roleArm  = roleConfig.armatureName   --角色原动画
+--        playerVo.m_sprintTimeAdd= roleConfig.sprintTimeAdd   --冲刺时间延长 (s)
+--        playerVo.m_invincibleTimeAdd=roleConfig.invincibleTimeAdd   --无敌时间延长(s)
+--        playerVo.m_protectTimeAdd=roleConfig.protectTimeAdd       --护盾时间延长(s)
+--        playerVo.m_speed = roleConfig.speed    --移动速度
     end
 end
 
-
---解锁角色
-function GameDataManager.addModle(_roleId)
+--解锁(获得)角色皮肤
+function GameDataManager.unLockModle(_roleId)
     if modleDic[_roleId] then
         return
     end
     local _modleVo = clone(ModleVo)
     _modleVo.roleId = _roleId
     modleDic[_roleId] = _modleVo
-    if modleDic[_roleId] then
-        modleDic[_roleId].isOwn = true
-    end
+    _modleVo.level = GameDataManager.updateUserLv(_roleId,RoleConfig[_roleId].initLv)
 end
 
---是否拥有角色[检测是否为nil]
+--是否拥有相应角色
 function GameDataManager.getRoleModle(_roleId)
     return modleDic[_roleId]
 end
-
---设置当前出战角色模型
-function GameDataManager.setCurFightModle(_modleid)
-    curFightModle = _modleid
-    GameDataManager.SaveData()
+--检测是否有新的解锁皮肤
+function GameDataManager.toCheckLockedModle(_lv)
+    for key, var in pairs(RoleConfig) do
+        if (not GameDataManager.getRoleModle(var.id)) and (_lv>=var.openLv) then
+            GameDataManager.unLockModle(var.id)
+        end
+    end
 end
 
---获取当前出战角色模型
-function GameDataManager.getFightModle()
-    return curFightModle
+--更换角色
+function GameDataManager.changeRole(_roleId)
+    if curRoleID == _roleId then
+        return
+    end
+    local roleConfig = RoleConfig[_roleId]
+    if roleConfig then
+        curRoleID = _roleId
+        GameDataManager.initPlayerVo()
+    else
+        printf("chjh erro 找不到id=%d的角色皮肤配置",_roleId)
+    end
 end
+
+--设置当前出战角色id
+function GameDataManager.setCurFightRole(_roleID)
+    curRoleID = _roleID
+end
+
+--获取当前出战角色ID
+function GameDataManager.getFightRole()
+    return curRoleID
+end
+
+--获取当前角色技能时间
+function GameDataManager.getSkillTime(_roleId,_lv)
+    local _roleLvObj = RoleLvs[_roleId][_lv]
+    local _basic = RoleConfig[_roleId].basicTime
+    if _roleLvObj then
+        print(_roleLvObj.skillTime+_basic)
+        return _roleLvObj.skillTime+_basic
+    else
+        return 0
+    end
+end
+
+--获取等级攻击力
+function GameDataManager.getPlayerVoAtt(_roleId)
+    local _roleLvObj = RoleConfig[_roleId]
+    if _roleLvObj then
+        return _roleLvObj.att
+    else
+        return 0
+    end
+end
+
+
+--更新角色等级
+function GameDataManager.updateUserLv(_roleId,_lv)
+    local _modleVo = modleDic[_roleId]
+    if _modleVo then
+        local roleCon = RoleConfig[_roleId]
+        if roleCon then
+            _modleVo.roleLv = _lv
+            playerVo.m_level = _lv
+--            playerVo.m_score_rate = GameDataManager.getScoreRate(_roleId,_lv)   --分数加成
+--            playerVo.m_coin_rate = GameDataManager.getMoneyRate(_roleId,_lv)    --金币加成
+        else
+            printf("chjh error 找不到id=%d的角色配置",_roleId)
+        end
+    else
+        printf("chjh error id=%d的角色你暂未拥有，不能升级",_roleId)
+    end
+
+end
+
+--获取原始角色数据对象
+function GameDataManager.getOriginPlayerVo()
+    return playerVo
+end
+--获取当前使用角色数据对象
+local curPlyaerVo = nil
+function GameDataManager.generatePlayerVo()
+    curPlyaerVo = clone(playerVo)
+    local petVo = petDataDic[fightPet]
+    if petVo then
+--        curPlyaerVo.m_score_rate = curPlyaerVo.m_score_rate+petVo.score_rate
+--        curPlyaerVo.m_coin_rate = curPlyaerVo.m_coin_rate+petVo.coin_rate
+        curPlyaerVo.m_att = curPlyaerVo.m_att + petVo.m_att
+    end
+end
+function GameDataManager.getPlayerVo()
+    return curPlyaerVo
+end
+--===================End=========================
+
+--===================关卡相关=========================
+local fightData = {}
+--初始化战斗数据
+function GameDataManager.initFightData()
+    local fightArr = DataPersistence.getAttribute("fight_data")  --
+    for key, var in pairs(fightArr) do
+        fightData[var.id] = var
+    end
+end
+--获取当前关卡战斗数据，没战斗过则返回空
+function GameDataManager.getFightData(_levelId)
+    return fightData[_levelId]
+end
+--获取当前已经解锁关卡数量
+--function GameDataManager.getUlockLevelsNum(_chapId)
+function GameDataManager.getUlockLevelsNum()
+    return #fightData
+end
+--当前关卡id
+local curLevelId = 0
+--当前关卡id索引
+local levelIdx = 0
+--设置当前关卡id
+function GameDataManager.setCurLevelId(_id,_index)
+    curLevelId = _id
+    levelIdx = _index
+end
+--获取当前关卡id
+function GameDataManager.getCurLevelId()
+    return curLevelId,levelIdx
+end
+--增加当前关卡得分
+local curLevelScore = 0
+--_score:当前获得积分,_noRate:不需要加成,默认为nil即计算加成
+function GameDataManager.addLevelScore(_score)
+    curLevelScore = curLevelScore + _score
+--    GameDispatcher:dispatch(EventNames.EVENT_UPDATE_SCORE)
+    return curLevelScore
+end
+function GameDataManager.getLevelScore()
+    return curLevelScore
+end
+--增加当前关卡获得金币(此时不含加成)
+local curLevelCoin = 0
+function GameDataManager.addLevelCoin(_coin)
+--    GameDispatcher:dispatch(EventNames.EVENT_FIGHTGOLD_UPDATE,{coin=_coin,animation=true})
+    curLevelCoin = curLevelCoin + _coin
+    return curLevelCoin
+end
+function GameDataManager.getLevelCoin()
+    return curLevelCoin
+end
+--计算关卡总分数
+local maxScore = 0
+function GameDataManager.caculateScore(_levelId)
+    _levelId = _levelId or curLevelId
+    local _levCon = SelectLevel[_levelId]
+--    if _levCon then
+--        maxScore = Level_Score.Floor_Score*(#_levCon.roomBgs-1)
+--    end
+end
+
+--获取关卡总分
+function GameDataManager.getMaxScore(_levelId)
+    if maxScore <= 0 then
+        GameDataManager.caculateScore(_levelId)
+    end
+    return maxScore
+end
+
+--存储关卡数据
+--return1:是否首次过关，return2:当前星级
+function GameDataManager.saveLevelData()
+    local isFirst=false
+    local curStar = 1
+    local _data = fightData[curLevelId]
+    if not _data then
+        _data = clone(LevelVo)
+        fightData[curLevelId] = _data
+        isFirst=true
+    end
+
+    local _levCon = SelectLevel[curLevelId]
+    if _levCon then
+        _data.id = curLevelId
+        _data.chapterId = _levCon._chapId
+        --如果此次得分高于上次则记录
+        local old=_data.score
+        if old<curLevelScore then
+            _data.score = curLevelScore
+            GameDataManager.addChapterScore(_data.chapterId,_data.score-old)
+        end
+    end
+
+    return isFirst
+end
+
+--重置关卡数据
+function GameDataManager.resetLevelData()
+    curLevelScore = 0
+    curLevelCoin = 0
+    maxScore = 0
+end
+
+--=======================end==============================
 
 --=================================战斗相关
 
@@ -243,7 +526,7 @@ local gold_F = 0
 --添加米数(当前游戏)
 function GameDataManager.addKm(_km)
     km_F = _km
-    GameDispatcher:dispatch(EventNames.EVENT_FIGHT_UPDATE_KM,km_F)
+    -- GameDispatcher:dispatch(EventNames.EVENT_FIGHT_UPDATE_KM,km_F)
     return true
 end
 
@@ -370,17 +653,35 @@ end
 
 --游戏数据保存
 function GameDataManager.SaveData(parameters)
+--    if app:getUserState() <= USER_STATE.Login_State then
+--        --还没进入游戏，不需存盘
+--        return
+--    end
+
     DataPersistence.updateAttribute("user_gold",userData.gold)
     DataPersistence.updateAttribute("user_diamond",userData.diamond)
-    DataPersistence.updateAttribute("user_modle",curFightModle)
+    DataPersistence.updateAttribute("user_power",userData.power)
+    DataPersistence.updateAttribute("user_score",userData.points)    --玩家积分
+    DataPersistence.updateAttribute("cur_roleID",playerVo.m_roleId)
+
     local modleList = {}
     for key, var in pairs(modleDic) do
         table.insert(modleList,var)
     end
     DataPersistence.updateAttribute("modle_list",modleList)
-    DataPersistence.updateAttribute("record",userData.record)
-    DataPersistence.updateAttribute("oem",oem.curTable)
-    DataPersistence.toSaveData()
+
+    local fightArr = {}
+    for key, var in pairs(fightData) do
+        table.insert(fightArr,var)
+    end
+    DataPersistence.updateAttribute("fight_data",fightArr)
+
+    --物品相关
+    DataPersistence.updateAttribute("goods_list",goodsList)
+
+    DataPersistence.updateAttribute("music",music)
+    DataPersistence.updateAttribute("sound",sound)
+
 end
 
 

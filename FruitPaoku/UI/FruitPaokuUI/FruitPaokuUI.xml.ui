@@ -8,6 +8,7 @@
   <JsonFolder>G:\dev\BRJ\FruitPaoku\UI\FruitPaokuUI\Json</JsonFolder>
   <JsonList>
     <string>MainUI.json</string>
+    <string>SelectUI.json</string>
   </JsonList>
   <CanvasSize>
     <Width>960</Width>

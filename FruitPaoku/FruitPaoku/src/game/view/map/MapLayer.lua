@@ -2,7 +2,7 @@
 地图层
 ]]
 local Scheduler = require("framework.scheduler")
---local Player = require("app.view.element.Player")
+local Player = require("game.view.element.Player")
 
 local MapLayer = class("MapLayer",function()
     local pLayer = cc.Layer:create()
@@ -18,14 +18,28 @@ function MapLayer:ctor(parameters)
     self.m_backbg = BackGroundMove.new(GameBgRes,0,MoveSpeed):addTo(self)
 
     self.group = {}
-
+    self.pexel = 0
+    
     self.m_curZOrder = MAP_ZORDER_MAX + 1
 
     self.m_roomsNum = MAP_GROUP_INIT_NUM
-    
---    self.m_player = Player.new()
---    self:addChild(self.m_player,MAP_ZORDER_MAX+1)
 
+--    self:initRooms()
+    
+    self.m_player = Player.new()
+    self:addChild(self.m_player,MAP_ZORDER_MAX+1)
+    self.m_player:setPosition(display.cx-100,display.cy-240)
+
+end
+
+function MapLayer:initRooms()
+    if GAME_TYPE_CONTROL == GAME_TYPE.LevelMode then
+        self.m_levelCon = SelectLevel[GameDataManager.getCurLevelId()]
+    elseif GAME_TYPE_CONTROL == GAME_TYPE.EndlessMode then
+        -- self.endlessCon = EndlessMode.room_Type
+        -- self.m_levelCon = self.endlessCon
+        -- self.curRooms = self.endlessCon
+    end
 end
 
 --触摸
@@ -36,7 +50,8 @@ function MapLayer:touchFunc(event)
 
 
     if event.name == "began" or event.name == "added" then
-
+        self.m_player:toPlay(PLAYER_ACTION.Jump,0)
+        self.m_player:toMove()
         return true
     elseif event.name == "ended" then
         
@@ -117,12 +132,15 @@ function MapLayer:onEnterFrame(dt)
     --移动金币
 --    GameController.attract()
 
+--    local bpx,bpy = self.m_player:getPosition()
+--    self.m_player:update(dt,bpx,bpy)
+
     --跑了多少米换算公式
---    self.pexel = self.pexel + MoveSpeed*0.1/(Pixel/Miles)
+   self.pexel = self.pexel + MoveSpeed*0.1/(Pixel/Miles)
     --    print("[[[[[[[[[[[[[[[[[     ",self.pexel)
 
---    local cur = math.floor(self.pexel)
---    GameDataManager.addKm(cur)
+   local cur = math.floor(self.pexel)
+   GameDataManager.addKm(cur)
 --
 --    if GameDataManager.getRecord()<=0 then
 --        self:initGuide()

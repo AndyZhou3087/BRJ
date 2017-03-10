@@ -4,4 +4,8 @@
     <Project>MainUI</Project>
     <GuidesList />
   </GuidesProject>
+  <GuidesProject>
+    <Project>SelectUI</Project>
+    <GuidesList />
+  </GuidesProject>
 </ArrayOfGuidesProject>

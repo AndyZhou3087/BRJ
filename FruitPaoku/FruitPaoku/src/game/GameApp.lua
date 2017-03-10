@@ -6,6 +6,7 @@ require("framework.init")
 require("game.events.EventNames")
 
 require("game.Config.GameConfig")
+require("game.config.RoleConfig")
 
 PoolManager = require("game.tools.PoolManager")
 TimeUtil = require("game.tools.TimeUtil")
@@ -38,8 +39,8 @@ function GameApp:ctor()
     DataPersistence.insertAttribute("music",true)
     DataPersistence.insertAttribute("sound",true)
     
+    DataPersistence.insertAttribute("cur_roleID",1)      --当前使用角色id
     DataPersistence.insertAttribute("modle_list",{ModleVo={roleId =1,isOwn = true},})    --已经解锁的角色模型列表，元素为ModleVo
-    DataPersistence.insertAttribute("user_modle",1)   --角色模型(出战)
     
     --关卡相关
     DataPersistence.insertAttribute("fight_data",{})    --战斗数据,列表元素为LevelVo
@@ -52,11 +53,15 @@ function GameApp:ctor()
 end
 
 function GameApp:run()
---    cc.FileUtils:getInstance():addSearchPath("res/")
-   self:enterScene("GameScene")
---    if DataPersistence.init() then
---        self:enterScene("MainScene")
---    end
+    cc.FileUtils:getInstance():addSearchPath("res/")
+--   self:enterScene("GameScene")
+    if DataPersistence.init() then
+        self:enterScene("MainScene")
+    end
+end
+
+function GameApp:enterSelectScene(parameters)
+    self:enterScene("SelectScene")
 end
 
 function GameApp:enterGameScene(parameters)

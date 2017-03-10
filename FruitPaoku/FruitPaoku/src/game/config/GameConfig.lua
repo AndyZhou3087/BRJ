@@ -8,15 +8,15 @@ initSpeed = 32
 MoveSpeed = initSpeed
 
 --地图背景资源
-GameBgRes = "ui/GameBg.jpg"
+GameBgRes = "Common/GameBg.jpg"
 
 --前期无障碍缓存距离，单位：像素
 CacheDis = 200
 
 --每秒移动像素
-Pixel = 100
+Pixel = 320
 --每秒路程，单位:米
-Miles = 8
+Miles = 10
 
 --金币移动速度
 GOLD_SPEED=10
@@ -49,6 +49,15 @@ MAP_GROUP_INIT_NUM = 2    --初始化组合数
 --角色保护时间（单位：秒）
 GuardTime = 3
 
+--游戏类型
+GAME_TYPE = 
+    {
+        LevelMode = 1 , --关卡模式
+        EndlessMode = 2 , --无尽模式
+    }
+--游戏类型控制
+GAME_TYPE_CONTROL = GAME_TYPE.LevelMode
+
 --界面层级配置
 UI_ZORDER =
     {
@@ -62,9 +71,7 @@ UI_ZORDER =
 --元素tag定义
 ELEMENT_TAG=
     {
-        PLAYER_TAGL = 1,  --角色
-        PLAYER_TAGC = 2,
-        PLAYER_TAGR = 3,
+        PLAYER_TAG = 1,  --角色
         OBSTACLE = 4,    --障碍
         GOLD_TAG = 5,   --金币
         GOOD_TAG = 6,    --道具

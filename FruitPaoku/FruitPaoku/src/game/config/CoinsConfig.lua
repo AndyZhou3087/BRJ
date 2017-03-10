@@ -1,0 +1,97 @@
+--[[
+金币配置
+]]
+
+
+Coins = {}
+
+--[1]
+Coins[1]=
+    {
+{res="ui/gold.png",x=320,y=10},--普通金币
+{res="ui/gold.png",x=320,y=150},--普通金币
+{res="ui/gold.png",x=320,y=290},--普通金币
+    }
+Coins[2]=
+    {
+{res="ui/gold.png",x=320,y=430},--普通金币
+{res="ui/gold.png",x=320,y=570},--普通金币
+{res="ui/gold.png",x=320,y=710},--普通金币
+{res="ui/gold.png",x=320,y=850},--普通金币
+{res="ui/gold.png",x=320,y=990},--普通金币
+    }
+Coins[3]=
+    {
+{res="ui/gold.png",x=320,y=10},--普通金币
+{res="ui/gold.png",x=320,y=150},--普通金币
+{res="ui/gold.png",x=320,y=290},--普通金币
+{res="ui/gold.png",x=320,y=430},--普通金币
+{res="ui/gold.png",x=320,y=570},--普通金币
+{res="ui/gold.png",x=320,y=710},--普通金币
+{res="ui/gold.png",x=320,y=850},--普通金币
+{res="ui/gold.png",x=320,y=990},--普通金币
+{res="ui/gold.png",x=130,y=10},--普通金币
+{res="ui/gold.png",x=130,y=150},--普通金币
+{res="ui/gold.png",x=130,y=290},--普通金币
+{res="ui/gold.png",x=130,y=430},--普通金币
+{res="ui/gold.png",x=130,y=570},--普通金币
+{res="ui/gold.png",x=130,y=710},--普通金币
+{res="ui/gold.png",x=130,y=850},--普通金币
+{res="ui/gold.png",x=130,y=990},--普通金币
+    }
+Coins[4]=
+    {
+{res="ui/gold.png",x=320,y=10},--普通金币
+{res="ui/gold.png",x=320,y=150},--普通金币
+{res="ui/gold.png",x=320,y=290},--普通金币
+{res="ui/gold.png",x=320,y=430},--普通金币
+{res="ui/gold.png",x=130,y=10},--普通金币
+{res="ui/gold.png",x=130,y=150},--普通金币
+{res="ui/gold.png",x=130,y=290},--普通金币
+{res="ui/gold.png",x=130,y=430},--普通金币
+    }
+Coins[5]=
+    {
+{res="ui/gold.png",x=130,y=10},--普通金币
+{res="ui/gold.png",x=130,y=150},--普通金币
+{res="ui/gold.png",x=130,y=290},--普通金币
+{res="ui/gold.png",x=130,y=430},--普通金币
+{res="ui/gold.png",x=130,y=570},--普通金币
+{res="ui/gold.png",x=130,y=710},--普通金币
+{res="ui/gold.png",x=130,y=850},--普通金币
+{res="ui/gold.png",x=130,y=990},--普通金币
+{res="ui/gold.png",x=320,y=10},--普通金币
+{res="ui/gold.png",x=320,y=150},--普通金币
+{res="ui/gold.png",x=320,y=290},--普通金币
+{res="ui/gold.png",x=320,y=430},--普通金币
+{res="ui/gold.png",x=320,y=570},--普通金币
+{res="ui/gold.png",x=320,y=710},--普通金币
+{res="ui/gold.png",x=320,y=850},--普通金币
+{res="ui/gold.png",x=320,y=990},--普通金币
+{res="ui/gold.png",x=510,y=10},--普通金币
+{res="ui/gold.png",x=510,y=150},--普通金币
+{res="ui/gold.png",x=510,y=290},--普通金币
+{res="ui/gold.png",x=510,y=430},--普通金币
+{res="ui/gold.png",x=510,y=570},--普通金币
+{res="ui/gold.png",x=510,y=710},--普通金币
+{res="ui/gold.png",x=510,y=850},--普通金币
+{res="ui/gold.png",x=510,y=990},--普通金币
+    }
+Coins[6]=
+    {
+{res="ui/gold.png",x=130,y=10},--普通金币
+{res="ui/gold.png",x=130,y=150},--普通金币
+{res="ui/gold.png",x=130,y=290},--普通金币
+{res="ui/gold.png",x=130,y=430},--普通金币
+
+{res="ui/gold.png",x=320,y=10},--普通金币
+{res="ui/gold.png",x=320,y=150},--普通金币
+{res="ui/gold.png",x=320,y=290},--普通金币
+{res="ui/gold.png",x=320,y=430},--普通金币
+
+{res="ui/gold.png",x=510,y=10},--普通金币
+{res="ui/gold.png",x=510,y=150},--普通金币
+{res="ui/gold.png",x=510,y=290},--普通金币
+{res="ui/gold.png",x=510,y=430},--普通金币
+
+    }
