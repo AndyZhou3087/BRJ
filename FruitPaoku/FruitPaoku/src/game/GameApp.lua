@@ -5,8 +5,9 @@ require("framework.init")
 
 require("game.events.EventNames")
 
-require("game.Config.GameConfig")
+require("game.config.GameConfig")
 require("game.config.RoleConfig")
+require("game.config.SelectLevelConfig")
 
 PoolManager = require("game.tools.PoolManager")
 TimeUtil = require("game.tools.TimeUtil")
@@ -61,6 +62,7 @@ function GameApp:run()
 end
 
 function GameApp:enterSelectScene(parameters)
+    cc.FileUtils:getInstance():addSearchPath("res/")
     self:enterScene("SelectScene")
 end
 

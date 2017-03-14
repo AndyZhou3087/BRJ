@@ -1,5 +1,7 @@
 --游戏公用配置文件
 
+SelectItemCount = 15
+
 GroupSize = cc.size(1550,540)   --每一组配置的大小
 
 --初始速度

@@ -5,7 +5,8 @@ local SelectScene = class("SelectScene", function()
 end)
 
 function SelectScene:ctor()
-
+    self.m_SelectUI = SelectUI.new()
+    self:addChild(self.m_SelectUI)
 end
 
 function SelectScene:onEnter()
