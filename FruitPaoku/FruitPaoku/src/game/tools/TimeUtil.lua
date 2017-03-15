@@ -5,9 +5,6 @@ local TimeUtil = {}
 
 local Scheduler = require("framework.scheduler")
 
---网络时间url
-local TIME_URL = "http://client.ahcz.5gwan.com/timestamp"
-
 local timeIsOk = false
 
 --服务器消息返回
@@ -46,53 +43,24 @@ function TimeUtil.init(_completeHandle)
         end
         return
     end
-    local request = cc.HTTPRequest:createWithUrl(function(event)
-        TimeUtil._onResponse(event,_completeHandle)
-    end, TIME_URL, cc.kCCHTTPRequestMethodGET)
-    if request then
-        request:setTimeout(20)
-        request:start()
-    else
-        --初始化网络错误
-        timeIsOk = false
-        print("chjh error 初始化网络错误")
-        app:alert({
-            type=Alert_Type.Type_One,
-            content="初始化网络错误，请连网后重新进入",
-            okFunc=function(parameters)
-            	os.exit()
-            end
-        })
-    end
+    TimeUtil._onResponse()
 end
 
 function TimeUtil._onResponse(event,backHandle)
 --    local tim = Tools.getSysTime()
-    local request = event.request
-    if event.name == "completed" then
-        timeIsOk = true
-        timeStamp = tonumber(request:getResponseData())
-        local _date = TimeUtil.initDate()
-        if _date.hour==0 and _date.min==0 and _date.sec==0 then
-            TimeUtil._dayChange()
-        end
-        if not timeHandler then
-            timeHandler = Scheduler.scheduleGlobal(TimeUtil._updateTime,1)
-        end
-        GameDispatcher:dispatch(EventNames.EVENT_NET_TIME_CHANGE)
-        if backHandle then
-        	backHandle()
-        end
-    elseif event.name == "failed" then  
-        print("请连接网络")  
-        timeIsOk = false 
-        app:alert({
-            type=Alert_Type.Type_One,
-            content="网络异常，请联网后重新进入游戏",
-            okFunc=function(parameters)
-                os.exit()
-            end
-        })   
+--    local request = event.request
+    timeIsOk = true
+    timeStamp = os.time()
+    local _date = TimeUtil.initDate()
+    if _date.hour==0 and _date.min==0 and _date.sec==0 then
+        TimeUtil._dayChange()
+    end
+    if not timeHandler then
+        timeHandler = Scheduler.scheduleGlobal(TimeUtil._updateTime,1)
+    end
+    GameDispatcher:dispatch(EventNames.EVENT_NET_TIME_CHANGE)
+    if backHandle then
+        backHandle()
     end
 end
 
@@ -109,12 +77,9 @@ function TimeUtil._updateTime()
 end
 --跨天变化触发（零点触发）
 function TimeUtil._dayChange(parameters)
-    GameDataManager.isDateSign()
-    GameDataManager.updateTimes()
+--    GameDataManager.isDateSign()
     --更新vip礼包
-    GameDataManager.updateVipData()
-    --重置boss挑战信息
-    GameDataManager.resetBossInfo()
+--    GameDataManager.updateVipData()
 end
 
 --获取时间戳

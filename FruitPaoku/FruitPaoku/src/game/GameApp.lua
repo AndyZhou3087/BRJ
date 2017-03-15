@@ -8,6 +8,7 @@ require("game.events.EventNames")
 require("game.config.GameConfig")
 require("game.config.RoleConfig")
 require("game.config.SelectLevelConfig")
+require("src.game.config.GoodsConfig")
 
 PoolManager = require("game.tools.PoolManager")
 TimeUtil = require("game.tools.TimeUtil")
@@ -51,6 +52,10 @@ function GameApp:ctor()
     
     --体力相关
     DataPersistence.insertAttribute("recover_power_endTime",0) --距体力回满结束时间戳
+    
+    --设置签到
+    DataPersistence.insertAttribute("user_sign",{signs=0,day=2014,month=8,year=10})
+    DataPersistence.insertAttribute("sign_reward",1)
 end
 
 function GameApp:run()
@@ -62,7 +67,7 @@ function GameApp:run()
 end
 
 function GameApp:enterSelectScene(parameters)
-    cc.FileUtils:getInstance():addSearchPath("res/")
+    cc.FileUtils:getInstance():addSearchPath("res/")--切换场景时可能删除了资源路径
     self:enterScene("SelectScene")
 end
 

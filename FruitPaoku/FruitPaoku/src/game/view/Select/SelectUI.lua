@@ -15,7 +15,7 @@ end
 
 --初始化
 function SelectUI:init(parameters)
-    self.m_json = cc.uiloader:load("SelectUI.json")
+    self.m_json = cc.uiloader:load("json/SelectUI.json")
     self:addChild(self.m_json)
     
     local scrollPanel = cc.uiloader:seekNodeByName(self.m_json,"Panel_8")
@@ -52,6 +52,8 @@ end
 
 --关闭界面调用
 function SelectUI:toClose(_clean)
+    GameDataManager.SaveData()
+
     SelectUI.super.toClose(self,_clean)
 end
 

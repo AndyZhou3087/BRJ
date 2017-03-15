@@ -3,7 +3,8 @@
 ]]
 
 local GameDataManager = {}
---local GoodsVo = require("app.data.GoodsVo")
+local GoodsVo = require("game.data.GoodsVo")
+local LevelVo = require("game.data.LevelVo")
 local ModleVo = require("game.data.ModleVo")
 local playerVo = clone(require("game.data.PlayerVo"))
 
@@ -17,7 +18,7 @@ local sound=false
 
 --初始化玩家数据
 function GameDataManager.init()
-    userData.gold = DataPersistence.getAttribute("user_gold")    --金牌
+    userData.gold = DataPersistence.getAttribute("user_gold")    --金币
     userData.diamond = DataPersistence.getAttribute("user_diamond") --钻石
     userData.power = DataPersistence.getAttribute("user_power")  --玩家体力
     userData.points = DataPersistence.getAttribute("user_score")  --玩家积分
@@ -34,9 +35,11 @@ function GameDataManager.init()
     GameDataManager.initPlayerVo()
     
     --初始化关卡数据
---    GameDataManager.initFightData()
+    GameDataManager.initFightData()
 --    --初始化物品数据
---    GameDataManager.initGoodsData()
+    GameDataManager.initGoodsData()
+    --初始化签到信息
+--    GameDataManager.initSignData()
 end
 
 function GameDataManager.isMusicOpen()
@@ -117,46 +120,44 @@ end
 --扣除体力
 --@return:true扣除成功，false扣除失败
 function GameDataManager.costPower(_value)
---    if userData.power >= _value then
---        local oldCost = USER_POWER_MAX-userData.power
---
---        userData.power = userData.power - _value
---
---        local _endT = GameDataManager.getPowerEndTime()
---        local _curT = TimeUtil.getTimeStamp()
---        if _endT > 0 then
---            --            local _pastT = _curT+oldCost*POWER_RECOVER_TIME-_endT   --已经流失的时间
---            --            local _newEnd = _endT+_value*POWER_RECOVER_TIME
---            GameDataManager.setPowerEndTime(_endT+_value*POWER_RECOVER_TIME)
---        else
---            _endT = _curT + _value*POWER_RECOVER_TIME
---            GameDataManager.setPowerEndTime(_endT)
---        end
---
---        GameDispatcher:dispatch(EventNames.EVENT_POWER_CHANGE)
---        return true
---    else
---        return false
---    end
+    if userData.power >= _value then
+        local oldCost = USER_POWER_MAX-userData.power
+
+        userData.power = userData.power - _value
+
+        local _endT = GameDataManager.getPowerEndTime()
+        local _curT = TimeUtil.getTimeStamp()
+        if _endT > 0 then
+            GameDataManager.setPowerEndTime(_endT+_value*POWER_RECOVER_TIME)
+        else
+            _endT = _curT + _value*POWER_RECOVER_TIME
+            GameDataManager.setPowerEndTime(_endT)
+        end
+
+        GameDispatcher:dispatch(EventNames.EVENT_POWER_CHANGE)
+        return true
+    else
+        return false
+    end
 end
 --增加体力
 function GameDataManager.addPower(_value)
---    local oldCost = USER_POWER_MAX-userData.power
---    local _curT = TimeUtil.getTimeStamp()
---    local _endT = GameDataManager.getPowerEndTime()
---    local _pastT = _curT+oldCost*POWER_RECOVER_TIME-_endT   --已经流失的时间
---    --此处主要是检测是时间到加的体力还是其它调用加体力，小于则为非时间恢复所加
---    if _pastT < _value*POWER_RECOVER_TIME then
---        GameDataManager.setPowerEndTime(_endT-_value*POWER_RECOVER_TIME)
---    end
---
---    userData.power = userData.power + _value
---    if userData.power >= USER_POWER_MAX then
---        userData.power = USER_POWER_MAX
---        GameDataManager.setPowerEndTime(0)
---    end
---    GameDispatcher:dispatch(EventNames.EVENT_POWER_CHANGE)
---    return userData.power
+    local oldCost = USER_POWER_MAX-userData.power
+    local _curT = TimeUtil.getTimeStamp()
+    local _endT = GameDataManager.getPowerEndTime()
+    local _pastT = _curT+oldCost*POWER_RECOVER_TIME-_endT   --已经流失的时间
+    --此处主要是检测是时间到加的体力还是其它调用加体力，小于则为非时间恢复所加
+    if _pastT < _value*POWER_RECOVER_TIME then
+        GameDataManager.setPowerEndTime(_endT-_value*POWER_RECOVER_TIME)
+    end
+
+    userData.power = userData.power + _value
+    if userData.power >= USER_POWER_MAX then
+        userData.power = USER_POWER_MAX
+        GameDataManager.setPowerEndTime(0)
+    end
+    GameDispatcher:dispatch(EventNames.EVENT_POWER_CHANGE)
+    return userData.power
 end
 
 --设置体力回满结束时间
@@ -401,12 +402,12 @@ end
 local curPlyaerVo = nil
 function GameDataManager.generatePlayerVo()
     curPlyaerVo = clone(playerVo)
-    local petVo = petDataDic[fightPet]
-    if petVo then
---        curPlyaerVo.m_score_rate = curPlyaerVo.m_score_rate+petVo.score_rate
---        curPlyaerVo.m_coin_rate = curPlyaerVo.m_coin_rate+petVo.coin_rate
-        curPlyaerVo.m_att = curPlyaerVo.m_att + petVo.m_att
-    end
+--    local petVo = petDataDic[fightPet]
+--    if petVo then
+----        curPlyaerVo.m_score_rate = curPlyaerVo.m_score_rate+petVo.score_rate
+----        curPlyaerVo.m_coin_rate = curPlyaerVo.m_coin_rate+petVo.coin_rate
+--        curPlyaerVo.m_att = curPlyaerVo.m_att + petVo.m_att
+--    end
 end
 function GameDataManager.getPlayerVo()
     return curPlyaerVo
@@ -581,6 +582,60 @@ function GameDataManager.getAllScore(_dis)
     end
     return _score
 end
+
+--===================签到信息=========================
+local signList={}
+
+function GameDataManager.reward(parameters)
+    signList.curTable.m_rand = math.random(1,table.getn(SignReward))
+end
+
+function GameDataManager.getReward(parameters)
+    return signList.curTable.m_rand
+end
+
+--初始化签到信息
+function GameDataManager.initSignData()
+    signList.curTable = DataPersistence.getAttribute("user_sign")
+    signList.curTable.m_rand = DataPersistence.getAttribute("sign_reward")
+end
+
+function GameDataManager.resetSign()   --签到7天重置
+    if signList.curTable.signs == 7 and (signList.curTable.day~=TimeUtil.getDate().day or signList.curTable.month~=TimeUtil.getDate().month or signList.curTable.year~=TimeUtil.getDate().year) then
+        signList.curTable.day = TimeUtil.getDate().day
+        signList.curTable.month = TimeUtil.getDate().month
+        signList.curTable.year = TimeUtil.getDate().year
+        signList.curTable.signs = 0
+        GameDataManager.reward()
+        return true
+else
+    return false
+end
+end
+--当天是否签到
+function GameDataManager.isDateSign()
+    if signList.curTable.day==TimeUtil.getDate().day and signList.curTable.month==TimeUtil.getDate().month and signList.curTable.year==TimeUtil.getDate().year then
+        return true
+    else
+
+        --       GameDataManager.setWarning("sign")
+        GameDispatcher:dispatch(EventNames.EVENT_UPDATE_SIGNSTART)
+        return false
+    end
+end
+--获得签到的次数
+function GameDataManager.getSignCount()
+    return signList.curTable.signs
+end
+
+--更新签到
+function GameDataManager.updateSign()
+    signList.curTable.day = TimeUtil.getDate().day
+    signList.curTable.month = TimeUtil.getDate().month
+    signList.curTable.year = TimeUtil.getDate().year
+    signList.curTable.signs = signList.curTable.signs+1
+end
+--===================End=========================
 
 --=============================================================礼包相关
 local oem={}

@@ -56,13 +56,12 @@ function GameScene:onEnter()
 
 --    self.m_fightView = MapView.new()
 --    self:addChild(self.m_fightView)
---    GameDispatcher:dispatch(EventNames.EVENT_OPEN_READY)
+
     Tools.delayCallFunc(0.001,function()
         self.m_map:initPhyPos()
     end)
 
     self.m_handlerStart=Tools.delayCallFunc(0.1,handler(self,self.updateStart))
-
 
 end
 

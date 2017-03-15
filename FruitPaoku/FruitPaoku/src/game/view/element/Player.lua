@@ -22,6 +22,7 @@ function Player:ctor()
 --    self.m_curModle = GameDataManager.getFightRole()
     local modle = RoleConfig[1].armatureName
     self:createModle(modle)
+--    self:sprinting()
 
     self.p_siz=cc.size(self.m_armature:getCascadeBoundingBox().size.width*0.7,self.m_armature:getCascadeBoundingBox().size.height)
     self:addBody(cc.p(10,50),self.p_siz)
@@ -132,15 +133,12 @@ function Player:armatureMoveEvent(armatureBack,movementType,movementID)
 --        self.m_isUp=false
 --        self.m_isDown = false
         self:toPlay(PLAYER_ACTION.Attack,0)
---        self:setPosition(cc.p(self:getPositionX()+50,self:getPositionY()+50))
     elseif movementID==PLAYER_ACTION.Attack and movementType==ccs.MovementEventType.complete then
 --        self.m_isUp=false
 --        self.m_isDown = false
         self:toPlay(PLAYER_ACTION.Down,0)
---        self:setPosition(cc.p(self:getPositionX()+50,self:getPositionY()-50))
     elseif movementID==PLAYER_ACTION.Down and movementType==ccs.MovementEventType.complete then
         self:toPlay(PLAYER_ACTION.Run)
---        self:setPosition(cc.p(self:getPositionX(),self:getPositionY()))
 --    elseif movementID==PLAYER_ACTION.death and movementType==ccs.MovementEventType.complete then
 
     end
@@ -184,6 +182,17 @@ function Player:death()
     end
     self.m_buffArr = {}
 
+end
+
+function Player:sprinting(parameters)
+    --冲刺特效
+    ccs.ArmatureDataManager:getInstance():addArmatureFileInfo("role/chongci0.png", "role/chongci0.plist" , "role/chongci.ExportJson")
+    self.m_spdeffect = ccs.Armature:create("chongci")
+    self.m_spdeffect:getAnimation():playWithIndex(0)
+    self.m_spdeffect:setPosition(-10,60)
+
+    self:toPlay(PLAYER_ACTION.Run,0)
+    self:addChild(self.m_spdeffect,10)
 end
 
 
@@ -308,10 +317,10 @@ end
 
 function Player:dispose()
 
-    if self.m_handler then
-        Scheduler.unscheduleGlobal(self.m_handler)
-        self.m_handler = nil
-    end
+--    if self.m_handler then
+--        Scheduler.unscheduleGlobal(self.m_handler)
+--        self.m_handler = nil
+--    end
 
     if self.m_flyHandler then
         Scheduler.unscheduleGlobal(self.m_flyHandler)
@@ -321,21 +330,6 @@ function Player:dispose()
     if self.m_dropLifeHandle then
         Scheduler.unscheduleGlobal(self.m_dropLifeHandle)
         self.m_dropLifeHandle=nil
-    end
-
-    if self.m_pHandler then
-        Scheduler.unscheduleGlobal(self.m_pHandler)
-        self.m_pHandler = nil
-    end
-
-    if self.m_madHandler then
-        Scheduler.unscheduleGlobal(self.m_madHandler)
-        self.m_madHandler = nil
-    end
-
-    if self.deyHandler then
-        Scheduler.unscheduleGlobal(self.deyHandler)
-        self.deyHandler = nil
     end
 
     --清除所有buff

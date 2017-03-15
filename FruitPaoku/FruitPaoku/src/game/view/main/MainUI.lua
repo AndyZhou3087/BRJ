@@ -13,7 +13,7 @@ end
 
 --初始化
 function MainUI:init(parameters)
-    self.m_json = cc.uiloader:load("MainUI.json")
+    self.m_json = cc.uiloader:load("json/MainUI.json")
     self:addChild(self.m_json)
 
     local Endlessbtn = cc.uiloader:seekNodeByName(self.m_json,"Endlessbtn")
@@ -33,6 +33,9 @@ function MainUI:init(parameters)
     Levelbtn:onButtonRelease(function(_event)    --触摸离开
     end)
     Levelbtn:onButtonClicked(function(event)
+        if self.m_unlockNum <= 0 then
+            GameDataManager.setCurLevelId(1,1)
+        end
         app:enterSelectScene()
     end)
 
@@ -40,6 +43,8 @@ function MainUI:init(parameters)
     self.Setbtn:onButtonClicked(function(event)
         self:MusicSoundSet()
     end)
+    
+    self.m_unlockNum = GameDataManager.getUlockLevelsNum()
 end
 
 function MainUI:MusicSoundSet( ... )

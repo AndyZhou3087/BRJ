@@ -2,6 +2,11 @@
 角色皮肤信息配置
 ]]
 
+--玩家恢复体力上限值，低于此值则会自动定时恢复
+USER_POWER_MAX = 5
+--玩家体力恢复时间，单位：秒
+POWER_RECOVER_TIME = 60*5
+
 --角色状态
 PLAYER_STATE=
     {

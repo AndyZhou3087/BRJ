@@ -155,6 +155,9 @@ function MapLayer:dispose(parameters)
     --移除碰撞事件
     self:getEventDispatcher():removeEventListener(self.m_event)
 
+    if self.m_player then
+        self.m_player:dispose()
+    end
     self:removeFromParent(true)
 end
 
