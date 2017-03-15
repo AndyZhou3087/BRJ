@@ -9,10 +9,13 @@
   <JsonList>
     <string>MainUI.json</string>
     <string>SelectUI.json</string>
+    <string>FightReady.json</string>
+    <string>CommonUI.json</string>
+    <string>PropItem.json</string>
   </JsonList>
   <CanvasSize>
-    <Width>960</Width>
-    <Height>540</Height>
+    <Width>460</Width>
+    <Height>120</Height>
   </CanvasSize>
   <filePath>G:\dev\BRJ\FruitPaoku\UI\FruitPaokuUI\FruitPaokuUI.xml.ui</filePath>
   <ProjectType>UIProject</ProjectType>
@@ -20,5 +23,5 @@
   <imageFileList />
   <imagePngList />
   <JsonSuffix>.json</JsonSuffix>
-  <CurrentUIJson>MainUI.json</CurrentUIJson>
+  <CurrentUIJson />
 </UIProject>

@@ -8,4 +8,16 @@
     <Project>SelectUI</Project>
     <GuidesList />
   </GuidesProject>
+  <GuidesProject>
+    <Project>FightReady</Project>
+    <GuidesList />
+  </GuidesProject>
+  <GuidesProject>
+    <Project>CommonUI</Project>
+    <GuidesList />
+  </GuidesProject>
+  <GuidesProject>
+    <Project>PropItem</Project>
+    <GuidesList />
+  </GuidesProject>
 </ArrayOfGuidesProject>
