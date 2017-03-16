@@ -79,4 +79,10 @@ function Tools.stripPath(filename)
         --return string.match(filename, “.+\\([^\\]*%.%w+)$”) — *nix system  
 end
 
+function Tools.printDebug(...)
+	if PrintDebug then
+        print(...)
+	end
+end
+
 return Tools

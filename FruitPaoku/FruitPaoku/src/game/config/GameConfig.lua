@@ -1,8 +1,10 @@
 --游戏公用配置文件
 
+PrintDebug = true
+
 SelectItemCount = 15
 
-GroupSize = cc.size(1550,540)   --每一组配置的大小
+GroupSize = cc.size(960,540)   --每一组配置的大小
 
 --初始速度
 initSpeed = 32
@@ -74,6 +76,8 @@ UI_ZORDER =
 ELEMENT_TAG=
     {
         PLAYER_TAG = 1,  --角色
+        Edge_Top = 2,  --上边界
+        Edge_Down = 3,  --下边界
         OBSTACLE = 4,    --障碍
         GOLD_TAG = 5,   --金币
         GOOD_TAG = 6,    --道具
@@ -95,5 +99,5 @@ GOON_TAG =
 --缓存元素类型
 CACHE_TYPE=
     {
---        Coin = 1,
+        Coin = 1,
     }

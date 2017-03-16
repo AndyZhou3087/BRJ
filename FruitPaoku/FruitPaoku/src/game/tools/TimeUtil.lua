@@ -69,7 +69,7 @@ function TimeUtil._updateTime()
     timeStamp = timeStamp + 1
     zeroSecs = zeroSecs - 1
     if zeroSecs <= 0 then
-    	print("chjh 零点触发")
+    	Tools.printDebug("chjh 零点触发")
         TimeUtil.initDate()
         TimeUtil._dayChange()
     end

@@ -15,12 +15,14 @@ function Player:ctor()
 
     --角色死亡
     self.m_isDead = false
+    GameController.isWin = false
     
-    self.m_up = false
-    self.m_down = true
+    self.m_jump = false
+    self.m_run = true
+    self.touchCount = 0
     
---    self.m_curModle = GameDataManager.getFightRole()
-    local modle = RoleConfig[1].armatureName
+    self.m_curModle = GameDataManager.getFightRole()
+    local modle = RoleConfig[self.m_curModle].armatureName
     self:createModle(modle)
 --    self:sprinting()
 
@@ -56,18 +58,19 @@ function Player:addBody(_offset,size)
     self:setPhysicsBody(self.m_body)
 end
 
-----上跳[_place:角色位置]
---function Player:toJump()
---    AudioManager.playSoundEffect(AudioManager.Sound_Effect_Type.Player_Jump)
---    self:reSetUD()
---    self.m_isUp=true
---    self:toPlay(PLAYER_ACTION.Jump)
---end
+--闯关胜利后滑行一段距离
+function Player:LevelWin()
+    GameController.isWin = true
+    
+    transition.moveTo(self,{time = 1,x=display.right+100,y=self:getPositionY(),onComplete=function()
+        --弹结算界面
+    end})
+end
 
 --重置角色状态(上跳和下夏洛状态)
 function Player:reSetUD()
-    self.m_up = false
-    self.m_down = true
+    self.m_jump = false
+    self.m_run = true
 end
 
 --角色动画切换(_place:角色位置,_animation动画名称)
@@ -81,17 +84,46 @@ end
 
 --角色移动
 function Player:toMove(parameters)
-    local direction = 1
-    if self:getPositionY()<display.cy then
-    	direction = 1
-    else
-        direction = -1
+    self.touchCount = self.touchCount + 1
+    if self.touchCount == 1 then
+        self.playerY = self:getPositionY()
     end
-    self:setScaleY(direction*-1)
-    transition.moveBy(self,{time=0.4,x=0,y=direction*440,onComplete=function()
-        
-    end})
---	self.m_armature
+    if not self.m_jump then
+        self.m_jump = true
+        self.m_run = false
+        local direction = 1
+        if self:getPositionY()<display.cy then
+            direction = 1
+        else
+            direction = -1
+        end
+        self:setScaleY(direction*-1)
+        transition.moveBy(self,{time=0.4,x=0,y=direction*440,onComplete=function()
+            self.m_jump = false
+            self.m_run = true
+            self.touchCount = 0
+        end})
+    else
+        if self.touchCount == 2 then
+            self:stopAllActions()
+            local direction = 1
+            local m_pY
+            if self.playerY<display.cy then
+                direction = 1
+                m_pY = display.cy-240
+            else
+                direction = -1
+                m_pY = display.cy+200
+            end
+            self:setScaleY(direction)
+            transition.moveTo(self,{time=0.4,x=self:getPositionX(),y=m_pY,onComplete = function()
+                self.m_jump = false
+                self.m_run = true
+                self.touchCount = 0
+            end})
+        end
+    end
+    
 end
 
 function Player:onActionFrameEvent(_bone,_evt,_begin,_end)
@@ -130,15 +162,13 @@ end
 --角色动画桢函数回调
 function Player:armatureMoveEvent(armatureBack,movementType,movementID)
     if movementID==PLAYER_ACTION.Jump and movementType==ccs.MovementEventType.complete then
---        self.m_isUp=false
---        self.m_isDown = false
         self:toPlay(PLAYER_ACTION.Attack,0)
     elseif movementID==PLAYER_ACTION.Attack and movementType==ccs.MovementEventType.complete then
---        self.m_isUp=false
---        self.m_isDown = false
         self:toPlay(PLAYER_ACTION.Down,0)
     elseif movementID==PLAYER_ACTION.Down and movementType==ccs.MovementEventType.complete then
         self:toPlay(PLAYER_ACTION.Run)
+        self.m_jump = false
+        self.m_run = true
 --    elseif movementID==PLAYER_ACTION.death and movementType==ccs.MovementEventType.complete then
 
     end
@@ -290,10 +320,10 @@ function Player:toStopFlash()
 end
 
 function Player:pause(parameters)
-    print("角色游戏暂停")
+    Tools.printDebug("角色游戏暂停")
     if not tolua.isnull(self.m_armature) then
 --        if self:isInState(PLAYER_STATE.topfly) then
---            print("卸载急速飞行定时器")
+--            Tools.printDebug("卸载急速飞行定时器")
 --            if  self.m_flyHandler then
 --                Scheduler.unscheduleGlobal(self.m_flyHandler)
 --                self.m_flyHandler = nil
@@ -303,10 +333,10 @@ function Player:pause(parameters)
 end
 
 function Player:regain(parameters)
-    print("角色游戏恢复")
+    Tools.printDebug("角色游戏恢复")
     if not tolua.isnull(self.m_armature) then
 --        if self:isInState(PLAYER_STATE.topfly) then
---            print("重启急速飞行定时器")
+--            Tools.printDebug("重启急速飞行定时器")
 --            MoveSpeed = GameController.getSpeed() * GoodsConfig[GOODS_TYPE.TopSpeed].speedIndex
 --            self.m_flyHandler = Tools.delayCallFunc(GameController.getGoodsGoonTime(GOON_TAG.TopSpeed),function()
 --                self:clearBuff(PLAYER_STATE.topfly)
@@ -321,6 +351,11 @@ function Player:dispose()
 --        Scheduler.unscheduleGlobal(self.m_handler)
 --        self.m_handler = nil
 --    end
+
+    self.m_isDead = false
+    self.m_jump = false
+    self.m_run = true
+    GameController.isWin = false
 
     if self.m_flyHandler then
         Scheduler.unscheduleGlobal(self.m_flyHandler)

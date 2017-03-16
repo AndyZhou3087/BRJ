@@ -8,7 +8,11 @@ require("game.events.EventNames")
 require("game.config.GameConfig")
 require("game.config.RoleConfig")
 require("game.config.SelectLevelConfig")
-require("src.game.config.GoodsConfig")
+require("game.config.GoodsConfig")
+require("game.config.CoinsConfig")
+require("game.config.ObsGroupConfig")
+require("game.config.ObstacleConfig")
+require("game.config.GoodGroupConfig")
 
 PoolManager = require("game.tools.PoolManager")
 TimeUtil = require("game.tools.TimeUtil")
@@ -72,6 +76,8 @@ function GameApp:enterSelectScene(parameters)
 end
 
 function GameApp:enterGameScene(parameters)
+    cc.Director:getInstance():purgeCachedData()
+--    self:enterScene("GameScene")
     Tools.delayCallFunc(0.01,function()
         self.m_fightScene = GameScene.new(handler(self,self.checkEnterFight))
         --物理场景太二了，不加retain会立马给我清除了

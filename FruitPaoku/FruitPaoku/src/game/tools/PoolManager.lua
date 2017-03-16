@@ -37,7 +37,7 @@ function PoolManager.putCacheObjByType(_type,_obj)
     if _arr then
 --        for key, var in pairs(_arr) do
 --            if var == _obj then
---        		print("chjh 插入的有相同的对象")
+--        		Tools.printDebug("chjh 插入的有相同的对象")
 --        		return
 --        	end
 --        end
@@ -58,7 +58,7 @@ function PoolManager.getCacheObjByType(_type)
                 _obj:setDestroy(false)
             end
 --            if _obj:getParent() then
---                print("chjh 有父亲")
+--                Tools.printDebug("chjh 有父亲")
 --                return
 --            end
         end
@@ -77,7 +77,7 @@ end
 --        else
 --            for key, var in pairs(_arr) do
 --                if var == _obj then
---                    print("chjh 插入的有相同的怪物")
+--                    Tools.printDebug("chjh 插入的有相同的怪物")
 --            		return
 --            	end
 --            end

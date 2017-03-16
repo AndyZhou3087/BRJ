@@ -52,13 +52,12 @@ end
 
 --关闭界面调用
 function SelectUI:toClose(_clean)
-    GameDataManager.SaveData()
 
     SelectUI.super.toClose(self,_clean)
 end
 
 --清理数据
 function SelectUI:onCleanup()
-
+    GameDataManager.SaveData()
 end
 return SelectUI

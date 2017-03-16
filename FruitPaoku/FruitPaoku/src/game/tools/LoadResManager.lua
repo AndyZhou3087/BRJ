@@ -12,8 +12,8 @@ local PreLoadType =
 local fightRes = {
 --    {type = PreLoadType.Texture,plist="map/room/room.plist",png="map/room/room.png"},
 --    {type = PreLoadType.Texture,plist="map/room/obstacle.plist",png="map/room/obstacle.png"},
---    {type = PreLoadType.Animation,plist="effect/baozha02_eff0.plist",png="effect/baozha02_eff0.png",json="effect/baozha02_eff.ExportJson"},
---    {type = PreLoadType.Animation,plist="effect/zidan01_eff0.plist",png="effect/zidan01_eff0.png",json="effect/zidan01_eff.ExportJson"},
+    {type = PreLoadType.Animation,plist="role/nv_pao0.plist",png="role/nv_pao0.png",json="role/nv_pao.ExportJson"},
+    {type = PreLoadType.Animation,plist="role/chongci0.plist",png="role/chongci0.png",json="role/chongci.ExportJson"},
 --    {type = PreLoadType.Sound,sound=AudioManager.Sound_Effect_Type.Scene_Bomb},
 --    {type = PreLoadType.Sound,sound=AudioManager.Sound_Effect_Type.Bullet_Sound},
 --    {type = PreLoadType.Sound,sound=AudioManager.Sound_Effect_Type.Drop_Sound},

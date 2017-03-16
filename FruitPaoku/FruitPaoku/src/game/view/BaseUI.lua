@@ -64,7 +64,7 @@ function BaseUI:popupLeft(_x,_y,_performer,_manage)
     _x = _x or display.cx
     _y = _y or display.cy
     if _performer == nil then
-        print("_performer not found")
+        Tools.printDebug("_performer not found")
     end
     _performer:setPosition(_x-584,_y)
     local move1 = cc.MoveTo:create(0.12,{x=_x+20,y=_y})
@@ -85,7 +85,7 @@ function BaseUI:popupUp(_x,_y,_performer)
     _x = _x or display.cx
     _y = _y or display.cy
     if _performer == nil then
-        print("_performer not found")
+        Tools.printDebug("_performer not found")
     end
     local move1 = cc.MoveTo:create(0.1,{x=_x,y=_y-10})
     local move2 = cc.MoveTo:create(0.12,{x=_x,y=_y+6})
@@ -100,7 +100,7 @@ function BaseUI:closeRight(_x,_y,_performer,_manage)
     _x = _x or display.cx
     _y = _y or display.cy
     if _performer == nil then
-        print("_performer not found")
+        Tools.printDebug("_performer not found")
     end
     local move5 = cc.MoveTo:create(0.1,{x=_x-50,y=_y})
     local move6 = cc.MoveTo:create(0.2,{x=_x+800,y=_y})
@@ -119,7 +119,7 @@ function BaseUI:closeDown(_x,_y,_performer,_manage)
     _x = _x or display.cx
     _y = _y or display.cy
     if _performer == nil then
-        print("_performer not found")
+        Tools.printDebug("_performer not found")
     end
     local move5 = cc.MoveTo:create(0.1,{x=_x,y=_y+20})
     local move6 = cc.MoveTo:create(0.2,{x=_x,y=_y-500})

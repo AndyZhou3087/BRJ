@@ -11,9 +11,9 @@ end
 --加载模型
 function LiveThing:initModel()
     local curArmatureObj = ARMATURE[self.m_modelId]
-    print("模型 id="..self.m_modelId)
+    Tools.printDebug("模型 id="..self.m_modelId)
     if nil == curArmatureObj then
-        print("找不到模型 id="..self.m_modelId)
+        Tools.printDebug("找不到模型 id="..self.m_modelId)
         return
     end
     self.m_armatureName = curArmatureObj.name

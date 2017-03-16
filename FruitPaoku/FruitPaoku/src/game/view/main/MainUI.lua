@@ -50,11 +50,11 @@ end
 function MainUI:MusicSoundSet( ... )
     if GameDataManager.isMusicOpen() then
         AudioManager.stop(1)
-        print("音乐关")
+        Tools.printDebug("音乐关")
         self.Setbtn:setButtonImage("normal","ui/Set_button2.png")
         return
     else
-        print("音乐开")
+        Tools.printDebug("音乐开")
         AudioManager.open(1)
         self.Setbtn:setButtonImage("normal","ui/Set_button1.png")
         return

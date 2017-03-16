@@ -62,7 +62,7 @@ end
 function GameDataManager.costGold(_value)
     if userData.gold >= _value then
         userData.gold = userData.gold - _value
-        print("当前金币",GameDataManager.getGold())
+        Tools.printDebug("当前金币",GameDataManager.getGold())
 --        GameDispatcher:dispatch(EventNames.EVENT_UPDATE_GOLD)
         GameDataManager.SaveData()
         return true
@@ -74,7 +74,7 @@ end
 --增加金币
 function GameDataManager.addGold(_value)
     userData.gold = userData.gold + _value
-    print("当前金币",GameDataManager.getGold())
+    Tools.printDebug("当前金币",GameDataManager.getGold())
 --    GameDispatcher:dispatch(EventNames.EVENT_UPDATE_GOLD)
     GameDataManager.SaveData()
     return true
@@ -89,7 +89,7 @@ end
 function GameDataManager.costDiamond(_value)
     if userData.diamond >= _value then
         userData.diamond = userData.diamond-_value
-        print("当前钻石",GameDataManager.getDiamond())
+        Tools.printDebug("当前钻石",GameDataManager.getDiamond())
 --        GameDispatcher:dispatch(EventNames.EVENT_UPDATE_DIAMOND)
         GameDataManager.SaveData()
         return true
@@ -101,7 +101,7 @@ end
 --增加钻石
 function GameDataManager.addDiamond(_value)
     userData.diamond = userData.diamond+_value
-    print("当前钻石",GameDataManager.getDiamond())
+    Tools.printDebug("当前钻石",GameDataManager.getDiamond())
 --    GameDispatcher:dispatch(EventNames.EVENT_UPDATE_DIAMOND)
     GameDataManager.SaveData()
     return true
@@ -180,7 +180,7 @@ end
 @param2 道具数量
 ]]
 function GameDataManager.addGoods(_goodsId,_num)
-    print("添加道具----------------------------",_goodsId)
+    Tools.printDebug("添加道具----------------------------",_goodsId)
     _num = _num or 1
     for key, var in pairs(goodsList) do
         if var.id == _goodsId then
@@ -198,7 +198,7 @@ end
 
 --使用道具,此方法要检测玩家背包内是否拥有该道具(主动使用)
 function GameDataManager.useGoods(_goodsId)
-    print("使用道具",_goodsId)
+    Tools.printDebug("使用道具",_goodsId)
     for key, var in pairs(goodsList) do
         if var.id==_goodsId then
             if GameDataManager.useGoodsExp(_goodsId) then
@@ -223,20 +223,20 @@ function GameDataManager.useGoodsExp(_goodsId)
     local goodsCon = GoodsConfig[_goodsId]
     if goodsCon then
         if goodsCon.type == GOODS_TYPE.MadCow then
-            print("使用疯牛药剂")
+            Tools.printDebug("使用疯牛药剂")
             GameDispatcher:dispatch(EventNames.EVENT_MAD_RUN,{time = goodsCon.time,index = goodsCon.speedIndex})
         elseif goodsCon.type == GOODS_TYPE.TopSpeed then
-            print("使用急速飞行")
+            Tools.printDebug("使用急速飞行")
             GameDispatcher:dispatch(EventNames.EVENT_TOP_FLY,{time = goodsCon.time,index = goodsCon.speedIndex,radius = goodsCon.radius})
         elseif goodsCon.type == GOODS_TYPE.DoubleScore then
-            print("使用双倍得分")
+            Tools.printDebug("使用双倍得分")
             GameController.doubleScore = 2
         elseif goodsCon.type == GOODS_TYPE.Relive then
-            print("生命接力")
+            Tools.printDebug("生命接力")
             --  GameDataManager.addGoods(_goodsId,1)
             GameDispatcher:dispatch(EventNames.EVENT_LIFE,{time = goodsCon.time})
         elseif goodsCon.type == GOODS_TYPE.Protect then
-            print("使用保护罩")
+            Tools.printDebug("使用保护罩")
             GameDispatcher:dispatch(EventNames.EVENT_PROTECT,{time = goodsCon.time})
         end
         return true
@@ -357,7 +357,7 @@ function GameDataManager.getSkillTime(_roleId,_lv)
     local _roleLvObj = RoleLvs[_roleId][_lv]
     local _basic = RoleConfig[_roleId].basicTime
     if _roleLvObj then
-        print(_roleLvObj.skillTime+_basic)
+        Tools.printDebug(_roleLvObj.skillTime+_basic)
         return _roleLvObj.skillTime+_basic
     else
         return 0
@@ -577,7 +577,7 @@ function GameDataManager.getAllScore(_dis)
     _score=math.ceil(_score*GameController.doubleScore)
     --保存游戏最高分数
     if _score> GameDataManager.getRecord()then
-        print("刷新记录",_score)
+        Tools.printDebug("刷新记录",_score)
         GameDataManager.saveRecord(_score)
     end
     return _score
@@ -655,7 +655,7 @@ function GameDataManager.buyGift()
     --领取次数记录
     oem.curTable.numS=30
     GameDataManager.SaveData()
-    print("礼包购买日期",oem.curTable.year,oem.curTable.month,oem.curTable.day,"剩余领取次数",oem.curTable.numS)
+    Tools.printDebug("礼包购买日期",oem.curTable.year,oem.curTable.month,oem.curTable.day,"剩余领取次数",oem.curTable.numS)
 end
 
 --领取礼包
@@ -668,7 +668,7 @@ function GameDataManager.updateGift()
     --领取次数记录
     oem.curTable.numS=oem.curTable.numS-1
     GameDataManager.SaveData()
-    print("领取礼包日期",oem.curTable.year,oem.curTable.month,oem.curTable.day,"剩余领取次数",oem.curTable.numS)
+    Tools.printDebug("领取礼包日期",oem.curTable.year,oem.curTable.month,oem.curTable.day,"剩余领取次数",oem.curTable.numS)
 end
 
 --当天是否领取了礼包
@@ -684,7 +684,7 @@ end
 function GameDataManager.getGiftCount()
 
     if oem.curTable.numS <=0 then
-        --print("没有开通时直接返回")
+        --Tools.printDebug("没有开通时直接返回")
         return oem.curTable.numS
     else
         local old = os.time({year=oem.curTable.year,month=oem.curTable.month,day=oem.curTable.day,hour=0})

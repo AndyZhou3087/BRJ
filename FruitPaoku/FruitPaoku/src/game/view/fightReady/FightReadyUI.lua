@@ -23,7 +23,7 @@ function FightReadyUI:ctor(parm)
     
     local _levelCon = 1  --关卡默认值
     if parm == GAME_TYPE.LevelMode then
-        print("关卡模式")
+        Tools.printDebug("关卡模式")
         --得到当前关卡id与关卡索引
         local _levelId,_levelIdx = GameDataManager.getCurLevelId()
         _levelCon = SelectLevel[_levelId]
@@ -32,26 +32,64 @@ function FightReadyUI:ctor(parm)
             return
         end
     elseif parm == GAME_TYPE.EndlessMode then
-        print("无尽模式")
-        GameDataManager.resetLevelData()  --重置关卡数据
+        Tools.printDebug("无尽模式")
+--        GameDataManager.resetLevelData()  --重置关卡数据
     else
-        print("hc readyView no mode!!!")
+        Tools.printDebug("readyView no mode!!!")
     end
 
     local listPanel = cc.uiloader:seekNodeByName(self.FightReady,"Panel_21")
     self.listPanelSize = listPanel:getCascadeBoundingBox().size
-
+    
     self.listView = cc.ui.UIListView.new {
         bgScale9 = true,
         viewRect = cc.rect(0, 0, self.listPanelSize.width, self.listPanelSize.height),
         direction = cc.ui.UIScrollView.DIRECTION_VERTICAL}
         :onTouch(handler(self, self.touchListener))
         :addTo(listPanel)
-
-
     self.m_goods = self:makeGoodsData()
-
     self:initProp(true)
+    
+    local rolebtn = cc.uiloader:seekNodeByName(self.FightReady,"Rolebtn")
+    rolebtn:onButtonClicked(function(event)
+        Tools.printDebug("-----------角色")
+    end)
+    
+    local startGame = cc.uiloader:seekNodeByName(self.FightReady,"StartGame")
+    startGame:onButtonClicked(function(event)
+        Tools.printDebug("-----------开始游戏")
+        GameDataManager.generatePlayerVo()  --产生新的角色数据对象
+        if parm == GAME_TYPE.LevelMode and GameDataManager.costPower(_levelCon.costPower) then
+            for key, var in ipairs(self.m_goods) do
+                if var.isSelect then
+                    GameDataManager.useGoods(var.id)
+                    if var.cost.type == COST_TYPE.Gold then
+                        GameDataManager.costGold(var.cost.price)
+                    elseif var.cost.type == COST_TYPE.Diamond then
+                        GameDataManager.costDiamond(var.cost.price)
+                    end
+                end
+            end
+            GAME_TYPE_CONTROL = GAME_TYPE.LevelMode
+            app:enterGameScene()
+            self:toClose(true)
+--        elseif parm == GAME_TYPE.EndlessMode and GameDataManager.costPower(EndlessMode.costPower) then      
+--            GAME_TYPE_CONTROL = GAME_TYPE.EndlessMode
+--            for key, var in ipairs(self.m_goods) do
+--                if var.isSelect then
+--                    local curId = var.id
+--                    GameDataManager.useGoods(var.id)
+--                end           
+--            end
+--            app:enterFightScene()
+--            self:toClose(true)
+        else
+            print("体力不足！！")
+            startGame:setButtonEnabled(true)
+            GameDispatcher:dispatch(EventNames.EVENT_FLY_TEXT,{text ="体力不足"})
+--            GameDispatcher:dispatch(EventNames.EVENT_OPEN_POWER,{})
+        end
+    end)
 
 end
 
@@ -75,13 +113,13 @@ function FightReadyUI:initProp(par)
                 local item = self.listView:newItem()
                 local content = PropItem.new(_goodsCon)
                 content:setTouchEnabled(false)
-                content:setContentSize(self.listPanelSize.width, 110)
-                item:setItemSize(self.listPanelSize.width, 110)
+                content:setContentSize(self.listPanelSize.width, 105)
+                item:setItemSize(self.listPanelSize.width, 105)
                 item:addContent(content)
                 self.listView:addItem(item)
                
             else
-                print("hc 开局道具配置错误")
+                Tools.printDebug("hc 开局道具配置错误")
             end
         end
         self.listView:reload()
@@ -93,7 +131,7 @@ function FightReadyUI:makeGoodsData(parameters)
     local _dataList = {}
     local _levelCon = SelectLevel[GameDataManager.getCurLevelId()] 
     if _levelCon then
-        print("关卡模式道具配置")
+        Tools.printDebug("关卡模式道具配置")
         local _curGoodsArr = _levelCon.startGoods
         for key, var in ipairs(_curGoodsArr) do
             local _goodsCon = clone(GoodsConfig[var])
@@ -101,11 +139,11 @@ function FightReadyUI:makeGoodsData(parameters)
                 _goodsCon.isSelect = false
                 table.insert(_dataList,_goodsCon)
             else
-                print("not exist")
+                Tools.printDebug("not exist")
             end
         end
     else
-        print("无尽模式道具配置")
+        Tools.printDebug("无尽模式道具配置")
         local _curGoodsArr = EndlessMode.goods
         for key, var in ipairs(_curGoodsArr) do
             local _goodsCon = clone(GoodsConfig[var])
@@ -113,7 +151,7 @@ function FightReadyUI:makeGoodsData(parameters)
                 _goodsCon.isSelect = false
                 table.insert(_dataList,_goodsCon)
             else
-                print("not exist")
+                Tools.printDebug("not exist")
             end
         end
     end

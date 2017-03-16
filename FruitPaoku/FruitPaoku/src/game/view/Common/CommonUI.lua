@@ -17,22 +17,22 @@ function CommonUI:ctor()
     
     local powerbtn = cc.uiloader:seekNodeByName(self.CommonUI,"Powerbtn")
     powerbtn:onButtonClicked(function(event)
-        print("-----------体力购买")
+        Tools.printDebug("-----------体力购买")
     end)
     
     local goldbtn = cc.uiloader:seekNodeByName(self.CommonUI,"Goldbtn")
     goldbtn:onButtonClicked(function(event)
-        print("-----------金币购买")
+        Tools.printDebug("-----------金币购买")
     end)
     
     local diamondbtn = cc.uiloader:seekNodeByName(self.CommonUI,"Diabtn")
     diamondbtn:onButtonClicked(function(event)
-        print("-----------钻石购买")
+        Tools.printDebug("-----------钻石购买")
     end)
     
     local backbtn = cc.uiloader:seekNodeByName(self.CommonUI,"Backbtn")
     backbtn:onButtonClicked(function(event)
-        print("-----------返回")
+        Tools.printDebug("-----------返回")
         self:getParent():toClose(true)
     end)
     
@@ -42,8 +42,8 @@ function CommonUI:ctor()
     self.diaCount = cc.uiloader:seekNodeByName(self.CommonUI,"DiaCount")
     self.diaCount:setString(GameDataManager.getDiamond())
     
-    self.recoverLab = cc.uiloader:seekNodeByName(self.CommonUI,"Label_1")
-    self.redPar = cc.uiloader:seekNodeByName(self.CommonUI,"Image_1")
+    self.recoverLab = cc.uiloader:seekNodeByName(self.CommonUI,"recoverLab")
+    self.recoverLab:setVisible(false)
     
     for var=1, 5 do
         self["red_"..var] = cc.uiloader:seekNodeByName(self.CommonUI,"red_"..var)
@@ -67,7 +67,6 @@ end
 --体力改变
 function CommonUI:powerChanged(parameters)
     local _power = GameDataManager.getPower()
-    self.redPar:removeAllChildren()
     for var=_power+1, 5 do
         self["red_"..var]:setVisible(false)
     end
@@ -121,7 +120,7 @@ function CommonUI:toCheckPower(_recoverTime)
         if self.m_powerTime == 0 then
             self.m_powerTime = POWER_RECOVER_TIME
         end
-        self.recoverLab:setString(string.format("%02d:%02d恢复1点",self.m_powerTime/60,self.m_powerTime%60))--((self.m_powerTime/60)..":"..(self.m_powerTime%60).."恢复1点")--(string.format("%02d:%02d恢复1点",self.m_powerTime/60,self.m_powerTime%60))
+        self.recoverLab:setString(string.format("%02d:%02d",self.m_powerTime/60,self.m_powerTime%60))
         self.recoverLab:setVisible(true)
         self.m_powerHandle = Scheduler.scheduleGlobal(handler(self,self.updatePower), 1)
     end
@@ -135,7 +134,7 @@ function CommonUI:updatePower(parameters)
         Scheduler.unscheduleGlobal(self.m_powerHandle)
         GameDataManager.addPower(1)
     end
-    self.recoverLab:setString(string.format("%02d:%02d恢复1点",self.m_powerTime/60,self.m_powerTime%60))--((self.m_powerTime/60)..":"..(self.m_powerTime%60).."恢复1点")--(string.format("%02d:%02d恢复1点",self.m_powerTime/60,self.m_powerTime%60))
+    self.recoverLab:setString(string.format("%02d:%02d",self.m_powerTime/60,self.m_powerTime%60))
 end
 
 --添加到舞台时调用

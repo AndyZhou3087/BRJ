@@ -6,11 +6,11 @@ local GameState = require(cc.PACKAGE_NAME..".cc.utils.GameState")
 local GameData = {}
 function DataPersistence.init()
     local openUDID = device.getOpenUDID()
-    print("chjh openudid="..openUDID)
+    Tools.printDebug("chjh openudid="..openUDID)
     GameState.init(function(_param)
         local returnValue=nil
         if _param.errorCode then
-            print("chjh gamestate init error")
+            Tools.printDebug("chjh gamestate init error")
             if _param.errorCode == GameState.ERROR_STATE_FILE_NOT_FOUND then
             	return true
             end
@@ -21,11 +21,11 @@ function DataPersistence.init()
                 local str=json.encode(_param.values)
                 str=crypto.encryptXXTEA(str, "chjh_tysoul")
                 returnValue={data=str}
-                print("chjh gamestate save")
+                Tools.printDebug("chjh gamestate save")
             elseif _param.name=="load" then
                 local str=crypto.decryptXXTEA(_param.values.data, "chjh_tysoul")
                 returnValue=json.decode(str)
-                print("chjh gamestate load")
+                Tools.printDebug("chjh gamestate load")
                 for key, var in pairs(returnValue) do
                 	GameData[key] = var
                 end
@@ -38,7 +38,7 @@ end
 
 --解析持久化数据
 function DataPersistence._parserData(parameters)
-	print("chjh 解析持久化数据")
+	Tools.printDebug("chjh 解析持久化数据")
 end
 --插入字段
 --@param1:属性名

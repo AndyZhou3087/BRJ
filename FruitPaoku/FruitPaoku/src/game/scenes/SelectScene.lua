@@ -10,9 +10,13 @@ function SelectScene:ctor()
 end
 
 function SelectScene:onEnter()
+    if not tolua.isnull(self.m_SelectUI) then
+        self.m_SelectUI:addedToScene()
+    end
 end
 
 function SelectScene:onExit()
+    
 end
 
 return SelectScene

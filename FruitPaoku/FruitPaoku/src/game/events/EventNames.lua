@@ -10,4 +10,7 @@ EventNames.EVENT_NET_TIME_CHANGE="event_net_timeChange"
 --玩家体力变化
 EventNames.EVENT_POWER_CHANGE = "event_power_change"
 
+--飘字 ({text=""})
+EventNames.EVENT_FLY_TEXT = "event_fly_text"
+
 return EventNames

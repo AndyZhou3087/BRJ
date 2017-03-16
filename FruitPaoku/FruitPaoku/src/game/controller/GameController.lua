@@ -8,6 +8,7 @@ GameController.doubleScore = 1
 GameController.overFrame = false
 
 GameController.isDead = false
+GameController.isWin = false
 
 local _isPause = false
 local _curSpeed = 0
@@ -51,7 +52,7 @@ end
 
 --游戏暂停
 function GameController.pauseGame(isEvent)
-    print("暂停游戏！")
+    Tools.printDebug("暂停游戏！")
     _isPause=true
     MoveSpeed = 0  --地图移动速度
     if isEvent then
@@ -62,7 +63,7 @@ end
 
 --游戏恢复
 function GameController.resumeGame(isEvent)
-    print("恢复游戏！")
+    Tools.printDebug("恢复游戏！")
     _isPause=false
     MoveSpeed = _curSpeed
     if isEvent then
@@ -324,7 +325,7 @@ end
 --设置道具的使用时间(1,道具编号（GameConfig中获得）,2,道具使用的时间)
 function GameController.setGoodsKeepTime(_propId,_time)
     GOON_GOODS[_propId].keepTime = _time
-    print("当前使用的道具总时间",_time)
+    Tools.printDebug("当前使用的道具总时间",_time)
 end
 
 --初始化单个缓存的道具信息[持续时间]
@@ -335,7 +336,7 @@ end
 --2
 --获取当前使用道具的时间截点
 function GameController.setGoodsInitTime(_propId)
-    print("初始使用道具截点",math.ceil(Tools.getSysTime()))
+    Tools.printDebug("初始使用道具截点",math.ceil(Tools.getSysTime()))
     GOON_GOODS[_propId].initTime = math.ceil(Tools.getSysTime())
 end
 
@@ -352,7 +353,7 @@ function GameController.getGoodsType(_propId)
     if  curTime>0 then
         GOON_GOODS[_propId].type = true
     end
-    print("当前道具能否继续使用状态",GOON_GOODS[_propId].type)
+    Tools.printDebug("当前道具能否继续使用状态",GOON_GOODS[_propId].type)
     return GOON_GOODS[_propId].type
 end
 
@@ -360,12 +361,12 @@ end
 --获取当前(还可以继续使用的时间)(添加角色时)
 function GameController.getGoodsGoonTime(_propId)
     local m_Time = GOON_GOODS[_propId].keepTime -(GameController.getGoodsCurTime()-GOON_GOODS[_propId].initTime)
-    print("当前道具剩余时间",m_Time)
+    Tools.printDebug("当前道具剩余时间",m_Time)
     return m_Time
 end
 
 function GameController.getGoodsLastTime(_propId)
-    print("当前道具剩余时间",GOON_GOODS[_propId].keepTime -(math.ceil(Tools.getSysTime())-GOON_GOODS[_propId].initTime))
+    Tools.printDebug("当前道具剩余时间",GOON_GOODS[_propId].keepTime -(math.ceil(Tools.getSysTime())-GOON_GOODS[_propId].initTime))
     return GOON_GOODS[_propId].keepTime -(math.ceil(Tools.getSysTime())-GOON_GOODS[_propId].initTime)
 end
 
@@ -376,7 +377,7 @@ end
 
 function GameController.setGoodsCurTime(parameters)
     pauseTime = math.ceil(Tools.getSysTime())
-    print("当前使用道具截点",pauseTime)
+    Tools.printDebug("当前使用道具截点",pauseTime)
 end
 
 --初始化缓存的道具信息(全部道具)
