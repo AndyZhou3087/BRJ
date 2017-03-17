@@ -28,6 +28,8 @@ function Player:ctor()
 
     self.p_siz=cc.size(self.m_armature:getCascadeBoundingBox().size.width*0.7,self.m_armature:getCascadeBoundingBox().size.height)
     self:addBody(cc.p(10,50),self.p_siz)
+    
+    GameDispatcher:addListener(EventNames.EVENT_PLAYER_ATTACKED,handler(self,self.playerAttacked))
 
     --角色暂停和恢复
 --    GameDispatcher:addListener(EventNames.EVENT_PLAYER_PAUSE,handler(self,self.pause))
@@ -56,6 +58,15 @@ function Player:addBody(_offset,size)
     self.m_body:setDynamic(true)
     self.m_body:setTag(ELEMENT_TAG.PLAYER_TAG)
     self:setPhysicsBody(self.m_body)
+end
+
+--获取对象数据
+function Player:getVo()
+    return self.m_vo
+end
+
+function Player:isDead(parameters)
+	return self.m_vo.m_hp<=0
 end
 
 --闯关胜利后滑行一段距离
@@ -200,8 +211,29 @@ function Player:relive(parameters)
 
 end
 
+function Player:playerAttacked(parm)
+    if self.m_jump and not parm.data.isSpecial then
+        return
+    end
+    self.m_vo.m_hp = self.m_vo.m_hp - parm.data.att
+    if self.m_vo.m_hp <= 0 then
+        self.m_isDead = true
+        GameController.isDead = true
+        --弹结算界面
+        Tools.printDebug("------------角色死亡..")
+        self:death()
+    end
+end
+
 --角色死亡
 function Player:death()
+
+    self:stopAllActions()
+    self:toPlay(PLAYER_ACTION.Down)
+    
+    --背景和障碍停止移动
+    MoveSpeed = 0
+--        self:getParent():toDelay()
 
     --清除所有buff
     for var=#self.m_buffArr,1,-1  do
@@ -353,6 +385,7 @@ function Player:dispose()
 --    end
 
     self.m_isDead = false
+    GameController.isDead = false
     self.m_jump = false
     self.m_run = true
     GameController.isWin = false

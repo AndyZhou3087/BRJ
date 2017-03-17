@@ -24,6 +24,9 @@ function MapLayer:ctor(parameters)
 
     self.m_roomsNum = MAP_GROUP_INIT_NUM
     
+    GameDataManager.initKm()
+    GameDataManager.initGoldF()
+    
     --上边界
 --    self.edgeTop = display.newNode()
 --    local topBody = cc.PhysicsBody:createEdgeSegment(cc.p(0,display.height-50),cc.p(display.width,display.height-50),cc.PhysicsMaterial(0, 0, 0),2)
@@ -37,10 +40,13 @@ function MapLayer:ctor(parameters)
 --    downBody:setTag(ELEMENT_TAG.Edge_Down)
 --    self.edgeDown:setPhysicsBody(downBody)
 --    self:addChild(self.edgeDown)
+
+    self.m_isDelay = false
     
     self.m_player = Player.new()
     self:addChild(self.m_player,MAP_ZORDER_MAX+1)
     self.m_player:setPosition(display.cx-100,display.cy-240)
+    GameController.setCurPlayer(self.m_player)
 
 end
 
@@ -103,10 +109,9 @@ end
 
 --触摸
 function MapLayer:touchFunc(event)
-    if GameController.isWin then
+    if GameController.isWin or GameController.isDead then
         return true
     end
-
 
     if event.name == "began" or event.name == "added" then
         self.m_player:toPlay(PLAYER_ACTION.Jump,0)
@@ -124,9 +129,9 @@ end
 
 --碰撞开始触发
 function MapLayer:collisionBeginCallBack(parameters)
---    if GameController.isDead then
---        return true
---    end
+    if GameController.isWin or GameController.isDead then
+        return true
+    end
 
     Tools.printDebug("碰撞检测")
     local conData = parameters:getContactData()
@@ -139,7 +144,7 @@ function MapLayer:collisionBeginCallBack(parameters)
     local obstacleS,obstacleScale
     local obstacleOff
 
-    if tagB == ELEMENT_TAG.OBSTACLE then
+    if tagA == ELEMENT_TAG.PLAYER_TAG then
         player = bodyA:getNode()
         playerBP = bodyA:getPosition()
         playerTag = tagA
@@ -153,7 +158,7 @@ function MapLayer:collisionBeginCallBack(parameters)
         obstacleOff=parameters:getShapeB():getOffset()
 
     end
-    if tagA == ELEMENT_TAG.OBSTACLE then
+    if tagB == ELEMENT_TAG.PLAYER_TAG then
         player = bodyB:getNode()
         playerBP = bodyB:getPosition()
         playerTag = tagB
@@ -170,6 +175,24 @@ function MapLayer:collisionBeginCallBack(parameters)
         return true
     end
 
+    if player and player:getVo().m_hp <= 0 then
+        return true
+    end
+    if (not player) or player:isDead() then
+        return true
+    end
+    if tolua.isnull(obstacle) then
+    	return false
+    end
+    
+    if obstacleTag == ELEMENT_TAG.OBSTACLE then
+    	obstacle:collision()
+    	return true
+    end
+    if obstacleTag == ELEMENT_TAG.GOLD_TAG then
+        obstacle:collision()
+        return true
+    end
 
     return true
 end
@@ -196,16 +219,32 @@ function MapLayer:onEnterFrame(dt)
 
     --跑了多少米换算公式
    self.pexel = self.pexel + MoveSpeed*0.1/(Pixel/Miles)
-    --    Tools.printDebug("[[[[[[[[[[[[[[[[[     ",self.pexel)
 
    local cur = math.floor(self.pexel)
    GameDataManager.addKm(cur)
---
---    if GameDataManager.getRecord()<=0 then
---        self:initGuide()
---        self.leftMile = GuideLeft
---        self.rightMile = GuideRight
---    end
+
+end
+
+--设置移动缓慢停止
+function MapLayer:toDelay(parameters)
+    if not self.m_isDelay then
+        self.m_isDelay = true
+        local function toSlow(parameters)
+            local delay = cc.DelayTime:create(0.1)
+            local comFunc = cc.CallFunc:create(function()
+                MoveSpeed = MoveSpeed - 10
+                if MoveSpeed > 0 then
+                    toSlow()
+                else
+                    MoveSpeed = 0
+--                    GameDispatcher:dispatch(EventNames.EVENT_OPEN_REVIVE)  --调用复活界面
+                end
+            end)
+            local seq = cc.Sequence:create(delay,comFunc)
+            self:runAction(seq)
+        end
+        toSlow()
+    end
 
 end
 
@@ -237,6 +276,7 @@ function MapLayer:dispose(parameters)
     end
     
     MoveSpeed = initSpeed
+    self.m_isDelay = false
     
     GameDataManager.initKm()
     GameDataManager.initGoldF()

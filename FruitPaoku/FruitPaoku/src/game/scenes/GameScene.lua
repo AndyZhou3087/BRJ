@@ -1,7 +1,7 @@
 --[[
 战斗场景
 ]]
---local MapView = require("app.view.map.MapView")
+local MapView = require("game.view.map.MapView")
 local MapLayer = require("game.view.map.MapLayer")
 local scheduler = require("framework.scheduler")
 
@@ -54,8 +54,8 @@ function GameScene:onEnter()
     self.m_map = MapLayer.new()
     self:addChild(self.m_map)
 
---    self.m_fightView = MapView.new()
---    self:addChild(self.m_fightView)
+    self.m_fightView = MapView.new()
+    self:addChild(self.m_fightView)
 
     Tools.delayCallFunc(0.001,function()
         self.m_map:initPhyPos()

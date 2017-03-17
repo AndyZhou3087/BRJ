@@ -9,13 +9,14 @@ local Special_MATERIAL=cc.PhysicsMaterial(0,0,0)
 
 local Scheduler = require("framework.scheduler")
 
-function CoinElement:ctor(_res)
+function CoinElement:ctor(parm)
     CoinElement.super.ctor(self)
-
-    self.m_img = PhysicSprite.new(_res):addTo(self)
---    self:addBody()
     
+    self.m_type = parm.type
+    
+    self.m_img = PhysicSprite.new(parm.res):addTo(self)
     self.m_size = self.m_img:getCascadeBoundingBox().size
+    self:addBody()
 
     self.m_isAttract=false   --是否被吸引
     self.m_group = 0
@@ -39,8 +40,20 @@ end
 --被碰触
 function CoinElement:collision()
 --    AudioManager.playSoundEffect(AudioManager.Sound_Effect_Type.Gold_Sound)
-    GameDataManager.addGoldF(1) --关卡获得金币 
+    if self.m_type == Coin_Type.Coin_Copper then
+        GameDataManager.addGoldF(1)
+    elseif self.m_type == Coin_Type.Coin_Silver then
+        GameDataManager.addGoldF(2)
+    else
+        GameDataManager.addGoldF(3)
+    end
+     --关卡获得金币 
     self:dispose()
+end
+
+--设置金币金额
+function CoinElement:setCoinType(_type)
+    self.m_type = _type
 end
 
 --是否被吸引

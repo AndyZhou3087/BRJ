@@ -22,6 +22,7 @@ function GameDataManager.init()
     userData.diamond = DataPersistence.getAttribute("user_diamond") --钻石
     userData.power = DataPersistence.getAttribute("user_power")  --玩家体力
     userData.points = DataPersistence.getAttribute("user_score")  --玩家积分
+    userData.record = DataPersistence.getAttribute("record")      --记录初始化
     
     music=DataPersistence.getAttribute("music")
     sound=DataPersistence.getAttribute("sound")
@@ -522,12 +523,24 @@ end
 
 --=================================战斗相关
 
+--保存最高记录
+function GameDataManager.saveRecord(_record)
+    userData.record = _record
+    GameDataManager.SaveData()
+    print("保存记录",_record)
+end
+
+--得到最高记录
+function GameDataManager.getRecord()
+    return userData.record
+end
+
 local km_F = 0
 local gold_F = 0
 --添加米数(当前游戏)
 function GameDataManager.addKm(_km)
     km_F = _km
-    -- GameDispatcher:dispatch(EventNames.EVENT_FIGHT_UPDATE_KM,km_F)
+    GameDispatcher:dispatch(EventNames.EVENT_UPDATE_SCORE,km_F)
     return true
 end
 
@@ -549,7 +562,7 @@ end
 --添加游戏中得到的金币(当前游戏)
 function GameDataManager.addGoldF(_gold)
     gold_F= gold_F+_gold
-    GameDispatcher:dispatch(EventNames.EVENT_FIGHT_UPDATE_GOLD,_gold)
+    GameDispatcher:dispatch(EventNames.EVENT_FIGHT_UPDATE_GOLD,{coin=gold_F,animation=true})
     return true
 end
 

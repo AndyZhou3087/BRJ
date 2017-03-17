@@ -40,6 +40,7 @@ function GameApp:ctor()
     DataPersistence.insertAttribute("user_diamond",2500)  --钻石
     DataPersistence.insertAttribute("user_power",5)    --体力
     DataPersistence.insertAttribute("user_score",10)    --玩家积分
+    DataPersistence.insertAttribute("record",0)       --存储记录 
     
     --音乐、音效
     DataPersistence.insertAttribute("music",true)

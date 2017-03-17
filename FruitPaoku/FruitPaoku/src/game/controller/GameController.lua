@@ -18,10 +18,6 @@ local pauseTime = 0
 
 --当前中角色对象
 local curPlayer
---当前右角色对象
-local curPlayerR
---当前左角色对象
-local curPlayerL
 
 
 local movingObjs={} --移动中的对象数组
@@ -55,10 +51,10 @@ function GameController.pauseGame(isEvent)
     Tools.printDebug("暂停游戏！")
     _isPause=true
     MoveSpeed = 0  --地图移动速度
-    if isEvent then
-        GameController.setGoodsCurTime()
-        GameDispatcher:dispatch(EventNames.EVENT_PLAYER_PAUSE)
-    end
+--    if isEvent then
+--        GameController.setGoodsCurTime()
+--        GameDispatcher:dispatch(EventNames.EVENT_PLAYER_PAUSE)
+--    end
 end
 
 --游戏恢复
@@ -66,10 +62,10 @@ function GameController.resumeGame(isEvent)
     Tools.printDebug("恢复游戏！")
     _isPause=false
     MoveSpeed = _curSpeed
-    if isEvent then
-        GameDispatcher:dispatch(EventNames.EVENT_PLAYER_REGAIN)
-        GameController.reSetGoodsTime()
-    end
+--    if isEvent then
+--        GameDispatcher:dispatch(EventNames.EVENT_PLAYER_REGAIN)
+--        GameController.reSetGoodsTime()
+--    end
 end
 
 function GameController.isInPause()
@@ -81,19 +77,24 @@ end
 function GameController.setCurPlayer(_player)
     curPlayer = _player
 end
-function GameController.setCurPlayerL(_player)
-    curPlayerL = _player
-end
-function GameController.setCurPlayerR(_player)
-    curPlayerR = _player
-end
 
+--获取当前角色对象
+function GameController.getCurPlayer(parameters)
+    return curPlayer
+end
 --玩家是否处于某种状态
 function GameController.isInState(_state)
     if not tolua.isnull(curPlayer) then
         return curPlayer:isInState(_state)
     end
     return false
+end
+--玩家是否死亡
+function GameController.isPlayerDead()
+    if not tolua.isnull(curPlayer) then
+        return curPlayer:getVo().m_hp<=0
+    end
+    return true
 end
 
 --组合排序

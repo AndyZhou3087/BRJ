@@ -90,21 +90,22 @@ function Obstacle:getVo()
 end
 
 function Obstacle:armatureMoveEvent(armatureBack,movementType,movementID)
-    if movementID == "suipian" and movementType==ccs.MovementEventType.complete then   
-        if not tolua.isnull(self) then
-            self:dispose()
-        end
-	end
+--    if movementID == "suipian" and movementType==ccs.MovementEventType.complete then   
+--        if not tolua.isnull(self) then
+--            self:dispose()
+--        end
+--	end
 end
 
 function Obstacle:collision(_type)
-    if _type == OBSTACLE_TYPE.special then
---        GameDispatcher:dispatch(EventNames.EVENT_PLAYER_DEAD)
+    if self.m_vo.m_type == OBSTACLE_TYPE.special then
+        GameDispatcher:dispatch(EventNames.EVENT_PLAYER_ATTACKED,{isSpecial = true,att = self.m_vo.m_att})
     else
---        AudioManager.playSoundEffect(AudioManager.Sound_Effect_Type.Obstacle_Sound)
-        --消除动画
-        
+        GameDispatcher:dispatch(EventNames.EVENT_PLAYER_ATTACKED,{isSpecial = false,att = self.m_vo.m_att})
     end
+    
+    --        AudioManager.playSoundEffect(AudioManager.Sound_Effect_Type.Obstacle_Sound)
+    --消除动画
 end
 
 function Obstacle:dispose(parameters)

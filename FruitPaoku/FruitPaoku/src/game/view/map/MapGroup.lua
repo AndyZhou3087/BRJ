@@ -72,12 +72,25 @@ function MapGroup:initCoins(goldCon)
         for var=1,#goldCon do
             local _goldObj = goldCon[var]
             if _goldObj then
-                local gold = PoolManager.getCacheObjByType(CACHE_TYPE.Coin)
-                local chType = CACHE_TYPE.Coin
+                local _num = _goldObj.value or 1
+                local _type = _goldObj.type or Coin_Type.Coin_Gold
+                local gold,chType
+                if _type == Coin_Type.Coin_Gold then
+                    gold = PoolManager.getCacheObjByType(CACHE_TYPE.Coin)
+                    chType = CACHE_TYPE.Coin
+                elseif _type == Coin_Type.Coin_Silver then
+                    gold = PoolManager.getCacheObjByType(CACHE_TYPE.Sliver)
+                    chType = CACHE_TYPE.Sliver
+                else
+                    gold = PoolManager.getCacheObjByType(CACHE_TYPE.Copper)
+                    chType = CACHE_TYPE.Copper
+                end
                 if not gold then
-                    gold = CoinElement.new(_goldObj.res):addTo(self)
+                    gold = CoinElement.new({res = _goldObj.res,type = _type}):addTo(self)
                     gold:setCahceType(chType)
                     gold:retain()
+                else
+                    gold:setCoinType(_type)
                 end
                 gold:setPosition(_goldObj.x,_goldObj.y)
                 gold:setGroup(self.m_index)

@@ -100,4 +100,6 @@ GOON_TAG =
 CACHE_TYPE=
     {
         Coin = 1,
+        Sliver = 2,
+        Copper = 3,
     }

@@ -40,6 +40,8 @@ ObstacleConfig[3]=
         armatureName = "",
         res = "ui/obscale_1.png",     --资源路径
         att = 1,
+        speed = 0.3,
+        direction = 1,   --飞行方向：1为从下向上，-1为从上向下
     }
     
 ObstacleConfig[4]=
