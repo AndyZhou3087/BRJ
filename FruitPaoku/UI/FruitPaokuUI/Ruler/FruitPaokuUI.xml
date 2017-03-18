@@ -20,4 +20,16 @@
     <Project>PropItem</Project>
     <GuidesList />
   </GuidesProject>
+  <GuidesProject>
+    <Project>MapView</Project>
+    <GuidesList />
+  </GuidesProject>
+  <GuidesProject>
+    <Project>PauseUI</Project>
+    <GuidesList />
+  </GuidesProject>
+  <GuidesProject>
+    <Project>FightOver</Project>
+    <GuidesList />
+  </GuidesProject>
 </ArrayOfGuidesProject>
