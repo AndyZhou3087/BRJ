@@ -75,6 +75,7 @@ function Player:LevelWin()
     
     transition.moveTo(self,{time = 1,x=display.right+100,y=self:getPositionY(),onComplete=function()
         --弹结算界面
+        GameDispatcher:dispatch(EventNames.EVENT_OPEN_OVER,{type=GAMEOVER_TYPE.Win})
     end})
 end
 
@@ -135,6 +136,11 @@ function Player:toMove(parameters)
         end
     end
     
+end
+
+--获取状态
+function Player:getJumpState(parameters)
+    return self.m_jump
 end
 
 function Player:onActionFrameEvent(_bone,_evt,_begin,_end)
@@ -219,9 +225,10 @@ function Player:playerAttacked(parm)
     if self.m_vo.m_hp <= 0 then
         self.m_isDead = true
         GameController.isDead = true
+        self:death()
         --弹结算界面
         Tools.printDebug("------------角色死亡..")
-        self:death()
+        GameDispatcher:dispatch(EventNames.EVENT_OPEN_OVER,{type = GAMEOVER_TYPE.Fail})
     end
 end
 

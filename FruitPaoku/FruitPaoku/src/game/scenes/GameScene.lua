@@ -53,6 +53,7 @@ function GameScene:onEnter()
 
     self.m_map = MapLayer.new()
     self:addChild(self.m_map)
+    GameController.setCurMapLayer(self.m_map)
 
     self.m_fightView = MapView.new()
     self:addChild(self.m_fightView)

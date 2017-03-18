@@ -24,8 +24,7 @@ function MapLayer:ctor(parameters)
 
     self.m_roomsNum = MAP_GROUP_INIT_NUM
     
-    GameDataManager.initKm()
-    GameDataManager.initGoldF()
+    GameDataManager.resetLevelData()
     
     --上边界
 --    self.edgeTop = display.newNode()
@@ -221,7 +220,7 @@ function MapLayer:onEnterFrame(dt)
    self.pexel = self.pexel + MoveSpeed*0.1/(Pixel/Miles)
 
    local cur = math.floor(self.pexel)
-   GameDataManager.addKm(cur)
+    GameDataManager.addLevelScore(cur)
 
 end
 
@@ -278,8 +277,7 @@ function MapLayer:dispose(parameters)
     MoveSpeed = initSpeed
     self.m_isDelay = false
     
-    GameDataManager.initKm()
-    GameDataManager.initGoldF()
+    GameDataManager.resetLevelData()
     GameController.clearBody()
     
     self:removeFromParent(true)

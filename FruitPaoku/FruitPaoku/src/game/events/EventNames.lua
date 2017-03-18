@@ -25,4 +25,7 @@ EventNames.EVENT_FIGHT_UPDATE_GOLD = "event_fight_update_gold"
 --打开暂停界面
 EventNames.EVENT_OPEN_PAUSE="event_open_pause"
 
+--打开战斗结算界面
+EventNames.EVENT_OPEN_OVER="event_openOver"
+
 return EventNames

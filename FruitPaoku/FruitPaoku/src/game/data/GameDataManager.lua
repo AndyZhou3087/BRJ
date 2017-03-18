@@ -450,46 +450,36 @@ end
 local curLevelScore = 0
 --_score:当前获得积分,_noRate:不需要加成,默认为nil即计算加成
 function GameDataManager.addLevelScore(_score)
-    curLevelScore = curLevelScore + _score
---    GameDispatcher:dispatch(EventNames.EVENT_UPDATE_SCORE)
+    curLevelScore = _score
+    GameDispatcher:dispatch(EventNames.EVENT_UPDATE_SCORE,curLevelScore)
     return curLevelScore
 end
 function GameDataManager.getLevelScore()
     return curLevelScore
 end
+
+function GameDataManager.getHistoryScore(_levelId)
+    if not fightData[_levelId] then
+		return 0
+	end
+    return fightData[_levelId].score
+end
+
 --增加当前关卡获得金币(此时不含加成)
 local curLevelCoin = 0
 function GameDataManager.addLevelCoin(_coin)
---    GameDispatcher:dispatch(EventNames.EVENT_FIGHTGOLD_UPDATE,{coin=_coin,animation=true})
     curLevelCoin = curLevelCoin + _coin
+    GameDispatcher:dispatch(EventNames.EVENT_FIGHT_UPDATE_GOLD,{coin=curLevelCoin,animation=true})
     return curLevelCoin
 end
 function GameDataManager.getLevelCoin()
     return curLevelCoin
-end
---计算关卡总分数
-local maxScore = 0
-function GameDataManager.caculateScore(_levelId)
-    _levelId = _levelId or curLevelId
-    local _levCon = SelectLevel[_levelId]
---    if _levCon then
---        maxScore = Level_Score.Floor_Score*(#_levCon.roomBgs-1)
---    end
-end
-
---获取关卡总分
-function GameDataManager.getMaxScore(_levelId)
-    if maxScore <= 0 then
-        GameDataManager.caculateScore(_levelId)
-    end
-    return maxScore
 end
 
 --存储关卡数据
 --return1:是否首次过关，return2:当前星级
 function GameDataManager.saveLevelData()
     local isFirst=false
-    local curStar = 1
     local _data = fightData[curLevelId]
     if not _data then
         _data = clone(LevelVo)
@@ -500,13 +490,16 @@ function GameDataManager.saveLevelData()
     local _levCon = SelectLevel[curLevelId]
     if _levCon then
         _data.id = curLevelId
-        _data.chapterId = _levCon._chapId
         --如果此次得分高于上次则记录
         local old=_data.score
-        if old<curLevelScore then
-            _data.score = curLevelScore
-            GameDataManager.addChapterScore(_data.chapterId,_data.score-old)
+        if old < GameDataManager.getAllScore() then
+            _data.score = GameDataManager.getAllScore()
         end
+        --保存游戏最高分数(更适用于无尽模式)
+--        if GameDataManager.getAllScore() > GameDataManager.getRecord()then
+--            Tools.printDebug("刷新记录",GameDataManager.getAllScore())
+--            GameDataManager.saveRecord(GameDataManager.getAllScore())
+--        end
     end
 
     return isFirst
@@ -516,12 +509,7 @@ end
 function GameDataManager.resetLevelData()
     curLevelScore = 0
     curLevelCoin = 0
-    maxScore = 0
 end
-
---=======================end==============================
-
---=================================战斗相关
 
 --保存最高记录
 function GameDataManager.saveRecord(_record)
@@ -535,65 +523,30 @@ function GameDataManager.getRecord()
     return userData.record
 end
 
-local km_F = 0
-local gold_F = 0
---添加米数(当前游戏)
-function GameDataManager.addKm(_km)
-    km_F = _km
-    GameDispatcher:dispatch(EventNames.EVENT_UPDATE_SCORE,km_F)
-    return true
-end
-
---返回游戏米数
-function GameDataManager.getKm()
-    return km_F
-end
-
---初始化游戏米数
-function GameDataManager.initKm()
-    km_F=0
-end
-
---初始化游戏中得到的金币
-function GameDataManager.initGoldF()
-    gold_F = 0
-end
-
---添加游戏中得到的金币(当前游戏)
-function GameDataManager.addGoldF(_gold)
-    gold_F= gold_F+_gold
-    GameDispatcher:dispatch(EventNames.EVENT_FIGHT_UPDATE_GOLD,{coin=gold_F,animation=true})
-    return true
-end
-
---返回游戏中得到的金币
-function GameDataManager.getGoldF()
-    return gold_F
-end
-
-function GameDataManager.getAllScore(_dis)
-    local _score = 0
-    if _dis >= DistanceS.move then
-        _score = (DistanceC.move-DistanceD.move)*DistanceD.index + (DistanceB.move-DistanceC.move)*DistanceC.index + (DistanceA.move-DistanceB.move)*DistanceB.index
-            + (DistanceS.move-DistanceA.move)*DistanceA.index + (_dis-DistanceS.move)*DistanceS.index
-    elseif _dis >= DistanceA.move then
-        _score = (DistanceC.move-DistanceD.move)*DistanceD.index + (DistanceB.move-DistanceC.move)*DistanceC.index + (DistanceA.move-DistanceB.move)*DistanceB.index
-            + (_dis-DistanceA.move)*DistanceA.index
-    elseif _dis >= DistanceB.move then
-        _score = (DistanceC.move-DistanceD.move)*DistanceD.index + (DistanceB.move-DistanceC.move)*DistanceC.index + (_dis-DistanceB.move)*DistanceB.index
-    elseif _dis >= DistanceC.move then
-        _score = (DistanceC.move-DistanceD.move)*DistanceD.index + (_dis-DistanceC.move)*DistanceC.index
-    elseif _dis >= DistanceD.move then
-        _score = (_dis-DistanceD.move)*DistanceD.index
-    end
+function GameDataManager.getAllScore()
+    local _score = GameDataManager.getCountByCurrency(Coin_Type.Coin_Copper)*1+GameDataManager.getCountByCurrency(Coin_Type.Coin_Silver)*5
+        +GameDataManager.getCountByCurrency(Coin_Type.Coin_Gold)*10+GameDataManager.getLevelScore()
     --分数取整(GameController.doubleScore为是否使用双倍道具)
     _score=math.ceil(_score*GameController.doubleScore)
-    --保存游戏最高分数
-    if _score> GameDataManager.getRecord()then
-        Tools.printDebug("刷新记录",_score)
-        GameDataManager.saveRecord(_score)
-    end
     return _score
+end
+
+
+--游戏中获得币种数量
+local currency = {}
+function GameDataManager.addCurrencyCount(type,count)
+    if not currency[type] then
+    	currency[type] = {}
+    	currency[type].count = 0
+    end
+    currency[type].count = currency[type].count + count
+end
+
+function GameDataManager.getCountByCurrency(type)
+    if not currency[type] then
+    	return 0
+    end
+    return currency[type].count
 end
 
 --===================签到信息=========================

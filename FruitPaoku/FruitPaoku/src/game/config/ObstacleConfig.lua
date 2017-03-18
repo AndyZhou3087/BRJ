@@ -30,6 +30,7 @@ ObstacleConfig[2]=
         armatureName = "",
         res = "ui/obscale_1.png",     --资源路径
         att = 1,
+        dispx = 300,   --与角色相距多少像素时出现(单位：像素)
     }
     
 ObstacleConfig[3]=
@@ -38,10 +39,10 @@ ObstacleConfig[3]=
         type = OBSTACLE_TYPE.fly,    --障碍类型
         isAnimate = false,           --是否为动画资源
         armatureName = "",
-        res = "ui/obscale_1.png",     --资源路径
+        res = "ui/obscale_2.png",     --资源路径
         att = 1,
-        speed = 0.3,
-        direction = 1,   --飞行方向：1为从下向上，-1为从上向下
+        dispx = 300,   --与角色相距多少像素时出现(单位：像素)
+        speed = 2,   --飞行速度，即固定距离飞行的时间(单位：秒)
     }
     
 ObstacleConfig[4]=

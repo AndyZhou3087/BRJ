@@ -18,22 +18,12 @@ local pauseTime = 0
 
 --当前中角色对象
 local curPlayer
-
+--当前场景层
+local curMapLayer
 
 local movingObjs={} --移动中的对象数组
 local goldBody={}
 local goodBody={}
-
-local _curRoleCount = 1
-
---设置当前角色数量
-function GameController.setCurRole(_count)
-    _curRoleCount = _count
-end
-
-function GameController.getCurRole(parameters)
-    return _curRoleCount
-end
 
 --设置地图滚动速度
 function GameController.setSpeed(_speed)
@@ -96,6 +86,15 @@ function GameController.isPlayerDead()
     end
     return true
 end
+
+--设置当前map
+function GameController.setCurMapLayer(_layer)
+	curMapLayer = _layer
+end
+function GameController.getCurMap(parameters)
+	return curMapLayer
+end
+
 
 --组合排序
 function GameController.getSorting(arr)

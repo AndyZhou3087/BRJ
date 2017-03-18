@@ -58,7 +58,7 @@ end
 function MapGroup:initElement(_obstacle)
     for var=1,#_obstacle do
         local _element = _obstacle[var]
-        local obstacle = ObstacleElement.new(_element.obsId)
+        local obstacle = ObstacleElement.new(_element.obsId,_element.y)
         obstacle:setPosition(_element.x,_element.y)
         self:addChild(obstacle)
         table.insert(self.m_obstacle,obstacle)

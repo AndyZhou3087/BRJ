@@ -62,6 +62,12 @@ GAME_TYPE =
 --游戏类型控制
 GAME_TYPE_CONTROL = GAME_TYPE.LevelMode
 
+GAMEOVER_TYPE =
+{
+    Win = 1,
+    Fail = 2,
+}
+
 --界面层级配置
 UI_ZORDER =
     {

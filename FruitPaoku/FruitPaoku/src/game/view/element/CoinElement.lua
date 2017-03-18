@@ -41,12 +41,13 @@ end
 function CoinElement:collision()
 --    AudioManager.playSoundEffect(AudioManager.Sound_Effect_Type.Gold_Sound)
     if self.m_type == Coin_Type.Coin_Copper then
-        GameDataManager.addGoldF(1)
+        GameDataManager.addLevelCoin(1)
     elseif self.m_type == Coin_Type.Coin_Silver then
-        GameDataManager.addGoldF(2)
+        GameDataManager.addLevelCoin(2)
     else
-        GameDataManager.addGoldF(3)
+        GameDataManager.addLevelCoin(3)
     end
+    GameDataManager.addCurrencyCount(self.m_type,1)
      --关卡获得金币 
     self:dispose()
 end

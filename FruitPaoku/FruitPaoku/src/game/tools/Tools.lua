@@ -85,4 +85,47 @@ function Tools.printDebug(...)
 	end
 end
 
+function Tools.StringToComma(count)
+    local mCount = 0;
+    if count >= 1000000 then
+        local str1 = math.floor(count / 1000000);
+        local str2 = count % 1000000;
+        local str3 = math.floor(str2 / 1000);
+        local str4 = str2 % 1000;
+        if str3 < 10 then
+            str3 = "00"..str3;
+        elseif str3 < 100 then
+            str3 = "0"..str3;
+        end
+        if str4 < 10 then
+            str4 = "00"..str4;
+        elseif str4 < 100 then
+            str4 = "0"..str4;
+        end
+        mCount = str1..","..str3..","..str4;
+    elseif count >= 1000 then
+        local str1 = math.floor(count / 1000);
+        local str2 = count % 1000;
+        if str2 < 10 then
+            str2 = "00"..str2;
+        elseif str2 < 100 then
+            str2 = "0"..str2;
+        end
+        mCount = str1..","..str2;
+    else
+        mCount = count;
+    end
+    return mCount;
+end
+
+--通过sep符号来分离str
+--@param1:字符串
+--@param2:分隔符，如：“|”
+function Tools.Split(str, sep)
+    local str = tostring(str)
+    local fields = {}
+    str:gsub("[^"..sep.."]+", function(c) fields[#fields+1] = c end)
+    return fields;
+end
+
 return Tools
