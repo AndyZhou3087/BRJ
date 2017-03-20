@@ -20,9 +20,17 @@ function Pause:ctor(parm)
         self:toClose(true)
     end)
     
+    --重新开始
     local RestartBtn=cc.uiloader:seekNodeByName(_pause,"RestartBtn")
     RestartBtn:onButtonClicked(function(event)
-        
+        GameController.resumeGame()
+        app:enterSelectScene()
+        Tools.delayCallFunc(0.01,function()
+            GameDispatcher:dispatch(EventNames.EVENT_OPEN_LOAD,{method=2,})
+        end)
+        Tools.delayCallFunc(0.5,function()
+            GameDispatcher:dispatch(EventNames.EVENT_OPEN_READY,GAME_TYPE_CONTROL)
+        end)
     end)
     
     local BackBtn=cc.uiloader:seekNodeByName(_pause,"BackBtn")
