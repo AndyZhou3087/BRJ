@@ -14,6 +14,7 @@ end
 function MainScene:initData()
     GameDataManager.init()
     GameDataManager.SaveData()
+    TimeUtil.init()
 end
 
 function MainScene:onEnter()

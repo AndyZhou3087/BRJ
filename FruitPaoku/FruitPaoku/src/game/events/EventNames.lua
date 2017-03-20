@@ -1,7 +1,7 @@
 
 EventNames ={}
 
---打开关卡选择界面
+--游戏准备界面
 EventNames.EVENT_OPEN_READY = "event_open_ready"
 
 --时间变化
@@ -27,5 +27,11 @@ EventNames.EVENT_OPEN_PAUSE="event_open_pause"
 
 --打开战斗结算界面
 EventNames.EVENT_OPEN_OVER="event_openOver"
+
+--屏蔽层
+EventNames.EVENT_OPEN_LOAD = "event_open_load"
+
+--关闭屏蔽层
+EventNames.EVENT_LOADING_OVER = "event_loading_over"
 
 return EventNames

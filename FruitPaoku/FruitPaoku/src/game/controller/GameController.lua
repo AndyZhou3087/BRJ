@@ -39,6 +39,7 @@ end
 --游戏暂停
 function GameController.pauseGame(isEvent)
     Tools.printDebug("暂停游戏！")
+    display.pause()
     _isPause=true
     MoveSpeed = 0  --地图移动速度
 --    if isEvent then
@@ -50,8 +51,10 @@ end
 --游戏恢复
 function GameController.resumeGame(isEvent)
     Tools.printDebug("恢复游戏！")
+    display.resume()
     _isPause=false
     MoveSpeed = _curSpeed
+    TimeUtil.init()
 --    if isEvent then
 --        GameDispatcher:dispatch(EventNames.EVENT_PLAYER_REGAIN)
 --        GameController.reSetGoodsTime()

@@ -11,6 +11,8 @@ local Flash_Skeep_Time = 0.1 --闪动间隔
 function Player:ctor()
     Player.super.ctor(self)
     self.m_vo = GameDataManager.getPlayerVo()
+    self.m_hp = self.m_vo.m_hp
+--    Tools.printDebug("-------------------角色数据： ",self.m_vo.m_hp,self.m_hp)
     self.m_buffArr = {} --buff列表
 
     --角色死亡
@@ -221,8 +223,8 @@ function Player:playerAttacked(parm)
     if self.m_jump and not parm.data.isSpecial then
         return
     end
-    self.m_vo.m_hp = self.m_vo.m_hp - parm.data.att
-    if self.m_vo.m_hp <= 0 then
+    self.m_hp = self.m_hp - parm.data.att
+    if self.m_hp <= 0 then
         self.m_isDead = true
         GameController.isDead = true
         self:death()
@@ -390,7 +392,7 @@ function Player:dispose()
 --        Scheduler.unscheduleGlobal(self.m_handler)
 --        self.m_handler = nil
 --    end
-
+    GameDispatcher:removeListenerByName(EventNames.EVENT_PLAYER_ATTACKED)
     self.m_isDead = false
     GameController.isDead = false
     self.m_jump = false
@@ -415,9 +417,6 @@ function Player:dispose()
         end
     end
     self.m_buffArr = {}
-
---    GameDispatcher:removeListenerByName(EventNames.EVENT_TOP_FLY)
---    GameDispatcher:removeListenerByName(EventNames.EVENT_PLAYER_DEAD)
 
     GameController.stopDetect()
 

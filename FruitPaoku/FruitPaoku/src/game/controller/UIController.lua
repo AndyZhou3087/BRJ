@@ -5,6 +5,7 @@ local FightReadyUI = require("game.view.fightReady.FightReadyUI")
 local FlyText = require("game.view.flyText.FlyText")
 local Pause = require("game.view.Pause.Pause")
 local FightOver = require("game.view.FightOver.FightOver")
+local LoadingView = require("game.view.loading.LoadingView")
 
 function UIController:ctor()
     --打开战斗准备界面
@@ -18,6 +19,9 @@ function UIController:ctor()
     
     --结算
     GameDispatcher:addListener(EventNames.EVENT_OPEN_OVER,handler(self,self.openFightOver))
+    
+    --屏蔽
+    GameDispatcher:addListener(EventNames.EVENT_OPEN_LOAD,handler(self,self.openLoad))
 end
 
 --打开战斗准备界面
@@ -40,6 +44,11 @@ end
 function UIController:openFightOver(parameters)
     local _overUI = FightOver.new(parameters.data)
     _overUI:show(UI_ZORDER.VIEW_ZORDER)
+end
+
+function UIController:openLoad(parameters)
+    local _loadUI = LoadingView.new(parameters.data)
+    _loadUI:show(UI_ZORDER.VIEW_ZORDER)
 end
 
 return UIController

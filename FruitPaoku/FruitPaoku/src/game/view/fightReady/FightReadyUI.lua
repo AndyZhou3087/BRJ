@@ -59,38 +59,41 @@ function FightReadyUI:ctor(parm)
     startGame:onButtonClicked(function(event)
         Tools.printDebug("-----------开始游戏")
         GameDataManager.generatePlayerVo()  --产生新的角色数据对象
-        if parm == GAME_TYPE.LevelMode and GameDataManager.costPower(_levelCon.costPower) then
-            for key, var in ipairs(self.m_goods) do
-                if var.isSelect then
-                    GameDataManager.useGoods(var.id)
-                    if var.cost.type == COST_TYPE.Gold then
-                        GameDataManager.costGold(var.cost.price)
-                    elseif var.cost.type == COST_TYPE.Diamond then
-                        GameDataManager.costDiamond(var.cost.price)
+        if GameDataManager.costPower(_levelCon.costPower) then
+        	if parm == GAME_TYPE.LevelMode then
+                for key, var in ipairs(self.m_goods) do
+                    if var.isSelect then
+                        GameDataManager.useGoods(var.id)
+                        if var.cost.type == COST_TYPE.Gold then
+                            GameDataManager.costGold(var.cost.price)
+                        elseif var.cost.type == COST_TYPE.Diamond then
+                            GameDataManager.costDiamond(var.cost.price)
+                        end
                     end
                 end
+                GAME_TYPE_CONTROL = GAME_TYPE.LevelMode
+                app:enterGameScene()
+                self:toClose(true)
+                --        elseif parm == GAME_TYPE.EndlessMode and GameDataManager.costPower(EndlessMode.costPower) then      
+                --            GAME_TYPE_CONTROL = GAME_TYPE.EndlessMode
+                --            for key, var in ipairs(self.m_goods) do
+                --                if var.isSelect then
+                --                    local curId = var.id
+                --                    GameDataManager.useGoods(var.id)
+                --                end           
+                --            end
+                --            app:enterFightScene()
+                --            self:toClose(true)
             end
-            GAME_TYPE_CONTROL = GAME_TYPE.LevelMode
-            app:enterGameScene()
-            self:toClose(true)
---        elseif parm == GAME_TYPE.EndlessMode and GameDataManager.costPower(EndlessMode.costPower) then      
---            GAME_TYPE_CONTROL = GAME_TYPE.EndlessMode
---            for key, var in ipairs(self.m_goods) do
---                if var.isSelect then
---                    local curId = var.id
---                    GameDataManager.useGoods(var.id)
---                end           
---            end
---            app:enterFightScene()
---            self:toClose(true)
         else
-            print("体力不足！！")
+            print("体力不足！！",GameDataManager.getPower())
             startGame:setButtonEnabled(true)
             GameDispatcher:dispatch(EventNames.EVENT_FLY_TEXT,{text ="体力不足"})
 --            GameDispatcher:dispatch(EventNames.EVENT_OPEN_POWER,{})
         end
     end)
-
+    
+    GameDispatcher:dispatch(EventNames.EVENT_LOADING_OVER)
 end
 
 function FightReadyUI:touchListener(event)

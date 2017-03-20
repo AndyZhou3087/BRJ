@@ -27,6 +27,8 @@ function Pause:ctor(parm)
     
     local BackBtn=cc.uiloader:seekNodeByName(_pause,"BackBtn")
     BackBtn:onButtonClicked(function(event)
+        GameController.resumeGame()
+        self:toClose(true)
         app:enterSelectScene()
     end)
     

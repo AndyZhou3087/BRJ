@@ -58,6 +58,10 @@ end
 
 function CommonUI:showPower(parameters)
     local powerNow=GameDataManager.getPower()
+    Tools.printDebug("00000000 当前体力: ",powerNow)
+    for var=1, powerNow do
+        self["red_"..var]:setVisible(true)
+    end
     for var=powerNow+1, 5 do
         self["red_"..var]:setVisible(false)
     end
@@ -67,6 +71,10 @@ end
 --体力改变
 function CommonUI:powerChanged(parameters)
     local _power = GameDataManager.getPower()
+    Tools.printDebug("------------ 当前体力: ",_power)
+    for var=1, _power do
+        self["red_"..var]:setVisible(true)
+    end
     for var=_power+1, 5 do
         self["red_"..var]:setVisible(false)
     end
@@ -78,6 +86,10 @@ function CommonUI:powerChanged(parameters)
             self.m_powerHandle = nil
         end
         self.recoverLab:setVisible(false)
+        if _power > USER_POWER_MAX then
+            self.recoverLab:setVisible(true)
+            self.recoverLab:setString(_power-USER_POWER_MAX)
+        end
     end
 end
 
@@ -92,11 +104,15 @@ function CommonUI:initPower(parameters)
     end
     if GameDataManager.getPower() >= USER_POWER_MAX then
         self.recoverLab:setVisible(false)
+        if GameDataManager.getPower() > USER_POWER_MAX then
+            self.recoverLab:setVisible(true)
+            self.recoverLab:setString(GameDataManager.getPower()-USER_POWER_MAX)
+        end
         return
     end
     local curTime = TimeUtil.getTimeStamp()
     local powerEndT = GameDataManager.getPowerEndTime()
-    printf("initPower 当前体力= %d ",GameDataManager.getPower())
+--    printf("initPower 当前体力= %d ",GameDataManager.getPower())
     if curTime >= powerEndT then
         self.recoverLab:setVisible(false)
         if GameDataManager.getPower() < USER_POWER_MAX then
@@ -130,8 +146,8 @@ function CommonUI:updatePower(parameters)
     self.m_powerTime = self.m_powerTime - 1
     if self.m_powerTime <= 0 then
         self.m_powerTime = 0
-        self.m_powerHandle = nil
         Scheduler.unscheduleGlobal(self.m_powerHandle)
+        self.m_powerHandle = nil
         GameDataManager.addPower(1)
     end
     self.recoverLab:setString(string.format("%02d:%02d",self.m_powerTime/60,self.m_powerTime%60))

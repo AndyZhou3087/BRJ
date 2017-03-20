@@ -30,7 +30,7 @@ function SelectItem:initLevelVo(level)
 end
 
 function SelectItem:initLevelData(level)
-    if not GameDataManager.getFightData(self.parm._id) then
+    if not GameDataManager.getFightData(self.parm._id-1) then
         self.chapterBtn:setButtonEnabled(false)
         self.chapterBtn:setColor(cc.c3b(0,0,0))
         if self.parm._id == 1 then

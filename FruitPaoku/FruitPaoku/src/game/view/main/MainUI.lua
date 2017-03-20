@@ -24,7 +24,7 @@ function MainUI:init(parameters)
 --        _event.target:setScale(1)
     end)
     Endlessbtn:onButtonClicked(function(event)
-
+        GAME_TYPE_CONTROL = GAME_TYPE.EndlessMode
     end)
     
     local Levelbtn = cc.uiloader:seekNodeByName(self.m_json,"Levelbtn")
@@ -36,6 +36,7 @@ function MainUI:init(parameters)
         if self.m_unlockNum <= 0 then
             GameDataManager.setCurLevelId(1,1)
         end
+        GAME_TYPE_CONTROL = GAME_TYPE.LevelMode
         app:enterSelectScene()
     end)
 

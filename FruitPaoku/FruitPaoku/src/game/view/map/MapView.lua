@@ -79,7 +79,7 @@ end
 
 function MapView:dispose(parameters)
     GameDispatcher:removeListenerByName(EventNames.EVENT_UPDATE_SCORE)
---    GameDispatcher:removeListenerByName(EventNames.EVENT_MAIN_LIFE_CHANGE)
+    GameDispatcher:removeListenerByName(EventNames.EVENT_FIGHT_UPDATE_GOLD)
 
     self:removeFromParent(true)
 end

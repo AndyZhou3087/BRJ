@@ -38,27 +38,24 @@ function Obstacle:ctor(id,py)
             
             _size = self.obcon:getCascadeBoundingBox().size
 --            _size = cc.size(self.obcon:getCascadeBoundingBox().size.width*0.8,self.obcon:getCascadeBoundingBox().size.height*0.8)
+            self:addBody(obCon,_size,offset)
+
             if self.m_vo.m_type == OBSTACLE_TYPE.fly then
---                local function toRotation()
-----                    cc.RotateTo:create(0.5,360)
---                    transition.rotateTo(self.obcon,{time=0.5,rotate=360,onComplete=function()
---                        toRotation()
---                    end})
---                end
---                toRotation()
-                local rt1=cc.RotateTo:create(0.5,360)
-                local rt2=cc.RotateTo:create(0.5,360)
-                local seq=cc.Sequence:create(rt1,rt2)
-                local rp=cc.Repeat:create(seq,2) 
-                self.obcon:runAction(rp)
-                
+                local roCount = 0
+                local function toRotation()
+                    roCount = roCount + 1
+                    transition.rotateTo(self.obcon,{time=0.1,rotate=360*roCount,onComplete=function()
+                        toRotation()
+--                        Tools.printDebug("----------------------roCount:",roCount)
+                    end})
+                end
+                toRotation()
+  
                 self.tip_1 = display.newSprite("ui/obscale_tip_2.png"):addTo(GameController.getCurMap())
                 self.tip_1:setPosition(cc.p(display.cx,self.m_posY))
                 self.tip_2 = display.newSprite("ui/obscale_tip_1.png"):addTo(GameController.getCurMap())
                 self.tip_2:setPosition(cc.p(display.width-80,self.m_posY))
             end
-
-            self:addBody(obCon,_size,offset)
             
         end
         
@@ -128,7 +125,7 @@ function Obstacle:onEnterFrame(parameters)
     local x,y = self:getPosition()
     local point = self:getParent():convertToWorldSpace(cc.p(x,y))
     local px,py = GameController.getCurPlayer():getPosition()
-    if point.x <= display.right+100 then
+    if point.x <= display.right+400 then
         if self.m_vo.m_type == OBSTACLE_TYPE.fly then
             self:setVisible(true)
             if self.m_timer then

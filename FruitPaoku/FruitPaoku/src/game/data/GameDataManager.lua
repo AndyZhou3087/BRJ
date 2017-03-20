@@ -113,11 +113,6 @@ function GameDataManager.getDiamond()
     return userData.diamond
 end
 
---获取体力
-function GameDataManager.getPower()
-    return userData.power
-end
-
 --扣除体力
 --@return:true扣除成功，false扣除失败
 function GameDataManager.costPower(_value)
@@ -154,10 +149,18 @@ function GameDataManager.addPower(_value)
 
     userData.power = userData.power + _value
     if userData.power >= USER_POWER_MAX then
-        userData.power = USER_POWER_MAX
+--        userData.power = USER_POWER_MAX
         GameDataManager.setPowerEndTime(0)
     end
-    GameDispatcher:dispatch(EventNames.EVENT_POWER_CHANGE)
+    Tools.printDebug("~~~~~~~~~~ 当前体力: ",userData.power)
+    Tools.delayCallFunc(0.1,function()
+        GameDispatcher:dispatch(EventNames.EVENT_POWER_CHANGE)
+    end)
+    return userData.power
+end
+
+--获取体力
+function GameDataManager.getPower()
     return userData.power
 end
 
@@ -703,8 +706,7 @@ function GameDataManager.SaveData(parameters)
     DataPersistence.updateAttribute("music",music)
     DataPersistence.updateAttribute("sound",sound)
 
+    DataPersistence.toSaveData()
 end
-
-
 
 return GameDataManager

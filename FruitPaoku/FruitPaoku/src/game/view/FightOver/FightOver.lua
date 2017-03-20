@@ -9,6 +9,8 @@ function FightOver:ctor(parm)
 
     --阴影层
     self.m_bg = display.newColorLayer(cc.c4b(0,0,0,OPACITY)):addTo(self)
+    GameController.pauseGame()
+    
     self.m_fightover = cc.uiloader:load("json/FightOver.json")
     self:addChild(self.m_fightover)
 
@@ -69,7 +71,9 @@ function FightOver:initWidget()
 
     self.backBtn = cc.uiloader:seekNodeByName(self.m_fightover,"Backbtn")
     self.backBtn:onButtonClicked(function(_event)
-
+        self:toClose(true)
+        GameController.resumeGame()
+        app:enterSelectScene()
     end)
 
     self.Continuebtn = cc.uiloader:seekNodeByName(self.m_fightover,"Continuebtn")
@@ -122,24 +126,46 @@ function FightOver:toWin()
 --            self:toClose(true)
 --            return
 --        end
-        if  self.m_levelIdx < #SelectLevel then
+        if  self.m_curLevel < #SelectLevel then
+            GameController.resumeGame()
             GameDataManager.setCurLevelId(self.m_curLevel+1,self.m_levelIdx+1)
-            app:enterMainScene()
+            app:enterSelectScene()
             Tools.delayCallFunc(0.01,function()
                 GameDispatcher:dispatch(EventNames.EVENT_OPEN_LOAD,{method=2,})
             end)
-            Tools.delayCallFunc(1,function()
-                GameDispatcher:dispatch(EventNames.EVENT_OPEN_LEVELSELECT)
+            Tools.delayCallFunc(0.5,function()
+                GameDispatcher:dispatch(EventNames.EVENT_OPEN_READY,GAME_TYPE_CONTROL)
             end)
             self:toClose(true)
         else
+        
         end
 
     end)
 end
 
 function FightOver:toFail()
+    for var=1, 3 do
+        self["star_"..var]:setButtonImage("disabled","ui/StarDark.png")
+    end
+    self.LevelTips:setButtonImage("disabled","ui/Over_fail.png")
+    self.Continuebtn:setButtonImage("normal","Common/Common_c2_1.png")
+    self.Continuebtn:setButtonImage("pressed","Common/Common_c2_2.png")
+    self.continueLabel:setButtonImage("disabled","ui/Pause_restart.png")
+    self.RecordScore:setString("历史最高分:"..Tools.StringToComma(GameDataManager.getHistoryScore(self.m_curLevel), ","))
 
+    self.Continuebtn:onButtonClicked(function(_event)
+        GameController.resumeGame()
+        app:enterSelectScene()
+        Tools.delayCallFunc(0.01,function()
+            GameDispatcher:dispatch(EventNames.EVENT_OPEN_LOAD,{method=2,})
+        end)
+        Tools.delayCallFunc(0.5,function()
+            GameDispatcher:dispatch(EventNames.EVENT_OPEN_READY,GAME_TYPE_CONTROL)
+        end)
+        self:toClose(true)
+
+    end)
 end
 
 
