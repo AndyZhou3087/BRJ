@@ -15,6 +15,7 @@ require("game.config.ObstacleConfig")
 require("game.config.GoodGroupConfig")
 require("game.config.PaymentConfig")
 require("game.config.ShopConfig")
+require("game.config.RoleLelelConfig")
 
 PoolManager = require("game.tools.PoolManager")
 TimeUtil = require("game.tools.TimeUtil")

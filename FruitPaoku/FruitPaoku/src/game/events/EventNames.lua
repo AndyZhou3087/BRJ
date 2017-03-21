@@ -43,4 +43,7 @@ EventNames.EVENT_UPDATE_DIAMOND="event_update_diamond"
 --金币更新
 EventNames.EVENT_UPDATE_GOLD="event_update_gold"
 
+--角色界面
+EventNames.EVENT_OPEN_ROLEVIEW="event_open_roleview"
+
 return EventNames
