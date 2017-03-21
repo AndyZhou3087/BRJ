@@ -32,4 +32,12 @@
     <Project>FightOver</Project>
     <GuidesList />
   </GuidesProject>
+  <GuidesProject>
+    <Project>ShopUI</Project>
+    <GuidesList />
+  </GuidesProject>
+  <GuidesProject>
+    <Project>ShopItem</Project>
+    <GuidesList />
+  </GuidesProject>
 </ArrayOfGuidesProject>
