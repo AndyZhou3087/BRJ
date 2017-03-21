@@ -14,6 +14,7 @@ local fightRes = {
 --    {type = PreLoadType.Texture,plist="map/room/obstacle.plist",png="map/room/obstacle.png"},
     {type = PreLoadType.Animation,plist="role/nv_pao0.plist",png="role/nv_pao0.png",json="role/nv_pao.ExportJson"},
     {type = PreLoadType.Animation,plist="role/chongci0.plist",png="role/chongci0.png",json="role/chongci.ExportJson"},
+    {type = PreLoadType.Animation,plist="armature/xiaoshi0.plist",png="armature/xiaoshi0.png",json="armature/xiaoshi.ExportJson"},
 --    {type = PreLoadType.Sound,sound=AudioManager.Sound_Effect_Type.Scene_Bomb},
 --    {type = PreLoadType.Sound,sound=AudioManager.Sound_Effect_Type.Bullet_Sound},
 --    {type = PreLoadType.Sound,sound=AudioManager.Sound_Effect_Type.Drop_Sound},

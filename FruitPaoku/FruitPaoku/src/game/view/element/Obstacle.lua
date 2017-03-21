@@ -60,6 +60,12 @@ function Obstacle:ctor(id,py)
         end
         
         self.obcon:setAnchorPoint(cc.p(0.5,0.5))
+        
+        ccs.ArmatureDataManager:getInstance():addArmatureFileInfo("armature/xiaoshi0.png", "armature/xiaoshi0.plist" , "armature/xiaoshi.ExportJson" )
+        self.m_dEffect = ccs.Armature:create("xiaoshi")
+        self:addChild(self.m_dEffect)
+        self.m_dEffect:setVisible(false)
+        self.m_dEffect:getAnimation():setMovementEventCallFunc(handler(self,self.armatureMoveEvent))
 
         if self.m_vo.m_type == OBSTACLE_TYPE.hide or self.m_vo.m_type == OBSTACLE_TYPE.static then
             if self.m_posY>display.cy then
@@ -179,11 +185,11 @@ function Obstacle:executeMove(parameters)
 end
 
 function Obstacle:armatureMoveEvent(armatureBack,movementType,movementID)
---    if movementID == "suipian" and movementType==ccs.MovementEventType.complete then   
---        if not tolua.isnull(self) then
---            self:dispose()
---        end
---	end
+    if movementID == "xiaoshi" and movementType==ccs.MovementEventType.complete then   
+        if not tolua.isnull(self) then
+            self:dispose()
+        end
+	end
 end
 
 function Obstacle:collision(_type)
@@ -191,7 +197,15 @@ function Obstacle:collision(_type)
         GameDispatcher:dispatch(EventNames.EVENT_PLAYER_ATTACKED,{isSpecial = true,att = self.m_vo.m_att})
     else
         if GameController.getCurPlayer():getJumpState() then
-        	self:dispose()
+--            if self.m_vo.m_type == OBSTACLE_TYPE.hide or self.m_vo.m_type == OBSTACLE_TYPE.static then
+                self.obcon:setVisible(false)
+                self.m_dEffect:setVisible(true)
+                self.m_dEffect:getAnimation():play("xiaoshi",0,0)
+                if self.m_vo.m_type == OBSTACLE_TYPE.fly then
+                	self:stopAllActions()
+                end
+--            end
+--        	self:dispose()
         	return
         end
         GameDispatcher:dispatch(EventNames.EVENT_PLAYER_ATTACKED,{isSpecial = false,att = self.m_vo.m_att})
@@ -215,6 +229,10 @@ function Obstacle:dispose(parameters)
     end
     if not tolua.isnull(self.tip_2) then
         self.tip_2:removeFromParent()
+    end
+    
+    if not tolua.isnull(self.m_dEffect) then
+        self.m_dEffect:removeFromParent()
     end
 
     self.super.dispose(self)

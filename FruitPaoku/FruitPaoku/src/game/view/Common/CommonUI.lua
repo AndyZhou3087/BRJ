@@ -6,7 +6,7 @@ local CommonUI = class("FightReadyUI",BaseUI)
 
 local Scheduler = require("framework.scheduler")
 
-function CommonUI:ctor()
+function CommonUI:ctor(parm)
     CommonUI.super.ctor(self)
     
     --启用onCleanup函数
@@ -18,16 +18,19 @@ function CommonUI:ctor()
     local powerbtn = cc.uiloader:seekNodeByName(self.CommonUI,"Powerbtn")
     powerbtn:onButtonClicked(function(event)
         Tools.printDebug("-----------体力购买")
+        GameDispatcher:dispatch(EventNames.EVENT_OPEN_SHOP)
     end)
     
     local goldbtn = cc.uiloader:seekNodeByName(self.CommonUI,"Goldbtn")
     goldbtn:onButtonClicked(function(event)
         Tools.printDebug("-----------金币购买")
+        GameDispatcher:dispatch(EventNames.EVENT_OPEN_SHOP)
     end)
     
     local diamondbtn = cc.uiloader:seekNodeByName(self.CommonUI,"Diabtn")
     diamondbtn:onButtonClicked(function(event)
         Tools.printDebug("-----------钻石购买")
+        GameDispatcher:dispatch(EventNames.EVENT_OPEN_SHOP)
     end)
     
     local backbtn = cc.uiloader:seekNodeByName(self.CommonUI,"Backbtn")
@@ -35,6 +38,13 @@ function CommonUI:ctor()
         Tools.printDebug("-----------返回")
         self:getParent():toClose(true)
     end)
+    
+    --若为商城则不显示钻石金币购买按钮
+    if parm and parm.isShop then
+        powerbtn:setVisible(false)
+        goldbtn:setVisible(false)
+        diamondbtn:setVisible(false)
+    end
     
     self.goldCount = cc.uiloader:seekNodeByName(self.CommonUI,"GoldCount")
     self.goldCount:setString(GameDataManager.getGold())
@@ -54,16 +64,30 @@ function CommonUI:ctor()
     
     self.m_timeChange = GameDispatcher:addListener(EventNames.EVENT_NET_TIME_CHANGE,handler(self,self.timeChange))
     GameDispatcher:addListener(EventNames.EVENT_POWER_CHANGE,handler(self,self.powerChanged))
+    --金币更新
+    GameDispatcher:addListener(EventNames.EVENT_UPDATE_GOLD,handler(self,self.updateGold))
+    --钻石更新
+    GameDispatcher:addListener(EventNames.EVENT_UPDATE_DIAMOND,handler(self,self.updateDiamond))
+end
+
+function CommonUI:updateDiamond(parameters)
+    self.diaCount:setString(GameDataManager.getDiamond())
+end
+
+function CommonUI:updateGold(parameters)
+    self.goldCount:setString(GameDataManager.getGold())
 end
 
 function CommonUI:showPower(parameters)
     local powerNow=GameDataManager.getPower()
     Tools.printDebug("00000000 当前体力: ",powerNow)
-    for var=1, powerNow do
-        self["red_"..var]:setVisible(true)
-    end
-    for var=powerNow+1, 5 do
-        self["red_"..var]:setVisible(false)
+    if powerNow <= USER_POWER_MAX then
+        for var=1, powerNow do
+            self["red_"..var]:setVisible(true)
+        end
+        for var=powerNow+1, 5 do
+            self["red_"..var]:setVisible(false)
+        end
     end
 	self:initPower()
 end
@@ -72,11 +96,13 @@ end
 function CommonUI:powerChanged(parameters)
     local _power = GameDataManager.getPower()
     Tools.printDebug("------------ 当前体力: ",_power)
-    for var=1, _power do
-        self["red_"..var]:setVisible(true)
-    end
-    for var=_power+1, 5 do
-        self["red_"..var]:setVisible(false)
+    if _power<=USER_POWER_MAX then
+        for var=1, _power do
+            self["red_"..var]:setVisible(true)
+        end
+        for var=_power+1, 5 do
+            self["red_"..var]:setVisible(false)
+        end
     end
     if _power < USER_POWER_MAX then
         self:toCheckPower(GameDataManager.getPowerEndTime()-TimeUtil.getTimeStamp())
@@ -89,6 +115,9 @@ function CommonUI:powerChanged(parameters)
         if _power > USER_POWER_MAX then
             self.recoverLab:setVisible(true)
             self.recoverLab:setString(_power-USER_POWER_MAX)
+            if _power >= 10000 then
+                self.recoverLab:setString("10000+")
+            end
         end
     end
 end
@@ -102,11 +131,15 @@ function CommonUI:initPower(parameters)
         Scheduler.unscheduleGlobal(self.m_powerHandle)
         self.m_powerHandle = nil
     end
-    if GameDataManager.getPower() >= USER_POWER_MAX then
+    local m_power = GameDataManager.getPower()
+    if m_power >= USER_POWER_MAX then
         self.recoverLab:setVisible(false)
-        if GameDataManager.getPower() > USER_POWER_MAX then
+        if m_power > USER_POWER_MAX then
             self.recoverLab:setVisible(true)
-            self.recoverLab:setString(GameDataManager.getPower()-USER_POWER_MAX)
+            self.recoverLab:setString(m_power-USER_POWER_MAX)
+            if m_power >= 10000 then
+                self.recoverLab:setString("10000+")
+            end
         end
         return
     end
@@ -160,6 +193,8 @@ end
 function CommonUI:onCleanup(parameters)
     GameDispatcher:removeListenerByHandle(self.m_timeChange)
     GameDispatcher:removeListenerByName(EventNames.EVENT_POWER_CHANGE)
+    GameDispatcher:removeListenerByName(EventNames.EVENT_UPDATE_GOLD)
+    GameDispatcher:removeListenerByName(EventNames.EVENT_UPDATE_DIAMOND)
 
     if self.m_powerHandle then
         Scheduler.unscheduleGlobal(self.m_powerHandle)
@@ -171,6 +206,8 @@ end
 function CommonUI:toClose(_clean)
     GameDispatcher:removeListenerByHandle(self.m_timeChange)
     GameDispatcher:removeListenerByName(EventNames.EVENT_POWER_CHANGE)
+    GameDispatcher:removeListenerByName(EventNames.EVENT_UPDATE_GOLD)
+    GameDispatcher:removeListenerByName(EventNames.EVENT_UPDATE_DIAMOND)
     
     if self.m_powerHandle then
         Scheduler.unscheduleGlobal(self.m_powerHandle)

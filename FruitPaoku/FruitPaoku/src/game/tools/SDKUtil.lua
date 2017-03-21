@@ -19,15 +19,15 @@ elseif device.platform == "ios" then
     luaoc = require("framework.luaoc")
 end
 
-local className = "com/tysoul/util/Util"
---pay方法(String userId, int goodsId,String orderId,int callFunc)
+local className = "com/kxx/util/Util"
+--pay方法(int goodsId,String orderId,int callFunc)
 local methodName = "pay"
 
 --调用平台支付方法
 --_data:{goodsId=xx,orderId=xx,callback=xx}
 function SDKUtil.toPay(_data)
-    local params = {GameDataManager.AccountId,_data.goodsId,_data.orderId,_data.callback}
-    local sigs = "(Ljava/lang/String;ILjava/lang/String;I)V"
+    local params = {_data.goodsId,_data.orderId,_data.callback}
+    local sigs = "(ILjava/lang/String;I)V"
 	if luaj then
         luaj.callStaticMethod(className,methodName,params,sigs)
 		return
@@ -42,7 +42,7 @@ end
 --获取唯一订单id
 function SDKUtil.getOrderId(_goodsId)
     _goodsId = _goodsId or math.random(1,10000)
-    return GameDataManager.AccountId..tostring(_goodsId)..TimeUtil.getTimeStamp()..os.clock()..math.random(1,10000)
+    return "20170310"..tostring(_goodsId)..TimeUtil.getTimeStamp()..os.clock()..math.random(1,10000)
 end
 
 --调用友盟付费计录

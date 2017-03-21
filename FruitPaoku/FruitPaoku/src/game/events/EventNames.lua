@@ -34,4 +34,13 @@ EventNames.EVENT_OPEN_LOAD = "event_open_load"
 --关闭屏蔽层
 EventNames.EVENT_LOADING_OVER = "event_loading_over"
 
+--打开商店界面
+EventNames.EVENT_OPEN_SHOP="event_open_shop"
+
+--钻石更新
+EventNames.EVENT_UPDATE_DIAMOND="event_update_diamond"
+
+--金币更新
+EventNames.EVENT_UPDATE_GOLD="event_update_gold"
+
 return EventNames

@@ -64,7 +64,7 @@ function GameDataManager.costGold(_value)
     if userData.gold >= _value then
         userData.gold = userData.gold - _value
         Tools.printDebug("当前金币",GameDataManager.getGold())
---        GameDispatcher:dispatch(EventNames.EVENT_UPDATE_GOLD)
+        GameDispatcher:dispatch(EventNames.EVENT_UPDATE_GOLD)
         GameDataManager.SaveData()
         return true
     else
@@ -76,7 +76,7 @@ end
 function GameDataManager.addGold(_value)
     userData.gold = userData.gold + _value
     Tools.printDebug("当前金币",GameDataManager.getGold())
---    GameDispatcher:dispatch(EventNames.EVENT_UPDATE_GOLD)
+    GameDispatcher:dispatch(EventNames.EVENT_UPDATE_GOLD)
     GameDataManager.SaveData()
     return true
 end
@@ -91,7 +91,7 @@ function GameDataManager.costDiamond(_value)
     if userData.diamond >= _value then
         userData.diamond = userData.diamond-_value
         Tools.printDebug("当前钻石",GameDataManager.getDiamond())
---        GameDispatcher:dispatch(EventNames.EVENT_UPDATE_DIAMOND)
+        GameDispatcher:dispatch(EventNames.EVENT_UPDATE_DIAMOND)
         GameDataManager.SaveData()
         return true
     else
@@ -103,7 +103,7 @@ end
 function GameDataManager.addDiamond(_value)
     userData.diamond = userData.diamond+_value
     Tools.printDebug("当前钻石",GameDataManager.getDiamond())
---    GameDispatcher:dispatch(EventNames.EVENT_UPDATE_DIAMOND)
+    GameDispatcher:dispatch(EventNames.EVENT_UPDATE_DIAMOND)
     GameDataManager.SaveData()
     return true
 end

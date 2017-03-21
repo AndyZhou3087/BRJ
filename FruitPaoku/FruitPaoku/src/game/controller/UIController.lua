@@ -6,6 +6,7 @@ local FlyText = require("game.view.flyText.FlyText")
 local Pause = require("game.view.Pause.Pause")
 local FightOver = require("game.view.FightOver.FightOver")
 local LoadingView = require("game.view.loading.LoadingView")
+local ShopView = require("game.view.Shop.ShopView")
 
 function UIController:ctor()
     --打开战斗准备界面
@@ -22,6 +23,9 @@ function UIController:ctor()
     
     --屏蔽
     GameDispatcher:addListener(EventNames.EVENT_OPEN_LOAD,handler(self,self.openLoad))
+    
+    --打开商城
+    GameDispatcher:addListener(EventNames.EVENT_OPEN_SHOP,handler(self,self.openShop))
 end
 
 --打开战斗准备界面
@@ -49,6 +53,11 @@ end
 function UIController:openLoad(parameters)
     local _loadUI = LoadingView.new(parameters.data)
     _loadUI:show(UI_ZORDER.VIEW_ZORDER)
+end
+
+function UIController:openShop(parameters)
+    local _shopUI = ShopView.new(parameters.data)
+    _shopUI:show(UI_ZORDER.VIEW_ZORDER)
 end
 
 return UIController

@@ -4,7 +4,8 @@
 local BaseUI = require("game.view.BaseUI")
 local ShopView = class("ShopView",BaseUI)
 
-local ShopItemUI=require("game.view.shop.ShopItemUI")
+local ShopItemUI=require("game.view.Shop.ShopItemUI")
+local CommonUI = require("game.view.Common.CommonUI")
 
 function ShopView:ctor(parameters)
     ShopView.super.ctor(self)
@@ -12,6 +13,9 @@ function ShopView:ctor(parameters)
     local bg = display.newColorLayer(cc.c4b(0,0,0,OPACITY)):addTo(self)
     self.m_shopUi = cc.uiloader:load("json/ShopUI.json")
     self:addChild(self.m_shopUi)
+    
+    local commonui = CommonUI.new({isShop = true}):addTo(self)
+    commonui:setPosition(cc.p(10,display.top-60))
 
     local listContent = cc.uiloader:seekNodeByName(self.m_shopUi,"Panel_List")
     self.m_listSize = listContent:getCascadeBoundingBox().size
@@ -34,15 +38,19 @@ end
 --加载商店内容
 function ShopView:initPublic(shopConfig)
 
-    local bgCount = math.ceil(#shopConfig / 4)
-    self.lv:removeAllItems()
+    local bgCount
+    if #shopConfig % 4 == 0 then
+        bgCount = math.floor(#shopConfig / 4)
+    else
+        bgCount = math.ceil(#shopConfig / 4)
+    end
     Tools.delayCallFunc(0.1,function()
         for i=1,bgCount do
             local item = self.lv:newItem()
             local content = ShopItemUI.new(i)
             content:setTouchEnabled(false)
-            content:setContentSize(self.m_listSize.width, 130)
-            item:setItemSize(self.m_listSize.width, 130)
+            content:setContentSize(self.m_listSize.width, 138)
+            item:setItemSize(self.m_listSize.width, 138)
             item:addContent(content)
             self.lv:addItem(item)
         end
@@ -139,7 +147,7 @@ end
 
 --清理数据
 function ShopView:onCleanup()
-
+    self.lv:removeAllItems()
 end
 
 return ShopView
