@@ -37,6 +37,7 @@ function GameDataManager.init()
     
     --初始化关卡数据
     GameDataManager.initFightData()
+    GameDataManager.unLockModle(1)
 --    --初始化物品数据
     GameDataManager.initGoodsData()
     --初始化签到信息
@@ -279,32 +280,18 @@ end
 --===================角色信息相关=========================
 --初始化角色信息
 function GameDataManager.initPlayerVo()
-    --    local _lv = DataPersistence.getAttribute("user_lv")
-    --    curRoleID = DataPersistence.getAttribute("cur_roleID")
     local roleConfig = RoleConfig[curRoleID]
     if roleConfig then
         local _lv = GameDataManager.getRoleModle(curRoleID).roleLv
         playerVo.m_roleId = curRoleID
         playerVo.m_level = _lv
---        playerVo.m_lifeNum = roleConfig.lifeNum
         playerVo.m_hp = roleConfig.hp     --血量
         playerVo.m_att = roleConfig.att           -- 攻击力
---        playerVo.m_score_rate = GameDataManager.getScoreRate(curRoleID,_lv)   --分数加成
---        playerVo.m_coin_rate = GameDataManager.getMoneyRate(curRoleID,_lv)    --金币加成
---        playerVo.m_jump = roleConfig.jump --弹跳值
---        playerVo.m_damageArea = roleConfig.damageArea    --破坏面积（以角色中心点向外扩散的矩形区域长宽半径）
---        playerVo.m_sprintTime = roleConfig.sprintTime   --冲刺时间
---        playerVo.m_magnetTime = roleConfig.magnetTime   --磁铁时间
---        playerVo.m_invincibleTime = roleConfig.invincibleTime   --无敌时间
---        playerVo.m_rocketTime = roleConfig.rocketTime
---        playerVo.m_superRocketTime = roleConfig.superRocketTime
---        playerVo.m_leisheqiang = roleConfig.role_qiang  --镭射枪
---        playerVo.m_daibuji = roleConfig.role_daibuji  --代步机
---        playerVo.m_roleArm  = roleConfig.armatureName   --角色原动画
---        playerVo.m_sprintTimeAdd= roleConfig.sprintTimeAdd   --冲刺时间延长 (s)
---        playerVo.m_invincibleTimeAdd=roleConfig.invincibleTimeAdd   --无敌时间延长(s)
---        playerVo.m_protectTimeAdd=roleConfig.protectTimeAdd       --护盾时间延长(s)
---        playerVo.m_speed = roleConfig.speed    --移动速度
+        playerVo.m_sprintTime = roleConfig.sprintTime    --冲刺时间
+        playerVo.m_magnetTime = roleConfig.magnetTime   --磁铁时间
+        playerVo.m_giantTime = roleConfig.giantTime   --巨人时间
+        playerVo.m_transTime = roleConfig.transTime   --转黄时间
+        playerVo.m_cloudTime = roleConfig.cloudTime    --浮云时间
     end
 end
 
@@ -356,13 +343,30 @@ function GameDataManager.getFightRole()
     return curRoleID
 end
 
---获取当前角色技能时间
-function GameDataManager.getSkillTime(_roleId,_lv)
+--获取当前角色被动技能磁铁时间
+function GameDataManager.getUnActSkillTime(_roleId,_lv,type)
     local _roleLvObj = RoleLvs[_roleId][_lv]
-    local _basic = RoleConfig[_roleId].basicTime
+    local _basic
+    local _roleLvTime
+    if type == GOODS_TYPE.Magnet then
+        _basic = RoleConfig[_roleId].magnetTime
+        _roleLvTime = _roleLvObj.magnetTime+_basic
+    elseif type == GOODS_TYPE.GrantDrink then
+        _basic = RoleConfig[_roleId].giantTime
+        _roleLvTime = _roleLvObj.giantTime+_basic
+    elseif type == GOODS_TYPE.ConverGold then
+        _basic = RoleConfig[_roleId].transTime
+        _roleLvTime = _roleLvObj.transTime+_basic
+    elseif type == GOODS_TYPE.LimitSprint then
+        _basic = RoleConfig[_roleId].sprintTime
+        _roleLvTime = _roleLvObj.sprintTime+_basic
+    elseif type == GOODS_TYPE.CloudLadder then
+        _basic = RoleConfig[_roleId].cloudTime
+        _roleLvTime = _roleLvObj.cloudTime+_basic
+    end
+    Tools.printDebug("---角色技能时间:",_roleLvTime)
     if _roleLvObj then
-        Tools.printDebug(_roleLvObj.skillTime+_basic)
-        return _roleLvObj.skillTime+_basic
+        return _roleLvTime
     else
         return 0
     end
@@ -387,8 +391,6 @@ function GameDataManager.updateUserLv(_roleId,_lv)
         if roleCon then
             _modleVo.roleLv = _lv
             playerVo.m_level = _lv
---            playerVo.m_score_rate = GameDataManager.getScoreRate(_roleId,_lv)   --分数加成
---            playerVo.m_coin_rate = GameDataManager.getMoneyRate(_roleId,_lv)    --金币加成
         else
             printf("chjh error 找不到id=%d的角色配置",_roleId)
         end
@@ -406,12 +408,6 @@ end
 local curPlyaerVo = nil
 function GameDataManager.generatePlayerVo()
     curPlyaerVo = clone(playerVo)
---    local petVo = petDataDic[fightPet]
---    if petVo then
-----        curPlyaerVo.m_score_rate = curPlyaerVo.m_score_rate+petVo.score_rate
-----        curPlyaerVo.m_coin_rate = curPlyaerVo.m_coin_rate+petVo.coin_rate
---        curPlyaerVo.m_att = curPlyaerVo.m_att + petVo.m_att
---    end
 end
 function GameDataManager.getPlayerVo()
     return curPlyaerVo

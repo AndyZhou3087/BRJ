@@ -40,6 +40,7 @@ RoleConfig[1]=
         armatureName = "nv_pao",   --动画工程名
         roleName = "囧囧",     --角色名称
         roleImg = "ui/role_2.png",   --角色图片
+        roleDes = "aaaaaaaaaaa",  --角色描述
         lock = {},--解锁所需条件
         diamondPrice = 10,   --钻石购买价格
         coinPrice = 2500,    --金币购买价格
@@ -54,7 +55,7 @@ RoleConfig[1]=
         cloudTime=0,     --浮云时间(s)
 
         initLv= 1 ,      --初始角色等级
-        lvMax = 30,      --角色满级等级
+        lvMax = #RoleLvs[1],      --角色满级等级
         quickMaxPrice = 50 , -- 一键满级价格
     }
     
@@ -65,6 +66,7 @@ RoleConfig[2]=
         armatureName = "nan3",   --动画工程名
         roleName = "囧囧",     --角色名称
         roleImg = "ui/role_1.png",   --角色图片
+        roleDes = "aaaaaaaaaaa",  --角色描述
         lock = {},--解锁所需条件
         diamondPrice = 10,   --钻石购买价格
         coinPrice = 2500,    --金币购买价格
@@ -79,7 +81,7 @@ RoleConfig[2]=
         cloudTime=0,     --浮云时间(s)
 
         initLv= 1 ,      --初始角色等级
-        lvMax = 30,      --角色满级等级
+        lvMax = #RoleLvs[2],      --角色满级等级
         quickMaxPrice = 50 , -- 一键满级价格
     }
     
@@ -90,6 +92,7 @@ RoleConfig[3]=
         armatureName = "nan4",   --动画工程名
         roleName = "囧囧",     --角色名称
         roleImg = "ui/role_4.png",   --角色图片
+        roleDes = "aaaaaaaaaaa",  --角色描述
         lock = {},--解锁所需条件
         diamondPrice = 10,   --钻石购买价格
         coinPrice = 2500,    --金币购买价格
@@ -104,7 +107,7 @@ RoleConfig[3]=
         cloudTime=0,     --浮云时间(s)
 
         initLv= 1 ,      --初始角色等级
-        lvMax = 30,      --角色满级等级
+        lvMax = #RoleLvs[3],      --角色满级等级
         quickMaxPrice = 50 , -- 一键满级价格
     }
     
@@ -115,6 +118,7 @@ RoleConfig[4]=
         armatureName = "nan5",   --动画工程名
         roleName = "囧囧",     --角色名称
         roleImg = "ui/role_5.png",   --角色图片
+        roleDes = "aaaaaaaaaaa",  --角色描述
         lock = {},--解锁所需条件
         diamondPrice = 10,   --钻石购买价格
         coinPrice = 2500,    --金币购买价格
@@ -129,7 +133,7 @@ RoleConfig[4]=
         cloudTime=0,     --浮云时间(s)
 
         initLv= 1 ,      --初始角色等级
-        lvMax = 30,      --角色满级等级
+        lvMax = #RoleLvs[4],      --角色满级等级
         quickMaxPrice = 50 , -- 一键满级价格
     }
     
@@ -140,6 +144,7 @@ RoleConfig[5]=
         armatureName = "nan6",   --动画工程名
         roleName = "囧囧",     --角色名称
         roleImg = "ui/role_3.png",   --角色图片
+        roleDes = "aaaaaaaaaaa",  --角色描述
         lock = {},--解锁所需条件
         diamondPrice = 10,   --钻石购买价格
         coinPrice = 2500,    --金币购买价格
@@ -154,6 +159,6 @@ RoleConfig[5]=
         cloudTime=0,     --浮云时间(s)
 
         initLv= 1 ,      --初始角色等级
-        lvMax = 30,      --角色满级等级
+        lvMax = #RoleLvs[5],      --角色满级等级
         quickMaxPrice = 50 , -- 一键满级价格
     }

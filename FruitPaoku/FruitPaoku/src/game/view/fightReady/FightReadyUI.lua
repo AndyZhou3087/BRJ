@@ -53,6 +53,7 @@ function FightReadyUI:ctor(parm)
     local rolebtn = cc.uiloader:seekNodeByName(self.FightReady,"Rolebtn")
     rolebtn:onButtonClicked(function(event)
         Tools.printDebug("-----------角色")
+        GameDispatcher:dispatch(EventNames.EVENT_OPEN_ROLEVIEW)
     end)
     
     local startGame = cc.uiloader:seekNodeByName(self.FightReady,"StartGame")
