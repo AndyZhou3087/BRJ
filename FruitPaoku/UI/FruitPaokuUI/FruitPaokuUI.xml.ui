@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
 <UIProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <ProjectDir>G:\dev\BRJ\FruitPaoku\UI\FruitPaokuUI</ProjectDir>
+  <ProjectDir>G:\dev\BRJ\fruitpaoku\ui\FruitPaokuUI</ProjectDir>
   <Version>1.6.0.0</Version>
-  <Resources>G:\dev\BRJ\FruitPaoku\UI\FruitPaokuUI\Resources</Resources>
+  <Resources>G:\dev\BRJ\fruitpaoku\ui\FruitPaokuUI\Resources</Resources>
   <Name>FruitPaokuUI</Name>
   <JsonFileName>FruitPaokuUI.json</JsonFileName>
-  <JsonFolder>G:\dev\BRJ\FruitPaoku\UI\FruitPaokuUI\Json</JsonFolder>
+  <JsonFolder>G:\dev\BRJ\fruitpaoku\ui\FruitPaokuUI\Json</JsonFolder>
   <JsonList>
     <string>MainUI.json</string>
     <string>SelectUI.json</string>
@@ -17,16 +17,18 @@
     <string>FightOver.json</string>
     <string>ShopUI.json</string>
     <string>ShopItem.json</string>
+    <string>RoleView.json</string>
+    <string>RoleItem.json</string>
   </JsonList>
   <CanvasSize>
-    <Width>230</Width>
-    <Height>130</Height>
+    <Width>960</Width>
+    <Height>540</Height>
   </CanvasSize>
-  <filePath>G:\dev\BRJ\FruitPaoku\UI\FruitPaokuUI\FruitPaokuUI.xml.ui</filePath>
+  <filePath>G:\dev\BRJ\fruitpaoku\ui\FruitPaokuUI\FruitPaokuUI.xml.ui</filePath>
   <ProjectType>UIProject</ProjectType>
   <ResRelativePath />
   <imageFileList />
   <imagePngList />
   <JsonSuffix>.json</JsonSuffix>
-  <CurrentUIJson>ShopItem.json</CurrentUIJson>
+  <CurrentUIJson>RoleItem.json</CurrentUIJson>
 </UIProject>

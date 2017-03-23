@@ -40,4 +40,16 @@
     <Project>ShopItem</Project>
     <GuidesList />
   </GuidesProject>
+  <GuidesProject>
+    <Project>RoleView</Project>
+    <GuidesList />
+  </GuidesProject>
+  <GuidesProject>
+    <Project>FruitPaokuUI_12</Project>
+    <GuidesList />
+  </GuidesProject>
+  <GuidesProject>
+    <Project>RoleItem</Project>
+    <GuidesList />
+  </GuidesProject>
 </ArrayOfGuidesProject>
