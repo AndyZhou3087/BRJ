@@ -11,6 +11,9 @@ local PropItem = require("game.view.fightReady.PropItem")
 function FightReadyUI:ctor(parm)
     FightReadyUI.super.ctor(self)
 
+    --启用监听
+    self:setNodeEventEnabled(true)
+
     --阴影层
     local bg = display.newColorLayer(cc.c4b(0,0,0,120)):addTo(self)
     self.m_size_ = bg:getCascadeBoundingBox().size
@@ -94,11 +97,30 @@ function FightReadyUI:ctor(parm)
         end
     end)
     
+    self.roleImg = cc.uiloader:seekNodeByName(self.FightReady,"RoleImg")
+    self.roleImg:setButtonEnabled(false)
+    self.roleImg:setButtonImage("disabled",RoleConfig[GameDataManager.getFightRole()].roleImg)
+    
+    self.GoldLabel = cc.uiloader:seekNodeByName(self.FightReady,"GoldLabel")
+    self.GoldLabel:setString("+ "..GameDataManager.getMoneyRate(GameDataManager.getFightRole(),GameDataManager.getRoleLevel(GameDataManager.getFightRole())).."%")
+    self.AbilityLabel = cc.uiloader:seekNodeByName(self.FightReady,"AbilityLabel")
+    self.AbilityLabel:setString("+ "..GameDataManager.getScoreRate(GameDataManager.getFightRole(),GameDataManager.getRoleLevel(GameDataManager.getFightRole())).."%")
+    
     GameDispatcher:dispatch(EventNames.EVENT_LOADING_OVER)
+    
+    GameDispatcher:addListener(EventNames.EVENT_ROLE_CHANGE,handler(self,self.changeRole))
 end
 
 function FightReadyUI:touchListener(event)
 	
+end
+
+function FightReadyUI:changeRole(parameters)
+    self.roleImg:setButtonImage("disabled",RoleConfig[GameDataManager.getFightRole()].roleImg)
+    self.GoldLabel:setString("+ "..GameDataManager.getMoneyRate(GameDataManager.getFightRole(),
+        GameDataManager.getRoleLevel(GameDataManager.getFightRole())).."%")
+    self.AbilityLabel:setString("+ "..GameDataManager.getScoreRate(GameDataManager.getFightRole(),
+        GameDataManager.getRoleLevel(GameDataManager.getFightRole())).."%")
 end
 
 function FightReadyUI:initProp(par)
@@ -168,8 +190,15 @@ end
 function FightReadyUI:addedToScene()
 end
 
+--清理数据
+function FightReadyUI:onCleanup()
+    GameDispatcher:removeListenerByName(EventNames.EVENT_ROLE_CHANGE)
+end
+
 --关闭界面调用
 function FightReadyUI:toClose(_clean)
+
+    GameDispatcher:removeListenerByName(EventNames.EVENT_ROLE_CHANGE)
 
     FightReadyUI.super.toClose(self,_clean)
 

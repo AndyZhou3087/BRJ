@@ -22,67 +22,91 @@ RoleLvs[1][1]=
     {
         --升级需求(type为升级花费的类型，金币或钻石，num为数值)
         upgrade = {type = UPGRADE_TYPE.Gold,Num = 500},
+        --分数加成百分比
+        scoreRate = 1,
+        --金币分数加成百分比
+        coinRate = 5,
         --被动技能时间加成
-        sprintTime = 0.1,   --冲刺时间,单位：秒
-        magnetTime = 0.1,   --磁铁时间,单位：秒
-        giantTime = 0.1,   --巨人时间,单位：秒
-        transTime=0.1,     --转换时间 (s)
-        cloudTime=0.1,     --浮云时间(s)
+        sprintTime = 0.5,   --冲刺时间,单位：秒
+        magnetTime = 0.5,   --磁铁时间,单位：秒
+        giantTime = 0.5,   --巨人时间,单位：秒
+        transTime=0.5,     --转换时间 (s)
+        cloudTime=0.5,     --浮云时间(s)
     }
 RoleLvs[1][2]=
     {
         --升级需求(type为升级花费的类型，金币或钻石，num为数值)
         upgrade = {type = UPGRADE_TYPE.Gold,Num = 500},
+        --分数加成百分比
+        scoreRate = 1,
+        --金币分数加成百分比
+        coinRate = 5,
         --被动技能时间加成
-        sprintTime = 0.1,   --冲刺时间,单位：秒
-        magnetTime = 0.1,   --磁铁时间,单位：秒
-        giantTime = 0.1,   --巨人时间,单位：秒
-        transTime=0.1,     --转换时间 (s)
-        cloudTime=0.1,     --浮云时间(s)
+        sprintTime = 1,   --冲刺时间,单位：秒
+        magnetTime = 1,   --磁铁时间,单位：秒
+        giantTime = 1,   --巨人时间,单位：秒
+        transTime=1,     --转换时间 (s)
+        cloudTime=1,     --浮云时间(s)
     }
 RoleLvs[1][3]=
     {
         --升级需求(type为升级花费的类型，金币或钻石，num为数值)
         upgrade = {type = UPGRADE_TYPE.Gold,Num = 500},
+        --分数加成百分比
+        scoreRate = 1,
+        --金币分数加成百分比
+        coinRate = 5,
         --被动技能时间加成
-        sprintTime = 0.1,   --冲刺时间,单位：秒
-        magnetTime = 0.1,   --磁铁时间,单位：秒
-        giantTime = 0.1,   --巨人时间,单位：秒
-        transTime=0.1,     --转换时间 (s)
-        cloudTime=0.1,     --浮云时间(s)
+        sprintTime = 2,   --冲刺时间,单位：秒
+        magnetTime = 2,   --磁铁时间,单位：秒
+        giantTime = 2,   --巨人时间,单位：秒
+        transTime=2,     --转换时间 (s)
+        cloudTime=2,     --浮云时间(s)
     }
 RoleLvs[1][4]=
     {
         --升级需求(type为升级花费的类型，金币或钻石，num为数值)
         upgrade = {type = UPGRADE_TYPE.Gold,Num = 500},
+        --分数加成百分比
+        scoreRate = 1,
+        --金币分数加成百分比
+        coinRate = 5,
         --被动技能时间加成
-        sprintTime = 0.1,   --冲刺时间,单位：秒
-        magnetTime = 0.1,   --磁铁时间,单位：秒
-        giantTime = 0.1,   --巨人时间,单位：秒
-        transTime=0.1,     --转换时间 (s)
-        cloudTime=0.1,     --浮云时间(s)
+        sprintTime = 3,   --冲刺时间,单位：秒
+        magnetTime = 3,   --磁铁时间,单位：秒
+        giantTime = 3,   --巨人时间,单位：秒
+        transTime=3,     --转换时间 (s)
+        cloudTime=3,     --浮云时间(s)
     }
 RoleLvs[1][5]=
     {
         --升级需求(type为升级花费的类型，金币或钻石，num为数值)
         upgrade = {type = UPGRADE_TYPE.Gold,Num = 500},
+        --分数加成百分比
+        scoreRate = 1,
+        --金币分数加成百分比
+        coinRate = 5,
         --被动技能时间加成
-        sprintTime = 0.1,   --冲刺时间,单位：秒
-        magnetTime = 0.1,   --磁铁时间,单位：秒
-        giantTime = 0.1,   --巨人时间,单位：秒
-        transTime=0.1,     --转换时间 (s)
-        cloudTime=0.1,     --浮云时间(s)
+        sprintTime = 4,   --冲刺时间,单位：秒
+        magnetTime = 4,   --磁铁时间,单位：秒
+        giantTime = 4,   --巨人时间,单位：秒
+        transTime=4,     --转换时间 (s)
+        cloudTime=4,     --浮云时间(s)
     }
 RoleLvs[1][6]=
     {
         --升级需求(type为升级花费的类型，金币或钻石，num为数值)
         upgrade = {type = UPGRADE_TYPE.Gold,Num = 500},
+        --分数加成百分比
+        scoreRate = 1,
+        --金币分数加成百分比
+        coinRate = 5,
         --被动技能时间加成
-        sprintTime = 0.1,   --冲刺时间,单位：秒
-        magnetTime = 0.1,   --磁铁时间,单位：秒
-        giantTime = 0.1,   --巨人时间,单位：秒
-        transTime=0.1,     --转换时间 (s)
-        cloudTime=0.1,     --浮云时间(s)
+        sprintTime = 5,   --冲刺时间,单位：秒
+        magnetTime = 5,   --磁铁时间,单位：秒
+        giantTime = 5,   --巨人时间,单位：秒
+        transTime=5,     --转换时间 (s)
+        cloudTime=5,     --浮云时间(s)
     }
 --RoleLvs[1][7]=
 --    {
@@ -510,6 +534,10 @@ RoleLvs[2][1]=
     {
         --升级需求(type为升级花费的类型，金币或钻石，num为数值)
         upgrade = {type = UPGRADE_TYPE.Gold,Num = 500},
+        --分数加成百分比
+        scoreRate = 1,
+        --金币分数加成百分比
+        coinRate = 5,
         --被动技能时间加成
         sprintTime = 0.1,   --冲刺时间,单位：秒
         magnetTime = 0.1,   --磁铁时间,单位：秒
@@ -521,6 +549,10 @@ RoleLvs[2][2]=
     {
         --升级需求(type为升级花费的类型，金币或钻石，num为数值)
         upgrade = {type = UPGRADE_TYPE.Gold,Num = 500},
+        --分数加成百分比
+        scoreRate = 1,
+        --金币分数加成百分比
+        coinRate = 5,
         --被动技能时间加成
         sprintTime = 0.1,   --冲刺时间,单位：秒
         magnetTime = 0.1,   --磁铁时间,单位：秒
@@ -532,6 +564,10 @@ RoleLvs[2][3]=
     {
         --升级需求(type为升级花费的类型，金币或钻石，num为数值)
         upgrade = {type = UPGRADE_TYPE.Gold,Num = 500},
+        --分数加成百分比
+        scoreRate = 1,
+        --金币分数加成百分比
+        coinRate = 5,
         --被动技能时间加成
         sprintTime = 0.1,   --冲刺时间,单位：秒
         magnetTime = 0.1,   --磁铁时间,单位：秒
@@ -543,6 +579,10 @@ RoleLvs[2][4]=
     {
         --升级需求(type为升级花费的类型，金币或钻石，num为数值)
         upgrade = {type = UPGRADE_TYPE.Gold,Num = 500},
+        --分数加成百分比
+        scoreRate = 1,
+        --金币分数加成百分比
+        coinRate = 5,
         --被动技能时间加成
         sprintTime = 0.1,   --冲刺时间,单位：秒
         magnetTime = 0.1,   --磁铁时间,单位：秒
@@ -554,6 +594,10 @@ RoleLvs[2][5]=
     {
         --升级需求(type为升级花费的类型，金币或钻石，num为数值)
         upgrade = {type = UPGRADE_TYPE.Gold,Num = 500},
+        --分数加成百分比
+        scoreRate = 1,
+        --金币分数加成百分比
+        coinRate = 5,
         --被动技能时间加成
         sprintTime = 0.1,   --冲刺时间,单位：秒
         magnetTime = 0.1,   --磁铁时间,单位：秒
@@ -1184,6 +1228,10 @@ RoleLvs[3][1]=
     {
         --升级需求(type为升级花费的类型，金币或钻石，num为数值)
         upgrade = {type = UPGRADE_TYPE.Gold,Num = 500},
+        --分数加成百分比
+        scoreRate = 1,
+        --金币分数加成百分比
+        coinRate = 5,
         --被动技能时间加成
         sprintTime = 0.1,   --冲刺时间,单位：秒
         magnetTime = 0.1,   --磁铁时间,单位：秒
@@ -1195,6 +1243,10 @@ RoleLvs[3][2]=
     {
         --升级需求(type为升级花费的类型，金币或钻石，num为数值)
         upgrade = {type = UPGRADE_TYPE.Gold,Num = 500},
+        --分数加成百分比
+        scoreRate = 1,
+        --金币分数加成百分比
+        coinRate = 5,
         --被动技能时间加成
         sprintTime = 0.1,   --冲刺时间,单位：秒
         magnetTime = 0.1,   --磁铁时间,单位：秒
@@ -1206,6 +1258,10 @@ RoleLvs[3][3]=
     {
         --升级需求(type为升级花费的类型，金币或钻石，num为数值)
         upgrade = {type = UPGRADE_TYPE.Gold,Num = 500},
+        --分数加成百分比
+        scoreRate = 1,
+        --金币分数加成百分比
+        coinRate = 5,
         --被动技能时间加成
         sprintTime = 0.1,   --冲刺时间,单位：秒
         magnetTime = 0.1,   --磁铁时间,单位：秒
@@ -1217,6 +1273,10 @@ RoleLvs[3][4]=
     {
         --升级需求(type为升级花费的类型，金币或钻石，num为数值)
         upgrade = {type = UPGRADE_TYPE.Gold,Num = 500},
+        --分数加成百分比
+        scoreRate = 1,
+        --金币分数加成百分比
+        coinRate = 5,
         --被动技能时间加成
         sprintTime = 0.1,   --冲刺时间,单位：秒
         magnetTime = 0.1,   --磁铁时间,单位：秒
@@ -1228,6 +1288,10 @@ RoleLvs[3][5]=
     {
         --升级需求(type为升级花费的类型，金币或钻石，num为数值)
         upgrade = {type = UPGRADE_TYPE.Gold,Num = 500},
+        --分数加成百分比
+        scoreRate = 1,
+        --金币分数加成百分比
+        coinRate = 5,
         --被动技能时间加成
         sprintTime = 0.1,   --冲刺时间,单位：秒
         magnetTime = 0.1,   --磁铁时间,单位：秒
@@ -1239,6 +1303,10 @@ RoleLvs[3][6]=
     {
         --升级需求(type为升级花费的类型，金币或钻石，num为数值)
         upgrade = {type = UPGRADE_TYPE.Gold,Num = 500},
+        --分数加成百分比
+        scoreRate = 1,
+        --金币分数加成百分比
+        coinRate = 5,
         --被动技能时间加成
         sprintTime = 0.1,   --冲刺时间,单位：秒
         magnetTime = 0.1,   --磁铁时间,单位：秒
@@ -1250,6 +1318,10 @@ RoleLvs[3][7]=
     {
         --升级需求(type为升级花费的类型，金币或钻石，num为数值)
         upgrade = {type = UPGRADE_TYPE.Gold,Num = 500},
+        --分数加成百分比
+        scoreRate = 1,
+        --金币分数加成百分比
+        coinRate = 5,
         --被动技能时间加成
         sprintTime = 0.1,   --冲刺时间,单位：秒
         magnetTime = 0.1,   --磁铁时间,单位：秒
@@ -2027,6 +2099,10 @@ RoleLvs[4][1]=
     {
         --升级需求(type为升级花费的类型，金币或钻石，num为数值)
         upgrade = {type = UPGRADE_TYPE.Gold,Num = 500},
+        --分数加成百分比
+        scoreRate = 1,
+        --金币分数加成百分比
+        coinRate = 5,
         --被动技能时间加成
         sprintTime = 0.1,   --冲刺时间,单位：秒
         magnetTime = 0.1,   --磁铁时间,单位：秒
@@ -2038,6 +2114,10 @@ RoleLvs[4][2]=
     {
         --升级需求(type为升级花费的类型，金币或钻石，num为数值)
         upgrade = {type = UPGRADE_TYPE.Gold,Num = 500},
+        --分数加成百分比
+        scoreRate = 1,
+        --金币分数加成百分比
+        coinRate = 5,
         --被动技能时间加成
         sprintTime = 0.1,   --冲刺时间,单位：秒
         magnetTime = 0.1,   --磁铁时间,单位：秒
@@ -2049,6 +2129,10 @@ RoleLvs[4][3]=
     {
         --升级需求(type为升级花费的类型，金币或钻石，num为数值)
         upgrade = {type = UPGRADE_TYPE.Gold,Num = 500},
+        --分数加成百分比
+        scoreRate = 1,
+        --金币分数加成百分比
+        coinRate = 5,
         --被动技能时间加成
         sprintTime = 0.1,   --冲刺时间,单位：秒
         magnetTime = 0.1,   --磁铁时间,单位：秒
@@ -2060,6 +2144,10 @@ RoleLvs[4][4]=
     {
         --升级需求(type为升级花费的类型，金币或钻石，num为数值)
         upgrade = {type = UPGRADE_TYPE.Gold,Num = 500},
+        --分数加成百分比
+        scoreRate = 1,
+        --金币分数加成百分比
+        coinRate = 5,
         --被动技能时间加成
         sprintTime = 0.1,   --冲刺时间,单位：秒
         magnetTime = 0.1,   --磁铁时间,单位：秒
@@ -2071,6 +2159,10 @@ RoleLvs[4][5]=
     {
         --升级需求(type为升级花费的类型，金币或钻石，num为数值)
         upgrade = {type = UPGRADE_TYPE.Gold,Num = 500},
+        --分数加成百分比
+        scoreRate = 1,
+        --金币分数加成百分比
+        coinRate = 5,
         --被动技能时间加成
         sprintTime = 0.1,   --冲刺时间,单位：秒
         magnetTime = 0.1,   --磁铁时间,单位：秒
@@ -2082,6 +2174,10 @@ RoleLvs[4][6]=
     {
         --升级需求(type为升级花费的类型，金币或钻石，num为数值)
         upgrade = {type = UPGRADE_TYPE.Gold,Num = 500},
+        --分数加成百分比
+        scoreRate = 1,
+        --金币分数加成百分比
+        coinRate = 5,
         --被动技能时间加成
         sprintTime = 0.1,   --冲刺时间,单位：秒
         magnetTime = 0.1,   --磁铁时间,单位：秒
@@ -3052,6 +3148,10 @@ RoleLvs[5][1]=
     {
         --升级需求(type为升级花费的类型，金币或钻石，num为数值)
         upgrade = {type = UPGRADE_TYPE.Gold,Num = 500},
+        --分数加成百分比
+        scoreRate = 1,
+        --金币分数加成百分比
+        coinRate = 5,
         --被动技能时间加成
         sprintTime = 0.1,   --冲刺时间,单位：秒
         magnetTime = 0.1,   --磁铁时间,单位：秒
@@ -3063,6 +3163,10 @@ RoleLvs[5][2]=
     {
         --升级需求(type为升级花费的类型，金币或钻石，num为数值)
         upgrade = {type = UPGRADE_TYPE.Gold,Num = 500},
+        --分数加成百分比
+        scoreRate = 1,
+        --金币分数加成百分比
+        coinRate = 5,
         --被动技能时间加成
         sprintTime = 0.1,   --冲刺时间,单位：秒
         magnetTime = 0.1,   --磁铁时间,单位：秒
@@ -3074,6 +3178,10 @@ RoleLvs[5][3]=
     {
         --升级需求(type为升级花费的类型，金币或钻石，num为数值)
         upgrade = {type = UPGRADE_TYPE.Gold,Num = 500},
+        --分数加成百分比
+        scoreRate = 1,
+        --金币分数加成百分比
+        coinRate = 5,
         --被动技能时间加成
         sprintTime = 0.1,   --冲刺时间,单位：秒
         magnetTime = 0.1,   --磁铁时间,单位：秒
@@ -3085,6 +3193,10 @@ RoleLvs[5][4]=
     {
         --升级需求(type为升级花费的类型，金币或钻石，num为数值)
         upgrade = {type = UPGRADE_TYPE.Gold,Num = 500},
+        --分数加成百分比
+        scoreRate = 1,
+        --金币分数加成百分比
+        coinRate = 5,
         --被动技能时间加成
         sprintTime = 0.1,   --冲刺时间,单位：秒
         magnetTime = 0.1,   --磁铁时间,单位：秒
@@ -3096,6 +3208,10 @@ RoleLvs[5][5]=
     {
         --升级需求(type为升级花费的类型，金币或钻石，num为数值)
         upgrade = {type = UPGRADE_TYPE.Gold,Num = 500},
+        --分数加成百分比
+        scoreRate = 1,
+        --金币分数加成百分比
+        coinRate = 5,
         --被动技能时间加成
         sprintTime = 0.1,   --冲刺时间,单位：秒
         magnetTime = 0.1,   --磁铁时间,单位：秒
@@ -3107,6 +3223,10 @@ RoleLvs[5][6]=
     {
         --升级需求(type为升级花费的类型，金币或钻石，num为数值)
         upgrade = {type = UPGRADE_TYPE.Gold,Num = 500},
+        --分数加成百分比
+        scoreRate = 1,
+        --金币分数加成百分比
+        coinRate = 5,
         --被动技能时间加成
         sprintTime = 0.1,   --冲刺时间,单位：秒
         magnetTime = 0.1,   --磁铁时间,单位：秒

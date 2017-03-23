@@ -7,8 +7,10 @@ local ShopView = class("ShopView",BaseUI)
 local ShopItemUI=require("game.view.Shop.ShopItemUI")
 local CommonUI = require("game.view.Common.CommonUI")
 
-function ShopView:ctor(parameters)
+function ShopView:ctor(isPause)
     ShopView.super.ctor(self)
+
+    self.m_pause = isPause
 
     local bg = display.newColorLayer(cc.c4b(0,0,0,OPACITY)):addTo(self)
     self.m_shopUi = cc.uiloader:load("json/ShopUI.json")
@@ -142,6 +144,9 @@ end
 
 --关闭界面调用
 function ShopView:toClose(_clean)
+    if GameController.isInPause() and not self.m_pause then
+        GameController.resumeGame()
+    end
     ShopView.super.toClose(self,_clean)
 end
 

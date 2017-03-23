@@ -37,7 +37,6 @@ function GameDataManager.init()
     
     --初始化关卡数据
     GameDataManager.initFightData()
-    GameDataManager.unLockModle(1)
 --    --初始化物品数据
     GameDataManager.initGoodsData()
     --初始化签到信息
@@ -287,6 +286,8 @@ function GameDataManager.initPlayerVo()
         playerVo.m_level = _lv
         playerVo.m_hp = roleConfig.hp     --血量
         playerVo.m_att = roleConfig.att           -- 攻击力
+        playerVo.m_score_rate = GameDataManager.getScoreRate(curRoleID,_lv)   --分数加成
+        playerVo.m_coin_rate = GameDataManager.getMoneyRate(curRoleID,_lv)    --金币加成
         playerVo.m_sprintTime = roleConfig.sprintTime    --冲刺时间
         playerVo.m_magnetTime = roleConfig.magnetTime   --磁铁时间
         playerVo.m_giantTime = roleConfig.giantTime   --巨人时间
@@ -328,6 +329,7 @@ function GameDataManager.changeRole(_roleId)
     if roleConfig then
         curRoleID = _roleId
         GameDataManager.initPlayerVo()
+        GameDispatcher:dispatch(EventNames.EVENT_ROLE_CHANGE)
     else
         printf("chjh erro 找不到id=%d的角色皮肤配置",_roleId)
     end
@@ -341,6 +343,27 @@ end
 --获取当前出战角色ID
 function GameDataManager.getFightRole()
     return curRoleID
+end
+
+--获取等级分数加成
+function GameDataManager.getScoreRate(_roleId,_lv)
+    Tools.printDebug(_roleId,_lv)
+    local _roleLvObj = RoleLvs[_roleId][_lv]
+    if _roleLvObj then
+        return _roleLvObj.scoreRate
+    else
+        return 0
+    end
+end
+
+--获取等级金币加成
+function GameDataManager.getMoneyRate(_roleId,_lv)
+    local _roleLvObj = RoleLvs[_roleId][_lv]
+    if _roleLvObj then
+        return _roleLvObj.coinRate
+    else
+        return 0
+    end
 end
 
 --获取当前角色被动技能磁铁时间
@@ -364,7 +387,7 @@ function GameDataManager.getUnActSkillTime(_roleId,_lv,type)
         _basic = RoleConfig[_roleId].cloudTime
         _roleLvTime = _roleLvObj.cloudTime+_basic
     end
-    Tools.printDebug("---角色技能时间:",_roleLvTime)
+--    Tools.printDebug("---角色技能时间:",_roleLvTime)
     if _roleLvObj then
         return _roleLvTime
     else
@@ -391,6 +414,8 @@ function GameDataManager.updateUserLv(_roleId,_lv)
         if roleCon then
             _modleVo.roleLv = _lv
             playerVo.m_level = _lv
+            playerVo.m_score_rate = GameDataManager.getScoreRate(_roleId,_lv)   --分数加成
+            playerVo.m_coin_rate = GameDataManager.getMoneyRate(_roleId,_lv)    --金币加成
         else
             printf("chjh error 找不到id=%d的角色配置",_roleId)
         end
@@ -398,6 +423,20 @@ function GameDataManager.updateUserLv(_roleId,_lv)
         printf("chjh error id=%d的角色你暂未拥有，不能升级",_roleId)
     end
 
+end
+
+function GameDataManager.getRoleLevel(_roleId)
+    local _modleVo = modleDic[_roleId]
+    if _modleVo then
+        local roleCon = RoleConfig[_roleId]
+        if roleCon then
+            return _modleVo.roleLv
+        else
+            return 1
+        end
+    else
+        return 1
+    end
 end
 
 --获取原始角色数据对象
@@ -448,7 +487,7 @@ end
 --增加当前关卡得分
 local curLevelScore = 0
 --_score:当前获得积分,_noRate:不需要加成,默认为nil即计算加成
-function GameDataManager.addLevelScore(_score)
+function GameDataManager.addLevelScore(_score,_noRate)
     curLevelScore = _score
     GameDispatcher:dispatch(EventNames.EVENT_UPDATE_SCORE,curLevelScore)
     return curLevelScore
@@ -525,11 +564,18 @@ end
 function GameDataManager.getAllScore()
     local _score = GameDataManager.getCountByCurrency(Coin_Type.Coin_Copper)*1+GameDataManager.getCountByCurrency(Coin_Type.Coin_Silver)*5
         +GameDataManager.getCountByCurrency(Coin_Type.Coin_Gold)*10+GameDataManager.getLevelScore()
+    _score = math.ceil(_score*(1+curPlyaerVo.m_score_rate*0.01))
     --分数取整(GameController.doubleScore为是否使用双倍道具)
     _score=math.ceil(_score*GameController.doubleScore)
     return _score
 end
 
+--游戏中获得的总金币数
+function GameDataManager.getAllFightCoins()
+    local _coin = math.floor(GameDataManager.getLevelCoin()/3)
+    _coin = math.ceil(_coin*(1+curPlyaerVo.m_coin_rate*0.01))
+    return _coin
+end
 
 --游戏中获得币种数量
 local currency = {}

@@ -46,4 +46,7 @@ EventNames.EVENT_UPDATE_GOLD="event_update_gold"
 --角色界面
 EventNames.EVENT_OPEN_ROLEVIEW="event_open_roleview"
 
+--角色更换
+EventNames.EVENT_ROLE_CHANGE = "event_role_change"
+
 return EventNames

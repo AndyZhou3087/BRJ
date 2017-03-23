@@ -32,6 +32,8 @@ function MapView:ctor(parameters)
     local DiamondBtn = cc.uiloader:seekNodeByName(self.m_mapView,"DiamondBtn")
     DiamondBtn:onButtonClicked(function(_event)
         Tools.printDebug("-----------钻石购买")
+        GameController.pauseGame()
+        GameDispatcher:dispatch(EventNames.EVENT_OPEN_SHOP)
     end)
 
     --金币
@@ -40,6 +42,8 @@ function MapView:ctor(parameters)
     local GoldBtn = cc.uiloader:seekNodeByName(self.m_mapView,"GoldBtn")
     GoldBtn:onButtonClicked(function(_event)
         Tools.printDebug("-----------金币购买")
+        GameController.pauseGame()
+        GameDispatcher:dispatch(EventNames.EVENT_OPEN_SHOP)
     end)
     
     local jumpBtn = cc.uiloader:seekNodeByName(self.m_mapView,"JumpBtn")
