@@ -174,34 +174,6 @@ function GameController.attract(parameters)
                     return
                 end
             end
-            if not tolua.isnull(curPlayerL) then
-                local parent=curPlayerL:getParent()
-                local playP = cc.p(curPlayerL:getPosition())
-                local playSize = curPlayerL:getAreaSize()
-                local goldPos=gold:getParent():convertToWorldSpace(cc.p(gold:getPosition()))
-                local goldSize = gold:getSize()
-                local playerRect = cc.rect(playP.x,playP.y,playSize.width,playSize.height)
-                local goldRect = cc.rect(goldPos.x,goldPos.y,goldSize.width,goldSize.height)
-                if cc.rectIntersectsRect(goldRect,playerRect) then
-                    gold:collision()
-                    table.remove(goldBody,var)
-                    return
-                end
-            end
-            if not tolua.isnull(curPlayerR) then
-                local parent=curPlayerR:getParent()
-                local playP = cc.p(curPlayerR:getPosition())
-                local playSize = curPlayerR:getAreaSize()
-                local goldPos=gold:getParent():convertToWorldSpace(cc.p(gold:getPosition()))
-                local goldSize = gold:getSize()
-                local playerRect = cc.rect(playP.x,playP.y,playSize.width,playSize.height)
-                local goldRect = cc.rect(goldPos.x,goldPos.y,goldSize.width,goldSize.height)
-                if cc.rectIntersectsRect(goldRect,playerRect) then
-                    gold:collision()
-                    table.remove(goldBody,var)
-                    return
-                end
-            end
         else
             table.remove(goldBody,var)
         end
@@ -232,8 +204,8 @@ function GameController.detect(target,targetPos,radius,type)
     for var=#goldBody,1,-1 do
         local gold=goldBody[var]
         if not tolua.isnull(gold) and not gold:isDisposed() then
-            local fromP,toP = cc.p(gold:getPosition())
-            toP = cc.p(target:getPosition())
+            local fromP = cc.p(gold:getPosition())
+            local toP = cc.p(target:getPosition())
             if cc.pGetDistance(fromP,toP)<=radius then
                 gold:setAttract(target)
                 table.insert(movingObjs,gold)

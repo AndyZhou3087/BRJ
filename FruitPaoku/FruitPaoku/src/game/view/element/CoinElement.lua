@@ -93,11 +93,6 @@ function CoinElement:dispose(parameters)
     end
     self.m_isDisposed = true
     
-    if self.m_timer then
-        Scheduler.unscheduleGlobal(self.m_timer)
-        self.m_timer = nil
-    end
-    
     self.m_isAttract = false
     self.m_target = nil
     self.m_group = 0

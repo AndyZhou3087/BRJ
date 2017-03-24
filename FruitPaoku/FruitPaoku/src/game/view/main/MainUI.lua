@@ -16,6 +16,9 @@ function MainUI:init(parameters)
     self.m_json = cc.uiloader:load("json/MainUI.json")
     self:addChild(self.m_json)
 
+    local Label_8 = cc.uiloader:seekNodeByName(self.m_json,"Label_8")
+    Label_8:setPosition(cc.p(display.left+130,display.bottom+22))
+
     local Endlessbtn = cc.uiloader:seekNodeByName(self.m_json,"Endlessbtn")
     Endlessbtn:onButtonPressed(function(_event)    --按下
 --        _event.target:setScale(1.1)
@@ -41,6 +44,7 @@ function MainUI:init(parameters)
     end)
 
     self.Setbtn = cc.uiloader:seekNodeByName(self.m_json,"Setbtn")
+    self.Setbtn:setPosition(cc.p(display.right-40,display.bottom+36))
     self.Setbtn:onButtonClicked(function(event)
         self:MusicSoundSet()
     end)

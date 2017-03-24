@@ -14,6 +14,8 @@ local MapGroup = require("game.view.map.MapGroup")
 
 function MapLayer:ctor(parameters)
 
+    local lvSpeed = SelectLevel[GameDataManager.getCurLevelId()].speed
+    MoveSpeed = lvSpeed
     GameController.setSpeed(MoveSpeed)
     self.m_backbg = BackGroundMove.new(GameBgRes,0,MoveSpeed):addTo(self)
 
@@ -211,10 +213,10 @@ end
 function MapLayer:onEnterFrame(dt)
 
     --移动金币
---    GameController.attract()
+    GameController.attract()
 
---    local bpx,bpy = self.m_player:getPosition()
---    self.m_player:update(dt,bpx,bpy)
+    local bpx,bpy = self.m_player:getPosition()
+    self.m_player:update(dt,bpx,bpy)
 
     --跑了多少米换算公式
    self.pexel = self.pexel + MoveSpeed*0.1/(Pixel/Miles)

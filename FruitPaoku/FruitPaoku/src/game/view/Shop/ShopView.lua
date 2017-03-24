@@ -18,6 +18,15 @@ function ShopView:ctor(isPause)
     
     local commonui = CommonUI.new({isShop = true}):addTo(self)
     commonui:setPosition(cc.p(10,display.top-60))
+    
+    local Image_2 = cc.uiloader:seekNodeByName(self.m_shopUi,"Image_2")
+    Image_2:setPosition(cc.p(display.cx,display.cy))
+    local Image_3 = cc.uiloader:seekNodeByName(self.m_shopUi,"Image_3")
+    Image_3:setPosition(cc.p(display.cx,display.cy))
+    local Image_4 = cc.uiloader:seekNodeByName(self.m_shopUi,"Image_4")
+    Image_4:setPosition(cc.p(display.cx,display.cy))
+    local Image_5 = cc.uiloader:seekNodeByName(self.m_shopUi,"Image_5")
+    Image_5:setPosition(cc.p(display.cx,display.cy))
 
     local listContent = cc.uiloader:seekNodeByName(self.m_shopUi,"Panel_List")
     self.m_listSize = listContent:getCascadeBoundingBox().size

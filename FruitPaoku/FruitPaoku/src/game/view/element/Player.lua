@@ -31,6 +31,20 @@ function Player:ctor()
     self.p_siz=cc.size(self.m_armature:getCascadeBoundingBox().size.width*0.7,self.m_armature:getCascadeBoundingBox().size.height)
     self:addBody(cc.p(10,50),self.p_siz)
     
+    self.m_twoJump = false
+    self.m_isMagnet = false
+    local actSkill = RoleConfig[self.m_curModle].skillAct
+    for var=1, #actSkill do
+        if actSkill[var].type == PLAYER_ACT_TYPE.Twojump then
+    		self.m_twoJump = true
+        elseif actSkill[var].type == PLAYER_ACT_TYPE.Magnet then
+            self:magnetSkill(actSkill[var].radius)
+        elseif actSkill[var].type == PLAYER_ACT_TYPE.Protect then
+            self:protectSkill()
+    	end
+    end
+    
+    
     GameDispatcher:addListener(EventNames.EVENT_PLAYER_ATTACKED,handler(self,self.playerAttacked))
 
     --角色暂停和恢复
@@ -118,7 +132,7 @@ function Player:toMove(parameters)
             self.touchCount = 0
         end})
     else
-        if self.touchCount == 2 then
+        if self.touchCount == 2 and self.m_twoJump then
             self:stopAllActions()
             local direction = 1
             local m_pY
@@ -198,6 +212,10 @@ function Player:getSize(parameters)
     return self.p_siz
 end
 
+function Player:getAreaSize(parameters)
+    return self.p_siz
+end
+
 function Player:update(dt,_x,_y)
     if self.m_isMagnet then
         GameController.detect(self,cc.p(_x,_y),self.m_radius)
@@ -220,6 +238,11 @@ function Player:relive(parameters)
 end
 
 function Player:playerAttacked(parm)
+    if self:isInState(PLAYER_STATE.Defence) then
+    	self:clearBuff(PLAYER_STATE.Defence)
+    	return
+    end
+
     if self.m_jump and not parm.data.isSpecial then
         return
     end
@@ -266,6 +289,19 @@ function Player:sprinting(parameters)
     self:addChild(self.m_spdeffect,10)
 end
 
+--吸金币
+function Player:magnetSkill(radius)
+    self:addBuff({type=PLAYER_STATE.Magnet})
+    self.m_radius = radius
+    self.m_isMagnet = true
+end
+
+--护盾技能
+function Player:protectSkill(parameters)
+    self:addBuff({type=PLAYER_STATE.Defence})
+    --护盾特效
+end
+
 
 --判断玩家是否处于某种状态
 function Player:isInState(_state)
@@ -299,7 +335,7 @@ function Player:clearBuff(_type)
     end
 
     if bIsClear==true then
---        if _type==PLAYER_STATE.spring then
+        if _type==PLAYER_STATE.Defence then
 --            if self.m_handler then
 --                Scheduler.unscheduleGlobal(self.m_handler)
 --                self.m_handler = nil
@@ -310,8 +346,8 @@ function Player:clearBuff(_type)
 --                GameDispatcher:dispatch(EventNames.EVENT_FIGHT_TIER)
 --            end
 --            AudioManager.stopSoundEffect(AudioManager.Sound_Effect_Type.Spring_Sound)
---
---        end
+
+        end
     end
 
 end

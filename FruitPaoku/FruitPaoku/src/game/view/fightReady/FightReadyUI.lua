@@ -22,7 +22,7 @@ function FightReadyUI:ctor(parm)
     self:addChild(self.FightReady)
     
     local commonui = CommonUI.new():addTo(self)
-    commonui:setPosition(cc.p(10,display.top-60))
+    commonui:setPosition(cc.p(0,display.top-60))
     
     local _levelCon = 1  --关卡默认值
     if parm == GAME_TYPE.LevelMode then

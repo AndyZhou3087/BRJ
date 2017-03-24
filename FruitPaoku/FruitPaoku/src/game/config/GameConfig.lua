@@ -23,7 +23,7 @@ Pixel = 320
 Miles = 10
 
 --金币移动速度
-GOLD_SPEED=10
+GOLD_SPEED=26
 
 --地图当前ZOder
 MAP_ZORDER_MAX=0

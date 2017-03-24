@@ -10,9 +10,9 @@ POWER_RECOVER_TIME = 60*5
 --角色状态
 PLAYER_STATE=
     {
---        Sprint = 1,--冲刺
---        Invincible = 2,--无敌(绿巨人)
---        Defence = 3,--防御
+        Defence = 1,--护盾
+        Magnet = 2,--磁铁
+        
     }
 --角色动作
 PLAYER_ACTION=
@@ -36,7 +36,7 @@ RoleConfig={}
 RoleConfig[1]=
     {
         id = 1,
-        skillAct = {{type=PLAYER_ACT_TYPE.Magnet},{type=PLAYER_ACT_TYPE.Twojump},{type=PLAYER_ACT_TYPE.Protect},},    --主动技能
+        skillAct = {{type=PLAYER_ACT_TYPE.Magnet,radius = 300,},{type=PLAYER_ACT_TYPE.Protect},},    --主动技能
         armatureName = "nv_pao",   --动画工程名
         roleName = "囧囧",     --角色名称
         roleImg = "ui/role_2.png",   --角色图片
