@@ -73,6 +73,8 @@ function FightReadyUI:ctor(parm)
                         elseif var.cost.type == COST_TYPE.Diamond then
                             GameDataManager.costDiamond(var.cost.price)
                         end
+                        GameDataManager.addGoods(var.id,1)
+                        GameController.setStartProp(var.id,var.isSelect)
                     end
                 end
                 GAME_TYPE_CONTROL = GAME_TYPE.LevelMode

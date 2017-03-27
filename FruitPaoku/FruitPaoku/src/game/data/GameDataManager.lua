@@ -197,7 +197,6 @@ function GameDataManager.addGoods(_goodsId,_num)
     _goodsVo.num = _num
     table.insert(goodsList,_goodsVo)
     GameDataManager.SaveData()
-    GameDispatcher:dispatch(EventNames.EVENT_FIGHT_UPDATE_PROP,_goodsId)
 end
 
 --使用道具,此方法要检测玩家背包内是否拥有该道具(主动使用)
@@ -210,8 +209,6 @@ function GameDataManager.useGoods(_goodsId)
                 if var.num <= 0 then
                     table.remove(goodsList,key)
                 end
-                --刷新道具
-                GameDispatcher:dispatch(EventNames.EVENT_FIGHT_UPDATE_PROP,_goodsId)
                 return true
             else
                 return false
@@ -226,22 +223,28 @@ end
 function GameDataManager.useGoodsExp(_goodsId)
     local goodsCon = GoodsConfig[_goodsId]
     if goodsCon then
-        if goodsCon.type == GOODS_TYPE.MadCow then
-            Tools.printDebug("使用疯牛药剂")
-            GameDispatcher:dispatch(EventNames.EVENT_MAD_RUN,{time = goodsCon.time,index = goodsCon.speedIndex})
-        elseif goodsCon.type == GOODS_TYPE.TopSpeed then
-            Tools.printDebug("使用急速飞行")
-            GameDispatcher:dispatch(EventNames.EVENT_TOP_FLY,{time = goodsCon.time,index = goodsCon.speedIndex,radius = goodsCon.radius})
-        elseif goodsCon.type == GOODS_TYPE.DoubleScore then
-            Tools.printDebug("使用双倍得分")
-            GameController.doubleScore = 2
-        elseif goodsCon.type == GOODS_TYPE.Relive then
-            Tools.printDebug("生命接力")
-            --  GameDataManager.addGoods(_goodsId,1)
-            GameDispatcher:dispatch(EventNames.EVENT_LIFE,{time = goodsCon.time})
-        elseif goodsCon.type == GOODS_TYPE.Protect then
-            Tools.printDebug("使用保护罩")
-            GameDispatcher:dispatch(EventNames.EVENT_PROTECT,{time = goodsCon.time})
+        if goodsCon.type == GOODS_TYPE.StartSprint then
+            Tools.printDebug("使用开局冲刺")
+            GameController.setStartProp(_goodsId,false)
+            GameDispatcher:dispatch(EventNames.EVENT_START_SPRINT,{time = goodsCon.time,speed = goodsCon.speed})
+        elseif goodsCon.type == GOODS_TYPE.DeadSprint then
+            Tools.printDebug("使用死亡冲刺")
+            GameController.setStartProp(_goodsId,false)
+            GameDispatcher:dispatch(EventNames.EVENT_DEAD_SPRINT,{time = goodsCon.time,speed = goodsCon.speed})
+        elseif goodsCon.type == GOODS_TYPE.StartProtect then
+            Tools.printDebug("使用开局护盾")
+            GameController.setStartProp(_goodsId,false)
+            GameDispatcher:dispatch(EventNames.EVENT_START_PROTECT,{time = goodsCon.time})
+        elseif goodsCon.type == GOODS_TYPE.DeadComtinue then
+            Tools.printDebug("死亡接力")
+            GameController.setStartProp(_goodsId,false)
+            GameDispatcher:dispatch(EventNames.EVENT_DEAD_RELAY)
+        elseif goodsCon.type == GOODS_TYPE.Magnet then
+            Tools.printDebug("吸铁石")
+            GameDispatcher:dispatch(EventNames.EVENT_MANGET,{time = goodsCon.time,radius = goodsCon.radius})
+        elseif goodsCon.type == GOODS_TYPE.GrantDrink then
+            Tools.printDebug("巨人药水")
+            GameDispatcher:dispatch(EventNames.EVENT_GRANT_DRINK,{time = goodsCon.time,scale = goodsCon.scale})
         end
         return true
     else
@@ -306,6 +309,10 @@ function GameDataManager.unLockModle(_roleId)
     modleDic[_roleId] = _modleVo
     _modleVo.level = GameDataManager.updateUserLv(_roleId,RoleConfig[_roleId].initLv)
 end
+--角色皮肤数
+function GameDataManager.getRoleModelCount()
+	return #modleDic
+end
 
 --是否拥有相应角色
 function GameDataManager.getRoleModle(_roleId)
@@ -366,7 +373,7 @@ function GameDataManager.getMoneyRate(_roleId,_lv)
     end
 end
 
---获取当前角色被动技能磁铁时间
+--获取当前角色被动技能时间
 function GameDataManager.getUnActSkillTime(_roleId,_lv,type)
     local _roleLvObj = RoleLvs[_roleId][_lv]
     local _basic

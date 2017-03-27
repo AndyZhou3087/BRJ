@@ -37,6 +37,14 @@ function CoinElement:getSize()
     return self.m_size
 end
 
+function CoinElement:onEnterFrame()
+    local _x,_y = self:getPosition()
+    self:setPosition(_x-MoveSpeed*0.1,_y)
+    if self:getPositionX()<=-self:getSize().width then
+    	self:dispose()
+    end
+end
+
 --被碰触
 function CoinElement:collision()
 --    AudioManager.playSoundEffect(AudioManager.Sound_Effect_Type.Gold_Sound)

@@ -12,7 +12,7 @@ function Player:ctor()
     Player.super.ctor(self)
     self.m_vo = GameDataManager.getPlayerVo()
     self.m_hp = self.m_vo.m_hp
---    Tools.printDebug("-------------------角色数据： ",self.m_vo.m_hp,self.m_hp)
+
     self.m_buffArr = {} --buff列表
 
     --角色死亡
@@ -26,7 +26,6 @@ function Player:ctor()
     self.m_curModle = GameDataManager.getFightRole()
     local modle = RoleConfig[self.m_curModle].armatureName
     self:createModle(modle)
---    self:sprinting()
 
     self.p_siz=cc.size(self.m_armature:getCascadeBoundingBox().size.width*0.7,self.m_armature:getCascadeBoundingBox().size.height)
     self:addBody(cc.p(10,50),self.p_siz)
@@ -44,8 +43,23 @@ function Player:ctor()
     	end
     end
     
+    --控制随机数种子
+    math.randomseed(tostring(os.time()):reverse():sub(1, #RoleConfig))
     
+    --受伤害
     GameDispatcher:addListener(EventNames.EVENT_PLAYER_ATTACKED,handler(self,self.playerAttacked))
+    --开局冲刺
+    GameDispatcher:addListener(EventNames.EVENT_START_SPRINT,handler(self,self.sprinting))
+    --死亡冲刺
+    GameDispatcher:addListener(EventNames.EVENT_DEAD_SPRINT,handler(self,self.deadSprint))
+    --开局护盾
+    GameDispatcher:addListener(EventNames.EVENT_START_PROTECT,handler(self,self.startProtect))
+    --死亡接力
+    GameDispatcher:addListener(EventNames.EVENT_DEAD_RELAY,handler(self,self.deadRelay))
+    --吸铁石
+    GameDispatcher:addListener(EventNames.EVENT_MANGET,handler(self,self.manget))
+    --巨人药水
+    GameDispatcher:addListener(EventNames.EVENT_GRANT_DRINK,handler(self,self.grantDrink))
 
     --角色暂停和恢复
 --    GameDispatcher:addListener(EventNames.EVENT_PLAYER_PAUSE,handler(self,self.pause))
@@ -90,12 +104,13 @@ function Player:LevelWin()
     GameController.isWin = true
     
     transition.moveTo(self,{time = 1,x=display.right+100,y=self:getPositionY(),onComplete=function()
+        self:dispose()
         --弹结算界面
         GameDispatcher:dispatch(EventNames.EVENT_OPEN_OVER,{type=GAMEOVER_TYPE.Win})
     end})
 end
 
---重置角色状态(上跳和下夏洛状态)
+--重置角色状态
 function Player:reSetUD()
     self.m_jump = false
     self.m_run = true
@@ -217,15 +232,21 @@ function Player:getAreaSize(parameters)
 end
 
 function Player:update(dt,_x,_y)
-    if self.m_isMagnet then
+    if self.m_propManget then
+        GameController.detect(self,cc.p(_x,_y),self.m_propRadius)
+    elseif self.m_isMagnet then
         GameController.detect(self,cc.p(_x,_y),self.m_radius)
     end
 end
 
+--巨人药水
+function Player:grantDrink(parameters)
+	Tools.printDebug("----------巨人药水")
+    self.m_armature:setScale(parameters.data.scale)
+end
 
---角色复活
-function Player:relive(parameters)
-
+--死亡接力
+function Player:deadRelay(parameters)
     --清除所有buff
     for var=#self.m_buffArr,1,-1  do
         local _buff = self.m_buffArr[var]
@@ -234,13 +255,32 @@ function Player:relive(parameters)
         end
     end
     self.m_buffArr = {}
-
+    
+    self:reSetUD()
+    self.m_hp = self.m_vo.m_hp
+    
+    local old = self.m_armature
+    local random = math.random(1,GameDataManager.getRoleModelCount())
+    Tools.printDebug("-----------死亡接力..",random)
+    local modle = RoleConfig[random].armatureName
+    self:createModle(modle)
+    old:removeFromParent()
+    self.m_jump = false
+    self.m_run = true
 end
 
+--角色受伤害
 function Player:playerAttacked(parm)
     if self:isInState(PLAYER_STATE.Defence) then
     	self:clearBuff(PLAYER_STATE.Defence)
     	return
+    end
+    if self:isInState(PLAYER_STATE.StartProtect) then
+        self:clearBuff(PLAYER_STATE.StartProtect)
+        return
+    end
+    if self:isInState(PLAYER_STATE.StartSprint) or self:isInState(PLAYER_STATE.DeadSprint) then
+        return
     end
 
     if self.m_jump and not parm.data.isSpecial then
@@ -248,13 +288,26 @@ function Player:playerAttacked(parm)
     end
     self.m_hp = self.m_hp - parm.data.att
     if self.m_hp <= 0 then
-        self.m_isDead = true
-        GameController.isDead = true
-        self:death()
-        --弹结算界面
         Tools.printDebug("------------角色死亡..")
-        GameDispatcher:dispatch(EventNames.EVENT_OPEN_OVER,{type = GAMEOVER_TYPE.Fail})
+        self:deadFlash()
     end
+end
+
+--
+function Player:deadFlash(parameters)
+    --
+    Tools.delayCallFunc(0.1,function()
+        if GameController.getStartPropById(2) then
+            GameDataManager.useGoods(2)
+        elseif GameController.getStartPropById(4) then
+            GameDataManager.useGoods(4)
+        else
+            self:death()
+            --弹结算界面
+            GameDispatcher:dispatch(EventNames.EVENT_OPEN_OVER,{type = GAMEOVER_TYPE.Fail})
+        end
+    end)
+    
 end
 
 --角色死亡
@@ -267,6 +320,9 @@ function Player:death()
     MoveSpeed = 0
 --        self:getParent():toDelay()
 
+    self.m_isDead = true
+    GameController.isDead = true
+
     --清除所有buff
     for var=#self.m_buffArr,1,-1  do
         local _buff = self.m_buffArr[var]
@@ -278,15 +334,86 @@ function Player:death()
 
 end
 
+--吸铁石
+function Player:manget(parameters)
+	Tools.printDebug("--------吸铁石道具")
+	if self:isInState(PLAYER_STATE.MagnetProp) then
+        self:clearBuff(PLAYER_STATE.MagnetProp)
+	end
+	
+	self.m_propManget = true
+    self.m_propRadius = parameters.data.radius
+    
+    local _lv = GameDataManager.getRoleLevel(self.m_curModle)
+    local _time = parameters.data.time+GameDataManager.getUnActSkillTime(self.m_curModle,_lv,GOODS_TYPE.Magnet)
+    self:addBuff({type=PLAYER_STATE.MagnetProp,time = _time})
+    self.m_manHandler = Tools.delayCallFunc(parameters.data.time,function()
+        self:clearBuff(PLAYER_STATE.MagnetProp)
+    end)
+end
+
+--开局护盾
+function Player:startProtect(parameters)
+	Tools.printDebug("-----开局护盾")
+	--护盾特效
+	
+    self:addBuff({type=PLAYER_STATE.StartProtect,time = parameters.data.time})
+    self.m_proHandler = Tools.delayCallFunc(parameters.data.time,function()
+        self:clearBuff(PLAYER_STATE.StartProtect)
+    end)
+end
+
+--开局冲刺
 function Player:sprinting(parameters)
+
+    if self:isDead() then
+    	return
+    end
+    Tools.printDebug("-----------开局冲刺")
     --冲刺特效
     ccs.ArmatureDataManager:getInstance():addArmatureFileInfo("role/chongci0.png", "role/chongci0.plist" , "role/chongci.ExportJson")
     self.m_spdeffect = ccs.Armature:create("chongci")
     self.m_spdeffect:getAnimation():playWithIndex(0)
     self.m_spdeffect:setPosition(-10,60)
-
+    
     self:toPlay(PLAYER_ACTION.Run,0)
     self:addChild(self.m_spdeffect,10)
+    
+    self.oldX,self.oldY = self:getPosition()
+    self:setPosition(cc.p(display.cx,display.cy))
+    
+    self:addBuff({type=PLAYER_STATE.StartSprint,time = parameters.data.time})
+    self.initSpeed = MoveSpeed
+    MoveSpeed = parameters.data.speed
+    self.m_handler = Tools.delayCallFunc(parameters.data.time,function()
+        self:clearBuff(PLAYER_STATE.StartSprint)
+    end)
+    
+end
+
+function Player:deadSprint(parameters)
+    if self:isDead() then
+        return
+    end
+    Tools.printDebug("-----------死亡冲刺")
+    --冲刺特效
+    ccs.ArmatureDataManager:getInstance():addArmatureFileInfo("role/chongci0.png", "role/chongci0.plist" , "role/chongci.ExportJson")
+    self.m_deadDffect = ccs.Armature:create("chongci")
+    self.m_deadDffect:getAnimation():playWithIndex(0)
+    self.m_deadDffect:setPosition(-10,60)
+
+    self:toPlay(PLAYER_ACTION.Run,0)
+    self:addChild(self.m_deadDffect,10)
+
+    self.deadX,self.deadY = self:getPosition()
+    self:setPosition(cc.p(display.cx,display.cy))
+
+    self:addBuff({type=PLAYER_STATE.DeadSprint,time = parameters.data.time})
+    self.deadSpeed = MoveSpeed
+    MoveSpeed = parameters.data.speed
+    self.m_dHandler = Tools.delayCallFunc(parameters.data.time,function()
+        self:clearBuff(PLAYER_STATE.DeadSprint)
+    end)
 end
 
 --吸金币
@@ -335,17 +462,49 @@ function Player:clearBuff(_type)
     end
 
     if bIsClear==true then
-        if _type==PLAYER_STATE.Defence then
---            if self.m_handler then
---                Scheduler.unscheduleGlobal(self.m_handler)
---                self.m_handler = nil
---            end
---
---            if not tolua.isnull(self.m_armature) then
---                self:toPlay(PLAYER_ACTION.Run)
---                GameDispatcher:dispatch(EventNames.EVENT_FIGHT_TIER)
---            end
---            AudioManager.stopSoundEffect(AudioManager.Sound_Effect_Type.Spring_Sound)
+        if _type==PLAYER_STATE.StartSprint then
+            if self.m_handler then
+                Scheduler.unscheduleGlobal(self.m_handler)
+                self.m_handler = nil
+            end
+            if not tolua.isnull(self.m_spdeffect) then
+                self.m_spdeffect:removeFromParent()
+                self.m_spdeffect = nil
+            end
+            self:toPlay(PLAYER_ACTION.Run)
+            self:setPosition(cc.p(self.oldX,self.oldY))
+            self.oldX,self.oldY = nil,nil
+            MoveSpeed = self.initSpeed
+            self.initSpeed = nil
+        elseif _type == PLAYER_STATE.DeadSprint then
+            if self.m_dHandler then
+                Scheduler.unscheduleGlobal(self.m_dHandler)
+                self.m_dHandler = nil
+            end
+            if not tolua.isnull(self.m_deadDffect) then
+                self.m_deadDffect:removeFromParent()
+                self.m_deadDffect = nil
+            end
+            self:toPlay(PLAYER_ACTION.Run)
+            self:setPosition(cc.p(self.deadX,self.deadY))
+            self.deadX,self.deadY = nil,nil
+            MoveSpeed = self.deadSpeed
+            self.deadSpeed = nil
+            self:deadFlash()
+            
+        elseif _type == PLAYER_STATE.StartProtect then
+            if self.m_proHandler then
+                Scheduler.unscheduleGlobal(self.m_proHandler)
+                self.m_proHandler = nil
+            end
+            --移除护盾特效
+        
+        elseif _type == PLAYER_STATE.MagnetProp then
+            self.m_propManget = false
+            if self.m_manHandler then
+                Scheduler.unscheduleGlobal(self.m_manHandler)
+                self.m_manHandler = nil
+            end
 
         end
     end
@@ -424,20 +583,38 @@ end
 
 function Player:dispose()
 
---    if self.m_handler then
---        Scheduler.unscheduleGlobal(self.m_handler)
---        self.m_handler = nil
---    end
     GameDispatcher:removeListenerByName(EventNames.EVENT_PLAYER_ATTACKED)
+    GameDispatcher:removeListenerByName(EventNames.EVENT_START_SPRINT)
+    GameDispatcher:removeListenerByName(EventNames.EVENT_DEAD_SPRINT)
+    GameDispatcher:removeListenerByName(EventNames.EVENT_START_PROTECT)
+    GameDispatcher:removeListenerByName(EventNames.EVENT_DEAD_RELAY)
+    GameDispatcher:removeListenerByName(EventNames.EVENT_MANGET)
+    GameDispatcher:removeListenerByName(EventNames.EVENT_GRANT_DRINK)
+    
     self.m_isDead = false
     GameController.isDead = false
     self.m_jump = false
     self.m_run = true
     GameController.isWin = false
-
-    if self.m_flyHandler then
-        Scheduler.unscheduleGlobal(self.m_flyHandler)
-        self.m_flyHandler = nil
+    
+    if self.m_handler then
+        Scheduler.unscheduleGlobal(self.m_handler)
+        self.m_handler = nil
+    end
+    
+    if self.m_dHandler then
+        Scheduler.unscheduleGlobal(self.m_dHandler)
+        self.m_dHandler = nil
+    end
+    
+    if self.m_proHandler then
+        Scheduler.unscheduleGlobal(self.m_proHandler)
+        self.m_proHandler = nil
+    end
+    
+    if self.m_manHandler then
+        Scheduler.unscheduleGlobal(self.m_manHandler)
+        self.m_manHandler = nil
     end
 
     if self.m_dropLifeHandle then

@@ -13,6 +13,7 @@ function MapView:ctor(parameters)
 
     --得到当前关卡
     self.m_currentl = GameDataManager.getCurLevelId()
+    self.mcurLevelCoin = 0
     
     local Image_3_0 = cc.uiloader:seekNodeByName(self.m_mapView,"Image_3_0")
     Image_3_0:setPositionX(display.right-290)
@@ -48,6 +49,7 @@ function MapView:ctor(parameters)
     self.m_goldNum = cc.uiloader:seekNodeByName(self.m_mapView,"Gold") --金币数量
     self.m_goldNum:setString(self.mcurLevelCoin)
     local GoldBtn = cc.uiloader:seekNodeByName(self.m_mapView,"GoldBtn")
+    GoldBtn:setVisible(false)
     GoldBtn:onButtonClicked(function(_event)
         Tools.printDebug("-----------金币购买")
         GameController.pauseGame()
@@ -56,8 +58,10 @@ function MapView:ctor(parameters)
     
     local jumpBtn = cc.uiloader:seekNodeByName(self.m_mapView,"JumpBtn")
     jumpBtn:onButtonClicked(function(_event)
-        GameController.getCurPlayer():toPlay(PLAYER_ACTION.Jump,0)
-        GameController.getCurPlayer():toMove()
+        if not GameController.isWin and not GameController.isDead and not GameController.isInState(PLAYER_STATE.StartSprint) then
+            GameController.getCurPlayer():toPlay(PLAYER_ACTION.Jump,0)
+            GameController.getCurPlayer():toMove()
+        end
     end)
 
 

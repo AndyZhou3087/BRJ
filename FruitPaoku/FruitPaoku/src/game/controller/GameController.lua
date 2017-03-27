@@ -10,6 +10,9 @@ GameController.overFrame = false
 GameController.isDead = false
 GameController.isWin = false
 
+--额外吸附物品
+GameController.Adsorb_Ex_Goods = 1
+
 local _isPause = false
 local _curSpeed = 0
 
@@ -98,48 +101,69 @@ function GameController.getCurMap(parameters)
 	return curMapLayer
 end
 
+--已选中开局道具
+local startProp = {}
+function GameController.setStartProp(id,_enable)
+    if not startProp[id] then
+    	startProp[id] = {}
+    end
+    startProp[id].id = id
+    startProp[id].isSelect = _enable
+end
+function GameController.getStartPropById(id)
+    if not startProp[id] then
+    	return false
+    end
+    return startProp[id].isSelect
+end
+function GameController.getStartProp(parameters)
+    return startProp
+end
+function GameController.resetStartProp(parameters)
+	startProp = {}
+end
 
 --组合排序
-function GameController.getSorting(arr)
-   local configArr = {}
-   for key, var in pairs(arr) do
-        table.insert(configArr,var)
-   end
-   for vr=1, #configArr do
-        for var=vr+1, #configArr do
-            if configArr[vr].probability > configArr[var].probability then
-            	local temp
-                temp = configArr[vr]
-                configArr[vr] = configArr[var]
-                configArr[var] = temp
-            end
-        end
-   end
-   return configArr
-end
---组合总权重
-function GameController.getTotalWeight(arr)
-	local _weight = 0
-	for var=1, #arr do
-        _weight = _weight + arr[var].probability
-	end
-	return _weight
-end
---按权重抽取一组数据
-function GameController.getDataIdByWeight(_wegt,sorArr)
-    local weight = math.random(1,_wegt)
-    local t = 0
-    --得到当前id
-    local id = 0
-    for var=1, #sorArr do
-        t = t + sorArr[var].probability
-        if t >= weight then
-            id = sorArr[var]._id
-            return id
-        end
-    end
-    return id
-end
+--function GameController.getSorting(arr)
+--   local configArr = {}
+--   for key, var in pairs(arr) do
+--        table.insert(configArr,var)
+--   end
+--   for vr=1, #configArr do
+--        for var=vr+1, #configArr do
+--            if configArr[vr].probability > configArr[var].probability then
+--            	local temp
+--                temp = configArr[vr]
+--                configArr[vr] = configArr[var]
+--                configArr[var] = temp
+--            end
+--        end
+--   end
+--   return configArr
+--end
+----组合总权重
+--function GameController.getTotalWeight(arr)
+--	local _weight = 0
+--	for var=1, #arr do
+--        _weight = _weight + arr[var].probability
+--	end
+--	return _weight
+--end
+----按权重抽取一组数据
+--function GameController.getDataIdByWeight(_wegt,sorArr)
+--    local weight = math.random(1,_wegt)
+--    local t = 0
+--    --得到当前id
+--    local id = 0
+--    for var=1, #sorArr do
+--        t = t + sorArr[var].probability
+--        if t >= weight then
+--            id = sorArr[var]._id
+--            return id
+--        end
+--    end
+--    return id
+--end
 
 
 --添加金币
@@ -217,31 +241,34 @@ function GameController.detect(target,targetPos,radius,type)
         end
     end
 
-    for var=#goodBody,1,-1 do
-        local good=goodBody[var]
-        if not tolua.isnull(good) then
-            local fromP,toP
-            local parent=target:getParent()
-            local pw= good:convertToWorldSpace(cc.p(0,0))
-            fromP=parent:convertToNodeSpace(pw)
-            toP=targetPos
-            if cc.pGetDistance(fromP,toP)<=radius then
-                good:setAttract(target)
-                good:setRetain()
-                good:removeFromParent(false)
+    if type == GameController.Adsorb_Ex_Goods then
+        for var=#goodBody,1,-1 do
+            local good=goodBody[var]
+            if not tolua.isnull(good) then
+                local fromP,toP
+                local parent=target:getParent()
+                local pw= good:convertToWorldSpace(cc.p(0,0))
+                fromP=parent:convertToNodeSpace(pw)
+                toP=targetPos
+                if cc.pGetDistance(fromP,toP)<=radius then
+                    good:setAttract(target)
+                    good:setRetain()
+                    good:removeFromParent(false)
 
-                parent:addChild(good,MAP_ZORDER_MAX)
-                good:setPosition(fromP.x,fromP.y)
+                    parent:addChild(good,MAP_ZORDER_MAX)
+                    good:setPosition(fromP.x,fromP.y)
 
-                table.insert(movingObjs,good)
+                    table.insert(movingObjs,good)
+                    table.remove(goodBody,var)
+
+                    GameController._coinCheckMove(good,fromP,toP,var,goodBody)
+                end
+            else
                 table.remove(goodBody,var)
-
-                GameController._coinCheckMove(good,fromP,toP,var,goodBody)
             end
-        else
-            table.remove(goodBody,var)
         end
     end
+    
 end
 
 function GameController.stopDetect()

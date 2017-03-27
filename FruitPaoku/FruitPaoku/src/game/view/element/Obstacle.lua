@@ -11,6 +11,7 @@ local Special_MATERIAL=cc.PhysicsMaterial(0,0,0)
 local ObstacleVo = require("game.data.ObstacleVo")
 
 local Flash_Skeep_Time = 0.25
+local Delay_Time = 1.5
 
 function Obstacle:ctor(id,py)
     Obstacle.super.ctor(self)
@@ -161,15 +162,15 @@ function Obstacle:executeMove(parameters)
     local toFadeOut 
     toFadeOut = function(parameters)
         if not tolua.isnull(self.tip_1) then
-            transition.fadeOut(self.tip_1,{time=Flash_Skeep_Time,onComplete=function()
-                transition.fadeIn(self.tip_1,{time=Flash_Skeep_Time,onComplete=function()
+            transition.fadeOut(self.tip_1,{time=Flash_Skeep_Time/(MoveSpeed/SelectLevel[GameDataManager.getCurLevelId()].speed),onComplete=function()
+                transition.fadeIn(self.tip_1,{time=Flash_Skeep_Time/(MoveSpeed/SelectLevel[GameDataManager.getCurLevelId()].speed),onComplete=function()
                     toFadeOut()
                 end})
             end})
         end
     end
     toFadeOut()
-    self.tipsTime = Tools.delayCallFunc(1.5,function()
+    self.tipsTime = Tools.delayCallFunc(Delay_Time/(MoveSpeed/SelectLevel[GameDataManager.getCurLevelId()].speed),function()
         transition.stopTarget(self.tip_1)
         if not tolua.isnull(self.tip_1) then
             self.tip_1:removeFromParent()
@@ -196,7 +197,7 @@ function Obstacle:collision(_type)
     if self.m_vo.m_type == OBSTACLE_TYPE.special then
         GameDispatcher:dispatch(EventNames.EVENT_PLAYER_ATTACKED,{isSpecial = true,att = self.m_vo.m_att})
     else
-        if GameController.isInState(PLAYER_STATE.Defence) then
+        if GameController.isInState(PLAYER_STATE.Defence) or GameController.isInState(PLAYER_STATE.StartProtect) then
             GameDispatcher:dispatch(EventNames.EVENT_PLAYER_ATTACKED,{isSpecial = false,att = self.m_vo.m_att})
             self.obcon:setVisible(false)
             self.m_dEffect:setVisible(true)

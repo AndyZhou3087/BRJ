@@ -60,6 +60,12 @@ function GameScene:onEnter()
 
     Tools.delayCallFunc(0.001,function()
         self.m_map:initPhyPos()
+        if GameController.getStartPropById(1) then
+        	GameDataManager.useGoods(1)
+        end
+        if GameController.getStartPropById(3) then
+        	GameDataManager.useGoods(3)
+        end
     end)
 
     self.m_handlerStart=Tools.delayCallFunc(0.1,handler(self,self.updateStart))

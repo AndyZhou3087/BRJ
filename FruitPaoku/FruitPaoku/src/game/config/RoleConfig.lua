@@ -12,7 +12,11 @@ PLAYER_STATE=
     {
         Defence = 1,--护盾
         Magnet = 2,--磁铁
-        
+        StartSprint = 3,--开局冲刺状态
+        DeadSprint = 4,--死亡冲刺状态
+        StartProtect = 5,  --开局护盾状态
+        MagnetProp = 6, --吸铁石道具
+        GrankDrink = 7, --巨人状态
     }
 --角色动作
 PLAYER_ACTION=
@@ -36,7 +40,7 @@ RoleConfig={}
 RoleConfig[1]=
     {
         id = 1,
-        skillAct = {{type=PLAYER_ACT_TYPE.Magnet,radius = 300,},{type=PLAYER_ACT_TYPE.Protect},},    --主动技能
+        skillAct = {},    --主动技能
         armatureName = "nv_pao",   --动画工程名
         roleName = "囧囧",     --角色名称
         roleImg = "ui/role_2.png",   --角色图片
@@ -63,7 +67,7 @@ RoleConfig[1]=
 RoleConfig[2]=
     {
         id = 2,
-        skillAct = {{type=PLAYER_ACT_TYPE.Magnet},{type=PLAYER_ACT_TYPE.Twojump},{type=PLAYER_ACT_TYPE.Protect},},    --主动技能
+        skillAct = {{type=PLAYER_ACT_TYPE.Magnet,radius = 300,}},    --主动技能
         armatureName = "nan3",   --动画工程名
         roleName = "囧囧",     --角色名称
         roleImg = "ui/role_1.png",   --角色图片
@@ -91,7 +95,7 @@ RoleConfig[2]=
 RoleConfig[3]=
     {
         id = 3,
-        skillAct = {{type=PLAYER_ACT_TYPE.Magnet},{type=PLAYER_ACT_TYPE.Twojump},{type=PLAYER_ACT_TYPE.Protect},},    --主动技能
+        skillAct = {{type=PLAYER_ACT_TYPE.Twojump},{type=PLAYER_ACT_TYPE.Protect},},    --主动技能
         armatureName = "nan4",   --动画工程名
         roleName = "囧囧",     --角色名称
         roleImg = "ui/role_4.png",   --角色图片
@@ -119,7 +123,7 @@ RoleConfig[3]=
 RoleConfig[4]=
     {
         id = 4,
-        skillAct = {{type=PLAYER_ACT_TYPE.Magnet},{type=PLAYER_ACT_TYPE.Twojump},{type=PLAYER_ACT_TYPE.Protect},},    --主动技能
+        skillAct = {{type=PLAYER_ACT_TYPE.Twojump},{type=PLAYER_ACT_TYPE.Protect},},    --主动技能
         armatureName = "nan5",   --动画工程名
         roleName = "囧囧",     --角色名称
         roleImg = "ui/role_5.png",   --角色图片
@@ -147,7 +151,7 @@ RoleConfig[4]=
 RoleConfig[5]=
     {
         id = 5,
-        skillAct = {{type=PLAYER_ACT_TYPE.Magnet},{type=PLAYER_ACT_TYPE.Twojump},{type=PLAYER_ACT_TYPE.Protect},},    --主动技能
+        skillAct = {{type=PLAYER_ACT_TYPE.Twojump},{type=PLAYER_ACT_TYPE.Protect},},    --主动技能
         armatureName = "nan6",   --动画工程名
         roleName = "囧囧",     --角色名称
         roleImg = "ui/role_3.png",   --角色图片

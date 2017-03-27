@@ -32,9 +32,10 @@ GoodsConfig[1]=
         type = GOODS_TYPE.StartSprint,       --道具类型
         discrebe = "开局冲刺",
         res = "ui/Prop_2.png",
-        time = 8,   --时间(单位：秒)
+        time = 2,   --时间(单位：秒)
         msg = "化身重甲疯牛，所向披靡",     --道具信息
-        cost = {type = COST_TYPE.Gold,price = 25}   --道具价格{type:购买类型1金币，2钻石，price为价格}
+        cost = {type = COST_TYPE.Gold,price = 25},   --道具价格{type:购买类型1金币，2钻石，price为价格}
+        speed = 200,
     }
 
 GoodsConfig[2]=
@@ -43,9 +44,10 @@ GoodsConfig[2]=
         type = GOODS_TYPE.DeadSprint,       --道具类型
         discrebe = "死亡冲刺",
         res = "ui/Prop_2.png",
-        time = 8,   --时间(单位：秒)
+        time = 2,   --时间(单位：秒)
         msg = "化身重甲疯牛，所向披靡",     --道具信息
-        cost = {type = COST_TYPE.Gold,price = 25}   --道具价格{type:购买类型1金币，2钻石，price为价格}
+        cost = {type = COST_TYPE.Gold,price = 25},   --道具价格{type:购买类型1金币，2钻石，price为价格}
+        speed = 200,
     }
 
 GoodsConfig[3]=
@@ -54,7 +56,7 @@ GoodsConfig[3]=
         type = GOODS_TYPE.StartProtect,       --道具类型
         discrebe = "开局护盾",
         res = "ui/Prop_2.png",
-        time = 8,   --时间(单位：秒)
+        time = 13,   --时间(单位：秒)
         msg = "化身重甲疯牛，所向披靡",     --道具信息
         cost = {type = COST_TYPE.Gold,price = 25}   --道具价格{type:购买类型1金币，2钻石，price为价格}
     }
@@ -98,7 +100,7 @@ GoodsConfig[7]=
         type = GOODS_TYPE.Magnet,       --道具类型
         discrebe = "吸铁石",
         res = "ui/Prop_2.png",
-        time = 8,   --时间(单位：秒)
+        time = 2,   --时间(单位：秒)
         radius = 300,  --磁铁吸附半径
         msg = "化身重甲疯牛，所向披靡",     --道具信息
         cost = {type = COST_TYPE.Gold,price = 25}
@@ -112,7 +114,8 @@ GoodsConfig[8]=
         res = "ui/Prop_2.png",
         time = 8,   --时间(单位：秒)
         msg = "化身重甲疯牛，所向披靡",     --道具信息
-        cost = {type = COST_TYPE.Gold,price = 25}
+        cost = {type = COST_TYPE.Gold,price = 25},
+        scale = 1.5,  --巨人放大倍数
     }
     
 GoodsConfig[9]=
