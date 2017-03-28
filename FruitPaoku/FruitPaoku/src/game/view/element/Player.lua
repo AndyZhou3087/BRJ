@@ -62,8 +62,8 @@ function Player:ctor()
     GameDispatcher:addListener(EventNames.EVENT_GRANT_DRINK,handler(self,self.grantDrink))
 
     --角色暂停和恢复
---    GameDispatcher:addListener(EventNames.EVENT_PLAYER_PAUSE,handler(self,self.pause))
---    GameDispatcher:addListener(EventNames.EVENT_PLAYER_REGAIN,handler(self,self.regain))
+    GameDispatcher:addListener(EventNames.EVENT_PLAYER_PAUSE,handler(self,self.pause))
+    GameDispatcher:addListener(EventNames.EVENT_PLAYER_REGAIN,handler(self,self.regain))
 
 end
 
@@ -102,6 +102,16 @@ end
 --闯关胜利后滑行一段距离
 function Player:LevelWin()
     GameController.isWin = true
+    
+    --清除所有buff
+    for var=#self.m_buffArr,1,-1  do
+        local _buff = self.m_buffArr[var]
+        if _buff then
+            self:clearBuff(_buff:getType())
+        end
+    end
+    self.m_buffArr = {}
+    MoveSpeed = 0
     
     transition.moveTo(self,{time = 1,x=display.right+100,y=self:getPositionY(),onComplete=function()
         self:dispose()
@@ -242,7 +252,28 @@ end
 --巨人药水
 function Player:grantDrink(parameters)
 	Tools.printDebug("----------巨人药水")
+	if self:isInState(PLAYER_STATE.GrankDrink) then
+		return
+	end
+	
+    local _lv = GameDataManager.getRoleLevel(self.m_curModle)
+    local _time = parameters.data.time+GameDataManager.getUnActSkillTime(self.m_curModle,_lv,GOODS_TYPE.GrantDrink)
+    self:addBuff({type=PLAYER_STATE.GrankDrink,time = _time})
+    self.m_grankHandler = Tools.delayCallFunc(parameters.data.time,function()
+        self:clearBuff(PLAYER_STATE.GrankDrink)
+    end)
+    GameDataManager.setGamePropTime(PLAYER_STATE.GrankDrink,_time)
+    
     self.m_armature:setScale(parameters.data.scale)
+    self.m_body:removeFromWorld()
+    local _size = cc.size(self.m_armature:getCascadeBoundingBox().size.width*0.6*parameters.data.scale,
+        self.m_armature:getCascadeBoundingBox().size.height*parameters.data.scale*0.7)
+    
+    if self:isInState(PLAYER_STATE.StartSprint) or self:isInState(PLAYER_STATE.DeadSprint) then
+        self:addBody(cc.p(10,80),_size)
+    else
+        self:addBody(cc.p(10,-80),_size)
+    end
 end
 
 --死亡接力
@@ -271,13 +302,13 @@ end
 
 --角色受伤害
 function Player:playerAttacked(parm)
-    if self:isInState(PLAYER_STATE.Defence) then
-    	self:clearBuff(PLAYER_STATE.Defence)
-    	return
-    end
     if self:isInState(PLAYER_STATE.StartProtect) then
         self:clearBuff(PLAYER_STATE.StartProtect)
         return
+    end
+    if self:isInState(PLAYER_STATE.Defence) then
+    	self:clearBuff(PLAYER_STATE.Defence)
+    	return
     end
     if self:isInState(PLAYER_STATE.StartSprint) or self:isInState(PLAYER_STATE.DeadSprint) then
         return
@@ -338,7 +369,7 @@ end
 function Player:manget(parameters)
 	Tools.printDebug("--------吸铁石道具")
 	if self:isInState(PLAYER_STATE.MagnetProp) then
-        self:clearBuff(PLAYER_STATE.MagnetProp)
+        return
 	end
 	
 	self.m_propManget = true
@@ -350,6 +381,7 @@ function Player:manget(parameters)
     self.m_manHandler = Tools.delayCallFunc(parameters.data.time,function()
         self:clearBuff(PLAYER_STATE.MagnetProp)
     end)
+    GameDataManager.setGamePropTime(PLAYER_STATE.MagnetProp,_time)
 end
 
 --开局护盾
@@ -358,9 +390,9 @@ function Player:startProtect(parameters)
 	--护盾特效
 	
     self:addBuff({type=PLAYER_STATE.StartProtect,time = parameters.data.time})
-    self.m_proHandler = Tools.delayCallFunc(parameters.data.time,function()
-        self:clearBuff(PLAYER_STATE.StartProtect)
-    end)
+--    self.m_proHandler = Tools.delayCallFunc(parameters.data.time,function()
+--        self:clearBuff(PLAYER_STATE.StartProtect)
+--    end)
 end
 
 --开局冲刺
@@ -389,8 +421,10 @@ function Player:sprinting(parameters)
         self:clearBuff(PLAYER_STATE.StartSprint)
     end)
     
+    GameDataManager.setGamePropTime(PLAYER_STATE.StartSprint,parameters.data.time,parameters.data.speed)
+    
 end
-
+--死亡冲刺
 function Player:deadSprint(parameters)
     if self:isDead() then
         return
@@ -414,6 +448,8 @@ function Player:deadSprint(parameters)
     self.m_dHandler = Tools.delayCallFunc(parameters.data.time,function()
         self:clearBuff(PLAYER_STATE.DeadSprint)
     end)
+    
+    GameDataManager.setGamePropTime(PLAYER_STATE.DeadSprint,parameters.data.time,parameters.data.speed)
 end
 
 --吸金币
@@ -505,7 +541,14 @@ function Player:clearBuff(_type)
                 Scheduler.unscheduleGlobal(self.m_manHandler)
                 self.m_manHandler = nil
             end
-
+        elseif _type == PLAYER_STATE.GrankDrink then
+            if self.m_grankHandler then
+                Scheduler.unscheduleGlobal(self.m_grankHandler)
+                self.m_grankHandler = nil
+            end
+            self.m_armature:setScale(1)
+            self.m_body:removeFromWorld()
+            self:addBody(cc.p(10,50),self.p_siz)
         end
     end
 
@@ -558,26 +601,74 @@ end
 function Player:pause(parameters)
     Tools.printDebug("角色游戏暂停")
     if not tolua.isnull(self.m_armature) then
---        if self:isInState(PLAYER_STATE.topfly) then
---            Tools.printDebug("卸载急速飞行定时器")
---            if  self.m_flyHandler then
---                Scheduler.unscheduleGlobal(self.m_flyHandler)
---                self.m_flyHandler = nil
---            end
---        end
+        if self:isInState(PLAYER_STATE.MagnetProp) then
+            Tools.printDebug("卸载吸铁石定时器")
+            GameDataManager.setGamePauseTime(PLAYER_STATE.MagnetProp)
+            if self.m_manHandler then
+                Scheduler.unscheduleGlobal(self.m_manHandler)
+                self.m_manHandler = nil
+            end
+        end
+        if self:isInState(PLAYER_STATE.GrankDrink) then
+            Tools.printDebug("卸载巨人定时器")
+            GameDataManager.setGamePauseTime(PLAYER_STATE.GrankDrink)
+            if  self.m_grankHandler then
+                Scheduler.unscheduleGlobal(self.m_grankHandler)
+                self.m_grankHandler = nil
+            end
+        end
+        if self:isInState(PLAYER_STATE.StartSprint) then
+            Tools.printDebug("卸载开局冲刺定时器")
+            GameDataManager.setGamePauseTime(PLAYER_STATE.StartSprint)
+            if  self.m_handler then
+                Scheduler.unscheduleGlobal(self.m_handler)
+                self.m_handler = nil
+            end
+        end
+        if self:isInState(PLAYER_STATE.DeadSprint) then
+            Tools.printDebug("卸载死亡冲刺定时器")
+            GameDataManager.setGamePauseTime(PLAYER_STATE.DeadSprint)
+            if  self.m_dHandler then
+                Scheduler.unscheduleGlobal(self.m_dHandler)
+                self.m_dHandler = nil
+            end
+        end
     end
 end
 
 function Player:regain(parameters)
     Tools.printDebug("角色游戏恢复")
     if not tolua.isnull(self.m_armature) then
---        if self:isInState(PLAYER_STATE.topfly) then
---            Tools.printDebug("重启急速飞行定时器")
---            MoveSpeed = GameController.getSpeed() * GoodsConfig[GOODS_TYPE.TopSpeed].speedIndex
---            self.m_flyHandler = Tools.delayCallFunc(GameController.getGoodsGoonTime(GOON_TAG.TopSpeed),function()
---                self:clearBuff(PLAYER_STATE.topfly)
---            end)
---        end
+        if self:isInState(PLAYER_STATE.MagnetProp) then
+            Tools.printDebug("重启吸铁石定时器")
+            GameDataManager.setGamePropTime(PLAYER_STATE.MagnetProp,GameDataManager.getLeftTime(PLAYER_STATE.MagnetProp))
+            self.m_manHandler = Tools.delayCallFunc(GameDataManager.getLeftTime(PLAYER_STATE.MagnetProp),function()
+                self:clearBuff(PLAYER_STATE.MagnetProp)
+            end)
+        end
+        if self:isInState(PLAYER_STATE.GrankDrink) then
+            Tools.printDebug("重启巨人定时器")
+            GameDataManager.setGamePropTime(PLAYER_STATE.GrankDrink,GameDataManager.getLeftTime(PLAYER_STATE.GrankDrink))
+            self.m_grankHandler = Tools.delayCallFunc(GameDataManager.getLeftTime(PLAYER_STATE.GrankDrink),function()
+                self:clearBuff(PLAYER_STATE.GrankDrink)
+            end)
+        end
+        if self:isInState(PLAYER_STATE.StartSprint) then
+            MoveSpeed = GameDataManager.getMapSpeed(PLAYER_STATE.StartSprint)
+            GameDataManager.setGamePropTime(PLAYER_STATE.StartSprint,GameDataManager.getLeftTime(PLAYER_STATE.StartSprint),MoveSpeed)
+            self.m_handler = Tools.delayCallFunc(GameDataManager.getLeftTime(PLAYER_STATE.StartSprint),function()
+                self:clearBuff(PLAYER_STATE.StartSprint)
+            end)
+            Tools.printDebug("重启开局冲刺定时器",MoveSpeed)
+        end
+        if self:isInState(PLAYER_STATE.DeadSprint) then
+            Tools.printDebug("重启死亡冲刺定时器")
+            MoveSpeed = GameDataManager.getMapSpeed(PLAYER_STATE.DeadSprint)
+            GameDataManager.setGamePropTime(PLAYER_STATE.DeadSprint,GameDataManager.getLeftTime(PLAYER_STATE.DeadSprint),MoveSpeed)
+            self.m_dHandler = Tools.delayCallFunc(GameDataManager.getLeftTime(PLAYER_STATE.DeadSprint),function()
+                self:clearBuff(PLAYER_STATE.DeadSprint)
+            end)
+        end
     end
 end
 
@@ -590,6 +681,8 @@ function Player:dispose()
     GameDispatcher:removeListenerByName(EventNames.EVENT_DEAD_RELAY)
     GameDispatcher:removeListenerByName(EventNames.EVENT_MANGET)
     GameDispatcher:removeListenerByName(EventNames.EVENT_GRANT_DRINK)
+    GameDispatcher:removeListenerByName(EventNames.EVENT_PLAYER_PAUSE)
+    GameDispatcher:removeListenerByName(EventNames.EVENT_PLAYER_REGAIN)
     
     self.m_isDead = false
     GameController.isDead = false
@@ -615,6 +708,10 @@ function Player:dispose()
     if self.m_manHandler then
         Scheduler.unscheduleGlobal(self.m_manHandler)
         self.m_manHandler = nil
+    end
+    if self.m_grankHandler then
+        Scheduler.unscheduleGlobal(self.m_grankHandler)
+        self.m_grankHandler = nil
     end
 
     if self.m_dropLifeHandle then

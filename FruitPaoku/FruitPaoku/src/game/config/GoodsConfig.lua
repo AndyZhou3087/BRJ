@@ -32,7 +32,7 @@ GoodsConfig[1]=
         type = GOODS_TYPE.StartSprint,       --道具类型
         discrebe = "开局冲刺",
         res = "ui/Prop_2.png",
-        time = 2,   --时间(单位：秒)
+        time = 20,   --时间(单位：秒)
         msg = "化身重甲疯牛，所向披靡",     --道具信息
         cost = {type = COST_TYPE.Gold,price = 25},   --道具价格{type:购买类型1金币，2钻石，price为价格}
         speed = 200,
@@ -77,7 +77,7 @@ GoodsConfig[5]=
         id = 5,
         type = GOODS_TYPE.RandomReward,       --道具类型
         discrebe = "随机抽奖",
-        res = "ui/Prop_2.png",
+        res = "ui/Prop_4.png",
         msg = "化身重甲疯牛，所向披靡",     --道具信息
         cost = {type = COST_TYPE.Gold,price = 25}
     }
@@ -90,7 +90,8 @@ GoodsConfig[6]=
         res = "ui/Prop_2.png",
         reward = {{id=1,count=1},},
         msg = "化身重甲疯牛，所向披靡",     --道具信息
-        cost = {type = COST_TYPE.Gold,price = 25}
+        cost = {type = COST_TYPE.Gold,price = 25},
+        content = {{goodId = 1,count=9},{goodId = 2,count=9},{goodId = 3,count=9},{goodId = 4,count=9},}
     }
     
 --游戏中道具   
@@ -112,7 +113,7 @@ GoodsConfig[8]=
         type = GOODS_TYPE.GrantDrink,       --道具类型
         discrebe = "巨人药水",
         res = "ui/Prop_2.png",
-        time = 8,   --时间(单位：秒)
+        time = 2,   --时间(单位：秒)
         msg = "化身重甲疯牛，所向披靡",     --道具信息
         cost = {type = COST_TYPE.Gold,price = 25},
         scale = 1.5,  --巨人放大倍数

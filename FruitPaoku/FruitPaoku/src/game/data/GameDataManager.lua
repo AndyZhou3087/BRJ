@@ -279,6 +279,51 @@ function GameDataManager.resetGoodsNum(_goodsId)
     GameDataManager.SaveData()
 end
 
+--===================场景道具暂停恢复=====================
+local gameProp = {}
+function GameDataManager.setGamePropTime(_type,originTime,_speed)
+    local pTime = math.ceil(Tools.getSysTime())
+    if not gameProp[_type] then
+        gameProp[_type] = {}
+    end
+    gameProp[_type].time = pTime
+    gameProp[_type].m_Time = originTime
+    if _speed then
+        gameProp[_type].speed = _speed
+    end
+    Tools.printDebug("FruitPaoku..暂停时间：",gameProp[_type].m_Time)
+end
+
+function GameDataManager.setGamePauseTime(_type)
+    local pTime = math.ceil(Tools.getSysTime())
+    gameProp[_type].pTime = pTime
+end
+
+function GameDataManager.getLeftTime(_type)
+    if not gameProp[_type] then
+		return 0
+	end
+    local leftTime = gameProp[_type].m_Time - (gameProp[_type].pTime - gameProp[_type].time)
+    Tools.printDebug("FruitPaoku..剩余时间：",leftTime)
+    return leftTime
+end
+
+function GameDataManager.getMapSpeed(_type)
+    if not gameProp[_type] then
+        return 0
+    end
+    if not gameProp[_type].speed then
+    	return 0
+    end
+    return gameProp[_type].speed
+end
+
+function GameDataManager.resetGameTime(parameters)
+	gameProp = {}
+end
+
+--=====================end=============================
+
 --===================角色信息相关=========================
 --初始化角色信息
 function GameDataManager.initPlayerVo()

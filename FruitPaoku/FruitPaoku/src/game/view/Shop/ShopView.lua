@@ -154,7 +154,7 @@ end
 --关闭界面调用
 function ShopView:toClose(_clean)
     if GameController.isInPause() and not self.m_pause then
-        GameController.resumeGame()
+        GameController.resumeGame(true)
     end
     ShopView.super.toClose(self,_clean)
 end

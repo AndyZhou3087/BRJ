@@ -22,6 +22,9 @@ EventNames.EVENT_OPEN_SHOP="event_open_shop"
 --打开角色界面
 EventNames.EVENT_OPEN_ROLEVIEW="event_open_roleview"
 
+--随机奖励道具界面
+EventNames.EVENT_OPEN_REWARDPROP = "event_open_rewardprop"
+
 --=====================场景内
 
 --时间变化
@@ -70,5 +73,11 @@ EventNames.EVENT_MANGET = "event_manget"
 
 --巨人药水
 EventNames.EVENT_GRANT_DRINK = "event_grant_drink"
+
+--角色暂停
+EventNames.EVENT_PLAYER_PAUSE = "event_player_pause"
+
+--角色恢复
+EventNames.EVENT_PLAYER_REGAIN = "event_player_regain"
 
 return EventNames
