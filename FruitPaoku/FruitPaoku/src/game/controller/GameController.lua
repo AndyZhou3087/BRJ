@@ -47,6 +47,7 @@ function GameController.pauseGame(isEvent)
     MoveSpeed = 0  --地图移动速度
     if isEvent then
         GameDispatcher:dispatch(EventNames.EVENT_PLAYER_PAUSE)
+        GameDispatcher:dispatch(EventNames.EVENT_OBSCALE_FLYPAUSE)
     end
 end
 
@@ -59,6 +60,7 @@ function GameController.resumeGame(isEvent)
     TimeUtil.init()
     if isEvent then
         GameDispatcher:dispatch(EventNames.EVENT_PLAYER_REGAIN)
+        GameDispatcher:dispatch(EventNames.EVENT_OBSCALE_FLYRESUM)
     end
 end
 

@@ -67,6 +67,8 @@ function FightOver:initWidget()
     self.ScroeLabel:setString(GameDataManager.getAllScore())
     self.RecordScore = cc.uiloader:seekNodeByName(self.m_fightover,"RecordScore")
     self.RecordScore:setString("历史最高分:"..Tools.StringToComma(GameDataManager.getHistoryScore(self.m_curLevel)))
+    self.GetGold = cc.uiloader:seekNodeByName(self.m_fightover,"GetGold")
+    self.GetGold:setString("获得金币：")
 
     self.backBtn = cc.uiloader:seekNodeByName(self.m_fightover,"Backbtn")
     self.backBtn:onButtonClicked(function(_event)
@@ -118,7 +120,7 @@ function FightOver:toWin()
     self.Continuebtn:setButtonImage("pressed","Common/Common_c1_2.png")
     self.continueLabel:setButtonImage("disabled","ui/Pause_continue.png")
     self.RecordScore:setString("历史最高分:"..Tools.StringToComma(GameDataManager.getHistoryScore(self.m_curLevel), ","))
-    
+    self.GetGold:setString("获得金币："..GameDataManager.getAllFightCoins())
 
     self.Continuebtn:onButtonClicked(function(_event)
 --        if GameDataManager.getUlockLevelsNum() <= 1 and _isFirst == true then

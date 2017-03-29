@@ -41,6 +41,17 @@ function PropItem:initPropData()
     end
     pcount:setString(self.propCon.cost.price)
     
+    --使用图标
+    local useLabel = cc.uiloader:seekNodeByName(self.propUI,"UseBtn")
+    useLabel:setTouchSwallowEnabled(false)
+    useLabel:setButtonEnabled(false)
+    if self.propCon.id~=5 and self.propCon.id~=6 then
+        useLabel:setButtonImage("disabled","ui/UseLabel.png")
+    else
+        useLabel:setButtonImage("disabled","ui/buy_label.png")
+    end
+    
+    
     --使用按钮
     local useBtn = cc.uiloader:seekNodeByName(self.propUI,"Buybtn")
     useBtn:setTouchSwallowEnabled(false)

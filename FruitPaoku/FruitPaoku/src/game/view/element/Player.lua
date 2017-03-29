@@ -60,6 +60,14 @@ function Player:ctor()
     GameDispatcher:addListener(EventNames.EVENT_MANGET,handler(self,self.manget))
     --巨人药水
     GameDispatcher:addListener(EventNames.EVENT_GRANT_DRINK,handler(self,self.grantDrink))
+    --极限冲刺
+    GameDispatcher:addListener(EventNames.EVENT_LIMIT_SPRINT,handler(self,self.limitSprint))
+    --金币转换
+    GameDispatcher:addListener(EventNames.EVENT_TRANSFORM_GOLD,handler(self,self.transformGold))
+    --速度减慢
+    GameDispatcher:addListener(EventNames.EVENT_SLOW_SPEED,handler(self,self.slowSpeed))
+    --弹簧
+    GameDispatcher:addListener(EventNames.EVENT_OBSCALE_SPRING,handler(self,self.spring))
 
     --角色暂停和恢复
     GameDispatcher:addListener(EventNames.EVENT_PLAYER_PAUSE,handler(self,self.pause))
@@ -137,6 +145,10 @@ end
 
 --角色移动
 function Player:toMove(parameters)
+    if self:isInState(PLAYER_STATE.Slow) then
+        self:clearBuff(PLAYER_STATE.Slow)
+    end
+
     self.touchCount = self.touchCount + 1
     if self.touchCount == 1 then
         self.playerY = self:getPositionY()
@@ -249,57 +261,6 @@ function Player:update(dt,_x,_y)
     end
 end
 
---巨人药水
-function Player:grantDrink(parameters)
-	Tools.printDebug("----------巨人药水")
-	if self:isInState(PLAYER_STATE.GrankDrink) then
-		return
-	end
-	
-    local _lv = GameDataManager.getRoleLevel(self.m_curModle)
-    local _time = parameters.data.time+GameDataManager.getUnActSkillTime(self.m_curModle,_lv,GOODS_TYPE.GrantDrink)
-    self:addBuff({type=PLAYER_STATE.GrankDrink,time = _time})
-    self.m_grankHandler = Tools.delayCallFunc(parameters.data.time,function()
-        self:clearBuff(PLAYER_STATE.GrankDrink)
-    end)
-    GameDataManager.setGamePropTime(PLAYER_STATE.GrankDrink,_time)
-    
-    self.m_armature:setScale(parameters.data.scale)
-    self.m_body:removeFromWorld()
-    local _size = cc.size(self.m_armature:getCascadeBoundingBox().size.width*0.6*parameters.data.scale,
-        self.m_armature:getCascadeBoundingBox().size.height*parameters.data.scale*0.7)
-    
-    if self:isInState(PLAYER_STATE.StartSprint) or self:isInState(PLAYER_STATE.DeadSprint) then
-        self:addBody(cc.p(10,80),_size)
-    else
-        self:addBody(cc.p(10,-80),_size)
-    end
-end
-
---死亡接力
-function Player:deadRelay(parameters)
-    --清除所有buff
-    for var=#self.m_buffArr,1,-1  do
-        local _buff = self.m_buffArr[var]
-        if _buff then
-            self:clearBuff(_buff:getType())
-        end
-    end
-    self.m_buffArr = {}
-    
-    self:reSetUD()
-    self.m_hp = self.m_vo.m_hp
-    
-    local old = self.m_armature
-    local random = math.random(1,GameDataManager.getRoleModelCount())
-    Tools.printDebug("-----------死亡接力..",random)
-    local modle = RoleConfig[random].armatureName
-    self:createModle(modle)
-    old:removeFromParent()
-    self.m_jump = false
-    self.m_run = true
-end
-
 --角色受伤害
 function Player:playerAttacked(parm)
     if self:isInState(PLAYER_STATE.StartProtect) then
@@ -313,7 +274,10 @@ function Player:playerAttacked(parm)
     if self:isInState(PLAYER_STATE.StartSprint) or self:isInState(PLAYER_STATE.DeadSprint) then
         return
     end
-
+    if self:isInState(PLAYER_STATE.LimitSprint) then
+        return
+    end
+    
     if self.m_jump and not parm.data.isSpecial then
         return
     end
@@ -365,6 +329,33 @@ function Player:death()
 
 end
 
+--巨人药水
+function Player:grantDrink(parameters)
+    Tools.printDebug("----------巨人药水")
+    if self:isInState(PLAYER_STATE.GrankDrink) then
+        return
+    end
+
+    local _lv = GameDataManager.getRoleLevel(self.m_curModle)
+    local _time = parameters.data.time+GameDataManager.getUnActSkillTime(self.m_curModle,_lv,GOODS_TYPE.GrantDrink)
+    self:addBuff({type=PLAYER_STATE.GrankDrink,time = _time})
+    self.m_grankHandler = Tools.delayCallFunc(parameters.data.time,function()
+        self:clearBuff(PLAYER_STATE.GrankDrink)
+    end)
+    GameDataManager.setGamePropTime(PLAYER_STATE.GrankDrink,_time)
+
+    self.m_armature:setScale(parameters.data.scale)
+    self.m_body:removeFromWorld()
+    local _size = cc.size(self.m_armature:getCascadeBoundingBox().size.width*0.6*parameters.data.scale,
+        self.m_armature:getCascadeBoundingBox().size.height*parameters.data.scale*0.7)
+
+    if self:isInState(PLAYER_STATE.StartSprint) or self:isInState(PLAYER_STATE.DeadSprint) then
+        self:addBody(cc.p(10,80),_size)
+    else
+        self:addBody(cc.p(10,-80),_size)
+    end
+end
+
 --吸铁石
 function Player:manget(parameters)
 	Tools.printDebug("--------吸铁石道具")
@@ -386,6 +377,9 @@ end
 
 --开局护盾
 function Player:startProtect(parameters)
+    if self:isDead() then
+        return
+    end
 	Tools.printDebug("-----开局护盾")
 	--护盾特效
 	
@@ -436,10 +430,12 @@ function Player:deadSprint(parameters)
     self.m_deadDffect:getAnimation():playWithIndex(0)
     self.m_deadDffect:setPosition(-10,60)
 
+    self:stopAllActions()
     self:toPlay(PLAYER_ACTION.Run,0)
     self:addChild(self.m_deadDffect,10)
 
-    self.deadX,self.deadY = self:getPosition()
+    self.m_scaleY = self:getScaleY()
+    self:setScaleY(1)
     self:setPosition(cc.p(display.cx,display.cy))
 
     self:addBuff({type=PLAYER_STATE.DeadSprint,time = parameters.data.time})
@@ -451,7 +447,128 @@ function Player:deadSprint(parameters)
     
     GameDataManager.setGamePropTime(PLAYER_STATE.DeadSprint,parameters.data.time,parameters.data.speed)
 end
+--死亡接力
+function Player:deadRelay(parameters)
+    --清除所有buff
+    for var=#self.m_buffArr,1,-1  do
+        local _buff = self.m_buffArr[var]
+        if _buff then
+            self:clearBuff(_buff:getType())
+        end
+    end
+    self.m_buffArr = {}
 
+    self:reSetUD()
+    self.m_hp = self.m_vo.m_hp
+
+    local old = self.m_armature
+    local random = math.random(1,GameDataManager.getRoleModelCount())
+    Tools.printDebug("-----------死亡接力..",random)
+    local modle = RoleConfig[random].armatureName
+    self:createModle(modle)
+    old:removeFromParent()
+    self.m_jump = false
+    self.m_run = true
+end
+--极限冲刺
+function Player:limitSprint(parameters)
+	
+    if self:isDead() then
+        return
+    end
+    
+    if self:isInState(PLAYER_STATE.LimitSprint) then
+    	return
+    end
+    if self:isInState(PLAYER_STATE.DeadSprint) then
+    	return
+    end
+    if self:isInState(PLAYER_STATE.StartSprint) then
+        return
+    end
+    
+    Tools.printDebug("----------极限冲刺")
+    --冲刺特效
+    ccs.ArmatureDataManager:getInstance():addArmatureFileInfo("role/chongci0.png", "role/chongci0.plist" , "role/chongci.ExportJson")
+    self.m_limitDffect = ccs.Armature:create("chongci")
+    self.m_limitDffect:getAnimation():playWithIndex(0)
+    self.m_limitDffect:setPosition(-10,60)
+
+    self:stopAllActions()
+    self:toPlay(PLAYER_ACTION.Run,0)
+    self:addChild(self.m_limitDffect,10)
+
+    self.m_scaleY = self:getScaleY()
+    self:setScaleY(1)
+    self:setPosition(cc.p(display.cx,display.cy))
+
+    self:addBuff({type=PLAYER_STATE.LimitSprint,time = parameters.data.time})
+    self.limitSpeed = MoveSpeed
+    MoveSpeed = parameters.data.speed
+    self.m_limitHandler = Tools.delayCallFunc(parameters.data.time,function()
+        self:clearBuff(PLAYER_STATE.LimitSprint)
+    end)
+
+    GameDataManager.setGamePropTime(PLAYER_STATE.LimitSprint,parameters.data.time,parameters.data.speed)
+end
+--金币转换
+function Player:transformGold(parameters)
+    if self:isDead() then
+        return
+    end
+    if self:isInState(PLAYER_STATE.TransformGold) then
+    	return
+    end
+    Tools.printDebug("----------金币转换")
+    self:addBuff({type=PLAYER_STATE.TransformGold,time = parameters.data.time})
+    self.m_transHandler = Tools.delayCallFunc(parameters.data.time,function()
+        self:clearBuff(PLAYER_STATE.TransformGold)
+    end)
+    GameDataManager.setGamePropTime(PLAYER_STATE.TransformGold,parameters.data.time)
+end
+
+--速度减慢(滑冰)
+function Player:slowSpeed(parameters)
+    if self:isDead() then
+        return
+    end
+    if self:isInState(PLAYER_STATE.Slow) then
+        return
+    end
+    Tools.printDebug("----------速度减慢")
+    local length = parameters.data.length
+    self.originSpeed = MoveSpeed
+    local speed = MoveSpeed - parameters.data.cutSpeed
+    local _time = math.ceil(length/(speed*10))
+    
+    MoveSpeed = speed
+    self:addBuff({type=PLAYER_STATE.Slow,time = _time})
+    self.m_slowHandler = Tools.delayCallFunc(_time,function()
+        self:clearBuff(PLAYER_STATE.Slow)
+    end)
+    GameDataManager.setGamePropTime(PLAYER_STATE.Slow,_time,speed)
+    
+end
+
+function Player:spring(parameters)
+    if self:isDead() then
+        return
+    end
+    if self:isInState(PLAYER_STATE.StartSprint) then
+        return
+    end
+    if self:isInState(PLAYER_STATE.DeadSprint) then
+        return
+    end
+    if self:isInState(PLAYER_STATE.LimitSprint) then
+        return
+    end
+    Tools.printDebug("----------弹簧跳跃")
+    self:toPlay(PLAYER_ACTION.Jump,0)
+    self:toMove()
+end
+
+--================角色技能buff=============
 --吸金币
 function Player:magnetSkill(radius)
     self:addBuff({type=PLAYER_STATE.Magnet})
@@ -522,10 +639,15 @@ function Player:clearBuff(_type)
                 self.m_deadDffect = nil
             end
             self:toPlay(PLAYER_ACTION.Run)
-            self:setPosition(cc.p(self.deadX,self.deadY))
-            self.deadX,self.deadY = nil,nil
+            self:setScaleY(self.m_scaleY)
+            if self.m_scaleY == 1 then
+                self:setPosition(cc.p(display.cx-100,display.cy-240))
+            else
+                self:setPosition(cc.p(display.cx-100,display.cy+200))
+            end
             MoveSpeed = self.deadSpeed
             self.deadSpeed = nil
+            self.m_scaleY = nil
             self:deadFlash()
             
         elseif _type == PLAYER_STATE.StartProtect then
@@ -549,6 +671,37 @@ function Player:clearBuff(_type)
             self.m_armature:setScale(1)
             self.m_body:removeFromWorld()
             self:addBody(cc.p(10,50),self.p_siz)
+        elseif _type == PLAYER_STATE.LimitSprint then
+            if self.m_limitHandler then
+                Scheduler.unscheduleGlobal(self.m_limitHandler)
+                self.m_limitHandler = nil
+            end
+            if not tolua.isnull(self.m_limitDffect) then
+                self.m_limitDffect:removeFromParent()
+                self.m_limitDffect = nil
+            end
+            self:toPlay(PLAYER_ACTION.Run)
+            self:setScaleY(self.m_scaleY)
+            if self.m_scaleY == 1 then
+                self:setPosition(cc.p(display.cx-100,display.cy-240))
+            else
+                self:setPosition(cc.p(display.cx-100,display.cy+200))
+            end
+            MoveSpeed = self.limitSpeed
+            self.limitSpeed = nil
+            self.m_scaleY = nil
+        elseif _type == PLAYER_STATE.TransformGold then
+            if self.m_transHandler then
+                Scheduler.unscheduleGlobal(self.m_transHandler)
+                self.m_transHandler = nil
+            end
+        elseif _type == PLAYER_STATE.Slow then
+            if self.m_slowHandler then
+                Scheduler.unscheduleGlobal(self.m_slowHandler)
+                self.m_slowHandler = nil
+            end
+            MoveSpeed = self.originSpeed
+            self.originSpeed = nil
         end
     end
 
@@ -633,6 +786,29 @@ function Player:pause(parameters)
                 self.m_dHandler = nil
             end
         end
+        if self:isInState(PLAYER_STATE.LimitSprint) then
+            Tools.printDebug("卸载极限冲刺定时器")
+            GameDataManager.setGamePauseTime(PLAYER_STATE.LimitSprint)
+            if  self.m_limitHandler then
+                Scheduler.unscheduleGlobal(self.m_limitHandler)
+                self.m_limitHandler = nil
+            end
+        end
+        if self:isInState(PLAYER_STATE.TransformGold) then
+            Tools.printDebug("卸载金币转换定时器")
+            GameDataManager.setGamePauseTime(PLAYER_STATE.TransformGold)
+            if  self.m_transHandler then
+                Scheduler.unscheduleGlobal(self.m_transHandler)
+                self.m_transHandler = nil
+            end
+        end
+        if self:isInState(PLAYER_STATE.Slow) then
+            GameDataManager.setGamePauseTime(PLAYER_STATE.Slow)
+            if  self.m_slowHandler then
+                Scheduler.unscheduleGlobal(self.m_slowHandler)
+                self.m_slowHandler = nil
+            end
+        end
     end
 end
 
@@ -641,22 +817,25 @@ function Player:regain(parameters)
     if not tolua.isnull(self.m_armature) then
         if self:isInState(PLAYER_STATE.MagnetProp) then
             Tools.printDebug("重启吸铁石定时器")
-            GameDataManager.setGamePropTime(PLAYER_STATE.MagnetProp,GameDataManager.getLeftTime(PLAYER_STATE.MagnetProp))
-            self.m_manHandler = Tools.delayCallFunc(GameDataManager.getLeftTime(PLAYER_STATE.MagnetProp),function()
+            local leftTime = GameDataManager.getLeftTime(PLAYER_STATE.MagnetProp)
+            GameDataManager.setGamePropTime(PLAYER_STATE.MagnetProp,leftTime)
+            self.m_manHandler = Tools.delayCallFunc(leftTime,function()
                 self:clearBuff(PLAYER_STATE.MagnetProp)
             end)
         end
         if self:isInState(PLAYER_STATE.GrankDrink) then
             Tools.printDebug("重启巨人定时器")
-            GameDataManager.setGamePropTime(PLAYER_STATE.GrankDrink,GameDataManager.getLeftTime(PLAYER_STATE.GrankDrink))
-            self.m_grankHandler = Tools.delayCallFunc(GameDataManager.getLeftTime(PLAYER_STATE.GrankDrink),function()
+            local leftTime = GameDataManager.getLeftTime(PLAYER_STATE.GrankDrink)
+            GameDataManager.setGamePropTime(PLAYER_STATE.GrankDrink,leftTime)
+            self.m_grankHandler = Tools.delayCallFunc(leftTime,function()
                 self:clearBuff(PLAYER_STATE.GrankDrink)
             end)
         end
         if self:isInState(PLAYER_STATE.StartSprint) then
             MoveSpeed = GameDataManager.getMapSpeed(PLAYER_STATE.StartSprint)
-            GameDataManager.setGamePropTime(PLAYER_STATE.StartSprint,GameDataManager.getLeftTime(PLAYER_STATE.StartSprint),MoveSpeed)
-            self.m_handler = Tools.delayCallFunc(GameDataManager.getLeftTime(PLAYER_STATE.StartSprint),function()
+            local leftTime = GameDataManager.getLeftTime(PLAYER_STATE.StartSprint)
+            GameDataManager.setGamePropTime(PLAYER_STATE.StartSprint,leftTime,MoveSpeed)
+            self.m_handler = Tools.delayCallFunc(leftTime,function()
                 self:clearBuff(PLAYER_STATE.StartSprint)
             end)
             Tools.printDebug("重启开局冲刺定时器",MoveSpeed)
@@ -664,9 +843,35 @@ function Player:regain(parameters)
         if self:isInState(PLAYER_STATE.DeadSprint) then
             Tools.printDebug("重启死亡冲刺定时器")
             MoveSpeed = GameDataManager.getMapSpeed(PLAYER_STATE.DeadSprint)
-            GameDataManager.setGamePropTime(PLAYER_STATE.DeadSprint,GameDataManager.getLeftTime(PLAYER_STATE.DeadSprint),MoveSpeed)
-            self.m_dHandler = Tools.delayCallFunc(GameDataManager.getLeftTime(PLAYER_STATE.DeadSprint),function()
+            local leftTime = GameDataManager.getLeftTime(PLAYER_STATE.DeadSprint)
+            GameDataManager.setGamePropTime(PLAYER_STATE.DeadSprint,leftTime,MoveSpeed)
+            self.m_dHandler = Tools.delayCallFunc(leftTime,function()
                 self:clearBuff(PLAYER_STATE.DeadSprint)
+            end)
+        end
+        if self:isInState(PLAYER_STATE.LimitSprint) then
+            Tools.printDebug("重启极限冲刺定时器")
+            MoveSpeed = GameDataManager.getMapSpeed(PLAYER_STATE.LimitSprint)
+            local leftTime = GameDataManager.getLeftTime(PLAYER_STATE.LimitSprint)
+            GameDataManager.setGamePropTime(PLAYER_STATE.LimitSprint,leftTime,MoveSpeed)
+            self.m_limitHandler = Tools.delayCallFunc(leftTime,function()
+                self:clearBuff(PLAYER_STATE.LimitSprint)
+            end)
+        end
+        if self:isInState(PLAYER_STATE.TransformGold) then
+            Tools.printDebug("重启金币转换定时器")
+            local leftTime = GameDataManager.getLeftTime(PLAYER_STATE.TransformGold)
+            GameDataManager.setGamePropTime(PLAYER_STATE.TransformGold,leftTime)
+            self.m_transHandler = Tools.delayCallFunc(leftTime,function()
+                self:clearBuff(PLAYER_STATE.TransformGold)
+            end)
+        end
+        if self:isInState(PLAYER_STATE.Slow) then
+            MoveSpeed = GameDataManager.getMapSpeed(PLAYER_STATE.Slow)
+            local leftTime = GameDataManager.getLeftTime(PLAYER_STATE.Slow)
+            GameDataManager.setGamePropTime(PLAYER_STATE.Slow,leftTime,MoveSpeed)
+            self.m_slowHandler = Tools.delayCallFunc(leftTime,function()
+                self:clearBuff(PLAYER_STATE.Slow)
             end)
         end
     end
@@ -683,6 +888,10 @@ function Player:dispose()
     GameDispatcher:removeListenerByName(EventNames.EVENT_GRANT_DRINK)
     GameDispatcher:removeListenerByName(EventNames.EVENT_PLAYER_PAUSE)
     GameDispatcher:removeListenerByName(EventNames.EVENT_PLAYER_REGAIN)
+    GameDispatcher:removeListenerByName(EventNames.EVENT_LIMIT_SPRINT)
+    GameDispatcher:removeListenerByName(EventNames.EVENT_TRANSFORM_GOLD)
+    GameDispatcher:removeListenerByName(EventNames.EVENT_SLOW_SPEED)
+    GameDispatcher:removeListenerByName(EventNames.EVENT_OBSCALE_SPRING)
     
     self.m_isDead = false
     GameController.isDead = false
@@ -712,6 +921,18 @@ function Player:dispose()
     if self.m_grankHandler then
         Scheduler.unscheduleGlobal(self.m_grankHandler)
         self.m_grankHandler = nil
+    end
+    if self.m_limitHandler then
+        Scheduler.unscheduleGlobal(self.m_limitHandler)
+        self.m_limitHandler = nil
+    end
+    if self.m_transHandler then
+        Scheduler.unscheduleGlobal(self.m_transHandler)
+        self.m_transHandler = nil
+    end
+    if self.m_slowHandler then
+        Scheduler.unscheduleGlobal(self.m_slowHandler)
+        self.m_slowHandler = nil
     end
 
     if self.m_dropLifeHandle then

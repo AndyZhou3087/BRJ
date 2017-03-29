@@ -80,4 +80,21 @@ EventNames.EVENT_PLAYER_PAUSE = "event_player_pause"
 --角色恢复
 EventNames.EVENT_PLAYER_REGAIN = "event_player_regain"
 
+--极限冲刺
+EventNames.EVENT_LIMIT_SPRINT = "event_limit_sprint"
+
+--金币转换
+EventNames.EVENT_TRANSFORM_GOLD = "event_transform_gold"
+
+--速度减慢
+EventNames.EVENT_SLOW_SPEED = "event_slow_speed"
+
+--飞行障碍物暂停
+EventNames.EVENT_OBSCALE_FLYPAUSE = "event_obscale_flypause"
+--飞行障碍物恢复
+EventNames.EVENT_OBSCALE_FLYRESUM = "event_obscale_flyresum"
+
+--弹簧障碍物
+EventNames.EVENT_OBSCALE_SPRING = "event_obscale_spring"
+
 return EventNames

@@ -245,6 +245,12 @@ function GameDataManager.useGoodsExp(_goodsId)
         elseif goodsCon.type == GOODS_TYPE.GrantDrink then
             Tools.printDebug("巨人药水")
             GameDispatcher:dispatch(EventNames.EVENT_GRANT_DRINK,{time = goodsCon.time,scale = goodsCon.scale})
+        elseif goodsCon.type == GOODS_TYPE.LimitSprint then
+            Tools.printDebug("极限冲刺")
+            GameDispatcher:dispatch(EventNames.EVENT_LIMIT_SPRINT,{time = goodsCon.time,speed = goodsCon.speed})
+        elseif goodsCon.type == GOODS_TYPE.ConverGold then
+            Tools.printDebug("金币转换")
+            GameDispatcher:dispatch(EventNames.EVENT_TRANSFORM_GOLD,{time = goodsCon.time})
         end
         return true
     else
@@ -291,12 +297,13 @@ function GameDataManager.setGamePropTime(_type,originTime,_speed)
     if _speed then
         gameProp[_type].speed = _speed
     end
-    Tools.printDebug("FruitPaoku..暂停时间：",gameProp[_type].m_Time)
+    Tools.printDebug("FruitPaoku..初始时间：",gameProp[_type].m_Time,gameProp[_type].time)
 end
 
 function GameDataManager.setGamePauseTime(_type)
     local pTime = math.ceil(Tools.getSysTime())
     gameProp[_type].pTime = pTime
+    Tools.printDebug("FruitPaoku..暂停时间：",gameProp[_type].pTime)
 end
 
 function GameDataManager.getLeftTime(_type)
@@ -555,7 +562,7 @@ function GameDataManager.getHistoryScore(_levelId)
     return fightData[_levelId].score
 end
 
---增加当前关卡获得金币(此时不含加成)
+--增加当前关卡获得铜币(此时不含加成)
 local curLevelCoin = 0
 function GameDataManager.addLevelCoin(_coin)
     curLevelCoin = curLevelCoin + _coin

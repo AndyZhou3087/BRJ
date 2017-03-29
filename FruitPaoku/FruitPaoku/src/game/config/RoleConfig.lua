@@ -17,6 +17,9 @@ PLAYER_STATE=
         StartProtect = 5,  --开局护盾状态
         MagnetProp = 6, --吸铁石道具
         GrankDrink = 7, --巨人状态
+        LimitSprint = 8, --极限冲刺
+        TransformGold = 9,--金币转换
+        Slow = 10,  --滑冰速度减慢
     }
 --角色动作
 PLAYER_ACTION=
