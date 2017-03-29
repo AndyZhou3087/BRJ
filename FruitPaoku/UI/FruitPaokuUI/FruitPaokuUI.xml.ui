@@ -30,5 +30,5 @@
   <imageFileList />
   <imagePngList />
   <JsonSuffix>.json</JsonSuffix>
-  <CurrentUIJson>PropItem.json</CurrentUIJson>
+  <CurrentUIJson>MapView.json</CurrentUIJson>
 </UIProject>
