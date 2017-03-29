@@ -30,5 +30,5 @@
   <imageFileList />
   <imagePngList />
   <JsonSuffix>.json</JsonSuffix>
-  <CurrentUIJson>RoleView.json</CurrentUIJson>
+  <CurrentUIJson>PropItem.json</CurrentUIJson>
 </UIProject>
