@@ -1,7 +1,7 @@
 --[[
 障碍组合配置
 ]]
---Y轴长度不可超过960像素
+--最大宽高为屏幕宽高：[960,540]
 
 Obstacles = {}
 
@@ -17,7 +17,7 @@ Obstacles[9]={{obsId=2,x=510,y=10},{obsId=1,x=510,y=1000}}
 Obstacles[10]={{obsId=4,x=131,y=200}}
 Obstacles[11]={{obsId=4,x=320,y=200}}
 Obstacles[12]={{obsId=4,x=510,y=200}}
-Obstacles[13]={{obsId=6,x=130,y=100},{obsId=6,x=320,y=500}}
+Obstacles[13]={{obsId=6,x=130,y=60},{obsId=6,x=320,y=500}}
 Obstacles[14]={{obsId=1,x=130,y=100},{obsId=1,x=510,y=200}}
 Obstacles[15]={{obsId=1,x=131,y=200},{obsId=1,x=510,y=200}}
 Obstacles[16]={{obsId=3,x=130,y=200},{obsId=1,x=320,y=200}}

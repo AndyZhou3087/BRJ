@@ -55,7 +55,7 @@ function ShopView:initPublic(shopConfig)
     else
         bgCount = math.ceil(#shopConfig / 4)
     end
-    Tools.delayCallFunc(0.1,function()
+--    Tools.delayCallFunc(0.1,function()
         for i=1,bgCount do
             local item = self.lv:newItem()
             local content = ShopItemUI.new(i)
@@ -66,7 +66,7 @@ function ShopView:initPublic(shopConfig)
             self.lv:addItem(item)
         end
         self.lv:reload()
-    end)
+--    end)
 
 end
 

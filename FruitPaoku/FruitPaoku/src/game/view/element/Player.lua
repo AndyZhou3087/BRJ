@@ -107,6 +107,7 @@ function Player:isDead(parameters)
 	return self.m_vo.m_hp<=0
 end
 
+
 --闯关胜利后滑行一段距离
 function Player:LevelWin()
     GameController.isWin = true
@@ -144,7 +145,8 @@ function Player:toPlay(_actionName,loop)
 end
 
 --角色移动
-function Player:toMove(parameters)
+function Player:toMove(isSpring)
+    
     if self:isInState(PLAYER_STATE.Slow) then
         self:clearBuff(PLAYER_STATE.Slow)
     end
@@ -169,7 +171,7 @@ function Player:toMove(parameters)
             self.touchCount = 0
         end})
     else
-        if self.touchCount == 2 and self.m_twoJump then
+        if self.touchCount == 2 and (self.m_twoJump or isSpring) then
             self:stopAllActions()
             local direction = 1
             local m_pY
@@ -549,7 +551,7 @@ function Player:slowSpeed(parameters)
     GameDataManager.setGamePropTime(PLAYER_STATE.Slow,_time,speed)
     
 end
-
+--弹簧障碍物
 function Player:spring(parameters)
     if self:isDead() then
         return
@@ -564,8 +566,9 @@ function Player:spring(parameters)
         return
     end
     Tools.printDebug("----------弹簧跳跃")
+    
     self:toPlay(PLAYER_ACTION.Jump,0)
-    self:toMove()
+    self:toMove(true)
 end
 
 --================角色技能buff=============

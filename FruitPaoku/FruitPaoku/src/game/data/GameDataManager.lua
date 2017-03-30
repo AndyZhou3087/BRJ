@@ -573,10 +573,20 @@ function GameDataManager.getLevelCoin()
     return curLevelCoin
 end
 
+--获取当前关卡星级
+function GameDataManager.getLevelStar(_levelId)
+    local _data = fightData[_levelId]
+    if _data then
+        return _data.star
+    end
+    return 0
+end
+
 --存储关卡数据
 --return1:是否首次过关，return2:当前星级
 function GameDataManager.saveLevelData()
     local isFirst=false
+    local curStar = 1
     local _data = fightData[curLevelId]
     if not _data then
         _data = clone(LevelVo)
@@ -592,11 +602,14 @@ function GameDataManager.saveLevelData()
         if old < GameDataManager.getAllScore() then
             _data.score = GameDataManager.getAllScore()
         end
-        --保存游戏最高分数(更适用于无尽模式)
---        if GameDataManager.getAllScore() > GameDataManager.getRecord()then
---            Tools.printDebug("刷新记录",GameDataManager.getAllScore())
---            GameDataManager.saveRecord(GameDataManager.getAllScore())
---        end
+        
+        curStar = _levCon.getStar(GameDataManager.getAllScore())
+        
+        --如果此次星级高于上次则记录
+        if curStar > _data.star then
+            _data.star = curStar
+        end
+        _data.isPass = true
     end
 
     return isFirst

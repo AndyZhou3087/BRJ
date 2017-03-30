@@ -87,34 +87,28 @@ function FightOver:toWin()
     local _isFirst = GameDataManager.saveLevelData()  --存储关卡数据
     GameDataManager.addGold(GameDataManager.getAllFightCoins())
 
---    if _isFirst == true then
---        local _leveCon = SelectLevel[self.m_curLevel]
---        if _leveCon then
---            local _addPower = _leveCon.powerAward[_starNum]
---            if _addPower then
---                GameDataManager.addPower(_addPower)
---            end
---            local _addGold = _leveCon.coinAwardFirst[_starNum]     --首次通关金币奖励
---            if _addGold then
---                GameDataManager.addGold(_addGold+self.m_allGolds)
---                self.m_golds:setString(self.m_allGolds+_addGold)
---            end
---        end
---    else
-        local _coins = SelectLevel[self.m_curLevel].coinAward
+    local _leveCon = SelectLevel[self.m_curLevel]
+    if _leveCon then
+        local _coins = _leveCon.coinAward
         if _coins then
             GameDataManager.addGold(_coins)
         end
-        local _power = SelectLevel[self.m_curLevel].powerAward
+        local _power = _leveCon.powerAward
         if _power then
-        	GameDataManager.addPower(_power)
+            GameDataManager.addPower(_power)
         end
---    end
-    GameDataManager.addPower(SelectLevel[self.m_curLevel].costPower)
-    
-    for var=1, 3 do
-        self["star_"..var]:setButtonImage("disabled","ui/StarLight.png")
+        GameDataManager.addPower(_leveCon.costPower)
+        
+        local star = _leveCon.getStar(GameDataManager.getAllScore())
+        for var=1, 3 do
+            if var <= star then
+                self["star_"..var]:setButtonImage("disabled","ui/StarLight.png")
+            else
+                self["star_"..var]:setVisible(false)
+            end
+        end
     end
+    
     self.LevelTips:setButtonImage("disabled","ui/Over_win.png")
     self.Continuebtn:setButtonImage("normal","Common/Common_c1_1.png")
     self.Continuebtn:setButtonImage("pressed","Common/Common_c1_2.png")
