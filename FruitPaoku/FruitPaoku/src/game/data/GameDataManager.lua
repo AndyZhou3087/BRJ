@@ -669,14 +669,6 @@ end
 --===================签到信息=========================
 local signList={}
 
-function GameDataManager.reward(parameters)
-    signList.curTable.m_rand = math.random(1,table.getn(SignReward))
-end
-
-function GameDataManager.getReward(parameters)
-    return signList.curTable.m_rand
-end
-
 --初始化签到信息
 function GameDataManager.initSignData()
     signList.curTable = DataPersistence.getAttribute("user_sign")
@@ -691,9 +683,9 @@ function GameDataManager.resetSign()   --签到7天重置
         signList.curTable.signs = 0
         GameDataManager.reward()
         return true
-else
-    return false
-end
+    else
+        return false
+    end
 end
 --当天是否签到
 function GameDataManager.isDateSign()
@@ -717,6 +709,14 @@ function GameDataManager.updateSign()
     signList.curTable.month = TimeUtil.getDate().month
     signList.curTable.year = TimeUtil.getDate().year
     signList.curTable.signs = signList.curTable.signs+1
+end
+
+function GameDataManager.reward(parameters)
+    signList.curTable.m_rand = math.random(1,table.getn(SignReward))
+end
+
+function GameDataManager.getReward(parameters)
+    return signList.curTable.m_rand
 end
 --===================End=========================
 
