@@ -52,4 +52,8 @@
     <Project>RoleItem</Project>
     <GuidesList />
   </GuidesProject>
+  <GuidesProject>
+    <Project>SelectItem</Project>
+    <GuidesList />
+  </GuidesProject>
 </ArrayOfGuidesProject>

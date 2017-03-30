@@ -19,6 +19,7 @@
     <string>ShopItem.json</string>
     <string>RoleView.json</string>
     <string>RoleItem.json</string>
+    <string>SelectItem.json</string>
   </JsonList>
   <CanvasSize>
     <Width>436</Width>
@@ -30,5 +31,5 @@
   <imageFileList />
   <imagePngList />
   <JsonSuffix>.json</JsonSuffix>
-  <CurrentUIJson>MapView.json</CurrentUIJson>
+  <CurrentUIJson>SelectItem.json</CurrentUIJson>
 </UIProject>
