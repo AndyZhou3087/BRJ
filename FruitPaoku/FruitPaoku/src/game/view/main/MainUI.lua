@@ -40,6 +40,7 @@ function MainUI:init(parameters)
             GameDataManager.setCurLevelId(1,1)
         end
         GAME_TYPE_CONTROL = GAME_TYPE.LevelMode
+        GameController.setSignPop(true)
         app:enterSelectScene()
     end)
 

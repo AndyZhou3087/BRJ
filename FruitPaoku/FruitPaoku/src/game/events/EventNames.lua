@@ -25,6 +25,9 @@ EventNames.EVENT_OPEN_ROLEVIEW="event_open_roleview"
 --随机奖励道具界面
 EventNames.EVENT_OPEN_REWARDPROP = "event_open_rewardprop"
 
+--签到界面
+EventNames.EVENT_OPEN_SIGNUI = "event_open_signui"
+
 --[[
 裁剪（遮罩）
 mould: "ui/uiImg/xxx.png"  裁剪模板(图片) 

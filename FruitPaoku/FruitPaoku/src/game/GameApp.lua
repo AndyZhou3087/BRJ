@@ -17,6 +17,7 @@ require("game.config.ObstacleConfig")
 require("game.config.GoodGroupConfig")
 require("game.config.ShopConfig")
 require("game.config.SelectOtherConfig")
+require("game.config.SignRewardConfig")
 
 PoolManager = require("game.tools.PoolManager")
 TimeUtil = require("game.tools.TimeUtil")
@@ -63,7 +64,7 @@ function GameApp:ctor()
     DataPersistence.insertAttribute("recover_power_endTime",0) --距体力回满结束时间戳
     
     --设置签到
-    DataPersistence.insertAttribute("user_sign",{signs=0,day=2014,month=8,year=10})
+    DataPersistence.insertAttribute("user_sign",{signs=0,day=10,month=8,year=2014})
     DataPersistence.insertAttribute("sign_reward",1)
 end
 

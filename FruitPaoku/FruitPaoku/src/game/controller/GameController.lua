@@ -28,6 +28,15 @@ local movingObjs={} --移动中的对象数组
 local goldBody={}
 local goodBody={}
 
+local signPop = false
+--设置签到弹出
+function GameController.setSignPop(isPop)
+	signPop = isPop
+end
+function GameController.getSignPop(parameters)
+	return signPop
+end
+
 --设置地图滚动速度
 function GameController.setSpeed(_speed)
     _curSpeed = _speed
