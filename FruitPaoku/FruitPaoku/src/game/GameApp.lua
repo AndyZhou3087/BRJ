@@ -6,6 +6,12 @@ require("framework.init")
 require("game.events.EventNames")
 
 require("game.config.GameConfig")
+require("game.config.EndlessModeConfig")
+require("game.config.ConfigA")
+require("game.config.ConfigB")
+require("game.config.ConfigC")
+require("game.config.ConfigD")
+require("game.config.ConfigS")
 require("game.config.PaymentConfig")
 require("game.config.RoleLelelConfig")
 require("game.config.RoleConfig")
@@ -70,10 +76,14 @@ end
 
 function GameApp:run()
     cc.FileUtils:getInstance():addSearchPath("res/")
---   self:enterScene("GameScene")
     if DataPersistence.init() then
         self:enterScene("MainScene")
     end
+end
+
+function GameApp:enterMainScene(parameters)
+    cc.FileUtils:getInstance():addSearchPath("res/")--切换场景时可能删除了资源路径
+    self:enterScene("MainScene")
 end
 
 function GameApp:enterSelectScene(parameters)
@@ -81,9 +91,13 @@ function GameApp:enterSelectScene(parameters)
     self:enterScene("SelectScene")
 end
 
+function GameApp:enterTransScene(parameters)
+    cc.FileUtils:getInstance():addSearchPath("res/")--切换场景时可能删除了资源路径
+    self:enterScene("TransScene")
+end
+
 function GameApp:enterGameScene(parameters)
-    cc.Director:getInstance():purgeCachedData()
---    self:enterScene("GameScene")
+
     Tools.delayCallFunc(0.01,function()
         self.m_fightScene = GameScene.new(handler(self,self.checkEnterFight))
         --物理场景太二了，不加retain会立马给我清除了
