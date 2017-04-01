@@ -81,11 +81,6 @@ function GameApp:run()
     end
 end
 
-function GameApp:enterMainScene(parameters)
-    cc.FileUtils:getInstance():addSearchPath("res/")--切换场景时可能删除了资源路径
-    self:enterScene("MainScene")
-end
-
 function GameApp:enterSelectScene(parameters)
     cc.FileUtils:getInstance():addSearchPath("res/")--切换场景时可能删除了资源路径
     self:enterScene("SelectScene")
