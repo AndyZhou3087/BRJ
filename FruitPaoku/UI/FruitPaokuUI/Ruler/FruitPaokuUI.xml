@@ -56,4 +56,12 @@
     <Project>SelectItem</Project>
     <GuidesList />
   </GuidesProject>
+  <GuidesProject>
+    <Project>SignUI</Project>
+    <GuidesList />
+  </GuidesProject>
+  <GuidesProject>
+    <Project>SignItem</Project>
+    <GuidesList />
+  </GuidesProject>
 </ArrayOfGuidesProject>
