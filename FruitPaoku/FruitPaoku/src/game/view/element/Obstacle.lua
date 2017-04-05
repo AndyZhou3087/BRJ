@@ -168,8 +168,14 @@ end
 
 --飞行障碍物执行飞行动画
 function Obstacle:executeMove(parameters)
-    local fadeOut = cc.FadeOut:create(Flash_Skeep_Time/(MoveSpeed/SelectLevel[GameDataManager.getCurLevelId()].speed))
-    local fadeIn = cc.FadeIn:create(Flash_Skeep_Time/(MoveSpeed/SelectLevel[GameDataManager.getCurLevelId()].speed))
+    local _speed
+    if GAME_TYPE_CONTROL == GAME_TYPE.LevelMode then
+    	_speed = SelectLevel[GameDataManager.getCurLevelId()].speed
+    elseif GAME_TYPE_CONTROL == GAME_TYPE.EndlessMode then
+        _speed = EndlessMode.speed
+    end
+    local fadeOut = cc.FadeOut:create(Flash_Skeep_Time/(MoveSpeed/_speed))
+    local fadeIn = cc.FadeIn:create(Flash_Skeep_Time/(MoveSpeed/_speed))
     local sqes = cc.Sequence:create(fadeOut,fadeIn)
     local repeated = cc.Repeat:create(sqes,3)
     local callfunc = cc.CallFunc:create(function()
