@@ -64,4 +64,12 @@
     <Project>SignItem</Project>
     <GuidesList />
   </GuidesProject>
+  <GuidesProject>
+    <Project>AchieveQuest</Project>
+    <GuidesList />
+  </GuidesProject>
+  <GuidesProject>
+    <Project>AchieveQuestItem</Project>
+    <GuidesList />
+  </GuidesProject>
 </ArrayOfGuidesProject>

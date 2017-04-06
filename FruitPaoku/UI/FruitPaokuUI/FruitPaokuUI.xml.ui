@@ -22,10 +22,12 @@
     <string>SelectItem.json</string>
     <string>SignUI.json</string>
     <string>SignItem.json</string>
+    <string>AchieveQuest.json</string>
+    <string>AchieveQuestItem.json</string>
   </JsonList>
   <CanvasSize>
-    <Width>960</Width>
-    <Height>540</Height>
+    <Width>880</Width>
+    <Height>100</Height>
   </CanvasSize>
   <filePath>G:\dev\BRJ\FruitPaoku\UI\FruitPaokuUI\FruitPaokuUI.xml.ui</filePath>
   <ProjectType>UIProject</ProjectType>
@@ -33,5 +35,5 @@
   <imageFileList />
   <imagePngList />
   <JsonSuffix>.json</JsonSuffix>
-  <CurrentUIJson>SignUI.json</CurrentUIJson>
+  <CurrentUIJson>AchieveQuestItem.json</CurrentUIJson>
 </UIProject>
