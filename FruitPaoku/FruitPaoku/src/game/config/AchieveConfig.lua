@@ -23,7 +23,7 @@ REWARD_TYPE =
 AchieveConfig[1] = 
 {
     id = 1,
-    res = "",
+    res = "ui/Prop_2.png",
     title = "标题",
     des = "单局使用XX道具XX个",
     rewardType = REWARD_TYPE.Gold,
@@ -33,39 +33,39 @@ AchieveConfig[1] =
 AchieveConfig[2] = 
     {
         id = 2,
-        res = "",
+        res = "ui/Prop_2.png",
         title = "标题",
         des = "累计使用XX道具XX个",
         rewardType = REWARD_TYPE.Prop,
-        reward = {{goodsId = 1,count = 2}},
+        reward = {goodsId = 1,count = 2},
     }
     
 AchieveConfig[3] = 
     {
         id = 3,
-        res = "",
+        res = "ui/Prop_2.png",
         title = "标题",
         des = "累计消耗金币XX个",
         rewardType = REWARD_TYPE.Prop,
-        reward = {{goodsId = 1,count = 2}},
+        reward = {goodsId = 1,count = 2},
     }
     
 AchieveConfig[4] = 
     {
         id = 4,
-        res = "",
+        res = "ui/Prop_2.png",
         title = "标题",
         des = "累计消耗钻石XX个",
         rewardType = REWARD_TYPE.Prop,
-        reward = {{goodsId = 1,count = 2}},
+        reward = {goodsId = 1,count = 2},
     }
     
 AchieveConfig[5] = 
     {
         id = 5,
-        res = "",
+        res = "ui/Prop_2.png",
         title = "标题",
         des = "成功挑战XX关",
         rewardType = REWARD_TYPE.Prop,
-        reward = {{goodsId = 1,count = 2}},
+        reward = {goodsId = 1,count = 2},
     }

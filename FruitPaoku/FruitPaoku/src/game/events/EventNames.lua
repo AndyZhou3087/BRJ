@@ -73,6 +73,9 @@ EventNames.EVENT_UPDATE_GOLD="event_update_gold"
 --角色更换
 EventNames.EVENT_ROLE_CHANGE = "event_role_change"
 
+--领取成就
+EventNames.EVENT_GET_ACHIEVE = "event_get_achieve"
+
 --====================战斗内
 
 --开局冲刺

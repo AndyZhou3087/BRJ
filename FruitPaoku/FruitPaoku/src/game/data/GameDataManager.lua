@@ -742,6 +742,7 @@ function GameDataManager.setFinishAchieveData(id,_state)
 		achieve[id] = {}
 	end
     achieve[id].state = _state
+    GameDispatcher:dispatch(EventNames.EVENT_GET_ACHIEVE,{id = id,state = _state})
 end
 
 function GameDataManager.getAchieveState(id)
