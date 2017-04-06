@@ -37,13 +37,14 @@ function Obstacle:ctor(id,py)
             self.obcon= PhysicSprite.new(obCon.res)
             self:addChild(self.obcon)
             
-            _size = self.obcon:getCascadeBoundingBox().size
+            _size = cc.size(self.obcon:getCascadeBoundingBox().size.width*0.9,self.obcon:getCascadeBoundingBox().size.height*0.9)
+            offset = cc.p(30,40)
             if self.m_vo.m_type == OBSTACLE_TYPE.ice then
                 _size = cc.size(self.obcon:getCascadeBoundingBox().size.width*0.9,self.obcon:getCascadeBoundingBox().size.height*0.1)
-                offset = cc.p(0,-30)
+                offset = cc.p(30,2)
             elseif self.m_vo.m_type == OBSTACLE_TYPE.spring then
                 _size = cc.size(self.obcon:getCascadeBoundingBox().size.width*0.2,self.obcon:getCascadeBoundingBox().size.height*0.2)
-                offset = cc.p(-20,-20)
+                offset = cc.p(30,2)
             end       
             self:addBody(obCon,_size,offset)
 
@@ -66,7 +67,7 @@ function Obstacle:ctor(id,py)
             
         end
         
-        self.obcon:setAnchorPoint(cc.p(0.5,0.5))
+        self.obcon:setAnchorPoint(cc.p(0,0))
         
         ccs.ArmatureDataManager:getInstance():addArmatureFileInfo("armature/xiaoshi0.png", "armature/xiaoshi0.plist" , "armature/xiaoshi.ExportJson" )
         self.m_dEffect = ccs.Armature:create("xiaoshi")
