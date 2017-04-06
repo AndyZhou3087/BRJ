@@ -69,7 +69,7 @@
     <GuidesList />
   </GuidesProject>
   <GuidesProject>
-    <Project>AchieveQuestItem</Project>
+    <Project>QuestAchieveItem</Project>
     <GuidesList />
   </GuidesProject>
 </ArrayOfGuidesProject>
