@@ -133,14 +133,19 @@ end
 function MapLayer:addEndlessGroup(parameters)
     if self.pexel >= EndlessMode.DistanceS.move then
         self.m_levelCon = ConfigS[GameController.getDataIdByWeight(self.m_weightS,self.m_conS)]
+        MoveSpeed = EndlessMode.DistanceS.speed
     elseif self.pexel >= EndlessMode.DistanceA.move then
         self.m_levelCon = ConfigA[GameController.getDataIdByWeight(self.m_weightA,self.m_conA)]
+        MoveSpeed = EndlessMode.DistanceA.speed
     elseif self.pexel >= EndlessMode.DistanceB.move then
         self.m_levelCon = ConfigB[GameController.getDataIdByWeight(self.m_weightB,self.m_conB)]
+        MoveSpeed = EndlessMode.DistanceB.speed
     elseif self.pexel >= EndlessMode.DistanceC.move then
         self.m_levelCon = ConfigC[GameController.getDataIdByWeight(self.m_weightC,self.m_conC)]
+        MoveSpeed = EndlessMode.DistanceC.speed
     else
         self.m_levelCon = ConfigD[GameController.getDataIdByWeight(self.m_weightD,self.m_conD)]
+        MoveSpeed = EndlessMode.DistanceD.speed
     end
 end
 
