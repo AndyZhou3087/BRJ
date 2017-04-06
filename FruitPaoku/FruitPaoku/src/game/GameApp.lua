@@ -75,6 +75,13 @@ function GameApp:ctor()
     
     --设置成就
     DataPersistence.insertAttribute("achieve",{})
+    
+    --累积使用金币
+    DataPersistence.insertAttribute("useGold_total",0)
+    --累积使用钻石
+    DataPersistence.insertAttribute("useDiamond_total",0)
+    --累积使用道具
+    DataPersistence.insertAttribute("useGood_total",{})
 end
 
 function GameApp:run()

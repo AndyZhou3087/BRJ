@@ -16,6 +16,10 @@ local curRoleID = 0 --当前出战角色id
 local music=false
 local sound=false
 
+local totalGold = 0
+local totalDiamond = 0
+local totalGood = {}
+
 --初始化玩家数据
 function GameDataManager.init()
     userData.gold = DataPersistence.getAttribute("user_gold")    --金币
@@ -33,6 +37,11 @@ function GameDataManager.init()
     for key, var in pairs(modleList) do
         modleDic[var.roleId] = var
     end
+    
+    totalGold = DataPersistence.getAttribute("useGold_total")
+    totalDiamond = DataPersistence.getAttribute("useDiamond_total")
+    totalGood = DataPersistence.getAttribute("useGood_total")
+    
     GameDataManager.initPlayerVo()
     
     --初始化关卡数据
@@ -67,6 +76,7 @@ function GameDataManager.costGold(_value)
         userData.gold = userData.gold - _value
         Tools.printDebug("当前金币",GameDataManager.getGold())
         GameDispatcher:dispatch(EventNames.EVENT_UPDATE_GOLD)
+        GameDataManager.saveUseGold(_value)
         GameDataManager.SaveData()
         return true
     else
@@ -94,6 +104,7 @@ function GameDataManager.costDiamond(_value)
         userData.diamond = userData.diamond-_value
         Tools.printDebug("当前钻石",GameDataManager.getDiamond())
         GameDispatcher:dispatch(EventNames.EVENT_UPDATE_DIAMOND)
+        GameDataManager.saveUseDiamond(_value)
         GameDataManager.SaveData()
         return true
     else
@@ -208,6 +219,7 @@ function GameDataManager.useGoods(_goodsId)
         if var.id==_goodsId then
             if GameDataManager.useGoodsExp(_goodsId) then
                 var.num = var.num - 1
+                GameDataManager.saveUseProp(_goodsId,1)
                 if var.num <= 0 then
                     table.remove(goodsList,key)
                 end
@@ -752,6 +764,41 @@ function GameDataManager.getAchieveState(id)
     return achieve[id].state
 end
 
+--保存累计使用金币
+function GameDataManager.saveUseGold(_cost)
+    totalGold = totalGold + _cost
+end
+--获取总累计使用金币
+function GameDataManager.getTotalUseGold()
+    return totalGold
+end
+
+--保存累计使用钻石
+function GameDataManager.saveUseDiamond(_cost)
+    totalDiamond = totalDiamond + _cost
+end
+--获取总累计使用钻石
+function GameDataManager.getTotalUseDiamond()
+    return totalDiamond
+end
+
+--保存累计使用道具
+function GameDataManager.saveUseProp(id,_cost)
+    if not totalGood[id] then
+    	totalGood[id] = {}
+    	totalGood[id].id = id
+    	totalGood[id].count = 0
+    end
+    totalGood[id].count = totalGood[id].count + _cost
+end
+--获取总累计使用道具
+function GameDataManager.getTotalUseProp(id)
+    if not totalGood[id] then
+    	return 0
+    end
+    return totalGood[id].count
+end
+
 --===================end=========================
 
 --=============================================================礼包相关
@@ -838,6 +885,15 @@ function GameDataManager.SaveData(parameters)
     
     DataPersistence.updateAttribute("user_sign",signList.curTable)--存储签到数据
     DataPersistence.updateAttribute("sign_reward",signList.m_rand)
+    
+    DataPersistence.updateAttribute("useGold_total",totalGold)
+    DataPersistence.updateAttribute("useDiamond_total",totalDiamond)
+    
+    local propArr = {}
+    for key, var in pairs(totalGood) do
+        table.insert(propArr,var)
+    end
+    DataPersistence.updateAttribute("useGood_total",propArr)
 
     local modleList = {}
     for key, var in pairs(modleDic) do
