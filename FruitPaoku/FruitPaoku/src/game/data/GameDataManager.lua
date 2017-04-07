@@ -19,6 +19,7 @@ local sound=false
 local totalGold = 0
 local totalDiamond = 0
 local totalGood = {}
+local singleGood = {}
 
 --初始化玩家数据
 function GameDataManager.init()
@@ -219,7 +220,6 @@ function GameDataManager.useGoods(_goodsId)
         if var.id==_goodsId then
             if GameDataManager.useGoodsExp(_goodsId) then
                 var.num = var.num - 1
-                GameDataManager.saveUseProp(_goodsId,1)
                 if var.num <= 0 then
                     table.remove(goodsList,key)
                 end
@@ -266,6 +266,8 @@ function GameDataManager.useGoodsExp(_goodsId)
             Tools.printDebug("金币转换")
             GameDispatcher:dispatch(EventNames.EVENT_TRANSFORM_GOLD,{time = goodsCon.time})
         end
+        GameDataManager.saveUseProp(_goodsId,1)
+        GameDataManager.saveSingleProp(_goodsId,1)
         return true
     else
         printf(" error 找不到id=%d的道具配置",_goodsId)
@@ -606,8 +608,9 @@ function GameDataManager.saveLevelData()
         _data = clone(LevelVo)
         fightData[curLevelId] = _data
         isFirst=true
+        GameDataManager.reachStandardLevel(curLevelId)
     end
-
+    
     local _levCon = SelectLevel[curLevelId]
     if _levCon then
         _data.id = curLevelId
@@ -753,6 +756,7 @@ function GameDataManager.setFinishAchieveData(id,_state)
     if not achieve[id] then
 		achieve[id] = {}
 	end
+	achieve[id].id = id
     achieve[id].state = _state
     GameDispatcher:dispatch(EventNames.EVENT_GET_ACHIEVE,{id = id,state = _state})
 end
@@ -767,6 +771,7 @@ end
 --保存累计使用金币
 function GameDataManager.saveUseGold(_cost)
     totalGold = totalGold + _cost
+    GameDataManager.reachStandardGold(totalGold)
 end
 --获取总累计使用金币
 function GameDataManager.getTotalUseGold()
@@ -776,6 +781,7 @@ end
 --保存累计使用钻石
 function GameDataManager.saveUseDiamond(_cost)
     totalDiamond = totalDiamond + _cost
+    GameDataManager.reachStandardDiamond(totalDiamond)
 end
 --获取总累计使用钻石
 function GameDataManager.getTotalUseDiamond()
@@ -790,6 +796,7 @@ function GameDataManager.saveUseProp(id,_cost)
     	totalGood[id].count = 0
     end
     totalGood[id].count = totalGood[id].count + _cost
+    GameDataManager.reachStandardGoods(id,totalGood[id].count)
 end
 --获取总累计使用道具
 function GameDataManager.getTotalUseProp(id)
@@ -797,6 +804,63 @@ function GameDataManager.getTotalUseProp(id)
     	return 0
     end
     return totalGood[id].count
+end
+
+function GameDataManager.saveSingleProp(id,_cost)
+    if not singleGood[id] then
+		singleGood[id] = {}
+        singleGood[id].id = id
+        singleGood[id].count = 0
+	end
+    singleGood[id].count = singleGood[id].count + _cost
+    GameDataManager.reachStandardGoods(id,singleGood[id].count)
+end
+--关卡结束重置
+function GameDataManager.resetSingleProp()
+	singleGood = {}
+end
+
+--是否达到成就道具类型标准
+function GameDataManager.reachStandardGoods(goodId,count)
+    for var=1, #Tables.Achieve[CONDITION_TYPE.TotalProp] do
+        local info = Tables.Achieve[CONDITION_TYPE.TotalProp][var]
+        if GameDataManager.getAchieveState(info.id)== ACHIEVE_STATE.Unfinished and info.useGoodsId == goodId
+            and info.useGoodsCount == count then
+            GameDataManager.setFinishAchieveData(info.id,ACHIEVE_STATE.Finished)
+            break
+        end
+    end
+end
+
+--是否达到成就金币类型标准
+function GameDataManager.reachStandardGold(count)
+    for var=1, #Tables.Achieve[CONDITION_TYPE.TotalGold] do
+        local info = Tables.Achieve[CONDITION_TYPE.TotalGold][var]
+        if GameDataManager.getAchieveState(info.id)== ACHIEVE_STATE.Unfinished and info.useGold <= count then
+            GameDataManager.setFinishAchieveData(info.id,ACHIEVE_STATE.Finished)
+        	break
+        end
+	end
+end
+--是否达到成就钻石类型标准
+function GameDataManager.reachStandardDiamond(count)
+    for var=1, #Tables.Achieve[CONDITION_TYPE.TotalDiamond] do
+        local info = Tables.Achieve[CONDITION_TYPE.TotalDiamond][var]
+        if GameDataManager.getAchieveState(info.id)== ACHIEVE_STATE.Unfinished and info.useDiamond <= count then
+            GameDataManager.setFinishAchieveData(info.id,ACHIEVE_STATE.Finished)
+            break
+        end
+    end
+end
+--是否闯关成功
+function GameDataManager.reachStandardLevel(level)
+    for var=1, #Tables.Achieve[CONDITION_TYPE.Challenge] do
+        local info = Tables.Achieve[CONDITION_TYPE.Challenge][var]
+        if GameDataManager.getAchieveState(info.id)== ACHIEVE_STATE.Unfinished and info.levels == level then
+            GameDataManager.setFinishAchieveData(info.id,ACHIEVE_STATE.Finished)
+            break
+        end
+    end
 end
 
 --===================end=========================

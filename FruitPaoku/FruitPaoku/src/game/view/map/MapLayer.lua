@@ -365,6 +365,7 @@ function MapLayer:dispose(parameters)
     GameDataManager.resetLevelData()
     GameController.clearBody()
     GameController.resetStartProp()
+    GameDataManager.resetSingleProp()
     
     self:removeFromParent(true)
 end

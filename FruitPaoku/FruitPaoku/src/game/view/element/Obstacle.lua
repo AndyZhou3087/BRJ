@@ -22,6 +22,7 @@ function Obstacle:ctor(id,py)
         self.m_id=obCon.id
         self.m_posY = py
         self.obcon = nil
+        self.isAnimate = obCon.isAnimate
         local _size = nil
         local offset = cc.p(0,0)
         
@@ -30,8 +31,12 @@ function Obstacle:ctor(id,py)
             self.obcon = ccs.Armature:create(obCon.armatureName)
             self:addChild(self.obcon)
             
-            _size = cc.size(self.obcon:getCascadeBoundingBox().size.width*0.8,self.obcon:getCascadeBoundingBox().size.height*0.8)
-        
+            _size = cc.size(self.obcon:getCascadeBoundingBox().size.width*0.9,self.obcon:getCascadeBoundingBox().size.height*0.9)
+            if self.m_vo.m_type == OBSTACLE_TYPE.spring then
+                _size = cc.size(self.obcon:getCascadeBoundingBox().size.width*0.2,self.obcon:getCascadeBoundingBox().size.height*0.2)
+                offset = cc.p(30,2)
+            end 
+            
             self:addBody(obCon,_size,offset)
         else
             self.obcon= PhysicSprite.new(obCon.res)
@@ -223,6 +228,9 @@ function Obstacle:collision(_type)
     elseif self.m_vo.m_type == OBSTACLE_TYPE.ice then
         GameDispatcher:dispatch(EventNames.EVENT_SLOW_SPEED,{cutSpeed = self.m_vo.m_cutSpeed,length = self.m_vo.m_length})
     elseif self.m_vo.m_type == OBSTACLE_TYPE.spring then
+        if self.isAnimate then
+            self.obcon:getAnimation():playWithIndex(0)
+        end
         GameDispatcher:dispatch(EventNames.EVENT_OBSCALE_SPRING)
     else
         if GameController.isInState(PLAYER_STATE.Defence) or GameController.isInState(PLAYER_STATE.StartProtect) then

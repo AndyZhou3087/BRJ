@@ -73,8 +73,8 @@ ObstacleConfig[6]=
     {
         id = 6,
         type = OBSTACLE_TYPE.spring,    --障碍类型
-        isAnimate = false,           --是否为动画资源
-        armatureName = "muban_tanhuang",
+        isAnimate = true,           --是否为动画资源
+        armatureName = "tanh",
         res = "ui/obscale_3.png",     --资源路径
         att = 1,
     }

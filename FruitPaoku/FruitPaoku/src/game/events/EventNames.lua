@@ -44,6 +44,9 @@ EventNames.EVENT_CLOSE_CLIP = "event_close_clip"
 --成就任务界面
 EventNames.EVENT_ACHIEVE_QUEST = "event_achieve_quest"
 
+--复活界面
+EventNames.EVENT_REVIVE_VIEW = "event_revive_view"
+
 --=====================场景内
 
 --时间变化
@@ -118,5 +121,8 @@ EventNames.EVENT_OBSCALE_FLYRESUM = "event_obscale_flyresum"
 
 --弹簧障碍物
 EventNames.EVENT_OBSCALE_SPRING = "event_obscale_spring"
+
+--角色复活
+EventNames.EVENT_ROLE_REVIVE = "event_role_revive"
 
 return EventNames

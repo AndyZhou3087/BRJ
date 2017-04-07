@@ -20,6 +20,7 @@ Payment=
         RoleLevel_3 = 15,
         RoleLevel_4 = 16,
         RoleLevel_5 = 17,
+        Revive = 18,
 --        --获取对应物品价格,单位:分，如果是钻石商品则额外会返回钻石数量
 --        getPrice = function(_itemId)
 --            if Payment.Diamond_1==_itemId then

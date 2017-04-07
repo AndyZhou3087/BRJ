@@ -24,9 +24,10 @@
     <string>SignItem.json</string>
     <string>AchieveQuest.json</string>
     <string>QuestAchieveItem.json</string>
+    <string>ReviveUI.json</string>
   </JsonList>
   <CanvasSize>
-    <Width>436</Width>
+    <Width>890</Width>
     <Height>100</Height>
   </CanvasSize>
   <filePath>G:\dev\BRJ\FruitPaoku\UI\FruitPaokuUI\FruitPaokuUI.xml.ui</filePath>
@@ -35,5 +36,5 @@
   <imageFileList />
   <imagePngList />
   <JsonSuffix>.json</JsonSuffix>
-  <CurrentUIJson>QuestAchieveItem.json</CurrentUIJson>
+  <CurrentUIJson>ReviveUI.json</CurrentUIJson>
 </UIProject>

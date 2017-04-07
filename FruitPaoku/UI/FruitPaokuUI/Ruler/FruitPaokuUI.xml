@@ -72,4 +72,8 @@
     <Project>QuestAchieveItem</Project>
     <GuidesList />
   </GuidesProject>
+  <GuidesProject>
+    <Project>ReviveUI</Project>
+    <GuidesList />
+  </GuidesProject>
 </ArrayOfGuidesProject>
