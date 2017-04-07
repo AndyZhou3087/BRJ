@@ -15,6 +15,9 @@ function ReviveUI:ctor(parm)
     local ReviveUI = cc.uiloader:load("json/ReviveUI.json")
     self:addChild(ReviveUI)
 
+    local Image_1 = cc.uiloader:seekNodeByName(ReviveUI,"Image_1")
+    Image_1:setPositionX(display.cx)
+
     local RoleImg=cc.uiloader:seekNodeByName(ReviveUI,"RoleImg")
     RoleImg:setButtonEnabled(false)
     RoleImg:setButtonImage("disabled",RoleConfig[GameDataManager.getFightRole()].roleRevive)
