@@ -261,6 +261,9 @@ function MapLayer:onEnterFrame(dt)
 
     --跑了多少米换算公式
    self.pexel = self.pexel + MoveSpeed*0.1/(Pixel/Miles)
+   GameDataManager.saveDayRunDistance(MoveSpeed*0.1/(Pixel/Miles))
+    Tools.printDebug("-----------多少米：",self.pexel)
+   
    if GAME_TYPE_CONTROL == GAME_TYPE.EndlessMode then
         if self.pexel >= EndlessMode.DistanceS.move then
             if not self.m_clip and EndlessMode.DistanceS.isClip then

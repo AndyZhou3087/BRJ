@@ -43,24 +43,24 @@ function AchieveQuest:ctor()
         Achieve:setButtonEnabled(true)
         QuestLabel:setButtonImage("disabled","ui/Quest_day2.png")
         AchieveLabel:setButtonImage("disabled","ui/Achieve_1.png")
-        self:initContent(AchieveConfig)
+        self:initContent(TaskConfig,1)
     end)
     Achieve:onButtonClicked(function(_event)
         QuestDay:setButtonEnabled(true)
         Achieve:setButtonEnabled(false)
         QuestLabel:setButtonImage("disabled","ui/Quest_day1.png")
         AchieveLabel:setButtonImage("disabled","ui/Achieve_2.png")
-        self:initContent(AchieveConfig)
+        self:initContent(AchieveConfig,2)
     end)
     
---    self:initContent()
+    self:initContent(TaskConfig,1)
 end
 
 function AchieveQuest:touchListener(parameters)
 	
 end
 
-function AchieveQuest:initContent(AchieveQuestCon)
+function AchieveQuest:initContent(AchieveQuestCon,type)
     self.lv:removeAllItems()
     Tools.delayCallFunc(0.1,function()
         for i=1,#AchieveQuestCon do

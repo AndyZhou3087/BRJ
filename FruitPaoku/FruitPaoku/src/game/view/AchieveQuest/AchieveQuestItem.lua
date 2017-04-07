@@ -61,13 +61,19 @@ function AchieveQuestItem:initCotent(_type)
         else
             GameDataManager.addGoods(self.m_con.reward.goodsId,self.m_con.reward.count)
         end
-        GameDataManager.setFinishAchieveData(self.m_con.id,ACHIEVE_STATE.Receive)
+        if self.m_type == 1 then
+            GameDataManager.setFinishTaskData(self.m_con.id,ACHIEVE_STATE.Receive)
+        else
+            GameDataManager.setFinishAchieveData(self.m_con.id,ACHIEVE_STATE.Receive)
+        end
     end)
     self.Unfinished = cc.uiloader:seekNodeByName(content,"Unfinished")
-    if GameDataManager.getAchieveState(self.m_con.id) == ACHIEVE_STATE.Unfinished then
+    if GameDataManager.getAchieveState(self.m_con.id) == ACHIEVE_STATE.Unfinished or 
+        GameDataManager.getTaskState(self.m_con.id) == ACHIEVE_STATE.Unfinished then
         self.Unfinished:setVisible(true)
         self.Finished:setVisible(false)
-    elseif GameDataManager.getAchieveState(self.m_con.id) == ACHIEVE_STATE.Finished then
+    elseif GameDataManager.getAchieveState(self.m_con.id) == ACHIEVE_STATE.Finished or 
+        GameDataManager.getTaskState(self.m_con.id) == ACHIEVE_STATE.Unfinished then
         self.Unfinished:setVisible(false)
         self.Finished:setVisible(true)
     else

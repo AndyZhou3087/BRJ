@@ -24,6 +24,7 @@ require("game.config.ShopConfig")
 require("game.config.SelectOtherConfig")
 require("game.config.SignRewardConfig")
 require("game.config.AchieveConfig")
+require("game.config.TaskConfig")
 
 PoolManager = require("game.tools.PoolManager")
 TimeUtil = require("game.tools.TimeUtil")
@@ -83,6 +84,17 @@ function GameApp:ctor()
     DataPersistence.insertAttribute("useDiamond_total",0)
     --累积使用道具
     DataPersistence.insertAttribute("useGood_total",{})
+    
+    --设置每日任务
+    DataPersistence.insertAttribute("dailyTasks",{})
+    --设置是否跨零点
+    DataPersistence.insertAttribute("daily_time",{day=10,month=8,year=2014})
+    --累计奔跑距离
+    DataPersistence.insertAttribute("run_distance",0)
+    --累计每日使用道具
+    DataPersistence.insertAttribute("day_useGood_total",{})
+    --累计获得金币
+    DataPersistence.insertAttribute("getGold_total",0)
 end
 
 function GameApp:run()
