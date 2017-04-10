@@ -27,6 +27,6 @@
   <object name="7" gid="4" x="458" y="233"/>
  </objectgroup>
  <objectgroup name="obscale">
-  <object name="6" gid="5" x="482" y="512"/>
+  <object name="1" gid="1" x="482" y="512"/>
  </objectgroup>
 </map>

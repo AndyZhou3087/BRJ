@@ -37,6 +37,8 @@ Tools = require("game.tools.Tools")
 DataPersistence = require("game.tools.DataPersistence")
 SDKUtil = require("game.tools.SDKUtil")
 
+local Alert = require("game.view.dialog.Dialog")
+
 --自定义事件管理类
 require("game.events.GameDispatcher"):getInstance()
 require("game.controller.UIController").new()
@@ -133,6 +135,44 @@ function GameApp:checkEnterFight(parameters)
     if not tolua.isnull(self.m_fightScene) then
         display.replaceScene(self.m_fightScene)
     end
+end
+
+--[[弹窗
+--@param:
+{
+type:弹框类型
+content:弹框内容
+title:弹框标题
+okStr:确认按钮文字
+cancleStr:取消按钮文字
+okFunc:确认回调
+cancleFunc:取消回调
+isClose:点击确认后就关闭毕弹窗
+}
+--]]
+function GameApp:alert(_params)
+    local runScene = display.getRunningScene()
+    if not tolua.isnull(self.m_alert) and self.m_alert:getParent()~=runScene then
+        self.m_alert:toClose(true)
+        self.m_alert = nil
+    end
+    if tolua.isnull(self.m_alert) then
+        self.m_alert = Alert.new(_params.type,_params.okStr,_params.cancleStr,_params.isClose)
+        self.m_alert:show(UI_ZORDER.ALERT_ZORDER)
+    end
+    if _params.title then
+        self.m_alert:setTitle(_params.title)
+    end
+    if _params.content then
+        self.m_alert:setContent(_params.content)
+    end
+    if _params.okFunc then
+        self.m_alert:setOkFunc(_params.okFunc)
+    end
+    if _params.cancleFunc then
+        self.m_alert:setCancleFunc(_params.cancleFunc)
+    end
+    return self.m_alert
 end
 
 return GameApp
