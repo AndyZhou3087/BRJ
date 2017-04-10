@@ -76,4 +76,8 @@
     <Project>ReviveUI</Project>
     <GuidesList />
   </GuidesProject>
+  <GuidesProject>
+    <Project>Dialog</Project>
+    <GuidesList />
+  </GuidesProject>
 </ArrayOfGuidesProject>

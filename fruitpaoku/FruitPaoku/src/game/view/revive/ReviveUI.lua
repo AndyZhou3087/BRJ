@@ -2,7 +2,7 @@
 复活界面
 ]]
 local BaseUI = require("game.view.BaseUI")
-local ReviveUI = class("Pause",BaseUI)
+local ReviveUI = class("ReviveUI",BaseUI)
 
 local Scheduler = require("framework.scheduler")
 
@@ -31,6 +31,7 @@ function ReviveUI:ctor(parm)
     
     local SureBtn=cc.uiloader:seekNodeByName(ReviveUI,"SureBtn")
     SureBtn:onButtonClicked(function(event)
+        self:stopTimer()
         local payId = Payment.Revive
         local oId = SDKUtil.getOrderId(payId)
         SDKUtil.toPay({goodsId=payId,orderId=oId,callback=function(_res)
@@ -40,6 +41,7 @@ function ReviveUI:ctor(parm)
                 GameDispatcher:dispatch(EventNames.EVENT_FLY_TEXT,{text ="购买成功"})
             else
                 GameDispatcher:dispatch(EventNames.EVENT_FLY_TEXT,{text ="购买失败"})
+                self:recoverTimer()
             end
         end})
     end)
@@ -64,6 +66,22 @@ function ReviveUI:onEnterFrame(parameters)
     	self:toClose(true)
         GameDispatcher:dispatch(EventNames.EVENT_OPEN_OVER,{type = GAMEOVER_TYPE.Fail})
     end
+end
+
+function ReviveUI:stopTimer(parameters)
+    Tools.printDebug("停止倒计时")
+    if self.m_timer then
+        Scheduler.unscheduleGlobal(self.m_timer)
+        self.m_timer = nil
+    end
+end
+
+function ReviveUI:recoverTimer(parameters)
+    Tools.printDebug("启动倒计时")
+    if not self.m_timer then
+        self.m_timer = Scheduler.scheduleGlobal(handler(self,self.onEnterFrame),1)
+    end
+
 end
 
 --关闭界面调用

@@ -25,10 +25,11 @@
     <string>AchieveQuest.json</string>
     <string>QuestAchieveItem.json</string>
     <string>ReviveUI.json</string>
+    <string>Dialog.json</string>
   </JsonList>
   <CanvasSize>
-    <Width>890</Width>
-    <Height>100</Height>
+    <Width>960</Width>
+    <Height>540</Height>
   </CanvasSize>
   <filePath>G:\dev\BRJ\FruitPaoku\UI\FruitPaokuUI\FruitPaokuUI.xml.ui</filePath>
   <ProjectType>UIProject</ProjectType>
@@ -36,5 +37,5 @@
   <imageFileList />
   <imagePngList />
   <JsonSuffix>.json</JsonSuffix>
-  <CurrentUIJson>ReviveUI.json</CurrentUIJson>
+  <CurrentUIJson>Dialog.json</CurrentUIJson>
 </UIProject>
