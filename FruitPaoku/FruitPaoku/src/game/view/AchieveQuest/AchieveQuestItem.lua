@@ -68,17 +68,28 @@ function AchieveQuestItem:initCotent(_type)
         end
     end)
     self.Unfinished = cc.uiloader:seekNodeByName(content,"Unfinished")
-    if GameDataManager.getAchieveState(self.m_con.id) == ACHIEVE_STATE.Unfinished or 
-        GameDataManager.getTaskState(self.m_con.id) == ACHIEVE_STATE.Unfinished then
-        self.Unfinished:setVisible(true)
-        self.Finished:setVisible(false)
-    elseif GameDataManager.getAchieveState(self.m_con.id) == ACHIEVE_STATE.Finished or 
-        GameDataManager.getTaskState(self.m_con.id) == ACHIEVE_STATE.Unfinished then
-        self.Unfinished:setVisible(false)
-        self.Finished:setVisible(true)
-    else
-        self.Unfinished:setVisible(false)
-        self.Finished:setVisible(false)
+    if _type == 2 then
+        if GameDataManager.getAchieveState(self.m_con.id) == ACHIEVE_STATE.Unfinished then
+            self.Unfinished:setVisible(true)
+            self.Finished:setVisible(false)
+        elseif GameDataManager.getAchieveState(self.m_con.id) == ACHIEVE_STATE.Finished then
+            self.Unfinished:setVisible(false)
+            self.Finished:setVisible(true)
+        else
+            self.Unfinished:setVisible(false)
+            self.Finished:setVisible(false)
+        end
+    elseif _type == 1 then
+        if GameDataManager.getTaskState(self.m_con.id) == ACHIEVE_STATE.Unfinished then
+            self.Unfinished:setVisible(true)
+            self.Finished:setVisible(false)
+        elseif GameDataManager.getTaskState(self.m_con.id) == ACHIEVE_STATE.Finished then
+            self.Unfinished:setVisible(false)
+            self.Finished:setVisible(true)
+        else
+            self.Unfinished:setVisible(false)
+            self.Finished:setVisible(false)
+        end
     end
     
 end
