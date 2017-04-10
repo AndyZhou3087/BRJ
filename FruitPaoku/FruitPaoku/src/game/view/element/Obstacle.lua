@@ -34,6 +34,7 @@ function Obstacle:ctor(id,py)
                 self.obcon:getAnimation():playWithIndex(0)
                 self.obcon:setScaleX(-1)
             end
+            self.obcon:setAnchorPoint(cc.p(0,0))
             
             _size = cc.size(self.obcon:getCascadeBoundingBox().size.width*0.9,self.obcon:getCascadeBoundingBox().size.height*0.9)
             if self.m_vo.m_type == OBSTACLE_TYPE.spring then
@@ -42,11 +43,13 @@ function Obstacle:ctor(id,py)
             elseif self.m_vo.m_type == OBSTACLE_TYPE.special then
                 offset = cc.p(-50,50)
             end 
-            
             self:addBody(obCon,_size,offset)
+            
         else
             self.obcon= PhysicSprite.new(obCon.res)
             self:addChild(self.obcon)
+            
+            self.obcon:setAnchorPoint(cc.p(0,0))
             
             _size = cc.size(self.obcon:getCascadeBoundingBox().size.width*0.9,self.obcon:getCascadeBoundingBox().size.height*0.9)
             offset = cc.p(30,40)
@@ -56,6 +59,10 @@ function Obstacle:ctor(id,py)
             elseif self.m_vo.m_type == OBSTACLE_TYPE.spring then
                 _size = cc.size(self.obcon:getCascadeBoundingBox().size.width*0.2,self.obcon:getCascadeBoundingBox().size.height*0.2)
                 offset = cc.p(30,2)
+            elseif self.m_vo.m_type == OBSTACLE_TYPE.fly then
+                self.obcon:setAnchorPoint(cc.p(0.5,0.5))
+                self.obcon:setPosition(cc.p(-self.obcon:getCascadeBoundingBox().size.width*0.5,-self.obcon:getCascadeBoundingBox().size.height*0.5))
+                offset = cc.p(-30,-30)
             end       
             self:addBody(obCon,_size,offset)
 
@@ -77,8 +84,6 @@ function Obstacle:ctor(id,py)
             end
             
         end
-        
-        self.obcon:setAnchorPoint(cc.p(0,0))
         
         ccs.ArmatureDataManager:getInstance():addArmatureFileInfo("armature/xiaoshi0.png", "armature/xiaoshi0.plist" , "armature/xiaoshi.ExportJson" )
         self.m_dEffect = ccs.Armature:create("xiaoshi")
