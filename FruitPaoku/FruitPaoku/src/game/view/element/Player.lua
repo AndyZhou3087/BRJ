@@ -288,27 +288,31 @@ function Player:playerAttacked(parm)
     self.m_hp = self.m_hp - parm.data.att
     if self.m_hp <= 0 then
         Tools.printDebug("------------角色死亡..")
+        self:deadSprintFlash()
+    end
+end
+
+function Player:deadSprintFlash(parameters)
+	if GameController.getStartPropById(2) then
+        GameDataManager.useGoods(2)
+    else
+        self:deadContinueFlash()
+    end
+end
+
+function Player:deadContinueFlash()
+	if GameController.getStartPropById(4) then
+        GameDataManager.useGoods(4)
+    else
         self:deadFlash()
     end
 end
 
 --
-function Player:deadFlash(parameters)
-    --
-    Tools.delayCallFunc(0.1,function()
-        if GameController.getStartPropById(2) then
-            GameDataManager.useGoods(2)
-        elseif GameController.getStartPropById(4) then
-            GameDataManager.useGoods(4)
-        else
-            self:death()
-            --复活界面
-            GameDispatcher:dispatch(EventNames.EVENT_REVIVE_VIEW)
-            --弹结算界面
---            GameDispatcher:dispatch(EventNames.EVENT_OPEN_OVER,{type = GAMEOVER_TYPE.Fail})
-        end
-    end)
-    
+function Player:deadFlash()
+    self:death()
+    --复活界面
+    GameDispatcher:dispatch(EventNames.EVENT_REVIVE_VIEW)
 end
 
 --角色死亡
@@ -696,7 +700,7 @@ function Player:clearBuff(_type)
             MoveSpeed = self.deadSpeed
             self.deadSpeed = nil
             self.m_scaleY = nil
-            self:deadFlash()
+            self:deadContinueFlash()
             
         elseif _type == PLAYER_STATE.StartProtect then
             if self.m_proHandler then

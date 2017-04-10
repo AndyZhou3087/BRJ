@@ -230,7 +230,13 @@ function MapLayer:collisionBeginCallBack(parameters)
     end
     
     if obstacleTag == ELEMENT_TAG.OBSTACLE or obstacleTag == ELEMENT_TAG.GOLD_TAG or obstacleTag == ELEMENT_TAG.GOOD_TAG then
-    	obstacle:collision()
+        if obstacleTag == ELEMENT_TAG.OBSTACLE then
+            if not obstacle:isDisappear() then
+                obstacle:collision()
+            end
+        else
+            obstacle:collision()
+        end
     	return true
     end
 

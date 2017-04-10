@@ -17,7 +17,7 @@ GiftConfig[1] =
     roleImg = "",
     bg = "",
     titleImg = "",
-    roleDes = "见习",
+    roleDes = "见习忍者",
     price = 6,
     reward = {role = 2,diamond = 60},
     payId = Payment.RoleGift_1,

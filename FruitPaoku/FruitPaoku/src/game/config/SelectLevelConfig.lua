@@ -37,7 +37,7 @@ SelectLevel[1]=
 --    coins = {3,3,3,0},    --金币, 此id对应CoinsConfig配置文件，填0表示无
 --    goods={1,1,1,0},      --道具  此id对应GoodGroupConfig配置文件,填0表示无道具
     gap = 500,    --每组之间的间隔差距，单位:像素
-    speed = 32,  --每一关卡速度
+    speed = 145,  --每一关卡速度
     getStar = function(score)     --星级分数配置
         if score >= 300 then
         	return 3

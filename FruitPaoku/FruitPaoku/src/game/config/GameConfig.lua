@@ -6,6 +6,7 @@ SelectItemCount = 15
 
 GroupSize = cc.size(960,540)   --每一组配置的大小
 
+DefaultSpeed = 32
 --移动速度
 MoveSpeed = 0
 

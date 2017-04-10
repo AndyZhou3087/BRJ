@@ -37,5 +37,5 @@
   <imageFileList />
   <imagePngList />
   <JsonSuffix>.json</JsonSuffix>
-  <CurrentUIJson>Dialog.json</CurrentUIJson>
+  <CurrentUIJson />
 </UIProject>

@@ -39,39 +39,10 @@ PLAYER_ACT_TYPE =
 
 RoleConfig={}
 
-
 RoleConfig[1]=
     {
         id = 1,
         skillAct = {},    --主动技能
-        armatureName = "nv_pao",   --动画工程名
-        roleName = "囧囧",     --角色名称
-        roleImg = "ui/role_2.png",   --角色图片
-        roleDes = "aaaaaaaaaaa",  --角色描述
-        roleRevive = "ui/Revive_role2.png",
-        lock = {},--解锁所需条件
-        diamondPrice = 10,   --钻石购买价格
-        coinPrice = 2500,    --金币购买价格
-        rmb = 10,   --人民币购买价格
-        hp = 1,     --血量
-        att = 1,    --攻击力
-
-        sprintTime = 0,   --冲刺时间,单位：秒
-        magnetTime = 0,   --磁铁时间,单位：秒
-        giantTime = 0,   --巨人时间,单位：秒
-        transTime=0,     --转换时间 (s)
-        cloudTime=0,     --浮云时间(s)
-
-        initLv= 1 ,      --初始角色等级
-        lvMax = #RoleLvs[1],      --角色满级等级
-        quickMaxPrice = 50 , -- 一键满级价格
-        payMaxLvId = Payment.RoleLevel_1,
-    }
-    
-RoleConfig[2]=
-    {
-        id = 2,
-        skillAct = {{type=PLAYER_ACT_TYPE.Magnet,radius = 300,}},    --主动技能
         armatureName = "nan3",   --动画工程名
         roleName = "囧囧",     --角色名称
         roleImg = "ui/role_1.png",   --角色图片
@@ -92,6 +63,34 @@ RoleConfig[2]=
 
         initLv= 1 ,      --初始角色等级
         lvMax = #RoleLvs[2],      --角色满级等级
+        quickMaxPrice = 50 , -- 一键满级价格
+        payMaxLvId = Payment.RoleLevel_1,
+    }
+
+RoleConfig[2]=
+    {
+        id = 2,
+        skillAct = {{type=PLAYER_ACT_TYPE.Magnet,radius = 300,}},    --主动技能
+        armatureName = "nv_pao",   --动画工程名
+        roleName = "囧囧",     --角色名称
+        roleImg = "ui/role_2.png",   --角色图片
+        roleDes = "aaaaaaaaaaa",  --角色描述
+        roleRevive = "ui/Revive_role2.png",
+        lock = {},--解锁所需条件
+        diamondPrice = 10,   --钻石购买价格
+        coinPrice = 2500,    --金币购买价格
+        rmb = 10,   --人民币购买价格
+        hp = 1,     --血量
+        att = 1,    --攻击力
+
+        sprintTime = 0,   --冲刺时间,单位：秒
+        magnetTime = 0,   --磁铁时间,单位：秒
+        giantTime = 0,   --巨人时间,单位：秒
+        transTime=0,     --转换时间 (s)
+        cloudTime=0,     --浮云时间(s)
+
+        initLv= 1 ,      --初始角色等级
+        lvMax = #RoleLvs[1],      --角色满级等级
         quickMaxPrice = 50 , -- 一键满级价格
         payMaxLvId = Payment.RoleLevel_2,
         payId = Payment.Role_2,
