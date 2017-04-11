@@ -16,6 +16,7 @@ GameBgRes = "Common/GameBg.jpg"
 --前期无障碍缓存距离，单位：像素
 CacheDis = 200
 
+--1m=32px(1米=32像素)
 --每秒移动像素
 Pixel = 320
 --每秒路程，单位:米

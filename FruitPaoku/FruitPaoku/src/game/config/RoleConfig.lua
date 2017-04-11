@@ -20,6 +20,7 @@ PLAYER_STATE=
         LimitSprint = 8, --极限冲刺
         TransformGold = 9,--金币转换
         Slow = 10,  --滑冰速度减慢
+        GameDefence = 11,
     }
 --角色动作
 PLAYER_ACTION=
@@ -42,7 +43,7 @@ RoleConfig={}
 RoleConfig[1]=
     {
         id = 1,
-        skillAct = {},    --主动技能
+        skillAct = {{type=PLAYER_ACT_TYPE.Magnet,radius = 300,}},    --主动技能
         armatureName = "nan3",   --动画工程名
         roleName = "囧囧",     --角色名称
         roleImg = "ui/role_1.png",   --角色图片
@@ -82,6 +83,7 @@ RoleConfig[2]=
         rmb = 10,   --人民币购买价格
         hp = 1,     --血量
         att = 1,    --攻击力
+        giftId = 1,
 
         sprintTime = 0,   --冲刺时间,单位：秒
         magnetTime = 0,   --磁铁时间,单位：秒
@@ -111,6 +113,7 @@ RoleConfig[3]=
         rmb = 10,   --人民币购买价格
         hp = 1,     --血量
         att = 1,    --攻击力
+        giftId = 2,
 
         sprintTime = 0,   --冲刺时间,单位：秒
         magnetTime = 0,   --磁铁时间,单位：秒
@@ -140,6 +143,7 @@ RoleConfig[4]=
         rmb = 10,   --人民币购买价格
         hp = 1,     --血量
         att = 1,    --攻击力
+        giftId = 3,
 
         sprintTime = 0,   --冲刺时间,单位：秒
         magnetTime = 0,   --磁铁时间,单位：秒
@@ -169,6 +173,7 @@ RoleConfig[5]=
         rmb = 10,   --人民币购买价格
         hp = 1,     --血量
         att = 1,    --攻击力
+        giftId = 4,
 
         sprintTime = 0,   --冲刺时间,单位：秒
         magnetTime = 0,   --磁铁时间,单位：秒

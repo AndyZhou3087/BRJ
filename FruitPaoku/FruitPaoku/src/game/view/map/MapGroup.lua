@@ -227,6 +227,7 @@ function MapGroup:dispose(_isDestroy)
             end
         end
     end
+    self.m_obstacle = {}
     
     if self.m_golds then
         for key, var in pairs(self.m_golds) do
@@ -238,6 +239,7 @@ function MapGroup:dispose(_isDestroy)
             end
         end
     end
+    self.m_golds = {}
     
     if self.m_goods then
         for key, var in pairs(self.m_goods) do
@@ -246,6 +248,7 @@ function MapGroup:dispose(_isDestroy)
             end
         end
     end
+    self.m_goods ={}
     
     if self.m_timer then
         Scheduler.unscheduleGlobal(self.m_timer)

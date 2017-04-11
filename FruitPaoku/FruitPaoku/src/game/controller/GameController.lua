@@ -324,6 +324,16 @@ function GameController.clearBody(parameters)
         end
     end
     goodBody={}
+    
+    if movingObjs then
+        for var=#movingObjs, 1,-1 do
+            local _node = movingObjs[var]
+            if not tolua.isnull(_node) then
+                _node:dispose()
+            end
+        end
+        movingObjs={}
+    end
 end
 
 

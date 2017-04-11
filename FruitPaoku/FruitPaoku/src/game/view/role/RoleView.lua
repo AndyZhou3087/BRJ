@@ -28,7 +28,13 @@ function RoleView:ctor(parameters)
 
     --启用监听
     self:setNodeEventEnabled(true)
+    
+    GameDispatcher:addListener(EventNames.EVENT_ROLE_CHANGEDATA,handler(self,self.changeData))
 
+end
+
+function RoleView:changeData(parameters)
+    self:LoadRole(parameters.data)
 end
 
 function RoleView:initRole(parameters)
@@ -85,17 +91,18 @@ function RoleView:initRole(parameters)
     
     self.RoleBuy = cc.uiloader:seekNodeByName(self.m_roleUi,"RoleBuy")--购买
     self.RoleBuy:onButtonClicked(function(event)
-        local payId = RoleConfig[self.roleCount].payId
-        local oId = SDKUtil.getOrderId(payId)
-        SDKUtil.toPay({goodsId=payId,orderId=oId,callback=function(_res)
-            if SDKUtil.PayResult.Success == _res then
-                GameDataManager.unLockModle(self.roleCount)
-                self:LoadRole(self.roleCount)
-                GameDispatcher:dispatch(EventNames.EVENT_FLY_TEXT,{text ="购买成功"})
-            else
-                GameDispatcher:dispatch(EventNames.EVENT_FLY_TEXT,{text ="购买失败"})
-            end
-        end})
+        GameDispatcher:dispatch(EventNames.EVENT_OPEN_GIFTROLE,{giftId = RoleConfig[self.roleCount].giftId})
+--        local payId = RoleConfig[self.roleCount].payId
+--        local oId = SDKUtil.getOrderId(payId)
+--        SDKUtil.toPay({goodsId=payId,orderId=oId,callback=function(_res)
+--            if SDKUtil.PayResult.Success == _res then
+--                GameDataManager.unLockModle(self.roleCount)
+--                self:LoadRole(self.roleCount)
+--                GameDispatcher:dispatch(EventNames.EVENT_FLY_TEXT,{text ="购买成功"})
+--            else
+--                GameDispatcher:dispatch(EventNames.EVENT_FLY_TEXT,{text ="购买失败"})
+--            end
+--        end})
     end)
     
     for var=1, #RoleConfig do
@@ -237,6 +244,7 @@ end
 
 --清理数据
 function RoleView:onCleanup()
+    GameDispatcher:removeListenerByName(EventNames.EVENT_ROLE_CHANGEDATA)
     for key, var in pairs(self.m_skill) do
         if not tolua.isnull(var) then
             var:removeFromParent()

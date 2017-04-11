@@ -270,7 +270,18 @@ function Obstacle:collision(_type)
         end
         GameDispatcher:dispatch(EventNames.EVENT_OBSCALE_SPRING)
     else
-        if GameController.isInState(PLAYER_STATE.Defence) or GameController.isInState(PLAYER_STATE.StartProtect) then
+        if GameController.getCurPlayer():getJumpState() then
+            self.isDead = true
+            self.obcon:setVisible(false)
+            self.m_dEffect:setVisible(true)
+            self.m_dEffect:getAnimation():play("xiaoshi",0,0)
+            if self.m_vo.m_type == OBSTACLE_TYPE.fly then
+                self:stopAllActions()
+            end
+            return
+        end
+        if GameController.isInState(PLAYER_STATE.Defence) or GameController.isInState(PLAYER_STATE.StartProtect) 
+            or GameController.isInState(PLAYER_STATE.GameDefence)then
             self.isDead = true
             GameDispatcher:dispatch(EventNames.EVENT_PLAYER_ATTACKED,{isSpecial = false,att = self.m_vo.m_att})
             self.obcon:setVisible(false)
@@ -280,16 +291,6 @@ function Obstacle:collision(_type)
                 self:stopAllActions()
             end
             return
-        end
-        if GameController.getCurPlayer():getJumpState() then
-                self.isDead = true
-                self.obcon:setVisible(false)
-                self.m_dEffect:setVisible(true)
-                self.m_dEffect:getAnimation():play("xiaoshi",0,0)
-                if self.m_vo.m_type == OBSTACLE_TYPE.fly then
-                	self:stopAllActions()
-                end
-        	return
         end
         GameDispatcher:dispatch(EventNames.EVENT_PLAYER_ATTACKED,{isSpecial = false,att = self.m_vo.m_att})
     end
