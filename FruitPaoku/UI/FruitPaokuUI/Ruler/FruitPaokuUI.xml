@@ -80,4 +80,8 @@
     <Project>Dialog</Project>
     <GuidesList />
   </GuidesProject>
+  <GuidesProject>
+    <Project>GiftView</Project>
+    <GuidesList />
+  </GuidesProject>
 </ArrayOfGuidesProject>
