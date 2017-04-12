@@ -10,7 +10,15 @@
   "designHeight": 540,
   "designWidth": 960,
   "textures": [],
-  "texturesPng": [],
+  "texturesPng": [
+    "ui/Main_bg.jpg",
+    "ui/Logo.png",
+    "ui/Level_button1.png",
+    "ui/Level_button2.png",
+    "ui/Endless_button1.png",
+    "ui/Endless_button2.png",
+    "ui/Set_button1.png"
+  ],
   "version": "1.6.0.0",
   "widgetTree": {
     "classname": "Panel",
@@ -255,8 +263,8 @@
                   "customProperty": "",
                   "flipX": false,
                   "flipY": false,
-                  "height": 30,
-                  "ignoreSize": false,
+                  "height": 25,
+                  "ignoreSize": true,
                   "layoutParameter": null,
                   "opacity": 255,
                   "positionPercentX": 0,
@@ -272,7 +280,7 @@
                   "touchAble": false,
                   "useMergedTexture": false,
                   "visible": true,
-                  "width": 60,
+                  "width": 50,
                   "x": 0,
                   "y": 4,
                   "capInsetsHeight": 1,
@@ -286,8 +294,8 @@
                     "resourceType": 0
                   },
                   "scale9Enable": false,
-                  "scale9Height": 30,
-                  "scale9Width": 60
+                  "scale9Height": 25,
+                  "scale9Width": 50
                 }
               }
             ],
@@ -383,8 +391,8 @@
                   "customProperty": "",
                   "flipX": false,
                   "flipY": false,
-                  "height": 30,
-                  "ignoreSize": false,
+                  "height": 24,
+                  "ignoreSize": true,
                   "layoutParameter": null,
                   "opacity": 255,
                   "positionPercentX": 0,
@@ -400,7 +408,7 @@
                   "touchAble": false,
                   "useMergedTexture": false,
                   "visible": true,
-                  "width": 60,
+                  "width": 50,
                   "x": 0,
                   "y": 4,
                   "capInsetsHeight": 1,
@@ -414,8 +422,8 @@
                     "resourceType": 0
                   },
                   "scale9Enable": false,
-                  "scale9Height": 30,
-                  "scale9Width": 60
+                  "scale9Height": 24,
+                  "scale9Width": 50
                 }
               }
             ],
