@@ -27,8 +27,9 @@ function Player:ctor()
     local modle = RoleConfig[self.m_curModle].armatureName
     self:createModle(modle)
 
-    self.p_siz=cc.size(self.m_armature:getCascadeBoundingBox().size.width*0.7,self.m_armature:getCascadeBoundingBox().size.height)
-    self:addBody(cc.p(10,50),self.p_siz)
+    self.p_siz=cc.size(80,110)
+    self.p_offset = cc.p(10,60)
+    self:addBody(self.p_offset,self.p_siz)
     
     self.m_twoJump = false
     self.m_isMagnet = false
@@ -86,6 +87,7 @@ function Player:createModle(_actionName)
 
     self.m_armature = ccs.Armature:create(_actionName)
     self:addChild(self.m_armature)
+    self:setAnchorPoint(cc.p(0,0))
     self.m_animation = self.m_armature:getAnimation()
     self:toPlay(PLAYER_ACTION.Run)
     self.m_animation:setMovementEventCallFunc(handler(self,self.armatureMoveEvent))
@@ -258,6 +260,10 @@ end
 
 function Player:getAreaSize(parameters)
     return self.p_siz
+end
+
+function Player:getOffset(parameters)
+    return self.p_offset
 end
 
 function Player:update(dt,_x,_y)

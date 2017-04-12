@@ -47,7 +47,7 @@ SelectLevel[1]=
             return 1
         end
     end,
-    isClip = true,  --关卡是否遮罩
+    isClip = false,  --关卡是否遮罩
     giftGap = 3000,   --奔跑多少距离弹角色礼包，单位:像素
 }
 

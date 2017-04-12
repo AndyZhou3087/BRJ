@@ -15,7 +15,7 @@ function RoleView:ctor(parameters)
     self:addChild(self.m_roleUi)
 
     local commonui = CommonUI.new():addTo(self)
-    commonui:setPosition(cc.p(10,display.top-70))
+    commonui:setPosition(cc.p(0,display.top-60))
     
     self.RoleUnActSkill = {GoodsConfig[7],GoodsConfig[8],GoodsConfig[9],GoodsConfig[10],GoodsConfig[11]}
     
@@ -127,8 +127,8 @@ function RoleView:initRole(parameters)
             local content = RoleItem.new(self.RoleUnActSkill[var])
             self.m_skill[var] = content
             content:setTouchEnabled(false)
-            content:setContentSize(self.m_listSize.width, 100)
-            item:setItemSize(self.m_listSize.width, 100)
+            content:setContentSize(self.m_listSize.width, 85)
+            item:setItemSize(self.m_listSize.width, 85)
             item:addContent(content)
             self.lv:addItem(item)
         end

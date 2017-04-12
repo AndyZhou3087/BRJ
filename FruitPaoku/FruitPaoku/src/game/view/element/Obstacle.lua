@@ -258,6 +258,16 @@ function Obstacle:armatureMoveEvent(armatureBack,movementType,movementID)
 end
 
 function Obstacle:collision(_type)
+    if GameController.isInState(PLAYER_STATE.GrankDrink) then
+        self.isDead = true
+        self.obcon:setVisible(false)
+        self.m_dEffect:setVisible(true)
+        self.m_dEffect:getAnimation():play("xiaoshi",0,0)
+        if self.m_vo.m_type == OBSTACLE_TYPE.fly then
+            self:stopAllActions()
+        end
+        return
+    end
     if self.m_vo.m_type == OBSTACLE_TYPE.special then
         GameDispatcher:dispatch(EventNames.EVENT_PLAYER_ATTACKED,{isSpecial = true,att = self.m_vo.m_att})
     elseif self.m_vo.m_type == OBSTACLE_TYPE.ice then

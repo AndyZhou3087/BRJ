@@ -213,6 +213,12 @@ function MapGroup:startUpdate(parameters)
 end
 
 function MapGroup:dispose(_isDestroy)
+
+    if self.m_timer then
+        Scheduler.unscheduleGlobal(self.m_timer)
+        self.m_timer = nil
+    end
+
     for key, var in pairs(self.m_blocks) do
         if not tolua.isnull(var) then
             var:dispose()
@@ -249,11 +255,6 @@ function MapGroup:dispose(_isDestroy)
         end
     end
     self.m_goods ={}
-    
-    if self.m_timer then
-        Scheduler.unscheduleGlobal(self.m_timer)
-        self.m_timer = nil
-    end
     
     self:removeFromParent(true)
 

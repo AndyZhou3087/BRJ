@@ -10,7 +10,15 @@
   "designHeight": 60,
   "designWidth": 960,
   "textures": [],
-  "texturesPng": [],
+  "texturesPng": [
+    "ui/Main_bg.jpg",
+    "ui/Logo.png",
+    "ui/Level_button1.png",
+    "ui/Level_button2.png",
+    "ui/Endless_button1.png",
+    "ui/Endless_button2.png",
+    "ui/Set_button1.png"
+  ],
   "version": "1.6.0.0",
   "widgetTree": {
     "classname": "Panel",
@@ -434,7 +442,7 @@
           "layoutParameter": null,
           "opacity": 255,
           "positionPercentX": 0.197916672,
-          "positionPercentY": 0.5083333,
+          "positionPercentY": 0.5,
           "positionType": 0,
           "rotation": 0,
           "scaleX": 1,
@@ -497,8 +505,8 @@
               "rotation": 0,
               "scaleX": 1,
               "scaleY": 1,
-              "sizePercentX": 0.1904762,
-              "sizePercentY": 0.9302326,
+              "sizePercentX": 0.209523812,
+              "sizePercentY": 1.02325583,
               "sizeType": 0,
               "tag": 1331179365,
               "touchAble": false,
@@ -667,7 +675,7 @@
           "layoutParameter": null,
           "opacity": 255,
           "positionPercentX": 0.515625,
-          "positionPercentY": 0.5083333,
+          "positionPercentY": 0.5,
           "positionType": 0,
           "rotation": 0,
           "scaleX": 1,
@@ -720,7 +728,7 @@
               "customProperty": "",
               "flipX": false,
               "flipY": false,
-              "height": 39,
+              "height": 37,
               "ignoreSize": true,
               "layoutParameter": null,
               "opacity": 255,
@@ -737,7 +745,7 @@
               "touchAble": false,
               "useMergedTexture": false,
               "visible": true,
-              "width": 43,
+              "width": 36,
               "x": -82,
               "y": -1,
               "capInsetsHeight": 1,
@@ -751,8 +759,8 @@
                 "resourceType": 0
               },
               "scale9Enable": false,
-              "scale9Height": 39,
-              "scale9Width": 43
+              "scale9Height": 37,
+              "scale9Width": 36
             }
           },
           {
@@ -900,7 +908,7 @@
           "layoutParameter": null,
           "opacity": 255,
           "positionPercentX": 0.7604167,
-          "positionPercentY": 0.5083333,
+          "positionPercentY": 0.5,
           "positionType": 0,
           "rotation": 0,
           "scaleX": 1,

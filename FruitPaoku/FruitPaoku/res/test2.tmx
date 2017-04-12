@@ -21,7 +21,7 @@
   </data>
  </layer>
  <objectgroup name="gold">
-  <object name="Common_copper.png" type="3" gid="2" x="301" y="391"/>
+  <object name="Common_copper.png" type="3" gid="2" x="301" y="440"/>
  </objectgroup>
  <objectgroup name="good">
   <object name="12" gid="4" x="458" y="233"/>

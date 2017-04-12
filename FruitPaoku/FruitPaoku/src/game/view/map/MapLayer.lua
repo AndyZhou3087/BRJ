@@ -273,7 +273,7 @@ function MapLayer:onEnterFrame(dt)
 --    Tools.printDebug("-----------多少米：",self.pexel)
     
     self.miles = self.miles + MoveSpeed*0.1
-    Tools.printDebug("-----------多少像素：",self.miles)
+--    Tools.printDebug("-----------多少像素：",self.miles)
     if GAME_TYPE_CONTROL == GAME_TYPE.LevelMode and not self.isGiftPop then
         if self.m_levelCon.giftGap and self.miles >= self.m_levelCon.giftGap then
             self.isGiftPop = true

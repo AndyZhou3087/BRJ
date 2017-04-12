@@ -17,7 +17,7 @@ function ShopView:ctor(isPause)
     self:addChild(self.m_shopUi)
     
     local commonui = CommonUI.new({isShop = true}):addTo(self)
-    commonui:setPosition(cc.p(10,display.top-60))
+    commonui:setPosition(cc.p(0,display.top-60))
     
     local Image_2 = cc.uiloader:seekNodeByName(self.m_shopUi,"Image_2")
     Image_2:setPositionX(display.cx)
