@@ -38,5 +38,5 @@
   <imageFileList />
   <imagePngList />
   <JsonSuffix>.json</JsonSuffix>
-  <CurrentUIJson>GiftView.json</CurrentUIJson>
+  <CurrentUIJson>FightReady.json</CurrentUIJson>
 </UIProject>
