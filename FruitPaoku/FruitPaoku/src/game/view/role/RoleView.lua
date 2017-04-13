@@ -40,7 +40,7 @@ end
 function RoleView:initRole(parameters)
     self.listPandel = cc.uiloader:seekNodeByName(self.m_roleUi,"Panel_5")
     self.Panel_role = cc.uiloader:seekNodeByName(self.m_roleUi,"Panel_role")
-    self.Panel_role:setPositionX(display.right-940)
+    self.Panel_role:setPositionX(display.right-235)
     --图片
     self.RoleImg = cc.uiloader:seekNodeByName(self.m_roleUi,"RoleImg")
     self.RoleImg:setButtonEnabled(false)

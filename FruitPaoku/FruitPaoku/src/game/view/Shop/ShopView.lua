@@ -21,12 +21,6 @@ function ShopView:ctor(isPause)
     
     local Image_2 = cc.uiloader:seekNodeByName(self.m_shopUi,"Image_2")
     Image_2:setPositionX(display.cx)
-    local Image_3 = cc.uiloader:seekNodeByName(self.m_shopUi,"Image_3")
-    Image_3:setPositionX(display.cx)
-    local Image_4 = cc.uiloader:seekNodeByName(self.m_shopUi,"Image_4")
-    Image_4:setPositionX(display.cx)
-    local Image_5 = cc.uiloader:seekNodeByName(self.m_shopUi,"Image_5")
-    Image_5:setPositionX(display.cx)
 
     local listContent = cc.uiloader:seekNodeByName(self.m_shopUi,"Panel_List")
     self.m_listSize = listContent:getCascadeBoundingBox().size
@@ -60,8 +54,8 @@ function ShopView:initPublic(shopConfig)
             local item = self.lv:newItem()
             local content = ShopItemUI.new(i)
             content:setTouchEnabled(false)
-            content:setContentSize(self.m_listSize.width, 138)
-            item:setItemSize(self.m_listSize.width, 138)
+            content:setContentSize(self.m_listSize.width, 120)
+            item:setItemSize(self.m_listSize.width, 120)
             item:addContent(content)
             self.lv:addItem(item)
         end

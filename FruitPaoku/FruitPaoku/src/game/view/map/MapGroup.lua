@@ -88,7 +88,7 @@ function MapGroup:ctor(_idx,_levelCon)
     self:initElement(_obstacle)
 
     self:initCoins(_coins)
-    self:initGoods(_goods)
+--    self:initGoods(_goods)
     
 end
 
