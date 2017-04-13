@@ -36,15 +36,7 @@
   <ProjectType>UIProject</ProjectType>
   <ResRelativePath />
   <imageFileList />
-  <imagePngList>
-    <string>ui/Main_bg.jpg</string>
-    <string>ui/Logo.png</string>
-    <string>ui/Level_button1.png</string>
-    <string>ui/Level_button2.png</string>
-    <string>ui/Endless_button1.png</string>
-    <string>ui/Endless_button2.png</string>
-    <string>ui/Set_button1.png</string>
-  </imagePngList>
+  <imagePngList />
   <JsonSuffix>.json</JsonSuffix>
-  <CurrentUIJson>ShopItem.json</CurrentUIJson>
+  <CurrentUIJson />
 </UIProject>
