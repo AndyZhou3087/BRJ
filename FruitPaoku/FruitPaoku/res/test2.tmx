@@ -24,9 +24,9 @@
   <object name="Common_copper.png" type="3" gid="2" x="301" y="440"/>
  </objectgroup>
  <objectgroup name="good">
-  <object name="12" gid="4" x="458" y="233"/>
+  <object name="8" gid="4" x="458" y="233"/>
  </objectgroup>
  <objectgroup name="obstacle">
-  <object name="1" gid="5" x="497" y="508"/>
+  <object name="6" gid="5" x="497" y="508"/>
  </objectgroup>
 </map>

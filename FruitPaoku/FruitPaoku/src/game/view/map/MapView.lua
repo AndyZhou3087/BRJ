@@ -16,9 +16,9 @@ function MapView:ctor(parameters)
     self.mcurLevelCoin = 0
     
     local Image_3_0 = cc.uiloader:seekNodeByName(self.m_mapView,"Image_3_0")
-    Image_3_0:setPositionX(display.right-290)
+--    Image_3_0:setPositionX(display.right-290)
     local Image_3 = cc.uiloader:seekNodeByName(self.m_mapView,"Image_3")
-    Image_3:setPositionX(display.left+435)
+--    Image_3:setPositionX(display.left+435)
     local Image_1 = cc.uiloader:seekNodeByName(self.m_mapView,"Image_1")
     Image_1:setPositionX(display.left+125)
 
@@ -58,6 +58,7 @@ function MapView:ctor(parameters)
     end)
     
     local jumpBtn = cc.uiloader:seekNodeByName(self.m_mapView,"JumpBtn")
+    jumpBtn:setPositionX(display.right-110)
     jumpBtn:onButtonClicked(function(_event)
         if not GameController.isWin and not GameController.isDead and not GameController.isInState(PLAYER_STATE.StartSprint) then
             GameController.getCurPlayer():toPlay(PLAYER_ACTION.Jump,0)

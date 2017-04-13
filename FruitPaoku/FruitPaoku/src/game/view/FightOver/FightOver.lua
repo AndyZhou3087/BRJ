@@ -26,9 +26,6 @@ function FightOver:ctor(parm)
         self:toWin()
     elseif parm.type == GAMEOVER_TYPE.Fail then
         self:toFail()
---        self:init()
---        self:Clearing()
---        self:starEffect(3)
     end
 
     --启用onCleanup函数
@@ -74,7 +71,6 @@ function FightOver:initWidget()
 
     self.backBtn = cc.uiloader:seekNodeByName(self.m_fightover,"Backbtn")
     self.backBtn:onButtonClicked(function(_event)
-        self:toClose(true)
         GameController.setSignPop(true)
         GameController.resumeGame()
         if GAME_TYPE_CONTROL == GAME_TYPE.LevelMode then
@@ -82,6 +78,7 @@ function FightOver:initWidget()
         elseif GAME_TYPE_CONTROL == GAME_TYPE.EndlessMode then
             app:enterMainScene()
         end
+        self:toClose(true)
     end)
 
     self.Continuebtn = cc.uiloader:seekNodeByName(self.m_fightover,"Continuebtn")

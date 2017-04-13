@@ -33,7 +33,8 @@ GoodsConfig[1]=
         type = GOODS_TYPE.StartSprint,       --道具类型
         discrebe = "开局冲刺",
         res = "ui/Prop_2.png",
-        time = 20,   --时间(单位：秒)
+        time = 3,   --时间(单位：秒)
+        radius = 300,
         msg = "化身重甲疯牛，所向披靡",     --道具信息
         cost = {type = COST_TYPE.Gold,price = 25},   --道具价格{type:购买类型1金币，2钻石，price为价格}
         speed = 200,
@@ -46,6 +47,7 @@ GoodsConfig[2]=
         discrebe = "死亡冲刺",
         res = "ui/Prop_2.png",
         time = 2,   --时间(单位：秒)
+        radius = 300,
         msg = "化身重甲疯牛，所向披靡",     --道具信息
         cost = {type = COST_TYPE.Gold,price = 25},   --道具价格{type:购买类型1金币，2钻石，price为价格}
         speed = 200,
@@ -138,6 +140,7 @@ GoodsConfig[10]=
         discrebe = "极限冲刺",
         res = "ui/Prop_2.png",
         time = 8,   --时间(单位：秒)
+        radius = 300,
         msg = "化身重甲疯牛，所向披靡",     --道具信息
         cost = {type = COST_TYPE.Gold,price = 25},
         speed = 300,

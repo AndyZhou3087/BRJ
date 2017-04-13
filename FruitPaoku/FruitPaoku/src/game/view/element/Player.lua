@@ -28,7 +28,7 @@ function Player:ctor()
     self:createModle(modle)
 
     self.p_siz=cc.size(80,110)
-    self.p_offset = cc.p(10,60)
+    self.p_offset = cc.p(10,50)
     self:addBody(self.p_offset,self.p_siz)
     
     self.m_twoJump = false
@@ -269,11 +269,26 @@ end
 function Player:update(dt,_x,_y)
     if self.m_propManget then
         GameController.detect(self,cc.p(_x,_y),self.m_propRadius)
+    elseif self.startSprintManget then
+        GameController.detect(self,cc.p(_x,_y),self.startSprintRadius)
+    elseif self.deadSprintManget then
+        GameController.detect(self,cc.p(_x,_y),self.deadSprintRadius)
+    elseif self.limitSprintManget then
+        GameController.detect(self,cc.p(_x,_y),self.limitSprintRadius)
     elseif self.m_isMagnet then
         GameController.detect(self,cc.p(_x,_y),self.m_radius)
     end
 end
 
+--全屏清除障碍物
+function Player:clearObstales(parameters)
+    local allObstales = GameController.getScreenObstacles()
+    for key, var in pairs(allObstales) do
+		var:removeSelf()
+	end
+end
+
+--====================角色buff=================
 --角色受伤害
 function Player:playerAttacked(parm)
     if self:isInState(PLAYER_STATE.StartProtect) then
@@ -414,9 +429,10 @@ function Player:grantDrink(parameters)
         self.m_armature:getCascadeBoundingBox().size.height*parameters.data.scale*0.7)
 
     if self:isInState(PLAYER_STATE.StartSprint) or self:isInState(PLAYER_STATE.DeadSprint) then
+        self:setPosition(cc.p(display.cx,display.cy-50))
         self:addBody(cc.p(10,80),_size)
     else
-        self:addBody(cc.p(10,-80),_size)
+        self:addBody(cc.p(10,80),_size)
     end
 end
 
@@ -500,6 +516,9 @@ function Player:sprinting(parameters)
     
     self.oldX,self.oldY = self:getPosition()
     self:setPosition(cc.p(display.cx,display.cy))
+    if self:isInState(PLAYER_STATE.GrankDrink) then
+        self:setPosition(cc.p(display.cx,display.cy-50))
+    end
     
     self:addBuff({type=PLAYER_STATE.StartSprint,time = parameters.data.time})
     self.initSpeed = MoveSpeed
@@ -507,6 +526,8 @@ function Player:sprinting(parameters)
     self.m_handler = Tools.delayCallFunc(parameters.data.time,function()
         self:clearBuff(PLAYER_STATE.StartSprint)
     end)
+    self.startSprintManget = true
+    self.startSprintRadius = parameters.data.radius
     
     GameDataManager.setGamePropTime(PLAYER_STATE.StartSprint,parameters.data.time,parameters.data.speed)
     
@@ -530,6 +551,9 @@ function Player:deadSprint(parameters)
     self.m_scaleY = self:getScaleY()
     self:setScaleY(1)
     self:setPosition(cc.p(display.cx,display.cy))
+    if self:isInState(PLAYER_STATE.GrankDrink) then
+        self:setPosition(cc.p(display.cx,display.cy-50))
+    end
 
     self:addBuff({type=PLAYER_STATE.DeadSprint,time = parameters.data.time})
     self.deadSpeed = MoveSpeed
@@ -537,6 +561,8 @@ function Player:deadSprint(parameters)
     self.m_dHandler = Tools.delayCallFunc(parameters.data.time,function()
         self:clearBuff(PLAYER_STATE.DeadSprint)
     end)
+    self.deadSprintManget = true
+    self.deadSprintRadius = parameters.data.radius
     
     GameDataManager.setGamePropTime(PLAYER_STATE.DeadSprint,parameters.data.time,parameters.data.speed)
 end
@@ -594,15 +620,22 @@ function Player:limitSprint(parameters)
     self.m_scaleY = self:getScaleY()
     self:setScaleY(1)
     self:setPosition(cc.p(display.cx,display.cy))
+    if self:isInState(PLAYER_STATE.GrankDrink) then
+        self:setPosition(cc.p(display.cx,display.cy-50))
+    end
 
     self:addBuff({type=PLAYER_STATE.LimitSprint,time = parameters.data.time})
     self.limitSpeed = MoveSpeed
     MoveSpeed = parameters.data.speed
+    local _lv = GameDataManager.getRoleLevel(self.m_curModle)
+    local _time = parameters.data.time+GameDataManager.getUnActSkillTime(self.m_curModle,_lv,GOODS_TYPE.LimitSprint)
     self.m_limitHandler = Tools.delayCallFunc(parameters.data.time,function()
         self:clearBuff(PLAYER_STATE.LimitSprint)
     end)
+    self.limitSprintManget = true
+    self.limitSprintRadius = parameters.data.radius
 
-    GameDataManager.setGamePropTime(PLAYER_STATE.LimitSprint,parameters.data.time,parameters.data.speed)
+    GameDataManager.setGamePropTime(PLAYER_STATE.LimitSprint,_time,parameters.data.speed)
 end
 --金币转换
 function Player:transformGold(parameters)
@@ -613,11 +646,14 @@ function Player:transformGold(parameters)
     	return
     end
     Tools.printDebug("----------金币转换")
+    
+    local _lv = GameDataManager.getRoleLevel(self.m_curModle)
+    local _time = parameters.data.time+GameDataManager.getUnActSkillTime(self.m_curModle,_lv,GOODS_TYPE.ConverGold)
     self:addBuff({type=PLAYER_STATE.TransformGold,time = parameters.data.time})
     self.m_transHandler = Tools.delayCallFunc(parameters.data.time,function()
         self:clearBuff(PLAYER_STATE.TransformGold)
     end)
-    GameDataManager.setGamePropTime(PLAYER_STATE.TransformGold,parameters.data.time)
+    GameDataManager.setGamePropTime(PLAYER_STATE.TransformGold,_time)
 end
 
 --速度减慢(滑冰)
@@ -658,9 +694,14 @@ function Player:spring(parameters)
     end
     Tools.printDebug("----------弹簧跳跃")
     
-    self:toPlay(PLAYER_ACTION.Jump,0)
-    self:toMove(true)
+    if self:getJumpState() then
+        self:toPlay(PLAYER_ACTION.Jump,0)
+        self:toMove(true)
+    else
+        
+    end
 end
+--==================End===================
 
 --================角色技能buff=============
 --吸金币
@@ -678,6 +719,7 @@ end
 
 --护盾技能
 function Player:protectSkill(parameters)
+    Tools.printDebug("----------角色的护盾")
     self:addBuff({type=PLAYER_STATE.Defence})
     --护盾特效
 end
@@ -729,6 +771,9 @@ function Player:clearBuff(_type)
             self.oldX,self.oldY = nil,nil
             MoveSpeed = self.initSpeed
             self.initSpeed = nil
+            self.startSprintManget = false
+            self.startSprintRadius = nil
+            self:clearObstales()
         elseif _type == PLAYER_STATE.DeadSprint then
             if self.m_dHandler then
                 Scheduler.unscheduleGlobal(self.m_dHandler)
@@ -748,8 +793,10 @@ function Player:clearBuff(_type)
             MoveSpeed = self.deadSpeed
             self.deadSpeed = nil
             self.m_scaleY = nil
+            self.deadSprintManget = false
+            self.deadSprintRadius = nil
             self:deadContinueFlash()
-            
+            self:clearObstales()
         elseif _type == PLAYER_STATE.StartProtect then
 --            if self.m_proHandler then
 --                Scheduler.unscheduleGlobal(self.m_proHandler)
@@ -776,6 +823,7 @@ function Player:clearBuff(_type)
             self.m_armature:setScale(1)
             self.m_body:removeFromWorld()
             self:addBody(cc.p(10,50),self.p_siz)
+            self:clearObstales()
         elseif _type == PLAYER_STATE.LimitSprint then
             if self.m_limitHandler then
                 Scheduler.unscheduleGlobal(self.m_limitHandler)
@@ -795,6 +843,9 @@ function Player:clearBuff(_type)
             MoveSpeed = self.limitSpeed
             self.limitSpeed = nil
             self.m_scaleY = nil
+            self.limitSprintManget = false
+            self.limitSprintRadius = nil
+            self:clearObstales()
         elseif _type == PLAYER_STATE.TransformGold then
             if self.m_transHandler then
                 Scheduler.unscheduleGlobal(self.m_transHandler)

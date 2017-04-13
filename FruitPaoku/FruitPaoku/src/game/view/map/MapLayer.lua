@@ -29,6 +29,7 @@ function MapLayer:ctor(parameters)
     self.m_backbg = BackGroundMove.new(GameBgRes,0,MoveSpeed):addTo(self)
 
     self.group = {}
+    GameController.setRooms(self.group)
     self.pexel = 0
     self.miles = 0
     self.isGiftPop = false
@@ -391,10 +392,12 @@ function MapLayer:dispose(parameters)
     self.m_isDelay = false
     
     GameDataManager.resetLevelData()
-    GameController.clearBody()
-    GameController.resetStartProp()
     GameDataManager.resetSingleProp()
-    
+    GameDataManager.resetGameTime()
+    GameController.resetStartProp()
+    GameController.clearRooms()
+    GameController.clearBody()
+
     self:removeFromParent(true)
 end
 

@@ -39,8 +39,8 @@ function Obstacle:ctor(id,py)
             
             _size = cc.size(self.obcon:getCascadeBoundingBox().size.width*0.9,self.obcon:getCascadeBoundingBox().size.height*0.9)
             if self.m_vo.m_type == OBSTACLE_TYPE.spring then
-                _size = cc.size(self.obcon:getCascadeBoundingBox().size.width*0.2,self.obcon:getCascadeBoundingBox().size.height*0.2)
-                offset = cc.p(30,2)
+                _size = self.obcon:getCascadeBoundingBox().size
+                offset = cc.p(20,25)
             elseif self.m_vo.m_type == OBSTACLE_TYPE.special then
                 offset = cc.p(-50,50)
             end 
@@ -128,7 +128,11 @@ function Obstacle:addBody(obcon,size,_offset)
     self.m_body=cc.PhysicsBody:createBox(size,Special_MATERIAL,_offset)
     self.m_body:setCategoryBitmask(0x1111)
     self.m_body:setContactTestBitmask(0x1111)
-    self.m_body:setCollisionBitmask(0x0000)
+    if self.m_vo.m_type == OBSTACLE_TYPE.spring then
+        self.m_body:setCollisionBitmask(0x1111)
+    else
+        self.m_body:setCollisionBitmask(0x0000)
+    end
     self.m_body:setDynamic(false)
     self.m_body:setTag(ELEMENT_TAG.OBSTACLE)
     self:setPhysicsBody(self.m_body)
@@ -153,6 +157,27 @@ end
 --获取对象数据
 function Obstacle:getVo()
     return self.m_vo
+end
+
+function Obstacle:armatureMoveEvent(armatureBack,movementType,movementID)
+    if movementID == "xiaoshi" and movementType==ccs.MovementEventType.complete then   
+        if not tolua.isnull(self) then
+            self:dispose()
+        end
+    end
+end
+
+--清除障碍物
+function Obstacle:removeSelf(parameters)
+    self.obcon:setVisible(false)
+    if self.m_body then
+        self.m_body:removeFromWorld()
+    end
+    self.m_dEffect:setVisible(true)
+    self.m_dEffect:getAnimation():play("xiaoshi",0,0)
+    if self.m_vo.m_type == OBSTACLE_TYPE.fly then
+        self:stopAllActions()
+    end
 end
 
 function Obstacle:onEnterFrame(parameters)
@@ -249,16 +274,9 @@ function Obstacle:flyResum(parameters)
     transition.resumeTarget(self)
 end
 
-function Obstacle:armatureMoveEvent(armatureBack,movementType,movementID)
-    if movementID == "xiaoshi" and movementType==ccs.MovementEventType.complete then   
-        if not tolua.isnull(self) then
-            self:dispose()
-        end
-	end
-end
-
 function Obstacle:collision(_type)
     if GameController.isInState(PLAYER_STATE.GrankDrink) then
+        Tools.printDebug("------------------巨人药水碰撞消失")
         self.isDead = true
         self.obcon:setVisible(false)
         self.m_dEffect:setVisible(true)
@@ -280,7 +298,8 @@ function Obstacle:collision(_type)
         end
         GameDispatcher:dispatch(EventNames.EVENT_OBSCALE_SPRING)
     else
-        if GameController.getCurPlayer():getJumpState() then
+        if GameController.getCurPlayer():getJumpState() and self.m_vo.m_type == OBSTACLE_TYPE.fly then
+            Tools.printDebug("------------------攻击状态碰撞消失")
             self.isDead = true
             self.obcon:setVisible(false)
             self.m_dEffect:setVisible(true)
@@ -292,6 +311,7 @@ function Obstacle:collision(_type)
         end
         if GameController.isInState(PLAYER_STATE.Defence) or GameController.isInState(PLAYER_STATE.StartProtect) 
             or GameController.isInState(PLAYER_STATE.GameDefence)then
+            Tools.printDebug("------------------护盾碰撞消失")
             self.isDead = true
             GameDispatcher:dispatch(EventNames.EVENT_PLAYER_ATTACKED,{isSpecial = false,att = self.m_vo.m_att})
             self.obcon:setVisible(false)

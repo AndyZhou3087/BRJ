@@ -107,7 +107,7 @@ function RoleView:initRole(parameters)
     
     for var=1, #RoleConfig do
         self["roleDot"..var] = display.newDrawNode():addTo(self.Panel_role)
-        self["roleDot"..var]:drawDot(cc.p(648+(var-1)*38,126),
+        self["roleDot"..var]:drawDot(cc.p((var-1)*48,-30),
             6, cc.c4f(64/255, 20/255, 153/255, 1))
     end
     
@@ -164,11 +164,11 @@ function RoleView:LoadRole(id)
     self.m_roleLv = GameDataManager.getRoleLevel(id)
     
     for var=1, #RoleConfig do
-        self["roleDot"..var]:drawDot(cc.p(648+(var-1)*38,126),
+        self["roleDot"..var]:drawDot(cc.p((var-1)*48,-30),
             6, cc.c4f(64/255, 20/255, 153/255, 1))
     end
 
-    self["roleDot"..roleCon.id]:drawDot(cc.p(648+(id-1)*38,126),
+    self["roleDot"..roleCon.id]:drawDot(cc.p((id-1)*48,-30),
         6, cc.c4f(1, 1, 1, 1))
     
     self:updateRoleLv(id,self.m_roleLv)
