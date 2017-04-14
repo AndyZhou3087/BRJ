@@ -23,6 +23,7 @@ function FightOver:ctor(parm)
 
     --判断是胜利还是失败
     if parm.type == GAMEOVER_TYPE.Win then
+        AudioManager.playSoundEffect(AudioManager.Sound_Effect_Type.Win_Sound)
         self:toWin()
     elseif parm.type == GAMEOVER_TYPE.Fail then
         self:toFail()

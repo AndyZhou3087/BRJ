@@ -128,11 +128,11 @@ function Obstacle:addBody(obcon,size,_offset)
     self.m_body=cc.PhysicsBody:createBox(size,Special_MATERIAL,_offset)
     self.m_body:setCategoryBitmask(0x1111)
     self.m_body:setContactTestBitmask(0x1111)
-    if self.m_vo.m_type == OBSTACLE_TYPE.spring then
-        self.m_body:setCollisionBitmask(0x1111)
-    else
+--    if self.m_vo.m_type == OBSTACLE_TYPE.spring then
+--        self.m_body:setCollisionBitmask(0x1111)
+--    else
         self.m_body:setCollisionBitmask(0x0000)
-    end
+--    end
     self.m_body:setDynamic(false)
     self.m_body:setTag(ELEMENT_TAG.OBSTACLE)
     self:setPhysicsBody(self.m_body)
@@ -252,6 +252,7 @@ function Obstacle:executeMove(parameters)
         if not tolua.isnull(self.tip_2) then
             self.tip_2:removeFromParent()
         end
+        AudioManager.playSoundEffect(AudioManager.Sound_Effect_Type.Dart_Sound,true)
         transition.moveBy(self,{time=self.m_vo.m_speed*DefaultSpeed/_speed,x=-display.width-200,y=0,onComplete=function()
             self:dispose()
         end})
@@ -275,17 +276,6 @@ function Obstacle:flyResum(parameters)
 end
 
 function Obstacle:collision(_type)
-    if GameController.isInState(PLAYER_STATE.GrankDrink) then
-        Tools.printDebug("------------------巨人药水碰撞消失")
-        self.isDead = true
-        self.obcon:setVisible(false)
-        self.m_dEffect:setVisible(true)
-        self.m_dEffect:getAnimation():play("xiaoshi",0,0)
-        if self.m_vo.m_type == OBSTACLE_TYPE.fly then
-            self:stopAllActions()
-        end
-        return
-    end
     if self.m_vo.m_type == OBSTACLE_TYPE.special then
         GameDispatcher:dispatch(EventNames.EVENT_PLAYER_ATTACKED,{isSpecial = true,att = self.m_vo.m_att})
     elseif self.m_vo.m_type == OBSTACLE_TYPE.ice then
@@ -293,11 +283,25 @@ function Obstacle:collision(_type)
             GameDispatcher:dispatch(EventNames.EVENT_SLOW_SPEED,{cutSpeed = self.m_vo.m_cutSpeed,length = self.m_vo.m_length})
         end
     elseif self.m_vo.m_type == OBSTACLE_TYPE.spring then
-        if self.isAnimate then
+        if self.isAnimate and GameController.getCurPlayer():getJumpState() then
             self.obcon:getAnimation():playWithIndex(0)
+        end
+        if self.m_body then
+            self.m_body:removeFromWorld()
         end
         GameDispatcher:dispatch(EventNames.EVENT_OBSCALE_SPRING)
     else
+        if GameController.isInState(PLAYER_STATE.GrankDrink) then
+            Tools.printDebug("------------------巨人药水碰撞消失")
+            self.isDead = true
+            self.obcon:setVisible(false)
+            self.m_dEffect:setVisible(true)
+            self.m_dEffect:getAnimation():play("xiaoshi",0,0)
+            if self.m_vo.m_type == OBSTACLE_TYPE.fly then
+                self:stopAllActions()
+            end
+            return
+        end
         if GameController.getCurPlayer():getJumpState() and self.m_vo.m_type == OBSTACLE_TYPE.fly then
             Tools.printDebug("------------------攻击状态碰撞消失")
             self.isDead = true

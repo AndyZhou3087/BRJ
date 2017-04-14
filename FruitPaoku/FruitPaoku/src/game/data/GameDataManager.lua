@@ -104,6 +104,7 @@ function GameDataManager.addGold(_value)
     GameDispatcher:dispatch(EventNames.EVENT_UPDATE_GOLD)
     GameDataManager.saveGetGold(_value)
     GameDataManager.SaveData()
+    AudioManager.playSoundEffect(AudioManager.Sound_Effect_Type.GetGold_Sound)
     return true
 end
 
@@ -120,6 +121,7 @@ function GameDataManager.costDiamond(_value)
         GameDispatcher:dispatch(EventNames.EVENT_UPDATE_DIAMOND)
         GameDataManager.saveUseDiamond(_value)
         GameDataManager.SaveData()
+        AudioManager.playSoundEffect(AudioManager.Sound_Effect_Type.Diamond_Cost)
         return true
     else
         return false

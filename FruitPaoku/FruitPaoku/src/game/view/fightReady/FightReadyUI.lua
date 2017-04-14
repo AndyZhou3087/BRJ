@@ -56,18 +56,21 @@ function FightReadyUI:ctor(parm)
     
     local rolebtn = cc.uiloader:seekNodeByName(self.FightReady,"Rolebtn")
     rolebtn:onButtonClicked(function(event)
+        AudioManager.playSoundEffect(AudioManager.Sound_Effect_Type.Button_Click_Sound)
         Tools.printDebug("-----------角色")
         GameDispatcher:dispatch(EventNames.EVENT_OPEN_ROLEVIEW)
     end)
     
     local achievebtn = cc.uiloader:seekNodeByName(self.FightReady,"AchieveBtn")
     achievebtn:onButtonClicked(function(event)
+        AudioManager.playSoundEffect(AudioManager.Sound_Effect_Type.Button_Click_Sound)
         Tools.printDebug("-----------成就任务")
         GameDispatcher:dispatch(EventNames.EVENT_ACHIEVE_QUEST)
     end)
     
     local startGame = cc.uiloader:seekNodeByName(self.FightReady,"StartGame")
     startGame:onButtonClicked(function(event)
+        AudioManager.playSoundEffect(AudioManager.Sound_Effect_Type.Button_Click_Sound)
         Tools.printDebug("-----------开始游戏")
         GameDataManager.generatePlayerVo()  --产生新的角色数据对象
         if parm == GAME_TYPE.LevelMode and GameDataManager.costPower(_levelCon.costPower) then

@@ -54,6 +54,7 @@ end
 function GameController.pauseGame(isEvent)
     Tools.printDebug("暂停游戏！")
 --    display.pause()
+    AudioManager.pauseMusic()
     _isPause=true
     MoveSpeed = 0  --地图移动速度
     if isEvent then
@@ -66,6 +67,7 @@ end
 function GameController.resumeGame(isEvent)
     Tools.printDebug("恢复游戏！")
 --    display.resume()
+    AudioManager.resumeMusic()
     _isPause=false
     MoveSpeed = _curSpeed
     TimeUtil.init()

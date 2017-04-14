@@ -54,6 +54,7 @@ function PropItem:initPropData()
     local useBtn = cc.uiloader:seekNodeByName(self.propUI,"Buybtn")
     useBtn:setTouchSwallowEnabled(false)
     useBtn:onButtonClicked(function(event)
+        AudioManager.playSoundEffect(AudioManager.Sound_Effect_Type.Button_Click_Sound)
         if self.propCon.id~=5 and self.propCon.id~=6 then
             if not self.propCon.isSelect then
                 if GameDataManager.getGoodsNum(self.propCon.id)>0 then
