@@ -28,6 +28,7 @@
     <string>Dialog.json</string>
     <string>GiftView.json</string>
     <string>Test.json</string>
+    <string>Test2.json</string>
   </JsonList>
   <CanvasSize>
     <Width>960</Width>
@@ -39,5 +40,5 @@
   <imageFileList />
   <imagePngList />
   <JsonSuffix>.json</JsonSuffix>
-  <CurrentUIJson>FightReady.json</CurrentUIJson>
+  <CurrentUIJson />
 </UIProject>

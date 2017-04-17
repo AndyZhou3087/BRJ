@@ -88,4 +88,8 @@
     <Project>Test</Project>
     <GuidesList />
   </GuidesProject>
+  <GuidesProject>
+    <Project>Test2</Project>
+    <GuidesList />
+  </GuidesProject>
 </ArrayOfGuidesProject>
