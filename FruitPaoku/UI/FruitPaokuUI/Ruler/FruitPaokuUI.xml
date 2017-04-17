@@ -84,4 +84,8 @@
     <Project>GiftView</Project>
     <GuidesList />
   </GuidesProject>
+  <GuidesProject>
+    <Project>Test</Project>
+    <GuidesList />
+  </GuidesProject>
 </ArrayOfGuidesProject>
