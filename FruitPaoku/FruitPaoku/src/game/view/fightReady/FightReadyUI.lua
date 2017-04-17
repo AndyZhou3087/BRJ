@@ -46,7 +46,7 @@ function FightReadyUI:ctor(parm)
 --    Image_19:setScale(display.right/GroupSize.width)
     local Panel_22 = cc.uiloader:seekNodeByName(self.FightReady,"Panel_22")
     Panel_22:setScale(display.right/GroupSize.width)
-    Panel_22:setPositionX(display.right-240)
+    Panel_22:setPositionX(display.right-240*display.right/GroupSize.width)
 
     local listPanel = cc.uiloader:seekNodeByName(self.FightReady,"Panel_21")
     self.listPanelSize = listPanel:getCascadeBoundingBox().size

@@ -44,7 +44,7 @@ function RoleView:initRole(parameters)
 --    Image_2:setScale(display.right/GroupSize.width)
     self.Panel_role = cc.uiloader:seekNodeByName(self.m_roleUi,"Panel_role")
     self.Panel_role:setScale(display.right/GroupSize.width)
-    self.Panel_role:setPositionX(display.right-240)
+    self.Panel_role:setPositionX(display.right-240*display.right/GroupSize.width)
 
     --图片
     self.RoleImg = cc.uiloader:seekNodeByName(self.m_roleUi,"RoleImg")

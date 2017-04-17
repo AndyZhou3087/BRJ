@@ -37,17 +37,7 @@
   <ProjectType>UIProject</ProjectType>
   <ResRelativePath />
   <imageFileList />
-  <imagePngList>
-    <string>Common/Common_4.png</string>
-    <string>Common/Common_3.png</string>
-    <string>ui/Prop_2.png</string>
-    <string>Common/Common_line.png</string>
-    <string>Common/Common_slider_b.png</string>
-    <string>Common/Common_diamond_small.png</string>
-    <string>Common/Common_usebtn1.png</string>
-    <string>Common/Common_usebtn2.png</string>
-    <string>ui/UseLabel.png</string>
-  </imagePngList>
+  <imagePngList />
   <JsonSuffix>.json</JsonSuffix>
-  <CurrentUIJson>QuestAchieveItem.json</CurrentUIJson>
+  <CurrentUIJson>FightReady.json</CurrentUIJson>
 </UIProject>
