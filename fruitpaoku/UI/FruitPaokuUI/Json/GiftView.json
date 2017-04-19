@@ -1175,8 +1175,8 @@
               },
               "pressed": null,
               "pressedData": {
-                "path": null,
-                "plistFile": null,
+                "path": "ui/RoleGift_close_1.png",
+                "plistFile": "",
                 "resourceType": 0
               },
               "scale9Enable": false,

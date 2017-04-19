@@ -280,13 +280,13 @@ function MapLayer:onEnterFrame(dt)
         if self.m_levelCon.giftGap and self.miles >= self.m_levelCon.giftGap then
             self.isGiftPop = true
             if not GameDataManager.getRoleModle(GiftConfig[1].roleId) then
-                GameDispatcher:dispatch(EventNames.EVENT_OPEN_GIFTROLE,{giftId = 1,isGame = true})
+                GameDispatcher:dispatch(EventNames.EVENT_OPEN_GIFTROLE,{giftId = 1,isGame = true,animation = true})
             elseif not GameDataManager.getRoleModle(GiftConfig[2].roleId) then
-                GameDispatcher:dispatch(EventNames.EVENT_OPEN_GIFTROLE,{giftId = 2,isGame = true})
+                GameDispatcher:dispatch(EventNames.EVENT_OPEN_GIFTROLE,{giftId = 2,isGame = true,animation = true})
             elseif not GameDataManager.getRoleModle(GiftConfig[3].roleId) then
-                GameDispatcher:dispatch(EventNames.EVENT_OPEN_GIFTROLE,{giftId = 3,isGame = true})
+                GameDispatcher:dispatch(EventNames.EVENT_OPEN_GIFTROLE,{giftId = 3,isGame = true,animation = true})
             elseif not GameDataManager.getRoleModle(GiftConfig[4].roleId) then
-                GameDispatcher:dispatch(EventNames.EVENT_OPEN_GIFTROLE,{giftId = 4,isGame = true})
+                GameDispatcher:dispatch(EventNames.EVENT_OPEN_GIFTROLE,{giftId = 4,isGame = true,animation = true})
             end
     	end
     end

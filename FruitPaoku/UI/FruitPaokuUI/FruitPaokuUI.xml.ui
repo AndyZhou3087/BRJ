@@ -40,5 +40,5 @@
   <imageFileList />
   <imagePngList />
   <JsonSuffix>.json</JsonSuffix>
-  <CurrentUIJson>AchieveQuest.json</CurrentUIJson>
+  <CurrentUIJson>MainUI.json</CurrentUIJson>
 </UIProject>
