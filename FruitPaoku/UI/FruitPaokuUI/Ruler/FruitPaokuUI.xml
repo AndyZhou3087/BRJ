@@ -92,4 +92,8 @@
     <Project>Test2</Project>
     <GuidesList />
   </GuidesProject>
+  <GuidesProject>
+    <Project>GuideTips</Project>
+    <GuidesList />
+  </GuidesProject>
 </ArrayOfGuidesProject>
