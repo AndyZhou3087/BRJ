@@ -43,7 +43,7 @@ RoleConfig={}
 RoleConfig[1]=
     {
         id = 1,
-        skillAct = {{type=PLAYER_ACT_TYPE.Twojump}},    --主动技能
+        skillAct = {},    --主动技能
         armatureName = "nan3",   --动画工程名
         roleName = "囧囧",     --角色名称
         roleImg = "ui/role_1.png",   --角色图片

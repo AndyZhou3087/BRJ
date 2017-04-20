@@ -252,7 +252,7 @@ function MapLayer:initPhyPos(parameters)
     self.m_event = cc.EventListenerPhysicsContact:create()
     self.m_event:registerScriptHandler(handler(self,self.collisionBeginCallBack), cc.Handler.EVENT_PHYSICS_CONTACT_BEGIN)
     self:getEventDispatcher():addEventListenerWithFixedPriority(self.m_event,1)
-    self.m_timer = Scheduler.scheduleGlobal(handler(self,self.onEnterFrame),0.01)
+    self.m_timer = Scheduler.scheduleGlobal(handler(self,self.onEnterFrame),FrameTime)
 
     --初始化几组障碍，不能在ctor的时候调用
     self:initRooms()

@@ -209,6 +209,9 @@ function Player:toMove(isSpring)
     if self.touchCount == 1 then
         self.playerY = self:getPositionY()
     end
+    if self.touchCount > 1 then
+        self.roleY = self:getPositionY()
+    end
     if not self.m_jump then
         self.m_jump = true
         self.m_run = false
@@ -235,6 +238,23 @@ function Player:toMove(isSpring)
             else
                 direction = -1
                 m_pY = display.cy+200
+            end
+            transition.moveTo(self,{time=0.4,x=self:getPositionX(),y=m_pY,onComplete = function()
+                self.m_jump = false
+                self.m_run = true
+                self.touchCount = 0
+                self:setScaleY(direction)
+            end})
+        elseif self.touchCount > 2 and isSpring then
+            self:stopAllActions()
+            local direction = 1
+            local m_pY
+            if self.roleY<display.cy then
+                direction = -1
+                m_pY = display.cy+200
+            else
+                direction = 1
+                m_pY = display.cy-240
             end
             transition.moveTo(self,{time=0.4,x=self:getPositionX(),y=m_pY,onComplete = function()
                 self.m_jump = false
@@ -739,7 +759,7 @@ function Player:spring(parameters)
     if self:isInState(PLAYER_STATE.LimitSprint) then
         return
     end
-    Tools.printDebug("----------弹簧跳跃")
+    Tools.printDebug("----------弹簧跳跃",self:getJumpState())
     
     if self:getJumpState() then
         self:toPlay(PLAYER_ACTION.Jump,0)
@@ -751,7 +771,7 @@ function Player:spring(parameters)
             Scheduler.unscheduleGlobal(self.backHandler)
             self.backHandler=nil
         end
-        self.backHandler = Scheduler.scheduleGlobal(handler(self,self.backMove),0.01)
+        self.backHandler = Scheduler.scheduleGlobal(handler(self,self.backMove),FrameTime)
     end
 end
 
