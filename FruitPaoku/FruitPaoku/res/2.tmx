@@ -18,8 +18,6 @@
   </data>
  </layer>
  <objectgroup name="gold">
-  <object name="Common_gold.png" type="1" gid="4" x="165" y="460"/>
-  <object name="Common_gold.png" type="1" gid="4" x="245" y="460"/>
   <object name="Common_gold.png" type="1" gid="4" x="325" y="460"/>
   <object name="Common_gold.png" type="1" gid="4" x="405" y="460"/>
   <object name="Common_gold.png" type="1" gid="4" x="485" y="460"/>
@@ -35,8 +33,8 @@
  </objectgroup>
  <objectgroup name="good"/>
  <objectgroup name="obstacle">
-  <object name="1" gid="2" x="583" y="500"/>
-  <object name="1" gid="2" x="42" y="500"/>
-  <object name="3" gid="3" x="750" y="400"/>
+  <object name="1" gid="2" x="585" y="509"/>
+  <object name="1" gid="2" x="210" y="509"/>
+  <object name="3" gid="3" x="800" y="400"/>
  </objectgroup>
 </map>

@@ -68,7 +68,14 @@ function MapLayer:ctor(parameters)
     if GAME_TYPE_CONTROL == GAME_TYPE.LevelMode and levelCon.isClip then
         GameDispatcher:dispatch(EventNames.EVENT_OPEN_CLIPP)
     end
+    
+    
+    --新手引导
+    if GameController.getGuide() then
+        self.guideStep = 1
+    end
 end
+
 
 function MapLayer:initRooms()
     if GAME_TYPE_CONTROL == GAME_TYPE.LevelMode then
@@ -154,6 +161,9 @@ end
 
 --触摸
 function MapLayer:touchFunc(event)
+    if GameController.getGuide() then
+    	return
+    end
     if GameController.isWin or GameController.isDead then
         return
     end
@@ -177,6 +187,9 @@ end
 
 --碰撞开始触发
 function MapLayer:collisionBeginCallBack(parameters)
+    if not GameController.getCollsionEnable() then
+    	return true
+    end
     if GameController.isWin or GameController.isDead then
         return true
     end
@@ -248,6 +261,9 @@ function MapLayer:collisionBeginCallBack(parameters)
 end
 --碰撞结束
 function MapLayer:collisionEndCallBack(parameters)
+    if not GameController.getCollsionEnable() then
+        return true
+    end
     if GameController.isWin or GameController.isDead then
         return true
     end
@@ -340,7 +356,7 @@ function MapLayer:onEnterFrame(dt)
     --跑了多少米换算公式
    self.pexel = self.pexel + MoveSpeed*0.1/(Pixel/Miles)
    GameDataManager.saveDayRunDistance(MoveSpeed*0.1/(Pixel/Miles))
---    Tools.printDebug("-----------多少米：",self.pexel)
+    Tools.printDebug("-----------多少米：",self.pexel)
     
     self.miles = self.miles + MoveSpeed*0.1
 --    Tools.printDebug("-----------多少像素：",self.miles)
@@ -403,10 +419,23 @@ function MapLayer:onEnterFrame(dt)
         end
    end
 
-   local cur = math.floor(self.pexel)
+    local cur = math.floor(self.pexel)
     GameDataManager.addLevelScore(cur)
-
+    
+    if GameController.getGuide() then
+        self:initGuide()
+    end
 end
+
+
+function MapLayer:initGuide(parameters)
+    if self.pexel >= 60 and self.guideStep == 1 then
+        self.guideStep = self.guideStep + 1
+        GameController.pauseGame()
+        GameDispatcher:dispatch(EventNames.EVENT_GUIDE_UPDATE,{step = self.guideStep})
+    end
+end
+
 
 --设置移动缓慢停止
 function MapLayer:toDelay(parameters)

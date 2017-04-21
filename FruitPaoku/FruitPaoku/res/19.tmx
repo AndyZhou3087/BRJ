@@ -52,12 +52,12 @@
  </objectgroup>
  <objectgroup name="good"/>
  <objectgroup name="obstacle">
-  <object name="1" gid="2" x="600" y="500"/>
+  <object name="1" gid="2" x="600" y="509"/>
   <object name="3" gid="3" x="880" y="210"/>
-  <object name="1" gid="2" x="300" y="500"/>
+  <object name="1" gid="2" x="300" y="509"/>
   <object name="3" gid="3" x="880" y="310"/>
   <object name="3" gid="3" x="880" y="410"/>
-  <object name="1" gid="1073741826" x="90" y="160"/>
-  <object name="1" gid="1073741826" x="810" y="160"/>
+  <object name="1" gid="1073741826" x="90" y="157"/>
+  <object name="1" gid="1073741826" x="810" y="157"/>
  </objectgroup>
 </map>

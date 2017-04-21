@@ -38,7 +38,12 @@ function MapGroup:ctor(_idx,_levelCon)
         if not MapGroupConfig[_levelCon.map[_idx]] then
         	return
         end
-        local map = cc.TMXTiledMap:create(MapGroupConfig[_levelCon.map[_idx]])
+        local map
+        if GameController.getGuide() then
+        	map = cc.TMXTiledMap:create(MapGroupConfig[_levelCon.guideMap[_idx]])
+        else
+            map = cc.TMXTiledMap:create(MapGroupConfig[_levelCon.map[_idx]])
+        end
         local gold = map:getObjectGroup("gold")
         local good = map:getObjectGroup("good")
         local obscale = map:getObjectGroup("obstacle")

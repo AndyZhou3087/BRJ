@@ -50,6 +50,9 @@ EventNames.EVENT_ACHIEVE_QUEST = "event_achieve_quest"
 --复活界面
 EventNames.EVENT_REVIVE_VIEW = "event_revive_view"
 
+--新手遮罩
+EventNames.EVENT_GUIDE_CLIP = "event_guide_clip"
+
 --=====================场景内
 
 --时间变化
@@ -136,5 +139,8 @@ EventNames.EVENT_GAME_PROTECT = "event_game_protect"
 
 --角色数据更新
 EventNames.EVENT_ROLE_CHANGEDATA = "event_role_changedata"
+
+--新手引导更新
+EventNames.EVENT_GUIDE_UPDATE = "event_guide_update"
 
 return EventNames
