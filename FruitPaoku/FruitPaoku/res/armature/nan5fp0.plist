@@ -7,13 +7,13 @@
 			<key>fpydb.png</key>
 			<dict>
 				<key>width</key>
-				<integer>19</integer>
+				<integer>32</integer>
 				<key>height</key>
-				<integer>18</integer>
+				<integer>30</integer>
 				<key>originalWidth</key>
-				<integer>19</integer>
+				<integer>32</integer>
 				<key>originalHeight</key>
-				<integer>18</integer>
+				<integer>30</integer>
 				<key>x</key>
 				<integer>0</integer>
 				<key>y</key>
@@ -26,15 +26,15 @@
 			<key>fpyxb.png</key>
 			<dict>
 				<key>width</key>
-				<integer>16</integer>
+				<integer>27</integer>
 				<key>height</key>
-				<integer>22</integer>
+				<integer>37</integer>
 				<key>originalWidth</key>
-				<integer>16</integer>
+				<integer>27</integer>
 				<key>originalHeight</key>
-				<integer>22</integer>
+				<integer>37</integer>
 				<key>x</key>
-				<integer>21</integer>
+				<integer>34</integer>
 				<key>y</key>
 				<integer>0</integer>
 				<key>offsetX</key>
@@ -45,15 +45,15 @@
 			<key>fpqg.png</key>
 			<dict>
 				<key>width</key>
-				<integer>37</integer>
+				<integer>63</integer>
 				<key>height</key>
-				<integer>36</integer>
+				<integer>60</integer>
 				<key>originalWidth</key>
-				<integer>37</integer>
+				<integer>63</integer>
 				<key>originalHeight</key>
-				<integer>36</integer>
+				<integer>60</integer>
 				<key>x</key>
-				<integer>39</integer>
+				<integer>63</integer>
 				<key>y</key>
 				<integer>0</integer>
 				<key>offsetX</key>
@@ -64,15 +64,15 @@
 			<key>fpydt.png</key>
 			<dict>
 				<key>width</key>
-				<integer>34</integer>
+				<integer>58</integer>
 				<key>height</key>
-				<integer>33</integer>
+				<integer>55</integer>
 				<key>originalWidth</key>
-				<integer>34</integer>
+				<integer>58</integer>
 				<key>originalHeight</key>
-				<integer>33</integer>
+				<integer>55</integer>
 				<key>x</key>
-				<integer>78</integer>
+				<integer>128</integer>
 				<key>y</key>
 				<integer>0</integer>
 				<key>offsetX</key>
@@ -83,15 +83,15 @@
 			<key>fptf.png</key>
 			<dict>
 				<key>width</key>
-				<integer>72</integer>
+				<integer>121</integer>
 				<key>height</key>
-				<integer>71</integer>
+				<integer>119</integer>
 				<key>originalWidth</key>
-				<integer>72</integer>
+				<integer>121</integer>
 				<key>originalHeight</key>
-				<integer>71</integer>
+				<integer>119</integer>
 				<key>x</key>
-				<integer>114</integer>
+				<integer>188</integer>
 				<key>y</key>
 				<integer>0</integer>
 				<key>offsetX</key>
@@ -102,15 +102,15 @@
 			<key>fpyxt.png</key>
 			<dict>
 				<key>width</key>
-				<integer>21</integer>
+				<integer>35</integer>
 				<key>height</key>
-				<integer>28</integer>
+				<integer>48</integer>
 				<key>originalWidth</key>
-				<integer>21</integer>
+				<integer>35</integer>
 				<key>originalHeight</key>
-				<integer>28</integer>
+				<integer>48</integer>
 				<key>x</key>
-				<integer>188</integer>
+				<integer>311</integer>
 				<key>y</key>
 				<integer>0</integer>
 				<key>offsetX</key>
@@ -121,15 +121,15 @@
 			<key>fpzxt.png</key>
 			<dict>
 				<key>width</key>
-				<integer>27</integer>
+				<integer>46</integer>
 				<key>height</key>
-				<integer>24</integer>
+				<integer>41</integer>
 				<key>originalWidth</key>
-				<integer>27</integer>
+				<integer>46</integer>
 				<key>originalHeight</key>
-				<integer>24</integer>
+				<integer>41</integer>
 				<key>x</key>
-				<integer>211</integer>
+				<integer>348</integer>
 				<key>y</key>
 				<integer>0</integer>
 				<key>offsetX</key>
@@ -140,15 +140,15 @@
 			<key>fpzdt.png</key>
 			<dict>
 				<key>width</key>
-				<integer>18</integer>
+				<integer>31</integer>
 				<key>height</key>
-				<integer>30</integer>
+				<integer>50</integer>
 				<key>originalWidth</key>
-				<integer>18</integer>
+				<integer>31</integer>
 				<key>originalHeight</key>
-				<integer>30</integer>
+				<integer>50</integer>
 				<key>x</key>
-				<integer>240</integer>
+				<integer>396</integer>
 				<key>y</key>
 				<integer>0</integer>
 				<key>offsetX</key>
@@ -159,15 +159,15 @@
 			<key>fpzxb.png</key>
 			<dict>
 				<key>width</key>
-				<integer>19</integer>
+				<integer>32</integer>
 				<key>height</key>
-				<integer>16</integer>
+				<integer>28</integer>
 				<key>originalWidth</key>
-				<integer>19</integer>
+				<integer>32</integer>
 				<key>originalHeight</key>
-				<integer>16</integer>
+				<integer>28</integer>
 				<key>x</key>
-				<integer>260</integer>
+				<integer>429</integer>
 				<key>y</key>
 				<integer>0</integer>
 				<key>offsetX</key>
@@ -178,15 +178,15 @@
 			<key>fpzdb.png</key>
 			<dict>
 				<key>width</key>
-				<integer>12</integer>
+				<integer>20</integer>
 				<key>height</key>
-				<integer>24</integer>
+				<integer>40</integer>
 				<key>originalWidth</key>
-				<integer>12</integer>
+				<integer>20</integer>
 				<key>originalHeight</key>
-				<integer>24</integer>
+				<integer>40</integer>
 				<key>x</key>
-				<integer>281</integer>
+				<integer>463</integer>
 				<key>y</key>
 				<integer>0</integer>
 				<key>offsetX</key>
@@ -200,9 +200,9 @@
 			<key>format</key>
 			<integer>0</integer>
 			<key>textureFileName</key>
-			<string>nan50.png</string>
+			<string>nan5fp0.png</string>
 			<key>realTextureFileName</key>
-			<string>nan50.png</string>
+			<string>nan5fp0.png</string>
 			<key>size</key>
 			<string>{1024,1024}</string>
 		</dict>
