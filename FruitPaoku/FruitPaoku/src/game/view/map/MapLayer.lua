@@ -73,6 +73,7 @@ function MapLayer:ctor(parameters)
     --新手引导
     if GameController.getGuide() then
         self.guideStep = 1
+        MoveSpeed = levelCon.guideSpeed
     end
 end
 
@@ -82,8 +83,10 @@ function MapLayer:initRooms()
         self.m_levelCon = SelectLevel[GameDataManager.getCurLevelId()]
         if GameController.getGuide() then
             self.curRooms = self.m_levelCon.guideMap
+            self.m_gap = self.m_levelCon.guideGap
         else
             self.curRooms = self.m_levelCon.map
+            self.m_gap = self.m_levelCon.guideGap.gap
         end
     elseif GAME_TYPE_CONTROL == GAME_TYPE.EndlessMode then
         --控制随机数种子
@@ -109,7 +112,7 @@ function MapLayer:initRooms()
     for var=1, self.m_roomsNum do
         local _group = MapGroup.new(var,self.m_levelCon)
         local _width = (self.group[#self.group] and self.group[#self.group]:getPositionX()) or CacheDis
-        _x = _width + self.m_levelCon.gap + GroupSize.width
+        _x = _width + self.m_gap + GroupSize.width
         self:addChild(_group,self.m_curZOrder)
         _group:initPosition(_x,_y)
         table.insert(self.group,_group)
@@ -133,7 +136,7 @@ function MapLayer:addNewGroup(parameters)
     if self.m_levelCon then
         local _group = MapGroup.new(self.m_roomsNum,self.m_levelCon)
         local _width = (self.group[#self.group] and self.group[#self.group]:getPositionX()) or CacheDis
-        _x = _width + self.m_levelCon.gap + GroupSize.width
+        _x = _width + self.m_gap + GroupSize.width
         self:addChild(_group,self.m_curZOrder)
         _group:initPosition(_x,_y)
         table.insert(self.group,_group)
@@ -361,7 +364,7 @@ function MapLayer:onEnterFrame(dt)
     --跑了多少米换算公式
    self.pexel = self.pexel + MoveSpeed*0.1/(Pixel/Miles)
    GameDataManager.saveDayRunDistance(MoveSpeed*0.1/(Pixel/Miles))
---    Tools.printDebug("-----------多少米：",self.pexel)
+    Tools.printDebug("-----------多少米：",self.pexel)
     
     self.miles = self.miles + MoveSpeed*0.1
 --    Tools.printDebug("-----------多少像素：",self.miles)
@@ -434,23 +437,21 @@ end
 
 
 function MapLayer:initGuide(parameters)
-    if self.pexel >= 65 and self.guideStep == 1 then
-        self.guideStep = self.guideStep + 1
-        GameController.pauseGame()
-        GameDispatcher:dispatch(EventNames.EVENT_GUIDE_UPDATE,{step = self.guideStep})
-    elseif self.pexel >= 100 and self.guideStep == 2 then
-        self.guideStep = self.guideStep + 1
-        GameController.pauseGame()
-        GameDispatcher:dispatch(EventNames.EVENT_GUIDE_UPDATE,{step = self.guideStep})
-    elseif self.pexel >= 122 and self.guideStep == 3 then
-        self.guideStep = self.guideStep + 1
-        GameController.pauseGame()
-        GameDispatcher:dispatch(EventNames.EVENT_GUIDE_UPDATE,{step = self.guideStep})
-    elseif self.pexel >= 155 and self.guideStep == 4 then
-        self.guideStep = self.guideStep + 1
-        GameController.pauseGame()
-        GameDispatcher:dispatch(EventNames.EVENT_GUIDE_UPDATE,{step = self.guideStep})
+    if self.pexel >= 30 and self.guideStep == 1 then
+        self:stepJump()
+    elseif self.pexel >= 40 and self.guideStep == 2 then
+        self:stepJump()
+    elseif self.pexel >= 85 and self.guideStep == 3 then
+        self:stepJump()
+    elseif self.pexel >= 115 and self.guideStep == 4 then
+        self:stepJump()
     end
+end
+
+function MapLayer:stepJump(parameters)
+    self.guideStep = self.guideStep + 1
+    GameController.pauseGame()
+    GameDispatcher:dispatch(EventNames.EVENT_GUIDE_UPDATE,{step = self.guideStep})
 end
 
 

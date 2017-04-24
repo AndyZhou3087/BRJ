@@ -24,7 +24,7 @@ LOAD_SHORTCODES_API = true
 CONFIG_SCREEN_ORIENTATION = "landscape"
 
 -- design resolution
-CONFIG_SCREEN_WIDTH  = 1060
+CONFIG_SCREEN_WIDTH  = 960
 CONFIG_SCREEN_HEIGHT = 540
 
 -- auto scale mode
