@@ -23,7 +23,7 @@ function MainUI:init(parameters)
     self.Panel_8:setPositionX(display.cx)
     
     self.Image_21 = cc.uiloader:seekNodeByName(self.m_json,"Image_21")
-    self.Image_21:setScale(display.right/GroupSize.width)
+--    self.Image_21:setScale(display.right/GroupSize.width)
     self.Image_21:setPositionX(display.cx)
     
     self.Label_23 = cc.uiloader:seekNodeByName(self.m_json,"Label_23")
