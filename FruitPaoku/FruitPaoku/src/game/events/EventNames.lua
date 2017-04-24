@@ -53,6 +53,9 @@ EventNames.EVENT_REVIVE_VIEW = "event_revive_view"
 --新手遮罩
 EventNames.EVENT_GUIDE_CLIP = "event_guide_clip"
 
+--新手道具说明界面
+EventNames.EVENT_GUIDE_EXPLAIN = "event_guide_explain"
+
 --=====================场景内
 
 --时间变化

@@ -96,7 +96,6 @@ function MainUI:onEnterFrame(parameters)
             self.loadHandler = nil
         end
         if DataPersistence.getAttribute("first_into") then
-            DataPersistence.updateAttribute("first_into",false)
             Tools.printDebug("---------------第一次进入")
             --直接进入第一关战斗
             GameDataManager.setCurLevelId(1,1)

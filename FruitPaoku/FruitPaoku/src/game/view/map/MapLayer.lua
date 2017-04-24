@@ -80,7 +80,11 @@ end
 function MapLayer:initRooms()
     if GAME_TYPE_CONTROL == GAME_TYPE.LevelMode then
         self.m_levelCon = SelectLevel[GameDataManager.getCurLevelId()]
-        self.curRooms = self.m_levelCon.map
+        if GameController.getGuide() then
+            self.curRooms = self.m_levelCon.guideMap
+        else
+            self.curRooms = self.m_levelCon.map
+        end
     elseif GAME_TYPE_CONTROL == GAME_TYPE.EndlessMode then
         --控制随机数种子
         math.randomseed(tostring(os.time()):reverse():sub(1, 6))
@@ -91,6 +95,7 @@ function MapLayer:initRooms()
         self.m_roomsNum = MAP_GROUP_INIT_NUM
         if GAME_TYPE_CONTROL == GAME_TYPE.LevelMode then
             self.m_roomAmount=#self.curRooms
+            Tools.printDebug("chjh error 关卡配置",self.m_roomAmount)
             if self.m_roomsNum > self.m_roomAmount then
                 self.m_roomsNum = self.m_roomAmount
             end
@@ -356,7 +361,7 @@ function MapLayer:onEnterFrame(dt)
     --跑了多少米换算公式
    self.pexel = self.pexel + MoveSpeed*0.1/(Pixel/Miles)
    GameDataManager.saveDayRunDistance(MoveSpeed*0.1/(Pixel/Miles))
-    Tools.printDebug("-----------多少米：",self.pexel)
+--    Tools.printDebug("-----------多少米：",self.pexel)
     
     self.miles = self.miles + MoveSpeed*0.1
 --    Tools.printDebug("-----------多少像素：",self.miles)
@@ -429,7 +434,19 @@ end
 
 
 function MapLayer:initGuide(parameters)
-    if self.pexel >= 60 and self.guideStep == 1 then
+    if self.pexel >= 65 and self.guideStep == 1 then
+        self.guideStep = self.guideStep + 1
+        GameController.pauseGame()
+        GameDispatcher:dispatch(EventNames.EVENT_GUIDE_UPDATE,{step = self.guideStep})
+    elseif self.pexel >= 100 and self.guideStep == 2 then
+        self.guideStep = self.guideStep + 1
+        GameController.pauseGame()
+        GameDispatcher:dispatch(EventNames.EVENT_GUIDE_UPDATE,{step = self.guideStep})
+    elseif self.pexel >= 122 and self.guideStep == 3 then
+        self.guideStep = self.guideStep + 1
+        GameController.pauseGame()
+        GameDispatcher:dispatch(EventNames.EVENT_GUIDE_UPDATE,{step = self.guideStep})
+    elseif self.pexel >= 155 and self.guideStep == 4 then
         self.guideStep = self.guideStep + 1
         GameController.pauseGame()
         GameDispatcher:dispatch(EventNames.EVENT_GUIDE_UPDATE,{step = self.guideStep})
