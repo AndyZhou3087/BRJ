@@ -176,7 +176,7 @@ function MapLayer:touchFunc(event)
         return
     end
     if GameController.isInState(PLAYER_STATE.StartSprint) or GameController.isInState(PLAYER_STATE.DeadSprint)
-        or GameController.isInState(PLAYER_STATE.LimitSprint) then
+        or GameController.isInState(PLAYER_STATE.LimitSprint) or GameController.isInState(PLAYER_STATE.Spring) then
     	return
     end
     if event.name == "began" or event.name == "added" then

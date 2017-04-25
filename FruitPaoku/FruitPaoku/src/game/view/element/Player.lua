@@ -191,10 +191,7 @@ end
 
 --角色动画切换(_place:角色位置,_animation动画名称)
 function Player:toPlay(_actionName,loop)
-    if self:isInState(PLAYER_STATE.Spring) then
-        return
-    end
-    if not self.m_twoJump and self.m_jump and _actionName == PLAYER_ACTION.Jump then
+    if not self.m_twoJump and self.m_jump and _actionName == PLAYER_ACTION.Jump and not self:isInState(PLAYER_STATE.Spring) then
     	return
     end
     local _loop = loop or 1
@@ -215,10 +212,6 @@ function Player:toMove(isSpring)
     
     if self:isInState(PLAYER_STATE.Slow) then
         self:clearBuff(PLAYER_STATE.Slow)
-    end
-    
-    if self:isInState(PLAYER_STATE.Spring) then
-        return
     end
 
     self.touchCount = self.touchCount + 1
@@ -248,9 +241,6 @@ function Player:toMove(isSpring)
             else
                 local x,y = self:getPosition()
                 self:setPositionY(y-self:getAreaSize().height*0.5)
-            end
-            if self:isInState(PLAYER_STATE.Spring) then
-                self:clearBuff(PLAYER_STATE.Spring)
             end
         end})
     else
@@ -500,7 +490,7 @@ function Player:revive(parameters)
         end
     end
     
-    GameController.resumeGame()
+    GameController.resumeGame(true)
     self:clearObstales()
 end
 
@@ -705,6 +695,14 @@ function Player:deadRelay(parameters)
     local modle = RoleConfig[random].armatureName
     self:createModle(modle)
     old:removeFromParent()
+    
+    if self.originScaleY then
+        self:setScaleY(self.originScaleY)
+    end
+    if self.originPos then
+        self:setPosition(self.originPos)
+    end
+    
     self.m_jump = false
     self.m_run = true
     self:clearObstales()
@@ -820,9 +818,9 @@ function Player:spring(parameters)
     Tools.printDebug("----------弹簧跳跃",self:getJumpState())
     
     if self:getJumpState() then
+        self:addBuff({type=PLAYER_STATE.Spring})
         self:toPlay(PLAYER_ACTION.Jump,0)
         self:toMove(true)
-        self:addBuff({type=PLAYER_STATE.Spring})
     else
         self.originPos = cc.p(self:getPosition())
         self.originScaleY = self:getScaleY()
@@ -843,8 +841,7 @@ function Player:backMove(parameters)
             Scheduler.unscheduleGlobal(self.backHandler)
             self.backHandler=nil
         end
-        --弹复活界面
-        GameDispatcher:dispatch(EventNames.EVENT_REVIVE_VIEW,{animation = true})
+        self:deadSprintFlash()
     end
 end
 

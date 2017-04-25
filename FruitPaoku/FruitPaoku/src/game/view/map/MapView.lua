@@ -63,6 +63,9 @@ function MapView:ctor(parameters)
     self.jumpBtn:setPositionX(display.right-110)
     self.jumpBtn:onButtonClicked(function(_event)
         if not DataPersistence.getAttribute("first_into") then
+            if GameController.isInState(PLAYER_STATE.Spring) then
+            	return
+            end
             if not GameController.isWin and not GameController.isDead and not GameController.isInState(PLAYER_STATE.StartSprint)
                 or GameController.isInState(PLAYER_STATE.DeadSprint) or GameController.isInState(PLAYER_STATE.LimitSprint) then
                 GameController.getCurPlayer():toPlay(PLAYER_ACTION.Jump,0)

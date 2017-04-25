@@ -10,7 +10,7 @@ function ReviveUI:ctor(parm)
     ReviveUI.super.ctor(self)
     
     local bg = display.newColorLayer(cc.c4b(0,0,0,OPACITY)):addTo(self)
-    GameController.pauseGame() --游戏暂停
+    GameController.pauseGame(true) --游戏暂停
 
     local ReviveUI = cc.uiloader:load("json/ReviveUI.json")
     self:addChild(ReviveUI)
