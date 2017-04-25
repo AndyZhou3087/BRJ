@@ -71,7 +71,7 @@ function MapLayer:ctor(parameters)
     
     
     --新手引导
-    if GameController.getGuide() then
+    if DataPersistence.getAttribute("first_into") then
         self.guideStep = 1
         MoveSpeed = levelCon.guideSpeed
     end
@@ -81,12 +81,12 @@ end
 function MapLayer:initRooms()
     if GAME_TYPE_CONTROL == GAME_TYPE.LevelMode then
         self.m_levelCon = SelectLevel[GameDataManager.getCurLevelId()]
-        if GameController.getGuide() then
+        if DataPersistence.getAttribute("first_into") then
             self.curRooms = self.m_levelCon.guideMap
             self.m_gap = self.m_levelCon.guideGap
         else
             self.curRooms = self.m_levelCon.map
-            self.m_gap = self.m_levelCon.guideGap.gap
+            self.m_gap = self.m_levelCon.gap
         end
     elseif GAME_TYPE_CONTROL == GAME_TYPE.EndlessMode then
         --控制随机数种子
@@ -98,7 +98,7 @@ function MapLayer:initRooms()
         self.m_roomsNum = MAP_GROUP_INIT_NUM
         if GAME_TYPE_CONTROL == GAME_TYPE.LevelMode then
             self.m_roomAmount=#self.curRooms
-            Tools.printDebug("chjh error 关卡配置",self.m_roomAmount)
+            Tools.printDebug("chjh 关卡配置",self.m_roomAmount)
             if self.m_roomsNum > self.m_roomAmount then
                 self.m_roomsNum = self.m_roomAmount
             end
@@ -169,7 +169,7 @@ end
 
 --触摸
 function MapLayer:touchFunc(event)
-    if GameController.getGuide() then
+    if DataPersistence.getAttribute("first_into") then
     	return
     end
     if GameController.isWin or GameController.isDead then
@@ -364,11 +364,11 @@ function MapLayer:onEnterFrame(dt)
     --跑了多少米换算公式
    self.pexel = self.pexel + MoveSpeed*0.1/(Pixel/Miles)
    GameDataManager.saveDayRunDistance(MoveSpeed*0.1/(Pixel/Miles))
-    Tools.printDebug("-----------多少米：",self.pexel)
+--    Tools.printDebug("-----------多少米：",self.pexel)
     
     self.miles = self.miles + MoveSpeed*0.1
 --    Tools.printDebug("-----------多少像素：",self.miles)
-    if GAME_TYPE_CONTROL == GAME_TYPE.LevelMode and not self.isGiftPop then
+    if not DataPersistence.getAttribute("first_into") and GAME_TYPE_CONTROL == GAME_TYPE.LevelMode and not self.isGiftPop then
         if self.m_levelCon.giftGap and self.miles >= self.m_levelCon.giftGap then
             self.isGiftPop = true
             if not GameDataManager.getRoleModle(GiftConfig[1].roleId) then
@@ -430,21 +430,33 @@ function MapLayer:onEnterFrame(dt)
     local cur = math.floor(self.pexel)
     GameDataManager.addLevelScore(cur)
     
-    if GameController.getGuide() then
+    if DataPersistence.getAttribute("first_into") then
         self:initGuide()
     end
 end
 
 
 function MapLayer:initGuide(parameters)
-    if self.pexel >= 30 and self.guideStep == 1 then
-        self:stepJump()
-    elseif self.pexel >= 40 and self.guideStep == 2 then
-        self:stepJump()
-    elseif self.pexel >= 85 and self.guideStep == 3 then
-        self:stepJump()
-    elseif self.pexel >= 115 and self.guideStep == 4 then
-        self:stepJump()
+    if GAME_RESOLUTION_CONTROL == RESOLUTION_TYPE.phone then
+        if self.pexel >= 29 and self.guideStep == 1 then
+            self:stepJump()
+        elseif self.pexel >= 40 and self.guideStep == 2 then
+            self:stepJump()
+        elseif self.pexel >= 85 and self.guideStep == 3 then
+            self:stepJump()
+        elseif self.pexel >= 115 and self.guideStep == 4 then
+            self:stepJump()
+        end
+    elseif GAME_RESOLUTION_CONTROL == RESOLUTION_TYPE.pad then
+        if self.pexel >= 32 and self.guideStep == 1 then
+            self:stepJump()
+        elseif self.pexel >= 44 and self.guideStep == 2 then
+            self:stepJump()
+        elseif self.pexel >= 90 and self.guideStep == 3 then
+            self:stepJump()
+        elseif self.pexel >= 120 and self.guideStep == 4 then
+            self:stepJump()
+        end
     end
 end
 

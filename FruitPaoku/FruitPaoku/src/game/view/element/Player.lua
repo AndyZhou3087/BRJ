@@ -173,9 +173,8 @@ function Player:LevelWin()
     
     transition.moveTo(self,{time = 1,x=display.right+100,y=self:getPositionY(),onComplete=function()
         self:dispose()
-        if GameController.getGuide() then
+        if DataPersistence.getAttribute("first_into") then
             DataPersistence.updateAttribute("first_into",false)
-        	GameController.setGuide(false)
         	app:enterMainScene()
         else
             --弹结算界面
@@ -192,8 +191,15 @@ end
 
 --角色动画切换(_place:角色位置,_animation动画名称)
 function Player:toPlay(_actionName,loop)
+    if self:isInState(PLAYER_STATE.Spring) then
+        return
+    end
+    if not self.m_twoJump and self.m_jump and _actionName == PLAYER_ACTION.Jump then
+    	return
+    end
     local _loop = loop or 1
     self.m_animation:play(_actionName,0,_loop)
+    Tools.printDebug("Fruit PaoKu 角色跳跃:",_actionName)
     if _actionName==PLAYER_ACTION.Run then
         self:reSetUD()
     end
@@ -209,6 +215,10 @@ function Player:toMove(isSpring)
     
     if self:isInState(PLAYER_STATE.Slow) then
         self:clearBuff(PLAYER_STATE.Slow)
+    end
+    
+    if self:isInState(PLAYER_STATE.Spring) then
+        return
     end
 
     self.touchCount = self.touchCount + 1
@@ -239,6 +249,9 @@ function Player:toMove(isSpring)
                 local x,y = self:getPosition()
                 self:setPositionY(y-self:getAreaSize().height*0.5)
             end
+            if self:isInState(PLAYER_STATE.Spring) then
+                self:clearBuff(PLAYER_STATE.Spring)
+            end
         end})
     else
         if self.touchCount == 2 and (self.m_twoJump or isSpring) then
@@ -264,6 +277,9 @@ function Player:toMove(isSpring)
                     local x,y = self:getPosition()
                     self:setPositionY(y-self:getAreaSize().height*0.5)
                 end
+                if self:isInState(PLAYER_STATE.Spring) then
+                    self:clearBuff(PLAYER_STATE.Spring)
+                end
             end})
         elseif self.touchCount > 2 and isSpring then
             self:stopAllActions()
@@ -287,6 +303,9 @@ function Player:toMove(isSpring)
                 else
                     local x,y = self:getPosition()
                     self:setPositionY(y-self:getAreaSize().height*0.5)
+                end
+                if self:isInState(PLAYER_STATE.Spring) then
+                    self:clearBuff(PLAYER_STATE.Spring)
                 end
             end})
         end
@@ -330,13 +349,18 @@ function Player:update(dt,_x,_y)
         self:setPositionX(x+MoveSpeed*0.1)
     end
     
+    --冲刺时消除障碍物
+    if self:isInState(PLAYER_STATE.StartSprint) or self:isInState(PLAYER_STATE.DeadSprint) or self:isInState(PLAYER_STATE.LimitSprint) then
+    	self:clearObstales()
+    end
 end
 
 --全屏清除障碍物
 function Player:clearObstales(parameters)
     local allObstales = GameController.getScreenObstacles()
     for key, var in pairs(allObstales) do
-        if var:getVo().m_type == OBSTACLE_TYPE.fly or var:getVo().m_type == OBSTACLE_TYPE.hide or var:getVo().m_type == OBSTACLE_TYPE.static then
+        if var:getVo().m_type == OBSTACLE_TYPE.fly or var:getVo().m_type == OBSTACLE_TYPE.hide or var:getVo().m_type == OBSTACLE_TYPE.static
+            or var:getVo().m_type == OBSTACLE_TYPE.special then
             var:removeSelf()
         end
 	end
@@ -391,7 +415,7 @@ end
 function Player:deadFlash()
     self:death()
     --复活界面
-    GameDispatcher:dispatch(EventNames.EVENT_REVIVE_VIEW)
+    GameDispatcher:dispatch(EventNames.EVENT_REVIVE_VIEW,{animation = true})
 end
 
 --角色死亡
@@ -789,11 +813,16 @@ function Player:spring(parameters)
     if self:isInState(PLAYER_STATE.LimitSprint) then
         return
     end
+    if self:isInState(PLAYER_STATE.Spring) then
+        self:clearBuff(PLAYER_STATE.Spring)
+    end
+    
     Tools.printDebug("----------弹簧跳跃",self:getJumpState())
     
     if self:getJumpState() then
         self:toPlay(PLAYER_ACTION.Jump,0)
         self:toMove(true)
+        self:addBuff({type=PLAYER_STATE.Spring})
     else
         self.originPos = cc.p(self:getPosition())
         self.originScaleY = self:getScaleY()
@@ -815,7 +844,7 @@ function Player:backMove(parameters)
             self.backHandler=nil
         end
         --弹复活界面
-        GameDispatcher:dispatch(EventNames.EVENT_REVIVE_VIEW)
+        GameDispatcher:dispatch(EventNames.EVENT_REVIVE_VIEW,{animation = true})
     end
 end
 

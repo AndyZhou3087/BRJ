@@ -17,6 +17,10 @@ function ReviveUI:ctor(parm)
 
     local Image_1 = cc.uiloader:seekNodeByName(ReviveUI,"Image_1")
     Image_1:setPositionX(display.cx)
+    local Image_1X,Image_1Y = Image_1:getPosition()
+    if parm.animation == true then
+        self:popupLeft(Image_1X,nil,Image_1)
+    end
 
     local RoleImg=cc.uiloader:seekNodeByName(ReviveUI,"RoleImg")
     RoleImg:setButtonEnabled(false)
