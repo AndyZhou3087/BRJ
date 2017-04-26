@@ -27,9 +27,10 @@ function Player:ctor()
     local modle = RoleConfig[self.m_curModle].armatureName
     self:createModle(modle)
 
-    self.p_siz=cc.size(80,110)
-    self.p_offset = cc.p(10,50)
-    self:addBody(self.p_offset,self.p_siz)
+    self.p_siz=cc.size(80,110)--角色本身区域限定
+    self.pSize = cc.size(60,100)--与障碍物碰撞区域
+    self.p_offset = cc.p(20,50)
+    self:addBody(self.p_offset,self.pSize)
     
     self.m_twoJump = false
     self.m_isMagnet = false
@@ -974,7 +975,7 @@ function Player:clearBuff(_type)
             else
                 offset = self.p_offset
             end
-            self:addBody(offset,self.p_siz)
+            self:addBody(offset,self.pSize)
             self:clearObstales()
         elseif _type == PLAYER_STATE.LimitSprint then
             if self.m_limitHandler then

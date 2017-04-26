@@ -49,13 +49,14 @@ function Obstacle:ctor(id,py)
             elseif self.m_vo.m_type == OBSTACLE_TYPE.special then
                 offset = cc.p(-50,50)
             elseif self.m_vo.m_type == OBSTACLE_TYPE.hide then
-                _size = cc.size(self.obcon:getCascadeBoundingBox().size.width*0.9,self.obcon:getCascadeBoundingBox().size.height*0.5)
+                _size = cc.size(self.obcon:getCascadeBoundingBox().size.width*0.4,self.obcon:getCascadeBoundingBox().size.height*0.5)
                 self.obcon:setAnchorPoint(cc.p(0,0.5))
+                offset = cc.p(25,40)
                 local allSize = self.obcon:getCascadeBoundingBox().size
                 if self.m_posY>display.cy then
                     self.obcon:setAnchorPoint(cc.p(0,0))
                     self.obcon:setPositionY(-allSize.height)
-                    offset = cc.p(30,-40)
+                    offset = cc.p(25,-40)
                 end
             end 
             self:addBody(obCon,_size,offset)
@@ -70,8 +71,8 @@ function Obstacle:ctor(id,py)
             
             self.obcon:setAnchorPoint(cc.p(0,0))
             
-            _size = cc.size(self.obcon:getCascadeBoundingBox().size.width*0.9,self.obcon:getCascadeBoundingBox().size.height*0.9)
-            offset = cc.p(30,40)
+            _size = cc.size(self.obcon:getCascadeBoundingBox().size.width*0.4,self.obcon:getCascadeBoundingBox().size.height*0.9)
+            offset = cc.p(25,40)
             if self.m_vo.m_type == OBSTACLE_TYPE.ice then
                 _size = cc.size(self.obcon:getCascadeBoundingBox().size.width,self.obcon:getCascadeBoundingBox().size.height*0.1)
                 offset = cc.p(475,40)
@@ -81,12 +82,13 @@ function Obstacle:ctor(id,py)
             elseif self.m_vo.m_type == OBSTACLE_TYPE.fly then
                 self.obcon:setAnchorPoint(cc.p(0.5,0.5))
                 self.obcon:setPosition(cc.p(-self.obcon:getCascadeBoundingBox().size.width*0.5,-self.obcon:getCascadeBoundingBox().size.height*0.5))
-                offset = cc.p(-30,-30)
+                _size = cc.size(self.obcon:getCascadeBoundingBox().size.width*0.6,self.obcon:getCascadeBoundingBox().size.height*0.9)
+                offset = cc.p(-40,-30)
             else
                 local allSize = self.obcon:getCascadeBoundingBox().size
                 if self.m_posY>display.cy then
                     self.obcon:setPositionY(-allSize.height)
-                    offset = cc.p(30,-40)
+                    offset = cc.p(25,-40)
                 end
             end       
             self:addBody(obCon,_size,offset)
