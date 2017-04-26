@@ -286,7 +286,6 @@ function Obstacle:executeMove(parameters)
         AudioManager.playSoundEffect(AudioManager.Sound_Effect_Type.Dart_Sound,true)
         transition.moveBy(self,{time=self.m_vo.m_speed*DefaultSpeed/_speed,x=-display.width-200,y=0,onComplete=function()
             self:dispose()
-            AudioManager.stopSoundEffect(AudioManager.Sound_Effect_Type.Dart_Sound)
         end})
     end)
     local seque = cc.Sequence:create(repeated,callfunc)
@@ -395,7 +394,7 @@ function Obstacle:dispose()
         GameDispatcher:removeListenerByHandle(self.m_resum)
         self.m_resum = nil
     end
-
+    AudioManager.stopSoundEffect(AudioManager.Sound_Effect_Type.Dart_Sound)
     if self.m_timer then
         Scheduler.unscheduleGlobal(self.m_timer)
         self.m_timer = nil

@@ -535,8 +535,6 @@ function Player:manget(parameters)
     if self:isInState(PLAYER_STATE.Magnet) then
         return
     end
-	
-    AudioManager.playSoundEffect(AudioManager.Sound_Effect_Type.GetGold_Sound,true)
     
 	self.m_propManget = true
     self.m_propRadius = parameters.data.radius
