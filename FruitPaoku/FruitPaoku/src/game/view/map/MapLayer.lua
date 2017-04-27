@@ -170,6 +170,9 @@ end
 
 --触摸
 function MapLayer:touchFunc(event)
+    if MoveSpeed<=0 then
+    	return
+    end
     if DataPersistence.getAttribute("first_into") then
     	return
     end
