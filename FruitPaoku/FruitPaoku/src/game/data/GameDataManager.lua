@@ -521,6 +521,7 @@ function GameDataManager.updateUserLv(_roleId,_lv)
     else
         printf("chjh error id=%d的角色你暂未拥有，不能升级",_roleId)
     end
+    GameDispatcher:dispatch(EventNames.EVENT_ROLEUPGRADE_UPDATE)
 end
 
 function GameDataManager.getRoleLevel(_roleId)
