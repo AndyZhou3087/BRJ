@@ -70,7 +70,7 @@ function MapView:ctor(parameters)
             	return
             end
             if not GameController.isWin and not GameController.isDead and not GameController.isInState(PLAYER_STATE.StartSprint)
-                or GameController.isInState(PLAYER_STATE.DeadSprint) or GameController.isInState(PLAYER_STATE.LimitSprint) then
+                or not GameController.isInState(PLAYER_STATE.DeadSprint) or not GameController.isInState(PLAYER_STATE.LimitSprint) then
 --                GameController.getCurPlayer():clickJumpfunc()
                 GameController.getCurPlayer():toPlay(PLAYER_ACTION.Jump,0)
                 GameController.getCurPlayer():toMove()
