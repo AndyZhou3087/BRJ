@@ -368,7 +368,7 @@ SelectLevel[14]=
         _id=14, 
         res = "Select/Select_1.png",
         rect = {102,81},
-        pos = {x = 900,y = 380},
+        pos = {x = 885,y = 330},
         costPower=1,
         coinAward=false, --金币奖励
         powerAward=false, --体力奖励
@@ -395,7 +395,7 @@ SelectLevel[15]=
         _id=15, 
         res = "Select/Select_1.png",
         rect = {102,81},
-        pos = {x = 910,y = 300},
+        pos = {x = 915,y = 230},
         costPower=1,
         coinAward=false, --金币奖励
         powerAward=false, --体力奖励
