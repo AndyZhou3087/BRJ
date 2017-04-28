@@ -89,6 +89,7 @@ function GameDataManager.costGold(_value)
         userData.gold = userData.gold - _value
         Tools.printDebug("当前金币",GameDataManager.getGold())
         GameDispatcher:dispatch(EventNames.EVENT_UPDATE_GOLD)
+        GameDispatcher:dispatch(EventNames.EVENT_ROLEUPGRADE_UPDATE)
         GameDataManager.saveUseGold(_value)
         GameDataManager.SaveData()
         return true
@@ -102,6 +103,7 @@ function GameDataManager.addGold(_value)
     userData.gold = userData.gold + _value
     Tools.printDebug("当前金币",GameDataManager.getGold())
     GameDispatcher:dispatch(EventNames.EVENT_UPDATE_GOLD)
+    GameDispatcher:dispatch(EventNames.EVENT_ROLEUPGRADE_UPDATE)
     GameDataManager.saveGetGold(_value)
     GameDataManager.SaveData()
     AudioManager.playSoundEffect(AudioManager.Sound_Effect_Type.GetGold_Sound)
@@ -519,7 +521,6 @@ function GameDataManager.updateUserLv(_roleId,_lv)
     else
         printf("chjh error id=%d的角色你暂未拥有，不能升级",_roleId)
     end
-    GameDispatcher:dispatch(EventNames.EVENT_ROLEUPGRADE_UPDATE)
 end
 
 function GameDataManager.getRoleLevel(_roleId)

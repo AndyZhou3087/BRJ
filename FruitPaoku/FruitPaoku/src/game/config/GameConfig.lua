@@ -1,7 +1,7 @@
 --游戏公用配置文件
 
 --测试输出
-PrintDebug = true
+PrintDebug = false
 
 GroupSize = cc.size(960,540)   --每一组配置的大小
 
