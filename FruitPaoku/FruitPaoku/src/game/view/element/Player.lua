@@ -425,14 +425,20 @@ end
 
 --
 function Player:deadFlash()
+    if GameController.isWin then
+    	return
+    end
     self:death()
-    --复活界面
-    GameDispatcher:dispatch(EventNames.EVENT_REVIVE_VIEW,{animation = true})
 end
 
 --角色死亡
 function Player:death()
-
+    if self.m_isDead then
+        return
+    end
+    self.m_isDead = true
+    GameController.isDead = true
+    
     if GameDataManager.getFightRole() == 2 then
         AudioManager.playSoundEffect(AudioManager.Sound_Effect_Type.RoleWomen_Dead)
     else
@@ -442,12 +448,12 @@ function Player:death()
     self:stopAllActions()
     self:toPlay(PLAYER_ACTION.Down)
     
+    self.m_hp = 0
+    
     --背景和障碍停止移动
     MoveSpeed = 0
 --        self:getParent():toDelay()
 
-    self.m_isDead = true
-    GameController.isDead = true
     self.m_armature:setVisible(false)
 
     --清除所有buff
@@ -458,7 +464,9 @@ function Player:death()
         end
     end
     self.m_buffArr = {}
-
+    
+    --复活界面
+    GameDispatcher:dispatch(EventNames.EVENT_REVIVE_VIEW,{animation = true})
 end
 
 --角色复活
