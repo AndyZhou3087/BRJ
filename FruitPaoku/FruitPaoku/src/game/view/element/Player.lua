@@ -403,6 +403,10 @@ function Player:playerAttacked(parm)
     self.m_hp = self.m_hp - parm.data.att
     if self.m_hp <= 0 then
         Tools.printDebug("------------角色死亡..")
+        if self.backHandler then
+            Scheduler.unscheduleGlobal(self.backHandler)
+            self.backHandler=nil
+        end
         self:deadSprintFlash()
     end
 end
