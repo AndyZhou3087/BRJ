@@ -226,9 +226,9 @@ function Player:toMove(isSpring)
         self.backHandler=nil
     end
     
-    if self:isInState(PLAYER_STATE.Slow) then
-        self:clearBuff(PLAYER_STATE.Slow)
-    end
+--    if self:isInState(PLAYER_STATE.Slow) then
+--        self:clearBuff(PLAYER_STATE.Slow)
+--    end
 
     self.touchCount = self.touchCount + 1
     if self.touchCount == 1 then
@@ -356,7 +356,8 @@ function Player:update(dt,_x,_y)
         GameController.detect(self,cc.p(_x,_y),self.m_radius)
     end
     
-    if self.originPos and self:getPositionX()<self.originPos.x and not self.backHandler then
+    --角色向后缓动后恢复
+    if self.originPos and self:getPositionX()<self.originPos.x and not self.backHandler and not self.slowHandler then
         local x,y = self:getPosition()
         self:setPositionX(x+MoveSpeed*0.1)
     end
@@ -406,6 +407,9 @@ function Player:playerAttacked(parm)
         if self.backHandler then
             Scheduler.unscheduleGlobal(self.backHandler)
             self.backHandler=nil
+        end
+        if self:isInState(PLAYER_STATE.Slow) then
+            self:clearBuff(PLAYER_STATE.Slow)
         end
         self:deadSprintFlash()
     end
@@ -496,6 +500,7 @@ function Player:revive(parameters)
         self:setPosition(display.cx-100,display.cy+200)
     end
     if self.originScaleY then
+        Tools.printDebug("----------------角色复活后ScaleY:",self.originScaleY)
         self:setScaleY(self.originScaleY)
     end
     if self.originPos then
@@ -814,24 +819,43 @@ function Player:slowSpeed(parameters)
         return
     end
     
-    if self:isInState(PLAYER_STATE.Slow) then
+    if parameters.data.isSlow and self:isInState(PLAYER_STATE.Slow) then
         return
     end
     Tools.printDebug("----------速度减慢")
     
     if parameters.data.isSlow then
         self:addBuff({type=PLAYER_STATE.Slow})
-        self.originSpeed = MoveSpeed
-        local speed = MoveSpeed - parameters.data.cutSpeed
-        if speed <= 0 then
-            speed = MoveSpeed*0.5
+        self.slowlySpeed = MoveSpeed - parameters.data.cutSpeed
+        self.originPos = cc.p(display.cx-100,display.cy-240)
+        self.originScaleY = self:getScaleY()
+        if self.slowHandler then
+            Scheduler.unscheduleGlobal(self.slowHandler)
+            self.slowHandler=nil
         end
-        MoveSpeed = speed
+        self.slowHandler = Scheduler.scheduleGlobal(handler(self,self.slowMove),FrameTime)
     else
         self:clearBuff(PLAYER_STATE.Slow)
     end
     
 end
+
+function Player:slowMove()
+    if not self.slowlySpeed or MoveSpeed == 0 then
+    	return
+    end
+    local x,y = self:getPosition()
+    self:setPosition(x-self.slowlySpeed*0.1,y)
+    if self:getPositionX()<=-self:getSize().width then
+        if self.slowHandler then
+            Scheduler.unscheduleGlobal(self.slowHandler)
+            self.slowHandler=nil
+        end
+        self:deadSprintFlash()
+    end
+end
+
+
 --弹簧障碍物
 function Player:spring(parameters)
     if self:isDead() then
@@ -862,7 +886,7 @@ function Player:spring(parameters)
             Tools.printDebug("print error 卡在弹簧--------------")
         	return
         end
-        self.originPos = cc.p(self:getPosition())
+        self.originPos = cc.p(display.cx-100,display.cy-240)
         self.originScaleY = self:getScaleY()
         if self.backHandler then
             Scheduler.unscheduleGlobal(self.backHandler)
@@ -1046,9 +1070,9 @@ function Player:clearBuff(_type)
                 self.m_transHandler = nil
             end
         elseif _type == PLAYER_STATE.Slow then
-            if self.originSpeed then
-                MoveSpeed = self.originSpeed
-                self.originSpeed = nil
+            if self.slowHandler then
+                Scheduler.unscheduleGlobal(self.slowHandler)
+                self.slowHandler=nil
             end
         elseif _type == PLAYER_STATE.Magnet then
             if not tolua.isnull(self.m_mangetSelf) then
@@ -1165,13 +1189,6 @@ function Player:pause(parameters)
                 self.m_transHandler = nil
             end
         end
-        if self:isInState(PLAYER_STATE.Slow) then
-            GameDataManager.setGamePauseTime(PLAYER_STATE.Slow)
-            if  self.m_slowHandler then
-                Scheduler.unscheduleGlobal(self.m_slowHandler)
-                self.m_slowHandler = nil
-            end
-        end
     end
 end
 
@@ -1227,14 +1244,6 @@ function Player:regain(parameters)
             GameDataManager.setGamePropTime(PLAYER_STATE.TransformGold,leftTime)
             self.m_transHandler = Tools.delayCallFunc(leftTime,function()
                 self:clearBuff(PLAYER_STATE.TransformGold)
-            end)
-        end
-        if self:isInState(PLAYER_STATE.Slow) then
-            MoveSpeed = GameDataManager.getMapSpeed(PLAYER_STATE.Slow)
-            local leftTime = GameDataManager.getLeftTime(PLAYER_STATE.Slow)
-            GameDataManager.setGamePropTime(PLAYER_STATE.Slow,leftTime,MoveSpeed)
-            self.m_slowHandler = Tools.delayCallFunc(leftTime,function()
-                self:clearBuff(PLAYER_STATE.Slow)
             end)
         end
     end
@@ -1295,10 +1304,6 @@ function Player:dispose()
         Scheduler.unscheduleGlobal(self.m_transHandler)
         self.m_transHandler = nil
     end
-    if self.m_slowHandler then
-        Scheduler.unscheduleGlobal(self.m_slowHandler)
-        self.m_slowHandler = nil
-    end
 
     if self.m_dropLifeHandle then
         Scheduler.unscheduleGlobal(self.m_dropLifeHandle)
@@ -1308,6 +1313,11 @@ function Player:dispose()
     if self.backHandler then
         Scheduler.unscheduleGlobal(self.backHandler)
         self.backHandler=nil
+    end
+    
+    if self.slowHandler then
+        Scheduler.unscheduleGlobal(self.slowHandler)
+        self.slowHandler=nil
     end
     
 
