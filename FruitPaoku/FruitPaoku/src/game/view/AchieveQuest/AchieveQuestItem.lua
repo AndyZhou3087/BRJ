@@ -70,14 +70,18 @@ function AchieveQuestItem:initCotent(_type)
         end
     end)
     self.Unfinished = cc.uiloader:seekNodeByName(content,"Unfinished")
+    self.Recieve = cc.uiloader:seekNodeByName(content,"Recieve")
     if _type == 2 then
         if GameDataManager.getAchieveState(self.m_con.id) == ACHIEVE_STATE.Unfinished then
             self.Unfinished:setVisible(true)
             self.Finished:setVisible(false)
+            self.Recieve:setVisible(false)
         elseif GameDataManager.getAchieveState(self.m_con.id) == ACHIEVE_STATE.Finished then
             self.Unfinished:setVisible(false)
             self.Finished:setVisible(true)
+            self.Recieve:setVisible(false)
         else
+            self.Recieve:setVisible(true)
             self.Unfinished:setVisible(false)
             self.Finished:setVisible(false)
         end
@@ -85,10 +89,13 @@ function AchieveQuestItem:initCotent(_type)
         if GameDataManager.getTaskState(self.m_con.id) == ACHIEVE_STATE.Unfinished then
             self.Unfinished:setVisible(true)
             self.Finished:setVisible(false)
+            self.Recieve:setVisible(false)
         elseif GameDataManager.getTaskState(self.m_con.id) == ACHIEVE_STATE.Finished then
             self.Unfinished:setVisible(false)
             self.Finished:setVisible(true)
+            self.Recieve:setVisible(false)
         else
+            self.Recieve:setVisible(true)
             self.Unfinished:setVisible(false)
             self.Finished:setVisible(false)
         end
@@ -101,10 +108,13 @@ function AchieveQuestItem:changeState(parameters)
         if parameters.data.state == ACHIEVE_STATE.Unfinished then
             self.Unfinished:setVisible(true)
             self.Finished:setVisible(false)
+            self.Recieve:setVisible(false)
         elseif parameters.data.state == ACHIEVE_STATE.Finished then
             self.Unfinished:setVisible(false)
             self.Finished:setVisible(true)
+            self.Recieve:setVisible(false)
         else
+            self.Recieve:setVisible(true)
             self.Unfinished:setVisible(false)
             self.Finished:setVisible(false)
         end
