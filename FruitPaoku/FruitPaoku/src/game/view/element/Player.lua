@@ -823,6 +823,9 @@ function Player:slowSpeed(parameters)
         self:addBuff({type=PLAYER_STATE.Slow})
         self.originSpeed = MoveSpeed
         local speed = MoveSpeed - parameters.data.cutSpeed
+        if speed <= 0 then
+            speed = MoveSpeed*0.5
+        end
         MoveSpeed = speed
     else
         self:clearBuff(PLAYER_STATE.Slow)
