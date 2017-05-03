@@ -359,7 +359,11 @@ function Player:update(dt,_x,_y)
     --角色向后缓动后恢复
     if self.originPos and self:getPositionX()<self.originPos.x and not self.backHandler and not self.slowHandler then
         local x,y = self:getPosition()
-        self:setPositionX(x+MoveSpeed*0.1)
+        if self.slowlySpeed then
+            self:setPositionX(x+self.slowlySpeed*0.1)
+        else
+            self:setPositionX(x+MoveSpeed*0.1)
+        end
     end
     
     --冲刺时消除障碍物
@@ -372,8 +376,7 @@ end
 function Player:clearObstales(parameters)
     local allObstales = GameController.getScreenObstacles()
     for key, var in pairs(allObstales) do
-        if var:getVo().m_type == OBSTACLE_TYPE.fly or var:getVo().m_type == OBSTACLE_TYPE.hide or var:getVo().m_type == OBSTACLE_TYPE.static
-            or var:getVo().m_type == OBSTACLE_TYPE.special then
+        if var:getVo().m_type ~= OBSTACLE_TYPE.spring then
             var:removeSelf()
         end
 	end
@@ -886,6 +889,7 @@ function Player:spring(parameters)
             Tools.printDebug("print error 卡在弹簧--------------")
         	return
         end
+        self.slowlySpeed = nil
         self.originPos = cc.p(display.cx-100,display.cy-240)
         self.originScaleY = self:getScaleY()
         if self.backHandler then

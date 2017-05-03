@@ -148,10 +148,11 @@ function RoleView:initRole(parameters)
         self.lv:reload()
     end)
     
-    ccs.ArmatureDataManager:getInstance():addArmatureFileInfo("armature/sj0.png", "armature/sj0.plist" , "armature/sj.ExportJson" )
-    self.levelEffect = ccs.Armature:create("sj")
+    ccs.ArmatureDataManager:getInstance():addArmatureFileInfo("armature/lvup0.png", "armature/lvup0.plist" , "armature/lvup.ExportJson" )
+    self.levelEffect = ccs.Armature:create("lvup")
+    self.levelEffect:setVisible(false)
     self.Panel_role:addChild(self.levelEffect)
-    self.levelEffect:setPosition(cc.p(100,100))
+    self.levelEffect:setPosition(cc.p(100,140))
 end
 
 function RoleView:LoadRole(id)
@@ -261,6 +262,7 @@ end
 
 function RoleView:upgradeEffect(parameters)
     if not tolua.isnull(self.levelEffect) then
+        self.levelEffect:setVisible(true)
         self.levelEffect:getAnimation():playWithIndex(0)
 	end
 end
