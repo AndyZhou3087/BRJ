@@ -17,11 +17,11 @@ function ClipGuideView:ctor(parameters)
         print("not find _mould!")
     end
 
-    local scale1 = cc.ScaleTo:create(1,1.2)
-    local scale2 = cc.ScaleTo:create(1,1)
-    local seq = cc.Sequence:create(scale1,scale2)
-    local repeteFor = cc.RepeatForever:create(seq)
-    self.m_mould:runAction(repeteFor)
+--    local scale1 = cc.ScaleTo:create(1,1.2)
+--    local scale2 = cc.ScaleTo:create(1,1)
+--    local seq = cc.Sequence:create(scale1,scale2)
+--    local repeteFor = cc.RepeatForever:create(seq)
+--    self.m_mould:runAction(repeteFor)
     
 
     --裁剪节点
