@@ -1,7 +1,7 @@
 --游戏公用配置文件
 
 --测试输出
-PrintDebug = false
+PrintDebug = true
 
 GroupSize = cc.size(960,540)   --每一组配置的大小
 
@@ -11,6 +11,9 @@ InitDiamond = 20
 
 --移动速度帧率
 FrameTime = 0.01
+
+--速度极限值
+SpeedMax = 150
 
 DefaultSpeed = 32
 --移动速度
