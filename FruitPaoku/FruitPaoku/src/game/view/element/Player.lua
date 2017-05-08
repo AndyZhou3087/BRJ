@@ -370,6 +370,9 @@ function Player:update(dt,_x,_y)
     
     --针对无尽模式速度改变
     if GAME_TYPE_CONTROL == GAME_TYPE.EndlessMode and self.pMoveSpeed ~= MoveSpeed then
+        if MoveSpeed>=SpeedMax then
+            MoveSpeed = SpeedMax
+        end
     	self.pMoveSpeed = MoveSpeed
         self.m_animation:setSpeedScale(MoveSpeed*0.01)
     end
