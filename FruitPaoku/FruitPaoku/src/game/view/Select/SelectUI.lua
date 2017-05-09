@@ -60,20 +60,21 @@ function SelectUI:init(parameters)
 end
 
 function SelectUI:moveScrollView(parameters)
+    --当前要闯的关卡记录
     local x,y = self.itemArr[GameDataManager.getNextFightDataId()]:getPosition()
     local wordPos = self.itemArr[GameDataManager.getNextFightDataId()]:getParent():convertToWorldSpace(cc.p(x,y))
-    local dis = wordPos.x-display.cx
-    local nodeX,nodeY = self.scrollView.scrollNode:getPosition()
-    Tools.printDebug("-------------ScrollView坐标：",dis)
-    if dis <= 0 then
+    if -wordPos.x+display.cx <= (display.width - GroupSize.width)-2061 then
         return
     end
-    if -dis >= (display.width - GroupSize.width)-2061 then
-        transition.moveBy(self.scrollView.scrollNode,{time = 0.5,x=-dis,y=0})
-    else
-        transition.moveBy(self.scrollView.scrollNode,{time = 0.5,x=(display.width - GroupSize.width)-2061,y=0})
+    if wordPos.x <= display.cx then
+    	return
     end
-    
+    --上一个完成关卡记录
+    local lx,ly = self.itemArr[GameDataManager.getUlockLevelsNum()]:getPosition()
+    local lwordPos = self.itemArr[GameDataManager.getUlockLevelsNum()]:getParent():convertToWorldSpace(cc.p(lx,ly))
+    self.scrollView.scrollNode:setPositionX(-lwordPos.x+display.cx)
+    local dis = x-lx
+    transition.moveBy(self.scrollView.scrollNode,{time = 0.5,x=-dis,y=0})
 end
 
 function SelectUI:scrollListener(event)
