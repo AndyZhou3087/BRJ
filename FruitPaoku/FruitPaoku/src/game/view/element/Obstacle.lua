@@ -320,7 +320,7 @@ function Obstacle:collision(_type)
         end
     elseif self.m_vo.m_type == OBSTACLE_TYPE.spring then
         if GameController.getCurPlayer():getJumpState() and not GameController.isInState(PLAYER_STATE.Spring) 
-            and (self.m_posY > display.cy and GameController.getCurPlayer():getScaleY()==-1 or 
+            and not GameController.getCurPlayer():getTwoJump() and (self.m_posY > display.cy and GameController.getCurPlayer():getScaleY()==-1 or 
             self.m_posY < display.cy and GameController.getCurPlayer():getScaleY()==1) then
             Tools.printDebug("--------------弹簧过滤过滤过滤过滤过滤过滤过滤过滤过滤过滤")
         	return
