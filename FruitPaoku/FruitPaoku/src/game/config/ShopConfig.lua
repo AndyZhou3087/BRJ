@@ -85,11 +85,11 @@ ShopConfig[3]=
         id = 3,
         type = SHOPITEM_TYPE.Diamond,   --商品类型
         titleBg = "Common/Shop_item_4.png",  --商品标题背景资源
-        titleRes = "56钻石",    --商品标题名称
+        titleRes = "66钻石",    --商品标题名称
         res = "ui/ShopDiamond_2.png",   --商品资源
         describe = "颗钻石",  --描述
-        price = {type=SHOPITEM_BUY.RMB,rate=4,payId = Payment.Diamond_2},   --价格
-        content = 56,
+        price = {type=SHOPITEM_BUY.RMB,rate=6,payId = Payment.Diamond_2},   --价格
+        content = 66,
     }
     
 ShopConfig[4]=

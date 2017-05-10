@@ -4,7 +4,7 @@
 Payment=
 {
         Diamond_1 = 1, --2元20钻商品
-        Diamond_2 = 2, --4元56钻商品
+        Diamond_2 = 2, --6元66钻商品
         Diamond_3 = 3, --8元128钻商品
         Diamond_4 = 4, --10元188钻商品
         Gift_1 = 5, --2元金币礼包
