@@ -248,8 +248,8 @@ function FightOver:toFail()
 end
 
 function FightOver:onEnterFrame(parameters)
-    self.initGoldCount = self.initGoldCount + 1
-    self.getGoldCount = self.getGoldCount + 1
+    self.initGoldCount = self.initGoldCount + 5
+    self.getGoldCount = self.getGoldCount + 5
     self.GetGold:setString("获得金币："..self.getGoldCount)
     self.m_goldCount:setString(self.initGoldCount)
     if self.getGoldCount >= GameDataManager.getAllFightCoins() then
