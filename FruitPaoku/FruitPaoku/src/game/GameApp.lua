@@ -102,7 +102,10 @@ function GameApp:ctor()
     DataPersistence.insertAttribute("getGold_total",0)
     
     --角色礼包每日领奖
-    DataPersistence.insertAttribute("gift",{})
+    DataPersistence.insertAttribute("rolegift",{})
+    
+    --vip礼包每日领奖
+    DataPersistence.insertAttribute("vipgift",{})
 end
 
 function GameApp:run()

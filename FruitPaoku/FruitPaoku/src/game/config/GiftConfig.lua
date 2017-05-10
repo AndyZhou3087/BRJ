@@ -1,5 +1,5 @@
 --[[
-礼包配置
+角色礼包配置
 ]]
 
 GiftConfig = {}
@@ -7,6 +7,8 @@ GiftConfig = {}
 GIFT_TYPE =
 {
     Role = 1,
+    Vip = 2,
+    Common = 3,
 }
 
 GiftConfig[1] = 
@@ -79,4 +81,99 @@ GiftConfig[4] =
         price = 20,
         reward = {role = 5,dayDiamond = 30},
         payId = Payment.RoleGift_4,
+    }
+    
+GiftConfig[5] = 
+    {
+        id = 5,
+        type = GIFT_TYPE.Vip,
+--        roleId = 5,
+--        roleImg = "ui/RoleDes_2.png",
+--        bg = "ui/Rolebg_2.jpg",
+--        titleImg = "ui/RoleGift_banner1.png",
+--        frameImg = "ui/RoleGift_frame2.png",
+--        caseImg = "ui/RoleGift_f1.png",
+--        roleDes = "忍者教授用户专属礼包",
+--        roleHead = "ui/RoleHead_2.png",
+--        rewardImg = "ui/RoleCost_4.png",
+        title = "新手VIP",
+        price = 8,
+        dayDiamond = 6,
+        payId = Payment.VipGift_1,
+    }
+    
+GiftConfig[6] = 
+    {
+        id = 6,
+        type = GIFT_TYPE.Vip,
+        --        roleId = 5,
+        --        roleImg = "ui/RoleDes_2.png",
+        --        bg = "ui/Rolebg_2.jpg",
+        --        titleImg = "ui/RoleGift_banner1.png",
+        --        frameImg = "ui/RoleGift_frame2.png",
+        --        caseImg = "ui/RoleGift_f1.png",
+        --        roleDes = "忍者教授用户专属礼包",
+        --        roleHead = "ui/RoleHead_2.png",
+        --        rewardImg = "ui/RoleCost_4.png",
+        title = "银牌VIP",
+        price = 10,
+        dayDiamond = 10,
+        payId = Payment.VipGift_2,
+    }
+    
+GiftConfig[7] = 
+    {
+        id = 7,
+        type = GIFT_TYPE.Vip,
+        --        roleId = 5,
+        --        roleImg = "ui/RoleDes_2.png",
+        --        bg = "ui/Rolebg_2.jpg",
+        --        titleImg = "ui/RoleGift_banner1.png",
+        --        frameImg = "ui/RoleGift_frame2.png",
+        --        caseImg = "ui/RoleGift_f1.png",
+        --        roleDes = "忍者教授用户专属礼包",
+        --        roleHead = "ui/RoleHead_2.png",
+        --        rewardImg = "ui/RoleCost_4.png",
+        title = "金牌VIP",
+        price = 15,
+        dayDiamond = 15,
+        payId = Payment.VipGift_3,
+    }
+    
+GiftConfig[8] = 
+    {
+        id = 8,
+        type = GIFT_TYPE.Vip,
+        --        roleId = 5,
+        --        roleImg = "ui/RoleDes_2.png",
+        --        bg = "ui/Rolebg_2.jpg",
+        --        titleImg = "ui/RoleGift_banner1.png",
+        --        frameImg = "ui/RoleGift_frame2.png",
+        --        caseImg = "ui/RoleGift_f1.png",
+        --        roleDes = "忍者教授用户专属礼包",
+        --        roleHead = "ui/RoleHead_2.png",
+        --        rewardImg = "ui/RoleCost_4.png",
+        title = "钻石VIP",
+        price = 20,
+        dayDiamond = 25,
+        payId = Payment.VipGift_4,
+    }
+    
+GiftConfig[9] = 
+    {
+        id = 9,
+        type = GIFT_TYPE.Vip,
+        --        roleId = 5,
+        --        roleImg = "ui/RoleDes_2.png",
+        --        bg = "ui/Rolebg_2.jpg",
+        --        titleImg = "ui/RoleGift_banner1.png",
+        --        frameImg = "ui/RoleGift_frame2.png",
+        --        caseImg = "ui/RoleGift_f1.png",
+        --        roleDes = "忍者教授用户专属礼包",
+        --        roleHead = "ui/RoleHead_2.png",
+        --        rewardImg = "ui/RoleCost_4.png",
+        title = "尊贵VIP",
+        price = 30,
+        dayDiamond = 50,
+        payId = Payment.VipGift_5,
     }

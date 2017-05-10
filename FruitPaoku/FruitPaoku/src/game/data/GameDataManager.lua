@@ -65,6 +65,8 @@ function GameDataManager.init()
     GameDataManager.initDailyTaskData()
     --初始化角色礼包信息
     GameDataManager.initGiftData()
+    --初始化vip礼包信息
+    GameDataManager.initVipGiftData()
 end
 
 function GameDataManager.isMusicOpen()
@@ -1040,7 +1042,7 @@ local gift={}
 
 --初始礼包信息
 function GameDataManager.initGiftData()
-    local giftArr = DataPersistence.getAttribute("gift")
+    local giftArr = DataPersistence.getAttribute("rolegift")
     for key, var in pairs(giftArr) do
         gift[var.giftId] = var
     end
@@ -1082,6 +1084,53 @@ function GameDataManager.updateGift()
 end
 --================================End==============================
 
+
+--=========================vip礼包相关=========================
+local vipGift={}
+
+--初始礼包信息
+function GameDataManager.initVipGiftData()
+    local vipGiftArr = DataPersistence.getAttribute("vipgift")
+    for key, var in pairs(vipGiftArr) do
+        vipGift[var.id] = var
+    end
+end
+
+--购买礼包
+function GameDataManager.buyVipGift(id)
+    if not vipGift[id] then
+        vipGift[id] = {}
+    end
+    local _curTime = TimeUtil.getDate()
+    --购买日期记录
+    vipGift[id].year = _curTime.year
+    vipGift[id].month = _curTime.month
+    vipGift[id].day = _curTime.day
+    --领取id记录
+    vipGift[id].id=id
+    vipGift[id].dayDiamond = GiftConfig[id].dayDiamond
+    GameDataManager.addDiamond(vipGift[id].dayDiamond)
+    Tools.delayCallFunc(0.5,function()
+        GameDispatcher:dispatch(EventNames.EVENT_FLY_TEXT,{text ="已获得"..vipGift[id].dayDiamond.."钻石"})
+    end)
+end
+
+--领取礼包
+function GameDataManager.updateVipGift()
+    local _curTime = TimeUtil.getDate()
+    for key, var in pairs(vipGift) do
+        if var.year==_curTime.year and var.month==_curTime.month and var.day==_curTime.day then
+
+        else
+            var.year = _curTime.year
+            var.month = _curTime.month
+            var.day = _curTime.day
+            GameDataManager.addDiamond(var.dayDiamond)
+            GameDispatcher:dispatch(EventNames.EVENT_FLY_TEXT,{text ="已获得"..var.dayDiamond.."钻石"})
+        end
+    end
+end
+--================================End==============================
 
 --游戏数据保存
 function GameDataManager.SaveData(parameters)
@@ -1148,7 +1197,14 @@ function GameDataManager.SaveData(parameters)
     for key, var in pairs(gift) do
         table.insert(giftArr,var)
     end
-    DataPersistence.updateAttribute("gift",giftArr)
+    DataPersistence.updateAttribute("rolegift",giftArr)
+    
+    --vip礼包
+    local vipGiftArr = {}
+    for key, var in pairs(vipGift) do
+        table.insert(vipGiftArr,var)
+    end
+    DataPersistence.updateAttribute("vipgift",vipGiftArr)
 
     --物品相关
     DataPersistence.updateAttribute("goods_list",goodsList)

@@ -39,6 +39,8 @@ PLAYER_ACT_TYPE =
     Magnet = 3,     --附带磁铁
 }
 
+RevivePrice = 50  --角色复活价格(钻石)
+
 RoleConfig={}
 
 RoleConfig[1]=

@@ -26,6 +26,13 @@ Payment=
         RoleGift_3 = 17,  --15元
         RoleGift_4 = 18,  --20元
         
+        --vip礼包支付
+        VipGift_1 = 19, --8元
+        VipGift_2 = 20, --10元
+        VipGift_3 = 21, --15元
+        VipGift_4 = 22, --20元
+        VipGift_5 = 23, --30元
+        
 --        --获取对应物品价格,单位:分，如果是钻石商品则额外会返回钻石数量
 --        getPrice = function(_itemId)
 --            if Payment.Diamond_1==_itemId then
