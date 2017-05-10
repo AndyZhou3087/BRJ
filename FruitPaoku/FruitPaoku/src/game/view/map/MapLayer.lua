@@ -380,7 +380,7 @@ function MapLayer:onEnterFrame(dt)
     --跑了多少米换算公式
    self.pexel = self.pexel + MoveSpeed*0.1/(Pixel/Miles)
    GameDataManager.saveDayRunDistance(MoveSpeed*0.1/(Pixel/Miles))
-    Tools.printDebug("-----------多少米：",self.pexel)
+--    Tools.printDebug("-----------多少米：",self.pexel)
     
     self.miles = self.miles + MoveSpeed*0.1
 --    Tools.printDebug("-----------多少像素：",self.miles)
