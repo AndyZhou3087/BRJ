@@ -167,15 +167,15 @@ function FightReadyUI:ctor(parm)
     GameDispatcher:addListener(EventNames.EVENT_ROLEUPGRADE_UPDATE,handler(self,self.checkRoleTip))
 
     --弹角色礼包
-    Tools.delayCallFunc(0.1,function()
-        if not GameDataManager.getRoleModle(GiftConfig[2].roleId) then
-            GameDispatcher:dispatch(EventNames.EVENT_OPEN_GIFTROLE,{giftId = 2,animation = true})
-        elseif not GameDataManager.getRoleModle(GiftConfig[3].roleId) then
-            GameDispatcher:dispatch(EventNames.EVENT_OPEN_GIFTROLE,{giftId = 3,animation = true})
-        elseif not GameDataManager.getRoleModle(GiftConfig[4].roleId) then
-            GameDispatcher:dispatch(EventNames.EVENT_OPEN_GIFTROLE,{giftId = 4,animation = true})
-        end
-    end)
+--    Tools.delayCallFunc(0.1,function()
+--        if not GameDataManager.getRoleModle(GiftConfig[2].roleId) then
+--            GameDispatcher:dispatch(EventNames.EVENT_OPEN_GIFTROLE,{giftId = 2,animation = true})
+--        elseif not GameDataManager.getRoleModle(GiftConfig[3].roleId) then
+--            GameDispatcher:dispatch(EventNames.EVENT_OPEN_GIFTROLE,{giftId = 3,animation = true})
+--        elseif not GameDataManager.getRoleModle(GiftConfig[4].roleId) then
+--            GameDispatcher:dispatch(EventNames.EVENT_OPEN_GIFTROLE,{giftId = 4,animation = true})
+--        end
+--    end)
 end
 
 function FightReadyUI:checkRoleTip()

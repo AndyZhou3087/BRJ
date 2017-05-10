@@ -384,20 +384,22 @@ function MapLayer:onEnterFrame(dt)
     
     self.miles = self.miles + MoveSpeed*0.1
 --    Tools.printDebug("-----------多少像素：",self.miles)
-    if not DataPersistence.getAttribute("first_into") and GAME_TYPE_CONTROL == GAME_TYPE.LevelMode and not self.isGiftPop then
-        if self.m_levelCon.giftGap and self.miles >= self.m_levelCon.giftGap then
-            self.isGiftPop = true
-            if not GameDataManager.getRoleModle(GiftConfig[1].roleId) then
-                GameDispatcher:dispatch(EventNames.EVENT_OPEN_GIFTROLE,{giftId = 1,isGame = true,animation = true})
-            elseif not GameDataManager.getRoleModle(GiftConfig[2].roleId) then
-                GameDispatcher:dispatch(EventNames.EVENT_OPEN_GIFTROLE,{giftId = 2,isGame = true,animation = true})
-            elseif not GameDataManager.getRoleModle(GiftConfig[3].roleId) then
-                GameDispatcher:dispatch(EventNames.EVENT_OPEN_GIFTROLE,{giftId = 3,isGame = true,animation = true})
-            elseif not GameDataManager.getRoleModle(GiftConfig[4].roleId) then
-                GameDispatcher:dispatch(EventNames.EVENT_OPEN_GIFTROLE,{giftId = 4,isGame = true,animation = true})
-            end
-    	end
-    end
+    
+    --游戏内弹角色礼包
+--    if not DataPersistence.getAttribute("first_into") and GAME_TYPE_CONTROL == GAME_TYPE.LevelMode and not self.isGiftPop then
+--        if self.m_levelCon.giftGap and self.miles >= self.m_levelCon.giftGap then
+--            self.isGiftPop = true
+--            if not GameDataManager.getRoleModle(GiftConfig[1].roleId) then
+--                GameDispatcher:dispatch(EventNames.EVENT_OPEN_GIFTROLE,{giftId = 1,isGame = true,animation = true})
+--            elseif not GameDataManager.getRoleModle(GiftConfig[2].roleId) then
+--                GameDispatcher:dispatch(EventNames.EVENT_OPEN_GIFTROLE,{giftId = 2,isGame = true,animation = true})
+--            elseif not GameDataManager.getRoleModle(GiftConfig[3].roleId) then
+--                GameDispatcher:dispatch(EventNames.EVENT_OPEN_GIFTROLE,{giftId = 3,isGame = true,animation = true})
+--            elseif not GameDataManager.getRoleModle(GiftConfig[4].roleId) then
+--                GameDispatcher:dispatch(EventNames.EVENT_OPEN_GIFTROLE,{giftId = 4,isGame = true,animation = true})
+--            end
+--    	end
+--    end
    
    if GAME_TYPE_CONTROL == GAME_TYPE.EndlessMode then
         if self.pexel >= EndlessMode.DistanceS.move then
