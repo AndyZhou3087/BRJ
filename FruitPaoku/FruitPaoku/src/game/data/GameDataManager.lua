@@ -1060,7 +1060,9 @@ function GameDataManager.buyGift(giftId)
     gift[giftId].giftId=giftId
     gift[giftId].dayDiamond = GiftConfig[giftId].reward.dayDiamond
     GameDataManager.addDiamond(gift[giftId].dayDiamond)
-    GameDispatcher:dispatch(EventNames.EVENT_FLY_TEXT,{text ="已获得"..gift[giftId].dayDiamond.."钻石"})
+    Tools.delayCallFunc(0.5,function()
+        GameDispatcher:dispatch(EventNames.EVENT_FLY_TEXT,{text ="已获得"..gift[giftId].dayDiamond.."钻石"})
+    end)
 end
 
 --领取礼包
