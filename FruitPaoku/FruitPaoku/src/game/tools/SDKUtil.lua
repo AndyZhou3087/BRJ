@@ -87,7 +87,7 @@ function SDKUtil.giftPop(_data)
         luaoc.callStaticMethod(className,"getGift",params,sigs)
         return
     end
-    _data.callback("rzjxkp.by.30")
+    _data.callback("rzjxkp.by.30,rzjxkp.lb.10.1")
 end
 
 --退出游戏

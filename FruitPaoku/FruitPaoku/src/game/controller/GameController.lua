@@ -218,23 +218,26 @@ function GameController.getDataIdByWeight(_wegt,sorArr)
     return id
 end
 
-local curGiftId
+local curGiftId = 0
+local curGameGiftId = 0
 --获取当前计费代码对应礼包
 function GameController.getGiftIdByPayCode(_string)
+    local arr = Tools.Split(_string,',')
 	for var=1, #GiftConfig do
 		local gift = GiftConfig[var]
-        if gift.payId == _string then
-			Tools.printDebug("----------礼包计费代码：",_string)
+        if gift.payId == arr[1] then
             curGiftId = gift.id
-            return gift.id
+		end
+        if gift.payCode and gift.payCode == arr[2] then
+            curGameGiftId = gift.id
 		end
 	end
-	return 0
 end
 
 --获取当前礼包id
 function GameController.getCurGiftId()
-	return curGiftId 
+    Tools.printDebug("----------礼包计费代码：",curGiftId,curGameGiftId)
+    return curGiftId,curGameGiftId 
 end
 
 

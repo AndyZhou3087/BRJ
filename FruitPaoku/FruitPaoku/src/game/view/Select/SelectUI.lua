@@ -60,13 +60,9 @@ function SelectUI:init(parameters)
     if GameController.isFightOverBack then
         GameController.isFightOverBack = false
         Tools.delayCallFunc(0.5,function()
-            local id = GameController.getCurGiftId()
-            if GiftConfig[id].type == GIFT_TYPE.Vip then
-                if not GameDataManager.isMonthVip(id) then
---                    GameDispatcher:dispatch(EventNames.EVENT_OPEN_GIFTROLE,{giftId = 2,animation = true})
-                end
-            else
---                GameDispatcher:dispatch(EventNames.EVENT_OPEN_GIFTROLE,{giftId = 2,animation = true})
+            local id,gId = GameController.getCurGiftId()
+            if GiftConfig[gId] then
+--                    GameDispatcher:dispatch(EventNames.EVENT_OPEN_GIFTROLE,{giftId = 2,animation = true,isGame = true})
             end
         end)
     end

@@ -95,7 +95,7 @@ end
 function MainUI:getGift()
     SDKUtil.giftPop({callback=function(_stringId)
         if _stringId then
-            self.giftId = _stringId
+            GameController.getGiftIdByPayCode(_stringId)
         else
             Tools.printDebug("---------------获取礼包id失败")
         end
@@ -139,8 +139,8 @@ function MainUI:giftFunc(parameters)
     
     --礼包弹出
     self.vipGiftHandler = Tools.delayCallFunc(0.6,function()
-        local id = GameController.getGiftIdByPayCode(self.giftId)  --获取的vip可用礼包计费点
-        if id then 
+        local id,gId = GameController.getCurGiftId()  --获取的vip可用礼包计费点
+        if GiftConfig[id] then 
             if GiftConfig[id].type == GIFT_TYPE.Vip then
                 if not GameDataManager.isMonthVip(id) then
 --                    GameDispatcher:dispatch(EventNames.EVENT_OPEN_GIFTROLE,{giftId = 2,animation = true})
