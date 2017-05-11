@@ -11,6 +11,7 @@ GIFT_TYPE =
     Common = 3,
 }
 
+--角色礼包
 GiftConfig[1] = 
 {
     id = 1,
@@ -82,7 +83,8 @@ GiftConfig[4] =
         reward = {role = 5,dayDiamond = 30},
         payId = Payment.RoleGift_4,
     }
-    
+
+--vip礼包    
 GiftConfig[5] = 
     {
         id = 5,
@@ -176,4 +178,160 @@ GiftConfig[9] =
         price = 30,
         dayDiamond = 50,
         payId = Payment.VipGift_5,
+    }
+    
+    
+--其它礼包
+GiftConfig[10] = 
+    {
+        id = 10,
+        type = GIFT_TYPE.Common,
+        --        roleId = 5,
+        --        roleImg = "ui/RoleDes_2.png",
+        --        bg = "ui/Rolebg_2.jpg",
+        --        titleImg = "ui/RoleGift_banner1.png",
+        --        frameImg = "ui/RoleGift_frame2.png",
+        --        caseImg = "ui/RoleGift_f1.png",
+        --        roleDes = "忍者教授用户专属礼包",
+        --        roleHead = "ui/RoleHead_2.png",
+        --        rewardImg = "ui/RoleCost_4.png",
+        title = "金币礼包",
+        price = 2,
+        gold = 2888,
+        diamond = false,
+        goods = false,
+        payId = Payment.Gift_1,
+        payCode = Payment.GoldGift,
+    }
+
+GiftConfig[11] = 
+    {
+        id = 11,
+        type = GIFT_TYPE.Common,
+        --        roleId = 5,
+        --        roleImg = "ui/RoleDes_2.png",
+        --        bg = "ui/Rolebg_2.jpg",
+        --        titleImg = "ui/RoleGift_banner1.png",
+        --        frameImg = "ui/RoleGift_frame2.png",
+        --        caseImg = "ui/RoleGift_f1.png",
+        --        roleDes = "忍者教授用户专属礼包",
+        --        roleHead = "ui/RoleHead_2.png",
+        --        rewardImg = "ui/RoleCost_4.png",
+        title = "钻石礼包",
+        price = 30,
+        gold = false,
+        diamond = 600,
+        goods = false,
+        payId = Payment.Gift_2,
+        payCode = Payment.DiamondGift,
+    }
+    
+GiftConfig[12] = 
+    {
+        id = 12,
+        type = GIFT_TYPE.Common,
+        --        roleId = 5,
+        --        roleImg = "ui/RoleDes_2.png",
+        --        bg = "ui/Rolebg_2.jpg",
+        --        titleImg = "ui/RoleGift_banner1.png",
+        --        frameImg = "ui/RoleGift_frame2.png",
+        --        caseImg = "ui/RoleGift_f1.png",
+        --        roleDes = "忍者教授用户专属礼包",
+        --        roleHead = "ui/RoleHead_2.png",
+        --        rewardImg = "ui/RoleCost_4.png",
+        title = "新手礼包",
+        price = 6,
+        gold = 3000,
+        diamond = 30,
+        goods = false,
+        payId = Payment.NewGift,
+        payCode = Payment.NewGift_1,
+    }
+    
+GiftConfig[13] = 
+    {
+        id = 13,
+        type = GIFT_TYPE.Common,
+        --        roleId = 5,
+        --        roleImg = "ui/RoleDes_2.png",
+        --        bg = "ui/Rolebg_2.jpg",
+        --        titleImg = "ui/RoleGift_banner1.png",
+        --        frameImg = "ui/RoleGift_frame2.png",
+        --        caseImg = "ui/RoleGift_f1.png",
+        --        roleDes = "忍者教授用户专属礼包",
+        --        roleHead = "ui/RoleHead_2.png",
+        --        rewardImg = "ui/RoleCost_4.png",
+        title = "进阶礼包",
+        price = 8,
+        gold = 6000,
+        diamond = 60,
+        goods = false,
+        payId = Payment.ProGift,
+        payCode = Payment.ProGift_1,
+    }
+    
+GiftConfig[14] = 
+    {
+        id = 14,
+        type = GIFT_TYPE.Common,
+        --        roleId = 5,
+        --        roleImg = "ui/RoleDes_2.png",
+        --        bg = "ui/Rolebg_2.jpg",
+        --        titleImg = "ui/RoleGift_banner1.png",
+        --        frameImg = "ui/RoleGift_frame2.png",
+        --        caseImg = "ui/RoleGift_f1.png",
+        --        roleDes = "忍者教授用户专属礼包",
+        --        roleHead = "ui/RoleHead_2.png",
+        --        rewardImg = "ui/RoleCost_4.png",
+        title = "道具大礼包",
+        price = 10,
+        gold = false,
+        diamond = false,
+        goods = {{id=1,count=5},{id=2,count=5},{id=3,count=5}},
+        payId = Payment.PropsGift,
+        payCode = Payment.PropsGift_1,
+    }
+    
+GiftConfig[15] = 
+    {
+        id = 15,
+        type = GIFT_TYPE.Common,
+        --        roleId = 5,
+        --        roleImg = "ui/RoleDes_2.png",
+        --        bg = "ui/Rolebg_2.jpg",
+        --        titleImg = "ui/RoleGift_banner1.png",
+        --        frameImg = "ui/RoleGift_frame2.png",
+        --        caseImg = "ui/RoleGift_f1.png",
+        --        roleDes = "忍者教授用户专属礼包",
+        --        roleHead = "ui/RoleHead_2.png",
+        --        rewardImg = "ui/RoleCost_4.png",
+        title = "财富大礼包",
+        price = 15,
+        gold = 1000,
+        diamond = 200,
+        goods = false,
+        payId = Payment.WealthGift,
+        payCode = Payment.WealthGift_1,
+    }
+    
+GiftConfig[16] = 
+    {
+        id = 16,
+        type = GIFT_TYPE.Common,
+        --        roleId = 5,
+        --        roleImg = "ui/RoleDes_2.png",
+        --        bg = "ui/Rolebg_2.jpg",
+        --        titleImg = "ui/RoleGift_banner1.png",
+        --        frameImg = "ui/RoleGift_frame2.png",
+        --        caseImg = "ui/RoleGift_f1.png",
+        --        roleDes = "忍者教授用户专属礼包",
+        --        roleHead = "ui/RoleHead_2.png",
+        --        rewardImg = "ui/RoleCost_4.png",
+        title = "豪华大礼包",
+        price = 20,
+        gold = 1000,
+        diamond = 200,
+        goods = {{id=1,count=3},{id=2,count=3},{id=3,count=3}},
+        payId = Payment.LuxuryGift,
+        payCode = Payment.LuxuryGift_1,
     }

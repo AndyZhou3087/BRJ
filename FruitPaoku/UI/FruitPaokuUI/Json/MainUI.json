@@ -56,7 +56,7 @@
               "touchAble": false,
               "useMergedTexture": false,
               "visible": true,
-              "width": 230,
+              "width": 219,
               "x": 130,
               "y": 22,
               "areaHeight": 0,
@@ -65,7 +65,7 @@
               "fontName": "微软雅黑",
               "fontSize": 18,
               "hAlignment": 0,
-              "text": "客服电话：0755-88888888",
+              "text": "客服电话：022-59086970",
               "touchScaleEnable": false,
               "vAlignment": 0
             }
@@ -545,8 +545,8 @@
                   "rotation": 0,
                   "scaleX": 1,
                   "scaleY": 1,
-                  "sizePercentX": 0.12578617,
-                  "sizePercentY": 3.07692313,
+                  "sizePercentX": 1,
+                  "sizePercentY": 0.423076928,
                   "sizeType": 0,
                   "tag": 1331183296,
                   "touchAble": false,

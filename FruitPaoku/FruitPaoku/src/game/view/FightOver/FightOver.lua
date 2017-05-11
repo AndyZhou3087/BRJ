@@ -95,6 +95,7 @@ function FightOver:initWidget()
         GameController.setSignPop(true)
         GameController.resumeGame()
         if GAME_TYPE_CONTROL == GAME_TYPE.LevelMode then
+            GameController.isFightOverBack = true
             app:enterSelectScene()
         elseif GAME_TYPE_CONTROL == GAME_TYPE.EndlessMode then
             app:enterMainScene()
@@ -170,6 +171,7 @@ function FightOver:toWin()
         self.backBtn:setButtonEnabled(false)
         self.Continuebtn:setButtonEnabled(false)
         if GAME_TYPE_CONTROL == GAME_TYPE.LevelMode then
+            GameController.isFightOverBack = true
             if  self.m_curLevel < #SelectLevel then
                 GameController.setSignPop(false)
                 GameController.resumeGame()
@@ -222,6 +224,7 @@ function FightOver:toFail()
         self.backBtn:setButtonEnabled(false)
         self.Continuebtn:setButtonEnabled(false)
         if GAME_TYPE_CONTROL == GAME_TYPE.LevelMode then
+            GameController.isFightOverBack = true
             GameController.setSignPop(false)
             GameController.resumeGame()
             app:enterSelectScene()

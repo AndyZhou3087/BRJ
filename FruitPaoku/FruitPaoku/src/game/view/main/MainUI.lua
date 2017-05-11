@@ -8,6 +8,9 @@ local Scheduler = require("framework.scheduler")
 
 function MainUI:ctor()
     MainUI.super.ctor(self) 
+    
+    --获取礼包接口
+    self:getGift()
     self:init()
     
 --    if (display.widthInPixels == 1024 and display.heightInPixels == 768) or (display.widthInPixels == 2048 and display.heightInPixels == 1536) then
@@ -77,12 +80,6 @@ function MainUI:init(parameters)
     
     self.m_unlockNum = GameDataManager.getUlockLevelsNum()
     
-    --购买礼包后每日领取
-    Tools.delayCallFunc(0.1,function()
-        GameDataManager.updateGift()
-    end)
-    
-    
     if GameController.getMainSign() then
         self.Panel_8:setVisible(true)
         self.Image_21:setVisible(false)
@@ -93,6 +90,16 @@ function MainUI:init(parameters)
         self.loadCount = 0
         self.loadHandler = Scheduler.scheduleGlobal(handler(self,self.onEnterFrame),0.05)
     end
+end
+
+function MainUI:getGift()
+    SDKUtil.giftPop({callback=function(_stringId)
+        if _stringId then
+            self.giftId = _stringId
+        else
+            Tools.printDebug("---------------获取礼包id失败")
+        end
+    end})
 end
 
 function MainUI:onEnterFrame(parameters)
@@ -114,8 +121,35 @@ function MainUI:onEnterFrame(parameters)
         else
             self.Panel_8:setVisible(true)
             self.Image_21:setVisible(false)
+            self:giftFunc()
         end
     end
+end
+
+function MainUI:giftFunc(parameters)
+	--购买角色礼包后每日领取
+    Tools.delayCallFunc(0.1,function()
+        GameDataManager.updateGift()
+    end)
+    
+    --购买vip礼包后每日领取
+    Tools.delayCallFunc(0.5,function()
+        GameDataManager.updateVipGift()
+    end)
+    
+    --礼包弹出
+    self.vipGiftHandler = Tools.delayCallFunc(0.6,function()
+        local id = GameController.getGiftIdByPayCode(self.giftId)  --获取的vip可用礼包计费点
+        if id then 
+            if GiftConfig[id].type == GIFT_TYPE.Vip then
+                if not GameDataManager.isMonthVip(id) then
+--                    GameDispatcher:dispatch(EventNames.EVENT_OPEN_GIFTROLE,{giftId = 2,animation = true})
+                end
+            else
+--                GameDispatcher:dispatch(EventNames.EVENT_OPEN_GIFTROLE,{giftId = 2,animation = true})
+            end
+        end
+    end)
 end
 
 function MainUI:MusicSoundSet( ... )
@@ -158,6 +192,10 @@ function MainUI:toClose(_clean)
         Scheduler.unscheduleGlobal(self.loadHandler)
         self.loadHandler = nil
     end
+    if self.vipGiftHandler then
+        Scheduler.unscheduleGlobal(self.vipGiftHandler)
+        self.vipGiftHandler = nil
+    end
     MainUI.super.toClose(self,_clean)
 end
 
@@ -167,6 +205,10 @@ function MainUI:onCleanup()
     if self.loadHandler then
         Scheduler.unscheduleGlobal(self.loadHandler)
         self.loadHandler = nil
+    end
+    if self.vipGiftHandler then
+        Scheduler.unscheduleGlobal(self.vipGiftHandler)
+        self.vipGiftHandler = nil
     end
     GameDataManager.SaveData()
 end

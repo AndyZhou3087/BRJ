@@ -75,6 +75,21 @@ function SDKUtil.umentPayEx(_cost,_item,_num,_diamonds)
     end
 end
 
+--获取最优档位礼包
+function SDKUtil.giftPop(_data)
+    local params = {_data.callback}
+    local sigs = "(I)V"
+    if luaj then
+        luaj.callStaticMethod(className,"getGift",params,sigs)
+        return
+    end
+    if luaoc then
+        luaoc.callStaticMethod(className,"getGift",params,sigs)
+        return
+    end
+    _data.callback("rzjxkp.by.30")
+end
+
 --退出游戏
 function SDKUtil.exitGame()
     GameDataManager.SaveData()

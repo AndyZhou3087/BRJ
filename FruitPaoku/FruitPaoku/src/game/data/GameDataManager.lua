@@ -1119,17 +1119,31 @@ end
 function GameDataManager.updateVipGift()
     local _curTime = TimeUtil.getDate()
     for key, var in pairs(vipGift) do
-        if var.year==_curTime.year and var.month==_curTime.month and var.day==_curTime.day then
-
+        if var.year~=_curTime.year or var.month ~=_curTime.month then
+            var = {}
+            var = nil
         else
-            var.year = _curTime.year
-            var.month = _curTime.month
-            var.day = _curTime.day
-            GameDataManager.addDiamond(var.dayDiamond)
-            GameDispatcher:dispatch(EventNames.EVENT_FLY_TEXT,{text ="已获得"..var.dayDiamond.."钻石"})
+            if var.year==_curTime.year and var.month==_curTime.month and var.day==_curTime.day then
+
+            else
+                var.year = _curTime.year
+                var.month = _curTime.month
+                var.day = _curTime.day
+                GameDataManager.addDiamond(var.dayDiamond)
+                GameDispatcher:dispatch(EventNames.EVENT_FLY_TEXT,{text ="已获得"..var.dayDiamond.."钻石"})
+            end
         end
     end
 end
+
+--是否购买vip礼包包月
+function GameDataManager.isMonthVip(id)
+    if not vipGift[id] then
+		return false
+	end
+	return true
+end
+
 --================================End==============================
 
 --游戏数据保存

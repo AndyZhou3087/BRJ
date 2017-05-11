@@ -41,5 +41,5 @@
   <imageFileList />
   <imagePngList />
   <JsonSuffix>.json</JsonSuffix>
-  <CurrentUIJson>ReviveUI.json</CurrentUIJson>
+  <CurrentUIJson>MainUI.json</CurrentUIJson>
 </UIProject>

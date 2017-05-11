@@ -10,6 +10,8 @@ GameController.overFrame = false
 GameController.isDead = false
 GameController.isWin = false
 
+GameController.isFightOverBack = false
+
 --额外吸附物品
 GameController.Adsorb_Ex_Goods = 1
 
@@ -214,6 +216,25 @@ function GameController.getDataIdByWeight(_wegt,sorArr)
         end
     end
     return id
+end
+
+local curGiftId
+--获取当前计费代码对应礼包
+function GameController.getGiftIdByPayCode(_string)
+	for var=1, #GiftConfig do
+		local gift = GiftConfig[var]
+        if gift.payId == _string then
+			Tools.printDebug("----------礼包计费代码：",_string)
+            curGiftId = gift.id
+            return gift.id
+		end
+	end
+	return 0
+end
+
+--获取当前礼包id
+function GameController.getCurGiftId()
+	return curGiftId 
 end
 
 

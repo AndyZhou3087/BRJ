@@ -3,35 +3,53 @@
 ]]
 Payment=
 {
-        Diamond_1 = 1, --2元20钻商品
-        Diamond_2 = 2, --6元66钻商品
-        Diamond_3 = 3, --8元128钻商品
-        Diamond_4 = 4, --10元188钻商品
-        Gift_1 = 5, --2元金币礼包
-        Gift_2 = 6, --30元钻石礼包
-        Power_1 = 7, --无限体力
+        Diamond_1 = "rzjxkp.zs.2", --2元20钻商品
+        Diamond_2 = "rzjxkp.zs.6", --6元66钻商品
+        Diamond_3 = "rzjxkp.zs.8", --8元128钻商品
+        Diamond_4 = "rzjxkp.zs.10", --10元188钻商品
+        Diamond_5 = "rzjxkp.zs.15", --15元288钻商品
+        Diamond_6 = "rzjxkp.zs.20", --20元388钻商品
+        Diamond_7 = "rzjxkp.zs.30", --30元588钻商品
+        Gift_1 = "rzjxkp.lb.2", --2元金币礼包
+        Gift_2 = "rzjxkp.lb.30", --30元钻石礼包
+        Power_1 = "rzjxkp.dj.15.1", --无限体力
         Power_2 = 8, --1点体力
         Revive = 9,  --复活6元
         
         --角色满级支付id
-        RoleLevel_1 = 10,  --6元
-        RoleLevel_2 = 11,
-        RoleLevel_3 = 12,
-        RoleLevel_4 = 13,
-        RoleLevel_5 = 14,       
+        RoleLevel_1 = "rzjxkp.dj.6.1",  --6元
+        RoleLevel_2 = "rzjxkp.dj.6.1",
+        RoleLevel_3 = "rzjxkp.dj.6.1",
+        RoleLevel_4 = "rzjxkp.dj.6.1",
+        RoleLevel_5 = "rzjxkp.dj.6.1",       
         
         --购买角色礼包支付id
-        RoleGift_1 = 15,  --6元
-        RoleGift_2 = 16,  --10元
-        RoleGift_3 = 17,  --15元
-        RoleGift_4 = 18,  --20元
+        RoleGift_1 = "rzjxkp.dj.6",  --6元
+        RoleGift_2 = "rzjxkp.dj.10",  --10元
+        RoleGift_3 = "rzjxkp.dj.15",  --15元
+        RoleGift_4 = "rzjxkp.dj.20",  --20元
         
         --vip礼包支付
-        VipGift_1 = 19, --8元
-        VipGift_2 = 20, --10元
-        VipGift_3 = 21, --15元
-        VipGift_4 = 22, --20元
-        VipGift_5 = 23, --30元
+        VipGift_1 = "rzjxkp.by.8", --8元
+        VipGift_2 = "rzjxkp.by.10", --10元
+        VipGift_3 = "rzjxkp.by.15", --15元
+        VipGift_4 = "rzjxkp.by.20", --20元
+        VipGift_5 = "rzjxkp.by.30", --30元
+        
+        --其它礼包(首页出现)
+        NewGift = "rzjxkp.lb.6",  --6元新手礼包
+        ProGift = "rzjxkp.lb.8",  --8元进阶礼包
+        PropsGift = "rzjxkp.lb.10",  --10元道具大礼包
+        WealthGift = "rzjxkp.lb.15",  --15元财富大礼包
+        LuxuryGift = "rzjxkp.lb.20",   --20元豪华大礼包
+        --游戏中出现
+        NewGift_1 = "rzjxkp.lb.6.1",  --6元新手礼包
+        ProGift_1 = "rzjxkp.lb.8.1",  --8元进阶礼包
+        PropsGift_1 = "rzjxkp.lb.10.1",  --10元道具大礼包
+        WealthGift_1 = "rzjxkp.lb.15.1",  --15元财富大礼包
+        LuxuryGift_1 = "rzjxkp.lb.20.1",   --20元豪华大礼包
+        GoldGift = "rzjxkp.lb.2.1",  --2元金币礼包
+        DiamondGift = "rzjxkp.lb.30.1",   --30元钻石礼包
         
 --        --获取对应物品价格,单位:分，如果是钻石商品则额外会返回钻石数量
 --        getPrice = function(_itemId)

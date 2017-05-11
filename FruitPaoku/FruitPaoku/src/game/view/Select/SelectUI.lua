@@ -55,6 +55,21 @@ function SelectUI:init(parameters)
         	GameDispatcher:dispatch(EventNames.EVENT_OPEN_SIGNUI)
         end
     end)
+    
+    --结算界面返回到地图弹礼包
+    if GameController.isFightOverBack then
+        GameController.isFightOverBack = false
+        Tools.delayCallFunc(0.5,function()
+            local id = GameController.getCurGiftId()
+            if GiftConfig[id].type == GIFT_TYPE.Vip then
+                if not GameDataManager.isMonthVip(id) then
+--                    GameDispatcher:dispatch(EventNames.EVENT_OPEN_GIFTROLE,{giftId = 2,animation = true})
+                end
+            else
+--                GameDispatcher:dispatch(EventNames.EVENT_OPEN_GIFTROLE,{giftId = 2,animation = true})
+            end
+        end)
+    end
 
     self:moveScrollView()
     

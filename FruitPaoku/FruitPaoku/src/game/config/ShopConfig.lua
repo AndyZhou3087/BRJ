@@ -55,9 +55,9 @@ SHOPITEM_BUY =
 --        content = 1
 --    }
     
-ShopConfig[1]=
+ShopConfig[7]=
     {
-        id = 1,
+        id = 7,
         type = SHOPITEM_TYPE.Diamond,   --商品类型
         titleBg = "Common/Shop_item_4.png",  --商品标题背景资源
         titleRes = "20钻石",    --商品标题名称
@@ -65,12 +65,12 @@ ShopConfig[1]=
         describe = "颗钻石",  --描述
         price = {type=SHOPITEM_BUY.RMB,rate=2,payId = Payment.Diamond_1},   --价格
         content = 20,
-        initPrice = 20,
+--        initPrice = 20,
     }
     
-ShopConfig[2]=
+ShopConfig[6]=
     {
-        id = 2,
+        id = 6,
         type = SHOPITEM_TYPE.Diamond,   --商品类型
         titleBg = "Common/Shop_item_4.png",  --商品标题背景资源
         titleRes = "66钻石",    --商品标题名称
@@ -78,11 +78,12 @@ ShopConfig[2]=
         describe = "颗钻石",  --描述
         price = {type=SHOPITEM_BUY.RMB,rate=6,payId = Payment.Diamond_2},   --价格
         content = 66,
+--        initPrice = 20,
     }
     
-ShopConfig[3]=
+ShopConfig[5]=
     {
-        id = 3,
+        id = 5,
         type = SHOPITEM_TYPE.Diamond,   --商品类型
         titleBg = "Common/Shop_item_4.png",  --商品标题背景资源
         titleRes = "128钻石",    --商品标题名称
@@ -104,9 +105,9 @@ ShopConfig[4]=
         content = 188,
     }
 
-ShopConfig[5]=
+ShopConfig[9]=
     {
-        id = 5,
+        id = 9,
         type = SHOPITEM_TYPE.Gold,   --商品类型
         titleBg = "Common/Shop_item_4.png",  --商品标题背景资源
         titleRes = "2000金币",    --商品标题名称
@@ -116,9 +117,9 @@ ShopConfig[5]=
         content = 2000,
     }
 
-ShopConfig[6]=
+ShopConfig[10]=
     {
-        id = 6,
+        id = 10,
         type = SHOPITEM_TYPE.Gold,   --商品类型
         titleBg = "Common/Shop_item_4.png",  --商品标题背景资源
         titleRes = "6600金币",    --商品标题名称
@@ -128,9 +129,9 @@ ShopConfig[6]=
         content = 6600,
     }
 
-ShopConfig[7]=
+ShopConfig[11]=
     {
-        id = 7,
+        id = 11,
         type = SHOPITEM_TYPE.Gold,   --商品类型
         titleBg = "Common/Shop_item_4.png",  --商品标题背景资源
         titleRes = "12800金币",    --商品标题名称
@@ -140,9 +141,9 @@ ShopConfig[7]=
         content = 12800,
     }
 
-ShopConfig[8]=
+ShopConfig[12]=
     {
-        id = 8,
+        id = 12,
         type = SHOPITEM_TYPE.Gold,   --商品类型
         titleBg = "Common/Shop_item_4.png",  --商品标题背景资源
         titleRes = "16600金币",    --商品标题名称
@@ -152,9 +153,9 @@ ShopConfig[8]=
         content = 16600,
     }
     
-ShopConfig[9]=
+ShopConfig[8]=
     {
-        id = 9,
+        id = 8,
         type = SHOPITEM_TYPE.Power,   --商品类型
         titleBg = "Common/Shop_item_4.png",  --商品标题背景资源
         titleRes = "无限体力",    --商品标题名称
@@ -164,3 +165,38 @@ ShopConfig[9]=
         content = 1000000000,   --无限体力数
     }
 
+ShopConfig[3]=
+    {
+        id = 3,
+        type = SHOPITEM_TYPE.Diamond,   --商品类型
+        titleBg = "Common/Shop_item_4.png",  --商品标题背景资源
+        titleRes = "288钻石",    --商品标题名称
+        res = "ui/ShopDiamond_4.png",   --商品资源
+        describe = "颗钻石",  --描述
+        price = {type=SHOPITEM_BUY.RMB,rate=15,payId = Payment.Diamond_5},   --价格
+        content = 288,
+    }
+    
+ShopConfig[2]=
+    {
+        id = 2,
+        type = SHOPITEM_TYPE.Diamond,   --商品类型
+        titleBg = "Common/Shop_item_4.png",  --商品标题背景资源
+        titleRes = "388钻石",    --商品标题名称
+        res = "ui/ShopDiamond_4.png",   --商品资源
+        describe = "颗钻石",  --描述
+        price = {type=SHOPITEM_BUY.RMB,rate=20,payId = Payment.Diamond_6},   --价格
+        content = 388,
+    }
+    
+ShopConfig[1]=
+    {
+        id = 1,
+        type = SHOPITEM_TYPE.Diamond,   --商品类型
+        titleBg = "Common/Shop_item_4.png",  --商品标题背景资源
+        titleRes = "588钻石",    --商品标题名称
+        res = "ui/ShopDiamond_4.png",   --商品资源
+        describe = "颗钻石",  --描述
+        price = {type=SHOPITEM_BUY.RMB,rate=30,payId = Payment.Diamond_7},   --价格
+        content = 588,
+    }
