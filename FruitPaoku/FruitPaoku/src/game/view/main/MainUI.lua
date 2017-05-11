@@ -133,12 +133,12 @@ function MainUI:giftFunc(parameters)
     end)
     
     --购买vip礼包后每日领取
-    Tools.delayCallFunc(0.5,function()
+    Tools.delayCallFunc(0.4,function()
         GameDataManager.updateVipGift()
     end)
     
     --礼包弹出
-    self.vipGiftHandler = Tools.delayCallFunc(0.6,function()
+    self.vipGiftHandler = Tools.delayCallFunc(0.5,function()
         local id,gId = GameController.getCurGiftId()  --获取的vip可用礼包计费点
         if GiftConfig[id] then 
             if GiftConfig[id].type == GIFT_TYPE.Vip then
