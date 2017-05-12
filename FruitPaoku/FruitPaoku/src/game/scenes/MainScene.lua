@@ -9,19 +9,19 @@ function MainScene:ctor()
     self.m_mainUI = MainUI.new()
     self:addChild(self.m_mainUI)
     
---    self:setKeypadEnabled(true)
---    self:addNodeEventListener(cc.KEYPAD_EVENT, function (event)
---        if event.key == "back" then
---            app:alert({
---                type=Alert_Type.Type_Two,
---                content="是否确定要退出游戏？",
---                isClose = true,
---                okFunc=function(parameters)
---                    SDKUtil.exitGame()
---                end
---            })
---        end
---    end)
+    self:setKeypadEnabled(true)
+    self:addNodeEventListener(cc.KEYPAD_EVENT, function (event)
+        if event.key == "back" then
+            app:alert({
+                type=Alert_Type.Type_Two,
+                content="是否确定要退出游戏？",
+                isClose = true,
+                okFunc=function(parameters)
+                    SDKUtil.exitGame()
+                end
+            })
+        end
+    end)
 
 end
 

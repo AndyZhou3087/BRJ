@@ -11,6 +11,7 @@ function MainUI:ctor()
     
     --获取礼包接口
     self:getGift()
+    self:getGameGiftTaggleParam()
     self:init()
     
 --    if (display.widthInPixels == 1024 and display.heightInPixels == 768) or (display.widthInPixels == 2048 and display.heightInPixels == 1536) then
@@ -98,6 +99,17 @@ function MainUI:getGift()
             GameController.getGiftIdByPayCode(_stringId)
         else
             Tools.printDebug("---------------获取礼包id失败")
+        end
+    end})
+end
+
+function MainUI:getGameGiftTaggleParam()
+    SDKUtil.getGameGiftTaggleParam({callback=function(_stringId)
+        if _stringId then
+            local mode = tonumber(_stringId)
+            GameController.buyOrReceive = mode
+        else
+            Tools.printDebug("---------------获取购买领取按钮模式失败：",_stringId)
         end
     end})
 end

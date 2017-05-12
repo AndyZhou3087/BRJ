@@ -73,11 +73,20 @@ function GiftView:ctor(parm)
     end
     
     local PriceLabel=cc.uiloader:seekNodeByName(GiftView,"PriceLabel")
-    if config.reward.diamond then
-        PriceLabel:setString("信息费"..config.price.."元")
-    end
-    if config.reward.dayDiamond then
-        PriceLabel:setString("信息费"..config.price.."元,购买后可每日领取钻石x"..config.reward.dayDiamond)
+    if GameController.buyOrReceive == 0 then
+        if config.reward.diamond then
+            PriceLabel:setString("信息费"..config.price.."元")
+        end
+        if config.reward.dayDiamond then
+            PriceLabel:setString("信息费"..config.price.."元,购买后可每日领取钻石x"..config.reward.dayDiamond)
+        end
+    else
+        if config.reward.diamond then
+            PriceLabel:setString("可获得角色和钻石x"..config.reward.diamond)
+        end
+        if config.reward.dayDiamond then
+            PriceLabel:setString("可每日领取钻石x"..config.reward.dayDiamond)
+        end
     end
     
     
@@ -127,6 +136,10 @@ function GiftView:ctor(parm)
             end
         end})
     end)
+    local BuyGet=cc.uiloader:seekNodeByName(GiftView,"BuyGet")
+    BuyGet:setButtonEnabled(false) 
+    BuyGet:setButtonImage("disabled","ui/Mode_"..GameController.buyOrReceive..".png")
+    
     
     local CloseBtn=cc.uiloader:seekNodeByName(GiftView,"CloseBtn")
     CloseBtn:onButtonClicked(function(event)

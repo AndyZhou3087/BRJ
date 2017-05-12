@@ -27,15 +27,15 @@ local methodName = "pay"
 --_data:{goodsId=xx,orderId=xx,callback=xx}
 function SDKUtil.toPay(_data)
     local params = {_data.goodsId,_data.orderId,_data.callback}
-    local sigs = "(ILjava/lang/String;I)V"
---	if luaj then
---        luaj.callStaticMethod(className,methodName,params,sigs)
---		return
---	end
---    if luaoc then
---        luaoc.callStaticMethod(className,methodName,params,sigs)
---        return
---	end
+    local sigs = "(Ljava/lang/String;Ljava/lang/String;I)V"
+	if luaj then
+        luaj.callStaticMethod(className,methodName,params,sigs)
+		return
+	end
+    if luaoc then
+        luaoc.callStaticMethod(className,methodName,params,sigs)
+        return
+	end
     _data.callback(SDKUtil.PayResult.Success)
 end
 
@@ -90,16 +90,31 @@ function SDKUtil.giftPop(_data)
     _data.callback("rzjxkp.by.30,rzjxkp.lb.10.1")
 end
 
+--获取领取/购买按钮
+function SDKUtil.getGameGiftTaggleParam(_data)
+    local params = {_data.callback}
+    local sigs = "(I)V"
+    if luaj then
+        luaj.callStaticMethod(className,"getGameGiftTaggleParam",params,sigs)
+        return
+    end
+    if luaoc then
+        luaoc.callStaticMethod(className,"getGameGiftTaggleParam",params,sigs)
+        return
+    end
+    _data.callback("1")
+end
+
 --退出游戏
 function SDKUtil.exitGame()
     GameDataManager.SaveData()
     
     local params = {}
     local sigs = "()V"
---    if luaj then
---        luaj.callStaticMethod(className,"exitGame",params,sigs)
---        return
---    end
+    if luaj then
+        luaj.callStaticMethod(className,"exitGame",params,sigs)
+        return
+    end
     os.exit(0)
 end
 

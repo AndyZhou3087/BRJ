@@ -12,6 +12,8 @@ GameController.isWin = false
 
 GameController.isFightOverBack = false
 
+GameController.buyOrReceive = 0
+
 --额外吸附物品
 GameController.Adsorb_Ex_Goods = 1
 
