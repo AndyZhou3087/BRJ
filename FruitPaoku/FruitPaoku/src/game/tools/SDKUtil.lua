@@ -105,6 +105,21 @@ function SDKUtil.getGameGiftTaggleParam(_data)
     _data.callback("1")
 end
 
+--获取包月信息
+function SDKUtil.getSpecialProductInfo(_data)
+    local params = {_data.callback}
+    local sigs = "(I)V"
+    if luaj then
+        luaj.callStaticMethod(className,"getSpecialProductInfo",params,sigs)
+        return
+    end
+    if luaoc then
+        luaoc.callStaticMethod(className,"getSpecialProductInfo",params,sigs)
+        return
+    end
+    _data.callback("")
+end
+
 --退出游戏
 function SDKUtil.exitGame()
     GameDataManager.SaveData()

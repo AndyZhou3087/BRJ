@@ -1085,7 +1085,7 @@ end
 --================================End==============================
 
 
---=========================vip礼包相关=========================
+--=========================vip包月礼包相关=========================
 local vipGift={}
 
 --初始礼包信息
@@ -1106,6 +1106,7 @@ function GameDataManager.buyVipGift(id)
     vipGift[id].year = _curTime.year
     vipGift[id].month = _curTime.month
     vipGift[id].day = _curTime.day
+    vipGift[id].count = 30
     --领取id记录
     vipGift[id].id=id
     vipGift[id].dayDiamond = GiftConfig[id].dayDiamond
@@ -1119,18 +1120,21 @@ end
 function GameDataManager.updateVipGift()
     local _curTime = TimeUtil.getDate()
     for key, var in pairs(vipGift) do
-        if var.year~=_curTime.year or var.month ~=_curTime.month then
+        if var.count <= 0 then
             var = {}
             var = nil
         else
             if var.year==_curTime.year and var.month==_curTime.month and var.day==_curTime.day then
 
             else
-                var.year = _curTime.year
-                var.month = _curTime.month
-                var.day = _curTime.day
-                GameDataManager.addDiamond(var.dayDiamond)
-                GameDispatcher:dispatch(EventNames.EVENT_FLY_TEXT,{text ="已获得"..var.dayDiamond.."钻石"})
+                if var.year<_curTime.year or var.month<_curTime.month or var.day<_curTime.day then
+                    var.year = _curTime.year
+                    var.month = _curTime.month
+                    var.day = _curTime.day
+                    var.count = var.count - 1
+                    GameDataManager.addDiamond(var.dayDiamond)
+                    GameDispatcher:dispatch(EventNames.EVENT_FLY_TEXT,{text ="已获得"..var.dayDiamond.."钻石"})
+                end
             end
         end
     end

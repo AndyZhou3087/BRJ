@@ -12,6 +12,7 @@ function MainUI:ctor()
     --获取礼包接口
     self:getGift()
     self:getGameGiftTaggleParam()
+    self:getSpecialProductInfo()
     self:init()
     
 --    if (display.widthInPixels == 1024 and display.heightInPixels == 768) or (display.widthInPixels == 2048 and display.heightInPixels == 1536) then
@@ -79,6 +80,22 @@ function MainUI:init(parameters)
         self:MusicSoundSet()
     end)
     
+    local id,gId = GameController.getCurGiftId()  --获取可用礼包计费点
+    self.GiftBtn = cc.uiloader:seekNodeByName(self.m_json,"GiftBtn")
+    self.GiftBtn:setVisible(false)
+    local GiftWord = cc.uiloader:seekNodeByName(self.m_json,"GiftWord")
+    GiftWord:setButtonEnabled(false) 
+    if GiftConfig[id] then
+        self.GiftBtn:setButtonImage("normal",GiftConfig[id].icon)
+        self.GiftBtn:setButtonImage("pressed",GiftConfig[id].icon)
+        GiftWord:setButtonImage("disabled",GiftConfig[id].iconName)
+    end
+    self.GiftBtn:onButtonClicked(function(event)
+        AudioManager.playSoundEffect(AudioManager.Sound_Effect_Type.Button_Click_Sound)
+--        GameDispatcher:dispatch(EventNames.EVENT_OPEN_GIFTROLE,{giftId = 2,animation = true})
+    end)
+    
+    
     self.m_unlockNum = GameDataManager.getUlockLevelsNum()
     
     if GameController.getMainSign() then
@@ -114,6 +131,12 @@ function MainUI:getGameGiftTaggleParam()
     end})
 end
 
+function MainUI:getSpecialProductInfo()
+	SDKUtil.getSpecialProductInfo({callback=function(_stringId)
+        
+    end})
+end
+
 function MainUI:onEnterFrame(parameters)
     self.loadCount = self.loadCount + 1
     self.Label_23:setString("玩命加载中...("..self.loadCount.."%)")
@@ -134,6 +157,7 @@ function MainUI:onEnterFrame(parameters)
             self.Panel_8:setVisible(true)
             self.Image_21:setVisible(false)
             self:giftFunc()
+            self.GiftBtn:setVisible(true)
         end
     end
 end
@@ -150,7 +174,7 @@ function MainUI:giftFunc(parameters)
     end)
     
     --礼包弹出
-    self.vipGiftHandler = Tools.delayCallFunc(0.5,function()
+    self.vipGiftHandler = Tools.delayCallFunc(0.6,function()
         local id,gId = GameController.getCurGiftId()  --获取的vip可用礼包计费点
         if GiftConfig[id] then 
             if GiftConfig[id].type == GIFT_TYPE.Vip then
