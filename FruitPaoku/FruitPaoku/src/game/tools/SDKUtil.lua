@@ -117,7 +117,7 @@ function SDKUtil.getSpecialProductInfo(_data)
         luaoc.callStaticMethod(className,"getSpecialProductInfo",params,sigs)
         return
     end
-    _data.callback("")
+    _data.callback("0")
 end
 
 --退出游戏

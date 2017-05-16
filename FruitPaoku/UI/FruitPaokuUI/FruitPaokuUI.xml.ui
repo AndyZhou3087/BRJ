@@ -32,8 +32,8 @@
     <string>GiftUIItem.json</string>
   </JsonList>
   <CanvasSize>
-    <Width>960</Width>
-    <Height>540</Height>
+    <Width>52</Width>
+    <Height>52</Height>
   </CanvasSize>
   <filePath>G:\dev\BRJ\FruitPaoku\UI\FruitPaokuUI\FruitPaokuUI.xml.ui</filePath>
   <ProjectType>UIProject</ProjectType>
@@ -41,5 +41,5 @@
   <imageFileList />
   <imagePngList />
   <JsonSuffix>.json</JsonSuffix>
-  <CurrentUIJson>GiftUI.json</CurrentUIJson>
+  <CurrentUIJson>GiftUIItem.json</CurrentUIJson>
 </UIProject>

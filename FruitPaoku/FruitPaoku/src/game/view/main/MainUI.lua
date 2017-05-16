@@ -152,7 +152,7 @@ end
 function MainUI:updateGiftUI()
     local id,gId = GameController.getCurGiftId()  --获取可用礼包计费点
     if GiftConfig[id].type == GIFT_TYPE.Vip then
-        if self.isMonth then
+        if self.isMonth==1 or GameDataManager.isMonthVip(id) then
             self.GiftBtn:setVisible(false)
         end
     end
@@ -179,6 +179,7 @@ function MainUI:onEnterFrame(parameters)
             self.Image_21:setVisible(false)
             self:giftFunc()
             self.GiftBtn:setVisible(true)
+            self:updateGiftUI()
         end
     end
 end
@@ -190,16 +191,16 @@ function MainUI:giftFunc(parameters)
     end)
     
     --购买vip礼包后每日领取
-    Tools.delayCallFunc(0.4,function()
+    Tools.delayCallFunc(0.3,function()
         GameDataManager.updateVipGift()
     end)
     
     --礼包弹出
-    self.vipGiftHandler = Tools.delayCallFunc(0.6,function()
+    self.vipGiftHandler = Tools.delayCallFunc(0.5,function()
         local id,gId = GameController.getCurGiftId()  --获取的vip可用礼包计费点
         if GiftConfig[id] then 
             if GiftConfig[id].type == GIFT_TYPE.Vip then
-                if self.isMonth ~= 1 then
+                if self.isMonth ~= 1 and not GameDataManager.isMonthVip(id) then
                     GameDispatcher:dispatch(EventNames.EVENT_OPEN_COMMONGIFT,{giftId = id,animation = true})
                 end
             else
