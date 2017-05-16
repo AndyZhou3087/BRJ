@@ -85,15 +85,20 @@
     <GuidesList />
   </GuidesProject>
   <GuidesProject>
-    <Project>Test</Project>
-    <GuidesList />
-  </GuidesProject>
-  <GuidesProject>
-    <Project>Test2</Project>
-    <GuidesList />
-  </GuidesProject>
-  <GuidesProject>
     <Project>GuideTips</Project>
+    <GuidesList />
+  </GuidesProject>
+  <GuidesProject>
+    <Project>GiftUI</Project>
+    <GuidesList>
+      <GuidesInfo>
+        <GuidesName>HThumb</GuidesName>
+        <GuidesPosition>-200.54888283058449</GuidesPosition>
+      </GuidesInfo>
+    </GuidesList>
+  </GuidesProject>
+  <GuidesProject>
+    <Project>GiftUIItem</Project>
     <GuidesList />
   </GuidesProject>
 </ArrayOfGuidesProject>

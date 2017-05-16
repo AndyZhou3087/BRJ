@@ -10,9 +10,12 @@ function MainUI:ctor()
     MainUI.super.ctor(self) 
     
     --获取礼包接口
-    self:getGift()
-    self:getGameGiftTaggleParam()
-    self:getSpecialProductInfo()
+    if not GameController.getMainSign() then
+        self:getGift()
+        self:getGameGiftTaggleParam()
+        self:getSpecialProductInfo()
+    end
+
     self:init()
     
 --    if (display.widthInPixels == 1024 and display.heightInPixels == 768) or (display.widthInPixels == 2048 and display.heightInPixels == 1536) then
@@ -92,7 +95,7 @@ function MainUI:init(parameters)
     end
     self.GiftBtn:onButtonClicked(function(event)
         AudioManager.playSoundEffect(AudioManager.Sound_Effect_Type.Button_Click_Sound)
---        GameDispatcher:dispatch(EventNames.EVENT_OPEN_GIFTROLE,{giftId = 2,animation = true})
+        GameDispatcher:dispatch(EventNames.EVENT_OPEN_COMMONGIFT,{giftId = id,animation = true})
     end)
     
     
@@ -108,6 +111,8 @@ function MainUI:init(parameters)
         self.loadCount = 0
         self.loadHandler = Scheduler.scheduleGlobal(handler(self,self.onEnterFrame),0.05)
     end
+    
+    GameDispatcher:addListener(EventNames.EVENT_GIFT_UPDATE,handler(self,self.updateGiftUI))
 end
 
 function MainUI:getGift()
@@ -132,9 +137,25 @@ function MainUI:getGameGiftTaggleParam()
 end
 
 function MainUI:getSpecialProductInfo()
-	SDKUtil.getSpecialProductInfo({callback=function(_stringId)
-        
+    SDKUtil.getSpecialProductInfo({callback=function(resultCode)
+        if resultCode then
+            self.isMonth = resultCode
+            if tonumber(resultCode) == 1 then
+                GameDataManager.renewVip(true)
+            else
+                GameDataManager.renewVip(false)
+            end
+        end
     end})
+end
+
+function MainUI:updateGiftUI()
+    local id,gId = GameController.getCurGiftId()  --获取可用礼包计费点
+    if GiftConfig[id].type == GIFT_TYPE.Vip then
+        if self.isMonth then
+            self.GiftBtn:setVisible(false)
+        end
+    end
 end
 
 function MainUI:onEnterFrame(parameters)
@@ -178,11 +199,11 @@ function MainUI:giftFunc(parameters)
         local id,gId = GameController.getCurGiftId()  --获取的vip可用礼包计费点
         if GiftConfig[id] then 
             if GiftConfig[id].type == GIFT_TYPE.Vip then
-                if not GameDataManager.isMonthVip(id) then
---                    GameDispatcher:dispatch(EventNames.EVENT_OPEN_GIFTROLE,{giftId = 2,animation = true})
+                if self.isMonth ~= 1 then
+                    GameDispatcher:dispatch(EventNames.EVENT_OPEN_COMMONGIFT,{giftId = id,animation = true})
                 end
             else
---                GameDispatcher:dispatch(EventNames.EVENT_OPEN_GIFTROLE,{giftId = 2,animation = true})
+                GameDispatcher:dispatch(EventNames.EVENT_OPEN_COMMONGIFT,{giftId = id,animation = true})
             end
         end
     end)
@@ -232,6 +253,7 @@ function MainUI:toClose(_clean)
         Scheduler.unscheduleGlobal(self.vipGiftHandler)
         self.vipGiftHandler = nil
     end
+    GameDispatcher:removeListenerByName(EventNames.EVENT_GIFT_UPDATE)
     MainUI.super.toClose(self,_clean)
 end
 
@@ -246,6 +268,7 @@ function MainUI:onCleanup()
         Scheduler.unscheduleGlobal(self.vipGiftHandler)
         self.vipGiftHandler = nil
     end
+    GameDispatcher:removeListenerByName(EventNames.EVENT_GIFT_UPDATE)
     GameDataManager.SaveData()
 end
 return MainUI

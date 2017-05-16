@@ -391,7 +391,7 @@ function MapLayer:onEnterFrame(dt)
             self.isGiftPop = true
             local id,gId = GameController.getCurGiftId()
             if GiftConfig[gId] then
---                    GameDispatcher:dispatch(EventNames.EVENT_OPEN_GIFTROLE,{giftId = 2,animation = true,isGame = true})
+                GameDispatcher:dispatch(EventNames.EVENT_OPEN_COMMONGIFT,{giftId = gId,animation = true,isGame = true})
             end
     	end
     end

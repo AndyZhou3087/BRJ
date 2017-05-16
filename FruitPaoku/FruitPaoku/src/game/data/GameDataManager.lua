@@ -1087,6 +1087,7 @@ end
 
 --=========================vip包月礼包相关=========================
 local vipGift={}
+local vipMouth = false
 
 --初始礼包信息
 function GameDataManager.initVipGiftData()
@@ -1120,6 +1121,9 @@ end
 function GameDataManager.updateVipGift()
     local _curTime = TimeUtil.getDate()
     for key, var in pairs(vipGift) do
+        if vipMouth and var.count <= 0 then
+            var.count = var.count + 31
+        end
         if var.count <= 0 then
             var = {}
             var = nil
@@ -1138,6 +1142,10 @@ function GameDataManager.updateVipGift()
             end
         end
     end
+end
+
+function GameDataManager.renewVip(isMonth)
+    vipMouth = isMonth
 end
 
 --是否购买vip礼包包月
