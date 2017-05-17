@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+      package="com.ninjia.rezjxkp"
+      android:versionCode="1"
+      android:versionName="1.0.0"
+      android:installLocation="auto">
+
+    <uses-sdk android:minSdkVersion="9"/>
+    <uses-feature android:glEsVersion="0x00020000" />
+
+    <application android:label="@string/app_name"
+                 android:icon="@drawable/icon">
+					 
+        <!-- Tell Cocos2dxActivity the name of our .so -->
+        <meta-data android:name="android.app.lib_name"
+                  android:value="cocos2dlua" />
+		
+        <meta-data android:value="rzjxkp" android:name="OT_APPID" />
+		<meta-data android:value="2Msdd6Q9Pi1pJMby" android:name="OT_APPKEY" />
+		<meta-data android:value="thran" android:name="OT_APPCHANNEL" />			  
+        
+        <activity android:name="org.cocos2dx.lua.AppActivity"
+                  android:label="@string/app_name"
+                  android:screenOrientation="landscape"
+                  android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+                  android:configChanges="orientation">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        
+        
+        <!--带界面支付Activity-->
+<activity
+    android:name="com.og.unite.charge.PayUIActivity"
+    android:configChanges="orientation|keyboard|keyboardHidden|screenSize"
+    android:screenOrientation="landscape"
+	android:launchMode="singleTop"
+    android:theme="@style/PayUIChange"></activity>
+<!--H5登陆Activity-->
+<activity android:name="com.og.unite.loginAcitvity.LoginActivity"
+	android:configChanges="keyboardHidden|orientation|screenSize"  
+	android:screenOrientation="sensorLandscape"
+	android:windowSoftInputMode="stateHidden|adjustPan"
+	android:theme="@android:style/Theme.Translucent.NoTitleBar" /> 
+	
+<receiver
+  android:name="com.og.unite.extension.OGSdkPushReveiver"
+  android:enabled="true" >
+  <intent-filter>
+     <action android:name="OGSDK_PUSH_ACTION" />
+  </intent-filter>
+</receiver>
+        
+        
+    </application>
+
+    
+    <service android:name="com.og.unite.main.OGSDKService"></service>
+    
+    <supports-screens android:anyDensity="true"
+                      android:smallScreens="true"
+                      android:normalScreens="true"
+                      android:largeScreens="true"
+                      android:xlargeScreens="true"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/>  
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>  
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>  
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>  
+    
+    
+    <!-- SDK start -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.READ_SMS" />
+    <!-- 非必须的 根据功能可选 start -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!-- BI用的1，内网环境需要，正式环境可去 -->
+    <uses-permission android:name="android.permission.READ_LOGS" /> <!-- BI用的2，内网环境需要，正式环境可去 -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" /> <!-- 本地推送功能用到（registerDelayPushTask、registerPushTask），没用到这两个接口的，可去掉 -->
+    <uses-permission android:name="android.permission.WRITE_SMS" /> <!-- 删除敏感短信需要（pro中勾选了“短信过滤功能”） -->
+    <!-- 非必须的 根据功能可选 end -->
+    <!-- SDK end -->
+    
+
+    <!-- for anysdk -->
+    <uses-permission android:name="android.permission.RESTART_PACKAGES" />
+    <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
+    
+  	<uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
+ 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+  <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+</manifest> 
