@@ -52,12 +52,10 @@
      <action android:name="OGSDK_PUSH_ACTION" />
   </intent-filter>
 </receiver>
-        
+     
+	<service android:name="com.og.unite.main.OGSDKService"></service>
         
     </application>
-
-    
-    <service android:name="com.og.unite.main.OGSDKService"></service>
     
     <supports-screens android:anyDensity="true"
                       android:smallScreens="true"
