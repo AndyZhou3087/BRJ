@@ -1112,6 +1112,9 @@ function GameDataManager.buyVipGift(id)
     vipGift[id].id=id
     vipGift[id].dayDiamond = GiftConfig[id].dayDiamond
     GameDataManager.addDiamond(vipGift[id].dayDiamond)
+    if GiftConfig[id].type == GIFT_TYPE.Vip then
+        GameDispatcher:dispatch(EventNames.EVENT_GIFT_UPDATE)
+    end
     Tools.delayCallFunc(0.5,function()
         GameDispatcher:dispatch(EventNames.EVENT_FLY_TEXT,{text ="已获得"..vipGift[id].dayDiamond.."钻石"})
     end)

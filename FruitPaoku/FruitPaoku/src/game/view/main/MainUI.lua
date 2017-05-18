@@ -151,7 +151,10 @@ end
 
 function MainUI:updateGiftUI()
     local id,gId = GameController.getCurGiftId()  --获取可用礼包计费点
-    if GiftConfig[id].type == GIFT_TYPE.Vip then
+    if not GiftConfig[id] then
+    	self.GiftBtn:setVisible(false)
+    end
+    if GiftConfig[id] and GiftConfig[id].type == GIFT_TYPE.Vip then
         if self.isMonth==1 or GameDataManager.isMonthVip(id) then
             self.GiftBtn:setVisible(false)
         end
@@ -246,6 +249,7 @@ end
 
 --关闭界面调用
 function MainUI:toClose(_clean)
+    GameController.setMainSign(false)
     if self.loadHandler then
         Scheduler.unscheduleGlobal(self.loadHandler)
         self.loadHandler = nil

@@ -10,15 +10,16 @@ function GiftUI:ctor(parm)
     GiftUI.super.ctor(self)
     self.isGmae = parm.isGame
     self._id = parm.giftId
+    
+    local config = GiftConfig[self._id]
+    if not config then
+        self:toClose(true)
+        return
+    end
 
     local _mask = display.newColorLayer(cc.c4b(0,0,0,OPACITY)):addTo(self)
     if parm.isGame then
         GameController.pauseGame(true) --游戏暂停
-    end
-
-    local config = GiftConfig[self._id]
-    if not config then
-        return
     end
 
     local GiftUI = cc.uiloader:load("json/GiftUI.json")
