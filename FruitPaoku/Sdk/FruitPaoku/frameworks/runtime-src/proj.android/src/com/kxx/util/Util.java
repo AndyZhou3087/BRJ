@@ -80,7 +80,7 @@ public class Util {
 				// TODO Auto-generated method stub
 				resultCallback = callFunc;
 				String type = OGThranPay.checkGoodsType(goodsId);
-				String uuid = UUID();
+				String uuid = Utils.UUID();
 				OGSdkPlatform.payUI(context, type, uuid, goodsId, orderId, uuid, OGSdkIPayResultCallback);
 				
 			}
@@ -144,14 +144,14 @@ public class Util {
 		String HTTPURL = "http://211.154.162.11/getUmpStatusByImsi.action?";
 		String AppKey = "baoyue";
 
-		if (!getNetworkAvailable())
+		if (!Utils.getNetworkAvailable())
 		{
 			return -1;
 		}
 		StringBuffer strb = new StringBuffer();
 		strb.append(HTTPURL);
 		strb.append("imsi=");
-		String imsi = GetIMSI();
+		String imsi = Utils.GetIMSI();
 		strb.append(imsi);
 
 		strb.append("&sign=");
@@ -275,86 +275,6 @@ public class Util {
 //		UMGameAgent.onKillProcess(curActivity);
 		curActivity.finish();
 		System.exit(0);
-	}
-	
-	
-	
-	public static boolean getNetworkAvailable() 
-    { 
-    	boolean success = false;
-    	//获得网络连接服务   
-    	ConnectivityManager connManager = (ConnectivityManager) AppActivity.getTheApp().getSystemService(Context.CONNECTIVITY_SERVICE);   
-    	State state = connManager.getNetworkInfo(   
-    	ConnectivityManager.TYPE_WIFI).getState(); // 获取网络连接状态   
-    	if (State.CONNECTED == state) 
-    	{ // 判断是否正在使用WIFI网络   
-    		success = true;
-    		return success;
-    	}
-    	try{
-	    	state = connManager.getNetworkInfo(   
-	    	ConnectivityManager.TYPE_MOBILE).getState(); // 获取网络连接状态   
-	    	if (State.CONNECTED == state) 
-	    	{ // 判断是否正在使用GPRS网络   
-	    		success = true;   
-	    	}
-    	}catch (Exception e)
-    	{
-    		e.printStackTrace();
-    	}
-    	return success;
-    	  
-    }
-	
-	public static String GetIMSI()
-	{
-    	TelephonyManager s_tm	= (TelephonyManager)AppActivity.getTheApp().getSystemService(Context.TELEPHONY_SERVICE);
-		String imsi = "";
-		try {
-			imsi = s_tm.getSubscriberId(); 
-		} catch (Exception e)
-		{
-			e.printStackTrace();
-		}	
-		
-		if(imsi == null) imsi = "";
-		return imsi;
-	}
-	
-	public static String GetIMEI()
-    {
-        TelephonyManager tm = (TelephonyManager) AppActivity.getTheApp().getSystemService(Activity.TELEPHONY_SERVICE);
-        return tm.getDeviceId();
-    }
-    
-    public static String GetLocalMacAddress() {
-		WifiManager wifi = (WifiManager) AppActivity.getTheApp().getSystemService(Context.WIFI_SERVICE);
-		WifiInfo info = wifi.getConnectionInfo();
-		return info.getMacAddress();
-	}
-    
-    public static String UUID()
-    {
-		String uuid = GetIMEI();
-		
-		if (uuid == null)
-			uuid = "";
-
-		String macAddr = GetLocalMacAddress();
-		if (macAddr == null)
-			macAddr = "";
-		uuid += macAddr.replaceAll(":", "");
-		return "loc" + uuid;
-    }
-    
-    public static String getMetaData(Context contex, String meta) {
-		String data = "";
-		try {
-			data = contex.getPackageManager().getApplicationInfo(contex.getPackageName(), PackageManager.GET_META_DATA).metaData.getString(meta);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return data;
 	}
 	
 }

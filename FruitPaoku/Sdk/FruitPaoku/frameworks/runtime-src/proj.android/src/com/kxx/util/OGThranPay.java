@@ -10,6 +10,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.util.Log;
 
 import com.og.gameconfig.OGLoadParamsCallBack;
 import com.og.unite.main.OGSdkPlatform;
@@ -34,7 +35,7 @@ public class OGThranPay {
 		//OGSdkPlatform.setConnectLog(true);
 		OGSdkPlatform.initSDK(act);
 		
-		String otAppId = Util.getMetaData(context, "OT_APPID");
+		String otAppId = Utils.getMetaData(context, "OT_APPID");
 		OGSdkPlatform.initGameParamsByKey(act, otAppId, paramKey + "|" + paramKey1);
 	}
 	
@@ -45,8 +46,9 @@ public class OGThranPay {
 	
     public static void getShopList()
     {
-    	String uuid = Util.UUID();
-	
+    	String uuid = Utils.UUID();
+    	Log.d("--------正在获取goodsList-----------------------", "uuid = " + uuid);
+    	
 		OGSdkPlatform.getShopList((Activity)context, uuid, uuid,  new OGSdkIShopCenter(){
 			
 			public void onGetShopListResult(OGSDKShopData resultData) {
@@ -61,6 +63,8 @@ public class OGThranPay {
 						goodsList.add((OGSDKMall)mall);
 					}
 					Collections.sort(goodsList, new SortBySortNum());
+					
+					Log.d("--------goodsList获取成功!!!", "goodsList长度 = " + goodsList.size());
 				}
 			}
 		});
