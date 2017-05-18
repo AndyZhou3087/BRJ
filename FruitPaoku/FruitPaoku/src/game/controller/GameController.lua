@@ -224,7 +224,7 @@ local curGiftId = 0
 local curGameGiftId = 0
 --获取当前计费代码对应礼包
 function GameController.getGiftIdByPayCode(_string)
-    local arr = Tools.Split(_string,',')
+    local arr = Tools.Split(_string,'|')
 	for var=1, #GiftConfig do
 		local gift = GiftConfig[var]
         if gift.payId == arr[1] then
@@ -240,6 +240,19 @@ end
 function GameController.getCurGiftId()
     Tools.printDebug("----------礼包计费代码：",curGiftId,curGameGiftId)
     return curGiftId,curGameGiftId 
+end
+
+
+--判断当前计费代码对应id
+function GameController.getGiftIdByPayId(_payId)
+	for var=1, #GiftConfig do
+		if GiftConfig[var].type == GIFT_TYPE.Vip then
+            if GiftConfig[var].payId == _payId then
+                return GiftConfig[var].id
+			end
+		end
+	end
+	return 0
 end
 
 

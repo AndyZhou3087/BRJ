@@ -38,7 +38,6 @@ public class Util {
 	private static int resultCallback = 0;
 	private static int giftCallback = 0;
 	private static int ParamsCallBack = 0;
-	private static int vipCallBack = 0;
 	
 	private static Activity context = null;	
 	
@@ -124,29 +123,15 @@ public class Util {
 	/**
 	 * vip包月回调
 	 */
-	public static void getSpecialProductInfo(final int callFunc)
-	{
-		curActivity.runOnUiThread(new Runnable() {
-			
-			@Override
-			public void run() {
-				// TODO Auto-generated method stub
-				vipCallBack = callFunc;
-				String code = String.valueOf(getUmpData());
-				Cocos2dxLuaJavaBridge.callLuaFunctionWithString(vipCallBack, code);
-				Cocos2dxLuaJavaBridge.releaseLuaFunction(vipCallBack);
-			}
-		});	
-	}
 	//获取包月信息是否订购
-	private static int getUmpData()
+	private static String getUmpData()
 	{
 		String HTTPURL = "http://211.154.162.11/getUmpStatusByImsi.action?";
 		String AppKey = "baoyue";
 
 		if (!Utils.getNetworkAvailable())
 		{
-			return -1;
+			return null;
 		}
 		StringBuffer strb = new StringBuffer();
 		strb.append(HTTPURL);
@@ -167,26 +152,28 @@ public class Util {
 		String ret = hp.getSimpleString();
 		if (ret == null)
 		{
-			return -1;
+			return null;
 		}
 		
-		int code = -1;
+		String code = "";
+		String productid = "";
         JSONObject json;
 		try 
 		{
 			ret = ret.substring(0, ret.lastIndexOf("}") + 1);
 
 			json = new JSONObject(ret);
-			code = Integer.valueOf(json.getString("result"));
+			code = json.getString("result");
+			productid = json.getString("productid");
 		}
 		catch(JSONException e)
 		{
 			e.printStackTrace();
-			code = -1;
+			code = null;
 		}
 		//Log.d("", "zhou code = " + code);
-
-		return code;
+		
+		return code+"|"+productid;
 
 	}
 
@@ -204,23 +191,21 @@ public class Util {
 				giftCallback = callFunc;
 				String code1 = OGThranPay.checkPCode(1);//进入游戏
 				String code2 = OGThranPay.checkPCode(2);//游戏中
-				String code = code1 + "," + code2;
-				callGiftFunc(code);
+				
+				//获取vip包月信息
+				String vipCode = String.valueOf(getUmpData());
+				
+				String code = code1 + "|" + code2 + "#" + vipCode;
+				
+				Log.d("chjh result--month:", code);
+				
+				Cocos2dxLuaJavaBridge.callLuaFunctionWithString(giftCallback, code);
+				Cocos2dxLuaJavaBridge.releaseLuaFunction(giftCallback);
 			}
 		});
 	}
 	
-	//进入游戏调用礼包
-	private static void callGiftFunc(final String result){
-		curActivity.runOnGLThread(new Runnable() {
-		@Override
-		public void run() {
-			Cocos2dxLuaJavaBridge.callLuaFunctionWithString(giftCallback, result);
-			Cocos2dxLuaJavaBridge.releaseLuaFunction(giftCallback);
-			}
-		});
-	}
-	//---------------------------------------------
+
 	
 	//获取购买和领取模式
 	public static void getGameGiftTaggleParam(final int callFunc)
@@ -246,7 +231,7 @@ public class Util {
 					json = new JSONObject(arg0);
 					JSONObject confjson = json.getJSONObject("button_config");
 					String btnMode = confjson.getString("VIPBtnMode");
-					Log.d("", "zho btnmode = " + btnMode);
+					Log.d("zho btnmode----", "zho btnmode = " + btnMode);
 					
 					Cocos2dxLuaJavaBridge.callLuaFunctionWithString(ParamsCallBack, btnMode);
 					Cocos2dxLuaJavaBridge.releaseLuaFunction(ParamsCallBack);

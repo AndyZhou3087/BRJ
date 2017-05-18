@@ -75,7 +75,7 @@ function SDKUtil.umentPayEx(_cost,_item,_num,_diamonds)
     end
 end
 
---获取最优档位礼包
+--获取最优档位礼包以及vip包月信息
 function SDKUtil.giftPop(_data)
     local params = {_data.callback}
     local sigs = "(I)V"
@@ -103,21 +103,6 @@ function SDKUtil.getGameGiftTaggleParam(_data)
         return
     end
     _data.callback("1")
-end
-
---获取包月信息
-function SDKUtil.getSpecialProductInfo(_data)
-    local params = {_data.callback}
-    local sigs = "(I)V"
-    if luaj then
-        luaj.callStaticMethod(className,"getSpecialProductInfo",params,sigs)
-        return
-    end
-    if luaoc then
-        luaoc.callStaticMethod(className,"getSpecialProductInfo",params,sigs)
-        return
-    end
-    _data.callback("0")
 end
 
 --退出游戏

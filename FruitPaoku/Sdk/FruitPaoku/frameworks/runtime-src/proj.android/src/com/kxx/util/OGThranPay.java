@@ -128,7 +128,7 @@ public class OGThranPay {
 	    		}
 			}
     	}
-    	return "";
+    	return "0";
     }
    
     public static String getGoodsList(final String pcode)

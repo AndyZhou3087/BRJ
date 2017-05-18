@@ -11,9 +11,10 @@ function MainUI:ctor()
     
     --获取礼包接口
     if not GameController.getMainSign() then
+        self.isMonth = nil
+        self.productid = nil
         self:getGift()
         self:getGameGiftTaggleParam()
-        self:getSpecialProductInfo()
     end
 
     self:init()
@@ -118,13 +119,26 @@ end
 function MainUI:getGift()
     SDKUtil.giftPop({callback=function(_stringId)
         if _stringId then
-            GameController.getGiftIdByPayCode(_stringId)
+            --获取礼包信息
+            local arr = Tools.Split(_stringId,'#')
+            GameController.getGiftIdByPayCode(arr[1])
+            --获取vip包月信息
+            local codeArr = Tools.Split(arr[2],'|')
+            self.isMonth = tonumber(codeArr[1])--是否订购
+            self.productid = GameController.getGiftIdByPayId(codeArr[2])
+            if tonumber(resultCode) == 1 then
+                GameDataManager.renewVip(true)
+            else
+                GameDataManager.renewVip(false)
+            end
         else
-            Tools.printDebug("---------------获取礼包id失败")
+            Tools.printDebug("---------------获取礼包失败")
         end
     end})
 end
 
+
+--获取购买/领取方式
 function MainUI:getGameGiftTaggleParam()
     SDKUtil.getGameGiftTaggleParam({callback=function(_stringId)
         if _stringId then
@@ -136,18 +150,6 @@ function MainUI:getGameGiftTaggleParam()
     end})
 end
 
-function MainUI:getSpecialProductInfo()
-    SDKUtil.getSpecialProductInfo({callback=function(resultCode)
-        if resultCode then
-            self.isMonth = resultCode
-            if tonumber(resultCode) == 1 then
-                GameDataManager.renewVip(true)
-            else
-                GameDataManager.renewVip(false)
-            end
-        end
-    end})
-end
 
 function MainUI:updateGiftUI()
     local id,gId = GameController.getCurGiftId()  --获取可用礼包计费点
@@ -155,9 +157,12 @@ function MainUI:updateGiftUI()
     	self.GiftBtn:setVisible(false)
     end
     if GiftConfig[id] and GiftConfig[id].type == GIFT_TYPE.Vip then
-        if self.isMonth==1 or GameDataManager.isMonthVip(id) then
+        if self.isMonth==1 then
             self.GiftBtn:setVisible(false)
         end
+    end
+    if self.isMonth==1 and GiftConfig[self.productid] and not GameDataManager.isMonthVip(self.productid) then
+        GameDataManager.buyVipGift(self.productid)
     end
 end
 
@@ -203,7 +208,7 @@ function MainUI:giftFunc(parameters)
         local id,gId = GameController.getCurGiftId()  --获取的vip可用礼包计费点
         if GiftConfig[id] then 
             if GiftConfig[id].type == GIFT_TYPE.Vip then
-                if self.isMonth ~= 1 and not GameDataManager.isMonthVip(id) then
+                if self.isMonth == 0 or self.isMonth == 2 then --and not GameDataManager.isMonthVip(id) then
                     GameDispatcher:dispatch(EventNames.EVENT_OPEN_COMMONGIFT,{giftId = id,animation = true})
                 end
             else

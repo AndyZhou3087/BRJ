@@ -34,7 +34,7 @@
 	<!--进行支付是loading框和充值结果的===客服电话-->
 	<string name="thransdk_cu_server">如果有疑问，请致电客服 ：400-990-8188</string>
 	<!--进行支付是loading框的===提示语-->
-	<string name="thransdk_loading">您的订单已经提交，小地主正在拼命处理...</string>
+	<string name="thransdk_loading">您的订单已经提交，正在拼命处理...</string>
 	<!--全面板支付的===失败后的提示语-->
 	<string name="thransdk_paytype_fall">支付失败，请选择其他支付方式</string>
 	<!--全面板支付的===title-->
