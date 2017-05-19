@@ -116,7 +116,8 @@ function FightReadyUI:ctor(parm)
             Tools.delayCallFunc(0.01,function()
                 GameDispatcher:dispatch(EventNames.EVENT_OPEN_LOAD,{method=2,})
             end)
-        elseif parm == GAME_TYPE.EndlessMode and GameDataManager.costPower(EndlessMode.costPower) then      
+        elseif parm == GAME_TYPE.EndlessMode and GameDataManager.costPower(EndlessMode.costPower) then
+            SDKUtil.umentOnEvent(SDKUtil.EventId.Endless)
             GAME_TYPE_CONTROL = GAME_TYPE.EndlessMode
             for key, var in ipairs(self.m_goods) do
                 if var.isSelect then
@@ -129,7 +130,7 @@ function FightReadyUI:ctor(parm)
                         GameDataManager.addGoods(var.id,1)
                     end
                     GameController.setStartProp(var.id,var.isSelect)
-                end           
+                end
             end
             startGame:setButtonEnabled(false)
             app:enterGameScene()

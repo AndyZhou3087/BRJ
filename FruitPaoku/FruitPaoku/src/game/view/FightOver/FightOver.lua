@@ -98,6 +98,7 @@ function FightOver:initWidget()
             GameController.isFightOverBack = true
             app:enterSelectScene()
         elseif GAME_TYPE_CONTROL == GAME_TYPE.EndlessMode then
+            GameController.setMainSign(true)
             app:enterMainScene()
         end
         self:toClose(true)
@@ -123,6 +124,9 @@ end
 
 --过关胜利界面
 function FightOver:toWin()
+    if not GameDataManager.getFightData(self.m_curLevel) then
+        SDKUtil.umentFinishLevel(self.m_curLevel)
+    end
     local _isFirst = GameDataManager.saveLevelData()  --存储关卡数据
     self.initGoldCount = GameDataManager.getGold()
     self.getGoldCount = 0
@@ -210,6 +214,9 @@ function FightOver:toWin()
 end
 
 function FightOver:toFail()
+    if not GameDataManager.getFightData(self.m_curLevel) then
+        SDKUtil.umentFailLevel(self.m_curLevel)
+    end
     for var=1, 3 do
         self["star_"..var]:setButtonImage("disabled","ui/StarDark.png")
     end
@@ -237,6 +244,7 @@ function FightOver:toFail()
             self:toClose(true)
         elseif GAME_TYPE_CONTROL == GAME_TYPE.EndlessMode then
             GameController.setSignPop(false)
+            GameController.setMainSign(true)
             GameController.resumeGame()
             app:enterMainScene()
             Tools.delayCallFunc(0.01,function()

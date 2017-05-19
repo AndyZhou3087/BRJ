@@ -246,6 +246,7 @@ function GameDataManager.useGoods(_goodsId)
                 end
                 GameDataManager.SaveData()
                 GameDispatcher:dispatch(EventNames.EVENT_PROP_UPDATE,{goodsId = _goodsId})
+                SDKUtil.umentUse(GoodsConfig[var.id].discrebe,1,GoodsConfig[var.id].cost.price)
                 return true
             else
                 return false
@@ -525,6 +526,7 @@ function GameDataManager.updateUserLv(_roleId,_lv)
         printf("chjh error id=%d的角色你暂未拥有，不能升级",_roleId)
     end
     GameDispatcher:dispatch(EventNames.EVENT_ROLEUPGRADE_UPDATE)
+    SDKUtil.umentOnEvent(SDKUtil.EventId.RoleUpgrade.._roleId.."_".._lv)
 end
 
 function GameDataManager.getRoleLevel(_roleId)
@@ -1050,6 +1052,9 @@ end
 
 --购买礼包
 function GameDataManager.buyGift(giftId)
+    if gift[giftId] then
+    	return
+    end
     if not gift[giftId] then
     	gift[giftId] = {}
     end
@@ -1074,11 +1079,14 @@ function GameDataManager.updateGift()
         if var.year==_curTime.year and var.month==_curTime.month and var.day==_curTime.day then
         	
         else
-            var.year = _curTime.year
-            var.month = _curTime.month
-            var.day = _curTime.day
-            GameDataManager.addDiamond(var.dayDiamond)
-            GameDispatcher:dispatch(EventNames.EVENT_FLY_TEXT,{text ="已获得"..var.dayDiamond.."钻石"})
+            if var.year<_curTime.year or var.month<_curTime.month or var.day<_curTime.day then
+                var.year = _curTime.year
+                var.month = _curTime.month
+                var.day = _curTime.day
+                GameDataManager.addDiamond(var.dayDiamond)
+                GameDispatcher:dispatch(EventNames.EVENT_FLY_TEXT,{text ="已获得"..var.dayDiamond.."钻石"})
+                SDKUtil.umentBonus("Diamond",var.dayDiamond,var.dayDiamond,1)
+            end
         end
     end
 end
@@ -1099,6 +1107,9 @@ end
 
 --购买礼包
 function GameDataManager.buyVipGift(id)
+    if vipGift[id] then
+    	return
+    end
     if not vipGift[id] then
         vipGift[id] = {}
     end
@@ -1141,6 +1152,7 @@ function GameDataManager.updateVipGift()
                     var.count = var.count - 1
                     GameDataManager.addDiamond(var.dayDiamond)
                     GameDispatcher:dispatch(EventNames.EVENT_FLY_TEXT,{text ="已获得"..var.dayDiamond.."钻石"})
+                    SDKUtil.umentBonus("Diamond",var.dayDiamond,var.dayDiamond,1)
                 end
             end
         end

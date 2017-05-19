@@ -65,6 +65,7 @@ public class OGThranPay {
 					Collections.sort(goodsList, new SortBySortNum());
 					
 					Log.d("--------goodsList获取成功!!!", "goodsList长度 = " + goodsList.size());
+					Util.getGiftFunc();
 				}
 			}
 		});

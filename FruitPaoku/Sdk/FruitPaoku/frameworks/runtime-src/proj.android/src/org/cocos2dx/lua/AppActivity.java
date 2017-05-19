@@ -53,6 +53,7 @@ import android.widget.Toast;
 import com.anysdk.framework.PluginWrapper;
 import com.kxx.util.OGThranPay;
 import com.kxx.util.Util;
+import com.umeng.analytics.game.UMGameAgent;
 
 
 public class AppActivity extends Cocos2dxActivity{
@@ -67,7 +68,10 @@ public class AppActivity extends Cocos2dxActivity{
 		
 		theOnly = this;
 		
-		OGThranPay.getShopList();
+//		OGThranPay.getShopList();
+		
+		UMGameAgent.setDebugMode(true);//设置输出运行时日志
+	    UMGameAgent.init(this);
 		
 		if(nativeIsLandScape()) {
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
@@ -153,11 +157,13 @@ public class AppActivity extends Cocos2dxActivity{
     protected void onResume() {
         super.onResume();
         PluginWrapper.onResume();
+        UMGameAgent.onResume(this);
     }
     @Override
     public void onPause(){
         PluginWrapper.onPause();
         super.onPause();
+        UMGameAgent.onPause(this);
     }
     @Override
     protected void onNewIntent(Intent intent) {

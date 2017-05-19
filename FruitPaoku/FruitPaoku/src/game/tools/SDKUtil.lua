@@ -9,6 +9,20 @@ SDKUtil.PayResult=
         Fail = "fail",
 }
 
+SDKUtil.EventId = 
+{
+    Sign = "Sign",
+    GiftPop = "GiftPop",
+    GiftBuy = "GiftBuy",
+    DiamondBuy = "DiamondBuy",
+    PowerBuy = "PowerBuy",
+    Endless = "Endless",  --无尽模式
+    GuideStart = "GuideStart",
+        GuideFinish = "GuideFinish",
+        RoleMax = "RoleMaxLevel",
+        RoleUpgrade = "RoleUpgrade",
+}
+
 local UMPaySource = 21 --友盟付费来源，友盟后台定义21代表爱贝支付
 
 local luaj,luaoc
@@ -71,6 +85,112 @@ function SDKUtil.umentPayEx(_cost,_item,_num,_diamonds)
     end
     if luaoc then
         luaoc.callStaticMethod(className,"umengPay",params,sigs)
+        return
+    end
+end
+
+--虚拟消费统计
+--item 购买物品的ID 
+--number 购买物品数量 
+--price 购买物品的单价(虚拟币)
+function SDKUtil.umentBuy(item,number,price)
+    local params = {item,number,price}
+    local sigs = "(Ljava/lang/String;II)V"
+    if luaj then
+        luaj.callStaticMethod(className,"umentBuy",params,sigs)
+        return
+    end
+    if luaoc then
+        luaoc.callStaticMethod(className,"umentBuy",params,sigs)
+        return
+    end
+end
+
+--item 购买物品的ID 
+--number 购买物品数量 
+--price 购买物品的单价(虚拟币)
+function SDKUtil.umentUse(item,number,price)
+    local params = {item,number,price}
+    local sigs = "(Ljava/lang/String;II)V"
+    if luaj then
+        luaj.callStaticMethod(className,"umentUse",params,sigs)
+        return
+    end
+    if luaoc then
+        luaoc.callStaticMethod(className,"umentUse",params,sigs)
+        return
+    end
+end
+
+--item 奖励物品ID 
+--num 奖励物品数量 
+--price 物品的虚拟币单价 
+--trigger 触发奖励的事件, 取值在 1~10 之间，“1”已经被预先定义为“系统奖励”， 2~10 需要在网站设置含义。
+function SDKUtil.umentBonus(item,number,price,trigger)
+    local params = {item,number,price,trigger}
+    local sigs = "(Ljava/lang/String;III)V"
+    if luaj then
+        luaj.callStaticMethod(className,"umentBonus",params,sigs)
+        return
+    end
+    if luaoc then
+        luaoc.callStaticMethod(className,"umentBonus",params,sigs)
+        return
+    end
+end
+
+--eventId 自定义事件ID 
+function SDKUtil.umentOnEvent(eventId)
+    local params = {eventId}
+    local sigs = "(Ljava/lang/String;)V"
+    if luaj then
+        luaj.callStaticMethod(className,"umentOnEvent",params,sigs)
+        return
+    end
+    if luaoc then
+        luaoc.callStaticMethod(className,"umentOnEvent",params,sigs)
+        return
+    end
+end
+
+--友盟开启新关卡统计
+function SDKUtil.umentStartLevel(_level)
+    local params = {_level}
+    local sigs = "(I)V"
+    if luaj then
+        luaj.callStaticMethod(className,"umentStartLevel",params,sigs)
+        return
+    end
+    if luaoc then
+        luaoc.callStaticMethod(className,"umentStartLevel",params,sigs)
+        return
+    end
+end
+
+--友盟新关卡成功
+function SDKUtil.umentFinishLevel(_level)
+    local params = {_level}
+    local sigs = "(I)V"
+    if luaj then
+        luaj.callStaticMethod(className,"umentFinishLevel",params,sigs)
+        return
+    end
+    if luaoc then
+        luaoc.callStaticMethod(className,"umentFinishLevel",params,sigs)
+        return
+    end
+end
+
+--友盟新关卡失败
+function SDKUtil.umentFailLevel(_level)
+    local params = {_level}
+    local sigs = "(I)V"
+    if luaj then
+        luaj.callStaticMethod(className,"umentFailLevel",params,sigs)
+        return
+    end
+    if luaoc then
+        luaoc.callStaticMethod(className,"umentFailLevel",params,sigs)
         return
     end
 end

@@ -9,15 +9,18 @@ function GiftView:ctor(parm)
     self.isGmae = parm.isGame
     self._id = parm.giftId
     
+    local config = GiftConfig[self._id]
+    if not config then
+        self:toClose(true)
+        return
+    end
+    
     local _mask = display.newColorLayer(cc.c4b(0,0,0,OPACITY)):addTo(self)
     if parm.isGame then
         GameController.pauseGame(true) --游戏暂停
     end
-
-    local config = GiftConfig[self._id]
-    if not config then
-    	return
-    end
+    
+    SDKUtil.umentOnEvent(SDKUtil.EventId.GiftPop..self._id)
 
     local GiftView = cc.uiloader:load("json/GiftView.json")
     self:addChild(GiftView)
@@ -108,6 +111,7 @@ function GiftView:ctor(parm)
                     GameDataManager.buyGift(self._id)
                 end
                 GameDispatcher:dispatch(EventNames.EVENT_FLY_TEXT,{text ="购买成功"})
+                SDKUtil.umentOnEvent(SDKUtil.EventId.GiftBuy..self._id)
                 self:toClose(true)
             else
                 GameDispatcher:dispatch(EventNames.EVENT_FLY_TEXT,{text ="购买失败"})
@@ -130,6 +134,7 @@ function GiftView:ctor(parm)
                     GameDataManager.buyGift(self._id)
                 end
                 GameDispatcher:dispatch(EventNames.EVENT_FLY_TEXT,{text ="购买成功"})
+                SDKUtil.umentOnEvent(SDKUtil.EventId.GiftBuy..self._id)
                 self:toClose(true)
             else
                 GameDispatcher:dispatch(EventNames.EVENT_FLY_TEXT,{text ="购买失败"})
@@ -162,6 +167,7 @@ function GiftView:ctor(parm)
                         GameDataManager.buyGift(self._id)
                     end
                     GameDispatcher:dispatch(EventNames.EVENT_FLY_TEXT,{text ="购买成功"})
+                    SDKUtil.umentOnEvent(SDKUtil.EventId.GiftBuy..self._id)
                     self:toClose(true)
                 else
                     GameDispatcher:dispatch(EventNames.EVENT_FLY_TEXT,{text ="购买失败"})

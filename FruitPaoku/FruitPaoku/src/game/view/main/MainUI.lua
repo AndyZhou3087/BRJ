@@ -9,19 +9,17 @@ local Scheduler = require("framework.scheduler")
 function MainUI:ctor()
     MainUI.super.ctor(self) 
     
-    --获取礼包接口
-    if not GameController.getMainSign() then
-        self.isMonth = nil
-        self.productid = nil
-        self:getGift()
-        self:getGameGiftTaggleParam()
-    end
+    self.isRun = nil
+    self.isMonth = nil
+    self.productid = nil
 
     self:init()
     
---    if (display.widthInPixels == 1024 and display.heightInPixels == 768) or (display.widthInPixels == 2048 and display.heightInPixels == 1536) then
---    	GAME_RESOLUTION_CONTROL = RESOLUTION_TYPE.pad
---    end
+    --获取礼包接口
+    if not GameController.getMainSign() and not DataPersistence.getAttribute("first_into") then
+        self:getGift()
+        self:getGameGiftTaggleParam()
+    end
     
     --启用onCleanup函数
     self:setNodeEventEnabled(true)
@@ -84,16 +82,10 @@ function MainUI:init(parameters)
         self:MusicSoundSet()
     end)
     
-    local id,gId = GameController.getCurGiftId()  --获取可用礼包计费点
     self.GiftBtn = cc.uiloader:seekNodeByName(self.m_json,"GiftBtn")
     self.GiftBtn:setVisible(false)
-    local GiftWord = cc.uiloader:seekNodeByName(self.m_json,"GiftWord")
-    GiftWord:setButtonEnabled(false) 
-    if GiftConfig[id] then
-        self.GiftBtn:setButtonImage("normal",GiftConfig[id].icon)
-        self.GiftBtn:setButtonImage("pressed",GiftConfig[id].icon)
-        GiftWord:setButtonImage("disabled",GiftConfig[id].iconName)
-    end
+    self.GiftWord = cc.uiloader:seekNodeByName(self.m_json,"GiftWord")
+    self.GiftWord:setButtonEnabled(false)
     self.GiftBtn:onButtonClicked(function(event)
         AudioManager.playSoundEffect(AudioManager.Sound_Effect_Type.Button_Click_Sound)
         GameDispatcher:dispatch(EventNames.EVENT_OPEN_COMMONGIFT,{giftId = id,animation = true})
@@ -105,6 +97,7 @@ function MainUI:init(parameters)
     if GameController.getMainSign() then
         self.Panel_8:setVisible(true)
         self.Image_21:setVisible(false)
+        self:homePageGift()
     else
         --首次进入游戏
         self.Panel_8:setVisible(false)
@@ -119,6 +112,7 @@ end
 function MainUI:getGift()
     SDKUtil.giftPop({callback=function(_stringId)
         if _stringId then
+            GameController.getSuccess = true
             --获取礼包信息
             local arr = Tools.Split(_stringId,'#')
             GameController.getGiftIdByPayCode(arr[1])
@@ -131,6 +125,7 @@ function MainUI:getGift()
             else
                 GameDataManager.renewVip(false)
             end
+            self:giftFunc()
         else
             Tools.printDebug("---------------获取礼包失败")
         end
@@ -143,27 +138,13 @@ function MainUI:getGameGiftTaggleParam()
     SDKUtil.getGameGiftTaggleParam({callback=function(_stringId)
         if _stringId then
             local mode = tonumber(_stringId)
-            GameController.buyOrReceive = mode
+            if mode == 0 or mode == 1 then
+                GameController.buyOrReceive = mode
+            end
         else
             Tools.printDebug("---------------获取购买领取按钮模式失败：",_stringId)
         end
     end})
-end
-
-
-function MainUI:updateGiftUI()
-    local id,gId = GameController.getCurGiftId()  --获取可用礼包计费点
-    if not GiftConfig[id] then
-    	self.GiftBtn:setVisible(false)
-    end
-    if GiftConfig[id] and GiftConfig[id].type == GIFT_TYPE.Vip then
-        if self.isMonth==1 then
-            self.GiftBtn:setVisible(false)
-        end
-    end
-    if self.isMonth==1 and GiftConfig[self.productid] and not GameDataManager.isMonthVip(self.productid) then
-        GameDataManager.buyVipGift(self.productid)
-    end
 end
 
 function MainUI:onEnterFrame(parameters)
@@ -178,6 +159,7 @@ function MainUI:onEnterFrame(parameters)
         end
         if DataPersistence.getAttribute("first_into") then
             Tools.printDebug("---------------第一次进入")
+            SDKUtil.umentOnEvent(SDKUtil.EventId.GuideStart)
             --直接进入第一关战斗
             GameDataManager.setCurLevelId(1,1)
             GameDataManager.generatePlayerVo()  --产生新的角色数据对象
@@ -186,13 +168,15 @@ function MainUI:onEnterFrame(parameters)
             self.Panel_8:setVisible(true)
             self.Image_21:setVisible(false)
             self:giftFunc()
-            self.GiftBtn:setVisible(true)
-            self:updateGiftUI()
         end
     end
 end
 
 function MainUI:giftFunc(parameters)
+    if not GameController.getSuccess then
+    	return
+    end
+    
 	--购买角色礼包后每日领取
     Tools.delayCallFunc(0.1,function()
         GameDataManager.updateGift()
@@ -202,11 +186,14 @@ function MainUI:giftFunc(parameters)
     Tools.delayCallFunc(0.3,function()
         GameDataManager.updateVipGift()
     end)
-    
-    --礼包弹出
+    self:homePageGift()
+end
+
+function MainUI:homePageGift()
+	--礼包弹出
     self.vipGiftHandler = Tools.delayCallFunc(0.5,function()
-        local id,gId = GameController.getCurGiftId()  --获取的vip可用礼包计费点
-        if GiftConfig[id] then 
+        if GiftConfig[id] and not self.isRun then 
+            self.isRun = true
             if GiftConfig[id].type == GIFT_TYPE.Vip then
                 if self.isMonth == 0 or self.isMonth == 2 then --and not GameDataManager.isMonthVip(id) then
                     GameDispatcher:dispatch(EventNames.EVENT_OPEN_COMMONGIFT,{giftId = id,animation = true})
@@ -216,6 +203,31 @@ function MainUI:giftFunc(parameters)
             end
         end
     end)
+    
+    self.GiftBtn:setVisible(true)
+    local id,gId = GameController.getCurGiftId()  --获取可用礼包计费点
+    if GiftConfig[id] then
+        self.GiftBtn:setButtonImage("normal",GiftConfig[id].icon)
+        self.GiftBtn:setButtonImage("pressed",GiftConfig[id].icon)
+        self.GiftWord:setButtonImage("disabled",GiftConfig[id].iconName)
+    end
+    
+    self:updateGiftUI()
+end
+
+function MainUI:updateGiftUI()
+    local id,gId = GameController.getCurGiftId()  --获取可用礼包计费点
+    if not GiftConfig[id] then
+        self.GiftBtn:setVisible(false)
+    end
+    if GiftConfig[id] and GiftConfig[id].type == GIFT_TYPE.Vip then
+        if self.isMonth==1 then
+            self.GiftBtn:setVisible(false)
+        end
+    end
+    if self.isMonth==1 and GiftConfig[self.productid] and not GameDataManager.isMonthVip(self.productid) then
+        GameDataManager.buyVipGift(self.productid)
+    end
 end
 
 function MainUI:MusicSoundSet( ... )

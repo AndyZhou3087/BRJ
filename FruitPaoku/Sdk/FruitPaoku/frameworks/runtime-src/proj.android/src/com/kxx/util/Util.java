@@ -11,6 +11,7 @@ import org.json.JSONObject;
 import com.og.gameconfig.OGLoadParamsCallBack;
 import com.og.unite.charge.OGSdkIPayCenter;
 import com.og.unite.main.OGSdkPlatform;
+import com.umeng.analytics.game.UMGameAgent;
 
 import android.app.Activity;
 import android.content.Context;
@@ -131,7 +132,7 @@ public class Util {
 
 		if (!Utils.getNetworkAvailable())
 		{
-			return null;
+			return "";
 		}
 		StringBuffer strb = new StringBuffer();
 		strb.append(HTTPURL);
@@ -152,7 +153,7 @@ public class Util {
 		String ret = hp.getSimpleString();
 		if (ret == null)
 		{
-			return null;
+			return "";
 		}
 		
 		String code = "";
@@ -169,7 +170,8 @@ public class Util {
 		catch(JSONException e)
 		{
 			e.printStackTrace();
-			code = null;
+			code = "";
+			productid = "";
 		}
 		//Log.d("", "zhou code = " + code);
 		
@@ -189,22 +191,27 @@ public class Util {
 			public void run() {
 				// TODO Auto-generated method stub
 				giftCallback = callFunc;
-				String code1 = OGThranPay.checkPCode(1);//进入游戏
-				String code2 = OGThranPay.checkPCode(2);//游戏中
-				
-				//获取vip包月信息
-				String vipCode = String.valueOf(getUmpData());
-				
-				String code = code1 + "|" + code2 + "#" + vipCode;
-				
-				Log.d("chjh result--month:", code);
-				
-				Cocos2dxLuaJavaBridge.callLuaFunctionWithString(giftCallback, code);
-				Cocos2dxLuaJavaBridge.releaseLuaFunction(giftCallback);
+				OGThranPay.getShopList();//商城大排序
 			}
 		});
 	}
 	
+	//当商品礼包成功后发送
+	public static void getGiftFunc()
+	{
+		String code1 = OGThranPay.checkPCode(1);//进入游戏
+		String code2 = OGThranPay.checkPCode(2);//游戏中
+		
+		//获取vip包月信息
+		String vipCode = String.valueOf(getUmpData());
+		
+		String code = code1 + "|" + code2 + "#" + vipCode;
+		
+		Log.d("chjh result--month:", code);
+		
+		Cocos2dxLuaJavaBridge.callLuaFunctionWithString(giftCallback, code);
+		Cocos2dxLuaJavaBridge.releaseLuaFunction(giftCallback);
+	}
 
 	
 	//获取购买和领取模式
@@ -242,22 +249,63 @@ public class Util {
 		
 	};
 	
+	//游戏开启新关卡统计
+	public static void umentStartLevel(final int level)
+	{
+		String lv = String.valueOf(level);
+		UMGameAgent.startLevel(lv);
+	}
 	
+	//游戏新关卡成功
+	public static void umentFinishLevel(final int level)
+	{
+		String lv = String.valueOf(level);
+		UMGameAgent.finishLevel(lv);
+	}
+		
+	//游戏新关卡失败
+	public static void umentFailLevel(final int level)
+	{
+		String lv = String.valueOf(level);
+		UMGameAgent.failLevel(lv);
+	}
+
+	//虚拟货币消耗
+	public static void umentBuy(String item, int number, int price)
+	{
+		UMGameAgent.buy(item, number, (double)price);
+	}
+	//使用道具统计
+	public static void umentUse(String item, int number,int price)
+	{
+		UMGameAgent.use(item, number , (double)price);
+	}
+	//额外奖励
+	public static void umentBonus(String item, int number,int price,int trigger)
+	{
+		UMGameAgent.bonus(item, number , (double)price,trigger);
+	}
 	
 	//游戏层调过来，用于友盟记录付费情况
 	public static void umengPay(final int cost,final int diamonds,final int source)
 	{
-//		UMGameAgent.pay((double)(cost/100), (double)diamonds, source);
+		UMGameAgent.pay((double)cost, (double)diamonds, source);
 	}
 	public static void umengPay(final int cost,String item,final int num,final int diamonds,final int source)
 	{
-//		UMGameAgent.pay((double)(cost/100), item, num, (double)diamonds, source);
+		UMGameAgent.pay((double)cost, item, num, (double)diamonds, source);
+	}
+	
+	//自定义事件
+	public static void umentOnEvent(String eventId)
+	{
+		UMGameAgent.onEvent(context, eventId);
 	}
 	
 	//游戏退出
 	public static void exitGame()
 	{
-//		UMGameAgent.onKillProcess(curActivity);
+		UMGameAgent.onKillProcess(curActivity);
 		curActivity.finish();
 		System.exit(0);
 	}

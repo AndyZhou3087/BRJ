@@ -17,7 +17,11 @@
 		
         <meta-data android:value="rzjxkp" android:name="OT_APPID" />
 		<meta-data android:value="2Msdd6Q9Pi1pJMby" android:name="OT_APPKEY" />
-		<meta-data android:value="thran" android:name="OT_APPCHANNEL" />			  
+		<meta-data android:value="thran" android:name="OT_APPCHANNEL" />	
+		
+		
+		<meta-data android:value="5912e067e88bad0a35000cb6" android:name="UMENG_APPKEY"></meta-data>
+		<meta-data android:value="LianZhong" android:name="UMENG_CHANNEL"/>		  
         
         <activity android:name="org.cocos2dx.lua.AppActivity"
                   android:label="@string/app_name"

@@ -186,6 +186,7 @@ function Player:LevelWin()
         self:dispose()
         if DataPersistence.getAttribute("first_into") then
             DataPersistence.updateAttribute("first_into",false)
+            SDKUtil.umentOnEvent(SDKUtil.EventId.GuideFinish)
         	app:enterMainScene()
         else
             --弹结算界面
