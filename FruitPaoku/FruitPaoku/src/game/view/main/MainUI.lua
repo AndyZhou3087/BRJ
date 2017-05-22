@@ -88,6 +88,7 @@ function MainUI:init(parameters)
     self.GiftWord:setButtonEnabled(false)
     self.GiftBtn:onButtonClicked(function(event)
         AudioManager.playSoundEffect(AudioManager.Sound_Effect_Type.Button_Click_Sound)
+        local id,gid = GameController.getCurGiftId()
         GameDispatcher:dispatch(EventNames.EVENT_OPEN_COMMONGIFT,{giftId = id,animation = true})
     end)
     
@@ -192,6 +193,7 @@ end
 function MainUI:homePageGift()
 	--礼包弹出
     self.vipGiftHandler = Tools.delayCallFunc(0.5,function()
+        local id,gid = GameController.getCurGiftId()
         if GiftConfig[id] and not self.isRun then 
             self.isRun = true
             if GiftConfig[id].type == GIFT_TYPE.Vip then
