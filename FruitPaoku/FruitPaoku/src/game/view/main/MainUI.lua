@@ -12,6 +12,7 @@ function MainUI:ctor()
     self.isRun = nil
     self.isMonth = nil
     self.productid = nil
+    self.giftCount = 0
 
     self:init()
     
@@ -113,7 +114,7 @@ end
 function MainUI:getGift()
     SDKUtil.giftPop({callback=function(_stringId)
         if _stringId then
-            GameController.getSuccess = true
+            self.giftCount = self.giftCount + 1
             --获取礼包信息
             local arr = Tools.Split(_stringId,'#')
             GameController.getGiftIdByPayCode(arr[1])
@@ -168,13 +169,14 @@ function MainUI:onEnterFrame(parameters)
         else
             self.Panel_8:setVisible(true)
             self.Image_21:setVisible(false)
+            self.giftCount = self.giftCount + 1
             self:giftFunc()
         end
     end
 end
 
 function MainUI:giftFunc(parameters)
-    if not GameController.getSuccess then
+    if self.giftCount < 2 then
     	return
     end
     
@@ -191,6 +193,10 @@ function MainUI:giftFunc(parameters)
 end
 
 function MainUI:homePageGift()
+    if self.vipGiftHandler then
+        Scheduler.unscheduleGlobal(self.vipGiftHandler)
+        self.vipGiftHandler = nil
+    end
 	--礼包弹出
     self.vipGiftHandler = Tools.delayCallFunc(0.5,function()
         local id,gid = GameController.getCurGiftId()
