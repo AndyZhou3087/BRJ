@@ -1,5 +1,6 @@
 package com.kxx.util;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
 
 import org.cocos2dx.lib.Cocos2dxActivity;
@@ -20,12 +21,13 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo.State;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.os.Environment;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 
 
 /**
- * ¹¤¾ßÀà
+ * å·¥å…·ç±»
  * @author ChengJH
  *
  */
@@ -66,10 +68,10 @@ public class Util {
 	}
 	
 	/**
-	 * luaÀïµ÷ÓÃÖ§¸¶
-	 * @param userId ÓÃ»§id
-	 * @param goodsId ÉÌÆ·id£¨¶ÔÓ¦ºóÌ¨ÅäÖÃid£©
-	 * @param orderId ¶©µ¥id
+	 * luaé‡Œè°ƒç”¨æ”¯ä»˜
+	 * @param userId ç”¨æˆ·id
+	 * @param goodsId å•†å“idï¼ˆå¯¹åº”åå°é…ç½®idï¼‰
+	 * @param orderId è®¢å•id
 	 */
 	public static void pay(final String goodsId,final String orderId,final int callFunc)
 	{
@@ -89,11 +91,11 @@ public class Util {
 	}
 	
 	/**
-	 * Ö§¸¶½á¹û»Øµ÷
+	 * æ”¯ä»˜ç»“æœå›è°ƒ
 	 */
 	private static OGSdkIPayCenter OGSdkIPayResultCallback = new OGSdkIPayCenter() {
 		
-		//µ÷ÓÃÓÎÏ·ÄÚ·½·¨
+		//è°ƒç”¨æ¸¸æˆå†…æ–¹æ³•
 		private void callGameFunc(final String result){
 			curActivity.runOnGLThread(new Runnable() {
 				@Override
@@ -122,9 +124,9 @@ public class Util {
 	
 	
 	/**
-	 * vip°üÔÂ»Øµ÷
+	 * vipåŒ…æœˆå›è°ƒ
 	 */
-	//»ñÈ¡°üÔÂĞÅÏ¢ÊÇ·ñ¶©¹º
+	//è·å–åŒ…æœˆä¿¡æ¯æ˜¯å¦è®¢è´­
 	private static String getUmpData()
 	{
 		String HTTPURL = "http://211.154.162.11/getUmpStatusByImsi.action?";
@@ -150,7 +152,9 @@ public class Util {
 		strb.append(sign);
 		//Log.d("", "zhou strb = " + strb);
 		HttpUtil hp = new HttpUtil(strb.toString());
+//		Util.writeFile("HeepUtil:" + hp.toString());
 		String ret = hp.getSimpleString();
+//		Util.writeFile("HeepUtil-ret:"+ret);
 		if (ret == null)
 		{
 			return "";
@@ -182,7 +186,7 @@ public class Util {
 	
 	
 	//-----------------------------------------------
-	//»ñÈ¡Àñ°üid
+	//è·å–ç¤¼åŒ…id
 	public static void getGift(final int callFunc)
 	{
 		curActivity.runOnUiThread(new Runnable() {
@@ -191,22 +195,22 @@ public class Util {
 			public void run() {
 				// TODO Auto-generated method stub
 				giftCallback = callFunc;
-				OGThranPay.getShopList();//ÉÌ³Ç´óÅÅĞò
+				OGThranPay.getShopList();//å•†åŸå¤§æ’åº
 			}
 		});
 	}
 	
-	//µ±ÉÌÆ·Àñ°ü³É¹¦ºó·¢ËÍ
+	//å½“å•†å“ç¤¼åŒ…æˆåŠŸåå‘é€
 	public static void getGiftFunc()
 	{
-		String code1 = OGThranPay.checkPCode(1);//½øÈëÓÎÏ·
-		String code2 = OGThranPay.checkPCode(2);//ÓÎÏ·ÖĞ
+		String code1 = OGThranPay.checkPCode(1);//è¿›å…¥æ¸¸æˆ
+		String code2 = OGThranPay.checkPCode(2);//æ¸¸æˆä¸­
 		
-		//»ñÈ¡vip°üÔÂĞÅÏ¢
+		//è·å–vipåŒ…æœˆä¿¡æ¯
 		String vipCode = String.valueOf(getUmpData());
 		
 		String code = code1 + "|" + code2 + "#" + vipCode;
-		
+//		Util.writeFile(code);
 		Log.d("chjh result--month:", code);
 		
 		Cocos2dxLuaJavaBridge.callLuaFunctionWithString(giftCallback, code);
@@ -214,7 +218,7 @@ public class Util {
 	}
 
 	
-	//»ñÈ¡¹ºÂòºÍÁìÈ¡Ä£Ê½
+	//è·å–è´­ä¹°å’Œé¢†å–æ¨¡å¼
 	public static void getGameGiftTaggleParam(final int callFunc)
 	{
 		curActivity.runOnUiThread(new Runnable() {
@@ -249,44 +253,44 @@ public class Util {
 		
 	};
 	
-	//ÓÎÏ·¿ªÆôĞÂ¹Ø¿¨Í³¼Æ
+	//æ¸¸æˆå¼€å¯æ–°å…³å¡ç»Ÿè®¡
 	public static void umentStartLevel(final int level)
 	{
 		String lv = String.valueOf(level);
 		UMGameAgent.startLevel(lv);
 	}
 	
-	//ÓÎÏ·ĞÂ¹Ø¿¨³É¹¦
+	//æ¸¸æˆæ–°å…³å¡æˆåŠŸ
 	public static void umentFinishLevel(final int level)
 	{
 		String lv = String.valueOf(level);
 		UMGameAgent.finishLevel(lv);
 	}
 		
-	//ÓÎÏ·ĞÂ¹Ø¿¨Ê§°Ü
+	//æ¸¸æˆæ–°å…³å¡å¤±è´¥
 	public static void umentFailLevel(final int level)
 	{
 		String lv = String.valueOf(level);
 		UMGameAgent.failLevel(lv);
 	}
 
-	//ĞéÄâ»õ±ÒÏûºÄ
+	//è™šæ‹Ÿè´§å¸æ¶ˆè€—
 	public static void umentBuy(String item, int number, int price)
 	{
 		UMGameAgent.buy(item, number, (double)price);
 	}
-	//Ê¹ÓÃµÀ¾ßÍ³¼Æ
+	//ä½¿ç”¨é“å…·ç»Ÿè®¡
 	public static void umentUse(String item, int number,int price)
 	{
 		UMGameAgent.use(item, number , (double)price);
 	}
-	//¶îÍâ½±Àø
+	//é¢å¤–å¥–åŠ±
 	public static void umentBonus(String item, int number,int price,int trigger)
 	{
 		UMGameAgent.bonus(item, number , (double)price,trigger);
 	}
 	
-	//ÓÎÏ·²ãµ÷¹ıÀ´£¬ÓÃÓÚÓÑÃË¼ÇÂ¼¸¶·ÑÇé¿ö
+	//æ¸¸æˆå±‚è°ƒè¿‡æ¥ï¼Œç”¨äºå‹ç›Ÿè®°å½•ä»˜è´¹æƒ…å†µ
 	public static void umengPay(final int cost,final int diamonds,final int source)
 	{
 		UMGameAgent.pay((double)cost, (double)diamonds, source);
@@ -296,13 +300,13 @@ public class Util {
 		UMGameAgent.pay((double)cost, item, num, (double)diamonds, source);
 	}
 	
-	//×Ô¶¨ÒåÊÂ¼ş
+	//è‡ªå®šä¹‰äº‹ä»¶
 	public static void umentOnEvent(String eventId)
 	{
 		UMGameAgent.onEvent(context, eventId);
 	}
 	
-	//ÓÎÏ·ÍË³ö
+	//æ¸¸æˆé€€å‡º
 	public static void exitGame()
 	{
 		UMGameAgent.onKillProcess(curActivity);
@@ -310,4 +314,19 @@ public class Util {
 		System.exit(0);
 	}
 	
+	//å†™å…¥æ–‡ä»¶ï¼Œæ‰“å…¥logæ—¥å¿—(é€ä¸€å†™å…¥)
+	public static void writeFile(String message)
+	{
+		try
+		{
+			FileOutputStream fout = new FileOutputStream(Environment.getExternalStorageDirectory().getAbsolutePath() +"/MYLOG.txt", true);
+			byte [] bytes = message.getBytes();
+			fout.write(bytes);
+			fout.close();
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
 }

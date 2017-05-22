@@ -70,7 +70,7 @@ public class AppActivity extends Cocos2dxActivity{
 		
 //		OGThranPay.getShopList();
 		
-		UMGameAgent.setDebugMode(true);//ÉèÖÃÊä³öÔËĞĞÊ±ÈÕÖ¾
+//		UMGameAgent.setDebugMode(true);//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½Ö¾
 	    UMGameAgent.init(this);
 		
 		if(nativeIsLandScape()) {

@@ -32,7 +32,7 @@ public class OGThranPay {
 	public static void init(Activity act)
 	{
 		context = act;
-		//OGSdkPlatform.setConnectLog(true);
+//		OGSdkPlatform.setConnectLog(true);
 		OGSdkPlatform.initSDK(act);
 		
 		String otAppId = Utils.getMetaData(context, "rzjxkp");
@@ -63,7 +63,7 @@ public class OGThranPay {
 						goodsList.add((OGSDKMall)mall);
 					}
 					Collections.sort(goodsList, new SortBySortNum());
-					
+//					Util.writeFile("goodsList-----:"+goodsList.toString());
 					Log.d("--------goodsList获取成功!!!", "goodsList长度 = " + goodsList.size());
 					Util.getGiftFunc();
 				}
