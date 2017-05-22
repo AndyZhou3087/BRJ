@@ -248,6 +248,8 @@ public class Util {
 					Cocos2dxLuaJavaBridge.releaseLuaFunction(ParamsCallBack);
 				}catch(Exception ex)
 				{
+					Log.d("zho btnmode----", "zho aaaaa = ");
+					ex.printStackTrace();
 				}
 		}
 		
