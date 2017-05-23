@@ -17,3 +17,6 @@ FruitPaoku/Sdk/FruitPaoku/frameworks/runtime-src/proj.win32
 FruitPaoku/Sdk/FruitPaoku/frameworks/runtime-src/proj.wp8-xaml
 FruitPaoku/Sdk/FruitPaoku/frameworks/runtime-src/proj.android/obj
 FruitPaoku/Sdk/FruitPaoku/frameworks/runtime-src/proj.android/bin
+Hopscotch/Hopscotch/.settings
+Hopscotch/Hopscotch/frameworks
+Hopscotch/Hopscotch/runtime
