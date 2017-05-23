@@ -118,7 +118,9 @@ function GiftUI:ctor(parm)
     end)
 
     --给阴影层加监听
-    _mask:addNodeEventListener(cc.NODE_TOUCH_EVENT, function(event)
+    local Panel_10 = cc.uiloader:seekNodeByName(GiftUI,"Panel_10")
+    Panel_10:setTouchEnabled(true)
+    Panel_10:addNodeEventListener(cc.NODE_TOUCH_EVENT, function(event)
         if event.name == "began" then
             local payId = config.payId
             if parm.isGame then

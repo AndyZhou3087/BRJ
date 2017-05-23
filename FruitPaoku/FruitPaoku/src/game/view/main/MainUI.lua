@@ -122,7 +122,7 @@ function MainUI:getGift()
             local codeArr = Tools.Split(arr[2],'|')
             self.isMonth = tonumber(codeArr[1])--是否订购
             self.productid = GameController.getGiftIdByPayId(codeArr[2])
-            if tonumber(resultCode) == 1 then
+            if self.isMonth == 1 then
                 GameDataManager.renewVip(true)
             else
                 GameDataManager.renewVip(false)
@@ -229,7 +229,7 @@ function MainUI:updateGiftUI()
         self.GiftBtn:setVisible(false)
     end
     if GiftConfig[id] and GiftConfig[id].type == GIFT_TYPE.Vip then
-        if self.isMonth==1 then
+        if self.isMonth==1 or GameDataManager.isMonthVip(id) then
             self.GiftBtn:setVisible(false)
         end
     end

@@ -153,7 +153,9 @@ function GiftView:ctor(parm)
     end)
     
     --给阴影层加监听
-    _mask:addNodeEventListener(cc.NODE_TOUCH_EVENT, function(event)
+    local Panel_9 = cc.uiloader:seekNodeByName(GiftView,"Panel_9")
+    Panel_9:setTouchEnabled(true)
+    Panel_9:addNodeEventListener(cc.NODE_TOUCH_EVENT, function(event)
         if event.name == "began" then
             local payId = config.payId
             local oId = SDKUtil.getOrderId(payId)
