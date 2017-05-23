@@ -62,7 +62,7 @@ function SelectUI:init(parameters)
         Tools.delayCallFunc(0.5,function()
             local id,gId = GameController.getCurGiftId()
             if GiftConfig[gId] then
-                GameDispatcher:dispatch(EventNames.EVENT_OPEN_COMMONGIFT,{giftId = gId,animation = true,isGame = true})
+                GameDispatcher:dispatch(EventNames.EVENT_OPEN_COMMONGIFT,{giftId = gId,animation = true})
             end
         end)
     end
