@@ -35,7 +35,7 @@ public class OGThranPay {
 //		OGSdkPlatform.setConnectLog(true);
 		OGSdkPlatform.initSDK(act);
 		
-		String otAppId = Utils.getMetaData(context, "rzjxkp");
+		String otAppId = Utils.getMetaData(context, "OT_APPID");
 		OGSdkPlatform.initGameParamsByKey(act, otAppId, paramKey + "|" + paramKey1);
 	}
 	

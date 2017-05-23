@@ -41,5 +41,5 @@
   <imageFileList />
   <imagePngList />
   <JsonSuffix>.json</JsonSuffix>
-  <CurrentUIJson>GiftUI.json</CurrentUIJson>
+  <CurrentUIJson>ShopItem.json</CurrentUIJson>
 </UIProject>
