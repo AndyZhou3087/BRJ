@@ -182,7 +182,8 @@ function ShopItemUI:initContent(shopConfig,pos)
             end,
             cancleFunc=function(parameters)
             end,
-            isClose = true
+            isClose = true,
+            pType = 1,
         })
     end)
 
