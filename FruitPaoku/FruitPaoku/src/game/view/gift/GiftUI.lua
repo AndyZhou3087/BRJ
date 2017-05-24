@@ -46,28 +46,28 @@ function GiftUI:ctor(parm)
     if config.type == GIFT_TYPE.Vip then
         Label_46:setString("获得"..config.des.."！信息费"..config.price.."元，需发送1条短信，"..config.price.."元/条（不含通信费）点击即可购买，客服电话：022-59086970")
         local item = GiftUIItem.new({count = config.dayDiamond,res = "gift/ShopDiamond_2.png"}):addTo(Image_1)
-        item:setPosition(cc.p(146,120))
+        item:setPosition(cc.p(290,105))
     else
         Label_46:setString("您将通过短信购买此礼包。信息费"..config.price.."元/月。退订后次月不计费，奖励停止发放。客服电话022-59086970")
         local count = 0
-        if config.gold then
-            count = count + 1
-            local item = GiftUIItem.new({count = config.gold,res = "gift/ShopGold_2.png"}):addTo(Image_1)
-            item:setPosition(cc.p(30,120))
-        end
-        if config.diamond then
-            count = count + 1
-            local item = GiftUIItem.new({count = config.diamond,res = "gift/ShopDiamond_2.png"}):addTo(Image_1)
-            item:setPosition(cc.p(30+(count-1)*58,120))
-        end
         if config.goods then
             local initCount = count
             count = count + #config.goods
             for var=initCount+1, count do
                 local info = config.goods[var-initCount]
                 local item = GiftUIItem.new({count = info.count,res = GoodsConfig[info.id].small}):addTo(Image_1)
-                item:setPosition(cc.p(30+(var-1)*58,120))
+                item:setPosition(cc.p(174+(var-1)*58,105))
             end
+        end
+        if config.gold then
+            count = count + 1
+            local item = GiftUIItem.new({count = config.gold,res = "gift/ShopGold_2.png"}):addTo(Image_1)
+            item:setPosition(cc.p(174+(count-1)*58,105))
+        end
+        if config.diamond then
+            count = count + 1
+            local item = GiftUIItem.new({count = config.diamond,res = "gift/ShopDiamond_2.png"}):addTo(Image_1)
+            item:setPosition(cc.p(174+(count-1)*58,105))
         end
     end
 

@@ -62,7 +62,14 @@ function SelectUI:init(parameters)
         Tools.delayCallFunc(0.5,function()
             local id,gId,eid = GameController.getCurGiftId()
             if GiftConfig[gId] then
-                GameDispatcher:dispatch(EventNames.EVENT_OPEN_COMMONGIFT,{giftId = gId,animation = true})
+                if GameController.isBackMap then
+                    GameDispatcher:dispatch(EventNames.EVENT_OPEN_COMMONGIFT,{giftId = gId,animation = true})
+                else
+                    local curLevel = GameDataManager.getCurLevelId()
+                    if curLevel%3 == 0 then
+                        GameDispatcher:dispatch(EventNames.EVENT_OPEN_COMMONGIFT,{giftId = gId,animation = true})
+                    end
+                end
             end
         end)
     end
@@ -105,7 +112,7 @@ function SelectUI:dispose(_clean)
         Scheduler.unscheduleGlobal(self.signHandler)
         self.signHandler = nil
     end
-    
+    GameController.isBackMap = false
     SelectUI.super.toClose(self,_clean)
 end
 
@@ -115,6 +122,7 @@ function SelectUI:onCleanup()
         Scheduler.unscheduleGlobal(self.signHandler)
         self.signHandler = nil
     end
+    GameController.isBackMap = false
     GameDataManager.SaveData()
 end
 return SelectUI

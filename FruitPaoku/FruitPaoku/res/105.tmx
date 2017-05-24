@@ -24,6 +24,9 @@
  <tileset firstgid="8" name="Prop_magnet" tilewidth="51" tileheight="46">
   <image source="ui/Prop_magnet.png" width="51" height="46"/>
  </tileset>
+ <tileset firstgid="9" name="obscale_5" tilewidth="960" tileheight="110">
+  <image source="ui/obscale_5.png" width="960" height="110"/>
+ </tileset>
  <layer name="stage1" width="1" height="1">
   <data encoding="base64" compression="zlib">
    eJxjZGBgAAAACAAC
@@ -66,7 +69,8 @@
  </objectgroup>
  <objectgroup name="good"/>
  <objectgroup name="obstacle">
-  <object name="3" gid="3" x="662" y="250"/>
-  <object name="3" gid="3" x="575" y="360"/>
+  <object gid="3" x="662" y="250"/>
+  <object gid="3" x="575" y="360"/>
+  <object name="5" gid="9" x="0" y="110"/>
  </objectgroup>
 </map>

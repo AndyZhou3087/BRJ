@@ -29,6 +29,7 @@ function Dialog:ctor(_type,_okStr,_cancleStr,_isClose,_pType)
     self.m_content:setString("是否确认购买？")
     self.p_content = cc.uiloader:seekNodeByName(_dialog,"Label_8")
     self.p_content:setString("是否确认购买？")
+    self.p_content:setVisible(false)
     if _pType == 1 then
     	self.m_content:setVisible(false)
     	self.p_content:setVisible(true)

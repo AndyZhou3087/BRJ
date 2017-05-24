@@ -67,8 +67,8 @@
   <object name="Common_copper.png" type="3" gid="5" x="430" y="410"/>
  </objectgroup>
  <objectgroup name="good">
-  <object gid="9" x="630" y="440"/>
-  <object gid="4" x="635" y="180"/>
+  <object name="12" gid="9" x="630" y="440"/>
+  <object name="7" gid="4" x="635" y="180"/>
  </objectgroup>
  <objectgroup name="obstacle"/>
 </map>

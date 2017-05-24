@@ -95,6 +95,7 @@ function FightOver:initWidget()
         GameController.setSignPop(true)
         GameController.resumeGame()
         if GAME_TYPE_CONTROL == GAME_TYPE.LevelMode then
+            GameController.isBackMap = true
             GameController.isFightOverBack = true
             app:enterSelectScene()
         elseif GAME_TYPE_CONTROL == GAME_TYPE.EndlessMode then
