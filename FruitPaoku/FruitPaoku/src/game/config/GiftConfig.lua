@@ -166,6 +166,8 @@ GiftConfig[10] =
         goods = false,
         payId = Payment.Gift_1,
         payCode = Payment.GoldGift,
+        exitPayId = Payment.Exit_GoldGift,
+        exitDes = "确定要退出游戏吗？现在只要2元即可获得金币礼包，领取请确认！退出请取消！客服电话：022-59086970.",
     }
 
 GiftConfig[11] = 
@@ -182,6 +184,8 @@ GiftConfig[11] =
         goods = false,
         payId = Payment.Gift_2,
         payCode = Payment.DiamondGift,
+        exitPayId = Payment.Exit_DiamondGift,
+        exitDes = "确定要退出游戏吗？现在只要30元即可获得钻石礼包，领取请确认！退出请取消！客服电话：022-59086970.",
     }
     
 GiftConfig[12] = 
@@ -198,6 +202,8 @@ GiftConfig[12] =
         goods = false,
         payId = Payment.NewGift,
         payCode = Payment.NewGift_1,
+        exitPayId = Payment.Exit_NewGift,
+        exitDes = "确定要退出游戏吗？现在只要6元即可获得新手礼包，领取请确认！退出请取消！客服电话：022-59086970.",
     }
     
 GiftConfig[13] = 
@@ -214,6 +220,8 @@ GiftConfig[13] =
         goods = false,
         payId = Payment.ProGift,
         payCode = Payment.ProGift_1,
+        exitPayId = Payment.Exit_ProGift,
+        exitDes = "确定要退出游戏吗？现在只要8元即可获得进阶礼包，领取请确认！退出请取消！客服电话：022-59086970.",
     }
     
 GiftConfig[14] = 
@@ -230,6 +238,8 @@ GiftConfig[14] =
         goods = {{id=1,count=5},{id=2,count=5},{id=3,count=5}},
         payId = Payment.PropsGift,
         payCode = Payment.PropsGift_1,
+        exitPayId = Payment.Exit_PropsGift,
+        exitDes = "确定要退出游戏吗？现在只要10元即可获得道具大礼包，领取请确认！退出请取消！客服电话：022-59086970.",
     }
     
 GiftConfig[15] = 
@@ -246,6 +256,8 @@ GiftConfig[15] =
         goods = false,
         payId = Payment.WealthGift,
         payCode = Payment.WealthGift_1,
+        exitPayId = Payment.Exit_WealthGift,
+        exitDes = "确定要退出游戏吗？现在只要15元即可获得财富大礼包，领取请确认！退出请取消！客服电话：022-59086970.",
     }
     
 GiftConfig[16] = 
@@ -262,4 +274,6 @@ GiftConfig[16] =
         goods = {{id=1,count=3},{id=2,count=3},{id=3,count=3}},
         payId = Payment.LuxuryGift,
         payCode = Payment.LuxuryGift_1,
+        exitPayId = Payment.Exit_LuxuryGift,
+        exitDes = "确定要退出游戏吗？现在只要20元即可获得豪华大礼包，领取请确认！退出请取消！客服电话：022-59086970.",
     }

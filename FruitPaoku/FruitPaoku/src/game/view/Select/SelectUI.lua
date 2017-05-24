@@ -60,7 +60,7 @@ function SelectUI:init(parameters)
     if GameController.isFightOverBack then
         GameController.isFightOverBack = false
         Tools.delayCallFunc(0.5,function()
-            local id,gId = GameController.getCurGiftId()
+            local id,gId,eid = GameController.getCurGiftId()
             if GiftConfig[gId] then
                 GameDispatcher:dispatch(EventNames.EVENT_OPEN_COMMONGIFT,{giftId = gId,animation = true})
             end

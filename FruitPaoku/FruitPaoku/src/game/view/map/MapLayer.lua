@@ -389,7 +389,7 @@ function MapLayer:onEnterFrame(dt)
     if not DataPersistence.getAttribute("first_into") and GAME_TYPE_CONTROL == GAME_TYPE.LevelMode and not self.isGiftPop then
         if self.m_levelCon.giftGap and self.miles >= self.m_levelCon.giftGap then
             self.isGiftPop = true
-            local id,gId = GameController.getCurGiftId()
+            local id,gId,eid = GameController.getCurGiftId()
             if GiftConfig[gId] then
                 GameDispatcher:dispatch(EventNames.EVENT_OPEN_COMMONGIFT,{giftId = gId,animation = true,isGame = true})
             end

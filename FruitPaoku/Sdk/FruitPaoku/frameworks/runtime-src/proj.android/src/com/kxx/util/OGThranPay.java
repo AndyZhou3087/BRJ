@@ -26,6 +26,7 @@ public class OGThranPay {
 	public static Map<String,Integer> keyMap = null;
 	public static String payType = null;
 	public static String[] bypcode = {"rzjxkp.by.8", "rzjxkp.by.10", "rzjxkp.by.15", "rzjxkp.by.20", "rzjxkp.by.30"};
+	public static String[] tcpcode = {"rzjxkp.tc.2", "rzjxkp.tc.6", "rzjxkp.tc.8", "rzjxkp.tc.10", "rzjxkp.tc.15","rzjxkp.tc.20","rzjxkp.tc.30"};
 	public static String[] pcode0 = {"rzjxkp.lb.2", "rzjxkp.lb.6", "rzjxkp.lb.8", "rzjxkp.lb.10", "rzjxkp.lb.15", "rzjxkp.lb.20", "rzjxkp.lb.30"};
 	public static String[] pcode1 = {"rzjxkp.lb.2.1", "rzjxkp.lb.6.1", "rzjxkp.lb.8.1", "rzjxkp.lb.10.1", "rzjxkp.lb.15.1","rzjxkp.lb.20.1","rzjxkp.lb.30.1"};
 
@@ -124,6 +125,16 @@ public class OGThranPay {
 						if (mall.getProductId().equalsIgnoreCase(pcode1[j]))
 						{
 							return pcode1[j];
+						}
+					}
+	    		}
+	    		else if (where == 3)//退出游戏
+	    		{
+	    			for (int j = 0; j < tcpcode.length; j++)	
+					{
+						if (mall.getProductId().equalsIgnoreCase(tcpcode[j]))
+						{
+							return tcpcode[j];
 						}
 					}
 	    		}

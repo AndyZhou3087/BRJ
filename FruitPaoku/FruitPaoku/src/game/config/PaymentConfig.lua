@@ -51,6 +51,15 @@ Payment=
         GoldGift = "rzjxkp.lb.2.1",  --2元金币礼包
         DiamondGift = "rzjxkp.lb.30.1",   --30元钻石礼包
         
+        --退出游戏出现
+        Exit_NewGift = "rzjxkp.tc.6",
+        Exit_ProGift = "rzjxkp.tc.8",
+        Exit_PropsGift = "rzjxkp.tc.10",
+        Exit_WealthGift = "rzjxkp.tc.15",
+        Exit_LuxuryGift = "rzjxkp.tc.20",
+        Exit_GoldGift = "rzjxkp.tc.2",
+        Exit_DiamondGift = "rzjxkp.tc.30",
+        
 --        --获取对应物品价格,单位:分，如果是钻石商品则额外会返回钻石数量
 --        getPrice = function(_itemId)
 --            if Payment.Diamond_1==_itemId then

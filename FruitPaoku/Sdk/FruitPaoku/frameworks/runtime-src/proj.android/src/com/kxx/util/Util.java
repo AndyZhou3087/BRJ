@@ -205,11 +205,12 @@ public class Util {
 	{
 		String code1 = OGThranPay.checkPCode(1);//进入游戏
 		String code2 = OGThranPay.checkPCode(2);//游戏中
+		String code3 = OGThranPay.checkPCode(3);//退出游戏
 		
 		//获取vip包月信息
 		String vipCode = String.valueOf(getUmpData());
 		
-		String code = code1 + "|" + code2 + "#" + vipCode;
+		String code = code1 + "|" + code2 + "|" + code3 + "#" + vipCode;
 //		Util.writeFile(code);
 		Log.d("chjh result--month:", code);
 		
