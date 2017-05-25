@@ -48,7 +48,7 @@ SelectLevel[1]=
         end
     end,
     isClip = false,  --关卡是否遮罩
-    giftGap = 3000,   --奔跑多少距离弹角色礼包，单位:像素
+    giftGap = 1940,   --奔跑多少距离弹角色礼包，单位:像素
 }
 
 SelectLevel[2]= 
@@ -74,7 +74,7 @@ SelectLevel[2]=
         end
         end,
 	isClip = false,  --关卡是否遮罩
-	giftGap = 3000,   --奔跑多少距离弹角色礼包，单位:像素
+	giftGap = 4000,   --奔跑多少距离弹角色礼包，单位:像素
     }
     
 SelectLevel[3]= 
@@ -100,7 +100,7 @@ SelectLevel[3]=
         end
         end,
 	isClip = false,  --关卡是否遮罩
-	giftGap = 3000,   --奔跑多少距离弹角色礼包，单位:像素
+	giftGap = 2165,   --奔跑多少距离弹角色礼包，单位:像素
     }
     
 SelectLevel[4]= 
@@ -126,7 +126,7 @@ SelectLevel[4]=
         end
         end,
 	isClip = true,  --关卡是否遮罩
-	giftGap = 3000,   --奔跑多少距离弹角色礼包，单位:像素
+	giftGap = 1510,   --奔跑多少距离弹角色礼包，单位:像素
     }
     
 SelectLevel[5]= 
@@ -152,7 +152,7 @@ SelectLevel[5]=
         end
         end,
 	isClip = false,  --关卡是否遮罩
-	giftGap = 3000,   --奔跑多少距离弹角色礼包，单位:像素
+	giftGap = 10930,   --奔跑多少距离弹角色礼包，单位:像素
     }
     
 SelectLevel[6]= 
@@ -178,7 +178,7 @@ SelectLevel[6]=
         end
         end,
 	isClip = false,  --关卡是否遮罩
-	giftGap = 3000,   --奔跑多少距离弹角色礼包，单位:像素
+	giftGap = 6945,   --奔跑多少距离弹角色礼包，单位:像素
     }
     
 SelectLevel[7]= 
@@ -204,7 +204,7 @@ SelectLevel[7]=
         end
         end,
 	isClip = false,  --关卡是否遮罩
-	giftGap = 3000,   --奔跑多少距离弹角色礼包，单位:像素
+	giftGap = 5180,   --奔跑多少距离弹角色礼包，单位:像素
     }
     
 SelectLevel[8]= 
@@ -230,7 +230,7 @@ SelectLevel[8]=
         end
         end,
 	isClip = false,  --关卡是否遮罩
-	giftGap = 3000,   --奔跑多少距离弹角色礼包，单位:像素
+	giftGap = 6130,   --奔跑多少距离弹角色礼包，单位:像素
     }
     
 SelectLevel[9]= 
@@ -256,7 +256,7 @@ SelectLevel[9]=
         end
         end,
 	isClip = false,  --关卡是否遮罩
-	giftGap = 3000,   --奔跑多少距离弹角色礼包，单位:像素
+	giftGap = 12780,   --奔跑多少距离弹角色礼包，单位:像素
     }
 
 SelectLevel[10]= 
@@ -282,7 +282,7 @@ SelectLevel[10]=
         end
         end,
 	isClip = false,  --关卡是否遮罩
-	giftGap = 3000,   --奔跑多少距离弹角色礼包，单位:像素
+	giftGap = 4140,   --奔跑多少距离弹角色礼包，单位:像素
     }
 
 SelectLevel[11]= 
@@ -308,7 +308,7 @@ SelectLevel[11]=
         end
         end,
 	isClip = false,  --关卡是否遮罩
-	giftGap = 3000,   --奔跑多少距离弹角色礼包，单位:像素
+	giftGap = 12005,   --奔跑多少距离弹角色礼包，单位:像素
     }
 
 SelectLevel[12]= 
@@ -334,7 +334,7 @@ SelectLevel[12]=
         end
         end,
 	isClip = false,  --关卡是否遮罩
-	giftGap = 3000,   --奔跑多少距离弹角色礼包，单位:像素
+	giftGap = 7055,   --奔跑多少距离弹角色礼包，单位:像素
     }
 
 SelectLevel[13]= 
@@ -360,7 +360,7 @@ SelectLevel[13]=
         end
         end,
 	isClip = true,  --关卡是否遮罩
-	giftGap = 3000,   --奔跑多少距离弹角色礼包，单位:像素
+	giftGap = 11020,   --奔跑多少距离弹角色礼包，单位:像素
     }
 
 SelectLevel[14]= 
@@ -373,9 +373,9 @@ SelectLevel[14]=
         coinAward=false, --金币奖励
         powerAward=false, --体力奖励
         startGoods={1,2,3,4,5}, --开局道具
-    map = {31,32,33,34,35,20,31,1,33,6,31,32,32,29,33,36,30,30,0},
+    map = {31,32,33,34,35,95,31,1,33,6,31,32,32,29,33,36,30,30,0},
     gap = 10,    --每组之间的间隔差距，单位:像素
-    speed = 75,  --每一关卡速度
+    speed = 70,  --每一关卡速度
         getStar = function(score)     --星级分数配置
             if score >= 300 then
                 return 3
@@ -386,7 +386,7 @@ SelectLevel[14]=
         end
         end,
 	isClip = false,  --关卡是否遮罩
-	giftGap = 3000,   --奔跑多少距离弹角色礼包，单位:像素
+	giftGap = 6260,   --奔跑多少距离弹角色礼包，单位:像素
 
     }
 
@@ -400,7 +400,7 @@ SelectLevel[15]=
         coinAward=false, --金币奖励
         powerAward=false, --体力奖励
         startGoods={1,2,3,4,5}, --开局道具
-    map = {1,33,6,31,32,32,29,33,36,30,31,32,33,34,35,20,31,1,33,6,31,32,32,29,33,36,30,0},    
+    map = {1,33,6,31,32,32,29,33,36,30,31,32,33,34,35,66,31,1,33,6,31,32,32,29,33,36,30,0},    
     gap = 60,    --每组之间的间隔差距，单位:像素
     speed = 70,  --每一关卡速度
         getStar = function(score)     --星级分数配置
@@ -413,7 +413,7 @@ SelectLevel[15]=
         end
         end,
     isClip = true,  --关卡是否遮罩
-	giftGap = 3000,   --奔跑多少距离弹角色礼包，单位:像素
+	giftGap = 17735,   --奔跑多少距离弹角色礼包，单位:像素
 
     }
 
@@ -440,7 +440,7 @@ SelectLevel[16]=
         end
         end,
 	isClip = false,  --关卡是否遮罩
-	giftGap = 3000,   --奔跑多少距离弹角色礼包，单位:像素
+	giftGap = 2345,   --奔跑多少距离弹角色礼包，单位:像素
 
     }
     
@@ -467,7 +467,7 @@ SelectLevel[17]=
         end
         end,
     isClip = false,  --关卡是否遮罩
-	giftGap = 3000,   --奔跑多少距离弹角色礼包，单位:像素
+	giftGap = 16690,   --奔跑多少距离弹角色礼包，单位:像素
 
     }
 
@@ -494,7 +494,7 @@ SelectLevel[18]=
         end
         end,
 	isClip = false,  --关卡是否遮罩
-	giftGap = 3000,   --奔跑多少距离弹角色礼包，单位:像素
+	giftGap = 12980,   --奔跑多少距离弹角色礼包，单位:像素
 
     }
 
@@ -521,7 +521,7 @@ SelectLevel[19]=
         end
         end,
 	isClip = false,  --关卡是否遮罩
-	giftGap = 3000,   --奔跑多少距离弹角色礼包，单位:像素
+	giftGap = 13740,   --奔跑多少距离弹角色礼包，单位:像素
 
     }
 
@@ -548,7 +548,7 @@ SelectLevel[20]=
         end
         end,
 	isClip = false,  --关卡是否遮罩
-	giftGap = 3000,   --奔跑多少距离弹角色礼包，单位:像素
+	giftGap = 14860,   --奔跑多少距离弹角色礼包，单位:像素
 
     }
 
@@ -575,7 +575,7 @@ SelectLevel[21]=
         end
         end,
 	isClip = ture,  --关卡是否遮罩
-	giftGap = 3000,   --奔跑多少距离弹角色礼包，单位:像素
+	giftGap = 13925,   --奔跑多少距离弹角色礼包，单位:像素
 
     }
 
@@ -589,7 +589,7 @@ SelectLevel[22]=
         coinAward=false, --金币奖励
         powerAward=false, --体力奖励
         startGoods={1,2,3,4,5}, --开局道具
-    map = {24,23,25,8,17,1,10,13,32,33,34,35,28,20,33,1,17,33,6,33,17,32,18,28,32,29,33,36,30,30,0},   
+    map = {24,23,25,8,17,1,10,13,32,33,34,35,28,20,33,1,17,33,6,33,17,32,18,28,32,29,33,36,80,30,30,0},   
     gap = 10,    --每组之间的间隔差距，单位:像素
     speed = 70,  --每一关卡速度
         getStar = function(score)     --星级分数配置
@@ -602,7 +602,7 @@ SelectLevel[22]=
         end
         end,
 	isClip = false,  --关卡是否遮罩
-	giftGap = 3000,   --奔跑多少距离弹角色礼包，单位:像素
+	giftGap = 26980,   --奔跑多少距离弹角色礼包，单位:像素
 
     }
 
@@ -629,7 +629,7 @@ SelectLevel[23]=
         end
         end,
 	isClip = false,  --关卡是否遮罩
-	giftGap = 3000,   --奔跑多少距离弹角色礼包，单位:像素
+	giftGap = 17705,   --奔跑多少距离弹角色礼包，单位:像素
 
     }
 
@@ -656,7 +656,7 @@ SelectLevel[24]=
         end
         end,
 	isClip = false,  --关卡是否遮罩
-	giftGap = 3000,   --奔跑多少距离弹角色礼包，单位:像素
+	giftGap = 10050,   --奔跑多少距离弹角色礼包，单位:像素
 
     }
 
@@ -710,7 +710,7 @@ SelectLevel[26]=
         end
         end,
 	isClip = false,  --关卡是否遮罩
-	giftGap = 3000,   --奔跑多少距离弹角色礼包，单位:像素
+	giftGap = 9020,   --奔跑多少距离弹角色礼包，单位:像素
 
     }
 
@@ -737,7 +737,7 @@ SelectLevel[27]=
         end
         end,
 	isClip = false,  --关卡是否遮罩
-	giftGap = 3000,   --奔跑多少距离弹角色礼包，单位:像素
+	giftGap = 11820,   --奔跑多少距离弹角色礼包，单位:像素
 
     }
 
@@ -764,7 +764,7 @@ SelectLevel[28]=
         end
         end,
     isClip = true,  --关卡是否遮罩
-	giftGap = 3000,   --奔跑多少距离弹角色礼包，单位:像素
+	giftGap = 22300,   --奔跑多少距离弹角色礼包，单位:像素
 
     }
 
@@ -791,7 +791,7 @@ SelectLevel[29]=
         end
         end,
 	isClip = false,  --关卡是否遮罩
-	giftGap = 3000,   --奔跑多少距离弹角色礼包，单位:像素
+	giftGap = 12040,   --奔跑多少距离弹角色礼包，单位:像素
 
     }
 
@@ -818,7 +818,7 @@ SelectLevel[30]=
         end
         end,
 	isClip = false,  --关卡是否遮罩
-	giftGap = 3000,   --奔跑多少距离弹角色礼包，单位:像素
+	giftGap = 2255,   --奔跑多少距离弹角色礼包，单位:像素
 
     }
 
@@ -845,7 +845,7 @@ SelectLevel[31]=
         end
         end,
 	isClip = false,  --关卡是否遮罩
-	giftGap = 3000,   --奔跑多少距离弹角色礼包，单位:像素
+	giftGap = 9090,   --奔跑多少距离弹角色礼包，单位:像素
 
     }
 
@@ -872,7 +872,7 @@ SelectLevel[32]=
         end
         end,
 	isClip = false,  --关卡是否遮罩
-	giftGap = 3000,   --奔跑多少距离弹角色礼包，单位:像素
+	giftGap = 21605,   --奔跑多少距离弹角色礼包，单位:像素
 
     }
 
@@ -899,7 +899,7 @@ SelectLevel[33]=
         end
         end,
     isClip = true,  --关卡是否遮罩
-	giftGap = 3000,   --奔跑多少距离弹角色礼包，单位:像素
+	giftGap = 11730,   --奔跑多少距离弹角色礼包，单位:像素
 
     }
 
@@ -926,7 +926,7 @@ SelectLevel[34]=
         end
         end,
 	isClip = false,  --关卡是否遮罩
-	giftGap = 3000,   --奔跑多少距离弹角色礼包，单位:像素
+	giftGap = 13650,   --奔跑多少距离弹角色礼包，单位:像素
 
     }
 
@@ -953,7 +953,7 @@ SelectLevel[35]=
         end
         end,
 	isClip = false,  --关卡是否遮罩
-	giftGap = 3000,   --奔跑多少距离弹角色礼包，单位:像素
+	giftGap = 4220,   --奔跑多少距离弹角色礼包，单位:像素
 
     }
 
@@ -1007,7 +1007,7 @@ SelectLevel[37]=
         end
         end,
 	isClip = false,  --关卡是否遮罩
-	giftGap = 3000,   --奔跑多少距离弹角色礼包，单位:像素
+	giftGap = 3110,   --奔跑多少距离弹角色礼包，单位:像素
 
     }
 
@@ -1034,7 +1034,7 @@ SelectLevel[38]=
         end
         end,
 	isClip = false,  --关卡是否遮罩
-	giftGap = 3000,   --奔跑多少距离弹角色礼包，单位:像素
+	giftGap = 11930,   --奔跑多少距离弹角色礼包，单位:像素
 
     }
 
@@ -1061,7 +1061,7 @@ SelectLevel[39]=
         end
         end,
     isClip = true,  --关卡是否遮罩
-	giftGap = 3000,   --奔跑多少距离弹角色礼包，单位:像素
+	giftGap = 3110,   --奔跑多少距离弹角色礼包，单位:像素
 
     }
 
@@ -1088,6 +1088,6 @@ SelectLevel[40]=
         end
         end,
 	isClip = false,  --关卡是否遮罩
-	giftGap = 3000,   --奔跑多少距离弹角色礼包，单位:像素
+	giftGap = 11930,   --奔跑多少距离弹角色礼包，单位:像素
 
     }

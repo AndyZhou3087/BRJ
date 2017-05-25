@@ -13,6 +13,7 @@ function Dialog:ctor(_type,_okStr,_cancleStr,_isClose,_pType)
     Dialog.super.ctor(self)
 
     self.m_type = _type or Alert_Type.Type_One
+    self.p_type = _pType or 0
 
     local bg = display.newColorLayer(cc.c4b(0,0,0,200)):addTo(self)
     local _dialog = cc.uiloader:load("json/Dialog.json")
@@ -86,6 +87,11 @@ end
 function Dialog:setContent(_content)
     if self.m_content then
         self.m_content:setString(_content)
+    end
+    if self.p_type == 1 then
+        if self.p_content then
+            self.p_content:setString(_content)
+        end
     end
 end
 --设置确认监听方法
