@@ -50,24 +50,39 @@ function GiftUI:ctor(parm)
     else
         Label_46:setString("您将通过短信购买此礼包。信息费"..config.price.."元/月。退订后次月不计费，奖励停止发放。客服电话022-59086970")
         local count = 0
+        local arr = {}
         if config.goods then
             local initCount = count
             count = count + #config.goods
             for var=initCount+1, count do
                 local info = config.goods[var-initCount]
                 local item = GiftUIItem.new({count = info.count,res = GoodsConfig[info.id].small}):addTo(Image_1)
-                item:setPosition(cc.p(174+(var-1)*58,105))
+                arr[#arr+1] = item
+--                item:setPosition(cc.p(174+(var-1)*58,105))
             end
         end
         if config.gold then
             count = count + 1
             local item = GiftUIItem.new({count = config.gold,res = "gift/ShopGold_2.png"}):addTo(Image_1)
-            item:setPosition(cc.p(174+(count-1)*58,105))
+            arr[#arr+1] = item
+--            item:setPosition(cc.p(174+(count-1)*58,105))
         end
         if config.diamond then
             count = count + 1
             local item = GiftUIItem.new({count = config.diamond,res = "gift/ShopDiamond_2.png"}):addTo(Image_1)
-            item:setPosition(cc.p(174+(count-1)*58,105))
+            arr[#arr+1] = item
+--            item:setPosition(cc.p(174+(count-1)*58,105))
+        end
+        if count == 1 then
+            arr[#arr]:setPosition(cc.p(290,105))
+        elseif count > 1 and count <4 then
+            for var=1, count do
+            	arr[var]:setPosition(cc.p(232+(var-1)*58,105))
+            end
+        else
+            for var=1, count do
+                arr[var]:setPosition(cc.p(174+(var-1)*58,105))
+            end
         end
     end
 
