@@ -7,6 +7,9 @@ USER_POWER_MAX = 5
 --玩家体力恢复时间，单位：秒
 POWER_RECOVER_TIME = 60*5
 
+--角色移动速度
+ROLE_SPEED = 150
+
 --角色状态
 PLAYER_STATE=
     {

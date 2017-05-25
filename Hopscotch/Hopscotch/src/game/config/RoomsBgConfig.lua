@@ -8,7 +8,7 @@ Room_Size = cc.size(650,90)
 RoomBgs = {}
 RoomBgs[1]=
     {
-        bg = {{res="",x=0,y=0},},
+        bg = {{res="",x=0,y=0},},--房间背景
         wallLeftRight = {{res="",x=0,y=0},},--左右两侧墙壁
         floor = {{res="",x=0,y=0},},--地板
     }
