@@ -13,18 +13,10 @@ ROLE_SPEED = 150
 --角色状态
 PLAYER_STATE=
     {
-        Defence = 1,--护盾
+        Slow = 1,--迟钝药水
         Magnet = 2,--磁铁
-        StartSprint = 3,--开局冲刺状态
-        DeadSprint = 4,--死亡冲刺状态
-        StartProtect = 5,  --开局护盾状态
-        MagnetProp = 6, --吸铁石道具
-        GrankDrink = 7, --巨人状态
-        LimitSprint = 8, --极限冲刺
-        TransformGold = 9,--金币转换
-        Slow = 10,  --滑冰速度减慢
-        GameDefence = 11,  --游戏中护盾
-        Spring = 12,   --弹簧
+        Rocket = 3,   --火箭
+        Phantom = 4,  --幻影
     }
 --角色动作
 PLAYER_ACTION=
