@@ -1,7 +1,7 @@
 --[[
 地图层
 ]]
---local MapRoom = require("game.view.map.MapRoom")
+local MapRoom = require("game.view.map.MapRoom")
 --local Player = require("game.view.element.Player")
 local Scheduler = require("framework.scheduler")
 --local CoinElement=require("game.view.element.CoinElement")
