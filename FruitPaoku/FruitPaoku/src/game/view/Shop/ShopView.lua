@@ -36,7 +36,7 @@ function ShopView:ctor(isPause)
         self.m_listSize.height*(1-display.right/GroupSize.width)*0.5))
 
     
-    self:initPublic(ShopConfig)
+    self:initPublic(GameController.getShopCodeList())
     
 
     --启用监听
@@ -56,7 +56,7 @@ function ShopView:initPublic(shopConfig)
 --    Tools.delayCallFunc(0.1,function()
         for i=1,bgCount do
             local item = self.lv:newItem()
-            local content = ShopItemUI.new(i)
+            local content = ShopItemUI.new(i,shopConfig)
             content:setTouchEnabled(false)
             content:setContentSize(self.m_listSize.width*display.right/GroupSize.width, 120*display.right/GroupSize.width)
             item:setItemSize(self.m_listSize.width*display.right/GroupSize.width, 120*display.right/GroupSize.width)

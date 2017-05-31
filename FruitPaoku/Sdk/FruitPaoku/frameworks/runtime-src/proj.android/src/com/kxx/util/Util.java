@@ -41,6 +41,7 @@ public class Util {
 	private static int resultCallback = 0;
 	private static int giftCallback = 0;
 	private static int ParamsCallBack = 0;
+	private static int shopCallBack = 0;
 	
 	private static Activity context = null;	
 	
@@ -215,7 +216,10 @@ public class Util {
 		Log.d("chjh result--month:", code);
 		
 		Cocos2dxLuaJavaBridge.callLuaFunctionWithString(giftCallback, code);
-		Cocos2dxLuaJavaBridge.releaseLuaFunction(giftCallback);
+		
+		String shopCode = OGThranPay.checkShopCode();//获取商城界面列表
+		Log.d("brj shopCode:", shopCode);
+		Cocos2dxLuaJavaBridge.callLuaFunctionWithString(shopCallBack, shopCode);
 	}
 
 	
@@ -247,6 +251,7 @@ public class Util {
 					
 					Cocos2dxLuaJavaBridge.callLuaFunctionWithString(ParamsCallBack, btnMode);
 					Cocos2dxLuaJavaBridge.releaseLuaFunction(ParamsCallBack);
+					
 				}catch(Exception ex)
 				{
 					Log.d("zho btnmode----", "zho aaaaa = ");
@@ -255,6 +260,19 @@ public class Util {
 		}
 		
 	};
+	
+	public static void getShopListCode(final int shopCallfunc)
+	{
+		curActivity.runOnUiThread(new Runnable() {
+			
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				shopCallBack = shopCallfunc;
+			}
+		});
+		
+	}
 	
 	//游戏开启新关卡统计
 	public static void umentStartLevel(final int level)
@@ -312,6 +330,8 @@ public class Util {
 	//游戏退出
 	public static void exitGame()
 	{
+		Cocos2dxLuaJavaBridge.releaseLuaFunction(giftCallback);
+		Cocos2dxLuaJavaBridge.releaseLuaFunction(shopCallBack);
 		UMGameAgent.onKillProcess(curActivity);
 		curActivity.finish();
 		System.exit(0);

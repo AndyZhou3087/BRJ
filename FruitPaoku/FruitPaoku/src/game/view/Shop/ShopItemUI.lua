@@ -5,14 +5,14 @@ local ShopItemUI = class("ShopItemUI",function()
     return display.newNode()
 end)
 
-function ShopItemUI:ctor(shopId)
+function ShopItemUI:ctor(shopId,shopList)
 
     --启用onCleanup函数
     self:setNodeEventEnabled(true)
 
     for var=1, 4 do
-        if ShopConfig[(shopId-1)*4+var] then
-            self:initContent(ShopConfig[(shopId-1)*4+var],cc.p((-8+220*(var-1))*display.right/GroupSize.width,0))
+        if shopList[(shopId-1)*4+var] then
+            self:initContent(shopList[(shopId-1)*4+var],cc.p((-8+220*(var-1))*display.right/GroupSize.width,0))
         end
     end
 

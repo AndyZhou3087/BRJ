@@ -29,11 +29,12 @@ public class OGThranPay {
 	public static String[] tcpcode = {"rzjxkp.tc.2", "rzjxkp.tc.6", "rzjxkp.tc.8", "rzjxkp.tc.10", "rzjxkp.tc.15","rzjxkp.tc.20","rzjxkp.tc.30"};
 	public static String[] pcode0 = {"rzjxkp.lb.2", "rzjxkp.lb.6", "rzjxkp.lb.8", "rzjxkp.lb.10", "rzjxkp.lb.15", "rzjxkp.lb.20", "rzjxkp.lb.30"};
 	public static String[] pcode1 = {"rzjxkp.lb.2.1", "rzjxkp.lb.6.1", "rzjxkp.lb.8.1", "rzjxkp.lb.10.1", "rzjxkp.lb.15.1","rzjxkp.lb.20.1","rzjxkp.lb.30.1"};
-
+	public static String[] shopCode = {"rzjxkp.zs.2", "rzjxkp.zs.6", "rzjxkp.zs.8", "rzjxkp.zs.10", "rzjxkp.zs.15", "rzjxkp.zs.20", "rzjxkp.zs.30", "rzjxkp.dj.15.1"};
+	
 	public static void init(Activity act)
 	{
 		context = act;
-//		OGSdkPlatform.setConnectLog(true);
+		OGSdkPlatform.setConnectLog(true);
 		OGSdkPlatform.initSDK(act);
 		
 		String otAppId = Utils.getMetaData(context, "OT_APPID");
@@ -53,7 +54,9 @@ public class OGThranPay {
 		OGSdkPlatform.getShopList((Activity)context, uuid, uuid,  new OGSdkIShopCenter(){
 			
 			public void onGetShopListResult(OGSDKShopData resultData) {
+				
 				ArrayList<?> malls = resultData.getMallList();
+				Log.d("--------malls:", "malls = " + malls+"----"+malls.size());
 				if (malls != null && malls.size() > 0) {
 					
 					if(goodsList == null)
@@ -141,6 +144,29 @@ public class OGThranPay {
 			}
     	}
     	return "0";
+    }
+    
+    //获取商店列表
+    public static String checkShopCode()
+    {
+    	String shopList = "";
+    	if (goodsList != null)
+    	{
+    		OGSDKMall mall;
+
+			for (int i=0; i < goodsList.size(); i++)
+			{
+				mall = goodsList.get(i);
+				for (int j = 0; j < shopCode.length; j++)	
+				{
+					if (mall.getProductId().equalsIgnoreCase(shopCode[j]))
+					{
+						shopList = shopList + "," + shopCode[j];
+					}
+				}
+			}
+    	}
+    	return shopList;
     }
    
     public static String getGoodsList(final String pcode)

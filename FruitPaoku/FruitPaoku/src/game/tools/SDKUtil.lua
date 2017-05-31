@@ -225,6 +225,21 @@ function SDKUtil.getGameGiftTaggleParam(_data)
     _data.callback("1")
 end
 
+--获取商店界面列表
+function SDKUtil.getShopList(_data)
+    local params = {_data.callback}
+    local sigs = "(I)V"
+    if luaj then
+        luaj.callStaticMethod(className,"getShopListCode",params,sigs)
+        return
+    end
+    if luaoc then
+        luaoc.callStaticMethod(className,"getShopListCode",params,sigs)
+        return
+    end
+    _data.callback(",rzjxkp.zs.10,rzjxkp.zs.20,rzjxkp.zs.6,rzjxkp.zs.30,rzjxkp.zs.2,rzjxkp.dj.15.1,rzjxkp.zs.15")
+end
+
 --退出游戏
 function SDKUtil.exitGame()
     GameDataManager.SaveData()

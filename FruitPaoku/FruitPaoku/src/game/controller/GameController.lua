@@ -19,6 +19,9 @@ GameController.isBackMap = false
 --额外吸附物品
 GameController.Adsorb_Ex_Goods = 1
 
+--商店计费列表
+GameController.shopListCode = {}
+
 local _isPause = false
 local _curSpeed = 0
 
@@ -261,6 +264,48 @@ function GameController.getGiftIdByPayId(_payId)
 	return 0
 end
 
+local shopList = {}
+--获取当前计费代码对应商店列表
+function GameController.getShopListByPayCode(_string)
+    local arr = Tools.Split(_string,',')
+    for var=1, #ShopConfig do
+        local info = ShopConfig[var]
+        for vr=1, #arr do
+            if info.price.payId == arr[vr] then
+                shopList[#shopList+1] = info
+            end
+        end
+    end
+    return shopList
+end
+
+
+--商店计费列表排序(按计费大小)
+function GameController.ShopListSorting(list)
+    local shopArr = {}
+    for key, var in pairs(list) do
+        table.insert(shopArr,var)
+    end
+    for vr=1, #shopArr do
+        for var=vr+1, #shopArr do
+            if shopArr[vr].price.rate < shopArr[var].price.rate then
+                local temp
+                temp = shopArr[vr]
+                shopArr[vr] = shopArr[var]
+                shopArr[var] = temp
+            end
+        end
+    end
+    return shopArr
+end
+
+local shopCodeArr
+function GameController.setShopListCode(_arr)
+    shopCodeArr = _arr
+end
+function GameController.getShopCodeList()
+	return shopCodeArr
+end
 
 --添加金币
 function GameController.addGoldBody(body,_isMoving)

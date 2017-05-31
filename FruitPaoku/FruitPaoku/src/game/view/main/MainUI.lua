@@ -18,6 +18,7 @@ function MainUI:ctor()
     
     --获取礼包接口
     if not GameController.getMainSign() and not DataPersistence.getAttribute("first_into") then
+        self:getShopListCode()
         self:getGift()
         self:getGameGiftTaggleParam()
     end
@@ -111,27 +112,46 @@ function MainUI:init(parameters)
     GameDispatcher:addListener(EventNames.EVENT_GIFT_UPDATE,handler(self,self.updateGiftUI))
 end
 
+function MainUI:getShopListCode()
+    SDKUtil.getShopList({callback=function(_stringId)
+        if _stringId then
+            local codeArr = GameController.getShopListByPayCode(_stringId)
+            local cadeList = GameController.ShopListSorting(codeArr)
+            for var=9, #ShopConfig do
+                cadeList[#cadeList+1] = ShopConfig[var]
+            end
+            GameController.setShopListCode(cadeList)
+        else
+            Tools.printDebug("---------------获取商城列表失败")
+        end
+    end})
+end
+
 function MainUI:getGift()
     SDKUtil.giftPop({callback=function(_stringId)
         if _stringId then
-            self.giftCount = self.giftCount + 1
-            --获取礼包信息
-            local arr = Tools.Split(_stringId,'#')
-            GameController.getGiftIdByPayCode(arr[1])
-            --获取vip包月信息
-            local codeArr = Tools.Split(arr[2],'|')
-            self.isMonth = tonumber(codeArr[1])--是否订购
-            self.productid = GameController.getGiftIdByPayId(codeArr[2])
-            if self.isMonth == 1 then
-                GameDataManager.renewVip(true)
-            else
-                GameDataManager.renewVip(false)
-            end
-            self:giftFunc()
+            self:initGiftCallBack(_stringId)
         else
             Tools.printDebug("---------------获取礼包失败")
         end
     end})
+end
+
+function MainUI:initGiftCallBack(_stringId)
+    self.giftCount = self.giftCount + 1
+    --获取礼包信息
+    local arr = Tools.Split(_stringId,'#')
+    GameController.getGiftIdByPayCode(arr[1])
+    --获取vip包月信息
+    local codeArr = Tools.Split(arr[2],'|')
+    self.isMonth = tonumber(codeArr[1])--是否订购
+    self.productid = GameController.getGiftIdByPayId(codeArr[2])
+    if self.isMonth == 1 then
+        GameDataManager.renewVip(true)
+    else
+        GameDataManager.renewVip(false)
+    end
+    self:giftFunc() 
 end
 
 
