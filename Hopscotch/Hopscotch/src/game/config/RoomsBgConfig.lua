@@ -3,7 +3,9 @@
 ]]
 
 --房间大小
-Room_Size = cc.size(650,90)
+Room_Size = cc.size(750,90)
+
+Grid_Size = cc.size(90,90)
 
 RoomBgs = {}
 RoomBgs[1]=
