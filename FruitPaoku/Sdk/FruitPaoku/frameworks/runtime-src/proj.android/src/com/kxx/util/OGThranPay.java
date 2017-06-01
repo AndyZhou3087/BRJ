@@ -34,7 +34,7 @@ public class OGThranPay {
 	public static void init(Activity act)
 	{
 		context = act;
-		OGSdkPlatform.setConnectLog(true);
+//		OGSdkPlatform.setConnectLog(true);
 		OGSdkPlatform.initSDK(act);
 		
 		String otAppId = Utils.getMetaData(context, "OT_APPID");
