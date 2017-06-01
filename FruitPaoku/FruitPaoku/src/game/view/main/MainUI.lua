@@ -19,8 +19,8 @@ function MainUI:ctor()
     --获取礼包接口
     if not GameController.getMainSign() and not DataPersistence.getAttribute("first_into") then
         self:getShopListCode()
-        self:getGift()
         self:getGameGiftTaggleParam()
+        self:getGift()
     end
     
     --启用onCleanup函数

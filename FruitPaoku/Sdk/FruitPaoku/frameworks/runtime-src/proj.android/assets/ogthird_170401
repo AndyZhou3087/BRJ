@@ -1,0 +1,251 @@
+{	"version":"1",
+	"modifiTime":"201701061600",
+	"modle":[
+		{
+            "name": "thran",
+            "package": "com.og.unite.third.OGSdkLianZhong"
+        },{
+            "name": "acysdk",
+            "package": "com.ogsdk.v1.third.acysdk"
+        },{
+            "name": "aimei",
+            "package": "com.ogsdk.v1.third.aimei"
+        },{
+            "name": "alipay2",
+            "package": "com.ogsdk.v1.third.alipay2"
+        },{
+            "name": "anzhisms",
+            "package": "com.ogsdk.v1.third.anzhisms"
+        },{
+            "name": "cartoon_ec",
+            "package": "com.ogsdk.v1.third.cartoon_ec"
+        },{
+            "name": "cartoon",
+            "package": "com.ogsdk.v1.third.cartoon"
+        },{
+            "name": "efida",
+            "package": "com.ogsdk.v1.third.efida"
+        },{
+            "name": "lenovof",
+            "package": "com.ogsdk.v1.third.lenovof"
+        },{
+            "name": "lenovo",
+            "package": "com.ogsdk.v1.third.lenovo"
+        },{
+            "name": "lenovor",
+            "package": "com.ogsdk.v1.third.lenovor"
+        },{
+            "name": "payyalm_bank",
+            "package": "com.ogsdk.v1.third.payyalm_bank"
+        },{
+            "name": "sendsms",
+            "package": "com.ogsdk.v1.third.sendsms"
+        },{
+            "name": "sh_mifu",
+            "package": "com.ogsdk.v1.third.sh_mifu"
+        },{
+            "name": "sinasdk",
+            "package": "com.ogsdk.v1.third.sinasdk"
+        },{
+            "name": "skyeps",
+            "package": "com.ogsdk.v1.third.skyeps"
+        },{
+            "name": "tengxun",
+            "package": "com.ogsdk.v1.third.tengxun"
+        },{
+            "name": "tianyipay",
+            "package": "com.ogsdk.v1.third.tianyipay"
+        },{
+            "name": "umpaybank",
+            "package": "com.ogsdk.v1.third.umpaybank"
+        },{
+            "name": "umpay",
+            "package": "com.ogsdk.v1.third.umpay"
+        },{
+            "name": "unionpaybank",
+            "package": "com.ogsdk.v1.third.unionpaybank"
+        },{
+            "name": "unipay",
+            "package": "com.ogsdk.v1.third.unipay"
+        },{
+            "name": "unipay_channel",
+            "package": "com.ogsdk.v1.third.unipay_channel"
+        },{
+            "name": "uniwanime",
+            "package": "com.ogsdk.v1.third.uniwanime"
+        },{
+            "name": "vivodanji",
+            "package": "com.ogsdk.v1.third.vivodanji"
+        },{
+            "name": "weixin",
+            "package": "com.ogsdk.v1.third.WeixinThird"
+        },{
+            "name": "weixin_v3",
+            "package": "com.ogsdk.v1.third.WeixinThird"
+        },{
+            "name": "woreadunipay",
+            "package": "com.ogsdk.v1.third.woreadunipay"
+        },{
+            "name": "xhsdk",
+            "package": "com.ogsdk.v1.third.xhsdk"
+        },{
+            "name": "ydbase_sdk_dj",
+            "package": "com.ogsdk.v1.third.ydbase_sdk_dj"
+        },{
+            "name": "ydmm_u",
+            "package": "com.ogsdk.v1.third.ydmm_u"
+        },{
+            "name": "egame",
+            "package": "com.ogsdk.v1.third.egame"
+        },{
+            "name": "alibox",
+            "package": "com.ogsdk.v1.third.alibox"
+        },{
+            "name": "360sdk",
+            "package": "com.ogsdk.v1.third.OGSdk360"
+        },{
+            "name": "anzhi",
+            "package": "com.ogsdk.v1.third.anzhi"
+        },{
+            "name": "baidu",
+            "package": "com.ogsdk.v1.third.baidu"
+        },{
+            "name": "cybersdk",
+            "package": "com.ogsdk.v1.third.cybersdk"
+        },{
+            "name": "huawei",
+            "package": "com.ogsdk.v1.third.huawei"
+        },{
+            "name": "kugou",
+            "package": "com.ogsdk.v1.third.kugou"
+        },{
+            "name": "new_vivo",
+            "package": "com.ogsdk.v1.third.new_vivo"
+        },{
+            "name": "oppo",
+            "package": "com.ogsdk.v1.third.oppo"
+        },{
+            "name": "rtpay",
+            "package": "com.ogsdk.v1.third.rtpay"
+        },{
+            "name": "qbsdk",
+            "package": "com.ogsdk.v1.third.qbsdk"
+        },{
+            "name": "qianbao",
+            "package": "com.ogsdk.v1.third.qianbao"
+        },{
+            "name": "sogou",
+            "package": "com.ogsdk.v1.third.sogou"
+        },{
+            "name": "uc",
+            "package": "com.ogsdk.v1.third.uc"
+        },{
+            "name": "xiaomisdk",
+            "package": "com.ogsdk.v1.third.xiaomisdk"
+        },{
+            "name": "ydbase_sdk",
+            "package": "com.ogsdk.v1.third.ydbase_sdk"
+        },{
+            "name": "unimomentpay",
+            "package": "com.ogsdk.v1.third.unimomentpay"
+        },{
+            "name": "flyme",
+            "package": "com.ogsdk.v1.third.flyme"
+        },{
+            "name": "mfydbase",
+            "package": "com.ogsdk.v1.third.MFYDBASEThird"
+        },{
+            "name": "mfydbase_dj",
+            "package": "com.ogsdk.v1.third.MFYDBASEThird"
+        },{
+            "name": "openmusic",
+            "package": "com.ogsdk.v1.third.openmusic"
+        },{
+            "name": "sina",
+            "package": "com.ogsdk.v1.third.sina"
+        },{
+            "name": "bqsdk",
+            "package": "com.ogsdk.v1.third.bqsdk"
+        },{
+            "name": "anzhidanji",
+            "package": "com.ogsdk.v1.third.anzhidanji"
+        },{
+            "name": "gionee",
+            "package": "com.ogsdk.v1.third.gionee"
+        },{
+            "name": "umc",
+            "package": "com.ogsdk.v1.third.umc"
+        },{
+            "name": "ysdk",
+            "package": "com.ogsdk.v1.third.ysdk"
+        },{
+            "name": "ysdk_wx",
+            "package": "com.ogsdk.v1.third.ysdk"
+        },{
+            "name": "yunos",
+            "package": "com.ogsdk.v1.third.yunos"
+        },{
+            "name": "cartoon_web_mon",
+            "package": "com.ogsdk.v1.third.cartoon_web_mon"
+        },{
+            "name": "cartoon_web",
+            "package": "com.ogsdk.v1.third.cartoon_web"
+        },{
+            "name": "uc_danji",
+            "package": "com.ogsdk.v1.third.uc_danji"
+        },{
+            "name": "zysdk",
+            "package": "com.ogsdk.v1.third.zysdk"
+        },{
+            "name": "iyoupay",
+            "package": "com.ogsdk.v1.third.iyoupay"
+        },{
+            "name": "flyme_dj",
+            "package": "com.ogsdk.v1.third.flyme_dj"
+        },{
+            "name": "downjoy_dj",
+            "package": "com.ogsdk.v1.third.downjoy_dj"
+        },{
+            "name": "xiaomi_dj",
+            "package": "com.ogsdk.v1.third.xiaomi_dj"
+        },{
+            "name": "fkgame",
+            "package": "com.ogsdk.v1.third.fkgame"
+        },{
+            "name": "appchina",
+            "package": "com.ogsdk.v1.third.appchina"
+        },{
+            "name": "wandoujia_dj",
+            "package": "com.ogsdk.v1.third.wandoujia_dj"
+        },{
+            "name": "oppochess",
+            "package": "com.ogsdk.v1.third.oppochess"
+        },{
+            "name": "oppochess_wx",
+            "package": "com.ogsdk.v1.third.oppochess"
+        },{
+            "name": "oppochess_alipay",
+            "package": "com.ogsdk.v1.third.oppochess"
+        },{
+            "name": "vivodanji_wx",
+            "package": "com.ogsdk.v1.third.vivodanji"
+        },{
+            "name": "vivodanji_alipay",
+            "package": "com.ogsdk.v1.third.vivodanji"
+        },{
+            "name": "coolpad",
+            "package": "com.ogsdk.v1.third.coolpad"
+        },{
+            "name": "samsung",
+            "package": "com.ogsdk.v1.third.samsung"
+        },{
+            "name": "ydbase_by",
+            "package": "com.ogsdk.v1.third.ydbase_by"
+        },{
+            "name": "baidu_online",
+            "package": "com.ogsdk.v1.third.baidu_online"
+        },{
+            "name": "youlong_online",
+            "package": "com.ogsdk.v1.third.youlong_online"
+        }
+]}

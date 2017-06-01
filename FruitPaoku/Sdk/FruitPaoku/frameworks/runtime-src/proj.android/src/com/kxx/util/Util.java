@@ -196,6 +196,7 @@ public class Util {
 			public void run() {
 				// TODO Auto-generated method stub
 				giftCallback = callFunc;
+				OGSdkPlatform.getGameParamByKey(context, paramKey1, ogLoadParamsCallBack);
 				OGThranPay.getShopList();//商城大排序
 			}
 		});
@@ -223,19 +224,6 @@ public class Util {
 	}
 
 	
-	//获取购买和领取模式
-	public static void getGameGiftTaggleParam(final int callFunc)
-	{
-		curActivity.runOnUiThread(new Runnable() {
-			
-			@Override
-			public void run() {
-				// TODO Auto-generated method stub
-				ParamsCallBack = callFunc;
-				OGSdkPlatform.getGameParamByKey(context, paramKey1, ogLoadParamsCallBack);
-			}
-		});
-	}
 	private static OGLoadParamsCallBack ogLoadParamsCallBack = new OGLoadParamsCallBack(){
 
 		@Override
@@ -261,16 +249,32 @@ public class Util {
 		
 	};
 	
+	
+	//获取购买和领取模式
+		public static void getGameGiftTaggleParam(final int callFunc)
+		{
+			ParamsCallBack = callFunc;
+//			curActivity.runOnUiThread(new Runnable() {
+//				
+//				@Override
+//				public void run() {
+//					// TODO Auto-generated method stub
+//				}
+//			});
+		}
+	
+	
 	public static void getShopListCode(final int shopCallfunc)
 	{
-		curActivity.runOnUiThread(new Runnable() {
-			
-			@Override
-			public void run() {
-				// TODO Auto-generated method stub
-				shopCallBack = shopCallfunc;
-			}
-		});
+		shopCallBack = shopCallfunc;
+//		curActivity.runOnUiThread(new Runnable() {
+//			
+//			@Override
+//			public void run() {
+//				// TODO Auto-generated method stub
+//				
+//			}
+//		});
 		
 	}
 	
