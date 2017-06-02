@@ -4,4 +4,12 @@
     <Project>MainUI</Project>
     <GuidesList />
   </GuidesProject>
+  <GuidesProject>
+    <Project>SetUI</Project>
+    <GuidesList />
+  </GuidesProject>
+  <GuidesProject>
+    <Project>PauseUI</Project>
+    <GuidesList />
+  </GuidesProject>
 </ArrayOfGuidesProject>

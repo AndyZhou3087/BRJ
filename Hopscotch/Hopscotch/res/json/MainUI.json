@@ -61,7 +61,7 @@
           "capInsetsY": 6,
           "fileName": null,
           "fileNameData": {
-            "path": "main/botton.png",
+            "path": "common/botton.png",
             "plistFile": "",
             "resourceType": 0
           },
@@ -198,13 +198,13 @@
           "fontType": 0,
           "normal": null,
           "normalData": {
-            "path": "main/Button_up.png",
+            "path": "common/Button_up.png",
             "plistFile": "",
             "resourceType": 0
           },
           "pressed": null,
           "pressedData": {
-            "path": "main/Button_press.png",
+            "path": "common/Button_press.png",
             "plistFile": "",
             "resourceType": 0
           },
@@ -345,13 +345,13 @@
           "fontType": 0,
           "normal": null,
           "normalData": {
-            "path": "main/Button_up.png",
+            "path": "common/Button_up.png",
             "plistFile": "",
             "resourceType": 0
           },
           "pressed": null,
           "pressedData": {
-            "path": "main/Button_press.png",
+            "path": "common/Button_press.png",
             "plistFile": "",
             "resourceType": 0
           },

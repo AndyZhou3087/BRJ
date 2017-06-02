@@ -74,6 +74,11 @@ function GameApp:run()
     end
 end
 
+function GameApp:enterMainScene(parameters)
+    cc.FileUtils:getInstance():addSearchPath("res/")
+    self:enterScene("MainScene")
+end
+
 function GameApp:enterGameScene(parameters)
     cc.Director:getInstance():purgeCachedData()
     Tools.delayCallFunc(0.01,function()

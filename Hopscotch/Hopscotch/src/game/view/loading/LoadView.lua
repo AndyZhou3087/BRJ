@@ -39,10 +39,10 @@ function LoadView:ctor(parameters)
     
     --购物车按钮
     self.shop2:onButtonPressed(function(_event)    --按下
-        self.shop:setButtonImage("disabled","main/Button_press.png")
+        self.shop:setButtonImage("disabled","common/Button_press.png")
     end)
     self.shop2:onButtonRelease(function(_event)    --触摸离开
-        self.shop:setButtonImage("disabled","main/Button_up.png")
+        self.shop:setButtonImage("disabled","common/Button_up.png")
     end)
     self.shop2:onButtonClicked(function (event)
         
@@ -50,19 +50,21 @@ function LoadView:ctor(parameters)
     
     --tv按钮
     self.tv2:onButtonPressed(function(_event)    --按下
-        self.tv:setButtonImage("disabled","main/Button_press.png")
+        self.tv:setButtonImage("disabled","common/Button_press.png")
     end)
     self.tv2:onButtonRelease(function(_event)    --触摸离开
-        self.tv:setButtonImage("disabled","main/Button_up.png")
+        self.tv:setButtonImage("disabled","common/Button_up.png")
     end)
     self.tv2:onButtonClicked(function (event)
-
+--        --测试界面
+--        GameDispatcher:dispatch(EventNames.EVENT_OPEN_PAUSE,{animation = true})
     end)
 
     self:setTouchEnabled(true)
     self:addNodeEventListener(cc.NODE_TOUCH_EVENT, function(event)
         if event.name == "began" then
             Tools.printDebug("-------------------进入主场景")
+            
             return true
         elseif event.name == "ended" then
         end
