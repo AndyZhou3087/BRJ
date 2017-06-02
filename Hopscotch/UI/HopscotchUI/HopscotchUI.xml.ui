@@ -10,6 +10,7 @@
     <string>MainUI.json</string>
     <string>SetUI.json</string>
     <string>PauseUI.json</string>
+    <string>SettlementUI.json</string>
   </JsonList>
   <CanvasSize>
     <Width>750</Width>
@@ -21,5 +22,5 @@
   <imageFileList />
   <imagePngList />
   <JsonSuffix>.json</JsonSuffix>
-  <CurrentUIJson>PauseUI.json</CurrentUIJson>
+  <CurrentUIJson>SettlementUI.json</CurrentUIJson>
 </UIProject>

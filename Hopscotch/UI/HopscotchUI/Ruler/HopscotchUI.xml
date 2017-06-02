@@ -12,4 +12,8 @@
     <Project>PauseUI</Project>
     <GuidesList />
   </GuidesProject>
+  <GuidesProject>
+    <Project>SettlementUI</Project>
+    <GuidesList />
+  </GuidesProject>
 </ArrayOfGuidesProject>
