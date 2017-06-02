@@ -23,14 +23,11 @@ local MapLayer = class("MapLayer",function()
 end)
 
 function MapLayer:ctor(parameters)
-    self.m_fragment={}
 
     self.m_chaceRooms = {}  --房间缓存数组
     GameController.setRooms(self.m_chaceRooms)
     
     self.m_curZOrder = MAP_ZORDER_MAX   --房间当前显示层级
-
-    self.m_operations = {}
 
 --    self:setTouchEnabled(false)
 --    self:setTouchSwallowEnabled(false)
@@ -64,41 +61,22 @@ function MapLayer:ctor(parameters)
     --监听范围破坏
 --    GameDispatcher:addListener(EventNames.EVENT_AREA_DAMAGE,handler(self,self.damageHandle))
 
-    self:setCameraMask(2)
+--    self:setCameraMask(2)
 
 end
 
 --进行弹跳
 function MapLayer:toJump()
-    self.m_isDown = false
-    self.m_isUp = false
-    if #self.m_operations > 0 then
-        self.m_isDrawing = true
-        local _obj = table.remove(self.m_operations,1)
-        if _obj[1] == Slide_Type.Slide_Up then
-            self.m_isUp = true
-            self.m_player:toJump()
-            if self.m_gup == true then
-                self.m_gup = false
-                GameDispatcher:dispatch(EventNames.EVENT_CLOSE_GUIDE,{up = false,})
-            end
-        else
-            self.m_isDown = true
-            self.m_player:toDown()
-            if self.m_gdown == true then
-                self.m_gdown = false
-                GameDispatcher:dispatch(EventNames.EVENT_CLOSE_GUIDE,{down = false,})
-            end
-        end
-    end
+--    self.m_isDown = false
+--    self.m_isUp = false
 end
 --触摸
 local lastTouchTime = 0
 local firstTouchTime = 0
 function MapLayer:touchFunc(event)
-    if tolua.isnull(self.m_player) or self.m_player:getVo().m_hp<=0 or self.m_player:getWalk()==true then
-        return true
-    end
+--    if tolua.isnull(self.m_player) or self.m_player:getVo().m_hp<=0 or self.m_player:getWalk()==true then
+--        return true
+--    end
     if event.name == "began" then
         
         return true
@@ -223,7 +201,7 @@ function MapLayer:onEnterFrame(dt)
         self.m_player:setVelocity(cc.p(-self.m_player:getVo().m_speed,0))
         self.m_player:setScaleX(math.abs(_scaleX))
     end
-    --    print("chjh p.x=，bpx=,pwy=",_p.x,bpx,self.m_player:convertToWorldSpace(cc.p(0,0)).y)
+    --    Tools.printDebug("chjh p.x=，bpx=,pwy=",_p.x,bpx,self.m_player:convertToWorldSpace(cc.p(0,0)).y)
 
     if self.m_oldX==bpx and self.m_oldY==bpy then
         self.m_staticTime = self.m_staticTime + dt
@@ -345,7 +323,7 @@ function MapLayer:collisionBeginCallBack(parameters)
     local bodyB = parameters:getShapeB():getBody()
     local tagA = bodyA:getTag()
     local tagB = bodyB:getTag()
-    --    print("chjh beginCallBack bodyA,bodyB",tostring(bodyA),tostring(bodyB))
+    --    Tools.printDebug("chjh beginCallBack bodyA,bodyB",tostring(bodyA),tostring(bodyB))
     local player,playerBP,playerTag,_size,playerBody
     local obstacle,obstacleBP,obstacleTag,obstacleBody
     local obstacleS,obstacleScale
@@ -549,7 +527,7 @@ function MapLayer:collisionBeginCallBack(parameters)
 
                 --此为墙体碰撞也要改变其方向
                 if obstacleBP.y > playerBP.y then
-                    print("chjh ---------此处碰撞应改变方向--")
+                    Tools.printDebug("chjh ---------此处碰撞应改变方向--")
                     back(obstacleBP.y+obstacleS.height/2.0,playerBP.y-_size.height/2.0)
                 else
                     self.m_player:setDrawing(false)
@@ -565,7 +543,7 @@ function MapLayer:collisionBeginCallBack(parameters)
     end
     --检测跳跃结束
     --    if player:isDown() then
-    --    print("2222222222222222222222222",self.m_isDrawing)
+    --    Tools.printDebug("2222222222222222222222222",self.m_isDrawing)
     if self.m_isDrawing == true then
         if self.m_player:isToUp() then
             back(obstacleBP.y +obstacleS.height/2.0,playerBP.y-_size.height/2.0)
@@ -625,7 +603,7 @@ function MapLayer:collisionPostsolveCallBack(parameters)
     local bodyB = parameters:getShapeB():getBody()
     local tagA = bodyA:getTag()
     local tagB = bodyB:getTag()
-    print("chjh bodyA,bodyB",tostring(bodyA),tostring(bodyB))
+    Tools.printDebug("chjh bodyA,bodyB",tostring(bodyA),tostring(bodyB))
 end
 function MapLayer:collisionSeperateCallBack(parameters)
     local conData = parameters:getContactData()
@@ -633,30 +611,26 @@ function MapLayer:collisionSeperateCallBack(parameters)
     local bodyB = parameters:getShapeB():getBody()
     local tagA = bodyA:getTag()
     local tagB = bodyB:getTag()
-    print("chjh seperate bodyA,bodyB",tostring(bodyA),tostring(bodyB))
+    Tools.printDebug("chjh seperate bodyA,bodyB",tostring(bodyA),tostring(bodyB))
 end
 
 function MapLayer:initPlayerPos(parameters)
-    local _mapSize = self:getCascadeBoundingBox().size
-    --    self.m_mapFirstY = self:getPositionY()
-    --    self.m_playerSize = self.m_player:getCascadeBoundingBox().size
-    --    self.m_player:getBody():setPosition(cc.p(340,900))
-    local _playerY = _mapSize.height-(Room_Size.height+150-64-26)
-    self.m_player:setPosition(display.cx,_playerY)
-    self.m_camarTopY = display.height-340--_y
-    self.m_camarBotY = Normal_Camara_BottomY
-    self.m_lastPlayerY = _playerY --self.m_player:convertToWorldSpace(cc.p(0,0)).y;
-
-    self.m_physicWorld = display.getRunningScene():getPhysicsWorld()
-    self:scheduleUpdate()
-
-    self.m_camera:setPositionY(_playerY-480)--(_mapSize.height-display.height)--(_playerY-480)
-    self.m_event = cc.EventListenerPhysicsContact:create()
-    self.m_event:registerScriptHandler(handler(self,self.collisionBeginCallBack), cc.Handler.EVENT_PHYSICS_CONTACT_BEGIN)
-    --    self.m_event:registerScriptHandler(handler(self,self.collisionPresolveCallBack), cc.Handler.EVENT_PHYSICS_CONTACT_PRESOLVE)
-
-    self:getEventDispatcher():addEventListenerWithFixedPriority(self.m_event,1)
-    self:addNodeEventListener(cc.NODE_ENTER_FRAME_EVENT, handler(self, self.onEnterFrame))
+--    local _mapSize = self:getCascadeBoundingBox().size
+--    local _playerY = _mapSize.height-(Room_Size.height+150-64-26)
+--    self.m_player:setPosition(display.cx,_playerY)
+--    self.m_camarTopY = display.height-340--_y
+--    self.m_camarBotY = Normal_Camara_BottomY
+--    self.m_lastPlayerY = _playerY --self.m_player:convertToWorldSpace(cc.p(0,0)).y;
+--
+--    self.m_physicWorld = display.getRunningScene():getPhysicsWorld()
+--    self:scheduleUpdate()
+--
+--    self.m_camera:setPositionY(_playerY-480)--(_mapSize.height-display.height)--(_playerY-480)
+--    self.m_event = cc.EventListenerPhysicsContact:create()
+--    self.m_event:registerScriptHandler(handler(self,self.collisionBeginCallBack), cc.Handler.EVENT_PHYSICS_CONTACT_BEGIN)
+--
+--    self:getEventDispatcher():addEventListenerWithFixedPriority(self.m_event,1)
+--    self:addNodeEventListener(cc.NODE_ENTER_FRAME_EVENT, handler(self, self.onEnterFrame))
 end
 
 --碰撞反射，从人物中心向下或向上发射一个比自身一半多 Raycast_DisY 像素的探测射线，进行检测有无障碍物
@@ -706,7 +680,7 @@ function MapLayer:rayCastFunc(_world,_p1,_p2,_p3)
 end
 --
 function MapLayer:rayCastFuncX(_world,_p1,_p2,_p3)
-    --    print("chjh _p1.normal.x,y",_p1.normal.x,_p1.normal.y)
+    --    Tools.printDebug("chjh _p1.normal.x,y",_p1.normal.x,_p1.normal.y)
     --冲刺状态下不做方向
     --    if self.m_player:isInState(PLAYER_STATE.Sprint) then
     --        return true
@@ -719,7 +693,7 @@ function MapLayer:rayCastFuncX(_world,_p1,_p2,_p3)
     local playerBP=self.m_player:getBody():getPosition()
     local obstacleBP=_body:getPosition()
     local att=self.m_player:getAtt()
-    --    print("player.scalex=",_scaleX)
+    --    Tools.printDebug("player.scalex=",_scaleX)
     --    local _x
     --    if _p1.normal.x>0 then
     --    	_x = 1
@@ -805,35 +779,7 @@ function MapLayer:initRooms(parameters)
     end
     local _x,_y = 0,0
     for var=1, self.m_roomsNum do
-        --        self:addNewRooms()
-        --        local _room = MapRoom.new(var,1)
-        if GAME_TYPE_CONTROL == GAME_TYPE.EndlessMode then
-            if self.endlessCon[var].type == Room_Hell.D then
-                self.m_levelCon = RoomsD[math.random(1,#RoomsD)]
-                print("房间类型D","随机房间号id",math.random(1,#RoomsD))
-            elseif self.endlessCon[var].type == Room_Hell.C then
-                self.m_levelCon = RoomsC[math.random(1,#RoomsC)]
-                print("房间类型C","随机房间号id",math.random(1,#RoomsC))
-            elseif self.endlessCon[var].type == Room_Hell.B then
-                self.m_levelCon = RoomsB[math.random(1,#RoomsB)]
-                print("房间类型B","随机房间号id",math.random(1,#RoomsB))
-            elseif self.endlessCon[var].type == Room_Hell.A then
-                self.m_levelCon = RoomsA[math.random(1,#RoomsA)]
-                print("房间类型A","随机房间号id",math.random(1,#RoomsA))
-            elseif self.endlessCon[var].type == Room_Hell.S then
-                self.m_levelCon = RoomsS[math.random(1,#RoomsS)]
-                print("房间类型S","随机房间号id",math.random(1,#RoomsS))
-            elseif self.endlessCon[var].type == Room_Hell.SS then
-                self.m_levelCon = RoomsSS[math.random(1,#RoomsSS)]
-                print("房间类型SS","随机房间号id",math.random(1,#RoomsSS))
-            elseif self.endlessCon[var].type == Room_Hell.I then
-                self.m_levelCon = RoomsI[math.random(1,#RoomsI)]
-                print("房间类型I","随机房间号id",math.random(1,#RoomsI))
-            elseif self.endlessCon[var].type == Room_Hell.O then
-                self.m_levelCon = RoomsO[math.random(1,#RoomsO)]
-                print("房间类型O","随机房间号id",math.random(1,#RoomsO))
-            end
-        end
+
         local _room = MapRoom.new(var,self.m_levelCon,self.m_roomAmount)
         local _roomSize = _room:getSize()
         _y = (MAP_ROOM_INIT_NUM-var)*Room_Size.height

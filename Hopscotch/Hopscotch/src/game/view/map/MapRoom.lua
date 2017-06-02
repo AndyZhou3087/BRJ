@@ -4,7 +4,7 @@
 local MapRoom = class("MapRoom",function()
     return display.newNode()
 end)
-local PhysicSprite = require("game.view.customUI.PhysicSprite")
+local PhysicSprite = require("game.custom.PhysicSprite")
 
 --@param1:房间编号
 --@param2:房间的配置id
@@ -335,7 +335,7 @@ function MapRoom:initBlock(_roomBgVo)
                     self:addPhysicsBody(_middle,ELEMENT_TAG.NORMAL_WALL_TAG)
                     _middle:setCahceType(CACHE_TYPE[_middleType..i])
                     _middle:retain()
-                    --                    print("chjh middle=",tostring(_middle))
+                    --                    Tools.printDebug("chjh middle=",tostring(_middle))
                 end
                 _middle:setPosition(_x,_y)
                 table.insert(self.m_blocks,_middle)
@@ -602,7 +602,7 @@ function MapRoom:initCoins(goldCon)
                     gold:setCahceType(chType)
                     gold:retain()
                 else
-                    print("------------金币对象：",gold)
+                    Tools.printDebug("------------金币对象：",gold)
                     gold:setCoinValue(_num)
                 end
                 gold:setPosition(_goldObj.x,_goldObj.y)
@@ -865,7 +865,7 @@ function MapRoom:intoRoom(parameters)
 --    GameDispatcher:dispatch(EventNames.EVENT_MONSTER_FLOP)
     --机械蜂、
     if GameController.isInState(PLAYER_STATE.Bee) then
-        print("玩家处于机械蜂状态需要检测房间")
+        Tools.printDebug("玩家处于机械蜂状态需要检测房间")
     	GameDispatcher:dispatch(EventNames.EVENT_BEE_ROOM)
     end
       
@@ -889,7 +889,7 @@ function MapRoom:intoRoom(parameters)
         --    end
         --    if _curFloor ==50 or _curFloor ==25 or _curFloor == 10 or _curFloor ==5 then
         --        if not self.m_visited then
-        --            print("楼层提示")
+        --            Tools.printDebug("楼层提示")
         --            GameDispatcher:dispatch(EventNames.EVENT_GAME_TITLE,{floor=true,number=_curFloor})
         --        end
         --    end
@@ -1015,7 +1015,7 @@ end
 
 --玩家离开房间
 function MapRoom:leaveRoom(parameters)
-    print("chjh 玩家离开房间 roomIndx=",self.m_index)
+    Tools.printDebug("chjh 玩家离开房间 roomIndx=",self.m_index)
 
     self:stopMissile()
 end

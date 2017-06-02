@@ -28,7 +28,7 @@ local bossData = {}
 function GameDataManager.initUserData()
     userData.gold = DataPersistence.getAttribute("user_gold")    --金币
     userData.diamond = DataPersistence.getAttribute("user_diamond") --钻石
-    userData.points = DataPersistence.getAttribute("user_points")  --玩家积分
+    userData.points = DataPersistence.getAttribute("user_score")  --玩家积分
     local modleList = DataPersistence.getAttribute("modle_list")  --角色皮肤列表
     for key, var in pairs(modleList) do
         modleDic[var.roleId] = var
@@ -49,8 +49,6 @@ function GameDataManager.initUserData()
     --初始化物品数据
     GameDataManager.initGoodsData()
 
-    --初始化签到信息
---    GameDataManager.initSignData()
     --初始化礼包信息
 --    GameDataManager.initGift()
 
@@ -234,12 +232,7 @@ function GameDataManager.initPlayerVo()
         playerVo.m_roleId = curRoleID
         playerVo.m_level = _lv
         playerVo.m_lifeNum = roleConfig.lifeNum
-        playerVo.m_hp = roleConfig.hp     --血量
-        playerVo.m_att = roleConfig.att           -- 攻击力
-        playerVo.m_score_rate = GameDataManager.getScoreRate(curRoleID,_lv)   --分数加成
-        playerVo.m_coin_rate = GameDataManager.getMoneyRate(curRoleID,_lv)    --金币加成
         playerVo.m_jump = roleConfig.jump --弹跳值
-        playerVo.m_damageArea = roleConfig.damageArea    --破坏面积（以角色中心点向外扩散的矩形区域长宽半径）
         playerVo.m_sprintTime = roleConfig.sprintTime   --冲刺时间
         playerVo.m_magnetTime = roleConfig.magnetTime   --磁铁时间
         playerVo.m_invincibleTime = roleConfig.invincibleTime   --无敌时间
@@ -247,10 +240,6 @@ function GameDataManager.initPlayerVo()
         playerVo.m_superRocketTime = roleConfig.superRocketTime
         playerVo.m_leisheqiang = roleConfig.role_qiang  --镭射枪
         playerVo.m_daibuji = roleConfig.role_daibuji  --代步机
-        playerVo.m_roleArm  = roleConfig.armatureName   --角色原动画
-        playerVo.m_sprintTimeAdd= roleConfig.sprintTimeAdd   --冲刺时间延长 (s)
-        playerVo.m_invincibleTimeAdd=roleConfig.invincibleTimeAdd   --无敌时间延长(s)
-        playerVo.m_protectTimeAdd=roleConfig.protectTimeAdd       --护盾时间延长(s)
         playerVo.m_speed = roleConfig.speed    --移动速度
     end
 end
@@ -368,16 +357,16 @@ function GameDataManager.useGoodsExp(_goodsId)
     local goodsCon = GoodsConfig[_goodsId]
     if goodsCon then
         if goodsCon.type == GoodsType.Magnet_Type then
-            print("chjh 处理磁铁类型道具")
+            Tools.printDebug("chjh 处理磁铁类型道具")
             GameDispatcher:dispatch(EventNames.EVENT_USE_MAGNATE,{time=goodsCon.time+GameDataManager.getPlayerVo().m_magnetTime,radius=goodsCon.radius})
         elseif goodsCon.type == GoodsType.Defend_Type then
-            print("chjh 处理防护罩类型道具")
+            Tools.printDebug("chjh 处理防护罩类型道具")
             GameDispatcher:dispatch(EventNames.EVENT_USE_SHIELD,{type=2,time=goodsCon.time,damageArea=goodsCon.damageArea})
         elseif goodsCon.type == GoodsType.Drink_Type then
-            print("chjh 处理化学饮料类型道具")
+            Tools.printDebug("chjh 处理化学饮料类型道具")
             GameDispatcher:dispatch(EventNames.EVENT_USE_DRINK,{time=goodsCon.time+GameDataManager.getPlayerVo().m_invincibleTime,att=goodsCon.att,damageArea=goodsCon.damageArea})
         elseif goodsCon.type == GoodsType.Thor_Type then
-            print("chjh 处理雷神之锤类型道具")
+            Tools.printDebug("chjh 处理雷神之锤类型道具")
         end
         return true
     else
@@ -472,7 +461,7 @@ end
 --领取vip礼包
 function GameDataManager.toGetVipGift()
     if VIPGiftData.lastCount <= 0 then
-        print("领取次数已经用完")
+        Tools.printDebug("领取次数已经用完")
         return false
     end
     local curDate = TimeUtil.getDate()
@@ -527,8 +516,6 @@ function GameDataManager.saveGameData()
     DataPersistence.updateAttribute("user_diamond",userData.diamond)
 
     DataPersistence.updateAttribute("cur_roleID",playerVo.m_roleId)
-    DataPersistence.updateAttribute("user_sign",signList.curTable)--存储签到数据
-    DataPersistence.updateAttribute("sign_reward",GameDataManager.getReward())
 
     local modleList = {}
     for key, var in pairs(modleDic) do
@@ -548,7 +535,7 @@ function GameDataManager.saveGameData()
     DataPersistence.updateAttribute("music",music)
     DataPersistence.updateAttribute("sound",sound)
 
-    DataPersistence.updateAttribute("vip_gift",{getDate=VIPGiftData.r_stamp,endDate=VIPGiftData.e_stamp})
+--    DataPersistence.updateAttribute("vip_gift",{getDate=VIPGiftData.r_stamp,endDate=VIPGiftData.e_stamp})
 
     DataPersistence.toSaveData()
 end

@@ -73,7 +73,7 @@ local _isPause = false
 local _rewardCollision = true
 --游戏暂停
 function GameController.pauseGame()
-    print("chjh 暂停游戏！")
+    Tools.printDebug("chjh 暂停游戏！")
     display.pause()
     _canCollision = false
     _isPause = true
@@ -87,7 +87,7 @@ end
 
 --游戏恢复
 function GameController.resumeGame()
-    print("chjh 恢复游戏！")
+    Tools.printDebug("chjh 恢复游戏！")
     display.resume()
     _canCollision = true
     _isPause = false
@@ -501,7 +501,7 @@ function GameController.initRankData()
                 end
             end
 --        else
---            print("chjh net error 请求排行榜数据错误")
+            --            Tools.printDebug("chjh net error 请求排行榜数据错误")
         end
     end
     local request = cc.HTTPRequest:createWithUrl(function(event)
@@ -511,7 +511,7 @@ function GameController.initRankData()
         request:setTimeout(20)
         request:start()
     else
-        print("chjh error 初始化网络错误")
+        Tools.printDebug("chjh error 初始化网络错误")
     end
 
 --    --以下为测试数据
@@ -540,9 +540,9 @@ function GameController.saveSelfScore(parameters)
     local request = cc.HTTPRequest:createWithUrl(function(event)
         local request = event.request
         if event.name == "completed" then
-            print("chjh 上传排行数据成功")
+            Tools.printDebug("chjh 上传排行数据成功")
         else
-            print("chjh 上传排行数据失败")
+            Tools.printDebug("chjh 上传排行数据失败")
         end
     end, RANK_UP_URL, cc.kCCHTTPRequestMethodPOST)
     if request then
@@ -553,7 +553,7 @@ function GameController.saveSelfScore(parameters)
         request:setTimeout(20)
         request:start()
     else
-        print("chjh error 初始化网络错误")
+        Tools.printDebug("chjh error 初始化网络错误")
     end
 end
 --获取自己的排行

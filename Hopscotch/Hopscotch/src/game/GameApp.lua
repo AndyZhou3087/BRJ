@@ -43,7 +43,7 @@ function GameApp:ctor()
     
     DataPersistence.insertAttribute("user_gold",InitGold)    --金币
     DataPersistence.insertAttribute("user_diamond",InitDiamond)  --钻石
-    DataPersistence.insertAttribute("user_score",10)    --玩家积分
+    DataPersistence.insertAttribute("user_score",0)    --玩家积分
 
     --音乐、音效
     DataPersistence.insertAttribute("music",true)
@@ -54,13 +54,11 @@ function GameApp:ctor()
 
     --物品相关
     DataPersistence.insertAttribute("goods_list",{})    --拥有物品列表，列表元素为GoodsVo
+    --需要缓存的使用道具记录,{当前使用的道具id列表}
+    DataPersistence.insertAttribute("cacheGoods",{})
 
     --体力相关
 --    DataPersistence.insertAttribute("recover_power_endTime",0) --距体力回满结束时间戳
-
-    --设置签到
---    DataPersistence.insertAttribute("user_sign",{signs=0,day=10,month=8,year=2014})
---    DataPersistence.insertAttribute("sign_reward",1)
 
     --角色礼包每日领奖
 --    DataPersistence.insertAttribute("rolegift",{})

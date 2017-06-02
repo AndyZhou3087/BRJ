@@ -1,7 +1,7 @@
 --游戏公用配置文件
 
 --测试输出
-PrintDebug = false
+PrintDebug = true
 
 --初始金币和钻石
 InitGold = 2000
@@ -23,7 +23,7 @@ OPACITY=160
 --是否处于新手引导中（战斗引导结束后的结算界面，和战斗准备界面）
 GUIDE_ING = false
 
-MAP_GROUP_INIT_NUM = 2    --初始化组合数
+MAP_GROUP_INIT_NUM = 20    --初始化房间数
 
 --弹窗类型
 Alert_Type=

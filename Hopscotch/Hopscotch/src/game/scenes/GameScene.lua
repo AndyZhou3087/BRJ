@@ -2,7 +2,7 @@
 战斗场景
 ]]
 --local MapView = require("game.view.map.MapView")
---local MapLayer = require("game.view.map.MapLayer")
+local MapLayer = require("game.view.map.MapLayer")
 local scheduler = require("framework.scheduler")
 
 local GameScene = class("GameScene", function()
@@ -47,9 +47,8 @@ end
 function GameScene:onEnter()
 
 
---    self.m_map = MapLayer.new()
---    self:addChild(self.m_map)
---    GameController.setCurMapLayer(self.m_map)
+    self.m_map = MapLayer.new()
+    self:addChild(self.m_map)
 
 --    self.m_fightView = MapView.new()
 --    self:addChild(self.m_fightView,UI_ZORDER.VIEW_ZORDER)
@@ -60,9 +59,9 @@ function GameScene:onEnter()
 --        GameDispatcher:dispatch(EventNames.EVENT_GUIDE_EXPLAIN,{animation = true})
 --    end
 
---    Tools.delayCallFunc(0.001,function()
---        self.m_map:initPhyPos()
---    end)
+    Tools.delayCallFunc(0.001,function()
+        self.m_map:initPlayerPos()
+    end)
 
     self.m_handlerStart=Tools.delayCallFunc(0.1,handler(self,self.updateStart))
 

@@ -71,7 +71,7 @@ function LoadingView:loadAction(parameters)
 end
 
 function LoadingView:loadingOver()
-    print("关闭读取界面")
+    Tools.printDebug("关闭读取界面")
     self:toClose(true)
 end
 
