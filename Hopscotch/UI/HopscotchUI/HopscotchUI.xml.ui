@@ -23,5 +23,5 @@
   <imageFileList />
   <imagePngList />
   <JsonSuffix>.json</JsonSuffix>
-  <CurrentUIJson>SettlementUI.json</CurrentUIJson>
+  <CurrentUIJson>ShopView.json</CurrentUIJson>
 </UIProject>

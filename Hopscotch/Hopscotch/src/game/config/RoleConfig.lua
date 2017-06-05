@@ -2,11 +2,6 @@
 角色皮肤信息配置
 ]]
 
---玩家恢复体力上限值，低于此值则会自动定时恢复
-USER_POWER_MAX = 5
---玩家体力恢复时间，单位：秒
-POWER_RECOVER_TIME = 60*5
-
 --角色移动速度
 ROLE_SPEED = 150
 
@@ -27,106 +22,104 @@ PLAYER_ACTION=
         Down = "luodi",   --落地
     }
 
-RevivePrice = 50  --角色复活价格(钻石)
-
 RoleConfig={}
 
 RoleConfig[1]=
     {
         id = 1,
-        armatureName = "nan3",   --动画工程名
-        roleName = "忍者学生",     --角色名称
-        roleImg = "ui/role_1.png",   --角色图片
-        roleDes = "有梦想的忍者学生",  --角色描述
-        roleRevive = "ui/Revive_role1.png",
-        lock = {},--解锁所需条件
-        diamondPrice = 10,   --钻石购买价格
-        coinPrice = 2500,    --金币购买价格
+        armatureName = false,   --动画工程名
+        roleImg = "shop/role_1.jpg",   --角色图片
+        roleName = "shop/rolename_1.png",
+        roleDes = "奥特曼",  --角色描述
         rmb = 0,   --人民币购买价格
-
-        sprintTime = 1,   --冲刺时间,单位：秒
-        magnetTime = 1,   --磁铁时间,单位：秒
-        giantTime = 1,   --巨人时间,单位：秒
-        transTime=1,     --转换时间 (s)
-        cloudTime=1,     --浮云时间(s)
     }
 
 RoleConfig[2]=
     {
         id = 2,
-        armatureName = "nv_pao",   --动画工程名
-        roleName = "见习忍者",     --角色名称
-        roleImg = "ui/role_2.png",   --角色图片
-        roleDes = "拥有能够吸收周围金币的能力",  --角色描述
-        roleRevive = "ui/Revive_role2.png",
-        lock = {},--解锁所需条件
-        diamondPrice = 0,   --钻石购买价格
-        coinPrice = 0,    --金币购买价格
+        armatureName = false,   --动画工程名
+        roleImg = "shop/role_2.jpg",   --角色图片
+        roleName = "shop/rolename_2.png",
+        roleDes = "钢铁侠",  --角色描述
         rmb = 6,   --人民币购买价格
-
-        sprintTime = 1,   --冲刺时间,单位：秒
-        magnetTime = 1,   --磁铁时间,单位：秒
-        giantTime = 1,   --巨人时间,单位：秒
-        transTime=1,     --转换时间 (s)
-        cloudTime=1,     --浮云时间(s)
     }
     
 RoleConfig[3]=
     {
         id = 3,
-        armatureName = "nan4",   --动画工程名
-        roleName = "忍者老师",     --角色名称
-        roleImg = "ui/role_4.png",   --角色图片
-        roleDes = "拥有二段跳跃的能力",  --角色描述
-        roleRevive = "ui/Revive_role5.png",
-        lock = {},--解锁所需条件
-        diamondPrice = 0,   --钻石购买价格
-        coinPrice = 0,    --金币购买价格
-        rmb = 10,   --人民币购买价格
-
-        sprintTime = 1,   --冲刺时间,单位：秒
-        magnetTime = 1,   --磁铁时间,单位：秒
-        giantTime = 1,   --巨人时间,单位：秒
-        transTime=1,     --转换时间 (s)
-        cloudTime=1,     --浮云时间(s)
+        armatureName = false,   --动画工程名
+        roleImg = "shop/role_3.jpg",   --角色图片
+        roleName = "shop/rolename_3.png",
+        roleDes = "黑豹",  --角色描述
+        rmb = 6,   --人民币购买价格
     }
     
 RoleConfig[4]=
     {
         id = 4,
-        armatureName = "nan5",   --动画工程名
-        roleName = "精英忍者",     --角色名称
-        roleImg = "ui/role_5.png",   --角色图片
-        roleDes = "拥有保护屏障能力",  --角色描述
-        roleRevive = "ui/Revive_role4.png",
-        lock = {},--解锁所需条件
-        diamondPrice = 0,   --钻石购买价格
-        coinPrice = 0,    --金币购买价格
-        rmb = 15,   --人民币购买价格
-
-        sprintTime = 1,   --冲刺时间,单位：秒
-        magnetTime = 1,   --磁铁时间,单位：秒
-        giantTime = 1,   --巨人时间,单位：秒
-        transTime=1,     --转换时间 (s)
-        cloudTime=1,     --浮云时间(s)
+        armatureName = false,   --动画工程名
+        roleImg = "shop/role_4.jpg",   --角色图片
+        roleName = "shop/rolename_4.png",
+        roleDes = "死侍",  --角色描述
+        rmb = 6,   --人民币购买价格
     }
     
 RoleConfig[5]=
     {
         id = 5,
-        armatureName = "nan6",   --动画工程名
-        roleName = "忍者教授",     --角色名称
-        roleImg = "ui/role_3.png",   --角色图片
-        roleDes = "拥有所有能力的忍者教授",  --角色描述
-        roleRevive = "ui/Revive_role3.png",
-        lock = {},--解锁所需条件
-        diamondPrice = 0,   --钻石购买价格
-        coinPrice = 0,    --金币购买价格
-        rmb = 20,   --人民币购买价格
-
-        sprintTime = 1,   --冲刺时间,单位：秒
-        magnetTime = 1,   --磁铁时间,单位：秒
-        giantTime = 1,   --巨人时间,单位：秒
-        transTime=1,     --转换时间 (s)
-        cloudTime=1,     --浮云时间(s)
+        armatureName = false,   --动画工程名
+        roleImg = "shop/role_5.jpg",   --角色图片
+        roleName = "shop/rolename_5.png",
+        roleDes = "闪电侠",  --角色描述
+        rmb = 6,   --人民币购买价格
+    }
+    
+RoleConfig[6]=
+    {
+        id = 6,
+        armatureName = false,   --动画工程名
+        roleImg = "shop/role_6.jpg",   --角色图片
+        roleName = "shop/rolename_6.png",
+        roleDes = "蜘蛛侠",  --角色描述
+        rmb = 6,   --人民币购买价格
+    }
+    
+RoleConfig[7]=
+    {
+        id = 7,
+        armatureName = false,   --动画工程名
+        roleImg = "shop/role_7.jpg",   --角色图片
+        roleName = "shop/rolename_7.png",
+        roleDes = "金刚狼",  --角色描述
+        rmb = 6,   --人民币购买价格
+    }
+    
+RoleConfig[8]=
+    {
+        id = 8,
+        armatureName = false,   --动画工程名
+        roleImg = "shop/role_8.jpg",   --角色图片
+        roleName = "shop/rolename_8.png",
+        roleDes = "绿巨人",  --角色描述
+        rmb = 6,   --人民币购买价格
+    }
+    
+RoleConfig[9]=
+    {
+        id = 9,
+        armatureName = false,   --动画工程名
+        roleImg = "shop/role_9.jpg",   --角色图片
+        roleName = "shop/rolename_9.png",
+        roleDes = "美国队长",  --角色描述
+        rmb = 6,   --人民币购买价格
+    }
+    
+RoleConfig[10]=
+    {
+        id = 10,
+        armatureName = false,   --动画工程名
+        roleImg = "shop/role_10.jpg",   --角色图片
+        roleName = "shop/rolename_10.png",
+        roleDes = "小丑",  --角色描述
+        rmb = 6,   --人民币购买价格
     }
