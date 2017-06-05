@@ -11,6 +11,7 @@
     <string>SetUI.json</string>
     <string>PauseUI.json</string>
     <string>SettlementUI.json</string>
+    <string>ShopView.json</string>
   </JsonList>
   <CanvasSize>
     <Width>750</Width>

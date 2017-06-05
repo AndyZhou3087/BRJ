@@ -68,38 +68,23 @@ function SettlementUI:initMiddle()
     self.frame_3 = cc.uiloader:seekNodeByName(self.m_json,"frame_3")
     self.frame_4 = cc.uiloader:seekNodeByName(self.m_json,"frame_4")
     
-    --给层加监听
-    self.frame_1:setTouchEnabled(true)
-    self.frame_1:addNodeEventListener(cc.NODE_TOUCH_EVENT, function(event)
-        if event.name == "began" then
-            Tools.printDebug("brj hopscotch 免费钻石")
-            return true
-        elseif event.name == "ended" then
-        end
+    self.framebtn1 = cc.uiloader:seekNodeByName(self.m_json,"framebtn1")
+    self.framebtn2 = cc.uiloader:seekNodeByName(self.m_json,"framebtn2")
+    self.framebtn3 = cc.uiloader:seekNodeByName(self.m_json,"framebtn3")
+    self.framebtn4 = cc.uiloader:seekNodeByName(self.m_json,"framebtn4")
+    
+    --
+    self.framebtn1:onButtonClicked(function (event)
+        Tools.printDebug("brj hopscotch 免费钻石")
     end)
-    self.frame_2:setTouchEnabled(true)
-    self.frame_2:addNodeEventListener(cc.NODE_TOUCH_EVENT, function(event)
-        if event.name == "began" then
-            Tools.printDebug("brj hopscotch 获取钻石")
-            return true
-        elseif event.name == "ended" then
-        end
+    self.framebtn2:onButtonClicked(function (event)
+        Tools.printDebug("brj hopscotch 获取钻石")
     end)
-    self.frame_3:setTouchEnabled(true)
-    self.frame_3:addNodeEventListener(cc.NODE_TOUCH_EVENT, function(event)
-        if event.name == "began" then
-            Tools.printDebug("brj hopscotch 获取奖励")
-            return true
-        elseif event.name == "ended" then
-        end
+    self.framebtn3:onButtonClicked(function (event)
+        Tools.printDebug("brj hopscotch 获取奖励")
     end)
-    self.frame_4:setTouchEnabled(true)
-    self.frame_4:addNodeEventListener(cc.NODE_TOUCH_EVENT, function(event)
-        if event.name == "began" then
-            Tools.printDebug("brj hopscotch 五星好评")
-            return true
-        elseif event.name == "ended" then
-        end
+    self.framebtn4:onButtonClicked(function (event)
+        Tools.printDebug("brj hopscotch 五星好评")
     end)
 end
 

@@ -16,4 +16,8 @@
     <Project>SettlementUI</Project>
     <GuidesList />
   </GuidesProject>
+  <GuidesProject>
+    <Project>ShopView</Project>
+    <GuidesList />
+  </GuidesProject>
 </ArrayOfGuidesProject>
