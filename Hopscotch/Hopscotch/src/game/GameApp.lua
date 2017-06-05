@@ -41,9 +41,8 @@ local GameApp = class("GameApp", cc.mvc.AppBase)    --继承AppBase：app = self
 function GameApp:ctor()
     GameApp.super.ctor(self,"GameApp","game")    --替换app目录
     
-    DataPersistence.insertAttribute("user_gold",InitGold)    --金币
     DataPersistence.insertAttribute("user_diamond",InitDiamond)  --钻石
-    DataPersistence.insertAttribute("user_score",0)    --玩家积分
+    DataPersistence.insertAttribute("bestscore",0)    --最佳分数
 
     --音乐、音效
     DataPersistence.insertAttribute("music",true)
@@ -57,8 +56,6 @@ function GameApp:ctor()
     --需要缓存的使用道具记录,{当前使用的道具id列表}
     DataPersistence.insertAttribute("cacheGoods",{})
 
-    --体力相关
---    DataPersistence.insertAttribute("recover_power_endTime",0) --距体力回满结束时间戳
 
     --角色礼包每日领奖
 --    DataPersistence.insertAttribute("rolegift",{})

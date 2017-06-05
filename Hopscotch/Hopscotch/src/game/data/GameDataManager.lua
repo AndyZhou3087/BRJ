@@ -26,9 +26,9 @@ local bossData = {}
 
 --初始化玩家信息
 function GameDataManager.initUserData()
-    userData.gold = DataPersistence.getAttribute("user_gold")    --金币
     userData.diamond = DataPersistence.getAttribute("user_diamond") --钻石
-    userData.points = DataPersistence.getAttribute("user_score")  --玩家积分
+    userData.record = DataPersistence.getAttribute("bestscore")      --记录初始化
+    
     local modleList = DataPersistence.getAttribute("modle_list")  --角色皮肤列表
     for key, var in pairs(modleList) do
         modleDic[var.roleId] = var
@@ -72,27 +72,6 @@ function GameDataManager.setSound(isOpen)
     sound=isOpen
 end
 
---扣除金币
---@return:true扣除成功，false扣除失败
-function GameDataManager.costGold(_value)
-    if userData.gold >= _value then
-        userData.gold = userData.gold - _value
---        GameDispatcher:dispatch(EventNames.EVENT_GOLD_CHANGE)
-        return true
-    else
-        return false
-    end
-end
---增加金币
-function GameDataManager.addGold(_value)
-    userData.gold = userData.gold + _value
---    GameDispatcher:dispatch(EventNames.EVENT_GOLD_CHANGE)
-    return true
-end
---获取金币
-function GameDataManager.getGold()
-    return userData.gold
-end
 --扣除钻石
 --@return:true扣除成功，false扣除失败
 function GameDataManager.costDiamond(_value)
@@ -143,83 +122,44 @@ function GameDataManager.toCheckLockedModle(_lv)
     end
 end
 
---增加积分
+local points_game = 0
+--增加分数(游戏内)
 function GameDataManager.addPoints(_value)
-    userData.points = userData.points + _value
+    points_game = points_game + _value
 --    GameDispatcher:dispatch(EventNames.EVENT_POINTS_CHANGE)
     return true
 end
 
---扣除积分
---@return:true扣除成功，false扣除失败
-function GameDataManager.costPoints(_value)
-    if userData.points >= _value then
-        userData.points = userData.points - _value
---        GameDispatcher:dispatch(EventNames.EVENT_POINTS_CHANGE)
-        return true
-    else
-        return false
-    end
-end
---获取积分
+--获取分数
 function GameDataManager.getPoints()
-    return userData.points
+    return points_game
 end
 
---===================End=========================
-
---===================签到信息=========================
-local signList={}
-
-function GameDataManager.reward(parameters)
-    signList.curTable.m_rand = math.random(1,table.getn(SignReward))
+--保存最佳分数
+function GameDataManager.saveRecord(_record)
+    userData.record = _record
+    GameDataManager.saveGameData()
+    Tools.printDebug("保存记录",_record)
 end
 
-function GameDataManager.getReward(parameters)
-    return signList.curTable.m_rand
+--得到最高记录
+function GameDataManager.getRecord()
+    return userData.record
 end
 
---初始化签到信息
-function GameDataManager.initSignData()
-    signList.curTable = DataPersistence.getAttribute("user_sign")
-    signList.curTable.m_rand = DataPersistence.getAttribute("sign_reward")
+local diamond_game = 0
+--添加游戏中得到的钻石(当前游戏)
+function GameDataManager.addGameDiamond(_dia)
+    diamond_game= diamond_game+_dia
+--    GameDispatcher:dispatch(EventNames.EVENT_FIGHT_UPDATE_GOLD,_gold)
+    return true
 end
 
-function GameDataManager.resetSign()   --签到7天重置
-    if signList.curTable.signs == 7 and (signList.curTable.day~=TimeUtil.getDate().day or signList.curTable.month~=TimeUtil.getDate().month or signList.curTable.year~=TimeUtil.getDate().year) then
-        signList.curTable.day = TimeUtil.getDate().day
-        signList.curTable.month = TimeUtil.getDate().month
-        signList.curTable.year = TimeUtil.getDate().year
-        signList.curTable.signs = 0
-        GameDataManager.reward()
-        return true
-else
-    return false
-end
-end
---当天是否签到
-function GameDataManager.isDateSign()
-    if signList.curTable.day==TimeUtil.getDate().day and signList.curTable.month==TimeUtil.getDate().month and signList.curTable.year==TimeUtil.getDate().year then
-        return true
-    else
-
-        --       GameDataManager.setWarning("sign")
-        GameDispatcher:dispatch(EventNames.EVENT_UPDATE_SIGNSTART)
-        return false
-    end
-end
---获得签到的次数
-function GameDataManager.getSignCount()
-    return signList.curTable.signs
+--返回游戏中得到的金币
+function GameDataManager.getGameDiamond()
+    return diamond_game
 end
 
---更新签到
-function GameDataManager.updateSign()
-    signList.curTable.day = TimeUtil.getDate().day
-    signList.curTable.month = TimeUtil.getDate().month
-    signList.curTable.year = TimeUtil.getDate().year
-    signList.curTable.signs = signList.curTable.signs+1
-end
 --===================End=========================
 
 
@@ -512,9 +452,8 @@ function GameDataManager.saveGameData()
 --        return
 --    end
 
-    DataPersistence.updateAttribute("user_gold",userData.gold)
     DataPersistence.updateAttribute("user_diamond",userData.diamond)
-
+    DataPersistence.updateAttribute("bestscore",userData.record)
     DataPersistence.updateAttribute("cur_roleID",playerVo.m_roleId)
 
     local modleList = {}

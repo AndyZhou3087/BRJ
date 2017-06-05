@@ -3,7 +3,7 @@
 ]]
 local BaseUI = require("game.view.BaseUI")
 local LoadingView = class("LoadingView",BaseUI)
-local Scheduler = require(cc.PACKAGE_NAME .. ".scheduler")
+local Scheduler = require("framework.scheduler")
 
 function LoadingView:ctor(parameters)
     LoadingView.super.ctor(self)

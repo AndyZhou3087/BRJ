@@ -1,10 +1,11 @@
 --游戏公用配置文件
 
+MapSize = cc.size(750,1334)
+
 --测试输出
 PrintDebug = true
 
---初始金币和钻石
-InitGold = 2000
+--初始钻石
 InitDiamond = 20
 
 --移动速度帧率

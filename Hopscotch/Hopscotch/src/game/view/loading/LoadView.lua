@@ -3,7 +3,7 @@
 ]]
 local BaseUI = require("game.view.BaseUI")
 local LoadView = class("LoadView",BaseUI)
-local Scheduler = require(cc.PACKAGE_NAME .. ".scheduler")
+local Scheduler = require("framework.scheduler")
 
 function LoadView:ctor(parameters)
     LoadView.super.ctor(self)
@@ -17,6 +17,9 @@ function LoadView:ctor(parameters)
     local bg = display.newSprite("loading/bg.jpg"):addTo(self)
     bg:setAnchorPoint(cc.p(0,0))
     bg:setPosition(cc.p(0,0))
+    
+    self.Image_2 = cc.uiloader:seekNodeByName(self.m_json,"Image_2")
+    self.Image_2:setPositionY(display.bottom+108)
     
     local logo = display.newSprite("loading/Logo.png"):addTo(bg)
     logo:setPosition(cc.p(display.cx,display.top-400))
@@ -57,7 +60,7 @@ function LoadView:ctor(parameters)
     end)
     self.tv2:onButtonClicked(function (event)
 --        --测试界面
---        GameDispatcher:dispatch(EventNames.EVENT_OPEN_PAUSE,{animation = true})
+--        GameDispatcher:dispatch(EventNames.EVENT_OPEN_SETTLEMENT)
     end)
 
     self:setTouchEnabled(true)

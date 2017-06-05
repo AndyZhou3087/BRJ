@@ -7,10 +7,6 @@ end)
 
 function MainScene:ctor()
     self:initData()
---    cc.ui.UILabel.new({
---            UILabelType = 2, text = "Hello, World", size = 64})
---        :align(display.CENTER, display.cx, display.cy)
---        :addTo(self)
 
     self.loading = LoadView.new()
     self:addChild(self.loading)

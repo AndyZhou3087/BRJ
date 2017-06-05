@@ -16,36 +16,14 @@ GameController.CurCamaraY = 0
 --额外吸附类型（本身具有吸附金币与金币泡泡功能）
 --额外吸附物品
 GameController.Adsorb_Ex_Goods = 1
---额外吸附金蛋与物品
-GameController.Adsorb_Ex_Goods_Eeg = 2
 
 --得分倍数
 GameController.Score_Rate = 1
 
---是否购买了开局炸弹
-GameController.Goods_Bomb = false
-
---上次杀怪时间
-GameController.Kill_Time = 0
-
---宠物得分倍数
-GameController.petScore_Rate = 1
---宠物攻击力倍数
-GameController.petAtt_Rate = 1
-
---角色炼金术技能
-GameController.playerMoney_Rate = 1
-
-local laserBtnBody = {}
-local laserBody={}
-local exitBody={}
 local goldBody={}
 local goodBody={}
-local eggBody={}
-local bubbleBody={}
 local anotherBody={}
 local diamonds={} --钻石对象
-local obstacles={} --当前房间障碍物
 local movingObjs={} --移动中的对象数组
 --排行榜数据
 local myRank={
@@ -291,33 +269,6 @@ function GameController.getScreenRoom()
 end
 
 function GameController.clearBody()
-    for var=#laserBtnBody,1,-1 do
-        local body=laserBtnBody[var]
-
-        if not tolua.isnull(body) then
-            body:dispose()
-        end
-    end
-    laserBtnBody={}
-
-    for var=#laserBody,1,-1 do
-        local body=laserBody[var]
-
-        if not tolua.isnull(body) then
-            body:dispose()
-        end
-
-    end
-    laserBody={}
-
-    for var=#exitBody,1,-1 do
-        local body=exitBody[var]
-
-        if not tolua.isnull(body) then
-            body:dispose()
-        end
-    end
-    exitBody={}
 
     for var=#goldBody,1,-1 do
         local body=goldBody[var]
@@ -337,15 +288,6 @@ function GameController.clearBody()
     end
     goodBody={}
 
-    for var=#eggBody,1,-1 do
-        local body=eggBody[var]
-
-        if not tolua.isnull(body) then
-            body:dispose()
-        end
-    end
-    eggBody={}
-
     for var=#anotherBody,1,-1 do
         local body=anotherBody[var]
 
@@ -354,15 +296,6 @@ function GameController.clearBody()
         end
     end
     anotherBody={}
-
-    for var=#bubbleBody,1,-1 do
-        local body=bubbleBody[var]
-
-        if not tolua.isnull(body) then
-            body:dispose()
-        end
-    end
-    bubbleBody={}
 
     if #diamonds > 0 then
         for var=#diamonds, 1,-1 do

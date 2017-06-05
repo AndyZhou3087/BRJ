@@ -19,15 +19,15 @@ function SetUI:ctor(parameters)
         self:popupLeft(BgX,BgY,img)
     end
     
-    self.Button_4 = cc.uiloader:seekNodeByName(self.m_json,"Button_4")
+    self.Button_4 = cc.uiloader:seekNodeByName(self.m_json,"closeBtn")
     self.Button_4:setButtonEnabled(false)
-    self.closeBtn = cc.uiloader:seekNodeByName(self.m_json,"closeBtn")
+    self.closeBtn = cc.uiloader:seekNodeByName(self.m_json,"Button_4")
     --关闭按钮
     self.closeBtn:onButtonPressed(function(_event)    --按下
-        self.Button_4:setButtonImage("disabled","common/Button_press.png")
+        self.Button_4:setButtonImage("disabled","common/close_2.png")
     end)
     self.closeBtn:onButtonRelease(function(_event)    --触摸离开
-        self.Button_4:setButtonImage("disabled","common/button2.png")
+        self.Button_4:setButtonImage("disabled","common/close_1.png")
     end)
     self.closeBtn:onButtonClicked(function (event)
         if parameters.animation == true then
