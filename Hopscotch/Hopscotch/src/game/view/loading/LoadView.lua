@@ -60,7 +60,7 @@ function LoadView:ctor(parameters)
     end)
     self.tv2:onButtonClicked(function (event)
 --        --测试界面
-        GameDispatcher:dispatch(EventNames.EVENT_OPEN_SHOP)
+--        GameDispatcher:dispatch(EventNames.EVENT_OPEN_SHOP)
     end)
 
     self:setTouchEnabled(true)
