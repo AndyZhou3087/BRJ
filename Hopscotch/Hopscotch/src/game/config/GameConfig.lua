@@ -20,11 +20,18 @@ MAP_ZORDER_MAX=0
 --阴影程度
 OPACITY=160
 
-
---是否处于新手引导中（战斗引导结束后的结算界面，和战斗准备界面）
-GUIDE_ING = false
-
 MAP_GROUP_INIT_NUM = 20    --初始化房间数
+
+--获取礼物花费钻石的数量
+DiamondSpendReward = 100
+
+--商城item类型
+Shop_Type = 
+{
+    role = 1,
+    scene = 2,
+    diamond =3,
+}
 
 --弹窗类型
 Alert_Type=

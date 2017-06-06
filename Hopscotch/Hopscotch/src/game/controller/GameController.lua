@@ -25,19 +25,6 @@ local goodBody={}
 local anotherBody={}
 local diamonds={} --钻石对象
 local movingObjs={} --移动中的对象数组
---排行榜数据
-local myRank={
-    starRank = 0,--自己当前星星排名
-    starNum = 0,--自己排名的星星数量
-    scoreRank = 0,--自己当前分数排名
-    scoreNum = 0,--自己当前排名分数
-}
---星级排行数据，列表元素为RankVo
-local starRank={}
---积分排行，列表元素为RankVo
-local scoreRank={}
-
-local _curMonster = {} --当前房间怪物
 
 --当前房间数组
 local rooms
@@ -48,7 +35,7 @@ local curPlayer
 --用于刚进入战斗场景时碰撞拦截
 local _canCollision = false
 local _isPause = false
-local _rewardCollision = true
+
 --游戏暂停
 function GameController.pauseGame()
     Tools.printDebug("chjh 暂停游戏！")
@@ -85,13 +72,23 @@ function GameController.getCollsionEnable()
     return _canCollision
 end
 
---设置当前是否碰撞(用于楼层奖励时所有刚体无碰撞)
-function GameController.setRewardCollsion(_enable)
-	_rewardCollision = _enable
-end
-
-function GameController.getRewardCollsion()
-	return _rewardCollision
+--记录需要奖励物品的所有信息
+function GameController.getAllReward()
+    local rewardArr = {}
+	for key, var in ipairs(DiamondConfig) do
+		rewardArr[#rewardArr+1] = var
+	end
+	for key, var in ipairs(SceneConfig) do
+		if not GameDataManager.getSceneModle(var.id) then
+			rewardArr[#rewardArr+1] = var
+		end
+	end
+	for key, var in ipairs(RoleConfig) do
+		if not GameDataManager.getRoleModle(var.id) then
+            rewardArr[#rewardArr+1] = var
+		end
+	end
+	return rewardArr
 end
 
 

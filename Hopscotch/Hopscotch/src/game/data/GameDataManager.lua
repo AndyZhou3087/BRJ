@@ -5,6 +5,7 @@ local GameDataManager = {}
 
 local ModleVo = require("game.data.ModleVo")
 local GoodsVo = require("game.data.GoodsVo")
+local SceneVo = require("game.data.SceneVo")
 local playerVo = clone(require("game.data.PlayerVo"))
 
 local scheduler = require(cc.PACKAGE_NAME .. ".scheduler")
@@ -17,10 +18,12 @@ local cacheGoodsDic = {}
 --===================玩家数据相关=========================
 local userData = {}
 local modleDic = {}
+local sceneDic = {}
 local powerInfo={}   --体力恢复信息
 local music=false
 local sound=false
 local curRoleID = 0 --当前出战角色id
+local curSceneID = 0 --当前出战场景
 
 local bossData = {}
 
@@ -32,6 +35,12 @@ function GameDataManager.initUserData()
     local modleList = DataPersistence.getAttribute("modle_list")  --角色皮肤列表
     for key, var in pairs(modleList) do
         modleDic[var.roleId] = var
+    end
+    
+    curSceneID = DataPersistence.getAttribute("cur_sceneID")
+    local sceneList = DataPersistence.getAttribute("scene_list")  --场景列表
+    for key, var in pairs(sceneList) do
+        sceneDic[var.sceneId] = var
     end
 
     music=DataPersistence.getAttribute("music")
@@ -79,7 +88,7 @@ function GameDataManager.costDiamond(_value)
         userData.diamond = userData.diamond - _value
         --及时存档
         GameDataManager.saveGameData()
---        GameDispatcher:dispatch(EventNames.EVENT_DIAMOND_CHANGE)
+        GameDispatcher:dispatch(EventNames.EVENT_DIAMOND_CHANGE)
         return true
     else
         return false
@@ -90,7 +99,7 @@ function GameDataManager.addDiamond(_value)
     userData.diamond = userData.diamond + _value
     --及时存档
     GameDataManager.saveGameData()
---    GameDispatcher:dispatch(EventNames.EVENT_DIAMOND_CHANGE)
+    GameDispatcher:dispatch(EventNames.EVENT_DIAMOND_CHANGE)
     return true
 end
 --获取钻石
@@ -106,20 +115,11 @@ function GameDataManager.unLockModle(_roleId)
     local _modleVo = clone(ModleVo)
     _modleVo.roleId = _roleId
     modleDic[_roleId] = _modleVo
-    _modleVo.level = GameDataManager.updateUserLv(_roleId,RoleConfig[_roleId].initLv)
 end
 
 --是否拥有相应角色
 function GameDataManager.getRoleModle(_roleId)
     return modleDic[_roleId]
-end
---检测是否有新的解锁皮肤
-function GameDataManager.toCheckLockedModle(_lv)
-    for key, var in pairs(RoleConfig) do
-        if (not GameDataManager.getRoleModle(var.id)) and (_lv>=var.openLv) then
-            GameDataManager.unLockModle(var.id)
-        end
-    end
 end
 
 local points_game = 0
@@ -244,6 +244,35 @@ end
 function GameDataManager.getLife()
     return  curPlyaerVo.m_lifeNum
 end
+--===================End=========================
+
+--===================场景信息相关=========================
+--解锁新场景
+function GameDataManager.unLockScene(_sceneId)
+    if sceneDic[_sceneId] then
+        return
+    end
+    local _sceneVo = clone(SceneVo)
+    _sceneVo.sceneId = _sceneId
+    sceneDic[_sceneId] = _sceneVo
+    GameDispatcher:dispatch(EventNames.EVENT_UPDATE_SCENE,{id = _sceneId})
+end
+
+--是否拥有相应场景
+function GameDataManager.getSceneModle(_sceneId)
+    return sceneDic[_sceneId]
+end
+
+--设置当前出战场景id
+function GameDataManager.setCurFightScene(_sceneId)
+    curSceneID = _sceneId
+end
+
+--获取当前出战场景id
+function GameDataManager.getFightScene()
+    return curSceneID
+end
+
 --===================End=========================
 
 --===================使用道具相关=========================
@@ -455,12 +484,19 @@ function GameDataManager.saveGameData()
     DataPersistence.updateAttribute("user_diamond",userData.diamond)
     DataPersistence.updateAttribute("bestscore",userData.record)
     DataPersistence.updateAttribute("cur_roleID",playerVo.m_roleId)
+    DataPersistence.updateAttribute("cur_sceneID",curSceneID)
 
     local modleList = {}
     for key, var in pairs(modleDic) do
         table.insert(modleList,var)
     end
     DataPersistence.updateAttribute("modle_list",modleList)
+    
+    local sceneList = {}
+    for key, var in pairs(sceneDic) do
+        table.insert(sceneList,var)
+    end
+    DataPersistence.updateAttribute("scene_list",sceneList)
 
     local cacheArr = {}
     for key, var in pairs(cacheGoodsDic) do

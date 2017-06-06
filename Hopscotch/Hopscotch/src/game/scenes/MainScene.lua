@@ -35,4 +35,9 @@ end
 function MainScene:onExit()
 end
 
+--场景销毁
+function MainScene:onCleanup()
+    GameDataManager.saveGameData()
+end
+
 return MainScene

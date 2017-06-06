@@ -49,7 +49,10 @@ function GameApp:ctor()
     DataPersistence.insertAttribute("sound",true)
 
     DataPersistence.insertAttribute("cur_roleID",1)      --当前使用角色id
-    DataPersistence.insertAttribute("modle_list",{ModleVo={roleId =1,isOwn = true,roleLv = 1},})    --已经解锁的角色模型列表，元素为ModleVo
+    DataPersistence.insertAttribute("modle_list",{ModleVo={roleId =1,isOwn = true},})    --已经解锁的角色模型列表，元素为ModleVo
+    
+    DataPersistence.insertAttribute("cur_sceneID",1)      --当前使用场景
+    DataPersistence.insertAttribute("scene_list",{SceneVo={sceneId =1,isOwn = true},})    --已经解锁的场景列表，元素为SceneVo
 
     --物品相关
     DataPersistence.insertAttribute("goods_list",{})    --拥有物品列表，列表元素为GoodsVo
