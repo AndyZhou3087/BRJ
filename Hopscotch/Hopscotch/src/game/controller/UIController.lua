@@ -1,6 +1,6 @@
 local SetView = require("game.view.set.SetUI")
 local PauseView = require("game.view.pause.PauseUI")
-local SettlementView = require("game.view.Settlement.SettlementUI")
+local SettlementView = require("game.view.settlement.SettlementUI")
 local ShopView = require("game.view.shop.ShopView")
 
 local UIController = class("UIController")
