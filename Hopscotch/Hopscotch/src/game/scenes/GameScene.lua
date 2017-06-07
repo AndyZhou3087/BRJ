@@ -46,7 +46,6 @@ end
 
 function GameScene:onEnter()
 
-
     self.m_map = MapLayer.new()
     self:addChild(self.m_map)
 

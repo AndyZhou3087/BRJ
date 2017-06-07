@@ -6,6 +6,7 @@ local MapRoom = require("game.view.map.MapRoom")
 local Scheduler = require("framework.scheduler")
 --local CoinElement=require("game.view.element.CoinElement")
 --local DiamondElement=require("game.view.element.DiamondElement")
+local BackGroundMove = require("game.view.map.BackGroundMove")
 
 local Normal_Camara_BottomY = 340 --正常摄像机底部界限，超过此值会迅速拉回摄像机
 --滑动类型
@@ -28,14 +29,12 @@ function MapLayer:ctor(parameters)
     GameController.setRooms(self.m_chaceRooms)
     
     self.m_curZOrder = MAP_ZORDER_MAX   --房间当前显示层级
+    
+--    self.bg = display.newColorLayer(cc.c4b(170,97,140,255)):addTo(self)
+--    self.bg = cc.LayerGradient:create():addTo(self)--(cc.c4b(170,97,140,255),cc.c4b(217,210,201,0)):addTo(self)
+    
+    self.m_backbg = BackGroundMove.new(GameDataManager.getFightScene()):addTo(self)
 
---    self:setTouchEnabled(false)
---    self:setTouchSwallowEnabled(false)
---
---    self.m_bg = display.newSprite("map/bg/bg.jpg")
---    self:addChild(self.m_bg)
---    self.m_bg:align(display.CENTER, display.cx, display.cy)
---
 --    --房间层
 --    self.m_roomNode = display.newNode()
 --    self.m_roomNode:setTouchEnabled(false)
@@ -44,10 +43,12 @@ function MapLayer:ctor(parameters)
 
 --    self:initRooms()
 
---    self.m_camera = cc.Camera:createOrthographic(display.width,display.height,0,1)
---    self.m_camera:setCameraFlag(cc.CameraFlag.USER1)
---    self:addChild(self.m_camera)
---    self.m_camera:setPosition3D(cc.vec3(0, 0, 0))
+    self.m_camera = cc.Camera:createOrthographic(display.width,display.height,0,1)
+    self.m_camera:setCameraFlag(cc.CameraFlag.USER1)
+    self:addChild(self.m_camera)
+    self.m_camera:setPosition3D(cc.vec3(0, 0, 0))
+    
+    self:setCameraMask(2)
 
 --    self.m_player = Player.new()
 --    self:addChild(self.m_player,MAP_ZORDER_MAX+1)
@@ -61,8 +62,6 @@ function MapLayer:ctor(parameters)
     --监听范围破坏
 --    GameDispatcher:addListener(EventNames.EVENT_AREA_DAMAGE,handler(self,self.damageHandle))
 
---    self:setCameraMask(2)
-
 end
 
 --进行弹跳
@@ -71,14 +70,17 @@ function MapLayer:toJump()
 --    self.m_isUp = false
 end
 --触摸
-local lastTouchTime = 0
-local firstTouchTime = 0
 function MapLayer:touchFunc(event)
 --    if tolua.isnull(self.m_player) or self.m_player:getVo().m_hp<=0 or self.m_player:getWalk()==true then
 --        return true
 --    end
     if event.name == "began" then
-        
+        local x,y = self.m_camera:getPosition()
+        self.m_camera:setPositionY(y+99)
+        local _x,_y = self.m_camera:getPosition()
+        Tools.printDebug("-------brj-----摄像机移动",_y)
+        local x1,y1 = self.m_backbg:getPosition()
+        self.m_backbg:setPosition(cc.p(_x,_y-_y*2/99))
         return true
     elseif event.name == "ended" then
         
@@ -86,33 +88,6 @@ function MapLayer:touchFunc(event)
         
     end
     return true
-end
-
---转向
-function MapLayer:turnDirection(_slideType)
-    if tolua.isnull(self.m_player) or self.m_player:isDead() then
-    	return
-    end
-    local _scaleX=self.m_player:getScaleX()
-    if Slide_Type.Slide_Left == _slideType then
-        self.m_player:setVelocity(cc.p(-self.m_player:getVo().m_speed,0))
-        self.m_player:setScaleX(math.abs(_scaleX))
-        if not tolua.isnull(self.m_guide) then
-                self.m_guide:toClose(true)
-                self.m_guide=nil
-        end
-        return
-    end
-    if Slide_Type.Slide_Right == _slideType then
-        self.m_player:setVelocity(cc.p(self.m_player:getVo().m_speed,0))
-        self.m_player:setScaleX(-1*math.abs(_scaleX))
-        if not tolua.isnull(self.m_guide) then
-            self.m_guide:toClose(true)
-            self.m_guide=nil
-        end
-        return
-    end
-    
 end
 
 
@@ -131,9 +106,6 @@ function MapLayer:onEnterFrame(dt)
     GameController.attract()
   
     if tolua.isnull(self.m_player) then
-        if not tolua.isnull(self.m_rocket) then
-            self.m_rocket:removeFromParent(true)
-        end
         return
     end
 
@@ -141,173 +113,9 @@ function MapLayer:onEnterFrame(dt)
         return
     end
 
-    if  self.m_player:isDead() then
-        return
-    end
-
-    --上抛时跳跃无效--滞空状态时跳跃无效
-    if self.m_player:isInState(PLAYER_STATE.Thrown) or self.m_player:isInState(PLAYER_STATE.Hover) then
-        self.m_isDown = false
-        self.m_isUp = false
-        self.m_isDrawing = false
-        self.m_player:setDrawing(false)
-        self.m_player:setDoubleJump(false)
-    end
-
-    local bpx,bpy = self.m_player:getPosition()
-    local _size = self.m_player:getSize()
-
-    self.m_player:update(dt,bpx,bpy)
-
-    local bIsReturn=false
-    if bpx <= 20 then
-        bpx=64+_size.width*0.5
-        bIsReturn=true
-    end
-    if  bpx >= (display.width-20)  then
-        bpx=display.width-64-_size.width*0.5
-        bIsReturn=true
-    end
-    if bIsReturn==true then
-        local _scaleX=self.m_player:getScaleX()
-        self.m_player:setVelocity(cc.p(_scaleX/math.abs(_scaleX)*self.m_player:getVo().m_speed,0))
-        self.m_player:setScaleX(-1*_scaleX)
-        self.m_player:collision()
-    end
-    if bpy-_size.height*0.5<self.m_mapEndY+Blank then
-        bpy=self.m_mapEndY+64+Blank+_size.height*0.5
-        bIsReturn = true
-    end
-    if bIsReturn then
-        self.m_player:setPosition(bpx,bpy)
-    end
-
-    local _body = self.m_player:getBody()
-    local _p = _body:getPosition()
-    local _veloc = _body:getVelocity()
-    local _scaleX = self.m_player:getScaleX()
-    local _add = -1*_scaleX/math.abs(_scaleX)  --因为人物默认是向左的，所以乘以-1
-    if self.m_player:isInState(PLAYER_STATE.Thrown) then
-        self.m_physicWorld:rayCast(handler(self,self.rayCastFunc),cc.p(_p.x,_p.y),cc.p(_p.x,_p.y+_size.height*0.5+Raycast_DisY))
-    else
-        self.m_physicWorld:rayCast(handler(self,self.rayCastFunc),cc.p(_p.x,_p.y),cc.p(_p.x,_p.y-_size.height*0.5-Raycast_DisY))
-    end
-
-    if _p.x <= 32  then
-        self.m_player:setVelocity(cc.p(self.m_player:getVo().m_speed,0))
-        self.m_player:setScaleX(-1*math.abs(_scaleX))
-    end
-    if _p.x >= (display.width-32) then
-        self.m_player:setVelocity(cc.p(-self.m_player:getVo().m_speed,0))
-        self.m_player:setScaleX(math.abs(_scaleX))
-    end
-    --    Tools.printDebug("chjh p.x=，bpx=,pwy=",_p.x,bpx,self.m_player:convertToWorldSpace(cc.p(0,0)).y)
-
-    if self.m_oldX==bpx and self.m_oldY==bpy then
-        self.m_staticTime = self.m_staticTime + dt
-    else
-        self.m_staticTime = 0
-    end
-    self.m_oldX = bpx
-    self.m_oldY = bpy
-
-    local roomIndex = math.floor(self.m_player:getPositionY()/Room_Size.height)
-    if roomIndex~=self.m_lastRoomIdx then
-        --        local _room = self:getRoomByIdx(MAP_ROOM_INIT_NUM-self.m_lastRoomIdx)
-        if MAP_ROOM_INIT_NUM-self.m_lastRoomIdx==1 and self.m_isSleep==true then
-            self.m_isSleep=false
-            for var=1,#self.m_chaceRooms do
-                self.m_chaceRooms[var]:setSleep(false)
-            end
-        end
-
-        if not tolua.isnull(self.m_lastRoom) then
-            self.m_lastRoom:leaveRoom()
-            self.m_obstacleL=nil
-            self.m_obstacleR=nil
-        end
-        local _room = self:getRoomByIdx(MAP_ROOM_INIT_NUM-roomIndex)
-
-        self.m_room=_room
-
-        if _room then
-            --防止重复计分
-            if not _room:isVisited() then
-                GameDataManager.addLevelScore(Level_Score.Floor_Score)
-            end
-
-            _room:intoRoom()
-
-            if GameDataManager.getUlockLevelsNum() <= 0 and MAP_ROOM_INIT_NUM-roomIndex <= 5 and tolua.isnull(self.m_guide) then
-                self.m_guide=GuideView.new():addTo(self:getParent(),MAP_ZORDER_MAX+1)
-            end
-            
---            if GameDataManager.getUlockLevelsNum() <= 0 and GameController.CurRoomIdx==5 then
---                self.m_guideLR=GuideLR.new():addTo(GameController.getRoomByIdx(GameController.CurRoomIdx),1000)
---            end
-
-            if not tolua.isnull(self.m_guide) then
-                if MAP_ROOM_INIT_NUM-roomIndex <= 5 then
-                    self.m_guide:setType(MAP_ROOM_INIT_NUM-roomIndex)
-                else
-                    self.m_guide:toClose(true)
-                    self.m_guide=nil
-                end
-            end
-        end
-        self.m_lastRoomIdx = roomIndex
-        self.m_lastRoom = _room
-    end
-
-    if self.m_player:getPositionY()<=(roomIndex*Room_Size.height+64+_size.height) then
-        if roomIndex < self.m_lastFarRoomIdx then
-            local _nums = math.abs(roomIndex-self.m_lastFarRoomIdx)
-            self.m_lastFarRoomIdx = roomIndex
-            for var=1, _nums do
-                self:addNewRooms()
-            end
-        end
-    end
-
-    --已经显示到最后一层房间则摄像机不再跟随
-    local curCamaraY = self.m_camera:getPositionY();
-    if curCamaraY > self.m_mapEndY then
-        --        local curPlayerY = self.m_player:getPositionY()
-        -- 主角速度
-        local playerSpeed = bpy - self.m_lastPlayerY;
-
-        local camaraSpeed = 0;
-        local camaraEndY = bpy - self.m_camarTopY;
-
-        local disY = camaraEndY - curCamaraY;
-
-        -- 缓动下落速度
-        local minSpeed = disY/100;
-
-        -- 主角是否在屏幕中间
-        local bottomMinDis = bpy-self.m_camarTopY;
-        local topMidDis = bpy-self.m_camarBotY  --(display.height-self.m_camarTopY);
-        if (disY>0 and bottomMinDis<curCamaraY) or (disY<0 and topMidDis>curCamaraY) then
-            camaraSpeed = minSpeed;
-        else
-            if playerSpeed==0 then
-                camaraSpeed = minSpeed;
-            else
-                camaraSpeed = playerSpeed;
-            end
-        end
-
-        local camaraY = curCamaraY + camaraSpeed;
-        self.m_camera:setPositionY(camaraY)
-
-        self.m_bg:setPositionY(camaraY+display.height*0.5)
-        self.edgeLeft:setPositionY(camaraY)
-        self.edgeRight:setPositionY(camaraY)
-
-        GameController.CurCamaraY = curCamaraY
-
-        self.m_lastPlayerY = bpy --self.m_player:getPositionY()
-    end
+--    if  self.m_player:isDead() then
+--        return
+--    end
 
 end
 
@@ -357,213 +165,6 @@ function MapLayer:collisionBeginCallBack(parameters)
     end
     if tolua.isnull(bodyA) or tolua.isnull(bodyB) then
         return true
-    end
-    
-    if player and player:getVo().m_hp <= 0 then
-        self.m_isUp=false
-        self.m_isDown=false
-        self.m_isDrawing = false
-        return true
-    end
-    --弹出界面时角色无敌状态
-    if player and player:isInState(PLAYER_STATE.InvinState) then
-        self.m_isUp=false
-        self.m_isDown=false
-        return true
-    end
-
-    if (not player) or player:isDead() then
-        return true   --参与碰撞的没有玩家
-    end
-
-    if tolua.isnull(obstacle) then
-        return false
-    else
-        if obstacle.getSize~=nil then
-            obstacleS=obstacle:getSize()
-        else
-            obstacleS=obstacle:getCascadeBoundingBox()
-        end
-
-        obstacleScale=obstacle:getScaleX()
-    end
-
-    _size=player:getSize()
-
-    if obstacleTag==ELEMENT_TAG.NORMAL_WALL_TAG and not tolua.isnull(obstacle) and obstacle:isDestroy()  then
-        return false
-    end
-
-    local _hitP = cc.p(playerBP.x,playerBP.y-player:getSize().height)
-
-    --玩家在火箭状态下
-    if (player:isInState(PLAYER_STATE.Rocket) or player:isInState(PLAYER_STATE.SuperRocket)) and not tolua.isnull(self.m_rocket) then
-        if tolua.isnull(obstacle) then
-            return false
-        end
-        if obstacleTag==ELEMENT_TAG.MONSTER_TAG then
-            if obstacle:getVo().m_type ~= MONSTER_TYPE.Boss_Type then
-                obstacle:collision(SprintAtt,true,obstacle:getBodyY(),true)
-            end
-        elseif obstacleTag==ELEMENT_TAG.IRON_WALL_TAG then
-            if player:isInState(PLAYER_STATE.Rocket) then
-                player:toStopRocket()
-            else
-                player:toStopSuperRocket()
-            end
-            return true
-        else
-            obstacle:collision()
-        end
-        local tagT={[ELEMENT_TAG.NORMAL_WALL_TAG]=1,[ELEMENT_TAG.STONE_WALL_TAG]=2}
-
-        self:checkToDamageBody(_hitP,SprintDA,tagT)
-        return false
-    end
-
-    local back=function(obstacleY,playerY)
-        local _x = -1
-        local _scaleX = player:getScaleX()
-        if conData.normal.x < 0 then
-            _x = -1
-        else
-            _x = 1
-        end
-
-        if obstacleY+obstacleOff.y >= playerY and math.abs(obstacleBP.x-playerBP.x+obstacleOff.x)>=(obstacleS.width+_size.width)/2.0-15 then
-            if obstacleTag==ELEMENT_TAG.MONSTER_TAG or obstacleTag==ELEMENT_TAG.NORMAL_WALL_TAG
-                or obstacleTag==ELEMENT_TAG.STONE_WALL_TAG or obstalceTag==ELEMENT_TAG.IRON_WALL_TAG
-                or obstacleTag==ELEMENT_TAG.WINDOW_TAG or obstacleTag==ELEMENT_TAG.TRAPMONSTER_TAG then
-
-
-                    if obstacleTag==ELEMENT_TAG.NORMAL_WALL_TAG or obstacleTag==ELEMENT_TAG.STONE_WALL_TAG
-                        or obstacleTag==ELEMENT_TAG.IRON_WALL_TAG or obstacleTag==ELEMENT_TAG.BOSSBOMB_TAG then
-                        local vel=self.m_player:getBody():getVelocity()
-
-                        if playerBP.x<obstacleBP.x then
-                            if tolua.isnull(obstacle.m_pre) then
-                                self.m_player:setVelocity(cc.p(-self.m_player:getVo().m_speed,vel.y))
-                                self.m_player:setScaleX(math.abs(_scaleX))
-                                self.m_player:collision()
-                                self.m_obstacleR=obstacle
-                            else
-                                if playerBP.y>obstacleBP.y then
-                                    local oldX,oldY = player:getPosition()
-                                    player:setPositionY(oldY+32*0.5+_size.height*0.5) --此处是把陷入地板的角色拔出来，也是以前导致瞬移出现的元凶
-                                end
-                            end
-                        else
-                            if tolua.isnull(obstacle.m_behind) then
-                                self.m_player:setVelocity(cc.p(self.m_player:getVo().m_speed,vel.y))
-                                self.m_player:setScaleX(-math.abs(_scaleX))
-                                self.m_player:collision()
-                                self.m_obstacleL=obstacle
-                            else
-                                if playerBP.y>obstacleBP.y and not tolua.isnull(obstacle) then
-                                    local oldX,oldY = player:getPosition()
-                                    player:setPositionY(oldY+32*0.5+_size.height*0.5) --此处是把陷入地板的角色拔出来，也是以前导致瞬移出现的元凶
-                                end
-                            end
-                        end
-                    else
-                        local vel=self.m_player:getBody():getVelocity()
-
-                        if playerBP.x<obstacleBP.x then
-                            self.m_player:setVelocity(cc.p(-self.m_player:getVo().m_speed,vel.y))
-                            self.m_player:setScaleX(math.abs(_scaleX))
-                            self.m_player:collision()
-                            self.m_obstacleR=obstacle
-                        else
-                            self.m_player:setVelocity(cc.p(self.m_player:getVo().m_speed,vel.y))
-                            self.m_player:setScaleX(-math.abs(_scaleX))
-                            self.m_player:collision()
-                            self.m_obstacleL=obstacle
-                        end
-                    end
-            end
-        end
-    end
-
-    if self.m_player:isInState(PLAYER_STATE.WalkMachine) and (obstacleTag==ELEMENT_TAG.TRAPMONSTER_TAG or obstacleTag==ELEMENT_TAG.DUSTBIN_TAG)  then
-        if not tolua.isnull(obstacle) then
-            obstacle:dispose(true)
-            return true
-        end
-    end
-
-    --对rayCastFuncX碰撞方向遗漏再次检测，由于探测只是一条线，所以前方可能探测不全
-    if conData.normal.x~=0 and (not self.m_isUp) and (not self.m_isDown) then
-        --        local _x = -1
-        local _size = player:getSize()
-        back(obstacleBP.y,playerBP.y-_size.height*0.4)
-    end
-
-    --由于探测仅是一条线，防止漏网之鱼
-    local isUpOrDown=0
-    if self.m_player:isUpDrawing()==true then
-        isUpOrDown=1
-    elseif self.m_player:isDownDrawing()==true then
-        isUpOrDown=2
-    end
-
-    if isUpOrDown~=0 then
-        local _vo = player:getVo()
-        local DA=player:getDA()
-
-        if obstacleTag==ELEMENT_TAG.NORMAL_WALL_TAG then
-            if isUpOrDown==2 then
-                self.m_addFragment=true
-                obstacle:collision()
-
-                if self.m_player:isInState(PLAYER_STATE.Invincible) then
-                    local tagT={[ELEMENT_TAG.NORMAL_WALL_TAG]=1,[ELEMENT_TAG.STONE_WALL_TAG]=2}
-                    self:checkToDamageBody(_hitP,DA,tagT)
-                else
-                    self:checkToDamageBody(_hitP,DA,{[ELEMENT_TAG.NORMAL_WALL_TAG]=1})
-                end
-                --                local pos=self.m_player:getBody():getPosition()
-                --                pos.y=pos.y-self.m_player.m_size.height/2.0-32
-                --                self:addFragment(pos)
-
-                --此为墙体碰撞也要改变其方向
-                if obstacleBP.y > playerBP.y then
-                    Tools.printDebug("chjh ---------此处碰撞应改变方向--")
-                    back(obstacleBP.y+obstacleS.height/2.0,playerBP.y-_size.height/2.0)
-                else
-                    self.m_player:setDrawing(false)
-                end
-
-                return false
-            else
-                self.m_player:setDrawing(false)
-                back(obstacleBP.y+obstacleS.height/2.0,playerBP.y-_size.height/2.0)
-                return true
-            end
-        end
-    end
-    --检测跳跃结束
-    --    if player:isDown() then
-    --    Tools.printDebug("2222222222222222222222222",self.m_isDrawing)
-    if self.m_isDrawing == true then
-        if self.m_player:isToUp() then
-            back(obstacleBP.y +obstacleS.height/2.0,playerBP.y-_size.height/2.0)
-            return true
-        end
-
-        local _vo = player:getVo()
-        local DA=player:getDA()
-        self.m_player:toPlay(PLAYER_ACTION.Run)
-        self.m_isDrawing = false
-
-        local bIsDown=self.m_isDown or self.m_isUp
-
-        if bIsDown==true then
-            self.m_isDown = false
-            self.m_isUp=false
-        end
-    else
-        local _vo = player:getVo()
-        self:toJump()
     end
 
     return true
@@ -624,13 +225,13 @@ function MapLayer:initPlayerPos(parameters)
 --
 --    self.m_physicWorld = display.getRunningScene():getPhysicsWorld()
 --    self:scheduleUpdate()
---
+
 --    self.m_camera:setPositionY(_playerY-480)--(_mapSize.height-display.height)--(_playerY-480)
---    self.m_event = cc.EventListenerPhysicsContact:create()
---    self.m_event:registerScriptHandler(handler(self,self.collisionBeginCallBack), cc.Handler.EVENT_PHYSICS_CONTACT_BEGIN)
---
---    self:getEventDispatcher():addEventListenerWithFixedPriority(self.m_event,1)
---    self:addNodeEventListener(cc.NODE_ENTER_FRAME_EVENT, handler(self, self.onEnterFrame))
+    self.m_event = cc.EventListenerPhysicsContact:create()
+    self.m_event:registerScriptHandler(handler(self,self.collisionBeginCallBack), cc.Handler.EVENT_PHYSICS_CONTACT_BEGIN)
+
+    self:getEventDispatcher():addEventListenerWithFixedPriority(self.m_event,1)
+    self:addNodeEventListener(cc.NODE_ENTER_FRAME_EVENT, handler(self, self.onEnterFrame))
 end
 
 --碰撞反射，从人物中心向下或向上发射一个比自身一半多 Raycast_DisY 像素的探测射线，进行检测有无障碍物
@@ -655,37 +256,10 @@ function MapLayer:rayCastFunc(_world,_p1,_p2,_p3)
         return true
     end
 
-    --玩家在火箭状态下
-    if (self.m_player:isInState(PLAYER_STATE.Rocket) or self.m_player:isInState(PLAYER_STATE.SuperRocket)) and not tolua.isnull(self.m_rocket) then
-        if _tag==ELEMENT_TAG.MONSTER_TAG then
-            if _bnode:getVo().m_type ~= MONSTER_TYPE.Boss_Type then
-                _bnode:collision(SprintAtt,true,_bnode:getBodyY(),true)
-            end
-        elseif _tag==ELEMENT_TAG.IRON_WALL_TAG then
-            if self.m_player:isInState(PLAYER_STATE.Rocket) then
-                self.m_player:toStopRocket()
-            else
-                self.m_player:toStopSuperRocket()
-            end
-            return true
-        else
-            _bnode:collision()
-        end
-        local tagT={[ELEMENT_TAG.NORMAL_WALL_TAG]=1,[ELEMENT_TAG.STONE_WALL_TAG]=2}
-
-        self:checkToDamageBody(_hitP,SprintDA,tagT)
-        return false
-    end
     return true
 end
 --
 function MapLayer:rayCastFuncX(_world,_p1,_p2,_p3)
-    --    Tools.printDebug("chjh _p1.normal.x,y",_p1.normal.x,_p1.normal.y)
-    --冲刺状态下不做方向
-    --    if self.m_player:isInState(PLAYER_STATE.Sprint) then
-    --        return true
-    --    end
-    --    self.m_rayCastXT = os.clock()
     local _body = _p1.shape:getBody()
     local _bnode = _body:getNode()
     local _tag = _body:getTag()
@@ -693,63 +267,11 @@ function MapLayer:rayCastFuncX(_world,_p1,_p2,_p3)
     local playerBP=self.m_player:getBody():getPosition()
     local obstacleBP=_body:getPosition()
     local att=self.m_player:getAtt()
-    --    Tools.printDebug("player.scalex=",_scaleX)
-    --    local _x
-    --    if _p1.normal.x>0 then
-    --    	_x = 1
-    --    else
-    --        _x = -1
-    --    end
+    
     if (not _bnode) or _tag==ELEMENT_TAG.PLAYER_TAG then
         return true
     end
 
-    local bIsResist=false   --是否有碰到障碍
-
-    --添加了启跳中碰到障碍物更改方向，但破坏地板下落中不需改变方向，窗户直接换向
-    if bIsResist and ((not self.m_isUp) and (not self.m_isDown) or self.m_player:isToUp()) or _tag==ELEMENT_TAG.WINDOW_TAG then
-        self.m_checkedDir = true
-        if _tag==ELEMENT_TAG.NORMAL_WALL_TAG or _tag==ELEMENT_TAG.STONE_WALL_TAG or _tag==ELEMENT_TAG.IRON_WALL_TAG then
-            local vel=self.m_player:getBody():getVelocity()
-
-            if playerBP.x<obstacleBP.x then
-                if tolua.isnull(_bnode.m_pre) then
-                    self.m_player:setVelocity(cc.p(-self.m_player:getVo().m_speed,vel.y))
-                    self.m_player:setScaleX(math.abs(_scaleX))
-                    self.m_player:collision()
-                    self.m_obstacleR=_bnode
-
-                    return false
-                end
-            else
-                if tolua.isnull(_bnode.m_behind) then
-                    self.m_player:setVelocity(cc.p(self.m_player:getVo().m_speed,vel.y))
-                    self.m_player:setScaleX(-math.abs(_scaleX))
-                    self.m_player:collision()
-                    self.m_obstacleL=_bnode
-
-                    return false
-                end
-            end
-        else
-            local vel=self.m_player:getBody():getVelocity()
-            if playerBP.x<obstacleBP.x then
-                self.m_player:setVelocity(cc.p(-self.m_player:getVo().m_speed,vel.y))
-                self.m_player:setScaleX(math.abs(_scaleX))
-                self.m_player:collision()
-                self.m_obstacleR=_bnode
-            else
-                self.m_player:setVelocity(cc.p(self.m_player:getVo().m_speed,vel.y))
-                self.m_player:setScaleX(-math.abs(_scaleX))
-                self.m_player:collision()
-                self.m_obstacleL=_bnode
-            end
-
-            return false
-        end
-
-    end
-    self.m_checkedDir = false
     return true
 end
 

@@ -501,7 +501,7 @@
       "width": 750,
       "x": 0,
       "y": 0,
-      "adaptScreen": false,
+      "adaptScreen": true,
       "backGroundImage": null,
       "backGroundImageData": null,
       "backGroundScale9Enable": false,

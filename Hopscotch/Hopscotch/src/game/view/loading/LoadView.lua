@@ -67,7 +67,7 @@ function LoadView:ctor(parameters)
     self:addNodeEventListener(cc.NODE_TOUCH_EVENT, function(event)
         if event.name == "began" then
             Tools.printDebug("-------------------进入主场景")
-            
+            app:enterGameScene()
             return true
         elseif event.name == "ended" then
         end

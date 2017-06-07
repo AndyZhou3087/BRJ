@@ -3,7 +3,7 @@
 ]]
 
 --房间大小
-Room_Size = cc.size(682,98)--坐标：x:[35,716]
+Room_Size = cc.size(692,99)--坐标：x:[29,721]
 
 Grid_Size = cc.size(90,90)
 
