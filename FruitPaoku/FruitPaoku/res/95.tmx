@@ -56,8 +56,5 @@
   <object name="6" gid="1073741829" x="30" y="130"/>
   <object name="6" gid="1073741829" x="660" y="130"/>
   <object name="6" gid="1073741829" x="570" y="130"/>
-  <object name="2" gid="2" x="750" y="509"/>
-  <object name="2" gid="2" x="800" y="509"/>
-  <object name="2" gid="2" x="850" y="509"/>
  </objectgroup>
 </map>

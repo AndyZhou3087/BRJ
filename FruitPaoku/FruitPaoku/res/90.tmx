@@ -46,7 +46,7 @@
   <object name="Common_copper.png" type="3" gid="4" x="575" y="160"/>
  </objectgroup>
  <objectgroup name="good">
-  <object gid="7" x="635" y="161"/>
+  <object name="12" gid="7" x="635" y="161"/>
  </objectgroup>
  <objectgroup name="obstacle">
   <object name="2" gid="2" x="470" y="509"/>
