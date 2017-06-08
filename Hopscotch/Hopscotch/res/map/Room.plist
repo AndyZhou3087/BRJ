@@ -59,80 +59,80 @@
             <key>Room_floor_1.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{856,2},{15,16}}</string>
+                <string>{{856,2},{17,16}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
                 <false/>
                 <key>sourceColorRect</key>
-                <string>{{0,0},{15,16}}</string>
+                <string>{{0,0},{17,16}}</string>
                 <key>sourceSize</key>
-                <string>{15,16}</string>
+                <string>{17,16}</string>
             </dict>
             <key>Room_floor_2.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{873,2},{15,16}}</string>
+                <string>{{875,2},{17,16}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
                 <false/>
                 <key>sourceColorRect</key>
-                <string>{{0,0},{15,16}}</string>
+                <string>{{0,0},{17,16}}</string>
                 <key>sourceSize</key>
-                <string>{15,16}</string>
+                <string>{17,16}</string>
             </dict>
             <key>Room_floor_3.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{890,2},{15,16}}</string>
+                <string>{{894,2},{17,16}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
                 <false/>
                 <key>sourceColorRect</key>
-                <string>{{0,0},{15,16}}</string>
+                <string>{{0,0},{17,16}}</string>
                 <key>sourceSize</key>
-                <string>{15,16}</string>
+                <string>{17,16}</string>
             </dict>
             <key>Room_floor_4.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{907,2},{15,16}}</string>
+                <string>{{913,2},{17,16}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
                 <false/>
                 <key>sourceColorRect</key>
-                <string>{{0,0},{15,16}}</string>
+                <string>{{0,0},{17,16}}</string>
                 <key>sourceSize</key>
-                <string>{15,16}</string>
+                <string>{17,16}</string>
             </dict>
             <key>Room_floor_5.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{924,2},{15,12}}</string>
+                <string>{{932,2},{17,16}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
                 <false/>
                 <key>sourceColorRect</key>
-                <string>{{0,0},{15,12}}</string>
+                <string>{{0,0},{17,16}}</string>
                 <key>sourceSize</key>
-                <string>{15,12}</string>
+                <string>{17,16}</string>
             </dict>
             <key>Room_floor_6.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{941,2},{15,12}}</string>
+                <string>{{951,2},{17,16}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
                 <false/>
                 <key>sourceColorRect</key>
-                <string>{{0,0},{15,12}}</string>
+                <string>{{0,0},{17,16}}</string>
                 <key>sourceSize</key>
-                <string>{15,12}</string>
+                <string>{17,16}</string>
             </dict>
             <key>Room_floor_7.png</key>
             <dict>
@@ -300,7 +300,7 @@
             <key>size</key>
             <string>{1024,256}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:e3ac9f871a701d359d124b580a011e64$</string>
+            <string>$TexturePacker:SmartUpdate:54e1ca64ffed0e94320aa1ef6fc387fa$</string>
             <key>textureFileName</key>
             <string>Room.png</string>
         </dict>

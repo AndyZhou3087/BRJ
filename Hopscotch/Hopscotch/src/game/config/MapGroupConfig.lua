@@ -6,7 +6,7 @@ MAPROOM_TYPE =
 {
     Common = 1,   --普通
     Lean = 2,     --倾斜类型
-    Special = 3,   --特殊类型吊杆
+    Special = 3,   --特殊吊杆类型
     Running = 4,  --横向奔跑类型
 }
 
@@ -35,11 +35,11 @@ MAPRUNNING_TYPE =
 MapGroupConfig[1]= 
     { 
         _id=1, 
-        roomBgs={1,1,1,1,1,1,1,1,1,1}, --房间背景地面
+        roomBgs={1,2,2,2,2,2,2,2,2,3}, --房间背景地面
         ornaments={0,0,0,0,0,0,0,0,0,0}, ---小挂件
-        coins={0,10,2,23,24,8,19,0,14,18}, ---金币
-        roomGoods={0,0,0,0,0,34,0,0,0,0}, ---道具
-        type = MAPROOM_TYPE.Common,
+        coins={0,0,0,0,0,0,0,0,0,0}, ---金币
+        roomGoods={0,0,0,0,0,0,0,0,0,0}, ---道具
+        roomType = MAPROOM_TYPE.Common,
         direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
         distance = 0,        --房间x轴倾斜距离(单位：像素)
         probability = 60,     --权重

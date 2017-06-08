@@ -159,15 +159,15 @@
             <filename>Room_bg_2.png</filename>
             <filename>Room_bg_3.png</filename>
             <filename>Room_bg_4.png</filename>
+            <filename>../../../../Useful/跳房子/楼梯部件/黑边/Room_bg_1.png</filename>
+            <filename>../../../../Useful/跳房子/楼梯部件/黑边/Room_floor_7.png</filename>
+            <filename>../../../../Useful/跳房子/楼梯部件/Room_wall.png</filename>
+            <filename>Room_floor_3.png</filename>
+            <filename>Room_floor_4.png</filename>
             <filename>Room_floor_5.png</filename>
             <filename>Room_floor_6.png</filename>
-            <filename>../../../../Useful/跳房子/楼梯部件/黑边/Room_wall.png</filename>
-            <filename>../../../../Useful/跳房子/楼梯部件/黑边/Room_bg_1.png</filename>
-            <filename>../../../../Useful/跳房子/楼梯部件/黑边/Room_floor_1.png</filename>
-            <filename>../../../../Useful/跳房子/楼梯部件/黑边/Room_floor_2.png</filename>
-            <filename>../../../../Useful/跳房子/楼梯部件/黑边/Room_floor_3.png</filename>
-            <filename>../../../../Useful/跳房子/楼梯部件/黑边/Room_floor_4.png</filename>
-            <filename>../../../../Useful/跳房子/楼梯部件/黑边/Room_floor_7.png</filename>
+            <filename>Room_floor_1.png</filename>
+            <filename>Room_floor_2.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

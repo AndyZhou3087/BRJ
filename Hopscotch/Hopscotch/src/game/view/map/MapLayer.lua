@@ -27,26 +27,33 @@ function MapLayer:ctor(parameters)
 
     self.m_chaceRooms = {}  --房间缓存数组
     GameController.setRooms(self.m_chaceRooms)
+    self.jumpFloorNum = 1
+    self.floorPos = {}
+    self.floorPos[0] = cc.p(0,0)
     
     self.m_curZOrder = MAP_ZORDER_MAX   --房间当前显示层级
     
 --    self.bg = display.newColorLayer(cc.c4b(170,97,140,255)):addTo(self)
---    self.bg = cc.LayerGradient:create():addTo(self)--(cc.c4b(170,97,140,255),cc.c4b(217,210,201,0)):addTo(self)
+--    self.bg = cc.LayerGradient:create(cc.c4b(170,97,140,255),cc.c4b(217,210,201,0)):addTo(self)
     
     self.m_backbg = BackGroundMove.new(GameDataManager.getFightScene()):addTo(self)
+    
+    self.m_bg = display.newSprite("map/Scene_"..GameDataManager.getFightScene().."/Map_frame_2.png")
+    self.bottomHeight = self.m_bg:getCascadeBoundingBox().size.height
 
---    --房间层
---    self.m_roomNode = display.newNode()
---    self.m_roomNode:setTouchEnabled(false)
---    self.m_roomNode:setTouchSwallowEnabled(false)
---    self:addChild(self.m_roomNode)
+    --房间层
+    self.m_roomNode = display.newNode()
+    self.m_roomNode:setTouchEnabled(false)
+    self.m_roomNode:setTouchSwallowEnabled(false)
+    self:addChild(self.m_roomNode)
 
---    self:initRooms()
+    self:initRooms()
 
     self.m_camera = cc.Camera:createOrthographic(display.width,display.height,0,1)
     self.m_camera:setCameraFlag(cc.CameraFlag.USER1)
     self:addChild(self.m_camera)
     self.m_camera:setPosition3D(cc.vec3(0, 0, 0))
+    self.cax,self.cay = self.m_camera:getPosition()
     
     self:setCameraMask(2)
 
@@ -75,12 +82,7 @@ function MapLayer:touchFunc(event)
 --        return true
 --    end
     if event.name == "began" then
-        local x,y = self.m_camera:getPosition()
-        self.m_camera:setPositionY(y+99)
-        local _x,_y = self.m_camera:getPosition()
-        Tools.printDebug("-------brj-----摄像机移动",_y)
-        local x1,y1 = self.m_backbg:getPosition()
-        self.m_backbg:setPosition(cc.p(_x,_y-_y*2/99))
+        self.jumpFloorNum = self.jumpFloorNum + 1
         return true
     elseif event.name == "ended" then
         
@@ -105,17 +107,26 @@ function MapLayer:onEnterFrame(dt)
     --移动金币
     GameController.attract()
   
-    if tolua.isnull(self.m_player) then
-        return
-    end
-
-    if tolua.isnull(self.m_player.m_body) then
-        return
-    end
+--    if tolua.isnull(self.m_player) then
+--        return
+--    end
+--
+--    if tolua.isnull(self.m_player.m_body) then
+--        return
+--    end
 
 --    if  self.m_player:isDead() then
 --        return
 --    end
+--    Tools.printDebug("------------------------------ddddddddddddddddddddddddd")
+    local pos = self.floorPos[self.jumpFloorNum]
+    local oldPos = self.floorPos[self.jumpFloorNum-1]
+    local x,y = self.m_camera:getPosition()
+    local _x,_y = self.m_backbg:getPosition()
+    if self.cay and y < self.cay+pos.y-oldPos.y then
+    	self.m_camera:setPositionY(y+1)
+        self.m_backbg:setPositionY(_y+0.9)
+    end 
 
 end
 
@@ -224,7 +235,7 @@ function MapLayer:initPlayerPos(parameters)
 --    self.m_lastPlayerY = _playerY --self.m_player:convertToWorldSpace(cc.p(0,0)).y;
 --
 --    self.m_physicWorld = display.getRunningScene():getPhysicsWorld()
---    self:scheduleUpdate()
+    self:scheduleUpdate()
 
 --    self.m_camera:setPositionY(_playerY-480)--(_mapSize.height-display.height)--(_playerY-480)
     self.m_event = cc.EventListenerPhysicsContact:create()
@@ -277,86 +288,64 @@ end
 
 --进入地图就创建的房间需要调整对应刚体位置,即需传第三个参数为true(room:initPosition(_x,_y,true))
 function MapLayer:initRooms(parameters)
-    if GAME_TYPE_CONTROL == GAME_TYPE.LevelMode then
-        self.m_levelCon = SelectLevel[GameDataManager.getCurLevelId()]
+    self.m_roomsNum = 0
+    local _x = 0
+    local _y = self.bottomHeight - Room_Size.height
+    for k=1, MAP_ROOM_INIT_NUM*0.1 do
+        --控制随机数种子
+        math.randomseed(tostring(os.time()):reverse():sub(1, 6))
+        local i = math.random(1,#MapGroupConfig)
+        self.m_levelCon = MapGroupConfig[i]
         self.curRooms = self.m_levelCon.roomBgs
-    elseif GAME_TYPE_CONTROL == GAME_TYPE.EndlessMode then
-        self.endlessCon = EndlessMode.room_Type
-        self.m_levelCon = self.endlessCon
-        self.curRooms = self.endlessCon
-    end
-    if self.m_levelCon then
-        self.m_rooms = self.curRooms
-        self.m_roomsNum = MAP_ROOM_INIT_NUM
-        self.m_roomAmount=#self.m_rooms
---        MAP_ZORDER_MAX = self.m_roomAmount-1
-        --        self.m_mapEndY = (self.m_roomAmount-MAP_ROOM_INIT_NUM)*Room_Size.height+100
-        self.m_mapEndY = (MAP_ROOM_INIT_NUM-self.m_roomAmount)*Room_Size.height-Blank
-        if self.m_roomsNum > self.m_roomAmount then
-            self.m_roomsNum = self.m_roomAmount
+
+        if self.m_levelCon then
+            self.m_rooms = self.curRooms
+            self.m_roomAmount=#self.m_rooms
+            self.m_roomsNum = self.m_roomsNum + self.m_roomAmount
+        else
+            Tools.printDebug("brj error 找不到配置",i)
+            return
         end
-    else
-        printf("chjh error 找不到id=%d的关卡配置",GameDataManager.getCurLevelId())
-        return
-    end
-    local _x,_y = 0,0
-    for var=1, self.m_roomsNum do
 
-        local _room = MapRoom.new(var,self.m_levelCon,self.m_roomAmount)
-        local _roomSize = _room:getSize()
-        _y = (MAP_ROOM_INIT_NUM-var)*Room_Size.height
+        for var=1, self.m_roomAmount do
+            Tools.printDebug("brj 高度",_y)
+            local _room = MapRoom.new(var,self.m_levelCon,var+(k-1)*10)
+            _room:setAnchorPoint(cc.p(0,0))
+            _y = _y + Room_Size.height
+            _x = _x + self.m_levelCon.distance
 
-        self.m_isSleep=true
-        _room:setSleep(true)
+            self.m_roomNode:addChild(_room,self.m_curZOrder)
+            _room:initPosition(_x,_y,true)
+            self.floorPos[var+(k-1)*10] = cc.p(_x,_y)
 
---        self:addChild(_room,self.m_curZOrder)
---        self:addChild(_room,self.m_roomAmount-var)
---        self.m_roomNode:addChild(_room,#self.m_rooms-var)
-        self.m_roomNode:addChild(_room,self.m_curZOrder)
-        _room:initPosition(_x,_y,true)
-        
-        table.insert(self.m_chaceRooms,_room)
-        self.m_curZOrder = self.m_curZOrder - 1
+            table.insert(self.m_chaceRooms,_room)
+            self.m_curZOrder = self.m_curZOrder + 1
+        end
     end
 end
 
 --添加新的房间
 --此处为动态添加的房间，不需调整刚体位置，即无需传第三个参数(room:initPosition(_x,_y))
 function MapLayer:addNewRooms(parameters)
-    if self.m_roomsNum >= self.m_roomAmount then
-        return
-    end
-
     self.m_roomsNum = self.m_roomsNum + 1
-    
-    if GAME_TYPE_CONTROL == GAME_TYPE.EndlessMode then
-        if self.endlessCon[self.m_roomsNum].type == Room_Hell.D then
-            self.m_levelCon = RoomsD[math.random(1,#RoomsD)]
-        elseif self.endlessCon[self.m_roomsNum].type == Room_Hell.C then
-            self.m_levelCon = RoomsC[math.random(1,#RoomsC)]
-        elseif self.endlessCon[self.m_roomsNum].type == Room_Hell.B then
-            self.m_levelCon = RoomsB[math.random(1,#RoomsB)]
-        elseif self.endlessCon[self.m_roomsNum].type == Room_Hell.A then
-            self.m_levelCon = RoomsA[math.random(1,#RoomsA)]
-        elseif self.endlessCon[self.m_roomsNum].type == Room_Hell.S then
-            self.m_levelCon = RoomsS[math.random(1,#RoomsS)]
-        elseif self.endlessCon[self.m_roomsNum].type == Room_Hell.SS then
-            self.m_levelCon = RoomsSS[math.random(1,#RoomsSS)]
-        elseif self.endlessCon[self.m_roomsNum].type == Room_Hell.I then
-            self.m_levelCon = RoomsI[math.random(1,#RoomsI)]
-        elseif self.endlessCon[self.m_roomsNum].type == Room_Hell.O then
-            self.m_levelCon = RoomsO[math.random(1,#RoomsO)]
-        end
+    if self.m_roomsNum % 10 == 1 then
+        --控制随机数种子
+        math.randomseed(tostring(os.time()):reverse():sub(1, 6))
+        local i = math.random(1,#MapGroupConfig)
+        self.m_levelCon = MapGroupConfig[i]
+        self.roomType = self.m_levelCon.type
+        self.floorNum = 0
     end
+    self.floorNum = self.floorNum + 1
+
     local _oldRoom = self.m_chaceRooms[#self.m_chaceRooms]
     local _newRoom
     local _x,_y = 0,0
     if _oldRoom then
-        --        printf("chjh self.m_roomsNum=%d,#self.m_rooms=%d",self.m_roomsNum,#self.m_rooms)
-        _newRoom = MapRoom.new(self.m_roomsNum,self.m_levelCon,self.m_roomAmount)
-        --        _newRoom = MapRoom.new(_oldRoom:getRoomIndex()+1,parameters.roomID)
-        _y = _oldRoom:getPositionY()-_oldRoom:getSize().height
-        self.m_lastRoomY = _y
+        _newRoom = MapRoom.new(self.floorNum,self.m_levelCon,self.m_roomsNum)
+        _y = _oldRoom:getPositionY() + Room_Size.height
+        _x = _x + self.m_levelCon.distance
+        self.floorPos[self.m_roomsNum] = cc.p(_x,_y)
     else
         _newRoom = MapRoom.new(1)
     end
@@ -365,14 +354,11 @@ function MapLayer:addNewRooms(parameters)
         _room:dispose()
     end
 
---    self:addChild(_newRoom,self.m_curZOrder)
---    self:addChild(_newRoom,self.m_roomAmount-self.m_roomsNum)
---    self.m_roomNode:addChild(_newRoom,#self.m_rooms-self.m_roomsNum)
     self.m_roomNode:addChild(_newRoom,self.m_curZOrder)
     _newRoom:initPosition(_x,_y)
     _newRoom:setCameraMask(2)
     table.insert(self.m_chaceRooms,_newRoom)
-    self.m_curZOrder = self.m_curZOrder - 1
+    self.m_curZOrder = self.m_curZOrder + 1
 end
 
 

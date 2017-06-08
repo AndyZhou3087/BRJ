@@ -20,7 +20,10 @@ MAP_ZORDER_MAX=0
 --阴影程度
 OPACITY=160
 
-MAP_GROUP_INIT_NUM = 20    --初始化房间数
+--初始化房间数
+MAP_ROOM_INIT_NUM = 30
+--地图房间最大数
+MAP_ROOM_MAX = 50
 
 --获取礼物花费钻石的数量
 DiamondSpendReward = 100
@@ -55,10 +58,10 @@ UI_ZORDER =
 ELEMENT_TAG=
     {
         PLAYER_TAG = 1,  --角色
-        Edge_Top = 2,  --上边界
-        Edge_Down = 3,  --下边界
-        OBSTACLE = 4,    --障碍
-        GOLD_TAG = 5,   --金币
+        WALLLEFT = 2,  --左墙壁
+        WALLRIGHT = 3,  --右墙壁
+        FLOOR = 4,    --普通地板
+        DIAMOND_TAG = 5,   --金币
         GOOD_TAG = 6,    --道具
     }
 
