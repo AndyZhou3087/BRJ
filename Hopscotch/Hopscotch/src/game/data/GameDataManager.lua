@@ -170,7 +170,6 @@ function GameDataManager.initPlayerVo()
     if roleConfig then
         local _lv = GameDataManager.getRoleModle(curRoleID).roleLv
         playerVo.m_roleId = curRoleID
-        playerVo.m_level = _lv
         playerVo.m_lifeNum = roleConfig.lifeNum
         playerVo.m_jump = roleConfig.jump --弹跳值
         playerVo.m_sprintTime = roleConfig.sprintTime   --冲刺时间

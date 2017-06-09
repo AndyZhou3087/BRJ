@@ -61,14 +61,19 @@ ELEMENT_TAG=
         WALLLEFT = 2,  --左墙壁
         WALLRIGHT = 3,  --右墙壁
         FLOOR = 4,    --普通地板
-        DIAMOND_TAG = 5,   --金币
-        GOOD_TAG = 6,    --道具
+        DIAMOND_TAG = 6,   --金币
+        GOOD_TAG = 7,    --道具
     }
 
 --缓存元素类型
 CACHE_TYPE=
     {
-        Coin = 1,
-        Sliver = 2,
-        Copper = 3,
+        Room_floor_1 = 1,
+        Room_floor_2 = 2,
+        Room_floor_3 = 3,
+        Room_floor_4 = 4,
+        Room_floor_5 = 5,
+        Room_floor_6 = 6,
+        Room_floor_7 = 7,
+        Room_wall = 8,
     }

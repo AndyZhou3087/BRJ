@@ -3,7 +3,10 @@
 ]]
 
 --角色移动速度
-ROLE_SPEED = 150
+ROLE_SPEED = 120
+
+--向上滑跳动的力
+Up_Jump = 200
 
 --角色状态
 PLAYER_STATE=
@@ -29,11 +32,13 @@ RoleConfig[1]=
         id = 1,
         type = Shop_Type.role,
         armatureName = false,   --动画工程名
-        roleImg = "shop/role_1.jpg",   --角色图片
+        roleImg = "role/role_1.jpg",   --角色图片
         roleName = "shop/rolename_1.png",
         priceRes = "shop/price_6.png",
         roleDes = "奥特曼",  --角色描述
         rmb = 0,   --人民币购买价格
+        speed = ROLE_SPEED,
+        lifeNum = 1,
     }
 
 RoleConfig[2]=
@@ -41,11 +46,13 @@ RoleConfig[2]=
         id = 2,
         type = Shop_Type.role,
         armatureName = false,   --动画工程名
-        roleImg = "shop/role_2.jpg",   --角色图片
+        roleImg = "role/role_2.jpg",   --角色图片
         roleName = "shop/rolename_2.png",
         priceRes = "shop/price_6.png",
         roleDes = "钢铁侠",  --角色描述
         rmb = 6,   --人民币购买价格
+        speed = ROLE_SPEED,
+        lifeNum = 1,
     }
     
 RoleConfig[3]=
@@ -53,11 +60,13 @@ RoleConfig[3]=
         id = 3,
         type = Shop_Type.role,
         armatureName = false,   --动画工程名
-        roleImg = "shop/role_3.jpg",   --角色图片
+        roleImg = "role/role_3.jpg",   --角色图片
         roleName = "shop/rolename_3.png",
         priceRes = "shop/price_6.png",
         roleDes = "黑豹",  --角色描述
         rmb = 6,   --人民币购买价格
+        speed = ROLE_SPEED,
+        lifeNum = 1,
     }
     
 RoleConfig[4]=
@@ -65,11 +74,13 @@ RoleConfig[4]=
         id = 4,
         type = Shop_Type.role,
         armatureName = false,   --动画工程名
-        roleImg = "shop/role_4.jpg",   --角色图片
+        roleImg = "role/role_4.jpg",   --角色图片
         roleName = "shop/rolename_4.png",
         priceRes = "shop/price_6.png",
         roleDes = "死侍",  --角色描述
         rmb = 6,   --人民币购买价格
+        speed = ROLE_SPEED,
+        lifeNum = 1,
     }
     
 RoleConfig[5]=
@@ -77,11 +88,13 @@ RoleConfig[5]=
         id = 5,
         type = Shop_Type.role,
         armatureName = false,   --动画工程名
-        roleImg = "shop/role_5.jpg",   --角色图片
+        roleImg = "role/role_5.jpg",   --角色图片
         roleName = "shop/rolename_5.png",
         priceRes = "shop/price_6.png",
         roleDes = "闪电侠",  --角色描述
         rmb = 6,   --人民币购买价格
+        speed = ROLE_SPEED,
+        lifeNum = 1,
     }
     
 RoleConfig[6]=
@@ -89,11 +102,13 @@ RoleConfig[6]=
         id = 6,
         type = Shop_Type.role,
         armatureName = false,   --动画工程名
-        roleImg = "shop/role_6.jpg",   --角色图片
+        roleImg = "role/role_6.jpg",   --角色图片
         roleName = "shop/rolename_6.png",
         priceRes = "shop/price_6.png",
         roleDes = "蜘蛛侠",  --角色描述
         rmb = 6,   --人民币购买价格
+        speed = ROLE_SPEED,
+        lifeNum = 1,
     }
     
 RoleConfig[7]=
@@ -101,11 +116,13 @@ RoleConfig[7]=
         id = 7,
         type = Shop_Type.role,
         armatureName = false,   --动画工程名
-        roleImg = "shop/role_7.jpg",   --角色图片
+        roleImg = "role/role_7.jpg",   --角色图片
         roleName = "shop/rolename_7.png",
         priceRes = "shop/price_6.png",
         roleDes = "金刚狼",  --角色描述
         rmb = 6,   --人民币购买价格
+        speed = ROLE_SPEED,
+        lifeNum = 1,
     }
     
 RoleConfig[8]=
@@ -113,11 +130,13 @@ RoleConfig[8]=
         id = 8,
         type = Shop_Type.role,
         armatureName = false,   --动画工程名
-        roleImg = "shop/role_8.jpg",   --角色图片
+        roleImg = "role/role_8.jpg",   --角色图片
         roleName = "shop/rolename_8.png",
         priceRes = "shop/price_6.png",
         roleDes = "绿巨人",  --角色描述
         rmb = 6,   --人民币购买价格
+        speed = ROLE_SPEED,
+        lifeNum = 1,
     }
     
 RoleConfig[9]=
@@ -125,11 +144,13 @@ RoleConfig[9]=
         id = 9,
         type = Shop_Type.role,
         armatureName = false,   --动画工程名
-        roleImg = "shop/role_9.jpg",   --角色图片
+        roleImg = "role/role_9.jpg",   --角色图片
         roleName = "shop/rolename_9.png",
         priceRes = "shop/price_6.png",
         roleDes = "美国队长",  --角色描述
         rmb = 6,   --人民币购买价格
+        speed = ROLE_SPEED,
+        lifeNum = 1,
     }
     
 RoleConfig[10]=
@@ -137,9 +158,12 @@ RoleConfig[10]=
         id = 10,
         type = Shop_Type.role,
         armatureName = false,   --动画工程名
-        roleImg = "shop/role_10.jpg",   --角色图片
+        roleImg = "role/role_10.jpg",   --角色图片
         roleName = "shop/rolename_10.png",
         priceRes = "shop/price_6.png",
         roleDes = "小丑",  --角色描述
         rmb = 6,   --人民币购买价格
+        speed = ROLE_SPEED,
+        lifeNum = 1,
     }
+    

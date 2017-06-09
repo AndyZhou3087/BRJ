@@ -9,13 +9,13 @@ local GameScene = class("GameScene", function()
     return display.newPhysicsScene("GameScene")
 end)
 
-local Gravity = 0    --重力
+local Gravity = -615    --重力
 
 --@param1:战斗场景资源加载完成后的回调方法
 function GameScene:ctor(_completeFunc)
     local _world = self:getPhysicsWorld()
     _world:setGravity(cc.p(0, Gravity))
---    _world:setDebugDrawMask(cc.PhysicsWorld.DEBUGDRAW_ALL)
+    _world:setDebugDrawMask(cc.PhysicsWorld.DEBUGDRAW_ALL)
 
     self:addNodeEventListener(cc.NODE_ENTER_FRAME_EVENT, handler(self, self.update))
 

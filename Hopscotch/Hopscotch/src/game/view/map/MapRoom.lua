@@ -20,6 +20,7 @@ function MapRoom:ctor(_idx,_levelCon,_floorNum)
     self.m_cacheBodys = {} --缓存的刚体数组
     self.m_goods={}
     self.bgArr = {}   --存放当前房间整块格子的背景图
+    self.floorArr = {}   --存放当前房间所有地板刚体
     self.m_index = _idx
     self.m_curLevelCon = _levelCon
     self.m_floorNum = _floorNum
@@ -57,28 +58,40 @@ function MapRoom:initBlock(_roomBgVo)
     if _roomBgVo.wallLeftRight then
         for j=1, #_roomBgVo.wallLeftRight do
             local info = _roomBgVo.wallLeftRight[j]
-            local wall = PhysicSprite.new(info.res):addTo(self)
+            local wall = PoolManager.getCacheObjByType(CACHE_TYPE[info.res])
+            if not wall then
+                wall = PhysicSprite.new(info.res)
+                wall:setCahceType(CACHE_TYPE[info.res])
+                local tag
+                if info.type == RoomWall_Type.Left then
+                    tag = ELEMENT_TAG.WALLLEFT
+                else
+                    tag = ELEMENT_TAG.WALLRIGHT
+                end
+                self:addPhysicsBody(wall,tag)
+                wall:retain()
+            end
+            self:addChild(wall)
             local wallSize = wall:getCascadeBoundingBox().size
             wall:setAnchorPoint(cc.p(0.5,0.5))
             wall:setPosition(cc.p(info.x+wallSize.width*0.5,info.y+wallSize.height*0.5))
-            local tag
-            if info.type == RoomWall_Type.Left then
-                tag = ELEMENT_TAG.WALLLEFT
-            else
-                tag = ELEMENT_TAG.WALLRIGHT
-            end
-            self:addPhysicsBody(wall,tag)
             table.insert(self.m_blocks,wall)
         end
     end
     if _roomBgVo.floor then
         for k=1, #_roomBgVo.floor do
             local info = _roomBgVo.floor[k]
-            local floor = PhysicSprite.new(info.res):addTo(self)
+            local floor = PoolManager.getCacheObjByType(CACHE_TYPE[info.res])
+            if not floor then
+                floor = PhysicSprite.new(info.res)
+                floor:setCahceType(CACHE_TYPE[info.res])
+                self:addPhysicsBody(floor,ELEMENT_TAG.FLOOR)
+                floor:retain()
+            end
+            self:addChild(floor)
             local floorSize = floor:getCascadeBoundingBox().size
             floor:setAnchorPoint(cc.p(0.5,0.5))
             floor:setPosition(cc.p(info.x+floorSize.width*0.5,info.y+floorSize.height*0.5))
-            self:addPhysicsBody(floor,ELEMENT_TAG.FLOOR)
             table.insert(self.m_blocks,floor)
         end
     end
@@ -110,7 +123,7 @@ function MapRoom:initDiamonds(goldCon)
                     gold:setCoinValue(_num)
                 end
                 gold:setPosition(_goldObj.x,_goldObj.y)
-                gold:setGroup(self.m_index) 
+                gold:setGroup(self.m_floorNum) 
                 table.insert(self.m_golds,gold)
                 GameController.addGoldBody(gold)
             end
@@ -144,6 +157,9 @@ function MapRoom:addPhysicsBody(_node,tag)
         blockBody = cc.PhysicsBody:createBox(size,cc.PhysicsMaterial(Block_DENSITY, Block_ELASTICITY,Block_FRICTION))
         blockBody:setMass(Block_MASS)
         blockBody:setDynamic(false)
+        if tag == ELEMENT_TAG.FLOOR then
+            self.floorArr[#self.floorArr+1] = blockBody
+        end
         blockBody:setCategoryBitmask(0x1111)
         blockBody:setContactTestBitmask(0x1111)
         blockBody:retain()
@@ -161,6 +177,7 @@ function MapRoom:initPosition(_x,_y,_isJustBody)
             local _block = self.m_blocks[i]
             if not tolua.isnull(_block) then
                 _block:setPositionY(_y+_block:getPositionY())
+                _block:setPositionX(_x+_block:getPositionX())
             else
                 table.remove(self.m_blocks,i)
             end
@@ -183,21 +200,11 @@ function MapRoom:initPosition(_x,_y,_isJustBody)
     end
 end
 
-
---获取房间中的怪物
-function MapRoom:getMonsters(parameters)
-    return self.m_monsters
+--获取房间中的地板刚体表
+function MapRoom:getFloorBody(parameters)
+    return self.floorArr
 end
 
---获取房间中的陷阱怪
-function MapRoom:getTrapMonsters(parameters)
-    return self.m_traps
-end
-
---获取房间中的导弹
-function MapRoom:getMissile(parameters)
-    return self.m_missile
-end
 --获取房间中的物体块表
 function MapRoom:getBlocks(parameters)
     return self.m_blocks
@@ -205,7 +212,7 @@ end
 
 --获取房间号
 function MapRoom:getRoomIndex()
-    return self.m_index
+    return self.m_floorNum
 end
 
 --获取房间大小
@@ -215,12 +222,7 @@ end
 
 --玩家进入房间
 function MapRoom:intoRoom(parameters)
-    
-end
-
---玩家离开房间
-function MapRoom:leaveRoom(parameters)
-    Tools.printDebug("chjh 玩家离开房间 roomIndx=",self.m_index)
+    Tools.printDebug("brj 玩家进入房间 roomIndx=",self.m_floorNum)
     
 end
 
@@ -232,7 +234,7 @@ function MapRoom:dispose(parameters)
         for key, var in pairs(self.m_golds) do
             if not tolua.isnull(var) then
                 --此处是过滤该数组中已经被其它楼层应用了防止消除
-                if var:getGroup() == self.m_index then
+                if var:getGroup() == self.m_floorNum then
                     var:dispose()
                 end
             end
@@ -247,6 +249,7 @@ function MapRoom:dispose(parameters)
         end
     end
     self.m_blocks = {}
+    self.floorArr = {}
     self.bgArr = {}
 
 --    if self.m_bgImg then

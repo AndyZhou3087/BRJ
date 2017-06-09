@@ -33,7 +33,7 @@ local rooms
 local curPlayer
 
 --用于刚进入战斗场景时碰撞拦截
-local _canCollision = false
+local _canCollision = true
 local _isPause = false
 
 --游戏暂停

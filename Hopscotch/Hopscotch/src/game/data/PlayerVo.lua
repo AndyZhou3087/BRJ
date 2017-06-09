@@ -9,6 +9,7 @@ local PlayerVo =
     m_nick = "",        --昵称
     m_lifeNum = 1,  --生命数量
     m_jump = 0, --弹跳值
+    m_speed = 0,    --移动速度
 
     m_sprintTime = 0,   --冲刺时间
     m_magnetTime = 0,   --磁铁时间
@@ -20,7 +21,6 @@ local PlayerVo =
     m_sprintTimeAdd=0,     --冲刺时间延长 (s)
     m_invincibleTimeAdd=0,     --无敌时间延长(s)
     m_protectTimeAdd=0,       --护盾时间延长(s)
-    m_speed = 0,    --移动速度
 }
 
 return PlayerVo

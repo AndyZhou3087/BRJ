@@ -2,13 +2,14 @@
 地图层
 ]]
 local MapRoom = require("game.view.map.MapRoom")
---local Player = require("game.view.element.Player")
+local Player = require("game.view.element.Player")
 local Scheduler = require("framework.scheduler")
 --local CoinElement=require("game.view.element.CoinElement")
 --local DiamondElement=require("game.view.element.DiamondElement")
 local BackGroundMove = require("game.view.map.BackGroundMove")
 
-local Normal_Camara_BottomY = 340 --正常摄像机底部界限，超过此值会迅速拉回摄像机
+local Raycast_DisY = 20  --探测距离
+
 --滑动类型
 local Slide_Type=
     {
@@ -29,6 +30,7 @@ function MapLayer:ctor(parameters)
     GameController.setRooms(self.m_chaceRooms)
     self.jumpFloorNum = 1
     self.floorPos = {}
+    self.roomArr = {}
     self.floorPos[0] = cc.p(0,0)
     
     self.m_curZOrder = MAP_ZORDER_MAX   --房间当前显示层级
@@ -37,6 +39,10 @@ function MapLayer:ctor(parameters)
 --    self.bg = cc.LayerGradient:create(cc.c4b(170,97,140,255),cc.c4b(217,210,201,0)):addTo(self)
     
     self.m_backbg = BackGroundMove.new(GameDataManager.getFightScene()):addTo(self)
+    self.m_backbgLeft = BackGroundMove.new(GameDataManager.getFightScene()):addTo(self)
+    self.m_backbgLeft:setPositionX(-display.width)
+    self.m_backbgLeft = BackGroundMove.new(GameDataManager.getFightScene()):addTo(self)
+    self.m_backbgLeft:setPositionX(display.right)
     
     self.m_bg = display.newSprite("map/Scene_"..GameDataManager.getFightScene().."/Map_frame_2.png")
     self.bottomHeight = self.m_bg:getCascadeBoundingBox().size.height
@@ -54,12 +60,15 @@ function MapLayer:ctor(parameters)
     self:addChild(self.m_camera)
     self.m_camera:setPosition3D(cc.vec3(0, 0, 0))
     self.cax,self.cay = self.m_camera:getPosition()
-    
-    self:setCameraMask(2)
 
---    self.m_player = Player.new()
---    self:addChild(self.m_player,MAP_ZORDER_MAX+1)
---    GameController.setCurPlayer(self.m_player)
+    self.m_player = Player.new()
+    self:addChild(self.m_player,MAP_ZORDER_MAX+1)
+    local floorPos = self.floorPos[self.jumpFloorNum]
+    local _size = self.m_player:getSize()
+    self.m_player:setPosition(cc.p(floorPos.x+100,floorPos.y+_size.width*0.5+27))
+    GameController.setCurPlayer(self.m_player)
+
+    self:setCameraMask(2)
 
 --    self.m_isMoving = false
 --    self.m_isDown = false
@@ -73,16 +82,31 @@ end
 
 --进行弹跳
 function MapLayer:toJump()
---    self.m_isDown = false
---    self.m_isUp = false
+    
+    --摄像机移动
+    local pos = self.floorPos[self.jumpFloorNum]
+    local oldPos = self.floorPos[self.jumpFloorNum-1]
+    self.m_camera:stopAllActions()
+    local x,y = self.m_camera:getPosition()
+    Tools.printDebug("brj  camera   pos: ",x,y,pos.x,pos.y)
+    local move = cc.MoveTo:create(0.3,cc.p(pos.x,pos.y-self.bottomHeight))
+    self.m_camera:runAction(move)
+    
+    self.m_player:toJump(pos.y)
+    
 end
 --触摸
 function MapLayer:touchFunc(event)
---    if tolua.isnull(self.m_player) or self.m_player:getVo().m_hp<=0 or self.m_player:getWalk()==true then
---        return true
---    end
+    if tolua.isnull(self.m_player) or self.m_player:isDead() then
+        return true
+    end
     if event.name == "began" then
         self.jumpFloorNum = self.jumpFloorNum + 1
+        self.click = true
+        self.cax,self.cay = self.m_camera:getPosition()
+        self:roomBodyCollision()
+        self:toJump()
+        self:addNewRooms()
         return true
     elseif event.name == "ended" then
         
@@ -90,6 +114,10 @@ function MapLayer:touchFunc(event)
         
     end
     return true
+end
+
+function MapLayer:roomBodyCollision()
+--	self.m_chaceRooms[self.jumpFloorNum]
 end
 
 
@@ -107,33 +135,49 @@ function MapLayer:onEnterFrame(dt)
     --移动金币
     GameController.attract()
   
---    if tolua.isnull(self.m_player) then
---        return
---    end
---
---    if tolua.isnull(self.m_player.m_body) then
---        return
---    end
+    if tolua.isnull(self.m_player) then
+        return
+    end
 
---    if  self.m_player:isDead() then
---        return
---    end
---    Tools.printDebug("------------------------------ddddddddddddddddddddddddd")
-    local pos = self.floorPos[self.jumpFloorNum]
-    local oldPos = self.floorPos[self.jumpFloorNum-1]
-    local x,y = self.m_camera:getPosition()
-    local _x,_y = self.m_backbg:getPosition()
-    if self.cay and y < self.cay+pos.y-oldPos.y then
-    	self.m_camera:setPositionY(y+1)
-        self.m_backbg:setPositionY(_y+0.9)
-    end 
+    if tolua.isnull(self.m_player.m_body) then
+        return
+    end
 
+    if self.m_player:isDead() then
+        return
+    end
+
+    local bpx,bpy = self.m_player:getPosition()
+    local _size = self.m_player:getSize()
+    self.m_player:update(dt,bpx,bpy)
+
+--    if bpx <= Room_Distance.x-_size.width*0.5 then
+--        self.m_player:selfDead()
+--    end
+--    if  bpx >= display.width-Room_Distance.x+_size.width*0.5 then
+--        self.m_player:selfDead()
+--    end
+--    Tools.printDebug("brj   layer  edgePos: ",display.width-Room_Distance.x-17,bpx)
+    local _scaleX=self.m_player:getScaleX()
+    local vel=self.m_player:getBody():getVelocity()
+    self.m_player:setVelocity(cc.p(-_scaleX/math.abs(_scaleX)*self.m_player:getVo().m_speed,vel.y))
+
+    local _body = self.m_player:getBody()
+    local _p = _body:getPosition()
+    local _veloc = _body:getVelocity()
+    local _scaleX = self.m_player:getScaleX()
+    local _add = -1*_scaleX/math.abs(_scaleX)  --因为人物默认是向左的，所以乘以-1
+    self.m_physicWorld:rayCast(handler(self,self.rayCastFunc),cc.p(_p.x,_p.y),cc.p(_p.x,_p.y-_size.height*0.5-Raycast_DisY))
+    
+    local roomIndex = math.ceil((self.m_player:getPositionY()-self.bottomHeight)/Room_Size.height)
+    local _room = self:getRoomByIdx(roomIndex)
+    _room:intoRoom()
 end
 
 
 --碰撞开始触发
 function MapLayer:collisionBeginCallBack(parameters)
-    if not GameController.getCollsionEnable() or not GameController.getRewardCollsion() then
+    if not GameController.getCollsionEnable() then
         return true
     end
 
@@ -176,6 +220,28 @@ function MapLayer:collisionBeginCallBack(parameters)
     end
     if tolua.isnull(bodyA) or tolua.isnull(bodyB) then
         return true
+    end
+    
+    local _x = -1
+    local _scaleX = player:getScaleX()
+    if conData.normal.x < 0 then
+        _x = -1
+    else
+        _x = 1
+    end
+    if obstacleTag==ELEMENT_TAG.WALLLEFT or obstacleTag==ELEMENT_TAG.WALLRIGHT then
+       if not tolua.isnull(obstacle) then
+            local vel=self.m_player:getBody():getVelocity()
+            local _size = self.m_player:getSize()
+            Tools.printDebug("brj   -----  x: ",playerBP.x+_size.width*0.5,obstacleBP.x)
+            if playerBP.x+_size.width*0.5<obstacleBP.x then
+                player:setVelocity(cc.p(self.m_player:getVo().m_speed,vel.y))
+                player:setScaleX(math.abs(_scaleX))
+            else
+                player:setVelocity(cc.p(-self.m_player:getVo().m_speed,vel.y))
+                player:setScaleX(-math.abs(_scaleX))
+            end
+       end
     end
 
     return true
@@ -227,20 +293,10 @@ function MapLayer:collisionSeperateCallBack(parameters)
 end
 
 function MapLayer:initPlayerPos(parameters)
---    local _mapSize = self:getCascadeBoundingBox().size
---    local _playerY = _mapSize.height-(Room_Size.height+150-64-26)
---    self.m_player:setPosition(display.cx,_playerY)
---    self.m_camarTopY = display.height-340--_y
---    self.m_camarBotY = Normal_Camara_BottomY
---    self.m_lastPlayerY = _playerY --self.m_player:convertToWorldSpace(cc.p(0,0)).y;
---
---    self.m_physicWorld = display.getRunningScene():getPhysicsWorld()
+    self.m_physicWorld = display.getRunningScene():getPhysicsWorld()
     self:scheduleUpdate()
-
---    self.m_camera:setPositionY(_playerY-480)--(_mapSize.height-display.height)--(_playerY-480)
     self.m_event = cc.EventListenerPhysicsContact:create()
     self.m_event:registerScriptHandler(handler(self,self.collisionBeginCallBack), cc.Handler.EVENT_PHYSICS_CONTACT_BEGIN)
-
     self:getEventDispatcher():addEventListenerWithFixedPriority(self.m_event,1)
     self:addNodeEventListener(cc.NODE_ENTER_FRAME_EVENT, handler(self, self.onEnterFrame))
 end
@@ -250,15 +306,12 @@ function MapLayer:rayCastFunc(_world,_p1,_p2,_p3)
     if self.m_player:isDead() then
         return false
     end
-    --    self.m_isDown = false
-    --    self.m_isUp = false
+
     local _body = _p1.shape:getBody()
     local _bnode = _body:getNode()
     local _tag = _body:getTag()
     local _vo = self.m_player:getVo()
     local _hitP = cc.p(_p1.ended.x,_p1.ended.y)
-    local DA=self.m_player:getDA()
-    local att=self.m_player:getAtt()
 
     if tolua.isnull(_bnode) then
         return false
@@ -312,7 +365,9 @@ function MapLayer:initRooms(parameters)
             local _room = MapRoom.new(var,self.m_levelCon,var+(k-1)*10)
             _room:setAnchorPoint(cc.p(0,0))
             _y = _y + Room_Size.height
-            _x = _x + self.m_levelCon.distance
+            if self.m_levelCon.roomType == MAPROOM_TYPE.Lean then
+                _x = _x + self.m_levelCon.distance
+            end
 
             self.m_roomNode:addChild(_room,self.m_curZOrder)
             _room:initPosition(_x,_y,true)
@@ -344,7 +399,9 @@ function MapLayer:addNewRooms(parameters)
     if _oldRoom then
         _newRoom = MapRoom.new(self.floorNum,self.m_levelCon,self.m_roomsNum)
         _y = _oldRoom:getPositionY() + Room_Size.height
-        _x = _x + self.m_levelCon.distance
+        if self.m_levelCon.roomType == MAPROOM_TYPE.Lean then
+            _x = _x + self.m_levelCon.distance
+        end
         self.floorPos[self.m_roomsNum] = cc.p(_x,_y)
     else
         _newRoom = MapRoom.new(1)
@@ -411,12 +468,6 @@ function MapLayer:stopToShake(parameters)
         self.m_camera:stopAllActions()
         self.m_camera:setPositionX(0)
     end
-end
-
---设置火箭对象
-function MapLayer:setRocket(_obj)
-    self.m_rocket = _obj
-    self.m_camarBotY = self.m_camarTopY - 64
 end
 
 function MapLayer:getCurRoom()
