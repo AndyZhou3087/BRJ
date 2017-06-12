@@ -68,7 +68,7 @@ public class AppActivity extends Cocos2dxActivity{
 		
 		theOnly = this;
 		
-//		OGThranPay.getShopList();
+		OGThranPay.getShopList();
 		
 //		UMGameAgent.setDebugMode(true);//�����������ʱ��־
 	    UMGameAgent.init(this);

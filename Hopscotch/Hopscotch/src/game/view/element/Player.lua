@@ -124,18 +124,19 @@ function Player:toJump(ty)
 --        _vec.x=-self.m_vo.m_speed
 --    end
 --    self:setBodyVelocity(cc.p(_vec.x,Up_Jump))
-    self:setGravityEnable(false)
+
+--    self:setGravityEnable(false)
     self:stopAllActions()
     local x,y = self:getPosition()
     local move = cc.MoveTo:create(0.2,cc.p(x,ty+self.m_size.width*0.5+27))
     local callfunc = cc.CallFunc:create(function()
-        self:setGravityEnable(true)
+--        self:setGravityEnable(true)
     end)
     local seq = cc.Sequence:create(move,callfunc)
     self:runAction(move)
 
     if self.m_modle then
-        self:toPlay(PLAYER_ACTION.Bounce)
+--        self:toPlay(PLAYER_ACTION.Bounce)
     end
 --    AudioManager.playSoundEffect(AudioManager.Sound_Effect_Type.Jump_High_Sound)
 end

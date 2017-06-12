@@ -190,14 +190,15 @@ public class Util {
 	//获取礼包id
 	public static void getGift(final int callFunc)
 	{
+		giftCallback = callFunc;
 		curActivity.runOnUiThread(new Runnable() {
 			
 			@Override
 			public void run() {
 				// TODO Auto-generated method stub
-				giftCallback = callFunc;
 				OGSdkPlatform.getGameParamByKey(context, paramKey1, ogLoadParamsCallBack);
-				OGThranPay.getShopList();//商城大排序
+//				OGThranPay.getShopList();//商城大排序
+				getGiftFunc();
 			}
 		});
 	}
@@ -221,6 +222,10 @@ public class Util {
 		String shopCode = OGThranPay.checkShopCode();//获取商城界面列表
 		Log.d("brj shopCode:", shopCode);
 		Cocos2dxLuaJavaBridge.callLuaFunctionWithString(shopCallBack, shopCode);
+		
+		Cocos2dxLuaJavaBridge.releaseLuaFunction(giftCallback);
+		Cocos2dxLuaJavaBridge.releaseLuaFunction(shopCallBack);
+		Cocos2dxLuaJavaBridge.releaseLuaFunction(ParamsCallBack);
 	}
 
 	
@@ -238,7 +243,6 @@ public class Util {
 					Log.d("zho btnmode----", "zho btnmode = " + btnMode);
 					
 					Cocos2dxLuaJavaBridge.callLuaFunctionWithString(ParamsCallBack, btnMode);
-					Cocos2dxLuaJavaBridge.releaseLuaFunction(ParamsCallBack);
 					
 				}catch(Exception ex)
 				{
@@ -334,8 +338,9 @@ public class Util {
 	//游戏退出
 	public static void exitGame()
 	{
-		Cocos2dxLuaJavaBridge.releaseLuaFunction(giftCallback);
-		Cocos2dxLuaJavaBridge.releaseLuaFunction(shopCallBack);
+//		Cocos2dxLuaJavaBridge.releaseLuaFunction(giftCallback);
+//		Cocos2dxLuaJavaBridge.releaseLuaFunction(shopCallBack);
+//		Cocos2dxLuaJavaBridge.releaseLuaFunction(ParamsCallBack);
 		UMGameAgent.onKillProcess(curActivity);
 		curActivity.finish();
 		System.exit(0);

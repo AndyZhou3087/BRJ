@@ -12,7 +12,7 @@ function MainUI:ctor()
     self.isRun = nil
     self.isMonth = nil
     self.productid = nil
-    self.giftCount = 0
+--    self.giftCount = 0
 
     self:init()
     
@@ -46,20 +46,6 @@ function MainUI:init(parameters)
 
     local Label_8 = cc.uiloader:seekNodeByName(self.m_json,"Label_8")
     Label_8:setPositionX(display.left+130)
-
---    local Endlessbtn = cc.uiloader:seekNodeByName(self.m_json,"Endlessbtn")
---    Endlessbtn:onButtonPressed(function(_event)    --按下
-----        _event.target:setScale(1.1)
---    end)
---    Endlessbtn:onButtonRelease(function(_event)    --触摸离开
-----        _event.target:setScale(1)
---    end)
---    Endlessbtn:onButtonClicked(function(event)
-----        Endlessbtn:setButtonEnabled(false)
---        AudioManager.playSoundEffect(AudioManager.Sound_Effect_Type.Button_Click_Sound)
---        GAME_TYPE_CONTROL = GAME_TYPE.EndlessMode
---        GameDispatcher:dispatch(EventNames.EVENT_OPEN_READY,GAME_TYPE.EndlessMode)
---    end)
     
     local Levelbtn = cc.uiloader:seekNodeByName(self.m_json,"Levelbtn")
     Levelbtn:onButtonPressed(function(_event)    --按下
@@ -82,16 +68,6 @@ function MainUI:init(parameters)
     self.Setbtn:onButtonClicked(function(event)
         AudioManager.playSoundEffect(AudioManager.Sound_Effect_Type.Button_Click_Sound)
         self:MusicSoundSet()
-    end)
-    
-    self.GiftBtn = cc.uiloader:seekNodeByName(self.m_json,"GiftBtn")
-    self.GiftBtn:setVisible(false)
-    self.GiftWord = cc.uiloader:seekNodeByName(self.m_json,"GiftWord")
-    self.GiftWord:setButtonEnabled(false)
-    self.GiftBtn:onButtonClicked(function(event)
-        AudioManager.playSoundEffect(AudioManager.Sound_Effect_Type.Button_Click_Sound)
-        local id,gid = GameController.getCurGiftId()
-        GameDispatcher:dispatch(EventNames.EVENT_OPEN_COMMONGIFT,{giftId = id,animation = true})
     end)
     
     
@@ -138,7 +114,7 @@ function MainUI:getGift()
 end
 
 function MainUI:initGiftCallBack(_stringId)
-    self.giftCount = self.giftCount + 1
+--    self.giftCount = self.giftCount + 1
     --获取礼包信息
     local arr = Tools.Split(_stringId,'#')
     GameController.getGiftIdByPayCode(arr[1])
@@ -151,7 +127,7 @@ function MainUI:initGiftCallBack(_stringId)
     else
         GameDataManager.renewVip(false)
     end
-    self:giftFunc() 
+--    self:giftFunc() 
 end
 
 
@@ -189,16 +165,16 @@ function MainUI:onEnterFrame(parameters)
         else
             self.Panel_8:setVisible(true)
             self.Image_21:setVisible(false)
-            self.giftCount = self.giftCount + 1
+--            self.giftCount = self.giftCount + 1
             self:giftFunc()
         end
     end
 end
 
 function MainUI:giftFunc(parameters)
-    if self.giftCount < 2 then
-    	return
-    end
+--    if self.giftCount < 2 then
+--    	return
+--    end
     
 	--购买角色礼包后每日领取
     Tools.delayCallFunc(0.1,function()
@@ -217,9 +193,10 @@ function MainUI:homePageGift()
         Scheduler.unscheduleGlobal(self.vipGiftHandler)
         self.vipGiftHandler = nil
     end
+    
+    local id,gId = GameController.getCurGiftId()  --获取可用礼包计费点
 	--礼包弹出
     self.vipGiftHandler = Tools.delayCallFunc(0.5,function()
-        local id,gid = GameController.getCurGiftId()
         if GiftConfig[id] and not self.isRun then 
             self.isRun = true
             if GiftConfig[id].type == GIFT_TYPE.Vip then
@@ -232,12 +209,16 @@ function MainUI:homePageGift()
         end
     end)
     
-    self.GiftBtn:setVisible(true)
-    local id,gId = GameController.getCurGiftId()  --获取可用礼包计费点
     if GiftConfig[id] then
-        self.GiftBtn:setButtonImage("normal",GiftConfig[id].icon)
-        self.GiftBtn:setButtonImage("pressed",GiftConfig[id].icon)
-        self.GiftWord:setButtonImage("disabled",GiftConfig[id].iconName)
+        self.GiftBtn = cc.ui.UIPushButton.new(GiftConfig[id].icon):addTo(self)
+        self.GiftBtn:setPosition(cc.p(display.left+60,display.top-50))
+        self.GiftWord = display.newSprite(GiftConfig[id].iconName):addTo(self.GiftBtn)
+        self.GiftWord:setPosition(cc.p(3,-22))
+        self.GiftBtn:onButtonClicked(function(event)
+            AudioManager.playSoundEffect(AudioManager.Sound_Effect_Type.Button_Click_Sound)
+            GameDispatcher:dispatch(EventNames.EVENT_OPEN_COMMONGIFT,{giftId = id,animation = true})
+        end)
+
     end
     
     self:updateGiftUI()
@@ -245,10 +226,10 @@ end
 
 function MainUI:updateGiftUI()
     local id,gId = GameController.getCurGiftId()  --获取可用礼包计费点
-    if not GiftConfig[id] then
+    if not GiftConfig[id] and self.GiftBtn then
         self.GiftBtn:setVisible(false)
     end
-    if GiftConfig[id] and GiftConfig[id].type == GIFT_TYPE.Vip then
+    if GiftConfig[id] and GiftConfig[id].type == GIFT_TYPE.Vip and self.GiftBtn then
         if self.isMonth==1 or GameDataManager.isMonthVip(id) then
             self.GiftBtn:setVisible(false)
         end
