@@ -13,7 +13,7 @@ GameController.CurLastRoomIdx = 0
 --当前摄像机左下角y坐标
 GameController.CurCamaraY = 0
 
---额外吸附类型（本身具有吸附金币与金币泡泡功能）
+--额外吸附类型
 --额外吸附物品
 GameController.Adsorb_Ex_Goods = 1
 
@@ -23,7 +23,6 @@ GameController.Score_Rate = 1
 local goldBody={}
 local goodBody={}
 local anotherBody={}
-local diamonds={} --钻石对象
 local movingObjs={} --移动中的对象数组
 
 --当前房间数组
@@ -59,7 +58,6 @@ function GameController.resumeGame()
     end
 end
 
-
 function GameController.isInPause()
     return _isPause
 end
@@ -91,9 +89,53 @@ function GameController.getAllReward()
 	return rewardArr
 end
 
+--赋值房间数组
+function GameController.setRooms(_rooms)
+    rooms = _rooms
+end
+--清除房间数组
+function GameController.clearRooms()
+    rooms = nil
+end
+--根据房间号获取房间对象
+function GameController.getRoomByIdx(_index)
+    if rooms then
+        for key, var in pairs(rooms) do
+            if var:getRoomIndex() == _index then
+                return var
+            end
+        end
+    end
+end
+--获得缓存房间数组索引编号
+function GameController.getChaceRoomKey(_roomIndx)
+    if rooms then
+        for key, var in pairs(rooms) do
+            if var:getRoomIndex() == _roomIndx then
+                return key
+            end
+        end
+    end
+end
 
---添加金币
---_obj:金币对象    _isMoving:是否移动中
+--设置当前玩家对象
+function GameController.setCurPlayer(_player)
+    curPlayer = _player
+end
+--获取当前角色对象
+function GameController.getCurPlayer()
+    return curPlayer
+end
+--玩家是否处于某种状态
+function GameController.isInState(_state)
+    if not tolua.isnull(curPlayer) then
+        return curPlayer:isInState(_state)
+    end
+    return false
+end
+
+--添加钻石
+--_obj:钻石对象    _isMoving:是否移动中
 function GameController.addGoldBody(body,_isMoving)
     if _isMoving then
         table.insert(movingObjs,body)
@@ -101,15 +143,7 @@ function GameController.addGoldBody(body,_isMoving)
         table.insert(goldBody,body)
     end
 end
---添加钻石对象
---_obj:钻石对象    _isMoving:是否移动中
-function GameController.addDiamondObj(_obj,_isMoving)
-    if _isMoving then
-        table.insert(movingObjs,_obj)
-    else
-        table.insert(diamonds,_obj)
-    end
-end
+
 --添加道具
 function GameController.addGoodBody(body)
     table.insert(goodBody,body)
@@ -193,24 +227,6 @@ end
 
 --吸引金币
 function GameController.attract(parameters)
---    if #diamonds > 0 then
---        for var=#diamonds, 1,-1 do
---            local _diamond = diamonds[var]
---            if tolua.isnull(_diamond) then
---                table.remove(diamonds,var)
---            else
---                local target=_diamond:getTarget()
---                if not tolua.isnull(target) then
---                    local fromP=cc.p(_diamond:getPosition())
---                    local toP=cc.p(target:getPosition())
---                    GameController._coinCheckMove(_diamond,fromP,toP,var,diamonds)
---                else
---                    _diamond:dispose()
---                    table.remove(diamonds,var)
---                end
---            end
---        end
---    end
     for var=#goldBody,1,-1 do
         local gold=goldBody[var]
         if (not tolua.isnull(gold)) and (not gold:isDisposed()) then
@@ -220,7 +236,7 @@ function GameController.attract(parameters)
                 local playSize = curPlayer:getSize()
                 local goldPos=cc.p(gold:getPosition())
                 local goldSize = gold:getSize()
-                local playerRect = cc.rect(playP.x,playP.y,playSize.width,playSize.height)
+                local playerRect = cc.rect(playP.x-playSize.width*0.5,playP.y-playSize.height*0.5,playSize.width,playSize.height)
                 local goldRect = cc.rect(goldPos.x,goldPos.y,goldSize.width,goldSize.height)
                 if cc.rectIntersectsRect(goldRect,playerRect) then
                     gold:collision()
@@ -254,7 +270,6 @@ function GameController.clearBody()
 
     for var=#goldBody,1,-1 do
         local body=goldBody[var]
-
         if not tolua.isnull(body) then
             body:dispose()
         end
@@ -270,24 +285,6 @@ function GameController.clearBody()
     end
     goodBody={}
 
-    for var=#anotherBody,1,-1 do
-        local body=anotherBody[var]
-
-        if not tolua.isnull(body) then
-            body:dispose()
-        end
-    end
-    anotherBody={}
-
-    if #diamonds > 0 then
-        for var=#diamonds, 1,-1 do
-            local _diamond = diamonds[var]
-            if not tolua.isnull(_diamond) then
-                _diamond:dispose()
-            end
-        end
-        diamonds={}
-    end
     if movingObjs then
         for var=#movingObjs, 1,-1 do
             local _node = movingObjs[var]
@@ -297,57 +294,6 @@ function GameController.clearBody()
         end
     	movingObjs={}
     end
-end
-
---赋值房间数组
-function GameController.setRooms(_rooms)
-    rooms = _rooms
-end
---清除房间数组
-function GameController.clearRooms()
-    rooms = nil
-end
---根据房间号获取房间对象
-function GameController.getRoomByIdx(_index)
-    if rooms then
-        for key, var in pairs(rooms) do
-            if var:getRoomIndex() == _index then
-                return var
-            end
-        end
-    end
-end
---获得缓存房间数组索引编号
-function GameController.getChaceRoomKey(_roomIndx)
-    if rooms then
-        for key, var in pairs(rooms) do
-            if var:getRoomIndex() == _roomIndx then
-                return key
-            end
-        end
-    end
-end
---根据房间号获取房间对象
-function GameController.getRoomByKey(_key)
-    if rooms then
-        return rooms[_key]
-    end
-end
-
---设置当前玩家对象
-function GameController.setCurPlayer(_player)
-    curPlayer = _player
-end
---获取当前角色对象
-function GameController.getCurPlayer(parameters)
-    return curPlayer
-end
---玩家是否处于某种状态
-function GameController.isInState(_state)
-    if not tolua.isnull(curPlayer) then
-        return curPlayer:isInState(_state)
-    end
-    return false
 end
 
 return GameController

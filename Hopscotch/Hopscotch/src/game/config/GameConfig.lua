@@ -76,4 +76,5 @@ CACHE_TYPE=
         Room_floor_6 = 6,
         Room_floor_7 = 7,
         Room_wall = 8,
+        Diamond = 9,
     }

@@ -31,7 +31,6 @@ function MapLayer:ctor(parameters)
     self.jumpFloorNum = 1
     self.floorPos = {}
     self.roomArr = {}
-    self.floorPos[0] = cc.p(0,0)
     
     self.m_curZOrder = MAP_ZORDER_MAX   --房间当前显示层级
     
@@ -59,7 +58,6 @@ function MapLayer:ctor(parameters)
     self.m_camera:setCameraFlag(cc.CameraFlag.USER1)
     self:addChild(self.m_camera)
     self.m_camera:setPosition3D(cc.vec3(0, 0, 0))
-    self.cax,self.cay = self.m_camera:getPosition()
 
     self.m_player = Player.new()
     self:addChild(self.m_player,MAP_ZORDER_MAX+1)
@@ -85,10 +83,9 @@ function MapLayer:toJump()
     
     --摄像机移动
     local pos = self.floorPos[self.jumpFloorNum]
-    local oldPos = self.floorPos[self.jumpFloorNum-1]
     self.m_camera:stopAllActions()
     local x,y = self.m_camera:getPosition()
-    Tools.printDebug("brj  camera   pos: ",x,y,pos.x,pos.y)
+    Tools.printDebug("brj camera pos: ",x,y,pos.x,pos.y)
     local move = cc.MoveTo:create(0.3,cc.p(pos.x,pos.y-self.bottomHeight))
     self.m_camera:runAction(move)
     
@@ -102,10 +99,8 @@ function MapLayer:touchFunc(event)
     end
     if event.name == "began" then
         self.jumpFloorNum = self.jumpFloorNum + 1
-        self.click = true
-        self.cax,self.cay = self.m_camera:getPosition()
-        self:roomBodyCollision()
         self:toJump()
+        Tools.printDebug("brj 楼梯: ",self.jumpFloorNum)
         self:addNewRooms()
         return true
     elseif event.name == "ended" then
@@ -114,10 +109,6 @@ function MapLayer:touchFunc(event)
         
     end
     return true
-end
-
-function MapLayer:roomBodyCollision()
---	self.m_chaceRooms[self.jumpFloorNum]
 end
 
 
@@ -170,8 +161,13 @@ function MapLayer:onEnterFrame(dt)
     self.m_physicWorld:rayCast(handler(self,self.rayCastFunc),cc.p(_p.x,_p.y),cc.p(_p.x,_p.y-_size.height*0.5-Raycast_DisY))
     
     local roomIndex = math.ceil((self.m_player:getPositionY()-self.bottomHeight)/Room_Size.height)
-    local _room = self:getRoomByIdx(roomIndex)
-    _room:intoRoom()
+    if self.m_lastRoomIdx ~= roomIndex then
+        local _room = self:getRoomByIdx(roomIndex)
+        if _room then
+            _room:intoRoom()
+        end
+        self.m_lastRoomIdx = roomIndex
+    end
 end
 
 
@@ -242,54 +238,13 @@ function MapLayer:collisionBeginCallBack(parameters)
                 player:setScaleX(-math.abs(_scaleX))
             end
        end
+    elseif obstacleTag == ELEMENT_TAG.GOOD_TAG then
+        if not tolua.isnull(obstacle) then
+            obstacle:collision()
+        end
     end
 
     return true
-end
-
---碰撞触发每个step都会调用
-function MapLayer:collisionPresolveCallBack(parameters,par)
-    local preData=parameters:getPreContactData()
-    local conData = parameters:getContactData()
-    local bodyA = parameters:getShapeA():getBody()
-    local bodyB = parameters:getShapeB():getBody()
-    local tagA = bodyA:getTag()
-    local tagB = bodyB:getTag()
-    local player,playerBP,playerTag
-    local obstacle,obstacleBP,obstacleTag
-    local wall,wallBP,wallTag
-    if tagA == ELEMENT_TAG.PLAYER_TAG then
-        player = bodyA:getNode()
-        playerBP = bodyA:getPosition()
-        playerTag = tagA
-        obstacle = bodyB:getNode()
-        obstacleBP = bodyB:getPosition()
-        obstacleTag = tagB
-    end
-    if tagB == ELEMENT_TAG.PLAYER_TAG then
-        player = bodyB:getNode()
-        playerBP = bodyB:getPosition()
-        playerTag = tagB
-        obstacle = bodyA:getNode()
-        obstacleBP = bodyA:getPosition()
-        obstacleTag = tagA
-    end
-end
-function MapLayer:collisionPostsolveCallBack(parameters)
-    local conData = parameters:getContactData()
-    local bodyA = parameters:getShapeA():getBody()
-    local bodyB = parameters:getShapeB():getBody()
-    local tagA = bodyA:getTag()
-    local tagB = bodyB:getTag()
-    Tools.printDebug("chjh bodyA,bodyB",tostring(bodyA),tostring(bodyB))
-end
-function MapLayer:collisionSeperateCallBack(parameters)
-    local conData = parameters:getContactData()
-    local bodyA = parameters:getShapeA():getBody()
-    local bodyB = parameters:getShapeB():getBody()
-    local tagA = bodyA:getTag()
-    local tagB = bodyB:getTag()
-    Tools.printDebug("chjh seperate bodyA,bodyB",tostring(bodyA),tostring(bodyB))
 end
 
 function MapLayer:initPlayerPos(parameters)
@@ -342,13 +297,16 @@ end
 --进入地图就创建的房间需要调整对应刚体位置,即需传第三个参数为true(room:initPosition(_x,_y,true))
 function MapLayer:initRooms(parameters)
     self.m_roomsNum = 0
-    local _x = 0
+    self._x = 0
     local _y = self.bottomHeight - Room_Size.height
     for k=1, MAP_ROOM_INIT_NUM*0.1 do
         --控制随机数种子
-        math.randomseed(tostring(os.time()):reverse():sub(1, 6))
-        local i = math.random(1,#MapGroupConfig)
-        self.m_levelCon = MapGroupConfig[i]
+        if k > 2 then
+            local i = GameDataManager.getDataIdByWeight()
+            self.m_levelCon = MapGroupConfig[i]
+        else
+            self.m_levelCon = MapGroupConfig[1]
+        end 
         self.curRooms = self.m_levelCon.roomBgs
 
         if self.m_levelCon then
@@ -366,15 +324,16 @@ function MapLayer:initRooms(parameters)
             _room:setAnchorPoint(cc.p(0,0))
             _y = _y + Room_Size.height
             if self.m_levelCon.roomType == MAPROOM_TYPE.Lean then
-                _x = _x + self.m_levelCon.distance
+                self._x = self._x + self.m_levelCon.distance
             end
 
             self.m_roomNode:addChild(_room,self.m_curZOrder)
-            _room:initPosition(_x,_y,true)
-            self.floorPos[var+(k-1)*10] = cc.p(_x,_y)
+            _room:initPosition(self._x,_y,true)
+            self.floorPos[var+(k-1)*10] = cc.p(self._x,_y)
 
             table.insert(self.m_chaceRooms,_room)
             self.m_curZOrder = self.m_curZOrder + 1
+            MAP_ZORDER_MAX = self.m_curZOrder
         end
     end
 end
@@ -384,25 +343,24 @@ end
 function MapLayer:addNewRooms(parameters)
     self.m_roomsNum = self.m_roomsNum + 1
     if self.m_roomsNum % 10 == 1 then
-        --控制随机数种子
-        math.randomseed(tostring(os.time()):reverse():sub(1, 6))
-        local i = math.random(1,#MapGroupConfig)
+        local i = GameDataManager.getDataIdByWeight()
         self.m_levelCon = MapGroupConfig[i]
         self.roomType = self.m_levelCon.type
         self.floorNum = 0
+        Tools.printDebug("brj --- 随机map： ",i)
     end
     self.floorNum = self.floorNum + 1
 
     local _oldRoom = self.m_chaceRooms[#self.m_chaceRooms]
     local _newRoom
-    local _x,_y = 0,0
+    local _y = 0
     if _oldRoom then
         _newRoom = MapRoom.new(self.floorNum,self.m_levelCon,self.m_roomsNum)
         _y = _oldRoom:getPositionY() + Room_Size.height
         if self.m_levelCon.roomType == MAPROOM_TYPE.Lean then
-            _x = _x + self.m_levelCon.distance
+            self._x = self._x + self.m_levelCon.distance
         end
-        self.floorPos[self.m_roomsNum] = cc.p(_x,_y)
+        self.floorPos[self.m_roomsNum] = cc.p(self._x,_y)
     else
         _newRoom = MapRoom.new(1)
     end
@@ -412,7 +370,7 @@ function MapLayer:addNewRooms(parameters)
     end
 
     self.m_roomNode:addChild(_newRoom,self.m_curZOrder)
-    _newRoom:initPosition(_x,_y)
+    _newRoom:initPosition(self._x,_y)
     _newRoom:setCameraMask(2)
     table.insert(self.m_chaceRooms,_newRoom)
     self.m_curZOrder = self.m_curZOrder + 1
@@ -485,9 +443,9 @@ function MapLayer:dispose(parameters)
 --    GameDispatcher:removeListenerByName(EventNames.EVENT_AREA_DAMAGE)
 
 
---    if self.m_player then
---        self.m_player:dispose()
---    end
+    if self.m_player then
+        self.m_player:dispose()
+    end
 
 
     for key, var in ipairs(self.m_chaceRooms) do

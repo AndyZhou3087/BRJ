@@ -26,16 +26,17 @@ function Player:ctor()
     self.m_curModle = GameDataManager.getFightRole()
     local modle = RoleConfig[self.m_curModle].armatureName
     local res = RoleConfig[self.m_curModle].roleImg
+    local p_size
     if modle then
         self.m_modle=modle
         self:createModle(modle)
         self:toPlay(PLAYER_ACTION.Run)
-        self.p_size = cc.size(80,90)
+        p_size = cc.size(80,90)
     else
         self.m_armature = PhysicSprite.new(res):addTo(self)
-        self.p_size = self.m_armature:getCascadeBoundingBox().size
+        p_size = self.m_armature:getCascadeBoundingBox().size
     end
-    self:addBody(cc.p(0,0),self.p_size)
+    self:addBody(cc.p(0,0),p_size)
     
     --角色主动技能
 --    GameDispatcher:addListener(EventNames.EVENT_PLAYER_SKILL,handler(self,self.actSkill))
@@ -88,11 +89,11 @@ function Player:addBody(_offset,size)
     self.m_body = cc.PhysicsBody:createBox(_size,
     cc.PhysicsMaterial(DENSITY,ELASTICITY,FRICTION),_offset)
     self.m_body:setMass(MASS)
-    self.m_body:setCategoryBitmask(0x1101)
+    self.m_body:setCategoryBitmask(0x01)
     self.m_body:setContactTestBitmask(0x1111)
+    self.m_body:setCollisionBitmask(0x03)
     self.m_body:setRotationEnable(false)
     self.m_body:setMoment(0)
---    self.m_body:setGravityEnable(false)
     self.m_body:setTag(ELEMENT_TAG.PLAYER_TAG)
     self.m_body:setVelocityLimit(Speed_Max)
     self:setPhysicsBody(self.m_body)
@@ -115,25 +116,18 @@ end
 
 --上跳状态
 function Player:toJump(ty)
---    self.m_isUp=true
---    local _vec = self.m_body:getVelocity()
---    local _scaleX=self:getScaleX()
---    if _scaleX<0 then
---        _vec.x=self.m_vo.m_speed
---    else
---        _vec.x=-self.m_vo.m_speed
---    end
---    self:setBodyVelocity(cc.p(_vec.x,Up_Jump))
 
---    self:setGravityEnable(false)
+    self.m_body:setCollisionBitmask(0x01)
+    self:setGravityEnable(false)
     self:stopAllActions()
     local x,y = self:getPosition()
-    local move = cc.MoveTo:create(0.2,cc.p(x,ty+self.m_size.width*0.5+27))
+    local move = cc.MoveTo:create(0.2,cc.p(x,ty+self.m_size.width*0.5+30))
     local callfunc = cc.CallFunc:create(function()
---        self:setGravityEnable(true)
+        self.m_body:setCollisionBitmask(0x03)
+        self:setGravityEnable(true)
     end)
     local seq = cc.Sequence:create(move,callfunc)
-    self:runAction(move)
+    self:runAction(seq)
 
     if self.m_modle then
 --        self:toPlay(PLAYER_ACTION.Bounce)
@@ -143,7 +137,7 @@ end
 
 --帧回调
 function Player:update(dt,_x,_y)
-    if self.m_isMagnet==true then
+    if self.m_isMagnet then
         GameController.detect(self,cc.p(_x,_y),self.m_radius,GameController.Adsorb_Ex_Goods_Eeg)
     end
     self.oldX = _x
@@ -280,7 +274,7 @@ function Player:dispose(_isDoor)
 --    AudioManager.clear(AudioManager.Sound_Effect_Type.Player_Normal_Step)
 --    AudioManager.clear(AudioManager.Sound_Effect_Type.Player_Big_Sound)
 
---    transition.stopTarget(self)
+    transition.stopTarget(self)
 
 --    GameDispatcher:removeListenerByName(EventNames.EVENT_PLAYER_DEAD)
 

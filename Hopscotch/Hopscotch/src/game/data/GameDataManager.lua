@@ -57,6 +57,8 @@ function GameDataManager.initUserData()
     GameDataManager.initPlayerVo()
     --初始化物品数据
     GameDataManager.initGoodsData()
+    --初始化房间楼层权重
+    GameDataManager.initRoomWeight()
 
     --初始化礼包信息
 --    GameDataManager.initGift()
@@ -324,21 +326,23 @@ end
 function GameDataManager.useGoodsExp(_goodsId)
     local goodsCon = GoodsConfig[_goodsId]
     if goodsCon then
-        if goodsCon.type == GoodsType.Magnet_Type then
-            Tools.printDebug("chjh 处理磁铁类型道具")
-            GameDispatcher:dispatch(EventNames.EVENT_USE_MAGNATE,{time=goodsCon.time+GameDataManager.getPlayerVo().m_magnetTime,radius=goodsCon.radius})
-        elseif goodsCon.type == GoodsType.Defend_Type then
-            Tools.printDebug("chjh 处理防护罩类型道具")
-            GameDispatcher:dispatch(EventNames.EVENT_USE_SHIELD,{type=2,time=goodsCon.time,damageArea=goodsCon.damageArea})
-        elseif goodsCon.type == GoodsType.Drink_Type then
-            Tools.printDebug("chjh 处理化学饮料类型道具")
-            GameDispatcher:dispatch(EventNames.EVENT_USE_DRINK,{time=goodsCon.time+GameDataManager.getPlayerVo().m_invincibleTime,att=goodsCon.att,damageArea=goodsCon.damageArea})
-        elseif goodsCon.type == GoodsType.Thor_Type then
-            Tools.printDebug("chjh 处理雷神之锤类型道具")
+        if goodsCon.type == GOODS_TYPE.Magnet then
+            Tools.printDebug("brj 处理磁铁类型道具")
+--            GameDispatcher:dispatch(EventNames.EVENT_USE_MAGNATE,{time=goodsCon.time+GameDataManager.getPlayerVo().m_magnetTime,radius=goodsCon.radius})
+        elseif goodsCon.type == GOODS_TYPE.Phantom then
+            Tools.printDebug("brj 幻影药水")
+--            GameDispatcher:dispatch(EventNames.EVENT_USE_SHIELD,{type=2,time=goodsCon.time,damageArea=goodsCon.damageArea})
+        elseif goodsCon.type == GOODS_TYPE.Rocket then
+            Tools.printDebug("brj 冲刺火箭")
+--            GameDispatcher:dispatch(EventNames.EVENT_USE_DRINK,{time=goodsCon.time+GameDataManager.getPlayerVo().m_invincibleTime,att=goodsCon.att,damageArea=goodsCon.damageArea})
+        elseif goodsCon.type == GOODS_TYPE.SlowPotion then
+            Tools.printDebug("brj 迟钝药水")
+        elseif goodsCon.type == GOODS_TYPE.TokenAdd then
+            Tools.printDebug("brj 获得一代币")
         end
         return true
     else
-        printf("chjh error 找不到id=%d的道具配置",_goodsId)
+        printf("brj error 找不到id=%d的道具配置",_goodsId)
         return false
     end
 end
@@ -353,6 +357,53 @@ function GameDataManager.getGoodsNum(_goodsId)
     return 0
 end
 --=======================end==============================
+
+--======================随机获取房间类型======================
+local configArr = {}
+local _weight = 0
+function GameDataManager.initRoomWeight()
+    GameDataManager.getSorting(MapGroupConfig)
+end
+
+--组合排序
+function GameDataManager.getSorting(arr)
+    for key, var in pairs(arr) do
+        table.insert(configArr,var)
+    end
+    for vr=1, #configArr do
+        for var=vr+1, #configArr do
+            if configArr[vr].probability > configArr[var].probability then
+                local temp
+                temp = configArr[vr]
+                configArr[vr] = configArr[var]
+                configArr[var] = temp
+            end
+        end
+    end
+    for var=1, #arr do
+        _weight = _weight + arr[var].probability
+    end
+end
+
+--按权重抽取一组数据
+function GameDataManager.getDataIdByWeight()
+    math.randomseed(tostring(os.time()):reverse():sub(1, 6))
+    local _wegt = math.random(1,_weight)
+    Tools.printDebug("brj Hopscotch 随机权重值：",_wegt)
+    local t = 0
+    --得到当前id
+    local id = 0
+    for var=1, #configArr do
+        t = t + configArr[var].probability
+        if t >= _wegt then
+            id = configArr[var]._id
+            return id
+        end
+    end
+    return id
+end
+
+--========================end==============================
 
 --=======================礼包相关==============================
 --礼包数据初始化

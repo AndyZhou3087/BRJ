@@ -6,6 +6,8 @@ local MapRoom = class("MapRoom",function()
 end)
 local PhysicSprite = require("game.custom.PhysicSprite")
 local Scheduler = require("framework.scheduler")
+local DiamondElement = require("game.view.element.CoinElement")
+local GoodsElement = require("game.view.element.GoodsElement")
 
 local Block_DENSITY = 0
 local Block_FRICTION = 0
@@ -20,7 +22,7 @@ function MapRoom:ctor(_idx,_levelCon,_floorNum)
     self.m_cacheBodys = {} --缓存的刚体数组
     self.m_goods={}
     self.bgArr = {}   --存放当前房间整块格子的背景图
-    self.floorArr = {}   --存放当前房间所有地板刚体
+    self.ornament = {}   --存放所有的装饰品
     self.m_index = _idx
     self.m_curLevelCon = _levelCon
     self.m_floorNum = _floorNum
@@ -58,7 +60,8 @@ function MapRoom:initBlock(_roomBgVo)
     if _roomBgVo.wallLeftRight then
         for j=1, #_roomBgVo.wallLeftRight do
             local info = _roomBgVo.wallLeftRight[j]
-            local wall = PoolManager.getCacheObjByType(CACHE_TYPE[info.res])
+            local type = Tools.Split(info.res,"#")
+            local wall = PoolManager.getCacheObjByType(CACHE_TYPE[type[2]])
             if not wall then
                 wall = PhysicSprite.new(info.res)
                 wall:setCahceType(CACHE_TYPE[info.res])
@@ -81,7 +84,8 @@ function MapRoom:initBlock(_roomBgVo)
     if _roomBgVo.floor then
         for k=1, #_roomBgVo.floor do
             local info = _roomBgVo.floor[k]
-            local floor = PoolManager.getCacheObjByType(CACHE_TYPE[info.res])
+            local type = Tools.Split(info.res,"#")
+            local floor = PoolManager.getCacheObjByType(CACHE_TYPE[type[2]])
             if not floor then
                 floor = PhysicSprite.new(info.res)
                 floor:setCahceType(CACHE_TYPE[info.res])
@@ -97,35 +101,35 @@ function MapRoom:initBlock(_roomBgVo)
     end
 end
 
+--创建房间装饰
+function MapRoom:initOrnament(ornament)
+    for var=1,#ornament do
+        local data=ornament[var]
+        local sprite=display.newSprite(data.res):addTo(self)
+        table.insert(self.ornament,sprite)
+        sprite:setPosition(data.x,data.y)
+        sprite:setAnchorPoint(cc.p(0,0))
+    end
+end
+
 --创建钻石
-function MapRoom:initDiamonds(goldCon)
-    if goldCon and #goldCon>0 then
-        self.m_golds = {}
-        for var=1,#goldCon do
-            local _goldObj = goldCon[var]
-            if _goldObj then
-                local _num = _goldObj.value or 1
-                local _type = _goldObj.type or Coin_Type.Coin_Small
-                local gold,chType
-                if _type == Coin_Type.Coin_Small then
-                    gold = PoolManager.getCacheObjByType(CACHE_TYPE.Coin)
-                    chType = CACHE_TYPE.Coin
-                else
-                    gold = PoolManager.getCacheObjByType(CACHE_TYPE.Coin_Big)
-                    chType = CACHE_TYPE.Coin_Big
+function MapRoom:initDiamonds(diamondCon)
+    if diamondCon and #diamondCon>0 then
+        self.m_diamonds = {}
+        for var=1,#diamondCon do
+            local _diamondObj = diamondCon[var]
+            if _diamondObj then
+                local diamond = PoolManager.getCacheObjByType(CACHE_TYPE.Diamond)
+                if not diamond then
+                    diamond = DiamondElement.new({res=_diamondObj.res})
+                    diamond:setCahceType(CACHE_TYPE.Diamond)
+                    diamond:retain()
                 end
-                if not gold then
-                    gold = CoinElement.new({res=_goldObj.res,value=_num})
-                    gold:setCahceType(chType)
-                    gold:retain()
-                else
-                    Tools.printDebug("------------金币对象：",gold)
-                    gold:setCoinValue(_num)
-                end
-                gold:setPosition(_goldObj.x,_goldObj.y)
-                gold:setGroup(self.m_floorNum) 
-                table.insert(self.m_golds,gold)
-                GameController.addGoldBody(gold)
+                diamond:setPosition(_diamondObj.x,_diamondObj.y)
+                diamond:setGroup(self.m_floorNum)
+                diamond:setAnchorPoint(cc.p(0,0))
+                table.insert(self.m_diamonds,diamond)
+                GameController.addGoldBody(diamond)
             end
         end
     end
@@ -134,19 +138,11 @@ end
 function MapRoom:initGoods(goodCon)
     for var=1,#goodCon do
         local good=GoodsElement.new(goodCon[var].id):addTo(self)
-        good:setPosition(goodCon[var].x,goodCon[var].y)
+        local goodSize = good:getCascadeBoundingBox().size
+        good:setPosition(goodCon[var].x+goodSize.width*0.5,goodCon[var].y+goodSize.height*0.5)
         table.insert(self.m_goods,good)
         table.insert(self.m_blocks,good)
 --        GameController.addGoodBody(good)
-    end
-end
-
---创建房间装饰
-function MapRoom:initOrnament(ornament)
-    for var=1,#ornament do
-        local data=ornament[var]
-        local sprite=display.newSprite(data.res):addTo(self)
-        sprite:setPosition(data.x,data.y)
     end
 end
 
@@ -158,10 +154,14 @@ function MapRoom:addPhysicsBody(_node,tag)
         blockBody:setMass(Block_MASS)
         blockBody:setDynamic(false)
         if tag == ELEMENT_TAG.FLOOR then
-            self.floorArr[#self.floorArr+1] = blockBody
+            blockBody:setCategoryBitmask(0x06)
+            blockBody:setContactTestBitmask(0x1111)
+            blockBody:setCollisionBitmask(0x03)
+        else
+            blockBody:setCategoryBitmask(0x01)
+            blockBody:setContactTestBitmask(0x1111)
+            blockBody:setCollisionBitmask(0x03)
         end
-        blockBody:setCategoryBitmask(0x1111)
-        blockBody:setContactTestBitmask(0x1111)
         blockBody:retain()
         _node:setSize(size)
         blockBody:setTag(tag)
@@ -188,21 +188,16 @@ function MapRoom:initPosition(_x,_y,_isJustBody)
         self:setPosition(_x,_y)
     end
     local _parent = self:getParent()
-    if self.m_golds then
-        for key, var in pairs(self.m_golds) do
+    if self.m_diamonds then
+        for key, var in pairs(self.m_diamonds) do
             if not tolua.isnull(var) then
                 local x,y = var:getPosition()
                 var:setPosition(x+_x,y+_y)
                 _parent:addChild(var,MAP_ZORDER_MAX)
-                var:setCameraMask(2)
+--                var:setCameraMask(2)
             end
         end
     end
-end
-
---获取房间中的地板刚体表
-function MapRoom:getFloorBody(parameters)
-    return self.floorArr
 end
 
 --获取房间中的物体块表
@@ -226,12 +221,22 @@ function MapRoom:intoRoom(parameters)
     
 end
 
+--获得所有装饰物对象
+function MapRoom:getAllOrnament()
+    return self.ornament
+end
+
+--获得所有房间整块背景图
+function MapRoom:getAllRoomBgs(parameters)
+    return self.bgArr
+end
+
 
 --销毁
 function MapRoom:dispose(parameters)
     self.m_cacheBodys = nil
-    if self.m_golds then
-        for key, var in pairs(self.m_golds) do
+    if self.m_diamonds then
+        for key, var in pairs(self.m_diamonds) do
             if not tolua.isnull(var) then
                 --此处是过滤该数组中已经被其它楼层应用了防止消除
                 if var:getGroup() == self.m_floorNum then
@@ -249,13 +254,9 @@ function MapRoom:dispose(parameters)
         end
     end
     self.m_blocks = {}
-    self.floorArr = {}
     self.bgArr = {}
-
---    if self.m_bgImg then
---        self.m_bgImg:removeFromParent()
---        PoolManager.putCacheObjByType(self.m_roomCache,self.m_bgImg)
---    end
+    
+    self.ornament = {}
     
     self:removeFromParent(true)
 end

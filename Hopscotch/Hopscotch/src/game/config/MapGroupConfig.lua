@@ -36,11 +36,24 @@ MapGroupConfig[1]=
     { 
         _id=1, 
         roomBgs={1,2,2,2,2,2,2,2,2,3}, --房间背景地面
-        ornaments={0,0,0,0,0,0,0,0,0,0}, ---小挂件
-        coins={0,0,0,0,0,0,0,0,0,0}, ---金币
-        roomGoods={0,0,0,0,0,0,0,0,0,0}, ---道具
+        ornaments={2,1,1,1,1,1,1,1,1,1}, ---小挂件
+        coins={0,0,0,0,1,0,0,0,0,0}, ---钻石
+        roomGoods={0,0,0,0,0,1,0,0,0,0}, ---道具
         roomType = MAPROOM_TYPE.Common,
         direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
         distance = 0,        --房间x轴倾斜距离(单位：像素)
+        probability = 60,     --权重
+    } 
+    
+MapGroupConfig[2]= 
+    { 
+        _id=2, 
+        roomBgs={1,2,2,2,2,2,2,2,2,3}, --房间背景地面
+        ornaments={2,1,1,1,1,1,1,1,1,1}, ---小挂件
+        coins={0,0,0,0,1,0,0,0,0,0}, ---钻石
+        roomGoods={0,0,0,0,0,1,0,0,0,0}, ---道具
+        roomType = MAPROOM_TYPE.Lean,
+        direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
+        distance = 50,        --房间x轴倾斜距离(单位：像素)
         probability = 60,     --权重
     } 
