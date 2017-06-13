@@ -145,23 +145,23 @@ public class AppActivity extends Cocos2dxActivity{
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         super.onActivityResult(requestCode, resultCode, data);
-        PluginWrapper.onActivityResult(requestCode, resultCode, data);
+//        PluginWrapper.onActivityResult(requestCode, resultCode, data);
     }
     @Override
     protected void onResume() {
         super.onResume();
-        PluginWrapper.onResume();
+//        PluginWrapper.onResume();
         UMGameAgent.onResume(this);
     }
     @Override
     public void onPause(){
-        PluginWrapper.onPause();
+//        PluginWrapper.onPause();
         super.onPause();
         UMGameAgent.onPause(this);
     }
     @Override
     protected void onNewIntent(Intent intent) {
-        PluginWrapper.onNewIntent(intent);
+//        PluginWrapper.onNewIntent(intent);
         super.onNewIntent(intent);
     }
 
