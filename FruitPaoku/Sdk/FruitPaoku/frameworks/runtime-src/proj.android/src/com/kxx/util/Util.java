@@ -5,7 +5,6 @@ import java.io.IOException;
 
 import org.cocos2dx.lib.Cocos2dxActivity;
 import org.cocos2dx.lib.Cocos2dxLuaJavaBridge;
-import org.cocos2dx.lua.AppActivity;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -15,14 +14,7 @@ import com.og.unite.main.OGSdkPlatform;
 import com.umeng.analytics.game.UMGameAgent;
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.pm.PackageManager;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo.State;
-import android.net.wifi.WifiInfo;
-import android.net.wifi.WifiManager;
 import android.os.Environment;
-import android.telephony.TelephonyManager;
 import android.util.Log;
 
 
@@ -42,6 +34,9 @@ public class Util {
 	private static int giftCallback = 0;
 	private static int ParamsCallBack = 0;
 	private static int shopCallBack = 0;
+	
+	private static String vipCode = "";
+	private static String btnMode = "";
 	
 	private static Activity context = null;	
 	
@@ -128,7 +123,7 @@ public class Util {
 	 * vip包月回调
 	 */
 	//获取包月信息是否订购
-	private static String getUmpData()
+	public static String getUmpData()
 	{
 		String HTTPURL = "http://211.154.162.11/getUmpStatusByImsi.action?";
 		String AppKey = "baoyue";
@@ -178,7 +173,7 @@ public class Util {
 			code = "";
 			productid = "";
 		}
-		//Log.d("", "zhou code = " + code);
+		Log.d("brj code", "brj code = " + code + productid);
 		
 		return code+"|"+productid;
 
@@ -197,8 +192,9 @@ public class Util {
 			public void run() {
 				// TODO Auto-generated method stub
 				OGSdkPlatform.getGameParamByKey(context, paramKey1, ogLoadParamsCallBack);
-//				OGThranPay.getShopList();//商城大排序
-				getGiftFunc();
+				//获取vip包月信息
+				vipCode = getUmpData();
+				OGThranPay.getShopList();//商城大排序
 			}
 		});
 	}
@@ -209,10 +205,7 @@ public class Util {
 		String code1 = OGThranPay.checkPCode(1);//进入游戏
 		String code2 = OGThranPay.checkPCode(2);//游戏中
 		String code3 = OGThranPay.checkPCode(3);//退出游戏
-		
-		//获取vip包月信息
-		String vipCode = String.valueOf(getUmpData());
-		
+			
 		String code = code1 + "|" + code2 + "|" + code3 + "#" + vipCode;
 //		Util.writeFile(code);
 		Log.d("chjh result--month:", code);
@@ -223,9 +216,8 @@ public class Util {
 		Log.d("brj shopCode:", shopCode);
 		Cocos2dxLuaJavaBridge.callLuaFunctionWithString(shopCallBack, shopCode);
 		
-		Cocos2dxLuaJavaBridge.releaseLuaFunction(giftCallback);
-		Cocos2dxLuaJavaBridge.releaseLuaFunction(shopCallBack);
-		Cocos2dxLuaJavaBridge.releaseLuaFunction(ParamsCallBack);
+		Cocos2dxLuaJavaBridge.callLuaFunctionWithString(ParamsCallBack, btnMode);
+		
 	}
 
 	
@@ -239,10 +231,8 @@ public class Util {
 				{
 					json = new JSONObject(arg0);
 					JSONObject confjson = json.getJSONObject("button_config");
-					String btnMode = confjson.getString("VIPBtnMode");
+					btnMode = confjson.getString("VIPBtnMode");
 					Log.d("zho btnmode----", "zho btnmode = " + btnMode);
-					
-					Cocos2dxLuaJavaBridge.callLuaFunctionWithString(ParamsCallBack, btnMode);
 					
 				}catch(Exception ex)
 				{
@@ -338,9 +328,9 @@ public class Util {
 	//游戏退出
 	public static void exitGame()
 	{
-//		Cocos2dxLuaJavaBridge.releaseLuaFunction(giftCallback);
-//		Cocos2dxLuaJavaBridge.releaseLuaFunction(shopCallBack);
-//		Cocos2dxLuaJavaBridge.releaseLuaFunction(ParamsCallBack);
+		Cocos2dxLuaJavaBridge.releaseLuaFunction(giftCallback);
+		Cocos2dxLuaJavaBridge.releaseLuaFunction(shopCallBack);
+		Cocos2dxLuaJavaBridge.releaseLuaFunction(ParamsCallBack);
 		UMGameAgent.onKillProcess(curActivity);
 		curActivity.finish();
 		System.exit(0);

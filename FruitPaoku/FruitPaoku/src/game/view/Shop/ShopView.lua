@@ -35,7 +35,13 @@ function ShopView:ctor(isPause)
     self.lv:setPosition(cc.p(self.m_listSize.width*(1-display.right/GroupSize.width)*0.5,
         self.m_listSize.height*(1-display.right/GroupSize.width)*0.5))
 
-    
+    if #GameController.getShopCodeList() <= 0 then
+        local cadeList = {}
+        for var=9, #ShopConfig do
+            cadeList[#cadeList+1] = ShopConfig[var]
+        end
+        GameController.setShopListCode(cadeList)
+    end
     self:initPublic(GameController.getShopCodeList())
     
 

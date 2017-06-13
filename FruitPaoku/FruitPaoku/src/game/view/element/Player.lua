@@ -182,11 +182,14 @@ function Player:LevelWin()
     MoveSpeed = 0
     GameController.setSpeed(MoveSpeed)
     
+    if DataPersistence.getAttribute("first_into") then
+        SDKUtil.umentOnEvent(SDKUtil.EventId.GuideFinish)
+    end
+    
     transition.moveTo(self,{time = 1,x=display.right+100,y=self:getPositionY(),onComplete=function()
         self:dispose()
         if DataPersistence.getAttribute("first_into") then
             DataPersistence.updateAttribute("first_into",false)
-            SDKUtil.umentOnEvent(SDKUtil.EventId.GuideFinish)
         	app:enterMainScene()
         else
             --弹结算界面

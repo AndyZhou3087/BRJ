@@ -12,7 +12,7 @@ function MainUI:ctor()
     self.isRun = nil
     self.isMonth = nil
     self.productid = nil
---    self.giftCount = 0
+    self.giftCount = 0
 
     self:init()
     
@@ -114,7 +114,7 @@ function MainUI:getGift()
 end
 
 function MainUI:initGiftCallBack(_stringId)
---    self.giftCount = self.giftCount + 1
+    self.giftCount = self.giftCount + 1
     --获取礼包信息
     local arr = Tools.Split(_stringId,'#')
     GameController.getGiftIdByPayCode(arr[1])
@@ -127,7 +127,7 @@ function MainUI:initGiftCallBack(_stringId)
     else
         GameDataManager.renewVip(false)
     end
---    self:giftFunc() 
+    self:giftFunc() 
 end
 
 
@@ -165,26 +165,26 @@ function MainUI:onEnterFrame(parameters)
         else
             self.Panel_8:setVisible(true)
             self.Image_21:setVisible(false)
---            self.giftCount = self.giftCount + 1
+            self.giftCount = self.giftCount + 1
             self:giftFunc()
         end
     end
 end
 
 function MainUI:giftFunc(parameters)
---    if self.giftCount < 2 then
---    	return
---    end
-    
-	--购买角色礼包后每日领取
+    --购买角色礼包后每日领取
     Tools.delayCallFunc(0.1,function()
         GameDataManager.updateGift()
     end)
-    
+
     --购买vip礼包后每日领取
     Tools.delayCallFunc(0.3,function()
         GameDataManager.updateVipGift()
     end)
+    
+    if self.giftCount < 2 then
+    	return
+    end
     self:homePageGift()
 end
 

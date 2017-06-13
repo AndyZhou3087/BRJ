@@ -299,7 +299,7 @@ function GameController.ShopListSorting(list)
     return shopArr
 end
 
-local shopCodeArr
+local shopCodeArr = {}
 function GameController.setShopListCode(_arr)
     shopCodeArr = _arr
 end

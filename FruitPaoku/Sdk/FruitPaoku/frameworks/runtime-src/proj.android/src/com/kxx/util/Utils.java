@@ -1,6 +1,5 @@
 package com.kxx.util;
 
-import java.io.File;
 import java.io.UnsupportedEncodingException;
 
 import org.cocos2dx.lua.AppActivity;
