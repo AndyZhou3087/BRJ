@@ -225,10 +225,140 @@
                 <key>sourceSize</key>
                 <string>{91,32}</string>
             </dict>
+            <key>Room_special_1.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{463,87},{67,71}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{67,71}}</string>
+                <key>sourceSize</key>
+                <string>{67,71}</string>
+            </dict>
+            <key>Room_special_2.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{532,87},{67,71}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{67,71}}</string>
+                <key>sourceSize</key>
+                <string>{67,71}</string>
+            </dict>
+            <key>Room_special_3.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{601,87},{85,78}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{85,78}}</string>
+                <key>sourceSize</key>
+                <string>{85,78}</string>
+            </dict>
+            <key>Room_special_4.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{688,87},{85,78}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{85,78}}</string>
+                <key>sourceSize</key>
+                <string>{85,78}</string>
+            </dict>
+            <key>Room_special_floor.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{2,167},{593,16}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{593,16}}</string>
+                <key>sourceSize</key>
+                <string>{593,16}</string>
+            </dict>
+            <key>Room_specialbg_1.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{597,167},{78,14}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{78,14}}</string>
+                <key>sourceSize</key>
+                <string>{78,14}</string>
+            </dict>
+            <key>Room_specialbg_2.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{677,167},{78,84}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{78,84}}</string>
+                <key>sourceSize</key>
+                <string>{78,84}</string>
+            </dict>
+            <key>Room_specialbg_3.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{757,167},{78,84}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{78,84}}</string>
+                <key>sourceSize</key>
+                <string>{78,84}</string>
+            </dict>
+            <key>Room_specialbg_4.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{837,167},{78,84}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{78,84}}</string>
+                <key>sourceSize</key>
+                <string>{78,84}</string>
+            </dict>
+            <key>Room_specialbg_5.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{917,167},{16,83}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{16,83}}</string>
+                <key>sourceSize</key>
+                <string>{16,83}</string>
+            </dict>
             <key>Room_wall.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{463,87},{17,85}}</string>
+                <string>{{935,167},{17,85}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -241,7 +371,7 @@
             <key>Room_window_1.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{482,87},{94,83}}</string>
+                <string>{{2,254},{94,83}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -254,7 +384,7 @@
             <key>Room_window_2.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{578,87},{94,83}}</string>
+                <string>{{98,254},{94,83}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -267,7 +397,7 @@
             <key>Room_window_3.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{674,87},{94,83}}</string>
+                <string>{{194,254},{94,83}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -280,7 +410,7 @@
             <key>Room_window_4.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{770,87},{94,83}}</string>
+                <string>{{290,254},{94,83}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -298,9 +428,9 @@
             <key>realTextureFileName</key>
             <string>Room.png</string>
             <key>size</key>
-            <string>{1024,256}</string>
+            <string>{1024,512}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:54e1ca64ffed0e94320aa1ef6fc387fa$</string>
+            <string>$TexturePacker:SmartUpdate:90e1c243263254a5f4bbf82e98d43d8a$</string>
             <key>textureFileName</key>
             <string>Room.png</string>
         </dict>

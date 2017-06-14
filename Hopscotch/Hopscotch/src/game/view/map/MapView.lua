@@ -43,7 +43,9 @@ function MapView:updateDiamond()
 end
 
 function MapView:updateFloor()
-	self.Score:setString(GameDataManager.getPoints())
+    if self.Score then
+        self.Score:setString(GameDataManager.getPoints())
+    end
 end
 
 function MapView:dispose(parameters)

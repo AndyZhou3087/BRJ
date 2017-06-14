@@ -56,7 +56,7 @@
             <key>width</key>
             <int>1024</int>
             <key>height</key>
-            <int>256</int>
+            <int>1024</int>
         </QSize>
         <key>fixedTextureSize</key>
         <QSize>
@@ -168,6 +168,16 @@
             <filename>Room_floor_6.png</filename>
             <filename>Room_floor_1.png</filename>
             <filename>Room_floor_2.png</filename>
+            <filename>../../../../Useful/跳房子/红色钢架/Room_specialbg_4.png</filename>
+            <filename>../../../../Useful/跳房子/红色钢架/Room_specialbg_5.png</filename>
+            <filename>../../../../Useful/跳房子/红色钢架/Room_special_1.png</filename>
+            <filename>../../../../Useful/跳房子/红色钢架/Room_special_2.png</filename>
+            <filename>../../../../Useful/跳房子/红色钢架/Room_special_3.png</filename>
+            <filename>../../../../Useful/跳房子/红色钢架/Room_special_4.png</filename>
+            <filename>../../../../Useful/跳房子/红色钢架/Room_special_floor.png</filename>
+            <filename>../../../../Useful/跳房子/红色钢架/Room_specialbg_1.png</filename>
+            <filename>../../../../Useful/跳房子/红色钢架/Room_specialbg_2.png</filename>
+            <filename>../../../../Useful/跳房子/红色钢架/Room_specialbg_3.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

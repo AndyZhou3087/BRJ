@@ -124,12 +124,18 @@ function GameDataManager.getRoleModle(_roleId)
     return modleDic[_roleId]
 end
 
-local points_game = 0
+local points_game = 1
 --增加分数(游戏内)(分数即为楼层)
 function GameDataManager.addPoints(_value)
     points_game = points_game+_value
     GameDispatcher:dispatch(EventNames.EVENT_UPDATE_FLOOR)
     return true
+end
+
+--重置游戏分数
+function GameDataManager.resetPoints()
+    points_game = 1
+    GameDispatcher:dispatch(EventNames.EVENT_UPDATE_FLOOR)
 end
 
 --获取分数
@@ -159,6 +165,10 @@ end
 --返回游戏中得到的钻石
 function GameDataManager.getGameDiamond()
     return diamond_game
+end
+
+function GameDataManager.resetGameDiamond()
+    diamond_game = 0
 end
 
 --===================End=========================

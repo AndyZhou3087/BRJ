@@ -134,6 +134,16 @@ function GameController.isInState(_state)
     return false
 end
 
+local vision = true
+--设置当前视觉是否可见
+function GameController.setVisible(_enable)
+    vision = _enable
+end
+--获取视觉效果
+function GameController.getGameVisible()
+    return vision
+end
+
 --添加钻石
 --_obj:钻石对象    _isMoving:是否移动中
 function GameController.addGoldBody(body,_isMoving)

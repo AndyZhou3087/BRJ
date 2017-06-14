@@ -11,29 +11,14 @@ local PreLoadType =
 --战斗中预加载资源
 local fightRes = {
     {type = PreLoadType.Texture,plist="map/Room.plist",png="map/Room.png"},
+    {type = PreLoadType.Texture,plist="role/Role5.plist",png="role/Role5.png"},
 --    {type = PreLoadType.Animation,plist="role/nv_pao0.plist",png="role/nv_pao0.png",json="role/nv_pao.ExportJson"},
 --    {type = PreLoadType.Animation,plist="role/chongci0.plist",png="role/chongci0.png",json="role/chongci.ExportJson"},
 --    {type = PreLoadType.Animation,plist="role/nan30.plist",png="role/nan30.png",json="role/nan3.ExportJson"},
---    {type = PreLoadType.Animation,plist="role/nan40.plist",png="role/nan40.png",json="role/nan4.ExportJson"},
---    {type = PreLoadType.Animation,plist="role/nan50.plist",png="role/nan50.png",json="role/nan5.ExportJson"},
---    {type = PreLoadType.Animation,plist="role/nan60.plist",png="role/nan60.png",json="role/nan6.ExportJson"},
---    {type = PreLoadType.Animation,plist="armature/xiaoshi0.plist",png="armature/xiaoshi0.png",json="armature/xiaoshi.ExportJson"},
---    {type = PreLoadType.Animation,plist="armature/nan5fp0.plist",png="armature/nan5fp0.png",json="armature/nan5fp.ExportJson"},
---    {type = PreLoadType.Animation,plist="armature/tanh0.plist",png="armature/tanh0.png",json="armature/tanh.ExportJson"},
---    {type = PreLoadType.Animation,plist="armature/xitieshi0.plist",png="armature/xitieshi0.png",json="armature/xitieshi.ExportJson"},
---    {type = PreLoadType.Animation,plist="armature/dc0.plist",png="armature/dc0.png",json="armature/dc.ExportJson"},
 --    {type = PreLoadType.Sound,sound=AudioManager.Sound_Effect_Type.Button_Click_Sound},
 --    {type = PreLoadType.Sound,sound=AudioManager.Sound_Effect_Type.Dart_Sound},
 --    {type = PreLoadType.Sound,sound=AudioManager.Sound_Effect_Type.Diamond_Cost},
 --    {type = PreLoadType.Sound,sound=AudioManager.Sound_Effect_Type.Get_Prop_Sound},
---    {type = PreLoadType.Sound,sound=AudioManager.Sound_Effect_Type.GetGold_Sound},
---    {type = PreLoadType.Sound,sound=AudioManager.Sound_Effect_Type.Jump_Sound},
---    {type = PreLoadType.Sound,sound=AudioManager.Sound_Effect_Type.Magnet_Sound},
---    {type = PreLoadType.Sound,sound=AudioManager.Sound_Effect_Type.Player_Up_Lv},
---    {type = PreLoadType.Sound,sound=AudioManager.Sound_Effect_Type.RoleMan_Dead},
---    {type = PreLoadType.Sound,sound=AudioManager.Sound_Effect_Type.RoleWomen_Dead},
---    {type = PreLoadType.Sound,sound=AudioManager.Sound_Effect_Type.Sprint_Sound},
---    {type = PreLoadType.Sound,sound=AudioManager.Sound_Effect_Type.Win_Sound},
 }
 
 --加载战斗场景资源

@@ -31,7 +31,7 @@ RoleConfig[1]=
     {
         id = 1,
         type = Shop_Type.role,
-        armatureName = false,   --动画工程名
+        armatureName = "RoleAni_5",   --动画工程名
         roleImg = "role/role_1.jpg",   --角色图片
         roleName = "shop/rolename_1.png",
         priceRes = "shop/price_6.png",
@@ -87,7 +87,7 @@ RoleConfig[5]=
     {
         id = 5,
         type = Shop_Type.role,
-        armatureName = false,   --动画工程名
+        armatureName = "RoleAni_5",   --动画工程名
         roleImg = "role/role_5.jpg",   --角色图片
         roleName = "shop/rolename_5.png",
         priceRes = "shop/price_6.png",

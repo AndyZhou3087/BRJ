@@ -29,6 +29,7 @@ function MapLayer:ctor(parameters)
     self.m_chaceRooms = {}  --房间缓存数组
     GameController.setRooms(self.m_chaceRooms)
     self.jumpFloorNum = 1
+    self.backOrigin = false
     self.floorPos = {}
     self.roomArr = {}
     
@@ -40,8 +41,8 @@ function MapLayer:ctor(parameters)
     self.m_backbg = BackGroundMove.new(GameDataManager.getFightScene()):addTo(self)
     self.m_backbgLeft = BackGroundMove.new(GameDataManager.getFightScene()):addTo(self)
     self.m_backbgLeft:setPositionX(-display.width)
-    self.m_backbgLeft = BackGroundMove.new(GameDataManager.getFightScene()):addTo(self)
-    self.m_backbgLeft:setPositionX(display.right)
+    self.m_backbgRight = BackGroundMove.new(GameDataManager.getFightScene()):addTo(self)
+    self.m_backbgRight:setPositionX(display.right)
     
     self.m_bg = display.newSprite("map/Scene_"..GameDataManager.getFightScene().."/Map_frame_2.png")
     self.bottomHeight = self.m_bg:getCascadeBoundingBox().size.height
@@ -73,9 +74,37 @@ function MapLayer:ctor(parameters)
 --    self.m_isUp = false
 
 
-    --监听范围破坏
---    GameDispatcher:addListener(EventNames.EVENT_AREA_DAMAGE,handler(self,self.damageHandle))
+    --20层以内死亡重新回到起点
+--    GameDispatcher:addListener(EventNames.EVENT_BACK_ORIGIN,handler(self,self.backOriginFunc))
 
+end
+
+--回到起始点
+function MapLayer:backOriginFunc()
+    self.backOrigin = true
+    GameDataManager.resetPoints()
+    GameDataManager.resetGameDiamond()
+    local removeCount = 0
+    if #self.m_chaceRooms > MAP_ROOM_INIT_NUM then
+        removeCount = #self.m_chaceRooms - MAP_ROOM_INIT_NUM
+    end
+    for var=1, removeCount do
+        local _room = table.remove(self.m_chaceRooms,#self.m_chaceRooms)
+        _room:dispose()
+    end
+    self.jumpFloorNum = 1
+    local _size = self.m_player:getSize()
+    local floorPos = self.floorPos[self.jumpFloorNum]
+    self.m_player:addLifeNum(1)
+    self.m_player:setPosition(cc.p(100,self.bottomHeight+_size.width*0.5+27))
+    Tools.printDebug("brj 角色坐标：",self.bottomHeight+_size.width*0.5+27,self.m_player:getPositionY())
+    local move = cc.MoveTo:create(0.5,cc.p(0,0))
+    local callfunc = cc.CallFunc:create(function()
+        self.backOrigin = false
+    end)
+    local seq = cc.Sequence:create(move,callfunc)
+    self.m_camera:runAction(seq)
+    
 end
 
 --进行弹跳
@@ -96,6 +125,10 @@ end
 function MapLayer:touchFunc(event)
     if tolua.isnull(self.m_player) or self.m_player:isDead() then
         return true
+    end
+    Tools.printDebug("-----------------------------self.backOrigin  ",self.backOrigin)
+    if self.backOrigin then
+    	return true
     end
     if event.name == "began" then
         self.jumpFloorNum = self.jumpFloorNum + 1
@@ -138,13 +171,19 @@ function MapLayer:onEnterFrame(dt)
     if self.m_player:isDead() then
         return
     end
+    
 
     local bpx,bpy = self.m_player:getPosition()
     local _size = self.m_player:getSize()
     self.m_player:update(dt,bpx,bpy)
     
+    if self.backOrigin then
+        local floorPos = self.floorPos[self.jumpFloorNum]
+        self.m_player:setPosition(cc.p(bpx,floorPos.y+_size.width*0.5+27))
+    end
+    
     local x,y = self.m_camera:getPosition()
-    Tools.printDebug("brj  摄像机坐标x：",x,bpx)
+--    Tools.printDebug("brj  摄像机坐标x：",x,bpx)
     if bpx <= x+Room_Distance.x-_size.width*0.5 then
         self.m_player:selfDead()
     end
@@ -182,6 +221,10 @@ function MapLayer:collisionBeginCallBack(parameters)
     
     if self.m_player:isDead() then
         return false
+    end
+    
+    if self.backOrigin then
+        return true
     end
 
     local conData = parameters:getContactData()
@@ -236,7 +279,7 @@ function MapLayer:collisionBeginCallBack(parameters)
        if not tolua.isnull(obstacle) then
             local vel=self.m_player:getBody():getVelocity()
             local _size = self.m_player:getSize()
-            Tools.printDebug("brj   -----  x: ",playerBP.x+_size.width*0.5,obstacleBP.x)
+--            Tools.printDebug("brj   -----  x: ",playerBP.x+_size.width*0.5,obstacleBP.x)
             if playerBP.x+_size.width*0.5<obstacleBP.x then
                 player:setVelocity(cc.p(self.m_player:getVo().m_speed,vel.y))
                 player:setScaleX(math.abs(_scaleX))
@@ -268,6 +311,10 @@ function MapLayer:rayCastFunc(_world,_p1,_p2,_p3)
     if self.m_player:isDead() then
         return false
     end
+    
+    if self.backOrigin then
+        return true
+    end
 
     local _body = _p1.shape:getBody()
     local _bnode = _body:getNode()
@@ -288,6 +335,10 @@ end
 function MapLayer:rayCastFuncX(_world,_p1,_p2,_p3)
     if self.m_player:isDead() then
         return false
+    end
+    
+    if self.backOrigin then
+        return true
     end
 
     local _body = _p1.shape:getBody()
@@ -375,16 +426,16 @@ function MapLayer:addNewRooms(parameters)
     else
         _newRoom = MapRoom.new(1)
     end
-    if #self.m_chaceRooms >= MAP_ROOM_MAX then
-        local _room = table.remove(self.m_chaceRooms,1)
-        _room:dispose()
-    end
-
     self.m_roomNode:addChild(_newRoom,self.m_curZOrder)
     _newRoom:initPosition(self._x,_y)
     _newRoom:setCameraMask(2)
     table.insert(self.m_chaceRooms,_newRoom)
     self.m_curZOrder = self.m_curZOrder + 1
+    
+    if #self.m_chaceRooms > MAP_ROOM_MAX then
+        local _room = table.remove(self.m_chaceRooms,1)
+        _room:dispose()
+    end
 end
 
 
@@ -425,7 +476,7 @@ function MapLayer:dispose(parameters)
     --移除帧事件
     self:removeNodeEventListenersByEvent(cc.NODE_ENTER_FRAME_EVENT)
     --移除其它事件
---    GameDispatcher:removeListenerByName(EventNames.EVENT_AREA_DAMAGE)
+--    GameDispatcher:removeListenerByName(EventNames.EVENT_BACK_ORIGIN)
 
 
     if self.m_player then
@@ -438,6 +489,9 @@ function MapLayer:dispose(parameters)
         end
     end
 
+    GameDataManager.resetPoints()
+    GameDataManager.resetGameDiamond()
+    
     GameController.clearRooms()
     GameController.clearBody()
     self:removeFromParent(true)

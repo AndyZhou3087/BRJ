@@ -29,9 +29,16 @@ function Player:ctor()
     local p_size
     if modle then
         self.m_modle=modle
-        self:createModle(modle)
-        self:toPlay(PLAYER_ACTION.Run)
-        p_size = cc.size(80,90)
+--        self:createModle(modle)
+--        self:toPlay(PLAYER_ACTION.Run)
+        self.m_armature = display.newSprite(res):addTo(self)
+        cc.AnimationCache:getInstance():addAnimations("role/"..modle..".plist")
+        local animation = cc.AnimationCache:getInstance():getAnimation("RoleAni_"..5)
+        animation:setLoops(-1)
+        local animate = cc.Animate:create(animation)
+        self.m_armature:runAction(animate)
+        self.m_armature:setScale(0.5)
+        p_size = cc.size(50,75)
     else
         self.m_armature = PhysicSprite.new(res):addTo(self)
         p_size = self.m_armature:getCascadeBoundingBox().size
@@ -174,8 +181,15 @@ end
 function Player:selfDead()
     self.m_vo.m_lifeNum = self.m_vo.m_lifeNum - 1
     if self.m_vo.m_lifeNum <= 0 then
-    	--弹出结算界面
-        GameDispatcher:dispatch(EventNames.EVENT_OPEN_SETTLEMENT)
+        if GameDataManager.getPoints() <= 20 then
+            --低于20层回到起点
+            if not tolua.isnull(self:getParent()) then
+                self:getParent():backOriginFunc()
+            end
+        else
+            --弹出结算界面
+            GameDispatcher:dispatch(EventNames.EVENT_OPEN_SETTLEMENT) 
+        end
     end
 end
 
@@ -186,6 +200,11 @@ end
 --恢复移动
 function Player:resumeMove(parameters)
     self:setBodyVelocity(self.m_stopVec)
+end
+
+--增加一条生命
+function Player:addLifeNum(_count)
+    self.m_vo.m_lifeNum = self.m_vo.m_lifeNum + _count
 end
 
 --添加buff
