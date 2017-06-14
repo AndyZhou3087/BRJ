@@ -74,6 +74,11 @@ function GameApp:run()
     end
 end
 
+function GameApp:enterLoadScene()
+    cc.FileUtils:getInstance():addSearchPath("res/")
+    self:enterScene("LoadScene")
+end
+
 function GameApp:enterMainScene(parameters)
     cc.FileUtils:getInstance():addSearchPath("res/")
     self:enterScene("MainScene")

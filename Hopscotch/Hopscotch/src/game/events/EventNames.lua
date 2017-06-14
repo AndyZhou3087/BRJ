@@ -25,4 +25,10 @@ EventNames.EVENT_UPDATE_SCENE = "event_update_scene"
 --刷新钻石
 EventNames.EVENT_DIAMOND_CHANGE = "event_daimond_change"
 
+--loading界面关闭
+EventNames.EVENT_LOADING_OVER = "event_loading_over"
+
+--刷新楼层显示
+EventNames.EVENT_UPDATE_FLOOR = "event_update_floor"
+
 return EventNames

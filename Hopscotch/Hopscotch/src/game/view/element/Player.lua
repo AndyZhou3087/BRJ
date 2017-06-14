@@ -125,6 +125,7 @@ function Player:toJump(ty)
     local callfunc = cc.CallFunc:create(function()
         self.m_body:setCollisionBitmask(0x03)
         self:setGravityEnable(true)
+        self:setPositionY(ty+self.m_size.width*0.5+30)
     end)
     local seq = cc.Sequence:create(move,callfunc)
     self:runAction(seq)
@@ -157,11 +158,6 @@ function Player:update(dt,_x,_y)
     end
     self:setBodyVelocity(_vec)
 
-    if self.m_isUp then
-        if _vec.y <= 0 then
-            self.m_isUp = false
-        end
-    end
 end
 
 function Player:getArmature(parameters)
@@ -177,6 +173,10 @@ end
 --角色死亡
 function Player:selfDead()
     self.m_vo.m_lifeNum = self.m_vo.m_lifeNum - 1
+    if self.m_vo.m_lifeNum <= 0 then
+    	--弹出结算界面
+        GameDispatcher:dispatch(EventNames.EVENT_OPEN_SETTLEMENT)
+    end
 end
 
 --停止移动

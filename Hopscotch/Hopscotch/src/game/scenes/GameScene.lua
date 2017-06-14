@@ -1,7 +1,7 @@
 --[[
 战斗场景
 ]]
---local MapView = require("game.view.map.MapView")
+local MapView = require("game.view.map.MapView")
 local MapLayer = require("game.view.map.MapLayer")
 local scheduler = require("framework.scheduler")
 
@@ -49,8 +49,8 @@ function GameScene:onEnter()
     self.m_map = MapLayer.new()
     self:addChild(self.m_map)
 
---    self.m_fightView = MapView.new()
---    self:addChild(self.m_fightView,UI_ZORDER.VIEW_ZORDER)
+    self.m_fightView = MapView.new()
+    self:addChild(self.m_fightView,UI_ZORDER.VIEW_ZORDER)
 
 --    AudioManager.playGroundMusic(AudioManager.Ground_Music_Type.Fight_Bg,true)
     

@@ -20,4 +20,8 @@
     <Project>ShopView</Project>
     <GuidesList />
   </GuidesProject>
+  <GuidesProject>
+    <Project>MapView</Project>
+    <GuidesList />
+  </GuidesProject>
 </ArrayOfGuidesProject>

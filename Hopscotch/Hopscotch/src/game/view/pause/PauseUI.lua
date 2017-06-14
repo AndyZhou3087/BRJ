@@ -35,7 +35,12 @@ function PauseUI:ctor(parameters)
         self.Image_2:setPositionY(self.Image_2:getPositionY()+10)
     end)
     self.Restart:onButtonClicked(function (event)
-
+        GameDataManager.generatePlayerVo()  --产生新的角色数据对象
+        GameController.resumeGame()
+        app:enterLoadScene()
+        Tools.delayCallFunc(0.1,function()
+            app:enterGameScene()
+        end)
     end)
         
     self.Back = cc.uiloader:seekNodeByName(self.m_json,"Back")
@@ -47,6 +52,7 @@ function PauseUI:ctor(parameters)
         self.Image_3:setPositionY(self.Image_3:getPositionY()+10)
     end)
     self.Back:onButtonClicked(function (event)
+        GameController.resumeGame()
         app:enterMainScene()
     end)
 

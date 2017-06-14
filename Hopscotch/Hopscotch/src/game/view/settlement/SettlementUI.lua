@@ -103,6 +103,7 @@ function SettlementUI:initBottom()
     end)
     self.Button_shop:onButtonClicked(function (event)
         Tools.printDebug("brj hopscotch 购物车")
+        GameDispatcher:dispatch(EventNames.EVENT_OPEN_SHOP)
     end)
     
     --开始按钮
@@ -117,6 +118,11 @@ function SettlementUI:initBottom()
     end)
     self.start:onButtonClicked(function (event)
         Tools.printDebug("brj hopscotch 重新开始游戏")
+        GameDataManager.generatePlayerVo()  --产生新的角色数据对象
+        app:enterLoadScene()
+        Tools.delayCallFunc(0.1,function()
+            app:enterGameScene()
+        end)
     end)
     
     --设置按钮

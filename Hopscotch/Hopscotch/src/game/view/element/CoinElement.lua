@@ -25,6 +25,7 @@ end
 function CoinElement:collision()
 --    AudioManager.playSoundEffect(AudioManager.Sound_Effect_Type.GetGold_Sound)
     GameDataManager.addDiamond(1)
+    GameDataManager.addGameDiamond(1)
     
     self:dispose()
 end

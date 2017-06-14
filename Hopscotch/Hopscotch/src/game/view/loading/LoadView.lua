@@ -48,7 +48,7 @@ function LoadView:ctor(parameters)
         self.shop:setButtonImage("disabled","common/Button_up.png")
     end)
     self.shop2:onButtonClicked(function (event)
-        
+        GameDispatcher:dispatch(EventNames.EVENT_OPEN_SHOP)
     end)
     
     --tv按钮
@@ -59,8 +59,7 @@ function LoadView:ctor(parameters)
         self.tv:setButtonImage("disabled","common/Button_up.png")
     end)
     self.tv2:onButtonClicked(function (event)
---        --测试界面
---        GameDispatcher:dispatch(EventNames.EVENT_OPEN_SHOP)
+
     end)
 
 --    self:setTouchEnabled(true)

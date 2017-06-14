@@ -54,6 +54,6 @@ MapGroupConfig[2]=
         roomGoods={0,0,0,0,0,1,0,0,0,0}, ---道具
         roomType = MAPROOM_TYPE.Lean,
         direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
-        distance = 50,        --房间x轴倾斜距离(单位：像素)
+        distance = 40,        --房间x轴倾斜距离(单位：像素)
         probability = 60,     --权重
     } 

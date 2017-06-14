@@ -99,6 +99,7 @@ function MapLayer:touchFunc(event)
     end
     if event.name == "began" then
         self.jumpFloorNum = self.jumpFloorNum + 1
+        GameDataManager.addPoints(1)
         self:toJump()
         Tools.printDebug("brj 楼梯: ",self.jumpFloorNum)
         self:addNewRooms()
@@ -141,13 +142,15 @@ function MapLayer:onEnterFrame(dt)
     local bpx,bpy = self.m_player:getPosition()
     local _size = self.m_player:getSize()
     self.m_player:update(dt,bpx,bpy)
-
---    if bpx <= Room_Distance.x-_size.width*0.5 then
---        self.m_player:selfDead()
---    end
---    if  bpx >= display.width-Room_Distance.x+_size.width*0.5 then
---        self.m_player:selfDead()
---    end
+    
+    local x,y = self.m_camera:getPosition()
+    Tools.printDebug("brj  摄像机坐标x：",x,bpx)
+    if bpx <= x+Room_Distance.x-_size.width*0.5 then
+        self.m_player:selfDead()
+    end
+    if  bpx >= x+display.width-Room_Distance.x+_size.width*0.5 then
+        self.m_player:selfDead()
+    end
 --    Tools.printDebug("brj   layer  edgePos: ",display.width-Room_Distance.x-17,bpx)
     local _scaleX=self.m_player:getScaleX()
     local vel=self.m_player:getBody():getVelocity()
@@ -175,6 +178,10 @@ end
 function MapLayer:collisionBeginCallBack(parameters)
     if not GameController.getCollsionEnable() then
         return true
+    end
+    
+    if self.m_player:isDead() then
+        return false
     end
 
     local conData = parameters:getContactData()
@@ -279,6 +286,10 @@ function MapLayer:rayCastFunc(_world,_p1,_p2,_p3)
 end
 --
 function MapLayer:rayCastFuncX(_world,_p1,_p2,_p3)
+    if self.m_player:isDead() then
+        return false
+    end
+
     local _body = _p1.shape:getBody()
     local _bnode = _body:getNode()
     local _tag = _body:getTag()
@@ -377,28 +388,6 @@ function MapLayer:addNewRooms(parameters)
 end
 
 
-function MapLayer:clear(parm)
-    local data=parm.data or false
-
-    if data==true then
-        if self.m_handlerFragment then
-            Scheduler.unscheduleGlobal(self.m_handlerFragment)
-            self.m_handlerFragment = nil
-        end
-    else
-        if self.m_handlerFragment then
-            Scheduler.unscheduleGlobal(self.m_handlerFragment)
-            self.m_handlerFragment = nil
-        end
-
-        self.m_handlerFragment=Tools.delayCallFunc(Fragment_Time,function()
-            self.m_handlerFragment = nil
-            self:clearFragment()
-        end)
-    end
-
-end
-
 --震屏
 function MapLayer:toShake(_num)
     self.m_isShake = true
@@ -428,10 +417,6 @@ function MapLayer:stopToShake(parameters)
     end
 end
 
-function MapLayer:getCurRoom()
-    return self.m_room
-end
-
 
 --地图销毁
 function MapLayer:dispose(parameters)
@@ -446,7 +431,6 @@ function MapLayer:dispose(parameters)
     if self.m_player then
         self.m_player:dispose()
     end
-
 
     for key, var in ipairs(self.m_chaceRooms) do
         if not tolua.isnull(var) then

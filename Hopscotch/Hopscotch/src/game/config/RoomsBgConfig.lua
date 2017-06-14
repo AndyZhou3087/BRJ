@@ -38,7 +38,7 @@ RoomBgs[2]=
             {res="#Room_bg_2.png",x=Room_Distance.x+16+94+47,y=16,type = RoomBg_Type.Full},{res="#Room_bg_2.png",x=Room_Distance.x+15+94*2+47,y=16,type = RoomBg_Type.Full},
             {res="#Room_bg_2.png",x=Room_Distance.x+14+94*3+47,y=16,type = RoomBg_Type.Full},{res="#Room_bg_2.png",x=Room_Distance.x+13+94*4+47,y=16,type = RoomBg_Type.Full},
             {res="#Room_bg_2.png",x=Room_Distance.x+12+94*5+47,y=16,type = RoomBg_Type.Full},{res="#Room_bg_3.png",x=Room_Distance.x+11+94*6+47,y=16,type = RoomBg_Type.Half},},--房间背景(背景窗户随机其实是在有背景图的几张图随机抽取一张替换图片为窗户)
-        wallLeftRight = {{res="#Room_wall.png",x=Room_Distance.x+0,y=16},{res="#Room_wall.png",x=Room_Distance.x+668,y=16,type = RoomWall_Type.Right}},--左右两侧墙壁
+        wallLeftRight = {{res="#Room_wall.png",x=Room_Distance.x+0,y=16}},--左右两侧墙壁
         floor = {{res="#Room_floor_5.png",x=Room_Distance.x+0,y=0},{res="#Room_floor_7.png",x=Room_Distance.x+17,y=0},{res="#Room_floor_7.png",x=Room_Distance.x+17+94,y=0},
             {res="#Room_floor_7.png",x=Room_Distance.x+17+94*2,y=0},{res="#Room_floor_7.png",x=Room_Distance.x+17+94*3,y=0},
             {res="#Room_floor_7.png",x=Room_Distance.x+17+94*4,y=0},{res="#Room_floor_7.png",x=Room_Distance.x+17+94*5,y=0},
@@ -58,6 +58,15 @@ RoomBgs[3]=
 
 --横跑房间配置
 RoomBgs[1001]=
+    {
+        bg = {{res="",x=0,y=0},},--房间背景
+        wallLeftRight = {{res="",x=0,y=0},},--左右两侧墙壁
+        floor = {{res="",x=0,y=0},},--地板
+        type = 0,   --横跑时的桥梁配置，0：水平方向一致，1：垂直方向一致，2：水平垂直均不一致
+    }
+    
+--特殊房间配置
+RoomBgs[2001]=
     {
         bg = {{res="",x=0,y=0},},--房间背景
         wallLeftRight = {{res="",x=0,y=0},},--左右两侧墙壁
