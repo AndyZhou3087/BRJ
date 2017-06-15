@@ -217,7 +217,7 @@ end
 
 --玩家进入房间
 function MapRoom:intoRoom(parameters)
-    Tools.printDebug("brj 玩家进入房间 roomIndx=",self.m_floorNum)
+--    Tools.printDebug("brj 玩家进入房间 roomIndx=",self.m_floorNum)
     
 end
 

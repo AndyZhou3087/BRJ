@@ -59,6 +59,7 @@ function MapLayer:ctor(parameters)
     self.m_camera:setCameraFlag(cc.CameraFlag.USER1)
     self:addChild(self.m_camera)
     self.m_camera:setPosition3D(cc.vec3(0, 0, 0))
+--    Tools.printDebug("-------brj 摄像机初始坐标：",self.m_camera:getPosition())
 
     self.m_player = Player.new()
     self:addChild(self.m_player,MAP_ZORDER_MAX+1)
@@ -79,79 +80,114 @@ function MapLayer:ctor(parameters)
 
 end
 
---回到起始点
-function MapLayer:backOriginFunc()
-    self.backOrigin = true
-    GameDataManager.resetPoints()
-    GameDataManager.resetGameDiamond()
-    local removeCount = 0
-    if #self.m_chaceRooms > MAP_ROOM_INIT_NUM then
-        removeCount = #self.m_chaceRooms - MAP_ROOM_INIT_NUM
-    end
-    for var=1, removeCount do
-        local _room = table.remove(self.m_chaceRooms,#self.m_chaceRooms)
-        _room:dispose()
-    end
-    self.jumpFloorNum = 1
-    local _size = self.m_player:getSize()
-    local floorPos = self.floorPos[self.jumpFloorNum]
-    self.m_player:addLifeNum(1)
-    self.m_player:setPosition(cc.p(100,self.bottomHeight+_size.width*0.5+27))
-    Tools.printDebug("brj 角色坐标：",self.bottomHeight+_size.width*0.5+27,self.m_player:getPositionY())
-    local move = cc.MoveTo:create(0.5,cc.p(0,0))
-    local callfunc = cc.CallFunc:create(function()
-        self.backOrigin = false
-    end)
-    local seq = cc.Sequence:create(move,callfunc)
-    self.m_camera:runAction(seq)
-    
-end
-
---进行弹跳
-function MapLayer:toJump()
-    
-    --摄像机移动
-    local pos = self.floorPos[self.jumpFloorNum]
-    self.m_camera:stopAllActions()
-    local x,y = self.m_camera:getPosition()
-    Tools.printDebug("brj camera pos: ",x,y,pos.x,pos.y)
-    local move = cc.MoveTo:create(0.3,cc.p(pos.x,pos.y-self.bottomHeight))
-    self.m_camera:runAction(move)
-    
-    self.m_player:toJump(pos.y)
-    
-end
 --触摸
+local lastTouchTime = 0
 function MapLayer:touchFunc(event)
     if tolua.isnull(self.m_player) or self.m_player:isDead() then
         return true
     end
-    Tools.printDebug("-----------------------------self.backOrigin  ",self.backOrigin)
+--    Tools.printDebug("-----------------------------self.backOrigin  ",self.backOrigin)
     if self.backOrigin then
     	return true
     end
     if event.name == "began" then
-        self.jumpFloorNum = self.jumpFloorNum + 1
-        GameDataManager.addPoints(1)
-        self:toJump()
-        Tools.printDebug("brj 楼梯: ",self.jumpFloorNum)
-        self:addNewRooms()
+        if (Tools.getSysTime()-lastTouchTime)>=Sequent_Click_Time then
+            self.jumpFloorNum = self.jumpFloorNum + 1
+            GameDataManager.addPoints(1)
+            self:toJump()
+            Tools.printDebug("brj 楼梯: ",self.jumpFloorNum)
+            self:addNewRooms()
+        end
         return true
     elseif event.name == "ended" then
-        
+        lastTouchTime = Tools.getSysTime()
     elseif event.name == "moved" then
         
     end
     return true
 end
 
+--进入地图就创建的房间需要调整对应刚体位置,即需传第三个参数为true(room:initPosition(_x,_y,true))
+function MapLayer:initRooms(parameters)
+    self.m_roomsNum = 0
+    self._x = 0
+    local _y = self.bottomHeight - Room_Size.height
+    for k=1, MAP_ROOM_INIT_NUM*0.1 do
+        --控制随机数种子
+        if k > 2 then
+            local i = GameDataManager.getDataIdByWeight()
+            self.m_levelCon = MapGroupConfig[i]
+        else
+            self.m_levelCon = MapGroupConfig[1]
+        end 
+        self.curRooms = self.m_levelCon.roomBgs
 
---根据房间编号从缓存中获取房间对象
-function MapLayer:getRoomByIdx(_roomIndx)
-    for key, var in pairs(self.m_chaceRooms) do
-        if var:getRoomIndex() == _roomIndx then
-            return var
+        if self.m_levelCon then
+            self.m_rooms = self.curRooms
+            self.m_roomAmount=#self.m_rooms
+            self.m_roomsNum = self.m_roomsNum + self.m_roomAmount
+        else
+            Tools.printDebug("brj error 找不到配置",i)
+            return
         end
+
+        for var=1, self.m_roomAmount do
+            Tools.printDebug("brj 高度",_y)
+            local _room = MapRoom.new(var,self.m_levelCon,var+(k-1)*10)
+            _room:setAnchorPoint(cc.p(0,0))
+            _y = _y + Room_Size.height
+            if self.m_levelCon.roomType == MAPROOM_TYPE.Lean then
+                self._x = self._x + self.m_levelCon.distance
+            end
+
+            self.m_roomNode:addChild(_room,self.m_curZOrder)
+            _room:initPosition(self._x,_y,true)
+            self.floorPos[var+(k-1)*10] = cc.p(self._x,_y)
+
+            table.insert(self.m_chaceRooms,_room)
+            self.m_curZOrder = self.m_curZOrder + 1
+            MAP_ZORDER_MAX = self.m_curZOrder
+        end
+    end
+end
+
+--添加新的房间
+--此处为动态添加的房间，不需调整刚体位置，即无需传第三个参数(room:initPosition(_x,_y))
+function MapLayer:addNewRooms(parameters)
+    self._x = self.floorPos[self.m_roomsNum].x
+    self.m_roomsNum = self.m_roomsNum + 1
+    if self.m_roomsNum % 10 == 1 then
+        local i = GameDataManager.getDataIdByWeight()
+        self.m_levelCon = MapGroupConfig[i]
+        self.roomType = self.m_levelCon.type
+        self.floorNum = 0
+        Tools.printDebug("brj --- 随机map： ",i)
+    end
+    self.floorNum = self.floorNum + 1
+
+    local _oldRoom = self.m_chaceRooms[#self.m_chaceRooms]
+    local _newRoom
+    local _y = 0
+    if _oldRoom then
+        _newRoom = MapRoom.new(self.floorNum,self.m_levelCon,self.m_roomsNum)
+        _y = _oldRoom:getPositionY() + Room_Size.height
+        if self.m_levelCon.roomType == MAPROOM_TYPE.Lean then
+            self._x = self._x + self.m_levelCon.distance
+        end
+        self.floorPos[self.m_roomsNum] = cc.p(self._x,_y)
+        Tools.printDebug("brj --- 新楼层： ",self._x,self.m_roomsNum,self.m_levelCon.roomType)
+    else
+        _newRoom = MapRoom.new(1)
+    end
+    self.m_roomNode:addChild(_newRoom,self.m_curZOrder)
+    _newRoom:initPosition(self._x,_y)
+    _newRoom:setCameraMask(2)
+    table.insert(self.m_chaceRooms,_newRoom)
+    self.m_curZOrder = self.m_curZOrder + 1
+
+    if #self.m_chaceRooms > MAP_ROOM_MAX then
+        local _room = table.remove(self.m_chaceRooms,1)
+        _room:dispose()
     end
 end
 
@@ -176,6 +212,10 @@ function MapLayer:onEnterFrame(dt)
     local bpx,bpy = self.m_player:getPosition()
     local _size = self.m_player:getSize()
     self.m_player:update(dt,bpx,bpy)
+--    if not self.m_player:getJump() then
+--        local floorPos = self.floorPos[self.jumpFloorNum]
+--        self.m_player:setPosition(cc.p(bpx,floorPos.y+_size.width*0.5+27))
+--    end
     
     if self.backOrigin then
         local floorPos = self.floorPos[self.jumpFloorNum]
@@ -210,6 +250,15 @@ function MapLayer:onEnterFrame(dt)
         end
         self.m_lastRoomIdx = roomIndex
     end
+end
+
+function MapLayer:initPlayerPos(parameters)
+    self.m_physicWorld = display.getRunningScene():getPhysicsWorld()
+    self:scheduleUpdate()
+    self.m_event = cc.EventListenerPhysicsContact:create()
+    self.m_event:registerScriptHandler(handler(self,self.collisionBeginCallBack), cc.Handler.EVENT_PHYSICS_CONTACT_BEGIN)
+    self:getEventDispatcher():addEventListenerWithFixedPriority(self.m_event,1)
+    self:addNodeEventListener(cc.NODE_ENTER_FRAME_EVENT, handler(self, self.onEnterFrame))
 end
 
 
@@ -297,15 +346,6 @@ function MapLayer:collisionBeginCallBack(parameters)
     return true
 end
 
-function MapLayer:initPlayerPos(parameters)
-    self.m_physicWorld = display.getRunningScene():getPhysicsWorld()
-    self:scheduleUpdate()
-    self.m_event = cc.EventListenerPhysicsContact:create()
-    self.m_event:registerScriptHandler(handler(self,self.collisionBeginCallBack), cc.Handler.EVENT_PHYSICS_CONTACT_BEGIN)
-    self:getEventDispatcher():addEventListenerWithFixedPriority(self.m_event,1)
-    self:addNodeEventListener(cc.NODE_ENTER_FRAME_EVENT, handler(self, self.onEnterFrame))
-end
-
 --碰撞反射，从人物中心向下或向上发射一个比自身一半多 Raycast_DisY 像素的探测射线，进行检测有无障碍物
 function MapLayer:rayCastFunc(_world,_p1,_p2,_p3)
     if self.m_player:isDead() then
@@ -356,86 +396,57 @@ function MapLayer:rayCastFuncX(_world,_p1,_p2,_p3)
     return true
 end
 
---进入地图就创建的房间需要调整对应刚体位置,即需传第三个参数为true(room:initPosition(_x,_y,true))
-function MapLayer:initRooms(parameters)
-    self.m_roomsNum = 0
-    self._x = 0
-    local _y = self.bottomHeight - Room_Size.height
-    for k=1, MAP_ROOM_INIT_NUM*0.1 do
-        --控制随机数种子
-        if k > 2 then
-            local i = GameDataManager.getDataIdByWeight()
-            self.m_levelCon = MapGroupConfig[i]
-        else
-            self.m_levelCon = MapGroupConfig[1]
-        end 
-        self.curRooms = self.m_levelCon.roomBgs
-
-        if self.m_levelCon then
-            self.m_rooms = self.curRooms
-            self.m_roomAmount=#self.m_rooms
-            self.m_roomsNum = self.m_roomsNum + self.m_roomAmount
-        else
-            Tools.printDebug("brj error 找不到配置",i)
-            return
-        end
-
-        for var=1, self.m_roomAmount do
-            Tools.printDebug("brj 高度",_y)
-            local _room = MapRoom.new(var,self.m_levelCon,var+(k-1)*10)
-            _room:setAnchorPoint(cc.p(0,0))
-            _y = _y + Room_Size.height
-            if self.m_levelCon.roomType == MAPROOM_TYPE.Lean then
-                self._x = self._x + self.m_levelCon.distance
-            end
-
-            self.m_roomNode:addChild(_room,self.m_curZOrder)
-            _room:initPosition(self._x,_y,true)
-            self.floorPos[var+(k-1)*10] = cc.p(self._x,_y)
-
-            table.insert(self.m_chaceRooms,_room)
-            self.m_curZOrder = self.m_curZOrder + 1
-            MAP_ZORDER_MAX = self.m_curZOrder
+--根据房间编号从缓存中获取房间对象
+function MapLayer:getRoomByIdx(_roomIndx)
+    for key, var in pairs(self.m_chaceRooms) do
+        if var:getRoomIndex() == _roomIndx then
+            return var
         end
     end
 end
 
---添加新的房间
---此处为动态添加的房间，不需调整刚体位置，即无需传第三个参数(room:initPosition(_x,_y))
-function MapLayer:addNewRooms(parameters)
-    self.m_roomsNum = self.m_roomsNum + 1
-    if self.m_roomsNum % 10 == 1 then
-        local i = GameDataManager.getDataIdByWeight()
-        self.m_levelCon = MapGroupConfig[i]
-        self.roomType = self.m_levelCon.type
-        self.floorNum = 0
-        Tools.printDebug("brj --- 随机map： ",i)
-    end
-    self.floorNum = self.floorNum + 1
+--进行弹跳
+function MapLayer:toJump()
 
-    local _oldRoom = self.m_chaceRooms[#self.m_chaceRooms]
-    local _newRoom
-    local _y = 0
-    if _oldRoom then
-        _newRoom = MapRoom.new(self.floorNum,self.m_levelCon,self.m_roomsNum)
-        _y = _oldRoom:getPositionY() + Room_Size.height
-        if self.m_levelCon.roomType == MAPROOM_TYPE.Lean then
-            self._x = self._x + self.m_levelCon.distance
-        end
-        self.floorPos[self.m_roomsNum] = cc.p(self._x,_y)
-    else
-        _newRoom = MapRoom.new(1)
+    --摄像机移动
+    local pos = self.floorPos[self.jumpFloorNum]
+    self.m_camera:stopAllActions()
+    local x,y = self.m_camera:getPosition()
+    Tools.printDebug("brj camera pos: ",x,y,pos.x,pos.y)
+    local move = cc.MoveTo:create(0.3,cc.p(pos.x,pos.y-self.bottomHeight))
+    self.m_camera:runAction(move)
+
+    self.m_player:toJump(pos.y)
+
+end
+
+--回到起始点
+function MapLayer:backOriginFunc()
+    self.backOrigin = true
+    GameDataManager.resetPoints()
+    GameDataManager.resetGameDiamond()
+    local removeCount = 0
+    if #self.m_chaceRooms > MAP_ROOM_INIT_NUM then
+        removeCount = #self.m_chaceRooms - MAP_ROOM_INIT_NUM
+        self.m_roomsNum = self.m_roomsNum - removeCount
     end
-    self.m_roomNode:addChild(_newRoom,self.m_curZOrder)
-    _newRoom:initPosition(self._x,_y)
-    _newRoom:setCameraMask(2)
-    table.insert(self.m_chaceRooms,_newRoom)
-    self.m_curZOrder = self.m_curZOrder + 1
-    
-    if #self.m_chaceRooms > MAP_ROOM_MAX then
-        local _room = table.remove(self.m_chaceRooms,1)
+    for var=1, removeCount do
+        local _room = table.remove(self.m_chaceRooms,#self.m_chaceRooms)
         _room:dispose()
     end
+    self.jumpFloorNum = 1
+    local _size = self.m_player:getSize()
+    local floorPos = self.floorPos[self.jumpFloorNum]
+    self.m_player:addLifeNum(1)
+    self.m_player:setPosition(cc.p(100,self.bottomHeight+_size.width*0.5+27))
+    self.m_camera:stopAllActions()
+    local move = cc.MoveTo:create(0.5,cc.p(0,0))
+    self.m_camera:runAction(move)
+    Tools.delayCallFunc(1,function()
+        self.backOrigin = false
+    end)
+    Tools.printDebug("----------brj 摄像机坐标：",self.m_camera:getPosition())
+
 end
 
 

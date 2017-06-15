@@ -36,6 +36,7 @@ function MapView:ctor(parameters)
     --监听钻石
     self.diamondHandler = GameDispatcher:addListener(EventNames.EVENT_DIAMOND_CHANGE,handler(self,self.updateDiamond))
     GameDispatcher:addListener(EventNames.EVENT_UPDATE_FLOOR,handler(self,self.updateFloor))
+    GameDispatcher:addListener(EventNames.EVENT_UPDATE_BEST,handler(self,self.updateBestFloor))
 end
 
 function MapView:updateDiamond()
@@ -48,8 +49,16 @@ function MapView:updateFloor()
     end
 end
 
+function MapView:updateBestFloor()
+    if self.RecordScroe then
+        self.RecordScroe:setString(GameDataManager.getRecord())
+    end
+end
+
 function MapView:dispose(parameters)
     GameDispatcher:removeListenerByHandle(self.diamondHandler)
+    GameDispatcher:removeListenerByName(EventNames.EVENT_UPDATE_BEST)
+    GameDispatcher:removeListenerByName(EventNames.EVENT_UPDATE_FLOOR)
 
     self:removeFromParent(true)
 end

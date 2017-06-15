@@ -20,8 +20,9 @@ function Player:ctor()
     self.m_buffArr = {} --buff列表
 
     self.m_life = self.m_vo.m_lifeNum
-    self.m_jump = self.m_vo.m_jump
     self.m_speed = self.m_vo.m_speed
+
+    self.m_jump = false
 
     self.m_curModle = GameDataManager.getFightRole()
     local modle = RoleConfig[self.m_curModle].armatureName
@@ -124,15 +125,17 @@ end
 --上跳状态
 function Player:toJump(ty)
 
+    self.m_jump = true
     self.m_body:setCollisionBitmask(0x01)
     self:setGravityEnable(false)
     self:stopAllActions()
     local x,y = self:getPosition()
-    local move = cc.MoveTo:create(0.2,cc.p(x,ty+self.m_size.width*0.5+30))
+    local move = cc.MoveTo:create(0.3,cc.p(x,ty+self.m_size.width*0.5+30))
     local callfunc = cc.CallFunc:create(function()
         self.m_body:setCollisionBitmask(0x03)
         self:setGravityEnable(true)
         self:setPositionY(ty+self.m_size.width*0.5+30)
+        self.m_jump = false
     end)
     local seq = cc.Sequence:create(move,callfunc)
     self:runAction(seq)
@@ -182,6 +185,9 @@ function Player:selfDead()
     self.m_vo.m_lifeNum = self.m_vo.m_lifeNum - 1
     if self.m_vo.m_lifeNum <= 0 then
         if GameDataManager.getPoints() <= 20 then
+            if GameDataManager.getPoints()>=GameDataManager.getRecord() then
+                GameDataManager.saveRecord(GameDataManager.getPoints())
+            end
             --低于20层回到起点
             if not tolua.isnull(self:getParent()) then
                 self:getParent():backOriginFunc()
@@ -251,6 +257,11 @@ end
 --获取角色大小
 function Player:getSize(parameters)
     return self.m_size
+end
+
+--获取跳跃值
+function Player:getJump()
+	return self.m_jump
 end
 
 function Player:toPlay(_actionName)

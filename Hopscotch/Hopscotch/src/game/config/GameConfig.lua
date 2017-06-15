@@ -8,8 +8,8 @@ PrintDebug = true
 --初始钻石
 InitDiamond = 20
 
---移动速度帧率
-FrameTime = 0.01
+--连续操作硬值时间,单位:秒（大于此值视为有效的滑动）
+Sequent_Click_Time = 0.05
 
 --金币移动速度
 GOLD_SPEED=40

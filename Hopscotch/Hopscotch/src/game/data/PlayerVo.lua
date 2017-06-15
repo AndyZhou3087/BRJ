@@ -8,7 +8,6 @@ local PlayerVo =
     m_level = 0,      --等级
     m_nick = "",        --昵称
     m_lifeNum = 1,  --生命数量
-    m_jump = 0, --弹跳值
     m_speed = 0,    --移动速度
 
     m_sprintTime = 0,   --冲刺时间

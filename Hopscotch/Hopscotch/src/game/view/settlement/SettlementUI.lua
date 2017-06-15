@@ -59,6 +59,9 @@ function SettlementUI:initTop()
     self.score = cc.uiloader:seekNodeByName(self.m_json,"AtlasLabel_2")
     self.score:setString(GameDataManager.getPoints())
     self.bestscore = cc.uiloader:seekNodeByName(self.m_json,"AtlasLabel_3")
+    if GameDataManager.getPoints()>=GameDataManager.getRecord() then
+        GameDataManager.saveRecord(GameDataManager.getPoints())
+    end
     self.bestscore:setString(GameDataManager.getRecord())
 end
 

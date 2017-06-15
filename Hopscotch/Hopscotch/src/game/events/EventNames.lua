@@ -31,6 +31,9 @@ EventNames.EVENT_LOADING_OVER = "event_loading_over"
 --刷新楼层显示
 EventNames.EVENT_UPDATE_FLOOR = "event_update_floor"
 
+--刷最高记录
+EventNames.EVENT_UPDATE_BEST = "event_update_best"
+
 --检测回到起点
 EventNames.EVENT_BACK_ORIGIN = "event_back_origin"
 

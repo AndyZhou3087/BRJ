@@ -146,6 +146,7 @@ end
 --保存最佳分数
 function GameDataManager.saveRecord(_record)
     userData.record = _record
+    GameDispatcher:dispatch(EventNames.EVENT_UPDATE_BEST)
     GameDataManager.saveGameData()
     Tools.printDebug("保存记录",_record)
 end
@@ -182,7 +183,6 @@ function GameDataManager.initPlayerVo()
         local _lv = GameDataManager.getRoleModle(curRoleID).roleLv
         playerVo.m_roleId = curRoleID
         playerVo.m_lifeNum = roleConfig.lifeNum
-        playerVo.m_jump = roleConfig.jump --弹跳值
         playerVo.m_sprintTime = roleConfig.sprintTime   --冲刺时间
         playerVo.m_magnetTime = roleConfig.magnetTime   --磁铁时间
         playerVo.m_invincibleTime = roleConfig.invincibleTime   --无敌时间

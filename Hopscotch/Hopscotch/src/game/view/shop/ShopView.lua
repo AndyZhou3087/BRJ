@@ -94,6 +94,12 @@ function ShopView:ctor(parameters)
     end)
     Startbtn:onButtonClicked(function (event)
         Tools.printDebug("brj hopscotch 开始游戏")
+        self:toClose(true)
+        GameDataManager.generatePlayerVo()  --产生新的角色数据对象
+        app:enterLoadScene()
+        Tools.delayCallFunc(0.1,function()
+            app:enterGameScene()
+        end)
         
     end)
     
