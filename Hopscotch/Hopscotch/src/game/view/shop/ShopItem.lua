@@ -25,8 +25,25 @@ end
 
 --角色item
 function ShopItem:initRole(parameters)
-    --动画
-    
+    --动画 
+    if self.id == 0 then
+        self.img = display.newSprite("role/role_1.jpg")
+        self.img:setVisible(false)
+    else
+        self.img = display.newSprite(RoleConfig[self.id].roleImg)
+        local animation = cc.AnimationCache:getInstance():getAnimation(RoleConfig[self.id].armatureName)
+        animation:setLoops(-1)
+        local animate = cc.Animate:create(animation)
+        self.img:runAction(animate)
+        if GameDataManager.getRoleModle(self.id) then
+            self.img:setColor(cc.c3b(255,255,255))
+        else
+            self.img:setColor(cc.c3b(0,0,0))
+        end
+    end
+    self:addChild(self.img)
+    self.img:setAnchorPoint(cc.p(0.5,0.5))
+    self.img:setPosition(cc.p(0,0))
 end
 
 --场景item

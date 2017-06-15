@@ -33,8 +33,7 @@ function Player:ctor()
 --        self:createModle(modle)
 --        self:toPlay(PLAYER_ACTION.Run)
         self.m_armature = display.newSprite(res):addTo(self)
-        cc.AnimationCache:getInstance():addAnimations("role/"..modle..".plist")
-        local animation = cc.AnimationCache:getInstance():getAnimation("RoleAni_"..5)
+        local animation = cc.AnimationCache:getInstance():getAnimation(modle)
         animation:setLoops(-1)
         local animate = cc.Animate:create(animation)
         self.m_armature:runAction(animate)
@@ -42,6 +41,7 @@ function Player:ctor()
         p_size = cc.size(50,75)
     else
         self.m_armature = PhysicSprite.new(res):addTo(self)
+        self.m_armature:setScale(0.5)
         p_size = self.m_armature:getCascadeBoundingBox().size
     end
     self:addBody(cc.p(0,0),p_size)

@@ -8,6 +8,7 @@ local CustomListView = require("game.custom.CustomListView")
 local ShopItem = require("game.view.shop.ShopItem")
 
 local shopX = {300,450,600,750,900,1050,1200,150,0}
+local roleX = {300,450,600,750,900,1050,1200,1350,1500,1650,1800,1950,150,0}
 
 function ShopView:ctor(parameters)
     ShopView.super.ctor(self)
@@ -115,7 +116,18 @@ function ShopView:ctor(parameters)
     end)
     self.roleBuy:onButtonClicked(function (event)
         Tools.printDebug("brj hopscotch 购买 角色")
-
+        if not self.roleMove and not GameDataManager.getRoleModle(self.roleId) then
+            local payId = RoleConfig[self.roleId].payId
+            local oId = SDKUtil.getOrderId(payId)
+            SDKUtil.toPay({goodsId=payId,orderId=oId,callback=function(_res)
+                if SDKUtil.PayResult.Success == _res then
+                    GameDataManager.unLockModle(self.roleId)
+                    GameDispatcher:dispatch(EventNames.EVENT_FLY_TEXT,{text ="购买成功"})
+                else
+                    GameDispatcher:dispatch(EventNames.EVENT_FLY_TEXT,{text ="购买失败"})
+                end
+            end})
+        end
     end)
     
     --场景购买
@@ -185,10 +197,10 @@ function ShopView:initRoleList()
     self.roleName = cc.uiloader:seekNodeByName(self.m_json,"roleName")
     self.roleName:setButtonEnabled(false)
     self.roleLv = CustomListView.new {
-        viewRect = cc.rect(-260, 0, 750, 142),
+        viewRect = cc.rect(0, self.Panel_role:getPositionY()-20, 750, 200),
         direction = cc.ui.UIScrollView.DIRECTION_HORIZONTAL}
         :onTouch(handler(self, self.touchListenerRole))
-        :addTo(self.Panel_role)
+        :addTo(self)
     self.roleLv:setBounceable(false)
     self.roleLv:enableAreaChange(true)
     
@@ -204,10 +216,24 @@ function ShopView:initRoleList()
         local item = self.roleLv:newItem()
         self["roleitem"..i] = ShopItem.new(Shop_Type.role,roleArr[i])
         item:addContent(self["roleitem"..i])
-        item:setItemSize(145, 142)
+        item:setItemSize(150, 180)
         self.roleLv:addItem(item)
     end
+    
+    for key, var in ipairs(roleX) do
+        self["roleX"..key] = var
+    end
     self.roleLv:reload()
+
+    local oldP = self["roleX"..self.roleId]
+    local newP = 0
+    if self.roleId > 1 then
+        newP = oldP-self["roleX3"]
+    end
+    if self.roleId >=3 then
+        newP = self["roleX1"]- oldP
+    end
+    self.roleLv:scrollToPos(newP, 0)
 end
 
 function ShopView:initSceneList()
@@ -304,7 +330,61 @@ function ShopView:initDiamondList()
 end
 
 function ShopView:touchListenerRole(event)
+    local listView = event.listView
+    if "clicked" == event.name then
+        local curClick = event.itemPos
+        Tools.printDebug("点击的是",curClick)
+        if curClick<3 or curClick>#RoleConfig+2  then
+            Tools.printDebug("无效点击")
+            return
+        end
+        local headItem = event.item:getContent()
+        local id = headItem:getShopTypeID()
+        if self.roleId == id then
+            return
+        end
+        self.roleId = id
+        if GameDataManager.getRoleModle(id) then
+            GameDataManager.setCurFightRole(id)
+            self.roleBuy:setVisible(false)
+        else
+            self.roleBuy:setVisible(true)
+        end
 
+        self.roleName:setButtonImage("disabled",RoleConfig[id].roleName)
+        self.priceImg_role:setButtonImage("disabled",RoleConfig[id].priceRes)
+
+        local oldP = self["roleX"..self.roleId]
+        local newP = 0
+        if self.roleId > 1 then
+            newP = oldP-self["roleX3"]
+        end
+        if self.roleId >=3 then
+            newP = self["roleX1"]- oldP
+        end
+
+        self.roleLv:scrollToPos(newP, 0)
+
+        self.roleMove = false
+    elseif "itemAppear" ==  event.name then
+
+    elseif "moved" == event.name then
+        self.roleMove = true
+    elseif "ended" == event.name then
+
+    elseif "scrollStop" == event.name then
+        self.roleMove = false
+        local headItem = event.item:getContent()
+        local id = headItem:getShopTypeID()
+        if GameDataManager.getRoleModle(id) then
+            GameDataManager.setCurFightRole(id)
+            self.roleBuy:setVisible(false)
+        else
+            self.roleBuy:setVisible(true)
+        end
+        self.roleName:setButtonImage("disabled",RoleConfig[id].roleName)
+        self.priceImg_role:setButtonImage("disabled",RoleConfig[id].priceRes)
+    end
 end
 
 function ShopView:touchListenerScene(event)

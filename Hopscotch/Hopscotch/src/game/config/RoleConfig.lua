@@ -45,7 +45,7 @@ RoleConfig[2]=
     {
         id = 2,
         type = Shop_Type.role,
-        armatureName = false,   --动画工程名
+        armatureName = "RoleAni_5",   --动画工程名
         roleImg = "role/role_2.jpg",   --角色图片
         roleName = "shop/rolename_2.png",
         priceRes = "shop/price_6.png",
@@ -53,13 +53,14 @@ RoleConfig[2]=
         rmb = 6,   --人民币购买价格
         speed = ROLE_SPEED,
         lifeNum = 1,
+        payId = Payment.Role_1,
     }
     
 RoleConfig[3]=
     {
         id = 3,
         type = Shop_Type.role,
-        armatureName = false,   --动画工程名
+        armatureName = "RoleAni_5",   --动画工程名
         roleImg = "role/role_3.jpg",   --角色图片
         roleName = "shop/rolename_3.png",
         priceRes = "shop/price_6.png",
@@ -67,13 +68,14 @@ RoleConfig[3]=
         rmb = 6,   --人民币购买价格
         speed = ROLE_SPEED,
         lifeNum = 1,
+        payId = Payment.Role_2,
     }
     
 RoleConfig[4]=
     {
         id = 4,
         type = Shop_Type.role,
-        armatureName = false,   --动画工程名
+        armatureName = "RoleAni_5",   --动画工程名
         roleImg = "role/role_4.jpg",   --角色图片
         roleName = "shop/rolename_4.png",
         priceRes = "shop/price_6.png",
@@ -81,6 +83,7 @@ RoleConfig[4]=
         rmb = 6,   --人民币购买价格
         speed = ROLE_SPEED,
         lifeNum = 1,
+        payId = Payment.Role_3,
     }
     
 RoleConfig[5]=
@@ -95,13 +98,14 @@ RoleConfig[5]=
         rmb = 6,   --人民币购买价格
         speed = ROLE_SPEED,
         lifeNum = 1,
+        payId = Payment.Role_4,
     }
     
 RoleConfig[6]=
     {
         id = 6,
         type = Shop_Type.role,
-        armatureName = false,   --动画工程名
+        armatureName = "RoleAni_5",   --动画工程名
         roleImg = "role/role_6.jpg",   --角色图片
         roleName = "shop/rolename_6.png",
         priceRes = "shop/price_6.png",
@@ -109,13 +113,14 @@ RoleConfig[6]=
         rmb = 6,   --人民币购买价格
         speed = ROLE_SPEED,
         lifeNum = 1,
+        payId = Payment.Role_5,
     }
     
 RoleConfig[7]=
     {
         id = 7,
         type = Shop_Type.role,
-        armatureName = false,   --动画工程名
+        armatureName = "RoleAni_5",   --动画工程名
         roleImg = "role/role_7.jpg",   --角色图片
         roleName = "shop/rolename_7.png",
         priceRes = "shop/price_6.png",
@@ -123,13 +128,14 @@ RoleConfig[7]=
         rmb = 6,   --人民币购买价格
         speed = ROLE_SPEED,
         lifeNum = 1,
+        payId = Payment.Role_6,
     }
     
 RoleConfig[8]=
     {
         id = 8,
         type = Shop_Type.role,
-        armatureName = false,   --动画工程名
+        armatureName = "RoleAni_5",   --动画工程名
         roleImg = "role/role_8.jpg",   --角色图片
         roleName = "shop/rolename_8.png",
         priceRes = "shop/price_6.png",
@@ -137,13 +143,14 @@ RoleConfig[8]=
         rmb = 6,   --人民币购买价格
         speed = ROLE_SPEED,
         lifeNum = 1,
+        payId = Payment.Role_7,
     }
     
 RoleConfig[9]=
     {
         id = 9,
         type = Shop_Type.role,
-        armatureName = false,   --动画工程名
+        armatureName = "RoleAni_5",   --动画工程名
         roleImg = "role/role_9.jpg",   --角色图片
         roleName = "shop/rolename_9.png",
         priceRes = "shop/price_6.png",
@@ -151,13 +158,14 @@ RoleConfig[9]=
         rmb = 6,   --人民币购买价格
         speed = ROLE_SPEED,
         lifeNum = 1,
+        payId = Payment.Role_8,
     }
     
 RoleConfig[10]=
     {
         id = 10,
         type = Shop_Type.role,
-        armatureName = false,   --动画工程名
+        armatureName = "RoleAni_5",   --动画工程名
         roleImg = "role/role_10.jpg",   --角色图片
         roleName = "shop/rolename_10.png",
         priceRes = "shop/price_6.png",
@@ -165,5 +173,6 @@ RoleConfig[10]=
         rmb = 6,   --人民币购买价格
         speed = ROLE_SPEED,
         lifeNum = 1,
+        payId = Payment.Role_9,
     }
     

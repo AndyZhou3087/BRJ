@@ -7,11 +7,11 @@ local PreLoadType =
         Animation=1,--动画类型
         Sound=2,--声音类型
         Texture=3,--图片类型
+        Animate = 4, --帧动画
     }
 --战斗中预加载资源
 local fightRes = {
     {type = PreLoadType.Texture,plist="map/Room.plist",png="map/Room.png"},
-    {type = PreLoadType.Texture,plist="role/Role5.plist",png="role/Role5.png"},
 --    {type = PreLoadType.Animation,plist="role/nv_pao0.plist",png="role/nv_pao0.png",json="role/nv_pao.ExportJson"},
 --    {type = PreLoadType.Animation,plist="role/chongci0.plist",png="role/chongci0.png",json="role/chongci.ExportJson"},
 --    {type = PreLoadType.Animation,plist="role/nan30.plist",png="role/nan30.png",json="role/nan3.ExportJson"},
@@ -20,6 +20,39 @@ local fightRes = {
 --    {type = PreLoadType.Sound,sound=AudioManager.Sound_Effect_Type.Diamond_Cost},
 --    {type = PreLoadType.Sound,sound=AudioManager.Sound_Effect_Type.Get_Prop_Sound},
 }
+
+local playerRes = {
+    {type = PreLoadType.Texture,plist="role/Role5.plist",png="role/Role5.png"},
+    {type = PreLoadType.Animate,plist = "role/RoleAni_5.plist"},
+}
+
+--加载角色动画
+function LoadResManager.toLoadPlayerRes(_completeFunc)
+    local curPlayerRes = clone(playerRes)
+    local function toLoadRes(parameters)
+        if #curPlayerRes == 0 then
+            if _completeFunc then
+                _completeFunc()
+            end
+        else
+            local resObj = table.remove(curPlayerRes,1)
+            if resObj then
+                if resObj.type == PreLoadType.Texture then
+                    display.addSpriteFrames(resObj.plist,resObj.png)
+                    Tools.delayCallFunc(0.01,function()
+                        toLoadRes()
+                    end)
+                elseif resObj.type == PreLoadType.Animate then
+                    cc.AnimationCache:getInstance():addAnimations(resObj.plist)
+                    Tools.delayCallFunc(0.01,function()
+                        toLoadRes()
+                    end)
+                end
+            end
+        end
+    end
+    toLoadRes()
+end
 
 --加载战斗场景资源
 function LoadResManager.toLoadFightRes(_completeFunc)
@@ -44,6 +77,11 @@ function LoadResManager.toLoadFightRes(_completeFunc)
                     end)
                 elseif resObj.type == PreLoadType.Sound then
                     AudioManager.preLoadSound(resObj.sound)
+                    Tools.delayCallFunc(0.01,function()
+                        toLoadRes()
+                    end)
+                elseif resObj.type == PreLoadType.Animate then
+                    cc.AnimationCache:getInstance():addAnimations(resObj.plist)
                     Tools.delayCallFunc(0.01,function()
                         toLoadRes()
                     end)

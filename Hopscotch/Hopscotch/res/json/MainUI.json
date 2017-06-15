@@ -88,8 +88,8 @@
                       },
                       "pressed": null,
                       "pressedData": {
-                        "path": "main/Main_shop_2.png",
-                        "plistFile": "",
+                        "path": null,
+                        "plistFile": null,
                         "resourceType": 0
                       },
                       "scale9Enable": false,
@@ -235,8 +235,8 @@
                       },
                       "pressed": null,
                       "pressedData": {
-                        "path": "main/Main_tv_2.png",
-                        "plistFile": "",
+                        "path": null,
+                        "plistFile": null,
                         "resourceType": 0
                       },
                       "scale9Enable": false,

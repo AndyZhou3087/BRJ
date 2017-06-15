@@ -14,51 +14,42 @@ function LoadView:ctor(parameters)
     self.m_json = cc.uiloader:load("json/MainUI.json")
     self:addChild(self.m_json)
 
-    local bg = display.newSprite("loading/bg.jpg"):addTo(self)
-    bg:setAnchorPoint(cc.p(0,0))
-    bg:setPosition(cc.p(0,0))
+    self.bg = display.newSprite("loading/bg.jpg"):addTo(self)
+    self.bg:setAnchorPoint(cc.p(0,0))
+    self.bg:setPosition(cc.p(0,0))
     
     self.Image_2 = cc.uiloader:seekNodeByName(self.m_json,"Image_2")
     self.Image_2:setPositionY(display.bottom+108)
     
-    local logo = display.newSprite("loading/Logo.png"):addTo(bg)
+    local logo = display.newSprite("loading/Logo.png"):addTo(self.bg)
     logo:setPosition(cc.p(display.cx,display.top-400))
     
-    Tools.delayCallFunc(1,function()
-        local fadeOut = cc.FadeOut:create(1.5)
-        local callfunc = cc.CallFunc:create(function()
-            self:setTouchEnabled(true)
-        end)
-        local seq = cc.Sequence:create(fadeOut,callfunc)
-        bg:runAction(seq)
-    end)
-    
     self.shop = cc.uiloader:seekNodeByName(self.m_json,"Button_left")
-    self.shop:setButtonEnabled(false)
     self.shop2 = cc.uiloader:seekNodeByName(self.m_json,"shopBtn")
+    self.shop2:setButtonEnabled(false)
     self.tv = cc.uiloader:seekNodeByName(self.m_json,"Button_right")
-    self.tv:setButtonEnabled(false)
     self.tv2 = cc.uiloader:seekNodeByName(self.m_json,"tvBtn")
+    self.tv2:setButtonEnabled(false)
     
     --购物车按钮
-    self.shop2:onButtonPressed(function(_event)    --按下
-        self.shop:setButtonImage("disabled","common/Button_press.png")
+    self.shop:onButtonPressed(function(_event)    --按下
+        self.shop2:setButtonImage("disabled","main/Main_shop_2.png")
     end)
-    self.shop2:onButtonRelease(function(_event)    --触摸离开
-        self.shop:setButtonImage("disabled","common/Button_up.png")
+    self.shop:onButtonRelease(function(_event)    --触摸离开
+        self.shop2:setButtonImage("disabled","main/Main_shop_1.png")
     end)
-    self.shop2:onButtonClicked(function (event)
+    self.shop:onButtonClicked(function (event)
         GameDispatcher:dispatch(EventNames.EVENT_OPEN_SHOP)
     end)
     
     --tv按钮
-    self.tv2:onButtonPressed(function(_event)    --按下
-        self.tv:setButtonImage("disabled","common/Button_press.png")
+    self.tv:onButtonPressed(function(_event)    --按下
+        self.tv2:setButtonImage("disabled","main/Main_tv_2.png")
     end)
-    self.tv2:onButtonRelease(function(_event)    --触摸离开
-        self.tv:setButtonImage("disabled","common/Button_up.png")
+    self.tv:onButtonRelease(function(_event)    --触摸离开
+        self.tv2:setButtonImage("disabled","main/Main_tv_1.png")
     end)
-    self.tv2:onButtonClicked(function (event)
+    self.tv:onButtonClicked(function (event)
 
     end)
 
@@ -71,6 +62,20 @@ function LoadView:ctor(parameters)
             return true
         elseif event.name == "ended" then
         end
+    end)
+    
+    
+    LoadResManager.toLoadPlayerRes(handler(self,self.playerResFinish))
+end
+
+function LoadView:playerResFinish()
+    Tools.delayCallFunc(1,function()
+        local fadeOut = cc.FadeOut:create(1.5)
+        local callfunc = cc.CallFunc:create(function()
+            self:setTouchEnabled(true)
+        end)
+        local seq = cc.Sequence:create(fadeOut,callfunc)
+        self.bg:runAction(seq)
     end)
 end
 
