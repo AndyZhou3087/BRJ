@@ -24,6 +24,8 @@ RoomWall_Type =
 }
 
 RoomBgs = {}
+
+--普通房间和倾斜房间
 RoomBgs[1]=
     {
         bg = {{res="#Room_bg_1.png",x=Room_Distance.x+17,y=16,type = RoomBg_Type.All},},--房间背景(背景窗户随机其实是在有背景图的几张图随机抽取一张替换图片为窗户)
@@ -69,8 +71,19 @@ RoomBgs[1001]=
 --特殊房间配置
 RoomBgs[2001]=
     {
-        bg = {{res="",x=0,y=0},},--房间背景
-        wallLeftRight = {{res="",x=0,y=0},},--左右两侧墙壁
-        floor = {{res="",x=0,y=0},},--地板
-        type = 0,   --横跑时的桥梁配置，0：水平方向一致，1：垂直方向一致，2：水平垂直均不一致
+        bg = {{res="#Room_specialbg_5.png",x=Room_Distance.x+47,y=16},{res="#Room_specialbg_1.png",x=Room_Distance.x+47+16,y=85,type = RoomBg_Type.Full},
+            {res="#Room_specialbg_5.png",x=Room_Distance.x+47+16+78,y=16},{res="#Room_specialbg_5.png",x=Room_Distance.x+47+94*2,y=16},
+            {res="#Room_specialbg_5.png",x=Room_Distance.x+47+94*3,y=16},{res="#Room_specialbg_5.png",x=Room_Distance.x+47+94*4,y=16},
+            {res="#Room_specialbg_5.png",x=Room_Distance.x+47+94*5,y=16},{res="#Room_specialbg_5.png",x=Room_Distance.x+47+94*6,y=16},},--房间背景(背景窗户随机其实是在有背景图的几张图随机抽取一张替换图片为窗户)
+        wallLeftRight = {},--左右两侧墙壁
+        floor = {{res="#Room_special_floor.png",x=Room_Distance.x+30,y=0},},--地板
+    }
+RoomBgs[2010]=
+    {
+        bg = {{res="#Room_bg_1.png",x=Room_Distance.x+17,y=16,type = RoomBg_Type.All},},--房间背景(背景窗户随机其实是在有背景图的几张图随机抽取一张替换图片为窗户)
+        wallLeftRight = {{res="#Room_wall.png",x=Room_Distance.x+0,y=16},{res="#Room_wall.png",x=Room_Distance.x+668,y=16},},--左右两侧墙壁
+        floor = {{res="#Room_floor_5.png",x=Room_Distance.x+0,y=0},{res="#Room_floor_7.png",x=Room_Distance.x+17,y=0},{res="#Room_floor_7.png",x=Room_Distance.x+17+94,y=0},
+            {res="#Room_floor_7.png",x=Room_Distance.x+17+94*2,y=0},{res="#Room_floor_7.png",x=Room_Distance.x+17+94*3,y=0},
+            {res="#Room_floor_7.png",x=Room_Distance.x+17+94*4,y=0},{res="#Room_floor_7.png",x=Room_Distance.x+17+94*5,y=0},
+            {res="#Room_floor_7.png",x=Room_Distance.x+17+94*6,y=0},{res="#Room_floor_6.png",x=Room_Distance.x+10+94*7,y=0},},--地板
     }
