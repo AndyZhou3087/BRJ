@@ -11,8 +11,9 @@ SceneConfig[1]=
         sceneName = "shop/scenename_1.png",
         sceneIcon = "shop/scene_1.png",
         priceRes = "shop/price_6.png",
-        des = "冰天雪地",
+        des = "战争废墟",
         rmb = 0,   --人民币购买价格
+        bgColor = {cc.c4b(170,97,140,255),cc.c4b(247,220,221,255)},
     }
 
 SceneConfig[2]=
@@ -25,6 +26,7 @@ SceneConfig[2]=
         des = "黄沙万里",
         rmb = 6,   --人民币购买价格
         payId = Payment.Scene_2,
+        bgColor = {cc.c4b(170,97,140,255),cc.c4b(247,220,221,255)},
     }
 
 SceneConfig[3]=
@@ -37,6 +39,7 @@ SceneConfig[3]=
         des = "海底",
         rmb = 6,   --人民币购买价格
         payId = Payment.Scene_3,
+        bgColor = {cc.c4b(170,97,140,255),cc.c4b(247,220,221,255)},
     }
 
 SceneConfig[4]=
@@ -49,6 +52,7 @@ SceneConfig[4]=
         des = "奇幻森林",
         rmb = 6,   --人民币购买价格
         payId = Payment.Scene_4,
+        bgColor = {cc.c4b(170,97,140,255),cc.c4b(247,220,221,255)},
     }
 
 SceneConfig[5]=
@@ -58,7 +62,8 @@ SceneConfig[5]=
         sceneName = "shop/scenename_5.png",
         sceneIcon = "shop/scene_5.png",
         priceRes = "shop/price_6.png",
-        des = "战争废墟",
+        des = "冰天雪地",
         rmb = 6,   --人民币购买价格
         payId = Payment.Scene_5,
+        bgColor = {cc.c4b(93,196,248,255),cc.c4b(221,230,250,255)},
     }

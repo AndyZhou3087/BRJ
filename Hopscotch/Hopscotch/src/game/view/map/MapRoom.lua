@@ -28,6 +28,16 @@ function MapRoom:ctor(_idx,_levelCon,_floorNum)
     self.m_floorNum = _floorNum
     
     
+    if _levelCon.roomType == MAPROOM_TYPE.Special and _idx == 10 then
+        local left = display.newSprite("#Room_special_3.png"):addTo(self)
+        left:setPosition(cc.p(0,0))
+        left:setAnchorPoint(cc.p(0,0))
+        local right = display.newSprite("#Room_special_3.png"):addTo(self)
+        right:setScaleX(-1)
+        right:setPosition(cc.p(display.right,0))
+        right:setAnchorPoint(cc.p(0,0))
+    end
+    
     local _roomBgVo = RoomBgs[_levelCon.roomBgs[_idx]] or {}
     local _ornaments = Ornaments[_levelCon.ornaments[_idx]] or {}
     local _diamonds = Coins[_levelCon.coins[_idx]] or {}

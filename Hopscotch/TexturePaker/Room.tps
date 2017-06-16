@@ -56,7 +56,7 @@
             <key>width</key>
             <int>1024</int>
             <key>height</key>
-            <int>1024</int>
+            <int>512</int>
         </QSize>
         <key>fixedTextureSize</key>
         <QSize>
@@ -159,7 +159,6 @@
             <filename>Room_bg_2.png</filename>
             <filename>Room_bg_3.png</filename>
             <filename>Room_bg_4.png</filename>
-            <filename>../../../../Useful/跳房子/楼梯部件/黑边/Room_bg_1.png</filename>
             <filename>../../../../Useful/跳房子/楼梯部件/黑边/Room_floor_7.png</filename>
             <filename>../../../../Useful/跳房子/楼梯部件/Room_wall.png</filename>
             <filename>Room_floor_3.png</filename>
@@ -169,15 +168,22 @@
             <filename>Room_floor_1.png</filename>
             <filename>Room_floor_2.png</filename>
             <filename>../../../../Useful/跳房子/红色钢架/Room_specialbg_4.png</filename>
-            <filename>../../../../Useful/跳房子/红色钢架/Room_specialbg_5.png</filename>
             <filename>../../../../Useful/跳房子/红色钢架/Room_special_1.png</filename>
-            <filename>../../../../Useful/跳房子/红色钢架/Room_special_2.png</filename>
             <filename>../../../../Useful/跳房子/红色钢架/Room_special_3.png</filename>
-            <filename>../../../../Useful/跳房子/红色钢架/Room_special_4.png</filename>
-            <filename>../../../../Useful/跳房子/红色钢架/Room_special_floor.png</filename>
             <filename>../../../../Useful/跳房子/红色钢架/Room_specialbg_1.png</filename>
             <filename>../../../../Useful/跳房子/红色钢架/Room_specialbg_2.png</filename>
             <filename>../../../../Useful/跳房子/红色钢架/Room_specialbg_3.png</filename>
+            <filename>Room_bg_1.png</filename>
+            <filename>Room_special_floor.png</filename>
+            <filename>Room_specialbg_5.png</filename>
+            <filename>Room_floor_7.png</filename>
+            <filename>Room_special_1.png</filename>
+            <filename>Room_special_3.png</filename>
+            <filename>Room_specialbg_1.png</filename>
+            <filename>Room_specialbg_2.png</filename>
+            <filename>Room_specialbg_3.png</filename>
+            <filename>Room_specialbg_4.png</filename>
+            <filename>Room_wall.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

@@ -32,9 +32,8 @@ function ShopItem:initRole(parameters)
     else
         self.img = display.newSprite(RoleConfig[self.id].roleImg)
         local animation = cc.AnimationCache:getInstance():getAnimation(RoleConfig[self.id].armatureName)
-        animation:setLoops(-1)
         local animate = cc.Animate:create(animation)
-        self.img:runAction(animate)
+        self.img:runAction(cc.RepeatForever:create(animate))
         if GameDataManager.getRoleModle(self.id) then
             self.img:setColor(cc.c3b(255,255,255))
         else

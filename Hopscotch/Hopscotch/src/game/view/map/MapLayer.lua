@@ -4,8 +4,7 @@
 local MapRoom = require("game.view.map.MapRoom")
 local Player = require("game.view.element.Player")
 local Scheduler = require("framework.scheduler")
---local CoinElement=require("game.view.element.CoinElement")
---local DiamondElement=require("game.view.element.DiamondElement")
+local SpecialElement = require("game.view.element.SpecialElement")
 local BackGroundMove = require("game.view.map.BackGroundMove")
 
 local Raycast_DisY = 20  --探测距离
@@ -35,13 +34,20 @@ function MapLayer:ctor(parameters)
     
     self.m_curZOrder = MAP_ZORDER_MAX   --房间当前显示层级
     
---    self.bg = display.newColorLayer(cc.c4b(170,97,140,255)):addTo(self)
---    self.bg = cc.LayerGradient:create(cc.c4b(170,97,140,255),cc.c4b(217,210,201,0)):addTo(self)
+    local color = SceneConfig[GameDataManager.getFightScene()].bgColor
+--    self.bg = cc.LayerGradient:create(color[1],color[2]):addTo(self)
+    self.bg = display.newColorLayer(color[1]):addTo(self)
+    self.bg:setTouchEnabled(false)
+    self.bg:setTouchSwallowEnabled(false)
     
-    self.m_backbg = BackGroundMove.new(GameDataManager.getFightScene()):addTo(self)
-    self.m_backbgLeft = BackGroundMove.new(GameDataManager.getFightScene()):addTo(self)
+    self.bgNode = display.newNode()
+    self.bgNode:setTouchEnabled(false)
+    self.bgNode:setTouchSwallowEnabled(false)
+    self:addChild(self.bgNode)
+    self.m_backbg = BackGroundMove.new(GameDataManager.getFightScene()):addTo(self.bgNode)
+    self.m_backbgLeft = BackGroundMove.new(GameDataManager.getFightScene()):addTo(self.bgNode)
     self.m_backbgLeft:setPositionX(-display.width)
-    self.m_backbgRight = BackGroundMove.new(GameDataManager.getFightScene()):addTo(self)
+    self.m_backbgRight = BackGroundMove.new(GameDataManager.getFightScene()):addTo(self.bgNode)
     self.m_backbgRight:setPositionX(display.right)
     
     self.m_bg = display.newSprite("map/Scene_"..GameDataManager.getFightScene().."/Map_frame_2.png")
@@ -132,7 +138,7 @@ function MapLayer:initRooms(parameters)
         end
 
         for var=1, self.m_roomAmount do
-            Tools.printDebug("brj 高度",_y)
+            Tools.printDebug("brj 初始楼层",var+(k-1)*10)
             local _room = MapRoom.new(var,self.m_levelCon,var+(k-1)*10)
             _room:setAnchorPoint(cc.p(0,0))
             _y = _y + Room_Size.height
@@ -145,6 +151,25 @@ function MapLayer:initRooms(parameters)
             self.floorPos[var+(k-1)*10] = cc.p(self._x,_y)
 
             table.insert(self.m_chaceRooms,_room)
+            
+            --特殊房间楼层的钢架
+            if self.m_levelCon.roomType == MAPROOM_TYPE.Special and var == 1 then
+                local steel1 = SpecialElement.new(self.m_levelCon.left)
+                self:addChild(steel1,self.m_curZOrder)
+                steel1:setAnchorPoint(cc.p(0,0))
+                local size = steel1:getCascadeBoundingBox().size
+                local steelY = (self.m_levelCon.left[1]-1)*Room_Size.height
+                steel1:setPosition(cc.p(size.width*0.5+5,size.height*0.5+16+_y+steelY))
+                local steel2 = SpecialElement.new(self.m_levelCon.right)
+                self:addChild(steel2,self.m_curZOrder)
+                steel2:setAnchorPoint(cc.p(0,0))
+                steel2:setScaleX(-1)
+                local steel2Y = (self.m_levelCon.right[1]-1)*Room_Size.height
+                steel2:setPosition(cc.p(display.right-size.width*0.5-5,size.height*0.5+16+_y+steel2Y))
+                steel1:setCameraMask(2)
+                steel2:setCameraMask(2)
+            end
+            
             self.m_curZOrder = self.m_curZOrder + 1
             MAP_ZORDER_MAX = self.m_curZOrder
         end
@@ -161,7 +186,7 @@ function MapLayer:addNewRooms(parameters)
         self.m_levelCon = MapGroupConfig[i]
         self.roomType = self.m_levelCon.type
         self.floorNum = 0
-        Tools.printDebug("brj --- 随机map： ",i)
+--        Tools.printDebug("brj --- 随机map： ",i)
     end
     self.floorNum = self.floorNum + 1
 
@@ -175,7 +200,7 @@ function MapLayer:addNewRooms(parameters)
             self._x = self._x + self.m_levelCon.distance
         end
         self.floorPos[self.m_roomsNum] = cc.p(self._x,_y)
-        Tools.printDebug("brj --- 新楼层： ",self._x,self.m_roomsNum,self.m_levelCon.roomType)
+--        Tools.printDebug("brj --- 新楼层： ",self._x,self.m_roomsNum,self.m_levelCon.roomType)
     else
         _newRoom = MapRoom.new(1)
     end
@@ -183,6 +208,25 @@ function MapLayer:addNewRooms(parameters)
     _newRoom:initPosition(self._x,_y)
     _newRoom:setCameraMask(2)
     table.insert(self.m_chaceRooms,_newRoom)
+    
+    --特殊房间楼层的钢架
+    if self.m_levelCon.roomType == MAPROOM_TYPE.Special and self.floorNum == 1 then
+        local steel1 = SpecialElement.new(self.m_levelCon.left)
+        self:addChild(steel1,self.m_curZOrder)
+        steel1:setAnchorPoint(cc.p(0,0))
+        local size = steel1:getCascadeBoundingBox().size
+        local steelY = (self.m_levelCon.left[1]-1)*Room_Size.height
+        steel1:setPosition(cc.p(size.width*0.5+5,size.height*0.5+16+_y+steelY))
+        local steel2 = SpecialElement.new(self.m_levelCon.right)
+        self:addChild(steel2,self.m_curZOrder)
+        steel2:setAnchorPoint(cc.p(0,0))
+        steel2:setScaleX(-1)
+        local steel2Y = (self.m_levelCon.right[1]-1)*Room_Size.height
+        steel2:setPosition(cc.p(display.right-size.width*0.5-5,size.height*0.5+16+_y+steel2Y))
+        steel1:setCameraMask(2)
+        steel2:setCameraMask(2)
+    end
+    
     self.m_curZOrder = self.m_curZOrder + 1
 
     if #self.m_chaceRooms > MAP_ROOM_MAX then
@@ -324,7 +368,7 @@ function MapLayer:collisionBeginCallBack(parameters)
     else
         _x = 1
     end
-    if obstacleTag==ELEMENT_TAG.WALLLEFT or obstacleTag==ELEMENT_TAG.WALLRIGHT then
+    if obstacleTag==ELEMENT_TAG.WALLLEFT or obstacleTag==ELEMENT_TAG.WALLRIGHT or obstacleTag==ELEMENT_TAG.SPECIAL_TAG then
        if not tolua.isnull(obstacle) then
             local vel=self.m_player:getBody():getVelocity()
             local _size = self.m_player:getSize()
@@ -335,6 +379,11 @@ function MapLayer:collisionBeginCallBack(parameters)
             else
                 player:setVelocity(cc.p(-self.m_player:getVo().m_speed,vel.y))
                 player:setScaleX(-math.abs(_scaleX))
+            end
+       end
+       if obstacleTag==ELEMENT_TAG.SPECIAL_TAG then
+            if not tolua.isnull(obstacle) then
+            	obstacle:collision()
             end
        end
     elseif obstacleTag == ELEMENT_TAG.GOOD_TAG then
@@ -411,10 +460,14 @@ function MapLayer:toJump()
     --摄像机移动
     local pos = self.floorPos[self.jumpFloorNum]
     self.m_camera:stopAllActions()
-    local x,y = self.m_camera:getPosition()
-    Tools.printDebug("brj camera pos: ",x,y,pos.x,pos.y)
     local move = cc.MoveTo:create(0.3,cc.p(pos.x,pos.y-self.bottomHeight))
     self.m_camera:runAction(move)
+    self.bgNode:stopAllActions()
+    local move2 = cc.MoveTo:create(0.3,cc.p(pos.x-pos.x*0.05,pos.y-self.bottomHeight-pos.y*0.05))
+    self.bgNode:runAction(move2)
+    self.bg:stopAllActions()
+    local move3 = cc.MoveTo:create(0.3,cc.p(pos.x,pos.y-self.bottomHeight))
+    self.bg:runAction(move3)
 
     self.m_player:toJump(pos.y)
 
@@ -439,9 +492,15 @@ function MapLayer:backOriginFunc()
     local floorPos = self.floorPos[self.jumpFloorNum]
     self.m_player:addLifeNum(1)
     self.m_player:setPosition(cc.p(100,self.bottomHeight+_size.width*0.5+27))
+    
     self.m_camera:stopAllActions()
     local move = cc.MoveTo:create(0.5,cc.p(0,0))
     self.m_camera:runAction(move)
+    
+    self.bgNode:stopAllActions()
+    local move2 = cc.MoveTo:create(0.5,cc.p(0,0))
+    self.bgNode:runAction(move2)
+    
     Tools.delayCallFunc(1,function()
         self.backOrigin = false
     end)

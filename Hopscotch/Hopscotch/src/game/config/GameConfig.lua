@@ -63,6 +63,7 @@ ELEMENT_TAG=
         FLOOR = 4,    --普通地板
         DIAMOND_TAG = 6,   --金币
         GOOD_TAG = 7,    --道具
+        SPECIAL_TAG = 8,  --特殊钢架
     }
 
 --缓存元素类型

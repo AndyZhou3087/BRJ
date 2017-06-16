@@ -10,6 +10,11 @@ function MapView:ctor(parameters)
 
     self.m_mapView = cc.uiloader:load("json/MapView.json")
     self:addChild(self.m_mapView)
+    
+    local Image_2 = cc.uiloader:seekNodeByName(self.m_mapView,"Image_2")
+    Image_2:setPositionY(display.top-34)
+    local Image_2_0 = cc.uiloader:seekNodeByName(self.m_mapView,"Image_2_0")
+    Image_2_0:setPositionY(display.top-84)
 
     self.DiamondCount = cc.uiloader:seekNodeByName(self.m_mapView,"DiamondCount")
     self.DiamondCount:setString(GameDataManager.getDiamond())
@@ -18,9 +23,11 @@ function MapView:ctor(parameters)
     self.RecordScroe:setString(GameDataManager.getRecord())
     
     self.Score = cc.uiloader:seekNodeByName(self.m_mapView,"Score")
+    self.Score:setPositionY(display.top-64)
     self.Score:setString(1)
     
     self.PauseBtn = cc.uiloader:seekNodeByName(self.m_mapView,"PauseBtn")
+    self.PauseBtn:setPositionY(display.top-62)
     local pause = cc.uiloader:seekNodeByName(self.m_mapView,"Button_9")
     pause:setButtonEnabled(false)
     self.PauseBtn:onButtonPressed(function(_event)    --按下
