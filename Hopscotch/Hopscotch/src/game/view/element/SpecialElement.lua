@@ -8,9 +8,10 @@ local PhysicSprite=require("game.custom.PhysicSprite")
 local Special_MATERIAL=cc.PhysicsMaterial(0,0,0)
 
 
-function SpecialElement:ctor(arr)
+function SpecialElement:ctor(arr,lineSprite)
     SpecialElement.super.ctor(self)
 
+    self.lineSprite = lineSprite
     self.arrMove = arr
     self.moveCount = 1
     self.m_img = PhysicSprite.new("#Room_special_1.png"):addTo(self)
@@ -46,9 +47,16 @@ function SpecialElement:collision()
     local _y = (self.arrMove[self.moveCount]-self.arrMove[count_1])*Room_Size.height
     local move = cc.MoveTo:create(0.2,cc.p(x,y+_y))
     self:runAction(move)
+    if not tolua.isnull(self.lineSprite) then
+    	self.lineSprite:moveUp()
+    end
 end
 
 function SpecialElement:dispose()
+    if not tolua.isnull(self.lineSprite) then
+        self.lineSprite:dispose()
+    end
+    self:stopAllActions()
     self.super.dispose(self)
 end
 

@@ -5,8 +5,17 @@ MapSize = cc.size(750,1334)
 --测试输出
 PrintDebug = true
 
+--阴影程度
+OPACITY=160
+
 --初始钻石
 InitDiamond = 20
+
+--获取礼物花费钻石的数量
+DiamondSpendReward = 100
+
+--视觉开关
+Game_Visible = true
 
 --连续操作硬值时间,单位:秒（大于此值视为有效的滑动）
 Sequent_Click_Time = 0.05
@@ -14,19 +23,13 @@ Sequent_Click_Time = 0.05
 --金币移动速度
 GOLD_SPEED=40
 
---地图当前ZOder
-MAP_ZORDER_MAX=0
-
---阴影程度
-OPACITY=160
-
 --初始化房间数
 MAP_ROOM_INIT_NUM = 30
 --地图房间最大数
 MAP_ROOM_MAX = 50
 
---获取礼物花费钻石的数量
-DiamondSpendReward = 100
+--地图当前ZOder
+MAP_ZORDER_MAX=0
 
 --商城item类型
 Shop_Type = 

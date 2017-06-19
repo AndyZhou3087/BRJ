@@ -184,6 +184,7 @@
             <filename>Room_specialbg_3.png</filename>
             <filename>Room_specialbg_4.png</filename>
             <filename>Room_wall.png</filename>
+            <filename>Special_line.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

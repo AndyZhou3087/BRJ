@@ -43,6 +43,12 @@ function SetUI:ctor(parameters)
     self.eye = cc.uiloader:seekNodeByName(self.m_json,"eye")
     self.eye:onButtonClicked(function (event)
         Tools.printDebug("brj chij 视觉效果")
+        if Game_Visible then
+            Game_Visible = false
+        else
+            Game_Visible = true
+        end
+        GameController.setGameVisible(Game_Visible)
     end)
     
 end

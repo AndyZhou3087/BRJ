@@ -6,6 +6,7 @@ local Player = require("game.view.element.Player")
 local Scheduler = require("framework.scheduler")
 local SpecialElement = require("game.view.element.SpecialElement")
 local BackGroundMove = require("game.view.map.BackGroundMove")
+local LineElement = require("game.view.element.LineElement")
 
 local Raycast_DisY = 20  --探测距离
 
@@ -31,6 +32,7 @@ function MapLayer:ctor(parameters)
     self.backOrigin = false
     self.floorPos = {}
     self.roomArr = {}
+    self.specialBody = {}
     
     self.m_curZOrder = MAP_ZORDER_MAX   --房间当前显示层级
     
@@ -154,13 +156,30 @@ function MapLayer:initRooms(parameters)
             
             --特殊房间楼层的钢架
             if self.m_levelCon.roomType == MAPROOM_TYPE.Special and var == 1 then
-                local steel1 = SpecialElement.new(self.m_levelCon.left)
+                --钢架线
+                local line_left = LineElement.new(self.m_levelCon.left)
+                self:addChild(line_left,self.m_curZOrder)
+                line_left:setAnchorPoint(cc.p(0,1))
+                local leftHeight = line_left:getCascadeBoundingBox().size.height
+                line_left:setPosition(cc.p(15,leftHeight*9+_y))
+                line_left:setScaleY(8.5-(self.m_levelCon.left[1]-1))
+                line_left:setCameraMask(2)
+                local line_right = LineElement.new(self.m_levelCon.right)
+                self:addChild(line_right,self.m_curZOrder)
+                line_right:setAnchorPoint(cc.p(0,1))
+                line_right:setScaleX(-1)
+                local rightHeight = line_right:getCascadeBoundingBox().size.height
+                line_right:setPosition(cc.p(display.right-15,rightHeight*9+_y))
+                line_right:setScaleY(8.5-(self.m_levelCon.right[1]-1))
+                line_right:setCameraMask(2)
+                --钢架人
+                local steel1 = SpecialElement.new(self.m_levelCon.left,line_left)
                 self:addChild(steel1,self.m_curZOrder)
                 steel1:setAnchorPoint(cc.p(0,0))
                 local size = steel1:getCascadeBoundingBox().size
                 local steelY = (self.m_levelCon.left[1]-1)*Room_Size.height
                 steel1:setPosition(cc.p(size.width*0.5+5,size.height*0.5+16+_y+steelY))
-                local steel2 = SpecialElement.new(self.m_levelCon.right)
+                local steel2 = SpecialElement.new(self.m_levelCon.right,line_right)
                 self:addChild(steel2,self.m_curZOrder)
                 steel2:setAnchorPoint(cc.p(0,0))
                 steel2:setScaleX(-1)
@@ -168,6 +187,9 @@ function MapLayer:initRooms(parameters)
                 steel2:setPosition(cc.p(display.right-size.width*0.5-5,size.height*0.5+16+_y+steel2Y))
                 steel1:setCameraMask(2)
                 steel2:setCameraMask(2)
+                self.specialBody[math.floor(self.m_roomsNum/10)] = {}
+                table.insert(self.specialBody[math.floor(self.m_roomsNum/10)],steel1)
+                table.insert(self.specialBody[math.floor(self.m_roomsNum/10)],steel2)
             end
             
             self.m_curZOrder = self.m_curZOrder + 1
@@ -211,6 +233,23 @@ function MapLayer:addNewRooms(parameters)
     
     --特殊房间楼层的钢架
     if self.m_levelCon.roomType == MAPROOM_TYPE.Special and self.floorNum == 1 then
+        --钢架线
+        local line_left = LineElement.new(self.m_levelCon.left)
+        self:addChild(line_left,self.m_curZOrder)
+        line_left:setAnchorPoint(cc.p(0,1))
+        local leftHeight = line_left:getCascadeBoundingBox().size.height
+        line_left:setPosition(cc.p(15,leftHeight*9+_y))
+        line_left:setScaleY(8.5-(self.m_levelCon.left[1]-1))
+        line_left:setCameraMask(2)
+        local line_right = LineElement.new(self.m_levelCon.right)
+        self:addChild(line_right,self.m_curZOrder)
+        line_right:setAnchorPoint(cc.p(0,1))
+        line_right:setScaleX(-1)
+        local rightHeight = line_right:getCascadeBoundingBox().size.height
+        line_right:setPosition(cc.p(display.right-15,rightHeight*9+_y))
+        line_right:setScaleY(8.5-(self.m_levelCon.right[1]-1))
+        line_right:setCameraMask(2)
+        --钢架人
         local steel1 = SpecialElement.new(self.m_levelCon.left)
         self:addChild(steel1,self.m_curZOrder)
         steel1:setAnchorPoint(cc.p(0,0))
@@ -225,6 +264,9 @@ function MapLayer:addNewRooms(parameters)
         steel2:setPosition(cc.p(display.right-size.width*0.5-5,size.height*0.5+16+_y+steel2Y))
         steel1:setCameraMask(2)
         steel2:setCameraMask(2)
+        self.specialBody[math.floor(self.m_roomsNum/10)] = {}
+        table.insert(self.specialBody[math.floor(self.m_roomsNum/10)],steel1)
+        table.insert(self.specialBody[math.floor(self.m_roomsNum/10)],steel2)
     end
     
     self.m_curZOrder = self.m_curZOrder + 1
@@ -232,6 +274,19 @@ function MapLayer:addNewRooms(parameters)
     if #self.m_chaceRooms > MAP_ROOM_MAX then
         local _room = table.remove(self.m_chaceRooms,1)
         _room:dispose()
+    end
+end
+
+--销毁特殊刚体
+function MapLayer:disposeSpecial(_typeNum)
+    if self.specialBody[_typeNum] then
+        for key, var in pairs(self.specialBody[_typeNum]) do
+            if not tolua.isnull(var) then
+                Tools.printDebug("brj 跳房子 ：",_typeNum)
+                var:dispose()
+            end
+        end
+        self.specialBody[_typeNum] = {}
     end
 end
 
@@ -256,10 +311,10 @@ function MapLayer:onEnterFrame(dt)
     local bpx,bpy = self.m_player:getPosition()
     local _size = self.m_player:getSize()
     self.m_player:update(dt,bpx,bpy)
---    if not self.m_player:getJump() then
---        local floorPos = self.floorPos[self.jumpFloorNum]
---        self.m_player:setPosition(cc.p(bpx,floorPos.y+_size.width*0.5+27))
---    end
+    if not self.m_player:getJump() then
+        local floorPos = self.floorPos[self.jumpFloorNum]
+        self.m_player:setPosition(cc.p(bpx,floorPos.y+_size.width*0.5+27))
+    end
     
     if self.backOrigin then
         local floorPos = self.floorPos[self.jumpFloorNum]
@@ -557,6 +612,14 @@ function MapLayer:dispose(parameters)
         if not tolua.isnull(var) then
             var:dispose()
         end
+    end
+    
+    for key, var in pairs(self.specialBody) do
+    	for k, v in pairs(var) do
+    		if not tolua.isnull(v) then
+    			v:dispose()
+    		end
+    	end
     end
 
     GameDataManager.resetPoints()

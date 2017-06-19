@@ -30,12 +30,8 @@ function Player:ctor()
     local p_size
     if modle then
         self.m_modle=modle
---        self:createModle(modle)
---        self:toPlay(PLAYER_ACTION.Run)
         self.m_armature = display.newSprite(res):addTo(self)
-        local animation = cc.AnimationCache:getInstance():getAnimation(modle)
-        local animate = cc.Animate:create(animation)
-        self.m_armature:runAction(cc.RepeatForever:create(animate))
+        self:createModle(modle)
         self.m_armature:setScale(0.5)
         p_size = cc.size(50,75)
     else
@@ -50,41 +46,14 @@ function Player:ctor()
 
 end
 
-function Player:onActionFrameEvent(_bone,_evt,_begin,_end)
-    if _evt == nil then
-        return
-    end
-
---    if _evt == "run_two_over" then
---        self:toPlay(PLAYER_ACTION.Run)
---        return
---    end
-
-end
-
 --创建人物模型动画
 function Player:createModle(_actionName)
-    ccs.ArmatureDataManager:getInstance():addArmatureFileInfo("player/".._actionName.."0.png", "player/".._actionName.."0.plist" , "player/".._actionName..".ExportJson" )
-    self.m_armature = ccs.Armature:create(_actionName)
-    self:addChild(self.m_armature)
-    self.m_animation = self.m_armature:getAnimation()
+    local animation = cc.AnimationCache:getInstance():getAnimation(_actionName)
+    local animate = cc.Animate:create(animation)
+    local seq = cc.RepeatForever:create(animate)
+    self.m_armature:runAction(seq)
+end
 
-    self.m_animation:setMovementEventCallFunc(handler(self,self.armatureMoveEvent))
-    self.m_animation:setFrameEventCallFunc(handler(self,self.onActionFrameEvent))
-end
---人物动画帧回调函数
-function Player:armatureMoveEvent(armatureBack,movementType,movementID)
-    if movementID==PLAYER_ACTION.Run and movementType==ccs.MovementEventType.loopComplete then --动画结束后执行
-        if self:isInState(PLAYER_STATE.Invincible) then
-            AudioManager.playSoundEffect(AudioManager.Sound_Effect_Type.Player_Big_Sound)
-        elseif self:isInState(PLAYER_STATE.WalkMachine) then
-            AudioManager.playSoundEffect(AudioManager.Sound_Effect_Type.Player_Big_Sound)
-        else
-            AudioManager.playSoundEffect(AudioManager.Sound_Effect_Type.Player_Normal_Step)
-        end
-        return
-    end
-end
 function Player:addBody(_offset,size)
     local _size = nil
     if size == nil then
@@ -128,20 +97,20 @@ function Player:toJump(ty)
     self.m_body:setCollisionBitmask(0x01)
     self:setGravityEnable(false)
     self:stopAllActions()
+    self.m_armature:stopAllActions()
     local x,y = self:getPosition()
     local move = cc.MoveTo:create(0.3,cc.p(x,ty+self.m_size.width*0.5+30))
+    local easeOut = cc.EaseCubicActionOut:create(move)
     local callfunc = cc.CallFunc:create(function()
         self.m_body:setCollisionBitmask(0x03)
         self:setGravityEnable(true)
         self:setPositionY(ty+self.m_size.width*0.5+30)
         self.m_jump = false
+        self:createModle(self.m_modle)
     end)
-    local seq = cc.Sequence:create(move,callfunc)
+    local seq = cc.Sequence:create(easeOut,callfunc)
     self:runAction(seq)
 
-    if self.m_modle then
---        self:toPlay(PLAYER_ACTION.Bounce)
-    end
 --    AudioManager.playSoundEffect(AudioManager.Sound_Effect_Type.Jump_High_Sound)
 end
 

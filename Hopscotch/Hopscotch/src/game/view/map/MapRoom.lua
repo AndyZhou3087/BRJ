@@ -66,20 +66,31 @@ end
 --@param:墙壁和地板和背景
 function MapRoom:initBlock(_roomBgVo)
     if _roomBgVo.bg then
+        self.window = {}
         for i=1, #_roomBgVo.bg do
             local info = _roomBgVo.bg[i]
-            local bg = PhysicSprite.new(info.res):addTo(self)
+            local bg
+            if info.type and info.type == RoomBg_Type.Full then
+                bg = PhysicSprite.new(info.res):addTo(self)
+                table.insert(self.bgArr,bg)
+            elseif info.type and info.type == RoomBg_Type.Window then
+                bg = PhysicSprite.new(info.res):addTo(self)
+                table.insert(self.bgArr,bg)
+                table.insert(self.window,info.res)
+                if not Game_Visible then
+                    bg:setSpriteFrame("Room_bg_2.png")
+                end
+            else
+                bg = PhysicSprite.new(info.res):addTo(self)
+            end
             bg:setAnchorPoint(cc.p(0,0))
             bg:setPosition(cc.p(info.x,info.y))
-            if info.type and info.type == RoomBg_Type.Full then
-                self.bgArr[#self.bgArr+1] = bg
-            end
         end
     end
     if _roomBgVo.wallLeftRight then
         for j=1, #_roomBgVo.wallLeftRight do
             local info = _roomBgVo.wallLeftRight[j]
-            local type = Tools.Split(info.res,"#")
+            local type = Tools.Split("0"..info.res,"#")
             local wall = PoolManager.getCacheObjByType(CACHE_TYPE[type[2]])
             if not wall then
                 wall = PhysicSprite.new(info.res)
@@ -103,7 +114,7 @@ function MapRoom:initBlock(_roomBgVo)
     if _roomBgVo.floor then
         for k=1, #_roomBgVo.floor do
             local info = _roomBgVo.floor[k]
-            local type = Tools.Split(info.res,"#")
+            local type = Tools.Split("0"..info.res,"#")
             local floor = PoolManager.getCacheObjByType(CACHE_TYPE[type[2]])
             if not floor then
                 floor = PhysicSprite.new(info.res)
@@ -128,6 +139,7 @@ function MapRoom:initOrnament(ornament)
         table.insert(self.ornament,sprite)
         sprite:setPosition(data.x,data.y)
         sprite:setAnchorPoint(cc.p(0,0))
+        sprite:setVisible(Game_Visible)
     end
 end
 
@@ -246,13 +258,26 @@ function MapRoom:getAllOrnament()
 end
 
 --获得所有房间整块背景图
-function MapRoom:getAllRoomBgs(parameters)
+function MapRoom:getAllRoomBgs()
     return self.bgArr
 end
 
+--获取当前方面窗户
+function MapRoom:getWindowBgs()
+    return self.window
+end
 
 --销毁
 function MapRoom:dispose(parameters)
+    --销毁layer层的特殊刚体
+    if self.m_curLevelCon.roomType == MAPROOM_TYPE.Special and self.m_index == 10 then
+        if not tolua.isnull(self:getParent()) then
+            if not tolua.isnull(self:getParent():getParent()) then
+                self:getParent():getParent():disposeSpecial(math.floor(self.m_floorNum/10))
+            end
+        end
+    end
+
     self.m_cacheBodys = nil
     if self.m_diamonds then
         for key, var in pairs(self.m_diamonds) do
@@ -274,6 +299,7 @@ function MapRoom:dispose(parameters)
     end
     self.m_blocks = {}
     self.bgArr = {}
+    self.window = {}
     
     self.ornament = {}
     

@@ -134,14 +134,49 @@ function GameController.isInState(_state)
     return false
 end
 
-local vision = true
---设置当前视觉是否可见
-function GameController.setVisible(_enable)
-    vision = _enable
+--房间视觉
+function GameController.setGameVisible(_enable)
+	Game_Visible = _enable
+	for key, var in pairs(rooms) do
+	   if not tolua.isnull(var) then
+	       for k, v in pairs(var:getAllOrnament()) do
+                v:setVisible(Game_Visible)
+           end
+           if not Game_Visible then
+                for ky, vr in pairs(var:getAllRoomBgs()) do
+                    if not tolua.isnull(vr) then
+                        vr:setSpriteFrame("Room_bg_2.png")
+                    end
+                end
+           else
+                local roombgArr = var:getAllRoomBgs()
+                local windowbgArr = var:getWindowBgs()
+                if #windowbgArr > 0 then
+                    local pos = GameController.createRand(#windowbgArr,#roombgArr)
+                    for var=1, #pos do
+                        local wrr = Tools.Split("0"..windowbgArr[var],"#")
+                        roombgArr[pos[var]]:setSpriteFrame(wrr[2])
+                    end
+                end
+           end
+	   end
+	end
 end
---获取视觉效果
-function GameController.getGameVisible()
-    return vision
+
+--生成不重复的随机数
+function GameController.createRand(count,max)
+    local randArr = {}
+    local countArr = {}
+--    Tools.printDebug("Hopscotch brj ----------随机数：",count,max)
+    for i = 1,max do
+        table.insert(countArr,i)
+    end
+    for var=1, count do
+        local nNum = math.random(1,#countArr)
+        table.insert(randArr,countArr[nNum])
+        table.remove(countArr,nNum)
+    end
+    return randArr
 end
 
 --添加钻石
