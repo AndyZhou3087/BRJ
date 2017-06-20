@@ -14,6 +14,8 @@ SceneConfig[1]=
         des = "战争废墟",
         rmb = 0,   --人民币购买价格
         bgColor = {cc.c4b(170,97,140,255),cc.c4b(247,220,221,255)},
+        specailRes = "#Room_special_3.png",
+        specailRes2 = "#Room_special_1.png",
     }
 
 SceneConfig[2]=
@@ -27,6 +29,8 @@ SceneConfig[2]=
         rmb = 6,   --人民币购买价格
         payId = Payment.Scene_2,
         bgColor = {cc.c4b(170,97,140,255),cc.c4b(247,220,221,255)},
+        specailRes = "#Room_special_3.png",
+        specailRes2 = "#Room_special_1.png",
     }
 
 SceneConfig[3]=
@@ -40,6 +44,8 @@ SceneConfig[3]=
         rmb = 6,   --人民币购买价格
         payId = Payment.Scene_3,
         bgColor = {cc.c4b(170,97,140,255),cc.c4b(247,220,221,255)},
+        specailRes = "#Room_special_3.png",
+        specailRes2 = "#Room_special_1.png",
     }
 
 SceneConfig[4]=
@@ -53,6 +59,8 @@ SceneConfig[4]=
         rmb = 6,   --人民币购买价格
         payId = Payment.Scene_4,
         bgColor = {cc.c4b(170,97,140,255),cc.c4b(247,220,221,255)},
+        specailRes = "#Room_special_3.png",
+        specailRes2 = "#Room_special_1.png",
     }
 
 SceneConfig[5]=
@@ -66,4 +74,6 @@ SceneConfig[5]=
         rmb = 6,   --人民币购买价格
         payId = Payment.Scene_5,
         bgColor = {cc.c4b(93,196,248,255),cc.c4b(221,230,250,255)},
+        specailRes = "#Room_special_3.png",
+        specailRes2 = "#Room_special_1.png",
     }

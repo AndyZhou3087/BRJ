@@ -14,7 +14,8 @@ function SpecialElement:ctor(arr,lineSprite)
     self.lineSprite = lineSprite
     self.arrMove = arr
     self.moveCount = 1
-    self.m_img = PhysicSprite.new("#Room_special_1.png"):addTo(self)
+    local res = SceneConfig[GameDataManager.getFightScene()].specailRes2
+    self.m_img = PhysicSprite.new(res):addTo(self)
     self:addBody(cc.p(0,0))
     local shake = cc.MoveBy:create(1.5,cc.p(12,0))
     local shake2 = cc.MoveBy:create(1.5,cc.p(-12,0))

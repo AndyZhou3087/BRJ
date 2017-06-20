@@ -28,6 +28,9 @@ MAP_ROOM_INIT_NUM = 30
 --地图房间最大数
 MAP_ROOM_MAX = 50
 
+--横跑楼层出现的硬值
+RunningFloor = 60  --每60层随机出现一次横跑
+
 --地图当前ZOder
 MAP_ZORDER_MAX=0
 

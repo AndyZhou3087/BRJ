@@ -26,15 +26,17 @@ function MapRoom:ctor(_idx,_levelCon,_floorNum)
     self.m_index = _idx
     self.m_curLevelCon = _levelCon
     self.m_floorNum = _floorNum
+    self.roomType = _levelCon.roomType
     
     
     if _levelCon.roomType == MAPROOM_TYPE.Special and _idx == 10 then
-        local left = display.newSprite("#Room_special_3.png"):addTo(self)
-        left:setPosition(cc.p(0,0))
+        local spRes = SceneConfig[GameDataManager.getFightScene()].specailRes
+        local left = display.newSprite(spRes):addTo(self)
+        left:setPosition(cc.p(0+_levelCon.lineX,0))
         left:setAnchorPoint(cc.p(0,0))
-        local right = display.newSprite("#Room_special_3.png"):addTo(self)
+        local right = display.newSprite(spRes):addTo(self)
         right:setScaleX(-1)
-        right:setPosition(cc.p(display.right,0))
+        right:setPosition(cc.p(display.right-_levelCon.lineX,0))
         right:setAnchorPoint(cc.p(0,0))
     end
     
@@ -42,6 +44,18 @@ function MapRoom:ctor(_idx,_levelCon,_floorNum)
     local _ornaments = Ornaments[_levelCon.ornaments[_idx]] or {}
     local _diamonds = Coins[_levelCon.coins[_idx]] or {}
     local _goods = RoomGoods[_levelCon.roomGoods[_idx]] or {}
+    
+    if _roomBgVo.gap then
+        self.roomGap = _roomBgVo.gap
+    else
+        self.roomGap = 0
+    end
+    
+    if _roomBgVo.type then
+        self.m_type = _roomBgVo.type
+    else
+        self.m_type = false
+    end
 
     --房间内背景
     self:initBlock(_roomBgVo)
@@ -112,6 +126,8 @@ function MapRoom:initBlock(_roomBgVo)
         end
     end
     if _roomBgVo.floor then
+        local lastWidth = 0
+        local lastX = 0
         for k=1, #_roomBgVo.floor do
             local info = _roomBgVo.floor[k]
             local type = Tools.Split("0"..info.res,"#")
@@ -127,7 +143,10 @@ function MapRoom:initBlock(_roomBgVo)
             floor:setAnchorPoint(cc.p(0.5,0.5))
             floor:setPosition(cc.p(info.x+floorSize.width*0.5,info.y+floorSize.height*0.5))
             table.insert(self.m_blocks,floor)
+            lastWidth = floorSize.width
+            lastX = info.x
         end
+        self.roomWidth = lastX-Room_Distance.x+lastWidth
     end
 end
 
@@ -248,7 +267,7 @@ end
 
 --玩家进入房间
 function MapRoom:intoRoom(parameters)
---    Tools.printDebug("brj 玩家进入房间 roomIndx=",self.m_floorNum)
+    Tools.printDebug("brj 玩家进入房间 roomIndx=",self.m_floorNum)
     
 end
 
@@ -265,6 +284,31 @@ end
 --获取当前方面窗户
 function MapRoom:getWindowBgs()
     return self.window
+end
+
+--获取当前房间所属类型
+function MapRoom:getCurRoomType()
+    return self.roomType
+end
+
+--获取横跑房间的间隙
+function MapRoom:getRoomGap()
+	return self.roomGap
+end
+
+--获取横跑房间的宽度
+function MapRoom:getRoomWidth()
+    return self.roomWidth
+end
+
+--获取横跑房间的阶层值
+function MapRoom:getRunningRoomFloorType()
+    return self.m_type
+end
+
+--获取房间索引号
+function MapRoom:getRoomKey()
+    return self.m_index
 end
 
 --销毁

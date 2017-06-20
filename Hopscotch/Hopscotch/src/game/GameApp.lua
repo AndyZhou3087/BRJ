@@ -17,6 +17,7 @@ require("game.config.GoodsConfig")
 require("game.config.GiftConfig")
 require("game.config.SceneConfig")
 require("game.config.DiamondConfig")
+require("game.config.RunningRoomConfig")
 
 PoolManager = require("game.tools.PoolManager")
 TimeUtil = require("game.tools.TimeUtil")

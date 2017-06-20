@@ -28,6 +28,7 @@ function MapLayer:ctor(parameters)
 
     self.m_chaceRooms = {}  --房间缓存数组
     GameController.setRooms(self.m_chaceRooms)
+    self.m_otherRooms = {}   --额外的房间(主要是横跑中不升楼层的房间)
     self.jumpFloorNum = 1
     self.backOrigin = false
     self.floorPos = {}
@@ -78,14 +79,6 @@ function MapLayer:ctor(parameters)
 
     self:setCameraMask(2)
 
---    self.m_isMoving = false
---    self.m_isDown = false
---    self.m_isUp = false
-
-
-    --20层以内死亡重新回到起点
---    GameDispatcher:addListener(EventNames.EVENT_BACK_ORIGIN,handler(self,self.backOriginFunc))
-
 end
 
 --触摸
@@ -100,11 +93,20 @@ function MapLayer:touchFunc(event)
     end
     if event.name == "began" then
         if (Tools.getSysTime()-lastTouchTime)>=Sequent_Click_Time then
-            self.jumpFloorNum = self.jumpFloorNum + 1
-            GameDataManager.addPoints(1)
-            self:toJump()
-            Tools.printDebug("brj 楼梯: ",self.jumpFloorNum)
-            self:addNewRooms()
+            if not self.curRoomRunType then
+                self.jumpFloorNum = self.jumpFloorNum + 1
+                GameDataManager.addPoints(1)
+                Tools.printDebug("brj 楼梯: ",self.jumpFloorNum)
+                self:toJump()
+            else
+                if self.curRoomRunType~=0 then
+                    self.jumpFloorNum = self.jumpFloorNum + 1
+                    GameDataManager.addPoints(1)
+                    self:toJump()
+                else
+                    self:toRunJump()
+                end
+            end
         end
         return true
     elseif event.name == "ended" then
@@ -161,7 +163,7 @@ function MapLayer:initRooms(parameters)
                 self:addChild(line_left,self.m_curZOrder)
                 line_left:setAnchorPoint(cc.p(0,1))
                 local leftHeight = line_left:getCascadeBoundingBox().size.height
-                line_left:setPosition(cc.p(15,leftHeight*9+_y))
+                line_left:setPosition(cc.p(self._x+15+self.m_levelCon.lineX,leftHeight*9+_y))
                 line_left:setScaleY(8.5-(self.m_levelCon.left[1]-1))
                 line_left:setCameraMask(2)
                 local line_right = LineElement.new(self.m_levelCon.right)
@@ -169,7 +171,7 @@ function MapLayer:initRooms(parameters)
                 line_right:setAnchorPoint(cc.p(0,1))
                 line_right:setScaleX(-1)
                 local rightHeight = line_right:getCascadeBoundingBox().size.height
-                line_right:setPosition(cc.p(display.right-15,rightHeight*9+_y))
+                line_right:setPosition(cc.p(self._x+display.right-15-self.m_levelCon.lineX,rightHeight*9+_y))
                 line_right:setScaleY(8.5-(self.m_levelCon.right[1]-1))
                 line_right:setCameraMask(2)
                 --钢架人
@@ -178,13 +180,13 @@ function MapLayer:initRooms(parameters)
                 steel1:setAnchorPoint(cc.p(0,0))
                 local size = steel1:getCascadeBoundingBox().size
                 local steelY = (self.m_levelCon.left[1]-1)*Room_Size.height
-                steel1:setPosition(cc.p(size.width*0.5+5,size.height*0.5+16+_y+steelY))
+                steel1:setPosition(cc.p(self._x+size.width*0.5+5+self.m_levelCon.lineX,size.height*0.5+16+_y+steelY))
                 local steel2 = SpecialElement.new(self.m_levelCon.right,line_right)
                 self:addChild(steel2,self.m_curZOrder)
                 steel2:setAnchorPoint(cc.p(0,0))
                 steel2:setScaleX(-1)
                 local steel2Y = (self.m_levelCon.right[1]-1)*Room_Size.height
-                steel2:setPosition(cc.p(display.right-size.width*0.5-5,size.height*0.5+16+_y+steel2Y))
+                steel2:setPosition(cc.p(self._x+display.right-size.width*0.5-5-self.m_levelCon.lineX,size.height*0.5+16+_y+steel2Y))
                 steel1:setCameraMask(2)
                 steel2:setCameraMask(2)
                 self.specialBody[math.floor(self.m_roomsNum/10)] = {}
@@ -201,17 +203,102 @@ end
 --添加新的房间
 --此处为动态添加的房间，不需调整刚体位置，即无需传第三个参数(room:initPosition(_x,_y))
 function MapLayer:addNewRooms(parameters)
-    self._x = self.floorPos[self.m_roomsNum].x
-    self.m_roomsNum = self.m_roomsNum + 1
-    if self.m_roomsNum % 10 == 1 then
-        local i = GameDataManager.getDataIdByWeight()
-        self.m_levelCon = MapGroupConfig[i]
-        self.roomType = self.m_levelCon.type
+    if self.m_roomsNum % RunningFloor == 0 then
+        local i = GameDataManager.getRunningDataIdByWeight()
+        self.m_levelCon = RunningRoomConfig[i]
+        self.roomType = self.m_levelCon.roomType
+        self.runningFloor = self.m_roomsNum
         self.floorNum = 0
---        Tools.printDebug("brj --- 随机map： ",i)
+    else
+        if self.m_roomsNum % 10 == 0 then
+            local i = GameDataManager.getDataIdByWeight()
+            self.m_levelCon = MapGroupConfig[i]
+            self.roomType = self.m_levelCon.roomType
+            self.floorNum = 0
+        end
     end
-    self.floorNum = self.floorNum + 1
+    
+--    Tools.printDebug("-------brj 房间类型：",self.roomType)
+    if self.roomType ~= MAPROOM_TYPE.Running then
+        self._x = self.floorPos[self.m_roomsNum].x
+        self.floorNum = self.floorNum + 1
+    	self:CommonRoomAdd()
+    else
+        self:RunningRoomAdd(self.m_levelCon.direction)
+    end
+    
+end
 
+function MapLayer:RunningRoomAdd(_dis)
+
+    self.floorNum = self.floorNum + 1
+    local _oldRoom
+    if self.floorNum <= 2 then
+        _oldRoom = self.m_chaceRooms[#self.m_chaceRooms]
+    else
+        local oldType = RoomBgs[self.m_levelCon.roomBgs[self.floorNum-1]].type
+        if oldType~=0 then
+            _oldRoom = self.m_chaceRooms[#self.m_chaceRooms]
+        else
+            _oldRoom = self.m_otherRooms[#self.m_otherRooms]
+        end
+    end
+    local _newRoom
+    local _y = 0
+    if _oldRoom then
+        local newType = RoomBgs[self.m_levelCon.roomBgs[self.floorNum]].type
+        if self.floorNum == 1 or (newType~=0 and self.floorNum == 2) then
+            self._x = self.floorPos[self.m_roomsNum].x
+        end
+        if newType~=0 or self.floorNum == 1 then
+            self.m_roomsNum = self.m_roomsNum + 1
+        end
+        _newRoom = MapRoom.new(self.floorNum,self.m_levelCon,self.m_roomsNum)
+        if _dis == MAPRUNNING_TYPE.Left then
+            if self.floorNum == 1 then
+                self._x = self._x-_newRoom:getRoomWidth()*0.5
+                _y = _oldRoom:getPositionY() + Room_Size.height
+            elseif self.floorNum == #self.m_levelCon.roomBgs then
+                self._x = self._x + self.m_levelCon.distance
+                _y = _oldRoom:getPositionY() + Room_Size.height
+            else
+                if _newRoom:getRunningRoomFloorType() == 0 then
+                    self._x = self._x-_newRoom:getRoomWidth()-_oldRoom:getRoomGap()
+                    _y = _oldRoom:getPositionY()
+                elseif _newRoom:getRunningRoomFloorType() == 1 then
+                    self._x = self._x+_oldRoom:getRoomWidth()-_newRoom:getRoomWidth()
+                    _y = _oldRoom:getPositionY() + Room_Size.height
+                elseif _newRoom:getRunningRoomFloorType() == 2 then
+                    self._x = self._x-_newRoom:getRoomWidth()-_oldRoom:getRoomGap()
+                    _y = _oldRoom:getPositionY() + Room_Size.height
+                end
+            end
+        end
+    else
+        _newRoom = MapRoom.new(1)
+    end
+    self.m_roomNode:addChild(_newRoom,self.m_curZOrder)
+    _newRoom:initPosition(self._x,_y)
+    _newRoom:setCameraMask(2)
+    Tools.printDebug("brj ----------------------房间横向类型 ",self.floorNum,_newRoom:getRunningRoomFloorType())
+    if self.floorNum == 1 or (_newRoom:getRunningRoomFloorType() and _newRoom:getRunningRoomFloorType()~=0) then
+        self.floorPos[self.m_roomsNum] = cc.p(self._x,_y)
+    	table.insert(self.m_chaceRooms,_newRoom)
+    else
+        table.insert(self.m_otherRooms,_newRoom)
+        Tools.printDebug("brj ----------------------other缓存 ",self.floorNum)
+    end
+
+    self.m_curZOrder = self.m_curZOrder + 1
+
+    if #self.m_chaceRooms > MAP_ROOM_MAX then
+        local _room = table.remove(self.m_chaceRooms,1)
+        _room:dispose()
+    end
+end
+
+function MapLayer:CommonRoomAdd()
+    self.m_roomsNum = self.m_roomsNum + 1
     local _oldRoom = self.m_chaceRooms[#self.m_chaceRooms]
     local _newRoom
     local _y = 0
@@ -222,7 +309,6 @@ function MapLayer:addNewRooms(parameters)
             self._x = self._x + self.m_levelCon.distance
         end
         self.floorPos[self.m_roomsNum] = cc.p(self._x,_y)
---        Tools.printDebug("brj --- 新楼层： ",self._x,self.m_roomsNum,self.m_levelCon.roomType)
     else
         _newRoom = MapRoom.new(1)
     end
@@ -230,7 +316,7 @@ function MapLayer:addNewRooms(parameters)
     _newRoom:initPosition(self._x,_y)
     _newRoom:setCameraMask(2)
     table.insert(self.m_chaceRooms,_newRoom)
-    
+
     --特殊房间楼层的钢架
     if self.m_levelCon.roomType == MAPROOM_TYPE.Special and self.floorNum == 1 then
         --钢架线
@@ -238,7 +324,7 @@ function MapLayer:addNewRooms(parameters)
         self:addChild(line_left,self.m_curZOrder)
         line_left:setAnchorPoint(cc.p(0,1))
         local leftHeight = line_left:getCascadeBoundingBox().size.height
-        line_left:setPosition(cc.p(15,leftHeight*9+_y))
+        line_left:setPosition(cc.p(self._x+15+self.m_levelCon.lineX,leftHeight*9+_y))
         line_left:setScaleY(8.5-(self.m_levelCon.left[1]-1))
         line_left:setCameraMask(2)
         local line_right = LineElement.new(self.m_levelCon.right)
@@ -246,29 +332,29 @@ function MapLayer:addNewRooms(parameters)
         line_right:setAnchorPoint(cc.p(0,1))
         line_right:setScaleX(-1)
         local rightHeight = line_right:getCascadeBoundingBox().size.height
-        line_right:setPosition(cc.p(display.right-15,rightHeight*9+_y))
+        line_right:setPosition(cc.p(self._x+display.right-15-self.m_levelCon.lineX,rightHeight*9+_y))
         line_right:setScaleY(8.5-(self.m_levelCon.right[1]-1))
         line_right:setCameraMask(2)
         --钢架人
-        local steel1 = SpecialElement.new(self.m_levelCon.left)
+        local steel1 = SpecialElement.new(self.m_levelCon.left,line_left)
         self:addChild(steel1,self.m_curZOrder)
         steel1:setAnchorPoint(cc.p(0,0))
         local size = steel1:getCascadeBoundingBox().size
         local steelY = (self.m_levelCon.left[1]-1)*Room_Size.height
-        steel1:setPosition(cc.p(size.width*0.5+5,size.height*0.5+16+_y+steelY))
-        local steel2 = SpecialElement.new(self.m_levelCon.right)
+        steel1:setPosition(cc.p(self._x+size.width*0.5+5+self.m_levelCon.lineX,size.height*0.5+16+_y+steelY))
+        local steel2 = SpecialElement.new(self.m_levelCon.right,line_right)
         self:addChild(steel2,self.m_curZOrder)
         steel2:setAnchorPoint(cc.p(0,0))
         steel2:setScaleX(-1)
         local steel2Y = (self.m_levelCon.right[1]-1)*Room_Size.height
-        steel2:setPosition(cc.p(display.right-size.width*0.5-5,size.height*0.5+16+_y+steel2Y))
+        steel2:setPosition(cc.p(self._x+display.right-size.width*0.5-5-self.m_levelCon.lineX,size.height*0.5+16+_y+steel2Y))
         steel1:setCameraMask(2)
         steel2:setCameraMask(2)
         self.specialBody[math.floor(self.m_roomsNum/10)] = {}
         table.insert(self.specialBody[math.floor(self.m_roomsNum/10)],steel1)
         table.insert(self.specialBody[math.floor(self.m_roomsNum/10)],steel2)
     end
-    
+
     self.m_curZOrder = self.m_curZOrder + 1
 
     if #self.m_chaceRooms > MAP_ROOM_MAX then
@@ -282,7 +368,7 @@ function MapLayer:disposeSpecial(_typeNum)
     if self.specialBody[_typeNum] then
         for key, var in pairs(self.specialBody[_typeNum]) do
             if not tolua.isnull(var) then
-                Tools.printDebug("brj 跳房子 ：",_typeNum)
+--                Tools.printDebug("brj 跳房子 ：",_typeNum)
                 var:dispose()
             end
         end
@@ -346,8 +432,21 @@ function MapLayer:onEnterFrame(dt)
         local _room = self:getRoomByIdx(roomIndex)
         if _room then
             _room:intoRoom()
+            self.curRoomRunType = _room:getRunningRoomFloorType()
+            self.curRoomType = _room:getCurRoomType()
+            self.m_lastRoomIdx = roomIndex
         end
-        self.m_lastRoomIdx = roomIndex
+        self:addNewRooms()
+    end
+    
+    if self.curRoomType == MAPROOM_TYPE.Running then
+        local x,y = self.m_player:getPosition()
+        Tools.printDebug("brj 当前角色坐标： ",x,y)
+        local mx,my = self.m_camera:getPosition()
+        Tools.printDebug("brj 当前摄像机坐标： ",mx,my)
+        if x-display.cx <= mx then
+            self.m_camera:setPosition(cc.p(x-display.cx,my))
+        end
     end
 end
 
@@ -528,6 +627,11 @@ function MapLayer:toJump()
 
 end
 
+--横跑中弹跳
+function MapLayer:toRunJump()
+    self.m_player:toRunJump()
+end
+
 --回到起始点
 function MapLayer:backOriginFunc()
     self.backOrigin = true
@@ -561,36 +665,6 @@ function MapLayer:backOriginFunc()
     end)
     Tools.printDebug("----------brj 摄像机坐标：",self.m_camera:getPosition())
 
-end
-
-
---震屏
-function MapLayer:toShake(_num)
-    self.m_isShake = true
-    _num = _num or 20
-    local m1 = cc.MoveBy:create(0.02,cc.p(10,0))
-    local m2 = cc.MoveBy:create(0.04,cc.p(-20,0))
-    local m3 = cc.MoveBy:create(0.01,cc.p(5,0))
-    local m4 = cc.MoveBy:create(0.02,cc.p(10,0))
-    local m5 = cc.MoveBy:create(0.01,cc.p(-5,0))
-    local comFunc = cc.CallFunc:create(function()
-        _num = _num - 1
-        if _num>0 then
-            self:toShake(_num)
-        else
-            self.m_isShake = false
-        end
-    end)
-    local seq = cc.Sequence:create(m1,m2,m3,m4,m5,comFunc)
-    self.m_camera:runAction(seq)
-end
-
-function MapLayer:stopToShake(parameters)
-    if self.m_isShake then
-        self.m_isShake = false
-        self.m_camera:stopAllActions()
-        self.m_camera:setPositionX(0)
-    end
 end
 
 

@@ -10,13 +10,6 @@ MAPROOM_TYPE =
     Running = 4,  --横向奔跑类型
 }
 
-MAPRUNNING_TYPE = 
-{
-    Left = 1,
-    Right = 2,
-    Both = 3,
-}
-
 --此为关卡配置说明，最好不要删除
 --{
 --    _id = 1,   
@@ -55,7 +48,7 @@ MapGroupConfig[2]=
         roomType = MAPROOM_TYPE.Lean,
         direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
         distance = 40,        --房间x轴倾斜距离(单位：像素)
-        probability = 0,     --权重
+        probability = 60,     --权重
     } 
     
 MapGroupConfig[3]= 
@@ -68,7 +61,9 @@ MapGroupConfig[3]=
         roomType = MAPROOM_TYPE.Special,
         left = {1,5,9},
         right = {3,7,9},
+        lineX = 0,    --钢架线离边距的距离
         direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
         distance = 0,        --房间x轴倾斜距离(单位：像素)
         probability = 60,     --权重
     } 
+    

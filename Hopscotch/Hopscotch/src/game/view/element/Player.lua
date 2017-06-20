@@ -114,6 +114,19 @@ function Player:toJump(ty)
 --    AudioManager.playSoundEffect(AudioManager.Sound_Effect_Type.Jump_High_Sound)
 end
 
+--横跑中的上跳
+function Player:toRunJump()
+    self.m_jump = true
+    local _vec = self.m_body:getVelocity()
+    local _scaleX=self:getScaleX()
+    if _scaleX<0 then
+        _vec.x=self.m_vo.m_speed
+    else
+        _vec.x=-self.m_vo.m_speed
+    end
+    self:setBodyVelocity(cc.p(_vec.x,Up_Jump))
+end
+
 --帧回调
 function Player:update(dt,_x,_y)
     if self.m_isMagnet then

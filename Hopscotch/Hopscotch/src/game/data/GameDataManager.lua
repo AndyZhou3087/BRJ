@@ -370,8 +370,11 @@ end
 --======================随机获取房间类型======================
 local configArr = {}
 local _weight = 0
+local runConfigArr = {}
+local _runWeight = 0
 function GameDataManager.initRoomWeight()
     GameDataManager.getSorting(MapGroupConfig)
+    GameDataManager.getRunningSorting(RunningRoomConfig)
 end
 
 --组合排序
@@ -406,6 +409,44 @@ function GameDataManager.getDataIdByWeight()
         t = t + configArr[var].probability
         if t >= _wegt then
             id = configArr[var]._id
+            return id
+        end
+    end
+    return id
+end
+
+--横跑房间排序
+--组合排序
+function GameDataManager.getRunningSorting(arr)
+    for key, var in pairs(arr) do
+        table.insert(runConfigArr,var)
+    end
+    for vr=1, #runConfigArr do
+        for var=vr+1, #runConfigArr do
+            if runConfigArr[vr].probability > runConfigArr[var].probability then
+                local temp
+                temp = runConfigArr[vr]
+                runConfigArr[vr] = runConfigArr[var]
+                runConfigArr[var] = temp
+            end
+        end
+    end
+    for var=1, #arr do
+        _runWeight = _runWeight + arr[var].probability
+    end
+end
+--横跑权重抽取一组数据
+function GameDataManager.getRunningDataIdByWeight()
+    math.randomseed(tostring(os.time()):reverse():sub(1, 6))
+    local _wegt = math.random(1,_runWeight)
+    Tools.printDebug("brj Hopscotch 横跑随机权重值：",_wegt)
+    local t = 0
+    --得到当前id
+    local id = 0
+    for var=1, #runConfigArr do
+        t = t + runConfigArr[var].probability
+        if t >= _wegt then
+            id = runConfigArr[var]._id
             return id
         end
     end
