@@ -31,6 +31,7 @@ function MapLayer:ctor(parameters)
     self.m_otherRooms = {}   --额外的房间(主要是横跑中不升楼层的房间)
     self.jumpFloorNum = 1
     self.backOrigin = false
+    self.m_toJump = false
     self.floorPos = {}
     self.roomArr = {}
     self.specialBody = {}
@@ -49,9 +50,9 @@ function MapLayer:ctor(parameters)
     self:addChild(self.bgNode)
     self.m_backbg = BackGroundMove.new(GameDataManager.getFightScene()):addTo(self.bgNode)
     self.m_backbgLeft = BackGroundMove.new(GameDataManager.getFightScene()):addTo(self.bgNode)
-    self.m_backbgLeft:setPositionX(-display.width)
+    self.m_backbgLeft:setPositionX(-display.width+1)
     self.m_backbgRight = BackGroundMove.new(GameDataManager.getFightScene()):addTo(self.bgNode)
-    self.m_backbgRight:setPositionX(display.right)
+    self.m_backbgRight:setPositionX(display.right-1)
     
     self.m_bg = display.newSprite("map/Scene_"..GameDataManager.getFightScene().."/Map_frame_2.png")
     self.bottomHeight = self.m_bg:getCascadeBoundingBox().size.height
@@ -93,20 +94,25 @@ function MapLayer:touchFunc(event)
     end
     if event.name == "began" then
         if (Tools.getSysTime()-lastTouchTime)>=Sequent_Click_Time then
-            if not self.curRoomRunType then
-                self.jumpFloorNum = self.jumpFloorNum + 1
-                GameDataManager.addPoints(1)
-                Tools.printDebug("brj 楼梯: ",self.jumpFloorNum)
+            if self.isCollision then
+                self.isCollision = false
+                Tools.printDebug("brj 是否可连击跳跃: ",self.isCollision)
                 self:toJump()
-            else
-                if self.curRoomRunType~=0 then
-                    self.jumpFloorNum = self.jumpFloorNum + 1
-                    GameDataManager.addPoints(1)
-                    self:toJump()
-                else
-                    self:toRunJump()
-                end
             end
+            
+--            if not self.curRoomRunType then
+--            if self.isCollision then
+--                self.m_click = true
+--            end 
+--            else
+--                if self.curRoomRunType~=0 then
+--                    self.jumpFloorNum = self.jumpFloorNum + 1
+--                    GameDataManager.addPoints(1)
+--                    self:toJump()
+--                else
+--                    self:toRunJump()
+--                end
+--            end
         end
         return true
     elseif event.name == "ended" then
@@ -203,20 +209,20 @@ end
 --添加新的房间
 --此处为动态添加的房间，不需调整刚体位置，即无需传第三个参数(room:initPosition(_x,_y))
 function MapLayer:addNewRooms(parameters)
-    if self.m_roomsNum % RunningFloor == 0 then
-        local i = GameDataManager.getRunningDataIdByWeight()
-        self.m_levelCon = RunningRoomConfig[i]
-        self.roomType = self.m_levelCon.roomType
-        self.runningFloor = self.m_roomsNum
-        self.floorNum = 0
-    else
+--    if self.m_roomsNum % RunningFloor == 0 then
+--        local i = GameDataManager.getRunningDataIdByWeight()
+--        self.m_levelCon = RunningRoomConfig[i]
+--        self.roomType = self.m_levelCon.roomType
+--        self.runningFloor = self.m_roomsNum
+--        self.floorNum = 0
+--    else
         if self.m_roomsNum % 10 == 0 then
             local i = GameDataManager.getDataIdByWeight()
             self.m_levelCon = MapGroupConfig[i]
             self.roomType = self.m_levelCon.roomType
             self.floorNum = 0
         end
-    end
+--    end
     
 --    Tools.printDebug("-------brj 房间类型：",self.roomType)
     if self.roomType ~= MAPROOM_TYPE.Running then
@@ -397,10 +403,6 @@ function MapLayer:onEnterFrame(dt)
     local bpx,bpy = self.m_player:getPosition()
     local _size = self.m_player:getSize()
     self.m_player:update(dt,bpx,bpy)
-    if not self.m_player:getJump() then
-        local floorPos = self.floorPos[self.jumpFloorNum]
-        self.m_player:setPosition(cc.p(bpx,floorPos.y+_size.width*0.5+27))
-    end
     
     if self.backOrigin then
         local floorPos = self.floorPos[self.jumpFloorNum]
@@ -408,7 +410,6 @@ function MapLayer:onEnterFrame(dt)
     end
     
     local x,y = self.m_camera:getPosition()
---    Tools.printDebug("brj  摄像机坐标x：",x,bpx)
     if bpx <= x+Room_Distance.x-_size.width*0.5 then
         self.m_player:selfDead()
     end
@@ -425,27 +426,21 @@ function MapLayer:onEnterFrame(dt)
     local _veloc = _body:getVelocity()
     local _scaleX = self.m_player:getScaleX()
     local _add = -1*_scaleX/math.abs(_scaleX)  --因为人物默认是向左的，所以乘以-1
-    self.m_physicWorld:rayCast(handler(self,self.rayCastFunc),cc.p(_p.x,_p.y),cc.p(_p.x,_p.y-_size.height*0.5-Raycast_DisY))
-    
-    local roomIndex = math.ceil((self.m_player:getPositionY()-self.bottomHeight)/Room_Size.height)
-    if self.m_lastRoomIdx ~= roomIndex then
-        local _room = self:getRoomByIdx(roomIndex)
-        if _room then
-            _room:intoRoom()
-            self.curRoomRunType = _room:getRunningRoomFloorType()
-            self.curRoomType = _room:getCurRoomType()
-            self.m_lastRoomIdx = roomIndex
-        end
-        self:addNewRooms()
+    if self.m_player:getJump() then
+        self.m_physicWorld:rayCast(handler(self,self.rayCastFunc),cc.p(_p.x,_p.y),cc.p(_p.x,_p.y+_size.height*0.5+Raycast_DisY))
+    else
+        self.m_physicWorld:rayCast(handler(self,self.rayCastFunc),cc.p(_p.x,_p.y),cc.p(_p.x,_p.y-_size.height*0.5-Raycast_DisY))
     end
+    
     
     if self.curRoomType == MAPROOM_TYPE.Running then
         local x,y = self.m_player:getPosition()
-        Tools.printDebug("brj 当前角色坐标： ",x,y)
+--        Tools.printDebug("brj 当前角色坐标： ",x,y)
         local mx,my = self.m_camera:getPosition()
-        Tools.printDebug("brj 当前摄像机坐标： ",mx,my)
         if x-display.cx <= mx then
-            self.m_camera:setPosition(cc.p(x-display.cx,my))
+            self.m_camera:setPosition(cc.p(x-display.cx,y-self.bottomHeight))
+            self.bgNode:setPositionX((x-display.cx)*0.9)
+            self.bg:setPositionX(x-display.cx)
         end
     end
 end
@@ -464,10 +459,6 @@ end
 function MapLayer:collisionBeginCallBack(parameters)
     if not GameController.getCollsionEnable() then
         return true
-    end
-    
-    if self.m_player:isDead() then
-        return false
     end
     
     if self.backOrigin then
@@ -515,6 +506,37 @@ function MapLayer:collisionBeginCallBack(parameters)
         return true
     end
     
+    if (not player) or player:isDead() then
+        return true
+    end
+    if tolua.isnull(obstacle) then
+        return false
+    end
+    
+--    Tools.printDebug("----------碰撞检测",obstacleTag)
+    if obstacleTag == ELEMENT_TAG.FLOOR then
+        self.lastPlayerPosY = player:getPositionY()
+        self.isCollision = true
+        Tools.printDebug("brj 碰撞可跳跃------------: ",self.isCollision)
+        local roomIndex = math.ceil((self.m_player:getPositionY()-self.bottomHeight)/Room_Size.height)
+        if self.m_lastRoomIdx ~= roomIndex then
+            local _room = self:getRoomByIdx(roomIndex)
+            if _room then
+                _room:intoRoom()
+                self.curRoomRunType = _room:getRunningRoomFloorType()
+                self.curRoomType = _room:getCurRoomType()
+                self.m_lastRoomIdx = roomIndex
+            end
+--            Tools.printDebug("brj 当前楼层房间： ",roomIndex)
+            if roomIndex > self.jumpFloorNum then
+                self.jumpFloorNum = roomIndex
+                GameDataManager.setPoints(self.jumpFloorNum)
+                self:addNewRooms()
+            end
+        end
+    end
+    
+    
     local _x = -1
     local _scaleX = player:getScaleX()
     if conData.normal.x < 0 then
@@ -526,7 +548,6 @@ function MapLayer:collisionBeginCallBack(parameters)
        if not tolua.isnull(obstacle) then
             local vel=self.m_player:getBody():getVelocity()
             local _size = self.m_player:getSize()
---            Tools.printDebug("brj   -----  x: ",playerBP.x+_size.width*0.5,obstacleBP.x)
             if playerBP.x+_size.width*0.5<obstacleBP.x then
                 player:setVelocity(cc.p(self.m_player:getVo().m_speed,vel.y))
                 player:setScaleX(math.abs(_scaleX))
@@ -540,6 +561,11 @@ function MapLayer:collisionBeginCallBack(parameters)
             	obstacle:collision()
             end
        end
+--       local roomIndex = math.ceil((self.m_player:getPositionY()-self.bottomHeight)/Room_Size.height)
+--       if roomIndex == self.jumpFloorNum then
+            self.isCollision = true
+--       end
+--        Tools.printDebug("brj 是否可连续跳跃: ",self.isCollision)
     elseif obstacleTag == ELEMENT_TAG.GOOD_TAG then
         if not tolua.isnull(obstacle) then
             obstacle:collision()
@@ -551,10 +577,6 @@ end
 
 --碰撞反射，从人物中心向下或向上发射一个比自身一半多 Raycast_DisY 像素的探测射线，进行检测有无障碍物
 function MapLayer:rayCastFunc(_world,_p1,_p2,_p3)
-    if self.m_player:isDead() then
-        return false
-    end
-    
     if self.backOrigin then
         return true
     end
@@ -571,28 +593,19 @@ function MapLayer:rayCastFunc(_world,_p1,_p2,_p3)
     if _tag==ELEMENT_TAG.PLAYER_TAG then
         return true
     end
-
-    return true
-end
---
-function MapLayer:rayCastFuncX(_world,_p1,_p2,_p3)
-    if self.m_player:isDead() then
-        return false
-    end
     
-    if self.backOrigin then
-        return true
-    end
-
-    local _body = _p1.shape:getBody()
-    local _bnode = _body:getNode()
-    local _tag = _body:getTag()
-    local _scaleX = self.m_player:getScaleX()
-    local playerBP=self.m_player:getBody():getPosition()
-    local obstacleBP=_body:getPosition()
-    local att=self.m_player:getAtt()
-    
-    if (not _bnode) or _tag==ELEMENT_TAG.PLAYER_TAG then
+    if _tag == ELEMENT_TAG.FLOOR then
+        if not self.m_player:getJump() and self.curRoomType ~= MAPROOM_TYPE.Running then
+            local _size = self.m_player:getSize()
+            local bpx,bpy = self.m_player:getPosition()
+            local roomIndex = math.ceil((self.m_player:getPositionY()-self.bottomHeight)/Room_Size.height)
+            if roomIndex == self.jumpFloorNum then
+                local floorPos = self.floorPos[self.jumpFloorNum]
+                self.m_player:setPosition(cc.p(bpx,floorPos.y+_size.width*0.5+27))
+            end
+            Tools.printDebug("----------brj 射线检测------------: ")
+        end
+        self.isCollision = true
         return true
     end
 
@@ -610,18 +623,21 @@ end
 
 --进行弹跳
 function MapLayer:toJump()
-
+    self.m_toJump = true
     --摄像机移动
-    local pos = self.floorPos[self.jumpFloorNum]
-    self.m_camera:stopAllActions()
-    local move = cc.MoveTo:create(0.3,cc.p(pos.x,pos.y-self.bottomHeight))
-    self.m_camera:runAction(move)
-    self.bgNode:stopAllActions()
-    local move2 = cc.MoveTo:create(0.3,cc.p(pos.x-pos.x*0.05,pos.y-self.bottomHeight-pos.y*0.05))
-    self.bgNode:runAction(move2)
-    self.bg:stopAllActions()
-    local move3 = cc.MoveTo:create(0.3,cc.p(pos.x,pos.y-self.bottomHeight))
-    self.bg:runAction(move3)
+    local pos = self.floorPos[self.jumpFloorNum+1]
+    local roomIndex = math.ceil((self.m_player:getPositionY()-self.bottomHeight)/Room_Size.height)
+    if roomIndex >= GameDataManager.getPoints() then
+        self.m_camera:stopAllActions()
+        local move = cc.MoveTo:create(0.3,cc.p(pos.x,pos.y-self.bottomHeight))
+        self.m_camera:runAction(move)
+        self.bgNode:stopAllActions()
+        local move2 = cc.MoveTo:create(0.3,cc.p(pos.x-pos.x*0.05,pos.y-self.bottomHeight-pos.y*0.05))
+        self.bgNode:runAction(move2)
+        self.bg:stopAllActions()
+        local move3 = cc.MoveTo:create(0.3,cc.p(pos.x,pos.y-self.bottomHeight))
+        self.bg:runAction(move3)
+    end
 
     self.m_player:toJump(pos.y)
 

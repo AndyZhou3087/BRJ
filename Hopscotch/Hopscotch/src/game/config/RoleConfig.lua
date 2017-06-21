@@ -6,7 +6,7 @@
 ROLE_SPEED = 120
 
 --向上滑跳动的力
-Up_Jump = 200
+Up_Jump = 270
 
 --角色状态
 PLAYER_STATE=

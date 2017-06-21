@@ -65,7 +65,7 @@ function Player:addBody(_offset,size)
     self.m_body = cc.PhysicsBody:createBox(_size,
     cc.PhysicsMaterial(DENSITY,ELASTICITY,FRICTION),_offset)
     self.m_body:setMass(MASS)
-    self.m_body:setCategoryBitmask(0x01)
+    self.m_body:setCategoryBitmask(0x03)
     self.m_body:setContactTestBitmask(0x1111)
     self.m_body:setCollisionBitmask(0x03)
     self.m_body:setRotationEnable(false)
@@ -94,17 +94,32 @@ end
 function Player:toJump(ty)
 
     self.m_jump = true
-    self.m_body:setCollisionBitmask(0x01)
+    
+--    local _vec = self.m_body:getVelocity()
+--    local _scaleX=self:getScaleX()
+--    if _scaleX<0 then
+--        _vec.x=self.m_vo.m_speed
+--    else
+--        _vec.x=-self.m_vo.m_speed
+--    end
+--    self:setBodyVelocity(cc.p(_vec.x,Up_Jump))
+--    
+--    self.m_body:setCollisionBitmask(0x06)
+--    Tools.delayCallFunc(0.3,function()
+--        self.m_body:setCollisionBitmask(0x03)
+--        self.m_jump = false
+--    end)
+    
     self:setGravityEnable(false)
     self:stopAllActions()
     self.m_armature:stopAllActions()
     local x,y = self:getPosition()
-    local move = cc.MoveTo:create(0.3,cc.p(x,ty+self.m_size.width*0.5+30))
+    local move = cc.MoveTo:create(0.3,cc.p(x,y+self.m_size.width*0.5+Room_Size.height))
     local easeOut = cc.EaseCubicActionOut:create(move)
     local callfunc = cc.CallFunc:create(function()
         self.m_body:setCollisionBitmask(0x03)
         self:setGravityEnable(true)
-        self:setPositionY(ty+self.m_size.width*0.5+30)
+--        self:setPositionY(ty+self.m_size.width*0.5+30)
         self.m_jump = false
         self:createModle(self.m_modle)
     end)
@@ -116,15 +131,37 @@ end
 
 --横跑中的上跳
 function Player:toRunJump()
+--    self.m_jump = true
+--    local _vec = self.m_body:getVelocity()
+--    local _scaleX=self:getScaleX()
+--    if _scaleX<0 then
+--        _vec.x=self.m_vo.m_speed
+--    else
+--        _vec.x=-self.m_vo.m_speed
+--    end
+--    self:setBodyVelocity(cc.p(_vec.x,Up_Jump))
+--    self.m_body:setCollisionBitmask(0x01)
+--    Tools.delayCallFunc(0.3,function()
+--        self.m_body:setCollisionBitmask(0x03)
+--    end)
+
     self.m_jump = true
-    local _vec = self.m_body:getVelocity()
-    local _scaleX=self:getScaleX()
-    if _scaleX<0 then
-        _vec.x=self.m_vo.m_speed
-    else
-        _vec.x=-self.m_vo.m_speed
-    end
-    self:setBodyVelocity(cc.p(_vec.x,Up_Jump))
+    self.m_body:setCollisionBitmask(0x01)
+    self:setGravityEnable(false)
+    self:stopAllActions()
+    self.m_armature:stopAllActions()
+    local x,y = self:getPosition()
+    local move = cc.MoveTo:create(0.3,cc.p(x,y+self.m_size.width*0.5+Room_Size.height+30))
+    local easeOut = cc.EaseCubicActionOut:create(move)
+    local callfunc = cc.CallFunc:create(function()
+        self.m_body:setCollisionBitmask(0x03)
+        self:setGravityEnable(true)
+--        self:setPositionY(ty+self.m_size.width*0.5+30)
+        self.m_jump = false
+        self:createModle(self.m_modle)
+    end)
+    local seq = cc.Sequence:create(easeOut,callfunc)
+    self:runAction(seq)
 end
 
 --帧回调

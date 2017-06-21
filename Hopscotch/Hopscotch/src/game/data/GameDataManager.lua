@@ -126,8 +126,8 @@ end
 
 local points_game = 1
 --增加分数(游戏内)(分数即为楼层)
-function GameDataManager.addPoints(_value)
-    points_game = points_game+_value
+function GameDataManager.setPoints(_value)
+    points_game = _value
     GameDispatcher:dispatch(EventNames.EVENT_UPDATE_FLOOR)
     return true
 end

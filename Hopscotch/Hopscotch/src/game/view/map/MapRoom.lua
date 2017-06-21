@@ -128,6 +128,7 @@ function MapRoom:initBlock(_roomBgVo)
     if _roomBgVo.floor then
         local lastWidth = 0
         local lastX = 0
+        local firstX = 0
         for k=1, #_roomBgVo.floor do
             local info = _roomBgVo.floor[k]
             local type = Tools.Split("0"..info.res,"#")
@@ -145,8 +146,11 @@ function MapRoom:initBlock(_roomBgVo)
             table.insert(self.m_blocks,floor)
             lastWidth = floorSize.width
             lastX = info.x
+            if k == 1 then
+                firstX = info.x
+            end
         end
-        self.roomWidth = lastX-Room_Distance.x+lastWidth
+        self.roomWidth = lastX-firstX+lastWidth
     end
 end
 
@@ -204,11 +208,11 @@ function MapRoom:addPhysicsBody(_node,tag)
         blockBody:setMass(Block_MASS)
         blockBody:setDynamic(false)
         if tag == ELEMENT_TAG.FLOOR then
-            blockBody:setCategoryBitmask(0x06)
+            blockBody:setCategoryBitmask(0x01)
             blockBody:setContactTestBitmask(0x1111)
             blockBody:setCollisionBitmask(0x03)
         else
-            blockBody:setCategoryBitmask(0x01)
+            blockBody:setCategoryBitmask(0x03)
             blockBody:setContactTestBitmask(0x1111)
             blockBody:setCollisionBitmask(0x03)
         end

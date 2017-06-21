@@ -74,7 +74,7 @@ RoomBgs[1001]=
             {res="#Room_floor_7.png",x=Room_Distance.x+14+94*2+47,y=0},{res="#Room_floor_7.png",x=Room_Distance.x+14+94*3+47,y=0},
             {res="#Room_floor_7.png",x=Room_Distance.x+14+94*4+47,y=0},{res="#Room_floor_7.png",x=Room_Distance.x+14+94*5+47,y=0},},--地板
         type = 0,   --横跑时的桥梁配置，0：水平方向一致，1：垂直方向一致，2：水平垂直均不一致
-        gap = 30,    --横跑房间之间的间隙
+        gap = 50,    --横跑房间之间的间隙
     }
     
 RoomBgs[1008]=
@@ -89,7 +89,7 @@ RoomBgs[1008]=
             {res="#Room_floor_7.png",x=Room_Distance.x+17+94*4,y=0},{res="#Room_floor_7.png",x=Room_Distance.x+17+94*5,y=0},
             {res="#Room_floor_7.png",x=Room_Distance.x+17+94*6,y=0},{res="#Room_floor_6.png",x=Room_Distance.x+10+94*7,y=0},},--地板
         type = 1,
-        gap = 40,
+        gap = 60,
     }
     
 RoomBgs[1009]=
