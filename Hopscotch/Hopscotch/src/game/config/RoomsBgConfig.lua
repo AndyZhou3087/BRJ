@@ -5,6 +5,7 @@
 --房间大小
 Room_Size = cc.size(692,99)--坐标：x:[29,721]
 
+--=====所有坐标x都要从29开始计算(如果为0，则Room_Distance.x+0)
 Room_Distance = cc.p(29,721)
 
 Grid_Size = cc.size(90,90)
@@ -44,10 +45,10 @@ RoomBgs[2]=
             {res="#Room_bg_2.png",x=Room_Distance.x+14+94*3+47,y=16,type = RoomBg_Type.Full},{res="#Room_bg_2.png",x=Room_Distance.x+13+94*4+47,y=16,type = RoomBg_Type.Full},
             {res="#Room_bg_2.png",x=Room_Distance.x+12+94*5+47,y=16,type = RoomBg_Type.Full},{res="#Room_bg_3.png",x=Room_Distance.x+11+94*6+47,y=16,type = RoomBg_Type.Half},},--房间背景(背景窗户随机其实是在有背景图的几张图随机抽取一张替换图片为窗户)
         wallLeftRight = {{res="#Room_wall.png",x=Room_Distance.x+0,y=16},{res="#Room_wall.png",x=Room_Distance.x+668,y=16,type = RoomWall_Type.Right}},--左右两侧墙壁
-        floor = {{res="#Room_floor_5.png",x=Room_Distance.x+0,y=0},{res="#Room_floor_7.png",x=Room_Distance.x+17,y=0},{res="#Room_floor_7.png",x=Room_Distance.x+17+94,y=0},
-            {res="#Room_floor_7.png",x=Room_Distance.x+17+94*2,y=0},{res="#Room_floor_7.png",x=Room_Distance.x+17+94*3,y=0},
-            {res="#Room_floor_7.png",x=Room_Distance.x+17+94*4,y=0},{res="#Room_floor_7.png",x=Room_Distance.x+17+94*5,y=0},
-            {res="#Room_floor_7.png",x=Room_Distance.x+17+94*6,y=0},{res="#Room_floor_6.png",x=Room_Distance.x+10+94*7,y=0},},--地板
+        floor = {{res="#Room_floor_5.png",x=Room_Distance.x+0,y=0},{res="#Room_floor_7.png",x=Room_Distance.x+17,y=0},{res="#Room_floor_7.png",x=Room_Distance.x+16+94,y=0},
+            {res="#Room_floor_7.png",x=Room_Distance.x+15+94*2,y=0},{res="#Room_floor_7.png",x=Room_Distance.x+14+94*3,y=0},{res="#Room_floor_7.png",x=Room_Distance.x+13+94*4,y=0},
+            {res="#Room_floor_7.png",x=Room_Distance.x+12+94*5,y=0},{res="#Room_floor_7.png",x=Room_Distance.x+11+94*6,y=0},
+            {res="#Room_floor_6.png",x=Room_Distance.x+10+94*7,y=0},},--地板
     }
     
 RoomBgs[3]=
@@ -66,15 +67,15 @@ RoomBgs[3]=
 --===============================横跑房间配置===============================
 RoomBgs[1001]=
     {
-        bg = {{res="#Room_bg_2.png",x=Room_Distance.x+17+47,y=16,type = RoomBg_Type.Full},{res="#Room_window_4.png",x=Room_Distance.x+16+94+47,y=16,type = RoomBg_Type.Window},
-        {res="#Room_bg_2.png",x=Room_Distance.x+15+94*2+47,y=16,type = RoomBg_Type.Full},{res="#Room_bg_2.png",x=Room_Distance.x+14+94*3+47,y=16,type = RoomBg_Type.Full},
-        {res="#Room_bg_2.png",x=Room_Distance.x+13+94*4+47,y=16,type = RoomBg_Type.Full},{res="#Room_bg_2.png",x=Room_Distance.x+12+94*5+47,y=16,type = RoomBg_Type.Full},},--房间背景
+        bg = {{res="#Room_bg_2.png",x=Room_Distance.x+17,y=16,type = RoomBg_Type.Full},{res="#Room_window_4.png",x=Room_Distance.x+16+94,y=16,type = RoomBg_Type.Window},
+        {res="#Room_bg_2.png",x=Room_Distance.x+15+94*2,y=16,type = RoomBg_Type.Full},{res="#Room_bg_2.png",x=Room_Distance.x+14+94*3,y=16,type = RoomBg_Type.Full},
+        {res="#Room_bg_2.png",x=Room_Distance.x+13+94*4,y=16,type = RoomBg_Type.Full},{res="#Room_bg_2.png",x=Room_Distance.x+12+94*5,y=16,type = RoomBg_Type.Full},},--房间背景
         wallLeftRight = {},--左右两侧墙壁
-        floor = {{res="#Room_floor_7.png",x=Room_Distance.x+14+47,y=0},{res="#Room_floor_7.png",x=Room_Distance.x+14+47+94,y=0},
-            {res="#Room_floor_7.png",x=Room_Distance.x+14+94*2+47,y=0},{res="#Room_floor_7.png",x=Room_Distance.x+14+94*3+47,y=0},
-            {res="#Room_floor_7.png",x=Room_Distance.x+14+94*4+47,y=0},{res="#Room_floor_7.png",x=Room_Distance.x+14+94*5+47,y=0},},--地板
+        floor = {{res="#Room_floor_7.png",x=Room_Distance.x+14,y=0},{res="#Room_floor_7.png",x=Room_Distance.x+14+94,y=0},
+            {res="#Room_floor_7.png",x=Room_Distance.x+14+94*2,y=0},{res="#Room_floor_7.png",x=Room_Distance.x+14+94*3,y=0},
+            {res="#Room_floor_7.png",x=Room_Distance.x+14+94*4,y=0},{res="#Room_floor_7.png",x=Room_Distance.x+14+94*5,y=0},},--地板
         type = 0,   --横跑时的桥梁配置，0：水平方向一致，1：垂直方向一致，2：水平垂直均不一致
-        gap = 50,    --横跑房间之间的间隙
+        gap = 80,    --横跑房间之间的间隙
     }
     
 RoomBgs[1008]=
@@ -84,12 +85,12 @@ RoomBgs[1008]=
             {res="#Room_bg_2.png",x=Room_Distance.x+14+94*3+47,y=16,type = RoomBg_Type.Full},{res="#Room_bg_2.png",x=Room_Distance.x+13+94*4+47,y=16,type = RoomBg_Type.Full},
             {res="#Room_bg_2.png",x=Room_Distance.x+12+94*5+47,y=16,type = RoomBg_Type.Full},{res="#Room_bg_3.png",x=Room_Distance.x+11+94*6+47,y=16,type = RoomBg_Type.Half},},--房间背景(背景窗户随机其实是在有背景图的几张图随机抽取一张替换图片为窗户)
         wallLeftRight = {},--左右两侧墙壁
-        floor = {{res="#Room_floor_5.png",x=Room_Distance.x+0,y=0},{res="#Room_floor_7.png",x=Room_Distance.x+17,y=0},{res="#Room_floor_7.png",x=Room_Distance.x+17+94,y=0},
+        floor = {{res="#Room_floor_7.png",x=Room_Distance.x+17,y=0},{res="#Room_floor_7.png",x=Room_Distance.x+17+94,y=0},
             {res="#Room_floor_7.png",x=Room_Distance.x+17+94*2,y=0},{res="#Room_floor_7.png",x=Room_Distance.x+17+94*3,y=0},
             {res="#Room_floor_7.png",x=Room_Distance.x+17+94*4,y=0},{res="#Room_floor_7.png",x=Room_Distance.x+17+94*5,y=0},
-            {res="#Room_floor_7.png",x=Room_Distance.x+17+94*6,y=0},{res="#Room_floor_6.png",x=Room_Distance.x+10+94*7,y=0},},--地板
+            {res="#Room_floor_7.png",x=Room_Distance.x+17+94*6,y=0}},--地板
         type = 1,
-        gap = 60,
+        gap = 80,
     }
     
 RoomBgs[1009]=

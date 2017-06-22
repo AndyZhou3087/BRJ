@@ -399,7 +399,7 @@ end
 
 --按权重抽取一组数据
 function GameDataManager.getDataIdByWeight()
-    math.randomseed(tostring(os.time()):reverse():sub(1, 6))
+    math.randomseed(os.time())
     local _wegt = math.random(1,_weight)
     Tools.printDebug("brj Hopscotch 随机权重值：",_wegt)
     local t = 0
@@ -437,7 +437,7 @@ function GameDataManager.getRunningSorting(arr)
 end
 --横跑权重抽取一组数据
 function GameDataManager.getRunningDataIdByWeight()
-    math.randomseed(tostring(os.time()):reverse():sub(1, 6))
+    math.randomseed(os.time())
     local _wegt = math.random(1,_runWeight)
     Tools.printDebug("brj Hopscotch 横跑随机权重值：",_wegt)
     local t = 0

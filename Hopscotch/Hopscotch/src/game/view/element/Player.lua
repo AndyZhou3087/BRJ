@@ -27,9 +27,11 @@ function Player:ctor()
     self.m_curModle = GameDataManager.getFightRole()
     local modle = RoleConfig[self.m_curModle].armatureName
     local res = RoleConfig[self.m_curModle].roleImg
+    local jump = RoleConfig[self.m_curModle].jumpName
     local p_size
     if modle then
         self.m_modle=modle
+        self.m_jumpModle = jump
         self.m_armature = display.newSprite(res):addTo(self)
         self:createModle(modle)
         self.m_armature:setScale(0.5)
@@ -95,73 +97,25 @@ function Player:toJump(ty)
 
     self.m_jump = true
     
---    local _vec = self.m_body:getVelocity()
---    local _scaleX=self:getScaleX()
---    if _scaleX<0 then
---        _vec.x=self.m_vo.m_speed
---    else
---        _vec.x=-self.m_vo.m_speed
---    end
---    self:setBodyVelocity(cc.p(_vec.x,Up_Jump))
---    
---    self.m_body:setCollisionBitmask(0x06)
---    Tools.delayCallFunc(0.3,function()
---        self.m_body:setCollisionBitmask(0x03)
---        self.m_jump = false
---    end)
-    
+    self.m_body:setCollisionBitmask(0x06)
     self:setGravityEnable(false)
     self:stopAllActions()
     self.m_armature:stopAllActions()
+    self:createModle(self.m_jumpModle)
     local x,y = self:getPosition()
-    local move = cc.MoveTo:create(0.3,cc.p(x,y+self.m_size.width*0.5+Room_Size.height))
+    local move = cc.MoveTo:create(0.3,cc.p(x,ty+self.m_size.width*0.5+30))
     local easeOut = cc.EaseCubicActionOut:create(move)
     local callfunc = cc.CallFunc:create(function()
         self.m_body:setCollisionBitmask(0x03)
         self:setGravityEnable(true)
---        self:setPositionY(ty+self.m_size.width*0.5+30)
         self.m_jump = false
+        self.m_armature:stopAllActions()
         self:createModle(self.m_modle)
     end)
     local seq = cc.Sequence:create(easeOut,callfunc)
     self:runAction(seq)
 
 --    AudioManager.playSoundEffect(AudioManager.Sound_Effect_Type.Jump_High_Sound)
-end
-
---横跑中的上跳
-function Player:toRunJump()
---    self.m_jump = true
---    local _vec = self.m_body:getVelocity()
---    local _scaleX=self:getScaleX()
---    if _scaleX<0 then
---        _vec.x=self.m_vo.m_speed
---    else
---        _vec.x=-self.m_vo.m_speed
---    end
---    self:setBodyVelocity(cc.p(_vec.x,Up_Jump))
---    self.m_body:setCollisionBitmask(0x01)
---    Tools.delayCallFunc(0.3,function()
---        self.m_body:setCollisionBitmask(0x03)
---    end)
-
-    self.m_jump = true
-    self.m_body:setCollisionBitmask(0x01)
-    self:setGravityEnable(false)
-    self:stopAllActions()
-    self.m_armature:stopAllActions()
-    local x,y = self:getPosition()
-    local move = cc.MoveTo:create(0.3,cc.p(x,y+self.m_size.width*0.5+Room_Size.height+30))
-    local easeOut = cc.EaseCubicActionOut:create(move)
-    local callfunc = cc.CallFunc:create(function()
-        self.m_body:setCollisionBitmask(0x03)
-        self:setGravityEnable(true)
---        self:setPositionY(ty+self.m_size.width*0.5+30)
-        self.m_jump = false
-        self:createModle(self.m_modle)
-    end)
-    local seq = cc.Sequence:create(easeOut,callfunc)
-    self:runAction(seq)
 end
 
 --帧回调
@@ -200,8 +154,12 @@ end
 
 --角色死亡
 function Player:selfDead()
+    if self.m_isDead then
+    	return
+    end
     self.m_vo.m_lifeNum = self.m_vo.m_lifeNum - 1
     if self.m_vo.m_lifeNum <= 0 then
+        self.m_isDead = true
         if GameDataManager.getPoints() <= 20 then
             if GameDataManager.getPoints()>=GameDataManager.getRecord() then
                 GameDataManager.saveRecord(GameDataManager.getPoints())
@@ -215,6 +173,10 @@ function Player:selfDead()
             GameDispatcher:dispatch(EventNames.EVENT_OPEN_SETTLEMENT) 
         end
     end
+end
+
+function Player:setDeadReback()
+    self.m_isDead = false
 end
 
 --停止移动

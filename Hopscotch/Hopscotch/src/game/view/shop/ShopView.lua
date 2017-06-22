@@ -51,7 +51,7 @@ function ShopView:ctor(parameters)
         if GameDataManager.getDiamond()>=DiamondSpendReward then
         	GameDataManager.costDiamond(DiamondSpendReward)
             --控制随机数种子
-            math.randomseed(tostring(os.time()):reverse():sub(1, 6))
+            math.randomseed(os.time())
         	--随机弹礼物
             local reward = GameController.getAllReward()
             local i = math.random(1,#reward)

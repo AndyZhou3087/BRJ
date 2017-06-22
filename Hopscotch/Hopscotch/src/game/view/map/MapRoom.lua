@@ -27,6 +27,7 @@ function MapRoom:ctor(_idx,_levelCon,_floorNum)
     self.m_curLevelCon = _levelCon
     self.m_floorNum = _floorNum
     self.roomType = _levelCon.roomType
+    self.roomDistance = _levelCon.direction
     
     
     if _levelCon.roomType == MAPROOM_TYPE.Special and _idx == 10 then
@@ -240,6 +241,7 @@ function MapRoom:initPosition(_x,_y,_isJustBody)
         self:setPosition(_x,_y)
     else
         self:setPosition(_x,_y)
+        Tools.printDebug("brj ----------------------横跑房间坐标： ",self.m_index,_x)
     end
     local _parent = self:getParent()
     if self.m_diamonds then
@@ -308,6 +310,11 @@ end
 --获取横跑房间的阶层值
 function MapRoom:getRunningRoomFloorType()
     return self.m_type
+end
+
+--获取横跑楼层的方向
+function MapRoom:getRunningDistance()
+    return self.roomDistance
 end
 
 --获取房间索引号

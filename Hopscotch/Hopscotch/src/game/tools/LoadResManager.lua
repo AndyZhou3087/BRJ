@@ -12,6 +12,8 @@ local PreLoadType =
 --战斗中预加载资源
 local fightRes = {
     {type = PreLoadType.Texture,plist="map/Room.plist",png="map/Room.png"},
+    {type = PreLoadType.Texture,plist="role/Role5Jump.plist",png="role/Role5Jump.png"},
+    {type = PreLoadType.Animate,plist = "role/RoleJump_5.plist"},
 --    {type = PreLoadType.Animation,plist="role/nv_pao0.plist",png="role/nv_pao0.png",json="role/nv_pao.ExportJson"},
 --    {type = PreLoadType.Animation,plist="role/chongci0.plist",png="role/chongci0.png",json="role/chongci.ExportJson"},
 --    {type = PreLoadType.Animation,plist="role/nan30.plist",png="role/nan30.png",json="role/nan3.ExportJson"},
