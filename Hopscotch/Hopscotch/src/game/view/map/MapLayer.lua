@@ -100,20 +100,6 @@ function MapLayer:touchFunc(event)
 --                Tools.printDebug("brj 是否可连击跳跃: ",self.isCollision)
                 self:toJump()
             end
-            
---            if not self.curRoomRunType then
---            if self.isCollision then
---                self.m_click = true
---            end 
---            else
---                if self.curRoomRunType~=0 then
---                    self.jumpFloorNum = self.jumpFloorNum + 1
---                    GameDataManager.addPoints(1)
---                    self:toJump()
---                else
---                    self:toRunJump()
---                end
---            end
         end
         return true
     elseif event.name == "ended" then
@@ -371,6 +357,15 @@ function MapLayer:CommonRoomAdd()
     end
 end
 
+function MapLayer:initPlayerPos(parameters)
+    self.m_physicWorld = display.getRunningScene():getPhysicsWorld()
+    self:scheduleUpdate()
+    self.m_event = cc.EventListenerPhysicsContact:create()
+    self.m_event:registerScriptHandler(handler(self,self.collisionBeginCallBack), cc.Handler.EVENT_PHYSICS_CONTACT_BEGIN)
+    self:getEventDispatcher():addEventListenerWithFixedPriority(self.m_event,1)
+    self:addNodeEventListener(cc.NODE_ENTER_FRAME_EVENT, handler(self, self.onEnterFrame))
+end
+
 --帧函数
 function MapLayer:onEnterFrame(dt)
     --移动金币
@@ -396,7 +391,6 @@ function MapLayer:onEnterFrame(dt)
     if self.backOrigin then
         local floorPos = self.floorPos[self.jumpFloorNum]
         self.m_player:setPosition(cc.p(bpx,floorPos.y+_size.width*0.5+27))
-        Tools.printDebug("brj--------layer---------edgePos: ",bpx,floorPos.y+_size.width*0.5+27)
     end
     
     local x,y = self.m_camera:getPosition()
@@ -434,22 +428,15 @@ function MapLayer:onEnterFrame(dt)
             local x,y = self.m_player:getPosition()
             local mx,my = self.m_camera:getPosition()
             local bnx,bny = self.bgNode:getPosition()
-            if x-display.cx <= mx then
-                self.m_camera:setPositionX(x-display.cx)
-                self.bgNode:setPositionX((x-display.cx)*0.9)  ------改这里！！！！！
-                self.bg:setPositionX(x-display.cx)
+            if x-display.cx+50 <= mx then
+                Tools.printDebug("brj--------角色横跑速度--------- ",x-display.cx,mx,x-display.cx-mx)
+                self.m_camera:setPositionX(x-display.cx+50)
+                self.bg:setPositionX(x-display.cx+50)
+                self.bgNode:setPositionX(bnx+(x-display.cx+50-mx))
             end
         end
     end
-end
-
-function MapLayer:initPlayerPos(parameters)
-    self.m_physicWorld = display.getRunningScene():getPhysicsWorld()
-    self:scheduleUpdate()
-    self.m_event = cc.EventListenerPhysicsContact:create()
-    self.m_event:registerScriptHandler(handler(self,self.collisionBeginCallBack), cc.Handler.EVENT_PHYSICS_CONTACT_BEGIN)
-    self:getEventDispatcher():addEventListenerWithFixedPriority(self.m_event,1)
-    self:addNodeEventListener(cc.NODE_ENTER_FRAME_EVENT, handler(self, self.onEnterFrame))
+   
 end
 
 
@@ -562,7 +549,6 @@ end
 
 --碰撞反射，从人物中心向下或向上发射一个比自身一半多 Raycast_DisY 像素的探测射线，进行检测有无障碍物
 function MapLayer:rayCastFunc(_world,_p1,_p2,_p3)
---    Tools.printDebug("----------brj 射线检测------------: ")
     if self.backOrigin then
         return true
     end
@@ -591,6 +577,7 @@ function MapLayer:rayCastFunc(_world,_p1,_p2,_p3)
             end
         end
         self.isCollision = true
+--        Tools.printDebug("----------brj 射线检测------------: ",self.isCollision)
         local roomIndex = math.ceil((self.m_player:getPositionY()-self.bottomHeight)/Room_Size.height)
         if self.m_lastRoomIdx ~= roomIndex then
             local _room = self:getRoomByIdx(roomIndex)
@@ -609,7 +596,11 @@ function MapLayer:rayCastFunc(_world,_p1,_p2,_p3)
                 if self.curRoomType~=MAPROOM_TYPE.Running then
                     self:toCameraMove()
                 else
-                    self:toRunCameraMove()
+                    if self.jumpFloorNum%RunningFloor == 0 then
+                        self:toCameraMove()
+                    else
+                        self:toRunCameraMove() 
+                    end
                 end
             end
             if self.curRoomType==MAPROOM_TYPE.Running then
@@ -669,7 +660,7 @@ function MapLayer:toJump()
     self.m_toJump = true
     local roomIndex = math.ceil((self.m_player:getPositionY()-self.bottomHeight)/Room_Size.height)
     local pos = self.floorPos[roomIndex+1]
-    self.m_player:toJump(pos.y)
+    self.m_player:toJump(pos.y,self.isCollision)
 
 end
 --摄像机移动
@@ -682,7 +673,7 @@ function MapLayer:toCameraMove()
         local move = cc.MoveTo:create(0.3,cc.p(pos.x,pos.y-self.bottomHeight))
         self.m_camera:runAction(move)
         self.bgNode:stopAllActions()
-        local move2 = cc.MoveTo:create(0.3,cc.p(pos.x-pos.x*0.05,pos.y-self.bottomHeight-pos.y*0.05))
+        local move2 = cc.MoveTo:create(0.3,cc.p(pos.x,pos.y-self.bottomHeight-pos.y*0.05))
         self.bgNode:runAction(move2)
         self.bg:stopAllActions()
         local move3 = cc.MoveTo:create(0.3,cc.p(pos.x,pos.y-self.bottomHeight))
@@ -719,18 +710,53 @@ function MapLayer:toRunFirstCameraMove()
             local mx,my = self.m_camera:getPosition()
             local x,y = self.m_player:getPosition()
             self.m_camera:stopAllActions()
-            local moveY = cc.MoveTo:create(0.3,cc.p(mx,pos.y-self.bottomHeight))
+            local moveY = cc.MoveTo:create(0.2,cc.p(mx,pos.y-self.bottomHeight))
             local moveX = cc.MoveTo:create(1,cc.p(x-display.width,pos.y-self.bottomHeight))
             local callfun = cc.CallFunc:create(function()
                 self.curState = State_Type.RunningState
+                self.runFirstX = self.m_camera:getPositionX()
             end)
             local seq = cc.Sequence:create(moveY,moveX,callfun)
             self.m_camera:runAction(seq)
             self.bg:stopAllActions()
-            local moveY = cc.MoveTo:create(0.3,cc.p(mx,pos.y-self.bottomHeight))
+            local moveY = cc.MoveTo:create(0.2,cc.p(mx,pos.y-self.bottomHeight))
             local moveX = cc.MoveTo:create(1,cc.p(x-display.width,pos.y-self.bottomHeight))
             local seq = cc.Sequence:create(moveY,moveX)
             self.bg:runAction(seq)
+            
+            self.bgNode:stopAllActions()
+            local moveY = cc.MoveTo:create(0.2,cc.p(mx,pos.y-self.bottomHeight-pos.y*0.05))
+            local moveX = cc.MoveTo:create(1,cc.p(x-display.width,pos.y-self.bottomHeight-pos.y*0.05))
+            local seq = cc.Sequence:create(moveY,moveX)
+            self.bgNode:runAction(seq)
+        end
+    elseif self.jumpFloorNum % RunningFloor == 9 then
+        self.curState = State_Type.CommonState
+        local pos = self.floorPos[self.jumpFloorNum+1]
+        local _scaleX=self.m_player:getScaleX()
+        local mx,my = self.m_camera:getPosition()
+        self.m_camera:stopAllActions()
+        local moveY = cc.MoveTo:create(0.5,cc.p(pos.x,pos.y-self.bottomHeight))
+        local moveX = cc.MoveTo:create(0.5,cc.p(pos.x,my))
+        local seq = cc.Sequence:create(moveX,moveY)
+        self.m_camera:runAction(seq)
+        self.bg:stopAllActions()
+        local moveY = cc.MoveTo:create(0.5,cc.p(pos.x,pos.y-self.bottomHeight))
+        local moveX = cc.MoveTo:create(0.5,cc.p(pos.x,my))
+        local seq = cc.Sequence:create(moveX,moveY)
+        self.bg:runAction(seq)
+        
+        local bgnx,bgny = self.bgNode:getPosition()
+        self.bgNode:stopAllActions()
+        local moveY = cc.MoveTo:create(0.5,cc.p(pos.x,pos.y-self.bottomHeight-pos.y*0.05))
+        local moveX = cc.MoveTo:create(0.5,cc.p(pos.x,bgny))
+        local seq = cc.Sequence:create(moveX,moveY)
+        self.bgNode:runAction(seq)
+    elseif self.jumpFloorNum % RunningFloor == 10 then
+        local removeCount = #self.m_otherRooms
+        for var=1, removeCount do
+            local _room = table.remove(self.m_otherRooms,1)
+            _room:dispose()
         end
     end
 end
@@ -800,6 +826,12 @@ function MapLayer:dispose(parameters)
     end
 
     for key, var in ipairs(self.m_chaceRooms) do
+        if not tolua.isnull(var) then
+            var:dispose()
+        end
+    end
+    
+    for key, var in ipairs(self.m_otherRooms) do
         if not tolua.isnull(var) then
             var:dispose()
         end

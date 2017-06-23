@@ -66,7 +66,7 @@ function MapRoom:ctor(_idx,_levelCon,_floorNum)
     self:initDiamonds(_diamonds)
     self:initGoods(_goods)
     
-    if _idx == 10 then
+    if _idx == 10 and self.roomType ~= MAPROOM_TYPE.Running then
         local count = cc.LabelAtlas:_create()
         count:initWithString(_floorNum,"count/Count_4.png",17,25,string.byte("0"))
         count:setPosition(cc.p(Room_Size.width*0.5,Room_Size.height*0.5+8))
