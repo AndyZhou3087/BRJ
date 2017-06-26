@@ -9,6 +9,7 @@ end)
 function BackGroundMove:ctor(_sceneId)
     self.sceneId = _sceneId
     
+    
     self.map_1 = display.newSprite("map/Scene_".._sceneId.."/Map_frame_2.png"):addTo(self)
     self.map_1:setAnchorPoint(cc.p(0,0))
     self.map_1:setPosition(cc.p(0,0))
@@ -46,13 +47,6 @@ function BackGroundMove:ctor(_sceneId)
     self.map_11 = display.newSprite("map/Map_bg.jpg"):addTo(self)
     self.map_11:setAnchorPoint(cc.p(0,0))
     self.map_11:setPosition(cc.p(0,self.map_5:getPositionY()+height5))
-    
---    local color = self.map_11:getColor()
---    local tinto = cc.TintTo:create(3,255,255,0)
---    local tinto1 = cc.TintTo:create(3,color.r,color.g,color.b)
---    local seq = cc.Sequence:create(tinto,tinto1)
---    local forever = cc.RepeatForever:create(seq)
---    self.map_11:runAction(forever)
     
     self.map_8 = display.newSprite("map/Scene_".._sceneId.."/Map_build_1.png"):addTo(self)
     self.map_8:setAnchorPoint(cc.p(0,0))

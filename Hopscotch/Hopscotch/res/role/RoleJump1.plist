@@ -4,7 +4,7 @@
     <dict>
         <key>frames</key>
         <dict>
-            <key>role1_1.png</key>
+            <key>RoleJump_1.png</key>
             <dict>
                 <key>frame</key>
                 <string>{{2,2},{108,165}}</string>
@@ -17,7 +17,7 @@
                 <key>sourceSize</key>
                 <string>{108,165}</string>
             </dict>
-            <key>role1_2.png</key>
+            <key>RoleJump_2.png</key>
             <dict>
                 <key>frame</key>
                 <string>{{112,2},{108,165}}</string>
@@ -30,10 +30,23 @@
                 <key>sourceSize</key>
                 <string>{108,165}</string>
             </dict>
-            <key>role1_3.png</key>
+            <key>RoleJump_3.png</key>
             <dict>
                 <key>frame</key>
                 <string>{{222,2},{108,165}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{108,165}}</string>
+                <key>sourceSize</key>
+                <string>{108,165}</string>
+            </dict>
+            <key>RoleJump_4.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{332,2},{108,165}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -53,7 +66,7 @@
             <key>size</key>
             <string>{512,256}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:1e6a47fc1f8f69a60bdbc5d65ac8c5ce$</string>
+            <string>$TexturePacker:SmartUpdate:2d954ab46e7bc7a3bdd8b8459a695896$</string>
             <key>textureFileName</key>
             <string>RoleJump1.png</string>
         </dict>

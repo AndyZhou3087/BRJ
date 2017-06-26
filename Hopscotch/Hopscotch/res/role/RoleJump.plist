@@ -9,9 +9,10 @@
             <real>0.1</real>
             <key>frames</key>
             <array>
-                <string>role1_1.png</string>
-                <string>role1_2.png</string>
-                <string>role1_3.png</string>
+                <string>RoleJump_1.png</string>
+                <string>RoleJump_2.png</string>
+                <string>RoleJump_3.png</string>
+                <string>RoleJump_4.png</string>
             </array>
         </dict>
     </dict>

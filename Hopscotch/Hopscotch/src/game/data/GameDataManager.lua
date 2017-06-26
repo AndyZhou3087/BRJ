@@ -422,7 +422,7 @@ function GameDataManager.getDataIdByWeight(_type)
         _weight = _weightS
     end
     local _wegt = math.random(1,_weight)
-    Tools.printDebug("brj Hopscotch 随机权重值：",_wegt)
+    Tools.printDebug("brj Hopscotch 随机权重值：",_wegt,_weight)
     local t = 0
     --得到当前id
     local id = 0
