@@ -25,6 +25,9 @@ EventNames.EVENT_UPDATE_SCENE = "event_update_scene"
 --刷新钻石
 EventNames.EVENT_DIAMOND_CHANGE = "event_daimond_change"
 
+--刷新角色
+EventNames.EVENT_UPDATE_ROLE = "event_update_role"
+
 --loading界面关闭
 EventNames.EVENT_LOADING_OVER = "event_loading_over"
 

@@ -189,6 +189,7 @@ function ShopView:ctor(parameters)
 
     GameDispatcher:addListener(EventNames.EVENT_UPDATE_SCENE,handler(self,self.updateScene))
     GameDispatcher:addListener(EventNames.EVENT_DIAMOND_CHANGE,handler(self,self.updateDiamond))
+    GameDispatcher:addListener(EventNames.EVENT_UPDATE_ROLE,handler(self,self.updateRole))
 
 end
 
@@ -345,6 +346,7 @@ function ShopView:touchListenerRole(event)
         end
         self.roleId = id
         if GameDataManager.getRoleModle(id) then
+            GameDataManager.changeRole(id)
             GameDataManager.setCurFightRole(id)
             self.roleBuy:setVisible(false)
         else
@@ -377,6 +379,7 @@ function ShopView:touchListenerRole(event)
         local headItem = event.item:getContent()
         local id = headItem:getShopTypeID()
         if GameDataManager.getRoleModle(id) then
+            GameDataManager.changeRole(id)
             GameDataManager.setCurFightRole(id)
             self.roleBuy:setVisible(false)
         else
@@ -496,6 +499,12 @@ function ShopView:updateScene(parm)
     self.sceneBuy:setVisible(false)
 end
 
+function ShopView:updateRole(parm)
+    local id = parm.data.id
+    self["roleitem"..(id+2)]:updateSelf()
+    self.roleBuy:setVisible(false)
+end
+
 function ShopView:updateDiamond()
     self.DiamondCount:setString(GameDataManager.getDiamond())
 end
@@ -503,12 +512,14 @@ end
 function ShopView:onCleanup(parameters)
     GameDispatcher:removeListenerByName(EventNames.EVENT_UPDATE_SCENE)
     GameDispatcher:removeListenerByName(EventNames.EVENT_DIAMOND_CHANGE)
+    GameDispatcher:removeListenerByName(EventNames.EVENT_UPDATE_ROLE)
 end
 
 --关闭界面调用
 function ShopView:toClose(_clean)
     GameDispatcher:removeListenerByName(EventNames.EVENT_UPDATE_SCENE)
     GameDispatcher:removeListenerByName(EventNames.EVENT_DIAMOND_CHANGE)
+    GameDispatcher:removeListenerByName(EventNames.EVENT_UPDATE_ROLE)
     
     ShopView.super.toClose(self,_clean)
 end

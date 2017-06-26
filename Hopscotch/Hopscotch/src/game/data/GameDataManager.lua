@@ -117,6 +117,8 @@ function GameDataManager.unLockModle(_roleId)
     local _modleVo = clone(ModleVo)
     _modleVo.roleId = _roleId
     modleDic[_roleId] = _modleVo
+    GameDataManager.setCurFightRole(_roleId)
+    GameDispatcher:dispatch(EventNames.EVENT_UPDATE_ROLE,{id = _roleId})
 end
 
 --是否拥有相应角色
@@ -180,17 +182,7 @@ end
 function GameDataManager.initPlayerVo()
     local roleConfig = RoleConfig[curRoleID]
     if roleConfig then
-        local _lv = GameDataManager.getRoleModle(curRoleID).roleLv
-        playerVo.m_roleId = curRoleID
         playerVo.m_lifeNum = roleConfig.lifeNum
-        playerVo.m_sprintTime = roleConfig.sprintTime   --冲刺时间
-        playerVo.m_magnetTime = roleConfig.magnetTime   --磁铁时间
-        playerVo.m_invincibleTime = roleConfig.invincibleTime   --无敌时间
-        playerVo.m_rocketTime = roleConfig.rocketTime
-        playerVo.m_superRocketTime = roleConfig.superRocketTime
-        playerVo.m_leisheqiang = roleConfig.role_qiang  --镭射枪
-        playerVo.m_daibuji = roleConfig.role_daibuji  --代步机
-        playerVo.m_speed = roleConfig.speed    --移动速度
     end
 end
 
@@ -265,6 +257,7 @@ function GameDataManager.unLockScene(_sceneId)
     local _sceneVo = clone(SceneVo)
     _sceneVo.sceneId = _sceneId
     sceneDic[_sceneId] = _sceneVo
+    GameDataManager.setCurFightScene(_sceneId)
     GameDispatcher:dispatch(EventNames.EVENT_UPDATE_SCENE,{id = _sceneId})
 end
 
@@ -428,7 +421,6 @@ function GameDataManager.getDataIdByWeight(_type)
         configArr = configArrS
         _weight = _weightS
     end
-    math.randomseed(os.time())
     local _wegt = math.random(1,_weight)
     Tools.printDebug("brj Hopscotch 随机权重值：",_wegt)
     local t = 0
@@ -574,7 +566,7 @@ function GameDataManager.saveGameData()
 
     DataPersistence.updateAttribute("user_diamond",userData.diamond)
     DataPersistence.updateAttribute("bestscore",userData.record)
-    DataPersistence.updateAttribute("cur_roleID",playerVo.m_roleId)
+    DataPersistence.updateAttribute("cur_roleID",curRoleID)
     DataPersistence.updateAttribute("cur_sceneID",curSceneID)
 
     local modleList = {}

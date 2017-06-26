@@ -241,7 +241,7 @@ function MapRoom:initPosition(_x,_y,_isJustBody)
         self:setPosition(_x,_y)
     else
         self:setPosition(_x,_y)
-        Tools.printDebug("brj ----------------------横跑房间坐标： ",self.m_index,_x)
+--        Tools.printDebug("brj ----------------------横跑房间坐标： ",self.m_index,_x)
     end
     local _parent = self:getParent()
     if self.m_diamonds then

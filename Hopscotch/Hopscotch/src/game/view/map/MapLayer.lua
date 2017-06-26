@@ -112,17 +112,18 @@ end
 
 --进入地图就创建的房间需要调整对应刚体位置,即需传第三个参数为true(room:initPosition(_x,_y,true))
 function MapLayer:initRooms(parameters)
+    math.randomseed(os.time())
     self.m_roomsNum = 0
     self._x = 0
     local _y = self.bottomHeight - Room_Size.height
     for k=1, MAP_ROOM_INIT_NUM*0.1 do
         --控制随机数种子
-        if k > 2 then
-            local i = GameDataManager.getDataIdByWeight(Map_Grade.floor_D)
-            self.m_levelCon = MapGroupConfigD[i]
-        else
+--        if k > 2 then
+--            local i = GameDataManager.getDataIdByWeight(Map_Grade.floor_D)
+--            self.m_levelCon = MapGroupConfigD[i]
+--        else
             self.m_levelCon = MapGroupConfigD[1]
-        end 
+--        end 
         self.curRooms = self.m_levelCon.roomBgs
 
         if self.m_levelCon then
@@ -196,32 +197,31 @@ end
 --添加新的房间
 --此处为动态添加的房间，不需调整刚体位置，即无需传第三个参数(room:initPosition(_x,_y))
 function MapLayer:addNewRooms(parameters)
-    local type,config
-    if self.m_roomsNum <= Map_Grade.floor_D then
-        type = Map_Grade.floor_D
-        config = MapGroupConfigD
-    elseif self.m_roomsNum <= Map_Grade.floor_C then
-        type = Map_Grade.floor_C
-        config = MapGroupConfigC
-    elseif self.m_roomsNum <= Map_Grade.floor_B then
-        type = Map_Grade.floor_B
-        config = MapGroupConfigB
-    elseif self.m_roomsNum <= Map_Grade.floor_A then
-        type = Map_Grade.floor_A
-        config = MapGroupConfigA
-    elseif self.m_roomsNum <= Map_Grade.floor_S then
-        type = Map_Grade.floor_S
-        config = MapGroupConfigS
-    end
-    
+--    Tools.printDebug("-------brj 房间楼层：",self.m_roomsNum)
     if self.m_roomsNum % 10 == 0 then
+        local type,config
+        if self.m_roomsNum <= Map_Grade.floor_D then
+            type = Map_Grade.floor_D
+            config = MapGroupConfigD
+        elseif self.m_roomsNum <= Map_Grade.floor_C then
+            type = Map_Grade.floor_C
+            config = MapGroupConfigC
+        elseif self.m_roomsNum <= Map_Grade.floor_B then
+            type = Map_Grade.floor_B
+            config = MapGroupConfigB
+        elseif self.m_roomsNum <= Map_Grade.floor_A then
+            type = Map_Grade.floor_A
+            config = MapGroupConfigA
+        elseif self.m_roomsNum <= Map_Grade.floor_S then
+            type = Map_Grade.floor_S
+            config = MapGroupConfigS
+        end
         local i = GameDataManager.getDataIdByWeight(type)
         self.m_levelCon = config[i]
         self.roomType = self.m_levelCon.roomType
         self.floorNum = 0
     end
     
---    Tools.printDebug("-------brj 房间类型：",self.roomType)
     if self.roomType ~= MAPROOM_TYPE.Running then
         self._x = self.floorPos[self.m_roomsNum].x
         self.floorNum = self.floorNum + 1
@@ -418,7 +418,7 @@ function MapLayer:onEnterFrame(dt)
 
     local _scaleX=self.m_player:getScaleX()
     local vel=self.m_player:getBody():getVelocity()
-    self.m_player:setVelocity(cc.p(-_scaleX/math.abs(_scaleX)*self.m_player:getVo().m_speed,vel.y))
+    self.m_player:setVelocity(cc.p(-_scaleX/math.abs(_scaleX)*self.m_player:getSpeed(),vel.y))
 
     local _body = self.m_player:getBody()
     local _p = _body:getPosition()
@@ -535,10 +535,10 @@ function MapLayer:collisionBeginCallBack(parameters)
             local vel=self.m_player:getBody():getVelocity()
             local _size = self.m_player:getSize()
             if playerBP.x+_size.width*0.5<obstacleBP.x then
-                player:setVelocity(cc.p(self.m_player:getVo().m_speed,vel.y))
+                player:setVelocity(cc.p(self.m_player:getSpeed(),vel.y))
                 player:setScaleX(math.abs(_scaleX))
             else
-                player:setVelocity(cc.p(-self.m_player:getVo().m_speed,vel.y))
+                player:setVelocity(cc.p(-self.m_player:getSpeed(),vel.y))
                 player:setScaleX(-math.abs(_scaleX))
             end
        end
@@ -644,10 +644,10 @@ function MapLayer:rayCastFuncX(_world,_p1,_p2,_p3)
             local vel=self.m_player:getBody():getVelocity()
             local _size = self.m_player:getSize()
             if playerBP.x+_size.width*0.5<obstacleBP.x then
-                self.m_player:setVelocity(cc.p(self.m_player:getVo().m_speed,vel.y))
+                self.m_player:setVelocity(cc.p(self.m_player:getSpeed(),vel.y))
                 self.m_player:setScaleX(math.abs(_scaleX))
             else
-                self.m_player:setVelocity(cc.p(-self.m_player:getVo().m_speed,vel.y))
+                self.m_player:setVelocity(cc.p(-self.m_player:getSpeed(),vel.y))
                 self.m_player:setScaleX(-math.abs(_scaleX))
             end
        end

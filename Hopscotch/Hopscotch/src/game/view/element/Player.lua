@@ -20,7 +20,7 @@ function Player:ctor()
     self.m_buffArr = {} --buff列表
 
     self.m_life = self.m_vo.m_lifeNum
-    self.m_speed = self.m_vo.m_speed
+    self.m_speed = ROLE_SPEED
 
     self.m_jump = false
 
@@ -34,11 +34,11 @@ function Player:ctor()
         self.m_jumpModle = jump
         self.m_armature = display.newSprite(res):addTo(self)
         self:createModle(modle)
-        self.m_armature:setScale(0.5)
+        self.m_armature:setScale(0.45)
         p_size = cc.size(50,75)
     else
         self.m_armature = PhysicSprite.new(res):addTo(self)
-        self.m_armature:setScale(0.5)
+        self.m_armature:setScale(0.45)
         p_size = self.m_armature:getCascadeBoundingBox().size
     end
     self:addBody(cc.p(0,0),p_size)
@@ -95,7 +95,7 @@ end
 --上跳状态
 function Player:toJump(ty,isTwoJump)
     self.m_jump = true
-    Tools.printDebug("---------------hehehahi------------",isTwoJump)
+--    Tools.printDebug("---------------hehehahi------------",isTwoJump)
 --    if isTwoJump then
         self.m_body:setCollisionBitmask(0x06)
         self:setGravityEnable(false)
@@ -155,9 +155,9 @@ function Player:update(dt,_x,_y)
 
     local _scaleX=self:getScaleX()
     if _scaleX<0 then
-        _vec.x=self.m_vo.m_speed
+        _vec.x=self.m_speed
     else
-        _vec.x=-self.m_vo.m_speed
+        _vec.x=-self.m_speed
     end
     self:setBodyVelocity(_vec)
 
@@ -256,8 +256,13 @@ function Player:isDead()
 end
 
 --获取角色大小
-function Player:getSize(parameters)
+function Player:getSize()
     return self.m_size
+end
+
+--获取角色速度
+function Player:getSpeed()
+    return self.m_speed
 end
 
 --获取跳跃值

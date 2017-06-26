@@ -69,6 +69,6 @@ MapGroupConfigD[4]=
         roomType = MAPROOM_TYPE.Running,
         direction = MAPRUNNING_TYPE.Left,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
         distance = 0,        --房间x轴倾斜距离(单位：像素)(仅为倾斜类房间)
-        probability = 10,     --权重
+        probability = 2,     --权重
     } 
     

@@ -4,31 +4,44 @@
     <dict>
         <key>frames</key>
         <dict>
-            <key>roleJump5_1.png</key>
+            <key>role1_1.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{2,2},{108,147}}</string>
+                <string>{{2,2},{108,165}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
                 <false/>
                 <key>sourceColorRect</key>
-                <string>{{0,0},{108,147}}</string>
+                <string>{{0,0},{108,165}}</string>
                 <key>sourceSize</key>
-                <string>{108,147}</string>
+                <string>{108,165}</string>
             </dict>
-            <key>roleJump5_2.png</key>
+            <key>role1_2.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{2,2},{108,147}}</string>
+                <string>{{112,2},{108,165}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
                 <false/>
                 <key>sourceColorRect</key>
-                <string>{{0,0},{108,147}}</string>
+                <string>{{0,0},{108,165}}</string>
                 <key>sourceSize</key>
-                <string>{108,147}</string>
+                <string>{108,165}</string>
+            </dict>
+            <key>role1_3.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{222,2},{108,165}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{108,165}}</string>
+                <key>sourceSize</key>
+                <string>{108,165}</string>
             </dict>
         </dict>
         <key>metadata</key>
@@ -36,13 +49,13 @@
             <key>format</key>
             <integer>2</integer>
             <key>realTextureFileName</key>
-            <string>Role5Jump.png</string>
+            <string>RoleJump1.png</string>
             <key>size</key>
-            <string>{128,256}</string>
+            <string>{512,256}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:8d9699c0a677d176d2d5d2f71c8b2c1b$</string>
+            <string>$TexturePacker:SmartUpdate:1e6a47fc1f8f69a60bdbc5d65ac8c5ce$</string>
             <key>textureFileName</key>
-            <string>Role5Jump.png</string>
+            <string>RoleJump1.png</string>
         </dict>
     </dict>
 </plist>

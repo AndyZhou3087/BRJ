@@ -27,7 +27,7 @@ end
 function ShopItem:initRole(parameters)
     --动画 
     if self.id == 0 then
-        self.img = display.newSprite("role/role_1.jpg")
+        self.img = display.newSprite("role/role_1.png")
         self.img:setVisible(false)
     else
         self.img = display.newSprite(RoleConfig[self.id].roleImg)
