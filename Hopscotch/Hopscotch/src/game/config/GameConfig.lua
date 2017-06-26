@@ -28,11 +28,32 @@ MAP_ROOM_INIT_NUM = 30
 --地图房间最大数
 MAP_ROOM_MAX = 50
 
---横跑楼层出现的硬值
-RunningFloor = 60  --每60层随机出现一次横跑
-
 --地图当前ZOder
 MAP_ZORDER_MAX=0
+
+
+Map_Grade = 
+{
+    floor_D = 50,
+    floor_C = 100,
+    floor_B = 150,
+    floor_A = 200,
+    floor_S = 300,
+}
+MAPROOM_TYPE = 
+    {
+        Common = 1,   --普通
+        Lean = 2,     --倾斜类型
+        Special = 3,   --特殊吊杆类型
+        Running = 4,  --横向奔跑类型
+    }
+--横跑时的方向
+MAPRUNNING_TYPE = 
+    {
+        Left = 1,
+        Right = 2,
+        Both = 3,
+    }
 
 --商城item类型
 Shop_Type = 

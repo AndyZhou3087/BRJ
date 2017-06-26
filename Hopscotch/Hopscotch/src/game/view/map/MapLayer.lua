@@ -118,10 +118,10 @@ function MapLayer:initRooms(parameters)
     for k=1, MAP_ROOM_INIT_NUM*0.1 do
         --控制随机数种子
         if k > 2 then
-            local i = GameDataManager.getDataIdByWeight()
-            self.m_levelCon = MapGroupConfig[i]
+            local i = GameDataManager.getDataIdByWeight(Map_Grade.floor_D)
+            self.m_levelCon = MapGroupConfigD[i]
         else
-            self.m_levelCon = MapGroupConfig[1]
+            self.m_levelCon = MapGroupConfigD[1]
         end 
         self.curRooms = self.m_levelCon.roomBgs
 
@@ -196,19 +196,29 @@ end
 --添加新的房间
 --此处为动态添加的房间，不需调整刚体位置，即无需传第三个参数(room:initPosition(_x,_y))
 function MapLayer:addNewRooms(parameters)
-    if self.m_roomsNum % RunningFloor == 0 then
-        local i = GameDataManager.getRunningDataIdByWeight()
-        self.m_levelCon = RunningRoomConfig[i]
+    local type,config
+    if self.m_roomsNum <= Map_Grade.floor_D then
+        type = Map_Grade.floor_D
+        config = MapGroupConfigD
+    elseif self.m_roomsNum <= Map_Grade.floor_C then
+        type = Map_Grade.floor_C
+        config = MapGroupConfigC
+    elseif self.m_roomsNum <= Map_Grade.floor_B then
+        type = Map_Grade.floor_B
+        config = MapGroupConfigB
+    elseif self.m_roomsNum <= Map_Grade.floor_A then
+        type = Map_Grade.floor_A
+        config = MapGroupConfigA
+    elseif self.m_roomsNum <= Map_Grade.floor_S then
+        type = Map_Grade.floor_S
+        config = MapGroupConfigS
+    end
+    
+    if self.m_roomsNum % 10 == 0 then
+        local i = GameDataManager.getDataIdByWeight(type)
+        self.m_levelCon = config[i]
         self.roomType = self.m_levelCon.roomType
-        self.runningFloor = self.m_roomsNum
         self.floorNum = 0
-    else
-        if self.m_roomsNum % 10 == 0 then
-            local i = GameDataManager.getDataIdByWeight()
-            self.m_levelCon = MapGroupConfig[i]
-            self.roomType = self.m_levelCon.roomType
-            self.floorNum = 0
-        end
     end
     
 --    Tools.printDebug("-------brj 房间类型：",self.roomType)
