@@ -48,6 +48,15 @@ Map_Grade =
     floor_A = 200,
     floor_S = 300,
 }
+MAP_SPEED = 
+{
+    floor_D = 120,  --角色初始速度
+    floor_C = 130,
+    floor_B = 140,
+    floor_A = 150,
+    floor_S = 160,
+}
+
 MAPROOM_TYPE = 
     {
         Common = 1,   --普通

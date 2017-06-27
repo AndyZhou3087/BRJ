@@ -20,7 +20,7 @@ function Player:ctor()
     self.m_buffArr = {} --buff列表
 
     self.m_life = self.m_vo.m_lifeNum
-    self.m_speed = ROLE_SPEED
+    self.m_speed = MAP_SPEED.floor_D
 
     self.m_jump = false
 
@@ -212,6 +212,11 @@ end
 --增加一条生命
 function Player:addLifeNum(_count)
     self.m_vo.m_lifeNum = self.m_vo.m_lifeNum + _count
+end
+
+--改变速度
+function Player:changeSpeed(_speed)
+    self.m_speed = _speed
 end
 
 --添加buff

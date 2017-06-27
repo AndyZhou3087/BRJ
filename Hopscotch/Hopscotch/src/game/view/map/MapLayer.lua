@@ -502,7 +502,6 @@ function MapLayer:onEnterFrame(dt)
                         self.bgNode:setPositionX(bnx2+display.width*3-4)
                     end
                     if bnx2 < mx - display.width*2 then
-                        Tools.printDebug("chjh onEnterFrame bnx,bnx2",bnx2)
                         self.bgNode2:setPositionX(bnx+display.width*3-4)
                     end
                 end
@@ -510,6 +509,17 @@ function MapLayer:onEnterFrame(dt)
         end
     end
    
+    if self.jumpFloorNum == Map_Grade.floor_D then
+        self.m_player:changeSpeed(MAP_SPEED.floor_D)
+    elseif self.jumpFloorNum == Map_Grade.floor_C then
+        self.m_player:changeSpeed(MAP_SPEED.floor_C)
+    elseif self.jumpFloorNum == Map_Grade.floor_B then
+        self.m_player:changeSpeed(MAP_SPEED.floor_B)
+    elseif self.jumpFloorNum == Map_Grade.floor_A then
+        self.m_player:changeSpeed(MAP_SPEED.floor_A)
+    elseif self.jumpFloorNum == Map_Grade.floor_S then
+        self.m_player:changeSpeed(MAP_SPEED.floor_S)
+    end
 end
 
 
@@ -780,6 +790,19 @@ function MapLayer:toCameraMove()
             self.bgNode2:stopAllActions()
             local move4 = cc.MoveTo:create(0.3,cc.p(x+(pos.x-mx)*0.95,pos.y-self.bottomHeight-pos.y*0.05))
             self.bgNode2:runAction(move4)
+            if bx+(pos.x-mx)*0.95 > pos.x + display.width*2 then
+                self.bgNode:setPositionX(x+(pos.x-mx)*0.95-display.width*3+4)
+            end
+            if x+(pos.x-mx)*0.95 > pos.x + display.width*2 then
+                self.bgNode2:setPositionX(bx+(pos.x-mx)*0.95-display.width*3+4)
+            end
+            if bx+(pos.x-mx)*0.95 < pos.x - display.width*2 then
+                self.bgNode:setPositionX(x+(pos.x-mx)*0.95+display.width*3-4)
+            end
+            if x+(pos.x-mx)*0.95 < pos.x - display.width*2 then
+                self.bgNode2:setPositionX(bx+(pos.x-mx)*0.95+display.width*3-4)
+            end
+            Tools.printDebug("---------------brj 背景图位置：",bx+(pos.x-mx)*0.95,x+(pos.x-mx)*0.95,pos.x + display.width*2,pos.x - display.width*2)
 
             self.bg:stopAllActions()
             local move3 = cc.MoveTo:create(0.3,cc.p(pos.x,pos.y-self.bottomHeight))

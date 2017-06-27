@@ -2,9 +2,6 @@
 角色皮肤信息配置
 ]]
 
---角色移动速度
-ROLE_SPEED = 120
-
 --向上滑跳动的力
 Up_Jump = 270
 
@@ -38,7 +35,6 @@ RoleConfig[1]=
         priceRes = "shop/price_6.png",
         roleDes = "奥特曼",  --角色描述
         rmb = 0,   --人民币购买价格
-        speed = ROLE_SPEED,
         lifeNum = 1,
     }
 
@@ -53,7 +49,6 @@ RoleConfig[2]=
         priceRes = "shop/price_6.png",
         roleDes = "钢铁侠",  --角色描述
         rmb = 6,   --人民币购买价格
-        speed = ROLE_SPEED,
         lifeNum = 1,
         payId = Payment.Role_1,
     }
@@ -69,7 +64,6 @@ RoleConfig[3]=
         priceRes = "shop/price_6.png",
         roleDes = "黑豹",  --角色描述
         rmb = 6,   --人民币购买价格
-        speed = ROLE_SPEED,
         lifeNum = 1,
         payId = Payment.Role_2,
     }
@@ -85,7 +79,6 @@ RoleConfig[4]=
         priceRes = "shop/price_6.png",
         roleDes = "死侍",  --角色描述
         rmb = 6,   --人民币购买价格
-        speed = ROLE_SPEED,
         lifeNum = 1,
         payId = Payment.Role_3,
     }
@@ -101,7 +94,6 @@ RoleConfig[5]=
         priceRes = "shop/price_6.png",
         roleDes = "闪电侠",  --角色描述
         rmb = 6,   --人民币购买价格
-        speed = ROLE_SPEED,
         lifeNum = 1,
         payId = Payment.Role_4,
     }
@@ -117,7 +109,6 @@ RoleConfig[6]=
         priceRes = "shop/price_6.png",
         roleDes = "蜘蛛侠",  --角色描述
         rmb = 6,   --人民币购买价格
-        speed = ROLE_SPEED,
         lifeNum = 1,
         payId = Payment.Role_5,
     }
@@ -133,7 +124,6 @@ RoleConfig[7]=
         priceRes = "shop/price_6.png",
         roleDes = "金刚狼",  --角色描述
         rmb = 6,   --人民币购买价格
-        speed = ROLE_SPEED,
         lifeNum = 1,
         payId = Payment.Role_6,
     }
@@ -149,7 +139,6 @@ RoleConfig[8]=
         priceRes = "shop/price_6.png",
         roleDes = "绿巨人",  --角色描述
         rmb = 6,   --人民币购买价格
-        speed = ROLE_SPEED,
         lifeNum = 1,
         payId = Payment.Role_7,
     }
@@ -165,7 +154,6 @@ RoleConfig[9]=
         priceRes = "shop/price_6.png",
         roleDes = "美国队长",  --角色描述
         rmb = 6,   --人民币购买价格
-        speed = ROLE_SPEED,
         lifeNum = 1,
         payId = Payment.Role_8,
     }
@@ -181,7 +169,6 @@ RoleConfig[10]=
         priceRes = "shop/price_6.png",
         roleDes = "小丑",  --角色描述
         rmb = 6,   --人民币购买价格
-        speed = ROLE_SPEED,
         lifeNum = 1,
         payId = Payment.Role_9,
     }
