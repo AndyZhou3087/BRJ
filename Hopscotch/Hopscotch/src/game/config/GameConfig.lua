@@ -23,10 +23,18 @@ Sequent_Click_Time = 0.05
 --金币移动速度
 GOLD_SPEED=40
 
+--横跑出现的层数(每50层出现一次)
+RunningFloorNum = 50
+--随机每多少层出现一次
+RunningMin = 50
+RunningMax = 100
+
 --初始化房间数
 MAP_ROOM_INIT_NUM = 30
 --地图房间最大数
 MAP_ROOM_MAX = 50
+--其它缓存房间最大数
+MAP_ROOM_OTHER_MAX = 20
 
 --地图当前ZOder
 MAP_ZORDER_MAX=0
@@ -34,7 +42,7 @@ MAP_ZORDER_MAX=0
 
 Map_Grade = 
 {
-    floor_D = 50,
+    floor_D = 1,
     floor_C = 100,
     floor_B = 150,
     floor_A = 200,

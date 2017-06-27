@@ -371,12 +371,15 @@ local configArrA = {}
 local _weightA = 0
 local configArrS = {}
 local _weightS = 0
+local configArrR = {}
+local _weightR = 0
 function GameDataManager.initRoomWeight()
     configArrD,_weightD = GameDataManager.getSorting(MapGroupConfigD)
     configArrC,_weightC = GameDataManager.getSorting(MapGroupConfigC)
     configArrB,_weightB = GameDataManager.getSorting(MapGroupConfigB)
     configArrA,_weightA = GameDataManager.getSorting(MapGroupConfigA)
     configArrS,_weightS = GameDataManager.getSorting(MapGroupConfigS)
+    configArrR,_weightR = GameDataManager.getSorting(MapRunningConfig)
 end
 
 --组合排序
@@ -405,21 +408,26 @@ end
 --按权重抽取一组数据
 function GameDataManager.getDataIdByWeight(_type)
     local _weight,configArr
-    if _type == Map_Grade.floor_D then
-        configArr = configArrD
-        _weight = _weightD
-    elseif _type == Map_Grade.floor_C then
-        configArr = configArrC
-        _weight = _weightC
-    elseif _type == Map_Grade.floor_B then
-        configArr = configArrB
-        _weight = _weightB
-    elseif _type == Map_Grade.floor_A then
-        configArr = configArrA
-        _weight = _weightA
-    elseif _type == Map_Grade.floor_S then
-        configArr = configArrS
-        _weight = _weightS
+    if not _type then
+        configArr = configArrR
+        _weight = _weightR
+    else
+        if _type == Map_Grade.floor_D then
+            configArr = configArrD
+            _weight = _weightD
+        elseif _type == Map_Grade.floor_C then
+            configArr = configArrC
+            _weight = _weightC
+        elseif _type == Map_Grade.floor_B then
+            configArr = configArrB
+            _weight = _weightB
+        elseif _type == Map_Grade.floor_A then
+            configArr = configArrA
+            _weight = _weightA
+        elseif _type == Map_Grade.floor_S then
+            configArr = configArrS
+            _weight = _weightS
+        end 
     end
     local _wegt = math.random(1,_weight)
     Tools.printDebug("brj Hopscotch 随机权重值：",_wegt,_weight)

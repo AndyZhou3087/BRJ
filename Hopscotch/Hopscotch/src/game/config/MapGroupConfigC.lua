@@ -58,17 +58,4 @@ MapGroupConfigC[3]=
         distance = 0,        --房间x轴倾斜距离(单位：像素)
         probability = 60,     --权重
     } 
-
-MapGroupConfigC[4]=
-    { 
-        _id=4, 
-        roomBgs={1001,1001,1001,1001,1008,1008,1001,1001,1001,1001,1008,1008,1001,1001,1008,1001,1001,1001,1008,1008,1001,1001,1009,1010}, --房间背景地面
-        ornaments={0,0,0,0,0,0,0,0,0,0}, ---小挂件
-        coins={0,0,0,0,0,0,0,0,0,0}, ---钻石
-        roomGoods={0,0,0,0,0,0,0,0,0,0}, ---道具
-        roomType = MAPROOM_TYPE.Running,
-        direction = MAPRUNNING_TYPE.Left,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
-        distance = 0,        --房间x轴倾斜距离(单位：像素)(仅为倾斜类房间)
-        probability = 60,     --权重
-    } 
     
