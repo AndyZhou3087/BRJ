@@ -24,4 +24,8 @@
     <Project>MapView</Project>
     <GuidesList />
   </GuidesProject>
+  <GuidesProject>
+    <Project>SceneBg_1</Project>
+    <GuidesList />
+  </GuidesProject>
 </ArrayOfGuidesProject>

@@ -13,6 +13,7 @@
     <string>SettlementUI.json</string>
     <string>ShopView.json</string>
     <string>MapView.json</string>
+    <string>SceneBg_1.json</string>
   </JsonList>
   <CanvasSize>
     <Width>750</Width>
@@ -24,5 +25,5 @@
   <imageFileList />
   <imagePngList />
   <JsonSuffix>.json</JsonSuffix>
-  <CurrentUIJson>MapView.json</CurrentUIJson>
+  <CurrentUIJson>MainUI.json</CurrentUIJson>
 </UIProject>

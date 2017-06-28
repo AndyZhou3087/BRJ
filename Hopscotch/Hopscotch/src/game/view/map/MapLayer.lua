@@ -41,33 +41,14 @@ function MapLayer:ctor(parameters)
     self.m_curZOrder = MAP_ZORDER_MAX   --房间当前显示层级
     
     local color = SceneConfig[GameDataManager.getFightScene()].bgColor
---    self.bg = cc.LayerGradient:create(color[1],color[2]):addTo(self)
-    self.bg = display.newColorLayer(color[1]):addTo(self)
+    self.bg = cc.LayerGradient:create(color[1],color[2]):addTo(self)
+--    self.bg = display.newColorLayer(color[1]):addTo(self)
     Tools.delayCallFunc(0.5,function()
         self.bg:setTouchEnabled(false)
         self.bg:setTouchSwallowEnabled(false)
     end)
     
-    self.bgNode = display.newNode()
-    self.bgNode:setTouchEnabled(false)
-    self.bgNode:setTouchSwallowEnabled(false)
-    self:addChild(self.bgNode)
-    self.m_backbg = BackGroundMove.new(GameDataManager.getFightScene()):addTo(self.bgNode)
-    self.m_backbgLeft = BackGroundMove.new(GameDataManager.getFightScene()):addTo(self.bgNode)
-    self.m_backbgLeft:setPositionX(-display.width+1)
-    self.m_backbgRight = BackGroundMove.new(GameDataManager.getFightScene()):addTo(self.bgNode)
-    self.m_backbgRight:setPositionX(display.right-1)
-    
-    self.bgNode2 = display.newNode()
-    self.bgNode2:setTouchEnabled(false)
-    self.bgNode2:setTouchSwallowEnabled(false)
-    self:addChild(self.bgNode2)
-    self.m_backbg = BackGroundMove.new(GameDataManager.getFightScene()):addTo(self.bgNode2)
-    self.m_backbgLeft = BackGroundMove.new(GameDataManager.getFightScene()):addTo(self.bgNode2)
-    self.m_backbgLeft:setPositionX(-display.width+1)
-    self.m_backbgRight = BackGroundMove.new(GameDataManager.getFightScene()):addTo(self.bgNode2)
-    self.m_backbgRight:setPositionX(display.width-1)
-    self.bgNode2:setPositionX(-display.width*3+4)
+    self.bgNode = BackGroundMove.new(GameDataManager.getFightScene()):addTo(self)
     
     self.m_bg = display.newSprite("map/Scene_"..GameDataManager.getFightScene().."/Map_frame_2.png")
     self.bottomHeight = self.m_bg:getCascadeBoundingBox().size.height
@@ -135,7 +116,8 @@ function MapLayer:initRooms(parameters)
             local i = GameDataManager.getDataIdByWeight(Map_Grade.floor_D)
             self.m_levelCon = MapGroupConfigD[i]
         else
-            self.m_levelCon = MapGroupConfigD[1]
+            local i = GameDataManager.getDataIdByWeight(-1)
+            self.m_levelCon = MapGroupConfigD[i]
         end 
         self.curRooms = self.m_levelCon.roomBgs
 
@@ -477,33 +459,17 @@ function MapLayer:onEnterFrame(dt)
         if self.curState == State_Type.RunningState then
             local x,y = self.m_player:getPosition()
             local mx,my = self.m_camera:getPosition()
-            local bnx,bny = self.bgNode:getPosition()
-            local bnx2,bny2 = self.bgNode2:getPosition()
             if _scaleX == 1 then
                 if x-display.cx+50 <= mx then
                     self.m_camera:setPositionX(x-display.cx+50)
                     self.bg:setPositionX(x-display.cx+50)
-                    self.bgNode2:setPositionX(bnx2+(x-display.cx+50-mx)*0.95)
-                    self.bgNode:setPositionX(bnx+(x-display.cx+50-mx)*0.95)
-                    if bnx > mx + display.width*2 then
-                        self.bgNode:setPositionX(bnx2-display.width*3+4)
-                    end
-                    if bnx2 > mx + display.width*2 then
-                        self.bgNode2:setPositionX(bnx-display.width*3+4)
-                    end
+                    self.bgNode:bgLandscapeMove(x-display.cx+50,(x-display.cx+50-mx)*0.95,mx,_scaleX)
                 end
             else
                 if x-display.cx-50 >= mx then
                     self.m_camera:setPositionX(x-display.cx-50)
                     self.bg:setPositionX(x-display.cx-50)
-                    self.bgNode2:setPositionX(bnx2+(x-display.cx-50-mx)*0.95)
-                    self.bgNode:setPositionX(bnx+(x-display.cx-50-mx)*0.95)
-                    if bnx < mx - display.width*2 then
-                        self.bgNode:setPositionX(bnx2+display.width*3-4)
-                    end
-                    if bnx2 < mx - display.width*2 then
-                        self.bgNode2:setPositionX(bnx+display.width*3-4)
-                    end
+                    self.bgNode:bgLandscapeMove(x-display.cx-50,(x-display.cx-50-mx)*0.95,mx,_scaleX)
                 end
             end
         end
@@ -757,15 +723,7 @@ function MapLayer:toCameraMove()
             local move = cc.MoveTo:create(0.3,cc.p(mx,pos.y-self.bottomHeight))
             self.m_camera:runAction(move)
 
-            local bx,by = self.bgNode:getPosition()
-            self.bgNode:stopAllActions()
-            local move2 = cc.MoveTo:create(0.3,cc.p(bx,pos.y-self.bottomHeight-pos.y*0.05))
-            self.bgNode:runAction(move2)
-
-            local x,y = self.bgNode2:getPosition()
-            self.bgNode2:stopAllActions()
-            local move4 = cc.MoveTo:create(0.3,cc.p(x,pos.y-self.bottomHeight-pos.y*0.05))
-            self.bgNode2:runAction(move4)
+            self.bgNode:bgPortraitRunningMove(pos.y,self.bottomHeight,mx)
 
             self.bg:stopAllActions()
             local move3 = cc.MoveTo:create(0.3,cc.p(mx,pos.y-self.bottomHeight))
@@ -781,28 +739,7 @@ function MapLayer:toCameraMove()
             local move = cc.MoveTo:create(0.3,cc.p(pos.x,pos.y-self.bottomHeight))
             self.m_camera:runAction(move)
 
-            local bx,by = self.bgNode:getPosition()
-            self.bgNode:stopAllActions()
-            local move2 = cc.MoveTo:create(0.3,cc.p(bx+(pos.x-mx)*0.95,pos.y-self.bottomHeight-pos.y*0.05))
-            self.bgNode:runAction(move2)
-
-            local x,y = self.bgNode2:getPosition()
-            self.bgNode2:stopAllActions()
-            local move4 = cc.MoveTo:create(0.3,cc.p(x+(pos.x-mx)*0.95,pos.y-self.bottomHeight-pos.y*0.05))
-            self.bgNode2:runAction(move4)
-            if bx+(pos.x-mx)*0.95 > pos.x + display.width*2 then
-                self.bgNode:setPositionX(x+(pos.x-mx)*0.95-display.width*3+4)
-            end
-            if x+(pos.x-mx)*0.95 > pos.x + display.width*2 then
-                self.bgNode2:setPositionX(bx+(pos.x-mx)*0.95-display.width*3+4)
-            end
-            if bx+(pos.x-mx)*0.95 < pos.x - display.width*2 then
-                self.bgNode:setPositionX(x+(pos.x-mx)*0.95+display.width*3-4)
-            end
-            if x+(pos.x-mx)*0.95 < pos.x - display.width*2 then
-                self.bgNode2:setPositionX(bx+(pos.x-mx)*0.95+display.width*3-4)
-            end
-            Tools.printDebug("---------------brj 背景图位置：",bx+(pos.x-mx)*0.95,x+(pos.x-mx)*0.95,pos.x + display.width*2,pos.x - display.width*2)
+            self.bgNode:bgPortraitMove(pos,self.bottomHeight,mx)
 
             self.bg:stopAllActions()
             local move3 = cc.MoveTo:create(0.3,cc.p(pos.x,pos.y-self.bottomHeight))
@@ -820,21 +757,13 @@ function MapLayer:toRunCameraMove()
         self.m_camera:stopAllActions()
         local move = cc.MoveBy:create(0.3,cc.p(0,pos.y-self.bottomHeight-my))
         self.m_camera:runAction(move)
-        local bx,by = self.bgNode:getPosition()
-        self.bgNode:stopAllActions()
-        local move2 = cc.MoveBy:create(0.3,cc.p(0,pos.y-self.bottomHeight-pos.y*0.05-by))
-        self.bgNode:runAction(move2)
         
-        local x,y = self.bgNode2:getPosition()
-        self.bgNode2:stopAllActions()
-        local move4 = cc.MoveBy:create(0.3,cc.p(0,pos.y-self.bottomHeight-pos.y*0.05-y))
-        self.bgNode2:runAction(move4)
+        self.bgNode:toRunCameraMove(pos.y,self.bottomHeight)
         
         local bgx,bgy = self.bg:getPosition()
         self.bg:stopAllActions()
         local move3 = cc.MoveBy:create(0.3,cc.p(0,pos.y-self.bottomHeight-bgy))
         self.bg:runAction(move3)
---        Tools.printDebug("------------toRunCameraMove--------------- ",x,self.bgNode:getPositionY())
     end
 end
 
@@ -870,19 +799,8 @@ function MapLayer:toRunFirstCameraMove()
             local seq = cc.Sequence:create(moveY,moveX)
             self.bg:runAction(seq)
 
-            local nx,ny = self.bgNode:getPosition()
-            self.bgNode:stopAllActions()
-            local moveY = cc.MoveTo:create(0.2,cc.p(nx,pos.y-self.bottomHeight-pos.y*0.05))
-            local moveX = cc.MoveTo:create(1,cc.p(nx,pos.y-self.bottomHeight-pos.y*0.05))
-            local seq = cc.Sequence:create(moveY,moveX)
-            self.bgNode:runAction(seq)
+            self.bgNode:toRunYtoXMove(pos.y,self.bottomHeight,toX,mx)
 
-            local x,y = self.bgNode2:getPosition()
-            self.bgNode2:stopAllActions()
-            local moveY = cc.MoveTo:create(0.2,cc.p(x,pos.y-self.bottomHeight-pos.y*0.05))
-            local moveX = cc.MoveTo:create(1,cc.p(x,pos.y-self.bottomHeight-pos.y*0.05))
-            local seq = cc.Sequence:create(moveY,moveX)
-            self.bgNode2:runAction(seq)
         end
     elseif self.jumpFloorNum % 10 == 9 then
         self.curState = State_Type.CommonState
@@ -900,19 +818,8 @@ function MapLayer:toRunFirstCameraMove()
         local seq = cc.Sequence:create(moveX,moveY)
         self.bg:runAction(seq)
         
-        local bgnx,bgny = self.bgNode:getPosition()
-        self.bgNode:stopAllActions()
-        local moveY = cc.MoveTo:create(0.5,cc.p(bgnx,pos.y-self.bottomHeight-pos.y*0.05))
-        local moveX = cc.MoveTo:create(0.5,cc.p(bgnx,bgny))
-        local seq = cc.Sequence:create(moveX,moveY)
-        self.bgNode:runAction(seq)
-        
-        local bgnx,bgny = self.bgNode2:getPosition()
-        self.bgNode2:stopAllActions()
-        local moveY = cc.MoveTo:create(0.5,cc.p(bgnx,pos.y-self.bottomHeight-pos.y*0.05))
-        local moveX = cc.MoveTo:create(0.5,cc.p(bgnx,bgny))
-        local seq = cc.Sequence:create(moveX,moveY)
-        self.bgNode2:runAction(seq)
+        self.bgNode:toRunXtoYMove(pos,self.bottomHeight,my)
+
     elseif self.jumpFloorNum % 10 == 10 then
         local removeCount = #self.m_otherRooms
         for var=1, removeCount do
@@ -946,13 +853,7 @@ function MapLayer:backOriginFunc()
     local move = cc.MoveTo:create(0.5,cc.p(0,0))
     self.m_camera:runAction(move)
     
-    self.bgNode:stopAllActions()
-    local move2 = cc.MoveTo:create(0.5,cc.p(0,0))
-    self.bgNode:runAction(move2)
-    
-    self.bgNode2:stopAllActions()
-    local move3 = cc.MoveTo:create(0.5,cc.p(-display.width*3+3,0))
-    self.bgNode2:runAction(move3)
+    self.bgNode:toBackOrigin()
     
     Tools.delayCallFunc(1,function()
         self.backOrigin = false
