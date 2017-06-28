@@ -8,4 +8,4 @@ Coins = {}
 Coins[1]=
     {
         {res="icon/diamond.png",x=100,y=26},--普通金币 
-    }
+    } 
