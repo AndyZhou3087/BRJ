@@ -117,7 +117,7 @@ function MapLayer:initRooms(parameters)
             self.m_levelCon = MapGroupConfigD[i]
         else
             local i = GameDataManager.getDataIdByWeight(-1)
-            self.m_levelCon = MapGroupConfigD[i]
+            self.m_levelCon = MapFirstGroup[i]
         end 
         self.curRooms = self.m_levelCon.roomBgs
 
@@ -126,7 +126,7 @@ function MapLayer:initRooms(parameters)
             self.m_roomAmount=#self.m_rooms
             self.m_roomsNum = self.m_roomsNum + self.m_roomAmount
         else
-            Tools.printDebug("brj error 找不到配置",i)
+            Tools.printDebug("brj error 找不到配置",self.m_levelCon)
             return
         end
 
