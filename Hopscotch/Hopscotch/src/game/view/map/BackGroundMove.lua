@@ -41,7 +41,7 @@ end
 --parm@3:_ma摄像机位置
 --parm@4:_scaleX移动方向
 function BackGroundMove:bgLandscapeMove(_posX,moveX,_mx,_scaleX)
---    self.Panel_1:setPositionX(_posX)
+    self.Panel_1:setPositionX(_posX)
     local bgx,bgy = self.Panel_2:getPosition()
     self.Panel_2:setPositionX(bgx+moveX)
     local bgx2,bgy2 = self.Panel_3:getPosition()
@@ -92,10 +92,10 @@ end
 --parm@2:位置差(当前背景与楼层相差的距离)
 --parm@3:摄像机当年位置
 function BackGroundMove:bgPortraitRunningMove(_curPosY,_dis,_mx)
---    local p1x,p1y = self.Panel_1:getPosition()
---    self.Panel_1:stopAllActions()
---    local move1 = cc.MoveTo:create(0.3,cc.p(_mx,_curPosY-_dis))
---    self.Panel_1:runAction(move1)
+    local p1x,p1y = self.Panel_1:getPosition()
+    self.Panel_1:stopAllActions()
+    local move1 = cc.MoveTo:create(0.3,cc.p(_mx,_curPosY*0.9-_dis+1))
+    self.Panel_1:runAction(move1)
     
     local p2x,p2y = self.Panel_2:getPosition()
     self.Panel_2:stopAllActions()
@@ -180,10 +180,10 @@ end
 --parm@1:_posY要移动的Y轴位置
 --parm@2:距离差
 function BackGroundMove:toRunCameraMove(_posY,_dis)
---    local p1x,p1y = self.Panel_1:getPosition()
---    self.Panel_1:stopAllActions()
---    local mo = cc.MoveBy:create(0.3,cc.p(0,_posY-_dis-p1y))
---    self.Panel_1:runAction(mo)
+    local p1x,p1y = self.Panel_1:getPosition()
+    self.Panel_1:stopAllActions()
+    local mo = cc.MoveBy:create(0.3,cc.p(0,_posY*0.9-_dis-p1y+1))
+    self.Panel_1:runAction(mo)
 
     local bx,by = self.Panel_2:getPosition()
     self.Panel_2:stopAllActions()
@@ -208,11 +208,11 @@ end
 --parm@1:_posY要移动的Y轴位置
 --parm@2:距离差
 function BackGroundMove:toRunYtoXMove(_posY,_dis,toX,mx)
---    self.Panel_1:stopAllActions()
---    local moveY = cc.MoveTo:create(0.2,cc.p(mx,_posY-_dis))
---    local moveX = cc.MoveTo:create(1,cc.p(toX,_posY-_dis))
---    local seq = cc.Sequence:create(moveY,moveX)
---    self.Panel_1:runAction(seq)
+    self.Panel_1:stopAllActions()
+    local moveY = cc.MoveTo:create(0.2,cc.p(mx,_posY*0.9-_dis+1))
+    local moveX = cc.MoveTo:create(1,cc.p(toX,_posY*0.9-_dis+1))
+    local seq = cc.Sequence:create(moveY,moveX)
+    self.Panel_1:runAction(seq)
 
     local nx,ny = self.Panel_2:getPosition()
     self:toYtoXMove(self.Panel_2,nx,_posY*0.9-_dis+413)
@@ -237,11 +237,11 @@ end
 --parm@1:_posY要移动的Y轴位置
 --parm@2:距离差
 function BackGroundMove:toRunXtoYMove(_pos,_dis,my)
---    self.Panel_1:stopAllActions()
---    local moveY = cc.MoveTo:create(0.5,cc.p(_pos.x,_pos.y-_dis))
---    local moveX = cc.MoveTo:create(0.5,cc.p(_pos.x,my))
---    local seq = cc.Sequence:create(moveX,moveY)
---    self.Panel_1:runAction(seq)
+    self.Panel_1:stopAllActions()
+    local moveY = cc.MoveTo:create(0.5,cc.p(_pos.x,_pos.y*0.9-_dis+1))
+    local moveX = cc.MoveTo:create(0.5,cc.p(_pos.x,_pos.y*0.9-_dis+1))
+    local seq = cc.Sequence:create(moveX,moveY)
+    self.Panel_1:runAction(seq)
 
     local nx,ny = self.Panel_2:getPosition()
     self:toXtoYMove(self.Panel_2,nx,_pos.y*0.9-_dis+413)

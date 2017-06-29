@@ -709,7 +709,7 @@ function MapLayer:toJump()
     self.m_toJump = true
     local roomIndex = math.ceil((self.m_player:getPositionY()-self.bottomHeight)/Room_Size.height)
     local pos = self.floorPos[roomIndex+1]
-    self.m_player:toJump(pos.y,self.isCollision)
+    self.m_player:toJump(pos.y,self.curRoomType)
 
 end
 --摄像机移动
