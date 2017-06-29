@@ -50,7 +50,7 @@ function MapLayer:ctor(parameters)
     
     self.bgNode = BackGroundMove.new(GameDataManager.getFightScene()):addTo(self)
     
-    self.m_bg = display.newSprite("map/Scene_"..GameDataManager.getFightScene().."/Map_frame_2.png")
+    self.m_bg = display.newSprite("map/Scene_1/Map_frame_2.png")
     self.bottomHeight = self.m_bg:getCascadeBoundingBox().size.height
 
     --房间层
@@ -131,14 +131,13 @@ function MapLayer:initRooms(parameters)
         end
 
         for var=1, self.m_roomAmount do
-            Tools.printDebug("brj 初始楼层",var+(k-1)*10)
             local _room = MapRoom.new(var,self.m_levelCon,var+(k-1)*10)
             _room:setAnchorPoint(cc.p(0,0))
             _y = _y + Room_Size.height
             if self.m_levelCon.roomType == MAPROOM_TYPE.Lean then
                 self._x = self._x + self.m_levelCon.distance
             end
-
+            Tools.printDebug("brj 初始楼层",_y)
             self.m_roomNode:addChild(_room,self.m_curZOrder)
             _room:initPosition(self._x,_y,true)
             self.floorPos[var+(k-1)*10] = cc.p(self._x,_y)
@@ -799,7 +798,7 @@ function MapLayer:toRunFirstCameraMove()
             local seq = cc.Sequence:create(moveY,moveX)
             self.bg:runAction(seq)
 
-            self.bgNode:toRunYtoXMove(pos.y,self.bottomHeight,toX,mx)
+            self.bgNode:toRunYtoXMove(pos,self.bottomHeight,toX,mx)
 
         end
     elseif self.jumpFloorNum % 10 == 9 then

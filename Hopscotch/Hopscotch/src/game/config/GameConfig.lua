@@ -43,7 +43,7 @@ MAP_ZORDER_MAX=0
 Map_Grade = 
 {
     floor_D = 1,
-    floor_C = 100,
+    floor_C = 40,
     floor_B = 150,
     floor_A = 200,
     floor_S = 300,
@@ -63,6 +63,7 @@ MAPROOM_TYPE =
         Lean = 2,     --倾斜类型
         Special = 3,   --特殊吊杆类型
         Running = 4,  --横向奔跑类型
+        TwoLean = 5,    --双向倾斜
     }
 --横跑时的方向
 MAPRUNNING_TYPE = 
