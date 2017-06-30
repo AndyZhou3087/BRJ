@@ -43,7 +43,7 @@ MAP_ZORDER_MAX=0
 Map_Grade = 
 {
     floor_D = 1,
-    floor_C = 40,
+    floor_C = 100,
     floor_B = 150,
     floor_A = 200,
     floor_S = 300,

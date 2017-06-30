@@ -216,28 +216,28 @@ end
 --横跑类型y-x移动
 --parm@1:_posY要移动的Y轴位置
 --parm@2:距离差
-function BackGroundMove:toRunYtoXMove(_pos,_dis,toX,mx)
+function BackGroundMove:toRunYtoXMove(_pos,_dis,toX,mx,vel)
     self.Panel_1:stopAllActions()
-    local moveY = cc.MoveTo:create(0.2,cc.p(mx+self.offset[5],_pos.y*0.9-_dis+1))
-    local moveX = cc.MoveTo:create(1,cc.p(toX+self.offset[5],_pos.y*0.9-_dis+1))
+    local moveY = cc.MoveTo:create(0.2*vel,cc.p(mx+self.offset[5],_pos.y*0.9-_dis+1))
+    local moveX = cc.MoveTo:create(1*vel,cc.p(toX+self.offset[5],_pos.y*0.9-_dis+1))
     local seq = cc.Sequence:create(moveY,moveX)
     self.Panel_1:runAction(seq)
 
     local nx,ny = self.Panel_2:getPosition()
-    self:toYtoXMove(self.Panel_2,nx,_pos.y*0.9-_dis+self.offset[3])
+    self:toYtoXMove(self.Panel_2,nx,_pos.y*0.9-_dis+self.offset[3],vel)
     local nx2,ny2 = self.Panel_2_0:getPosition()
-    self:toYtoXMove(self.Panel_2_0,nx2,_pos.y*0.9-_dis+self.offset[3])
+    self:toYtoXMove(self.Panel_2_0,nx2,_pos.y*0.9-_dis+self.offset[3],vel)
     local nx3,ny3 = self.Panel_3:getPosition()
-    self:toYtoXMove(self.Panel_3,nx3,_pos.y*0.95-_dis+self.offset[4])
+    self:toYtoXMove(self.Panel_3,nx3,_pos.y*0.95-_dis+self.offset[4],vel)
     local nx4,ny4 = self.Panel_3_0:getPosition()
-    self:toYtoXMove(self.Panel_3_0,nx4,_pos.y*0.95-_dis+self.offset[4])
+    self:toYtoXMove(self.Panel_3_0,nx4,_pos.y*0.95-_dis+self.offset[4],vel)
 end
 
 --y到x的移动
-function BackGroundMove:toYtoXMove(obj,x,y,toX)
+function BackGroundMove:toYtoXMove(obj,x,y,vel)
     obj:stopAllActions()
-    local moveY = cc.MoveTo:create(0.2,cc.p(x,y))
-    local moveX = cc.MoveTo:create(1,cc.p(x,y))
+    local moveY = cc.MoveTo:create(0.2*vel,cc.p(x,y))
+    local moveX = cc.MoveTo:create(1*vel,cc.p(x,y))
     local seq = cc.Sequence:create(moveY,moveX)
     obj:runAction(seq)
 end
@@ -245,29 +245,29 @@ end
 --横跑类型x-y移动
 --parm@1:_posY要移动的Y轴位置
 --parm@2:距离差
-function BackGroundMove:toRunXtoYMove(_pos,_dis)
+function BackGroundMove:toRunXtoYMove(_pos,_dis,vel)
     self.Panel_1:stopAllActions()
     local x,y = self.Panel_1:getPosition()
-    local moveY = cc.MoveTo:create(0.5,cc.p(_pos.x+self.offset[5],_pos.y*0.9-_dis+1))
-    local moveX = cc.MoveTo:create(0.5,cc.p(_pos.x+self.offset[5],y))
+    local moveY = cc.MoveTo:create(0.5*vel,cc.p(_pos.x+self.offset[5],_pos.y*0.9-_dis+1))
+    local moveX = cc.MoveTo:create(0.5*vel,cc.p(_pos.x+self.offset[5],y))
     local seq = cc.Sequence:create(moveX,moveY)
     self.Panel_1:runAction(seq)
 
     local nx,ny = self.Panel_2:getPosition()
-    self:toXtoYMove(self.Panel_2,nx,_pos.y*0.9-_dis+self.offset[3])
+    self:toXtoYMove(self.Panel_2,nx,_pos.y*0.9-_dis+self.offset[3],vel)
     local nx2,ny2 = self.Panel_2_0:getPosition()
-    self:toXtoYMove(self.Panel_2_0,nx2,_pos.y*0.9-_dis+self.offset[3])
+    self:toXtoYMove(self.Panel_2_0,nx2,_pos.y*0.9-_dis+self.offset[3],vel)
     local nx3,ny3 = self.Panel_3:getPosition()
-    self:toXtoYMove(self.Panel_3,nx3,_pos.y*0.95-_dis+self.offset[4])
+    self:toXtoYMove(self.Panel_3,nx3,_pos.y*0.95-_dis+self.offset[4],vel)
     local nx4,ny4 = self.Panel_3_0:getPosition()
-    self:toXtoYMove(self.Panel_3_0,nx4,_pos.y*0.95-_dis+self.offset[4])
+    self:toXtoYMove(self.Panel_3_0,nx4,_pos.y*0.95-_dis+self.offset[4],vel)
 end
 
 --x到y的移动
-function BackGroundMove:toXtoYMove(obj,x,y)
+function BackGroundMove:toXtoYMove(obj,x,y,vel)
     obj:stopAllActions()
-    local moveY = cc.MoveTo:create(0.5,cc.p(x,y))
-    local moveX = cc.MoveTo:create(0.5,cc.p(x,y))
+    local moveY = cc.MoveTo:create(0.5*vel,cc.p(x,y))
+    local moveX = cc.MoveTo:create(0.5*vel,cc.p(x,y))
     local seq = cc.Sequence:create(moveX,moveY)
     obj:runAction(seq)
 end

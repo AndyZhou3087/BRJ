@@ -11,6 +11,10 @@ local LineElement = require("game.view.element.LineElement")
 local Raycast_DisY = 20  --探测距离
 local Raycast_DisX = 6 --探测轴方向有无障碍物
 
+--用来计算横跑时第一阶层移动的固定值
+local runDis = 50
+local moveSpeed = 120
+
 math.randomseed(os.time())   --初始化随机种子
 
 --当前场景状态
@@ -768,6 +772,7 @@ end
 
 --当横跑第一层时调用
 function MapLayer:toRunFirstCameraMove()
+    local speed = self.m_player:getSpeed()
 	if self.jumpFloorNum % 10 == 1 then
         local pos = self.floorPos[self.jumpFloorNum]
         local _scaleX=self.m_player:getScaleX()
@@ -783,41 +788,40 @@ function MapLayer:toRunFirstCameraMove()
         end
         if _scaleX == 1 and self.curRoomDistance == MAPRUNNING_TYPE.Left or (_scaleX == -1 and self.curRoomDistance == MAPRUNNING_TYPE.Right) then
             self.m_camera:stopAllActions()
-            local moveY = cc.MoveTo:create(0.2,cc.p(mx,pos.y-self.bottomHeight))
-            local moveX = cc.MoveTo:create(1,cc.p(toX,pos.y-self.bottomHeight))
+            local moveY = cc.MoveTo:create(0.2*moveSpeed/speed,cc.p(mx,pos.y-self.bottomHeight))
+            local moveX = cc.MoveTo:create(1*moveSpeed/speed,cc.p(toX,pos.y-self.bottomHeight))
             local callfun = cc.CallFunc:create(function()
                 self.curState = State_Type.RunningState
-                self.runFirstX = self.m_camera:getPositionX()
             end)
             local seq = cc.Sequence:create(moveY,moveX,callfun)
             self.m_camera:runAction(seq)
 
             self.bg:stopAllActions()
-            local moveY = cc.MoveTo:create(0.2,cc.p(mx,pos.y-self.bottomHeight))
-            local moveX = cc.MoveTo:create(1,cc.p(toX,pos.y-self.bottomHeight))
+            local moveY = cc.MoveTo:create(0.2*moveSpeed/speed,cc.p(mx,pos.y-self.bottomHeight))
+            local moveX = cc.MoveTo:create(1*moveSpeed/speed,cc.p(toX,pos.y-self.bottomHeight))
             local seq = cc.Sequence:create(moveY,moveX)
             self.bg:runAction(seq)
 
-            self.bgNode:toRunYtoXMove(pos,self.bottomHeight,toX,mx)
+            self.bgNode:toRunYtoXMove(pos,self.bottomHeight,toX,mx,moveSpeed/speed)
 
         end
     elseif self.jumpFloorNum % 10 == 9 then
         self.curState = State_Type.CommonState
-        local pos = self.floorPos[self.jumpFloorNum+1]
+        local pos = self.floorPos[self.jumpFloorNum]
         local _scaleX=self.m_player:getScaleX()
         local mx,my = self.m_camera:getPosition()
         self.m_camera:stopAllActions()
-        local moveY = cc.MoveTo:create(0.5,cc.p(pos.x,pos.y-self.bottomHeight))
-        local moveX = cc.MoveTo:create(0.5,cc.p(pos.x,my))
+        local moveY = cc.MoveTo:create(0.5*moveSpeed/speed,cc.p(pos.x,pos.y-self.bottomHeight))
+        local moveX = cc.MoveTo:create(0.5*moveSpeed/speed,cc.p(pos.x,my))
         local seq = cc.Sequence:create(moveX,moveY)
         self.m_camera:runAction(seq)
         self.bg:stopAllActions()
-        local moveY = cc.MoveTo:create(0.5,cc.p(pos.x,pos.y-self.bottomHeight))
-        local moveX = cc.MoveTo:create(0.5,cc.p(pos.x,my))
+        local moveY = cc.MoveTo:create(0.5*moveSpeed/speed,cc.p(pos.x,pos.y-self.bottomHeight))
+        local moveX = cc.MoveTo:create(0.5*moveSpeed/speed,cc.p(pos.x,my))
         local seq = cc.Sequence:create(moveX,moveY)
         self.bg:runAction(seq)
         
-        self.bgNode:toRunXtoYMove(pos,self.bottomHeight,my)
+        self.bgNode:toRunXtoYMove(pos,self.bottomHeight,my,moveSpeed/speed)
 
     elseif self.jumpFloorNum % 10 == 10 then
         local removeCount = #self.m_otherRooms
