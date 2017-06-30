@@ -184,7 +184,7 @@ function MapLayer:initRooms(parameters)
                 self.specialBody[math.floor(self.m_roomsNum/10)] = {}
                 local spBodyArr = {steel1,cc.p(self._x+size.width*0.5+5+self.m_levelCon.lineX,size.height*0.5+16+_y+steelY)}
                 local spBodyArr2 = {steel2,cc.p(self._x+display.right-size.width*0.5-5-self.m_levelCon.lineX,size.height*0.5+16+_y+steel2Y)}
-                Tools.printDebug("------------------ 初始化房间：： ",math.floor(self.m_roomsNum/10),spBodyArr[2])
+                Tools.printDebug("------------------ 初始化房间：： ",math.floor(self.m_roomsNum/10),spBodyArr2[2])
                 table.insert(self.specialBody[math.floor(self.m_roomsNum/10)],spBodyArr)
                 table.insert(self.specialBody[math.floor(self.m_roomsNum/10)],spBodyArr2)
             end
@@ -885,18 +885,9 @@ function MapLayer:backOriginFunc()
     if #self.specialBody[2] > 0 then
         for var=1, #self.specialBody[2] do
             local spBodyArr = self.specialBody[2][var]
-            Tools.printDebug("----------brj 回到原 点  2：",spBodyArr[2])
             local move = cc.MoveTo:create(0.3,spBodyArr[2])
             spBodyArr[1]:runAction(move)
     	end
-    end
-    if #self.specialBody[3] > 0 then
-        for var=1, #self.specialBody[3] do
-            local spBodyArr = self.specialBody[3][var]
-            Tools.printDebug("----------brj 回到原 点  3：",self.specialBody[3],spBodyArr[1],spBodyArr[2])
-            local move = cc.MoveTo:create(0.3,spBodyArr[2])
-            spBodyArr[1]:runAction(move)
-        end
     end
     
     self.jumpFloorNum = 1
@@ -929,6 +920,7 @@ function MapLayer:disposeSpecial(_typeNum)
                 end
             else
                 if not tolua.isnull(var[1]) then
+--                    Tools.printDebug("----------brj 是否移除特殊钢架：",_typeNum)
                     var[1]:dispose()
                 end
             end
@@ -966,9 +958,15 @@ function MapLayer:dispose(parameters)
     
     for key, var in pairs(self.specialBody) do
     	for k, v in pairs(var) do
-    		if not tolua.isnull(v) then
-    			v:dispose()
-    		end
+            if type(v) ~= "table" then
+                if not tolua.isnull(v) then
+                    v:dispose()
+                end
+            else
+                if not tolua.isnull(v[1]) then
+                    v[1]:dispose()
+                end
+            end
     	end
     end
 
