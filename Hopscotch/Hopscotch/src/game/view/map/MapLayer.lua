@@ -182,8 +182,11 @@ function MapLayer:initRooms(parameters)
                 steel1:setCameraMask(2)
                 steel2:setCameraMask(2)
                 self.specialBody[math.floor(self.m_roomsNum/10)] = {}
-                table.insert(self.specialBody[math.floor(self.m_roomsNum/10)],steel1)
-                table.insert(self.specialBody[math.floor(self.m_roomsNum/10)],steel2)
+                local spBodyArr = {steel1,cc.p(self._x+size.width*0.5+5+self.m_levelCon.lineX,size.height*0.5+16+_y+steelY)}
+                local spBodyArr2 = {steel2,cc.p(self._x+display.right-size.width*0.5-5-self.m_levelCon.lineX,size.height*0.5+16+_y+steel2Y)}
+                Tools.printDebug("------------------ 初始化房间：： ",math.floor(self.m_roomsNum/10),spBodyArr[2])
+                table.insert(self.specialBody[math.floor(self.m_roomsNum/10)],spBodyArr)
+                table.insert(self.specialBody[math.floor(self.m_roomsNum/10)],spBodyArr2)
             end
             
             self.m_curZOrder = self.m_curZOrder + 1
@@ -200,7 +203,7 @@ function MapLayer:addNewRooms(parameters)
 --    	local i = math.random(RunningMin,RunningMax)
 --    	self.runFloorNum = i
         local k = GameDataManager.getDataIdByWeight()
-        Tools.printDebug("brj Hopscotch 横跑组：",k)
+--        Tools.printDebug("brj Hopscotch 横跑组：",k)
         self.m_levelCon = MapRunningConfig[k]
         self.roomType = self.m_levelCon.roomType
         self.floorNum = 0
@@ -230,12 +233,12 @@ function MapLayer:addNewRooms(parameters)
         end 
     end
     
+--    Tools.printDebug("-------------------brj Hopscotch 总缓存楼层：",#self.m_chaceRooms)
     if self.roomType ~= MAPROOM_TYPE.Running then
         self._x = self.floorPos[self.m_roomsNum].x
         self.floorNum = self.floorNum + 1
     	self:CommonRoomAdd()
     else
-        Tools.printDebug("brj Hopscotch 横跑方向：",self.m_levelCon.direction)
         self:RunningRoomAdd(self.m_levelCon.direction)
     end
     
@@ -322,7 +325,6 @@ function MapLayer:RunningRoomAdd(_dis)
         end
     else
         table.insert(self.m_otherRooms,_newRoom)
---        Tools.printDebug("brj ----------------------other缓存 ",self.floorNum)
     end
 end
 
@@ -332,6 +334,7 @@ function MapLayer:CommonRoomAdd()
     local _newRoom
     local _y = 0
     if _oldRoom then
+--        Tools.printDebug("------------111缓存楼层数量111111111111111：",self.m_roomsNum)
         _newRoom = MapRoom.new(self.floorNum,self.m_levelCon,self.m_roomsNum)
         _y = _oldRoom:getPositionY() + Room_Size.height
         if self.m_levelCon.roomType == MAPROOM_TYPE.Lean then
@@ -619,18 +622,17 @@ function MapLayer:rayCastFunc(_world,_p1,_p2,_p3)
     end
     
     if _tag == ELEMENT_TAG.FLOOR then
+        local _size = self.m_player:getSize()
+        local bpx,bpy = self.m_player:getPosition()
+        local roomIndex = math.ceil((self.m_player:getPositionY()-self.bottomHeight)/Room_Size.height)
         if not self.m_player:getJump() and self.curRoomType ~= MAPROOM_TYPE.Running then
-            local _size = self.m_player:getSize()
-            local bpx,bpy = self.m_player:getPosition()
-            local roomIndex = math.ceil((self.m_player:getPositionY()-self.bottomHeight)/Room_Size.height)
             if roomIndex == self.jumpFloorNum then
                 local floorPos = self.floorPos[self.jumpFloorNum]
                 self.m_player:setPosition(cc.p(bpx,floorPos.y+_size.width*0.5+27))
             end
         end
         self.isCollision = true
---        Tools.printDebug("----------brj 射线检测------------: ",self.isCollision)
-        local roomIndex = math.ceil((self.m_player:getPositionY()-self.bottomHeight)/Room_Size.height)
+        
         if self.m_lastRoomIdx ~= roomIndex then
             local _room = self:getRoomByIdx(roomIndex)
             if _room then
@@ -640,7 +642,6 @@ function MapLayer:rayCastFunc(_world,_p1,_p2,_p3)
                 self.curRoomDistance = _room:getRunningDistance()
                 self.m_lastRoomIdx = roomIndex
             end
---            Tools.printDebug("brj 当前楼层房间类型： ",self.curRoomType)
             if roomIndex > self.jumpFloorNum then
                 self.jumpFloorNum = roomIndex
                 GameDataManager.setPoints(self.jumpFloorNum)
@@ -649,6 +650,8 @@ function MapLayer:rayCastFunc(_world,_p1,_p2,_p3)
                     self:toCameraMove()
                 else
                     if self.jumpFloorNum % 10 == 1 then
+                        self.runningKey = 1
+                        self.roomKey = 0
                         self:toCameraMove()
                     else
                         self:toRunCameraMove() 
@@ -659,6 +662,19 @@ function MapLayer:rayCastFunc(_world,_p1,_p2,_p3)
                 self:toRunFirstCameraMove()
             end
         end
+        
+        local _room,rKey = self:getOtherRoomByX(bpx,self.roomKey)
+        if _room then
+            if self.curRoomType == MAPROOM_TYPE.Running then
+                if self.runningKey and self.runningKey < _room:getRoomKey() then
+                    self.roomKey = rKey
+                    self.runningKey = _room:getRoomKey()
+--                    Tools.printDebug("----------brj 射线检测------------: ",rKey,self.runningKey)
+                    self:addNewRooms()
+                end
+            end
+        end
+        
         return true
     end
 
@@ -703,6 +719,15 @@ function MapLayer:getRoomByIdx(_roomIndx)
     for key, var in pairs(self.m_chaceRooms) do
         if var:getRoomIndex() == _roomIndx then
             return var
+        end
+    end
+end
+
+--根据房间编号从other中获取房间对象
+function MapLayer:getOtherRoomByX(_px,k)
+    for key, var in pairs(self.m_otherRooms) do
+        if math.abs(_px) >= math.abs(var:getRoomX()) and k<key then
+            return var,key
         end
     end
 end
@@ -754,7 +779,7 @@ end
 --横跑过程中的摄像机移动
 function MapLayer:toRunCameraMove()
     local roomIndex = math.ceil((self.m_player:getPositionY()-self.bottomHeight)/Room_Size.height)
-    if roomIndex >= GameDataManager.getPoints() and self.floorNum ~= 1 then
+    if roomIndex >= GameDataManager.getPoints() and self.jumpFloorNum % 10 ~= 1 then
         local pos = self.floorPos[self.jumpFloorNum]
         local mx,my = self.m_camera:getPosition()
         self.m_camera:stopAllActions()
@@ -805,7 +830,7 @@ function MapLayer:toRunFirstCameraMove()
             self.bgNode:toRunYtoXMove(pos,self.bottomHeight,toX,mx,moveSpeed/speed)
 
         end
-    elseif self.jumpFloorNum % 10 == 9 then
+    elseif self.jumpFloorNum % 10 == 9 or self.jumpFloorNum % 10 == 0 then
         self.curState = State_Type.CommonState
         local pos = self.floorPos[self.jumpFloorNum]
         local _scaleX=self.m_player:getScaleX()
@@ -823,11 +848,12 @@ function MapLayer:toRunFirstCameraMove()
         
         self.bgNode:toRunXtoYMove(pos,self.bottomHeight,my,moveSpeed/speed)
 
-    elseif self.jumpFloorNum % 10 == 10 then
-        local removeCount = #self.m_otherRooms
-        for var=1, removeCount do
-            local _room = table.remove(self.m_otherRooms,1)
-            _room:dispose()
+        if self.jumpFloorNum % 10 == 0 then
+            local removeCount = #self.m_otherRooms
+            for var=1, removeCount do
+                local _room = table.remove(self.m_otherRooms,1)
+                _room:dispose()
+            end
         end
     end
 end
@@ -846,6 +872,33 @@ function MapLayer:backOriginFunc()
         local _room = table.remove(self.m_chaceRooms,#self.m_chaceRooms)
         _room:dispose()
     end
+    --当20层以内死亡已缓存特殊钢架时销毁
+    local spNum = math.ceil(removeCount / 10)
+    local initNum = MAP_ROOM_INIT_NUM*0.1
+    if spNum > 0 then
+    	for var=1, spNum do
+            self:disposeSpecial(var+initNum)
+    	end
+    end
+    
+    --20层以内的特殊钢架恢复原型
+    if #self.specialBody[2] > 0 then
+        for var=1, #self.specialBody[2] do
+            local spBodyArr = self.specialBody[2][var]
+            Tools.printDebug("----------brj 回到原 点  2：",spBodyArr[2])
+            local move = cc.MoveTo:create(0.3,spBodyArr[2])
+            spBodyArr[1]:runAction(move)
+    	end
+    end
+    if #self.specialBody[3] > 0 then
+        for var=1, #self.specialBody[3] do
+            local spBodyArr = self.specialBody[3][var]
+            Tools.printDebug("----------brj 回到原 点  3：",self.specialBody[3],spBodyArr[1],spBodyArr[2])
+            local move = cc.MoveTo:create(0.3,spBodyArr[2])
+            spBodyArr[1]:runAction(move)
+        end
+    end
+    
     self.jumpFloorNum = 1
     local _size = self.m_player:getSize()
     local floorPos = self.floorPos[self.jumpFloorNum]
@@ -862,7 +915,7 @@ function MapLayer:backOriginFunc()
         self.backOrigin = false
         self.m_player:setDeadReback()
     end)
-    Tools.printDebug("----------brj 摄像机坐标：",self.m_camera:getPosition())
+--    Tools.printDebug("----------brj 摄像机坐标：",self.m_camera:getPosition())
 
 end
 
@@ -870,9 +923,14 @@ end
 function MapLayer:disposeSpecial(_typeNum)
     if self.specialBody[_typeNum] then
         for key, var in pairs(self.specialBody[_typeNum]) do
-            if not tolua.isnull(var) then
---                Tools.printDebug("brj 跳房子 ：",_typeNum)
-                var:dispose()
+            if type(var) ~= "table" then
+                if not tolua.isnull(var) then
+                    var:dispose()
+                end
+            else
+                if not tolua.isnull(var[1]) then
+                    var[1]:dispose()
+                end
             end
         end
         self.specialBody[_typeNum] = {}

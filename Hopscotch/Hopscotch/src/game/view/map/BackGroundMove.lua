@@ -17,6 +17,8 @@ function BackGroundMove:ctor(_sceneId)
         self.offset = {-32,50,413,1989,0,32}
     elseif GameDataManager.getFightScene() == 5 then
         self.offset = {0,50,1918,2229,-207,87}
+    elseif GameDataManager.getFightScene() == 2 then
+        self.offset = {0,50,379,110,0,285}
     end
     
     self.Panel_1 = cc.uiloader:seekNodeByName(self.sceneBg,"Panel_1")
@@ -33,11 +35,11 @@ function BackGroundMove:ctor(_sceneId)
     self.Panel_3_0 = cc.uiloader:seekNodeByName(self.sceneBg,"Panel_3_0")
     self.Panel_3_0:setPositionY(display.bottom+self.offset[4])
     
-    self.panel1Pos = self.Panel_1:getPosition()
-    self.panel2Pos = self.Panel_2:getPosition()
-    self.panel2Pos2 = self.Panel_2_0:getPosition()
-    self.panel3Pos = self.Panel_3:getPosition()
-    self.panel3Pos2 = self.Panel_3_0:getPosition()
+    self.panel1PosX,self.panel1PosY = self.Panel_1:getPosition()
+    self.panel2PosX,self.panel2PosY = self.Panel_2:getPosition()
+    self.panel2Pos2X,self.panel2Pos2Y = self.Panel_2_0:getPosition()
+    self.panel3PosX,self.panel3PosY = self.Panel_3:getPosition()
+    self.panel3Pos2X,self.panel3Pos2Y = self.Panel_3_0:getPosition()
     
     self.panel2Size = self.Panel_2:getCascadeBoundingBox().size
     self.panel3Size = self.Panel_3:getCascadeBoundingBox().size
@@ -77,12 +79,12 @@ function BackGroundMove:bgLandscapeMove(_posX,moveX,_mx,_scaleX)
             self.Panel_3_0:setPositionX(bgx2+moveX*0.95-self.panel3Size.width-self.offset[2])
         end
     else
-        if bgx+moveX + self.offset[1] < _mx - self.panel2Size.width then
+        if bgx+moveX < _mx - self.panel2Size.width then
             self.Panel_2:setPositionX(px2+moveX+self.panel2Size.width-self.offset[6])
             self.Panel_2_0:setLocalZOrder(1)
             self.Panel_2:setLocalZOrder(2)
         end
-        if px2+moveX + self.offset[1] < _mx - self.panel2Size.width then
+        if px2+moveX < _mx - self.panel2Size.width then
             self.Panel_2_0:setPositionX(bgx+moveX+self.panel2Size.width-self.offset[6])
             self.Panel_2:setLocalZOrder(1)
             self.Panel_2_0:setLocalZOrder(2)
@@ -275,21 +277,21 @@ end
 --背景回到原点
 function BackGroundMove:toBackOrigin()
     self.Panel_1:stopAllActions()
-    local m = cc.MoveTo:create(0.5,cc.p(self.panel1Pos))
+    local m = cc.MoveTo:create(0.5,cc.p(self.panel1PosX,self.panel1PosY))
     self.Panel_1:runAction(m)
     
     self.Panel_2:stopAllActions()
-    local move = cc.MoveTo:create(0.5,cc.p(self.panel2Pos))
+    local move = cc.MoveTo:create(0.5,cc.p(self.panel2PosX,self.panel2PosY))
     self.Panel_2:runAction(move)
     self.Panel_2_0:stopAllActions()
-    local move2 = cc.MoveTo:create(0.5,cc.p(self.panel2Pos2))
+    local move2 = cc.MoveTo:create(0.5,cc.p(self.panel2Pos2X,self.panel2Pos2Y))
     self.Panel_2_0:runAction(move2)
     
     self.Panel_3:stopAllActions()
-    local move3 = cc.MoveTo:create(0.5,cc.p(self.panel3Pos))
+    local move3 = cc.MoveTo:create(0.5,cc.p(self.panel3PosX,self.panel3PosY))
     self.Panel_3:runAction(move3)
     self.Panel_3_0:stopAllActions()
-    local move4 = cc.MoveTo:create(0.5,cc.p(self.panel3Pos2))
+    local move4 = cc.MoveTo:create(0.5,cc.p(self.panel3Pos2X,self.panel3Pos2Y))
     self.Panel_3_0:runAction(move4)
 end
 

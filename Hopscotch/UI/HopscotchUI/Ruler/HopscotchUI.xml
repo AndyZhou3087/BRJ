@@ -32,4 +32,8 @@
     <Project>SceneBg_5</Project>
     <GuidesList />
   </GuidesProject>
+  <GuidesProject>
+    <Project>SceneBg_2</Project>
+    <GuidesList />
+  </GuidesProject>
 </ArrayOfGuidesProject>

@@ -185,6 +185,7 @@
             <filename>Room_specialbg_4.png</filename>
             <filename>Room_wall.png</filename>
             <filename>Special_line.png</filename>
+            <filename>../../../../Useful/跳房子/海底场景/Scene_sea.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>
