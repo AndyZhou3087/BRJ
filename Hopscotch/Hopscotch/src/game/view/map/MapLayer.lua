@@ -7,6 +7,7 @@ local Scheduler = require("framework.scheduler")
 local SpecialElement = require("game.view.element.SpecialElement")
 local BackGroundMove = require("game.view.map.BackGroundMove")
 local LineElement = require("game.view.element.LineElement")
+local BackGround = require("game.view.map.BackGround")
 
 local Raycast_DisY = 20  --探测距离
 local Raycast_DisX = 6 --探测轴方向有无障碍物
@@ -53,6 +54,8 @@ function MapLayer:ctor(parameters)
     end)
     
     self.bgNode = BackGroundMove.new(GameDataManager.getFightScene()):addTo(self)
+    self.bgNode:setVisible(false)
+    self.backGround = BackGround.new(GameDataManager.getFightScene()):addTo(self)
     
     self.m_bg = display.newSprite("map/Scene_1/Map_frame_2.png")
     self.bottomHeight = self.m_bg:getCascadeBoundingBox().size.height
@@ -166,6 +169,7 @@ function MapLayer:initRooms(parameters)
                 line_right:setPosition(cc.p(self._x+display.right-15-self.m_levelCon.lineX,rightHeight*9+_y))
                 line_right:setScaleY(8.5-(self.m_levelCon.right[1]-1))
                 line_right:setCameraMask(2)
+                
                 --钢架人
                 local steel1 = SpecialElement.new(self.m_levelCon.left,line_left)
                 self:addChild(steel1,self.m_curZOrder)
@@ -182,11 +186,11 @@ function MapLayer:initRooms(parameters)
                 steel1:setCameraMask(2)
                 steel2:setCameraMask(2)
                 self.specialBody[math.floor(self.m_roomsNum/10)] = {}
-                local spBodyArr = {steel1,cc.p(self._x+size.width*0.5+5+self.m_levelCon.lineX,size.height*0.5+16+_y+steelY)}
-                local spBodyArr2 = {steel2,cc.p(self._x+display.right-size.width*0.5-5-self.m_levelCon.lineX,size.height*0.5+16+_y+steel2Y)}
-                Tools.printDebug("------------------ 初始化房间：： ",math.floor(self.m_roomsNum/10),spBodyArr2[2])
+                local spBodyArr = {steel1,cc.p(self._x+size.width*0.5+5+self.m_levelCon.lineX,size.height*0.5+16+_y+steelY),self.m_levelCon.left[1]}
+                local spBodyArr2 = {steel2,cc.p(self._x+display.right-size.width*0.5-5-self.m_levelCon.lineX,size.height*0.5+16+_y+steel2Y),self.m_levelCon.right[1]}
                 table.insert(self.specialBody[math.floor(self.m_roomsNum/10)],spBodyArr)
                 table.insert(self.specialBody[math.floor(self.m_roomsNum/10)],spBodyArr2)
+--                Tools.printDebug("------------------ 初始化房间：： ",math.floor(self.m_roomsNum/10),self.specialBody[math.floor(self.m_roomsNum/10)][1])
             end
             
             self.m_curZOrder = self.m_curZOrder + 1
@@ -382,9 +386,10 @@ function MapLayer:CommonRoomAdd()
         steel2:setPosition(cc.p(self._x+display.right-size.width*0.5-5-self.m_levelCon.lineX,size.height*0.5+16+_y+steel2Y))
         steel1:setCameraMask(2)
         steel2:setCameraMask(2)
-        self.specialBody[math.floor(self.m_roomsNum/10)] = {}
-        table.insert(self.specialBody[math.floor(self.m_roomsNum/10)],steel1)
-        table.insert(self.specialBody[math.floor(self.m_roomsNum/10)],steel2)
+        self.specialBody[math.ceil(self.m_roomsNum/10)] = {}
+        table.insert(self.specialBody[math.ceil(self.m_roomsNum/10)],steel1)
+        table.insert(self.specialBody[math.ceil(self.m_roomsNum/10)],steel2)
+--        Tools.printDebug("------------------ 添加的房间：： ",math.ceil(self.m_roomsNum/10),self.specialBody[math.ceil(self.m_roomsNum/10)])
     end
 
     self.m_curZOrder = self.m_curZOrder + 1
@@ -480,6 +485,12 @@ function MapLayer:onEnterFrame(dt)
             end
         end
     end
+    
+    --背景移动
+    self.backGround:backMove({roomType = self.curRoomType,playerPos = cc.p(self.m_player:getPosition()),floorPos = self.floorPos[self.jumpFloorNum],
+        cameraPos = cc.p(self.m_camera:getPosition()),value = self.bottomHeight})
+--    Tools.printDebug("---------brj 跳房子  摄像机位置：",self.m_camera:getPosition())
+
    
     if self.jumpFloorNum == Map_Grade.floor_D then
         self.m_player:changeSpeed(MAP_SPEED.floor_D)
@@ -654,7 +665,7 @@ function MapLayer:rayCastFunc(_world,_p1,_p2,_p3)
                         self.roomKey = 0
                         self:toCameraMove()
                     else
-                        self:toRunCameraMove() 
+                        self:toRunCameraMove()
                     end
                 end
             end
@@ -779,19 +790,31 @@ end
 --横跑过程中的摄像机移动
 function MapLayer:toRunCameraMove()
     local roomIndex = math.ceil((self.m_player:getPositionY()-self.bottomHeight)/Room_Size.height)
-    if roomIndex >= GameDataManager.getPoints() and self.jumpFloorNum % 10 ~= 1 then
+    if roomIndex >= GameDataManager.getPoints() then
         local pos = self.floorPos[self.jumpFloorNum]
         local mx,my = self.m_camera:getPosition()
-        self.m_camera:stopAllActions()
-        local move = cc.MoveBy:create(0.3,cc.p(0,pos.y-self.bottomHeight-my))
-        self.m_camera:runAction(move)
-        
-        self.bgNode:toRunCameraMove(pos.y,self.bottomHeight)
-        
-        local bgx,bgy = self.bg:getPosition()
-        self.bg:stopAllActions()
-        local move3 = cc.MoveBy:create(0.3,cc.p(0,pos.y-self.bottomHeight-bgy))
-        self.bg:runAction(move3)
+        if self.jumpFloorNum % 10 ~= 1 and self.jumpFloorNum % 10 ~= 9 and self.jumpFloorNum % 10 ~= 0 then
+            self.m_camera:stopAllActions()
+            local move = cc.MoveBy:create(0.3,cc.p(0,pos.y-self.bottomHeight-my))
+            self.m_camera:runAction(move)
+
+            self.bgNode:toRunCameraMove(pos,self.bottomHeight,self.jumpFloorNum)
+
+            local bgx,bgy = self.bg:getPosition()
+            self.bg:stopAllActions()
+            local move3 = cc.MoveBy:create(0.3,cc.p(0,pos.y-self.bottomHeight-bgy))
+            self.bg:runAction(move3)
+        elseif self.jumpFloorNum % 10 == 0 then
+            self.m_camera:stopAllActions()
+            local move = cc.MoveTo:create(0.3,cc.p(pos.x,pos.y-self.bottomHeight))
+            self.m_camera:runAction(move)
+
+            self.bgNode:toRunCameraMove(pos,self.bottomHeight,self.jumpFloorNum)
+
+            self.bg:stopAllActions()
+            local move3 = cc.MoveTo:create(0.3,cc.p(pos.x,pos.y-self.bottomHeight))
+            self.bg:runAction(move3)
+        end
     end
 end
 
@@ -830,7 +853,7 @@ function MapLayer:toRunFirstCameraMove()
             self.bgNode:toRunYtoXMove(pos,self.bottomHeight,toX,mx,moveSpeed/speed)
 
         end
-    elseif self.jumpFloorNum % 10 == 9 or self.jumpFloorNum % 10 == 0 then
+    elseif self.jumpFloorNum % 10 == 9 then
         self.curState = State_Type.CommonState
         local pos = self.floorPos[self.jumpFloorNum]
         local _scaleX=self.m_player:getScaleX()
@@ -845,15 +868,13 @@ function MapLayer:toRunFirstCameraMove()
         local moveX = cc.MoveTo:create(0.5*moveSpeed/speed,cc.p(pos.x,my))
         local seq = cc.Sequence:create(moveX,moveY)
         self.bg:runAction(seq)
-        
-        self.bgNode:toRunXtoYMove(pos,self.bottomHeight,my,moveSpeed/speed)
 
-        if self.jumpFloorNum % 10 == 0 then
-            local removeCount = #self.m_otherRooms
-            for var=1, removeCount do
-                local _room = table.remove(self.m_otherRooms,1)
-                _room:dispose()
-            end
+        self.bgNode:toRunXtoYMove(pos,self.bottomHeight,moveSpeed/speed)
+    elseif self.jumpFloorNum % 10 == 0 then
+        local removeCount = #self.m_otherRooms
+        for var=1, removeCount do
+            local _room = table.remove(self.m_otherRooms,1)
+            _room:dispose()
         end
     end
 end
@@ -872,7 +893,7 @@ function MapLayer:backOriginFunc()
         local _room = table.remove(self.m_chaceRooms,#self.m_chaceRooms)
         _room:dispose()
     end
-    --当20层以内死亡已缓存特殊钢架时销毁
+    --当20层以内死亡将初始化30层以外已缓存特殊钢架时销毁
     local spNum = math.ceil(removeCount / 10)
     local initNum = MAP_ROOM_INIT_NUM*0.1
     if spNum > 0 then
@@ -885,8 +906,14 @@ function MapLayer:backOriginFunc()
     if #self.specialBody[2] > 0 then
         for var=1, #self.specialBody[2] do
             local spBodyArr = self.specialBody[2][var]
-            local move = cc.MoveTo:create(0.3,spBodyArr[2])
+            local move = cc.MoveTo:create(0.2,spBodyArr[2])
             spBodyArr[1]:runAction(move)
+            if not tolua.isnull(spBodyArr[1].lineSprite) then
+                local scale = 8.5-(spBodyArr[3]-1)
+                local scaleX = spBodyArr[1].lineSprite:getScaleX()
+                local toScale = cc.ScaleTo:create(0.2,scaleX,scale)
+                spBodyArr[1].lineSprite:runAction(toScale)
+            end
     	end
     end
     
@@ -942,6 +969,10 @@ function MapLayer:dispose(parameters)
 
     if self.m_player then
         self.m_player:dispose()
+    end
+    
+    if self.backGround then
+    	self.backGround:dispose()
     end
 
     for key, var in ipairs(self.m_chaceRooms) do

@@ -6,7 +6,7 @@
 Room_Size = cc.size(692,99)--坐标：x:[29,721]
 
 --=====所有坐标x都要从29开始计算(如果为0，则Room_Distance.x+0)
-Room_Distance = cc.p(29,721)
+Room_Distance = cc.p(30,722)
 
 Grid_Size = cc.size(90,90)
 

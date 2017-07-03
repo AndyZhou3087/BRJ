@@ -24,7 +24,7 @@ Sequent_Click_Time = 0.05
 GOLD_SPEED=40
 
 --横跑出现的层数(每50层出现一次)
-RunningFloorNum = 50
+RunningFloorNum = 60
 --随机每多少层出现一次
 RunningMin = 50
 RunningMax = 100
