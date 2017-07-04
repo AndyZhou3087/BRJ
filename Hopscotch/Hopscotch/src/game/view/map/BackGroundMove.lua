@@ -19,6 +19,10 @@ function BackGroundMove:ctor(_sceneId)
         self.offset = {0,50,1918,2229,-207,87}
     elseif GameDataManager.getFightScene() == 2 then
         self.offset = {0,50,379,-200,0,285}
+    elseif GameDataManager.getFightScene() == 3 then
+        self.offset = {0,0,521,800,-59,92}
+    elseif GameDataManager.getFightScene() == 4 then
+        self.offset = {0,0,400,200,0,0}
     end
     
     self.Panel_1 = cc.uiloader:seekNodeByName(self.sceneBg,"Panel_1")
