@@ -54,8 +54,8 @@ function MapLayer:ctor(parameters)
     end)
     
     self.bgNode = BackGroundMove.new(GameDataManager.getFightScene()):addTo(self)
-    self.bgNode:setVisible(false)
-    self.backGround = BackGround.new(GameDataManager.getFightScene()):addTo(self)
+--    self.bgNode:setVisible(false)
+--    self.backGround = BackGround.new(GameDataManager.getFightScene()):addTo(self)
     
     self.m_bg = display.newSprite("map/Scene_1/Map_frame_2.png")
     self.bottomHeight = self.m_bg:getCascadeBoundingBox().size.height
@@ -202,7 +202,7 @@ end
 --添加新的房间
 --此处为动态添加的房间，不需调整刚体位置，即无需传第三个参数(room:initPosition(_x,_y))
 function MapLayer:addNewRooms(parameters)
-    
+--    Tools.printDebug("-------------------brj Hopscotch 总缓存楼层：",self.m_roomsNum)
     if self.m_roomsNum % self.runFloorNum == 0 then
 --    	local i = math.random(RunningMin,RunningMax)
 --    	self.runFloorNum = i
@@ -237,7 +237,6 @@ function MapLayer:addNewRooms(parameters)
         end 
     end
     
---    Tools.printDebug("-------------------brj Hopscotch 总缓存楼层：",#self.m_chaceRooms)
     if self.roomType ~= MAPROOM_TYPE.Running then
         self._x = self.floorPos[self.m_roomsNum].x
         self.floorNum = self.floorNum + 1
@@ -487,8 +486,8 @@ function MapLayer:onEnterFrame(dt)
     end
     
     --背景移动
-    self.backGround:backMove({roomType = self.curRoomType,playerPos = cc.p(self.m_player:getPosition()),floorPos = self.floorPos[self.jumpFloorNum],
-        cameraPos = cc.p(self.m_camera:getPosition()),value = self.bottomHeight})
+--    self.backGround:backMove({roomType = self.curRoomType,playerPos = cc.p(self.m_player:getPosition()),floorPos = self.floorPos[self.jumpFloorNum],
+--        cameraPos = cc.p(self.m_camera:getPosition()),value = self.bottomHeight})
 --    Tools.printDebug("---------brj 跳房子  摄像机位置：",self.m_camera:getPosition())
 
    
@@ -903,7 +902,7 @@ function MapLayer:backOriginFunc()
     end
     
     --20层以内的特殊钢架恢复原型
-    if #self.specialBody[2] > 0 then
+    if self.specialBody[2] and #self.specialBody[2] > 0 then
         for var=1, #self.specialBody[2] do
             local spBodyArr = self.specialBody[2][var]
             local move = cc.MoveTo:create(0.2,spBodyArr[2])
@@ -973,6 +972,10 @@ function MapLayer:dispose(parameters)
     
     if self.backGround then
     	self.backGround:dispose()
+    end
+    
+    if self.bgNode then
+    	self.bgNode:dispose()
     end
 
     for key, var in ipairs(self.m_chaceRooms) do

@@ -147,25 +147,49 @@ function BackGroundMove:bgPortraitMove(_pos,_dis,_mx)
     self.Panel_2_0:stopAllActions()
     local move2_2 = cc.MoveTo:create(0.3,cc.p(p2x2+(_pos.x-_mx)*0.9,_pos.y*0.9-_dis+self.offset[3]))
     self.Panel_2_0:runAction(move2_2)
-    if p2x+(_pos.x-_mx)*0.9 > _pos.x + display.width - self.offset[1] then
-        self.Panel_2:setPositionX(p2x2+(_pos.x-_mx)*0.9-self.panel2Size.width+self.offset[6])
-        self.Panel_2_0:setLocalZOrder(2)
-        self.Panel_2:setLocalZOrder(1)
+    if p2x+(_pos.x-_mx)*0.9 > _pos.x + display.width + self.offset[1] then
+        self.Panel_2:stopAllActions()
+        local move2 = cc.MoveTo:create(0.3,cc.p(_pos.x + display.width + self.offset[1],_pos.y*0.9-_dis+self.offset[3]))
+        local call = cc.CallFunc:create(function()
+            self.Panel_2:setPositionX(p2x2+(_pos.x-_mx)*0.9-self.panel2Size.width+self.offset[6])
+            self.Panel_2_0:setLocalZOrder(2)
+            self.Panel_2:setLocalZOrder(1)
+        end)
+        local seq = cc.Sequence:create(move2,call)
+        self.Panel_2:runAction(seq)
     end
-    if p2x2+(_pos.x-_mx)*0.9 > _pos.x + display.width - self.offset[1]  then
-        self.Panel_2_0:setPositionX(p2x+(_pos.x-_mx)*0.9-self.panel2Size.width+self.offset[6])
-        self.Panel_2_0:setLocalZOrder(1)
-        self.Panel_2:setLocalZOrder(2)
+    if p2x2+(_pos.x-_mx)*0.9 > _pos.x + display.width + self.offset[1]  then
+        self.Panel_2_0:stopAllActions()
+        local move2 = cc.MoveTo:create(0.3,cc.p(_pos.x + display.width + self.offset[1],_pos.y*0.9-_dis+self.offset[3]))
+        local call = cc.CallFunc:create(function()
+            self.Panel_2_0:setPositionX(p2x+(_pos.x-_mx)*0.9-self.panel2Size.width+self.offset[6])
+            self.Panel_2_0:setLocalZOrder(1)
+            self.Panel_2:setLocalZOrder(2)
+        end)
+        local seq = cc.Sequence:create(move2,call)
+        self.Panel_2_0:runAction(seq)
     end
     if p2x+(_pos.x-_mx)*0.9 < _pos.x - self.panel2Size.width then
-        self.Panel_2:setPositionX(p2x2+(_pos.x-_mx)*0.9+self.panel2Size.width-self.offset[6])
-        self.Panel_2_0:setLocalZOrder(2)
-        self.Panel_2:setLocalZOrder(1)
+        self.Panel_2:stopAllActions()
+        local move2 = cc.MoveTo:create(0.3,cc.p(_pos.x - self.panel2Size.width,_pos.y*0.9-_dis+self.offset[3]))
+        local call = cc.CallFunc:create(function()
+            self.Panel_2:setPositionX(p2x2+(_pos.x-_mx)*0.9+self.panel2Size.width-self.offset[6])
+            self.Panel_2_0:setLocalZOrder(2)
+            self.Panel_2:setLocalZOrder(1)
+        end)
+        local seq = cc.Sequence:create(move2,call)
+        self.Panel_2:runAction(seq)
     end
     if p2x2+(_pos.x-_mx)*0.9 < _pos.x - self.panel2Size.width then
-        self.Panel_2_0:setPositionX(p2x+(_pos.x-_mx)*0.9+self.panel2Size.width-self.offset[6])
-        self.Panel_2_0:setLocalZOrder(1)
-        self.Panel_2:setLocalZOrder(2)
+        self.Panel_2_0:stopAllActions()
+        local move2 = cc.MoveTo:create(0.3,cc.p(_pos.x - self.panel2Size.width,_pos.y*0.9-_dis+self.offset[3]))
+        local call = cc.CallFunc:create(function()
+            self.Panel_2_0:setPositionX(p2x+(_pos.x-_mx)*0.9+self.panel2Size.width-self.offset[6])
+            self.Panel_2_0:setLocalZOrder(1)
+            self.Panel_2:setLocalZOrder(2)
+        end)
+        local seq = cc.Sequence:create(move2,call)
+        self.Panel_2_0:runAction(seq)
     end
 
     local p3x,p3y = self.Panel_3:getPosition()
@@ -177,16 +201,40 @@ function BackGroundMove:bgPortraitMove(_pos,_dis,_mx)
     local move3_2 = cc.MoveTo:create(0.3,cc.p(p3x2+(_pos.x-_mx)*0.95,_pos.y*0.95-_dis+self.offset[4]))
     self.Panel_3_0:runAction(move3_2)
     if p3x+(_pos.x-_mx)*0.95 > _pos.x + display.width then
-        self.Panel_3:setPositionX(p3x2+(_pos.x-_mx)*0.95-self.panel3Size.width-self.offset[2])
+        self.Panel_3:stopAllActions()
+        local move2 = cc.MoveTo:create(0.3,cc.p(_pos.x + display.width,_pos.y*0.95-_dis+self.offset[4]))
+        local call = cc.CallFunc:create(function()
+            self.Panel_3:setPositionX(p3x2+(_pos.x-_mx)*0.95-self.panel3Size.width-self.offset[2])
+        end)
+        local seq = cc.Sequence:create(move2,call)
+        self.Panel_3:runAction(seq)
     end
     if p3x2+(_pos.x-_mx)*0.95 > _pos.x + display.width then
-        self.Panel_3_0:setPositionX(p3x+(_pos.x-_mx)*0.95-self.panel3Size.width-self.offset[2])
+        self.Panel_3_0:stopAllActions()
+        local move2 = cc.MoveTo:create(0.3,cc.p(_pos.x + display.width,_pos.y*0.95-_dis+self.offset[4]))
+        local call = cc.CallFunc:create(function()
+            self.Panel_3_0:setPositionX(p3x+(_pos.x-_mx)*0.95-self.panel3Size.width-self.offset[2])
+        end)
+        local seq = cc.Sequence:create(move2,call)
+        self.Panel_3_0:runAction(seq)
     end
     if p3x+(_pos.x-_mx)*0.95 < _pos.x - self.panel3Size.width then
-        self.Panel_3:setPositionX(p3x2+(_pos.x-_mx)*0.95+self.panel3Size.width+self.offset[2])
+        self.Panel_3:stopAllActions()
+        local move2 = cc.MoveTo:create(0.3,cc.p(_pos.x - self.panel3Size.width,_pos.y*0.95-_dis+self.offset[4]))
+        local call = cc.CallFunc:create(function()
+            self.Panel_3:setPositionX(p3x2+(_pos.x-_mx)*0.95+self.panel3Size.width+self.offset[2])
+        end)
+        local seq = cc.Sequence:create(move2,call)
+        self.Panel_3:runAction(seq)
     end
     if p3x2+(_pos.x-_mx)*0.9 < _pos.x - self.panel3Size.width then
-        self.Panel_3_0:setPositionX(p3x+(_pos.x-_mx)*0.95+self.panel3Size.width+self.offset[2])
+        self.Panel_3_0:stopAllActions()
+        local move2 = cc.MoveTo:create(0.3,cc.p(_pos.x - self.panel3Size.width,_pos.y*0.95-_dis+self.offset[4]))
+        local call = cc.CallFunc:create(function()
+            self.Panel_3_0:setPositionX(p3x+(_pos.x-_mx)*0.95+self.panel3Size.width+self.offset[2])
+        end)
+        local seq = cc.Sequence:create(move2,call)
+        self.Panel_3_0:runAction(seq)
     end
 end
 
@@ -252,23 +300,31 @@ function BackGroundMove:toRunYtoXMove(_pos,_dis,toX,mx,vel)
     self:toYtoXMove(self.Panel_2,nx,_pos.y*0.9-_dis+self.offset[3],vel)
     local nx2,ny2 = self.Panel_2_0:getPosition()
     self:toYtoXMove(self.Panel_2_0,nx2,_pos.y*0.9-_dis+self.offset[3],vel)
-    if nx > _pos.x + display.width - self.offset[1] then
+    if nx > toX + display.width + self.offset[1] then
         self.Panel_2:setPositionX(nx2-self.panel2Size.width+self.offset[6])
+        local nx2,ny2 = self.Panel_2:getPosition()
+        self:toYtoXMove(self.Panel_2,nx2,_pos.y*0.9-_dis+self.offset[3],vel)
         self.Panel_2_0:setLocalZOrder(2)
         self.Panel_2:setLocalZOrder(1)
     end
-    if nx2 > _pos.x + display.width - self.offset[1]  then
+    if nx2 > toX + display.width + self.offset[1]  then
         self.Panel_2_0:setPositionX(nx-self.panel2Size.width+self.offset[6])
+        local nx2,ny2 = self.Panel_2_0:getPosition()
+        self:toYtoXMove(self.Panel_2_0,nx2,_pos.y*0.9-_dis+self.offset[3],vel)
         self.Panel_2_0:setLocalZOrder(1)
         self.Panel_2:setLocalZOrder(2)
     end
-    if nx < _pos.x - self.panel2Size.width then
+    if nx < toX - self.panel2Size.width then
         self.Panel_2:setPositionX(nx2+self.panel2Size.width-self.offset[6])
+        local nx2,ny2 = self.Panel_2:getPosition()
+        self:toYtoXMove(self.Panel_2,nx2,_pos.y*0.9-_dis+self.offset[3],vel)
         self.Panel_2_0:setLocalZOrder(2)
         self.Panel_2:setLocalZOrder(1)
     end
-    if nx2 < _pos.x - self.panel2Size.width then
+    if nx2 < toX - self.panel2Size.width then
         self.Panel_2_0:setPositionX(nx+self.panel2Size.width-self.offset[6])
+        local nx2,ny2 = self.Panel_2_0:getPosition()
+        self:toYtoXMove(self.Panel_2_0,nx2,_pos.y*0.9-_dis+self.offset[3],vel)
         self.Panel_2_0:setLocalZOrder(1)
         self.Panel_2:setLocalZOrder(2)
     end
@@ -277,17 +333,25 @@ function BackGroundMove:toRunYtoXMove(_pos,_dis,toX,mx,vel)
     self:toYtoXMove(self.Panel_3,nx3,_pos.y*0.95-_dis+self.offset[4],vel)
     local nx4,ny4 = self.Panel_3_0:getPosition()
     self:toYtoXMove(self.Panel_3_0,nx4,_pos.y*0.95-_dis+self.offset[4],vel)
-    if nx3 > _pos.x + display.width then
+    if nx3 > toX + display.width then
         self.Panel_3:setPositionX(nx4-self.panel3Size.width-self.offset[2])
+        local nx3,ny3 = self.Panel_3:getPosition()
+        self:toYtoXMove(self.Panel_3,nx3,_pos.y*0.95-_dis+self.offset[4],vel)
     end
-    if nx4 > _pos.x + display.width then
+    if nx4 > toX + display.width then
         self.Panel_3_0:setPositionX(nx3-self.panel3Size.width-self.offset[2])
+        local nx3,ny3 = self.Panel_3_0:getPosition()
+        self:toYtoXMove(self.Panel_3_0,nx3,_pos.y*0.95-_dis+self.offset[4],vel)
     end
-    if nx3 < _pos.x - self.panel3Size.width then
+    if nx3 < toX - self.panel3Size.width then
         self.Panel_3:setPositionX(nx4+self.panel3Size.width+self.offset[2])
+        local nx3,ny3 = self.Panel_3:getPosition()
+        self:toYtoXMove(self.Panel_3,nx3,_pos.y*0.95-_dis+self.offset[4],vel)
     end
-    if nx4 < _pos.x - self.panel3Size.width then
+    if nx4 < toX - self.panel3Size.width then
         self.Panel_3_0:setPositionX(nx3+self.panel3Size.width+self.offset[2])
+        local nx3,ny3 = self.Panel_3_0:getPosition()
+        self:toYtoXMove(self.Panel_3_0,nx3,_pos.y*0.95-_dis+self.offset[4],vel)
     end
 end
 
@@ -317,21 +381,29 @@ function BackGroundMove:toRunXtoYMove(_pos,_dis,vel)
     self:toXtoYMove(self.Panel_2_0,nx2,_pos.y*0.9-_dis+self.offset[3],vel,ny2)
     if nx > _pos.x + display.width - self.offset[1] then
         self.Panel_2:setPositionX(nx2-self.panel2Size.width+self.offset[6])
+        local nx,ny = self.Panel_2:getPosition()
+        self:toXtoYMove(self.Panel_2,nx,_pos.y*0.9-_dis+self.offset[3],vel,ny)
         self.Panel_2_0:setLocalZOrder(2)
         self.Panel_2:setLocalZOrder(1)
     end
     if nx2 > _pos.x + display.width - self.offset[1]  then
         self.Panel_2_0:setPositionX(nx-self.panel2Size.width+self.offset[6])
+        local nx,ny = self.Panel_2_0:getPosition()
+        self:toXtoYMove(self.Panel_2_0,nx,_pos.y*0.9-_dis+self.offset[3],vel,ny)
         self.Panel_2_0:setLocalZOrder(1)
         self.Panel_2:setLocalZOrder(2)
     end
     if nx < _pos.x - self.panel2Size.width then
         self.Panel_2:setPositionX(nx2+self.panel2Size.width-self.offset[6])
+        local nx,ny = self.Panel_2:getPosition()
+        self:toXtoYMove(self.Panel_2,nx,_pos.y*0.9-_dis+self.offset[3],vel,ny)
         self.Panel_2_0:setLocalZOrder(2)
         self.Panel_2:setLocalZOrder(1)
     end
     if nx2 < _pos.x - self.panel2Size.width then
         self.Panel_2_0:setPositionX(nx+self.panel2Size.width-self.offset[6])
+        local nx,ny = self.Panel_2_0:getPosition()
+        self:toXtoYMove(self.Panel_2_0,nx,_pos.y*0.9-_dis+self.offset[3],vel,ny)
         self.Panel_2_0:setLocalZOrder(1)
         self.Panel_2:setLocalZOrder(2)
     end
@@ -342,15 +414,23 @@ function BackGroundMove:toRunXtoYMove(_pos,_dis,vel)
     self:toXtoYMove(self.Panel_3_0,nx4,_pos.y*0.95-_dis+self.offset[4],vel,ny4)
     if nx3 > _pos.x + display.width then
         self.Panel_3:setPositionX(nx4-self.panel3Size.width-self.offset[2])
+        local nx3,ny3 = self.Panel_3:getPosition()
+        self:toXtoYMove(self.Panel_3,nx3,_pos.y*0.95-_dis+self.offset[4],vel,ny3)
     end
     if nx4 > _pos.x + display.width then
         self.Panel_3_0:setPositionX(nx3-self.panel3Size.width-self.offset[2])
+        local nx3,ny3 = self.Panel_3_0:getPosition()
+        self:toXtoYMove(self.Panel_3_0,nx3,_pos.y*0.95-_dis+self.offset[4],vel,ny3)
     end
     if nx3 < _pos.x - self.panel3Size.width then
         self.Panel_3:setPositionX(nx4+self.panel3Size.width+self.offset[2])
+        local nx3,ny3 = self.Panel_3:getPosition()
+        self:toXtoYMove(self.Panel_3,nx3,_pos.y*0.95-_dis+self.offset[4],vel,ny3)
     end
     if nx4 < _pos.x - self.panel3Size.width then
         self.Panel_3_0:setPositionX(nx3+self.panel3Size.width+self.offset[2])
+        local nx3,ny3 = self.Panel_3_0:getPosition()
+        self:toXtoYMove(self.Panel_3_0,nx3,_pos.y*0.95-_dis+self.offset[4],vel,ny3)
     end
 end
 

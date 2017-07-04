@@ -26,7 +26,7 @@ GOLD_SPEED=40
 --横跑出现的层数(每50层出现一次)
 RunningFloorNum = 60
 --随机每多少层出现一次
-RunningMin = 50
+RunningMin = RunningFloorNum
 RunningMax = 100
 
 --初始化房间数
