@@ -13,17 +13,8 @@ function BackGroundMove:ctor(_sceneId)
     self:addChild(self.sceneBg)
     
     --{panel2的偏移量，panel3的距离差，panel2的初始高度，panel3的初始高度，panel1位置的偏移量,panel2的距离差}
-    if GameDataManager.getFightScene() == 1 then
-        self.offset = {-32,50,413,1000,0,32}
-    elseif GameDataManager.getFightScene() == 5 then
-        self.offset = {0,50,1918,2229,-207,87}
-    elseif GameDataManager.getFightScene() == 2 then
-        self.offset = {0,50,379,-200,0,285}
-    elseif GameDataManager.getFightScene() == 3 then
-        self.offset = {0,0,521,800,-59,92}
-    elseif GameDataManager.getFightScene() == 4 then
-        self.offset = {0,0,400,200,0,0}
-    end
+    local sceneID = GameDataManager.getFightScene()
+    self.offset = SceneConfig[sceneID].offset
     
     self.Panel_1 = cc.uiloader:seekNodeByName(self.sceneBg,"Panel_1")
     self.Panel_1:setPositionY(display.bottom)
