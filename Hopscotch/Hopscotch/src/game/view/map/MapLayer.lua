@@ -40,13 +40,13 @@ function MapLayer:ctor(parameters)
     self.floorPos = {}
     self.roomArr = {}
     self.specialBody = {}
+    self.phantom = {}
     self.runFloorNum = RunningFloorNum
     
     self.m_curZOrder = MAP_ZORDER_MAX   --房间当前显示层级
     
     local color = SceneConfig[GameDataManager.getFightScene()].bgColor
     self.bg = cc.LayerGradient:create(color[1],color[2]):addTo(self)
---    self.bg = display.newColorLayer(color[1]):addTo(self)
     Tools.delayCallFunc(0.5,function()
         self.bg:setTouchEnabled(false)
         self.bg:setTouchSwallowEnabled(false)
@@ -316,6 +316,7 @@ function MapLayer:RunningRoomAdd(_dis)
     _newRoom:setCameraMask(2)
 
     self.m_curZOrder = self.m_curZOrder + 1
+    MAP_ZORDER_MAX = self.m_curZOrder
     if self.floorNum == 1 or (_newRoom:getRunningRoomFloorType() and _newRoom:getRunningRoomFloorType()~=0) then
         self.floorPos[self.m_roomsNum] = cc.p(self._x,_y)
     	table.insert(self.m_chaceRooms,_newRoom)
@@ -389,6 +390,7 @@ function MapLayer:CommonRoomAdd()
     end
 
     self.m_curZOrder = self.m_curZOrder + 1
+    MAP_ZORDER_MAX = self.m_curZOrder
 
     if #self.m_chaceRooms > MAP_ROOM_MAX then
         local _room = table.remove(self.m_chaceRooms,1)
@@ -433,7 +435,7 @@ function MapLayer:onEnterFrame(dt)
     end
     
     local x,y = self.m_camera:getPosition()
---    Tools.printDebug("brj--------m_camera---------edgePos: ",x+display.width-Room_Distance.x+_size.width*0.5)
+    
     if bpx <= x+Room_Distance.x-_size.width*0.5 then
         self.m_player:selfDead()
     end
@@ -482,7 +484,8 @@ function MapLayer:onEnterFrame(dt)
         end
     end
 
-   
+--    Tools.printDebug("brj--------角色速度---------: ",self.m_player:getSpeed())
+    
     if self.jumpFloorNum == Map_Grade.floor_D then
         self.m_player:changeSpeed(MAP_SPEED.floor_D)
     elseif self.jumpFloorNum == Map_Grade.floor_C then
@@ -493,6 +496,16 @@ function MapLayer:onEnterFrame(dt)
         self.m_player:changeSpeed(MAP_SPEED.floor_A)
     elseif self.jumpFloorNum == Map_Grade.floor_S then
         self.m_player:changeSpeed(MAP_SPEED.floor_S)
+    end
+    
+    --幻影角色
+    if #self.phantom > 0 then
+        local to=cc.p(self.m_player:getPosition())
+        for key, var in pairs(self.phantom) do
+        	if not tolua.isnull(var) then
+                var:follow(to,key)
+        	end
+        end
     end
 end
 
@@ -663,6 +676,15 @@ function MapLayer:rayCastFunc(_world,_p1,_p2,_p3)
             if self.curRoomType==MAPROOM_TYPE.Running then
                 self:toRunFirstCameraMove()
             end
+--            if #self.phantom > 0 then
+--                for key, var in pairs(self.phantom) do
+--                    var:clearTable()
+--                    local pos=cc.p(self.m_player:getPositionX(),32*2)
+--                    pos=_room:convertToWorldSpace(pos)
+--                    pos=self:convertToNodeSpace(pos)
+--                    var:setPosition(pos.x,pos.y)
+--                end
+--            end
         end
         
         local _room,rKey = self:getOtherRoomByX(bpx,self.roomKey)
@@ -740,8 +762,15 @@ function MapLayer:toJump()
     local roomIndex = math.ceil((self.m_player:getPositionY()-self.bottomHeight)/Room_Size.height)
     local pos = self.floorPos[roomIndex+1]
     self.m_player:toJump(pos.y,self.curRoomType)
-
 end
+
+--设置幻影角色
+function MapLayer:setPhantom(_obj,count)
+	self.phantom[count] = _obj
+	self:addChild(_obj,MAP_ZORDER_MAX+1)
+end
+
+
 --摄像机移动
 function MapLayer:toCameraMove()
     if self.curRoomType==MAPROOM_TYPE.Running then
@@ -872,6 +901,13 @@ end
 
 --回到起始点
 function MapLayer:backOriginFunc()
+    if GameController.isInState(PLAYER_STATE.Slow) then
+        GameController.getCurPlayer():clearBuff(PLAYER_STATE.Slow)
+    end
+    if GameController.isInState(PLAYER_STATE.Magnet) then
+        GameController.getCurPlayer():clearBuff(PLAYER_STATE.Magnet)
+    end
+
     self.backOrigin = true
     GameDataManager.resetPoints()
     GameDataManager.resetGameDiamond()

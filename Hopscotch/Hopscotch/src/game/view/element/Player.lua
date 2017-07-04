@@ -4,6 +4,7 @@ local Player = class("Player", LiveThing)
 local BuffState = require("game.view.element.BuffState")
 local PhysicSprite = require("game.custom.PhysicSprite")
 local Scheduler = require("framework.scheduler")
+local PhantomElement = require("game.view.element.PhantomElement")
 
 local MASS = 200
 local DENSITY = 10   --密度
@@ -18,6 +19,7 @@ function Player:ctor()
     Player.super.ctor(self)
     self.m_vo = GameDataManager.getPlayerVo()
     self.m_buffArr = {} --buff列表
+    self.phantomCount = 0
 
     self.m_life = self.m_vo.m_lifeNum
     self.m_speed = MAP_SPEED.floor_D
@@ -43,8 +45,14 @@ function Player:ctor()
     end
     self:addBody(cc.p(0,0),p_size)
     
-    --角色主动技能
---    GameDispatcher:addListener(EventNames.EVENT_PLAYER_SKILL,handler(self,self.actSkill))
+    --迟钝药水
+    GameDispatcher:addListener(EventNames.EVENT_SLOWLY,handler(self,self.slowly))
+    --获得1代币
+    GameDispatcher:addListener(EventNames.EVENT_GET_TOKEN,handler(self,self.getToken))
+    --吸铁石
+    GameDispatcher:addListener(EventNames.EVENT_USE_MAGNET,handler(self,self.magnet))
+    --幻影药水
+    GameDispatcher:addListener(EventNames.EVENT_USE_PHANTOM,handler(self,self.phantom))
 
 end
 
@@ -140,7 +148,7 @@ end
 --帧回调
 function Player:update(dt,_x,_y)
     if self.m_isMagnet then
-        GameController.detect(self,cc.p(_x,_y),self.m_radius,GameController.Adsorb_Ex_Goods_Eeg)
+        GameController.detect(self,cc.p(_x,_y),self.m_radius)
     end
     self.oldX = _x
     self.oldY = _y
@@ -165,6 +173,58 @@ function Player:getArmature(parameters)
     return self.m_armature
 end
 
+--迟钝药水
+function Player:slowly(parameters)
+    if self:isInState(PLAYER_STATE.Slow) then
+        self:clearBuff(PLAYER_STATE.Slow)
+    end
+
+    local _time = parameters.data.time
+    local _speed = parameters.data.speed
+    
+    self.curSpeed = self.m_speed
+    self:changeSpeed(_speed)
+    
+    self:addBuff({type=PLAYER_STATE.Slow,time = _time})
+    self.slowHandler = Tools.delayCallFunc(_time,function()
+        self:clearBuff(PLAYER_STATE.Slow)
+    end)
+end
+
+--获得1代币
+function Player:getToken(parameters)
+    local count = parameters.data.count
+    GameDataManager.addDiamond(count)
+end
+
+--吸铁石
+function Player:magnet(parameters)
+    if self:isInState(PLAYER_STATE.Magnet) then
+        return
+    end
+	
+    local radius = parameters.data.radius
+    local time = parameters.data.time
+    self.m_radius = radius
+    self.m_isMagnet = true
+    self:addBuff({type=PLAYER_STATE.Magnet,time = time})
+    self.magnetHandler = Tools.delayCallFunc(time,function()
+        self:clearBuff(PLAYER_STATE.Magnet)
+    end)
+end
+
+--幻影药水
+function Player:phantom(parameters)
+    local limit = parameters.data.limit
+    if self.phantomCount >= limit then
+    	return
+    end
+    self.phantomCount = self.phantomCount + 1
+    local phantom = PhantomElement.new(self:getScaleX())
+    if not tolua.isnull(self:getParent()) then
+        self:getParent():setPhantom(phantom,self.phantomCount)
+    end
+end
 
 --角色复活
 function Player:relive(parameters)
@@ -235,9 +295,21 @@ function Player:clearBuff(_type)
     end
 
     if bIsClear==true then
---        if _type==PLAYER_STATE.Slider then
---           
---        end
+        if _type==PLAYER_STATE.Slow then
+            if self.slowHandler then
+                Scheduler.unscheduleGlobal(self.slowHandler)
+                self.slowHandler=nil
+            end
+            if self.curSpeed then
+                self:changeSpeed(self.curSpeed)
+            end
+        elseif _type == PLAYER_STATE.Magnet then
+            self.m_isMagnet = false
+            if self.magnetHandler then
+                Scheduler.unscheduleGlobal(self.magnetHandler)
+                self.magnetHandler=nil
+            end
+        end
     end
 end
 --判断玩家是否处于某种状态
@@ -315,17 +387,24 @@ function Player:dispose(_isDoor)
 
     transition.stopTarget(self)
 
---    GameDispatcher:removeListenerByName(EventNames.EVENT_PLAYER_DEAD)
+    GameDispatcher:removeListenerByName(EventNames.EVENT_SLOWLY)
+    GameDispatcher:removeListenerByName(EventNames.EVENT_GET_TOKEN)
+    GameDispatcher:removeListenerByName(EventNames.EVENT_USE_MAGNET)
+    GameDispatcher:removeListenerByName(EventNames.EVENT_USE_PHANTOM)
 
     if self.m_body then
         self.m_body:removeFromWorld()
     end
 
---    if self.ImmortalHandler then
---        Scheduler.unscheduleGlobal(self.ImmortalHandler)
---        self.ImmortalHandler=nil
---    end
+    if self.slowHandler then
+        Scheduler.unscheduleGlobal(self.slowHandler)
+        self.slowHandler=nil
+    end
     
+    if self.magnetHandler then
+        Scheduler.unscheduleGlobal(self.magnetHandler)
+        self.magnetHandler=nil
+    end
 
     GameController.stopDetect()
 

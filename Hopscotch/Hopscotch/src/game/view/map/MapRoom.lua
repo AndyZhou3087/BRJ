@@ -252,7 +252,7 @@ function MapRoom:initPosition(_x,_y,_isJustBody)
             if not tolua.isnull(var) then
                 local x,y = var:getPosition()
                 var:setPosition(x+_x,y+_y)
-                _parent:addChild(var,MAP_ZORDER_MAX)
+                _parent:addChild(var,MAP_ZORDER_MAX+MAP_ROOM_MAX)
 --                var:setCameraMask(2)
             end
         end

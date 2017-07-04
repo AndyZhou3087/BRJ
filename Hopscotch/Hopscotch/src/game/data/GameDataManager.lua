@@ -330,17 +330,19 @@ function GameDataManager.useGoodsExp(_goodsId)
     if goodsCon then
         if goodsCon.type == GOODS_TYPE.Magnet then
             Tools.printDebug("brj 处理磁铁类型道具")
---            GameDispatcher:dispatch(EventNames.EVENT_USE_MAGNATE,{time=goodsCon.time+GameDataManager.getPlayerVo().m_magnetTime,radius=goodsCon.radius})
+            GameDispatcher:dispatch(EventNames.EVENT_USE_MAGNET,{time=goodsCon.time,radius=goodsCon.radius})
         elseif goodsCon.type == GOODS_TYPE.Phantom then
             Tools.printDebug("brj 幻影药水")
---            GameDispatcher:dispatch(EventNames.EVENT_USE_SHIELD,{type=2,time=goodsCon.time,damageArea=goodsCon.damageArea})
+            GameDispatcher:dispatch(EventNames.EVENT_USE_PHANTOM,{limit=goodsCon.limit})
         elseif goodsCon.type == GOODS_TYPE.Rocket then
             Tools.printDebug("brj 冲刺火箭")
 --            GameDispatcher:dispatch(EventNames.EVENT_USE_DRINK,{time=goodsCon.time+GameDataManager.getPlayerVo().m_invincibleTime,att=goodsCon.att,damageArea=goodsCon.damageArea})
         elseif goodsCon.type == GOODS_TYPE.SlowPotion then
             Tools.printDebug("brj 迟钝药水")
+            GameDispatcher:dispatch(EventNames.EVENT_SLOWLY,{time=goodsCon.time,speed = goodsCon.speed})
         elseif goodsCon.type == GOODS_TYPE.TokenAdd then
             Tools.printDebug("brj 获得一代币")
+            GameDispatcher:dispatch(EventNames.EVENT_SLOWLY,{count=goodsCon.count})
         end
         return true
     else
