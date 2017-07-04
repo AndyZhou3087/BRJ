@@ -7,7 +7,6 @@ local Scheduler = require("framework.scheduler")
 local SpecialElement = require("game.view.element.SpecialElement")
 local BackGroundMove = require("game.view.map.BackGroundMove")
 local LineElement = require("game.view.element.LineElement")
-local BackGround = require("game.view.map.BackGround")
 
 local Raycast_DisY = 20  --探测距离
 local Raycast_DisX = 6 --探测轴方向有无障碍物
@@ -54,8 +53,6 @@ function MapLayer:ctor(parameters)
     end)
     
     self.bgNode = BackGroundMove.new(GameDataManager.getFightScene()):addTo(self)
---    self.bgNode:setVisible(false)
---    self.backGround = BackGround.new(GameDataManager.getFightScene()):addTo(self)
     
     self.m_bg = display.newSprite("map/Scene_1/Map_frame_2.png")
     self.bottomHeight = self.m_bg:getCascadeBoundingBox().size.height
@@ -484,11 +481,6 @@ function MapLayer:onEnterFrame(dt)
             end
         end
     end
-    
-    --背景移动
---    self.backGround:backMove({roomType = self.curRoomType,playerPos = cc.p(self.m_player:getPosition()),floorPos = self.floorPos[self.jumpFloorNum],
---        cameraPos = cc.p(self.m_camera:getPosition()),value = self.bottomHeight})
---    Tools.printDebug("---------brj 跳房子  摄像机位置：",self.m_camera:getPosition())
 
    
     if self.jumpFloorNum == Map_Grade.floor_D then
@@ -968,10 +960,6 @@ function MapLayer:dispose(parameters)
 
     if self.m_player then
         self.m_player:dispose()
-    end
-    
-    if self.backGround then
-    	self.backGround:dispose()
     end
     
     if self.bgNode then
