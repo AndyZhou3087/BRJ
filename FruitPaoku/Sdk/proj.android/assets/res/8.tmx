@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="1" height="1" tilewidth="960" tileheight="540">
+ <tileset firstgid="1" name="GameBg" tilewidth="960" tileheight="540">
+  <image source="Common/GameBg.jpg" width="1060" height="540"/>
+ </tileset>
+ <tileset firstgid="2" name="obscale_1" tilewidth="62" tileheight="80">
+  <image source="ui/obscale_1.png" width="62" height="80"/>
+ </tileset>
+ <tileset firstgid="3" name="obscale_2" tilewidth="60" tileheight="62">
+  <image source="ui/obscale_2.png" width="60" height="62"/>
+ </tileset>
+ <tileset firstgid="4" name="Common_gold" tilewidth="40" tileheight="40">
+  <image source="Common/Common_gold.png" width="40" height="40"/>
+ </tileset>
+ <layer name="stage1" width="1" height="1">
+  <data encoding="base64" compression="zlib">
+   eJxjZGBgAAAACAAC
+  </data>
+ </layer>
+ <objectgroup name="gold">
+  <object name="Common_copper.png" type="3" gid="4" x="256" y="160"/>
+  <object name="Common_copper.png" type="3" gid="4" x="231" y="210"/>
+  <object name="Common_copper.png" type="3" gid="4" x="206" y="260"/>
+  <object name="Common_copper.png" type="3" gid="4" x="181" y="310"/>
+  <object name="Common_copper.png" type="3" gid="4" x="156" y="360"/>
+  <object name="Common_copper.png" type="3" gid="4" x="131" y="410"/>
+  <object name="Common_copper.png" type="3" gid="4" x="106" y="460"/>
+  <object name="Common_sliver.png" type="2" gid="4" x="506" y="260"/>
+  <object name="Common_sliver.png" type="2" gid="4" x="431" y="410"/>
+  <object name="Common_sliver.png" type="2" gid="4" x="556" y="160"/>
+  <object name="Common_sliver.png" type="2" gid="4" x="531" y="210"/>
+  <object name="Common_sliver.png" type="2" gid="4" x="456" y="360"/>
+  <object name="Common_sliver.png" type="2" gid="4" x="481" y="310"/>
+  <object name="Common_sliver.png" type="2" gid="4" x="406" y="460"/>
+  <object name="Common_gold.png" type="1" gid="4" x="680" y="460"/>
+  <object name="Common_gold.png" type="1" gid="4" x="705" y="410"/>
+  <object name="Common_gold.png" type="1" gid="4" x="755" y="310"/>
+  <object name="Common_gold.png" type="1" gid="4" x="780" y="260"/>
+  <object name="Common_gold.png" type="1" gid="4" x="730" y="360"/>
+  <object name="Common_gold.png" type="1" gid="4" x="830" y="160"/>
+  <object name="Common_gold.png" type="1" gid="4" x="805" y="210"/>
+ </objectgroup>
+ <objectgroup name="good"/>
+ <objectgroup name="obstacle"/>
+</map>
