@@ -82,28 +82,6 @@ end
 
 --@param:墙壁和地板和背景
 function MapRoom:initBlock(_roomBgVo)
-    if _roomBgVo.bg then
-        self.window = {}
-        for i=1, #_roomBgVo.bg do
-            local info = _roomBgVo.bg[i]
-            local bg
-            if info.type and info.type == RoomBg_Type.Full then
-                bg = PhysicSprite.new(info.res):addTo(self)
-                table.insert(self.bgArr,bg)
-            elseif info.type and info.type == RoomBg_Type.Window then
-                bg = PhysicSprite.new(info.res):addTo(self)
-                table.insert(self.bgArr,bg)
-                table.insert(self.window,info.res)
-                if not Game_Visible then
-                    bg:setSpriteFrame("Room_bg_2.png")
-                end
-            else
-                bg = PhysicSprite.new(info.res):addTo(self)
-            end
-            bg:setAnchorPoint(cc.p(0,0))
-            bg:setPosition(cc.p(info.x,info.y))
-        end
-    end
     if _roomBgVo.wallLeftRight then
         for j=1, #_roomBgVo.wallLeftRight do
             local info = _roomBgVo.wallLeftRight[j]
@@ -158,14 +136,38 @@ function MapRoom:initBlock(_roomBgVo)
 end
 
 --创建房间装饰
-function MapRoom:initOrnament(ornament)
-    for var=1,#ornament do
-        local data=ornament[var]
-        local sprite=display.newSprite(data.res):addTo(self)
-        table.insert(self.ornament,sprite)
-        sprite:setPosition(data.x,data.y)
-        sprite:setAnchorPoint(cc.p(0,0))
-        sprite:setVisible(Game_Visible)
+function MapRoom:initOrnament(_roomBgVo)
+    if _roomBgVo.bg then
+        self.window = {}
+        for i=1, #_roomBgVo.bg do
+            local info = _roomBgVo.bg[i]
+            local bg
+            if info.type and info.type == RoomBg_Type.Full then
+                bg = PhysicSprite.new(info.res):addTo(self)
+                table.insert(self.bgArr,bg)
+            elseif info.type and info.type == RoomBg_Type.Window then
+                bg = PhysicSprite.new(info.res):addTo(self)
+                table.insert(self.bgArr,bg)
+                table.insert(self.window,info.res)
+                if not Game_Visible then
+                    bg:setSpriteFrame("Room_bg_2.png")
+                end
+            else
+                bg = PhysicSprite.new(info.res):addTo(self)
+            end
+            bg:setAnchorPoint(cc.p(0,0))
+            bg:setPosition(cc.p(info.x,info.y))
+        end
+    end
+    if _roomBgVo.ornament then
+        for var=1,#_roomBgVo.ornament do
+            local data=_roomBgVo.ornament[var]
+            local sprite=display.newSprite(data.res):addTo(self)
+            table.insert(self.ornament,sprite)
+            sprite:setPosition(data.x,data.y)
+            sprite:setAnchorPoint(cc.p(0,0))
+            sprite:setVisible(Game_Visible)
+        end
     end
 end
 

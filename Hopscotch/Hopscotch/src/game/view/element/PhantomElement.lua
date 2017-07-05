@@ -6,8 +6,8 @@ local PhantomElement=class("PhantomElement",BaseElement)
 
 local PhysicSprite = require("game.custom.PhysicSprite")
 
-local DelayNum=0.4/cc.Director:getInstance():getAnimationInterval()   --宠物跟随人物的距离
-local Dis=20    --宠物的下楼速度
+local DelayNum=0.2/cc.Director:getInstance():getAnimationInterval()   --幻影跟随人物的距离
+local Dis=20    --幻影的上跳速度
 local Repair=2
 
 function PhantomElement:ctor(scaleX)
@@ -44,65 +44,62 @@ end
 function PhantomElement:follow(p,key)
     table.insert(self.m_p,p)
 
-    local bIsVisible=self:isVisible()
-    if bIsVisible==true then
-        if #self.m_p>DelayNum then
-            local x=self:getPositionX()
+--    Tools.printDebug("----------- brj ----------幻影角色：",#self.m_p,DelayNum*key,key)
+    if #self.m_p>DelayNum*key then
+        local x=self:getPositionX()
 
-            local to=0
+        local to=0
 
-            if #self.m_p>DelayNum+1 then
-                for var=1,Repair do
-                    table.remove(self.m_p,1)
-                end
-                to=self.m_p[Repair]
-            else
-                to=self.m_p[1]
+        if #self.m_p>DelayNum*key+1 then
+            for var=1,Repair do
                 table.remove(self.m_p,1)
             end
-
-            self:setPositionX(to.x)
-            self:setPositionY(to.y)
-
-            if to.x<x then
-                self:setScaleX(self.m_scale)
-            else
-                self:setScaleX(-self.m_scale)
-            end
-
-            if #self.m_y~=0 then
-                local dest=self.m_y[1].y
-
-                local y=self:getPositionY()
-                local toY=0
-                Tools.printDebug("----------- brj 幻影坐标：",y,dest)
-                if dest<y then
-                    toY=y-Dis
-                    if toY<dest then
-                        toY=dest
-                    end
-                else
-                    toY=y+Dis
-                    if toY>dest then
-                        toY=dest 
-                    end
-                end
-
-                if toY==dest then
-                    table.remove(self.m_y,1)
-                end
-                self:setPositionY(toY)
-            end
-
+            to=self.m_p[Repair]
+        else
+            to=self.m_p[1]
+            table.remove(self.m_p,1)
         end
 
-    else
-        local pos=self:getFinalPos()
-        pos.y=pos.y
-        self:clearTable()
-        self:setPosition(pos.x,pos.y)
-    end
+        self:setPositionX(to.x)
 
+        if to.x<x then
+            self:setScaleX(self.m_scale)
+        else
+            self:setScaleX(-self.m_scale)
+        end
+
+        if #self.m_y~=0 then
+            local dest=self.m_y[1].y
+
+            local y=self:getPositionY()
+            local toY=0
+
+            if dest<y then
+                toY=y-Dis
+--                Tools.printDebug("----------- brj 幻影坐标11111111111111111：",toY,dest,key)
+                if toY<dest then
+                    toY=dest
+                end
+            else
+                toY=y+Dis
+--                Tools.printDebug("----------- brj 幻影坐标2222222222222222：",toY,dest,key)
+                if toY>dest then
+                    toY=dest 
+                end
+            end
+
+            if toY==dest then
+                table.remove(self.m_y,1)
+            end
+
+            self:setPositionY(toY)
+        end
+
+    end
+end
+
+function PhantomElement:add(value)
+    table.insert(self.m_y,{y=value})
 end
 
 function PhantomElement:getFinalPos()

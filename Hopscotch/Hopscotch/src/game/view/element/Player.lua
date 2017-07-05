@@ -4,7 +4,6 @@ local Player = class("Player", LiveThing)
 local BuffState = require("game.view.element.BuffState")
 local PhysicSprite = require("game.custom.PhysicSprite")
 local Scheduler = require("framework.scheduler")
-local PhantomElement = require("game.view.element.PhantomElement")
 
 local MASS = 200
 local DENSITY = 10   --密度
@@ -220,9 +219,8 @@ function Player:phantom(parameters)
     	return
     end
     self.phantomCount = self.phantomCount + 1
-    local phantom = PhantomElement.new(self:getScaleX())
     if not tolua.isnull(self:getParent()) then
-        self:getParent():setPhantom(phantom,self.phantomCount)
+        self:getParent():setPhantom(self.phantomCount)
     end
 end
 
@@ -275,6 +273,19 @@ end
 --改变速度
 function Player:changeSpeed(_speed)
     self.m_speed = _speed
+end
+
+--清除所有buff
+function Player:clearAllBuff()
+    --清除所有buff
+    for var=#self.m_buffArr,1,-1  do
+        local _buff = self.m_buffArr[var]
+        if _buff then
+            self:clearBuff(_buff:getType())
+        end
+    end
+    self.m_buffArr = {}
+    self.phantomCount = 0
 end
 
 --添加buff

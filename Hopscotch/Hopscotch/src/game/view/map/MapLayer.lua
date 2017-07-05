@@ -7,6 +7,7 @@ local Scheduler = require("framework.scheduler")
 local SpecialElement = require("game.view.element.SpecialElement")
 local BackGroundMove = require("game.view.map.BackGroundMove")
 local LineElement = require("game.view.element.LineElement")
+local PhantomElement = require("game.view.element.PhantomElement")
 
 local Raycast_DisY = 20  --探测距离
 local Raycast_DisX = 6 --探测轴方向有无障碍物
@@ -75,8 +76,15 @@ function MapLayer:ctor(parameters)
     self:addChild(self.m_player,MAP_ZORDER_MAX+1)
     local floorPos = self.floorPos[self.jumpFloorNum]
     local _size = self.m_player:getSize()
-    self.m_player:setPosition(cc.p(display.cx,floorPos.y+_size.width*0.5+27))
+    self.m_player:setPosition(cc.p(display.cx,floorPos.y+_size.height*0.5+27))
     GameController.setCurPlayer(self.m_player)
+    
+    for var=1, 5 do
+        local phantom = PhantomElement.new(self:getScaleX())
+        self:addChild(phantom,MAP_ZORDER_MAX+1)
+        phantom:setVisible(false)
+        self.phantom[var] = phantom
+    end
 
     self:setCameraMask(2)
 
@@ -484,7 +492,7 @@ function MapLayer:onEnterFrame(dt)
         end
     end
 
---    Tools.printDebug("brj--------角色速度---------: ",self.m_player:getSpeed())
+--    Tools.printDebug("brj--------角色坐标---------: ",bpy)
     
     if self.jumpFloorNum == Map_Grade.floor_D then
         self.m_player:changeSpeed(MAP_SPEED.floor_D)
@@ -648,6 +656,20 @@ function MapLayer:rayCastFunc(_world,_p1,_p2,_p3)
         end
         self.isCollision = true
         
+        --幻影角色
+        if self.phantonFollow then
+            if self.phantom and #self.phantom > 0 then
+                self.phantonFollow = false
+                local _room = self:getRoomByIdx(roomIndex)
+                for key, var in pairs(self.phantom) do
+                    local pos=cc.p(self.m_player:getPositionX(),17)
+                    if bpy+_size.height/2.0>pos.y then
+                        var:add(_room:getPositionY()+17+_size.height/2.0)
+                    end
+                end
+            end
+        end
+        
         if self.m_lastRoomIdx ~= roomIndex then
             local _room = self:getRoomByIdx(roomIndex)
             if _room then
@@ -658,6 +680,7 @@ function MapLayer:rayCastFunc(_world,_p1,_p2,_p3)
                 self.m_lastRoomIdx = roomIndex
             end
             if roomIndex > self.jumpFloorNum then
+                self.phantonFollow = true
                 self.jumpFloorNum = roomIndex
                 GameDataManager.setPoints(self.jumpFloorNum)
                 self:addNewRooms()
@@ -676,15 +699,6 @@ function MapLayer:rayCastFunc(_world,_p1,_p2,_p3)
             if self.curRoomType==MAPROOM_TYPE.Running then
                 self:toRunFirstCameraMove()
             end
---            if #self.phantom > 0 then
---                for key, var in pairs(self.phantom) do
---                    var:clearTable()
---                    local pos=cc.p(self.m_player:getPositionX(),32*2)
---                    pos=_room:convertToWorldSpace(pos)
---                    pos=self:convertToNodeSpace(pos)
---                    var:setPosition(pos.x,pos.y)
---                end
---            end
         end
         
         local _room,rKey = self:getOtherRoomByX(bpx,self.roomKey)
@@ -765,9 +779,12 @@ function MapLayer:toJump()
 end
 
 --设置幻影角色
-function MapLayer:setPhantom(_obj,count)
-	self.phantom[count] = _obj
-	self:addChild(_obj,MAP_ZORDER_MAX+1)
+function MapLayer:setPhantom(count)
+    for key, var in pairs(self.phantom) do
+    	if key == count then
+            var:setVisible(true)
+    	end
+    end
 end
 
 
@@ -944,11 +961,17 @@ function MapLayer:backOriginFunc()
     	end
     end
     
+    for key, var in pairs(self.phantom) do
+        var:setVisible(false)
+    end
+    
     self.jumpFloorNum = 1
     local _size = self.m_player:getSize()
     local floorPos = self.floorPos[self.jumpFloorNum]
     self.m_player:addLifeNum(1)
     self.m_player:setPosition(cc.p(display.cx,self.bottomHeight+_size.width*0.5+27))
+    --清除所有角色buff
+    self.m_player:clearAllBuff()
     
     self.m_camera:stopAllActions()
     local move = cc.MoveTo:create(0.5,cc.p(0,0))
