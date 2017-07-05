@@ -286,6 +286,9 @@ function Player:clearAllBuff()
     end
     self.m_buffArr = {}
     self.phantomCount = 0
+    if not tolua.isnull(self:getParent()) then
+    	self:getParent():resetPhantom()
+    end
 end
 
 --添加buff

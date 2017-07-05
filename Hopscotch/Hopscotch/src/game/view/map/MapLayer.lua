@@ -506,6 +506,17 @@ function MapLayer:onEnterFrame(dt)
         self.m_player:changeSpeed(MAP_SPEED.floor_S)
     end
     
+    if self.m_player:getJump() and self.curRoomType == MAPROOM_TYPE.Running then
+        if self.phantom and #self.phantom > 0 then
+            for key, var in pairs(self.phantom) do
+                local pos=cc.p(self.m_player:getPositionX(),17)
+                if self.m_player:getPositionY()+self.m_player:getSize().height/2.0>pos.y then
+                    var:add(self.m_player:getPositionY())
+                end
+            end
+        end
+    end
+    
     --幻影角色
     if #self.phantom > 0 then
         local to=cc.p(self.m_player:getPosition())
@@ -515,6 +526,7 @@ function MapLayer:onEnterFrame(dt)
         	end
         end
     end
+
 end
 
 
@@ -698,6 +710,17 @@ function MapLayer:rayCastFunc(_world,_p1,_p2,_p3)
             end
             if self.curRoomType==MAPROOM_TYPE.Running then
                 self:toRunFirstCameraMove()
+            end
+        end
+        
+        if self.curRoomType == MAPROOM_TYPE.Running then
+            if self.phantom and #self.phantom > 0 then
+                for key, var in pairs(self.phantom) do
+                    local pos=cc.p(self.m_player:getPositionX(),17)
+                    if self.m_player:getPositionY()+self.m_player:getSize().height/2.0>pos.y then
+                        var:add(self.m_player:getPositionY())
+                    end
+                end
             end
         end
         
@@ -961,10 +984,6 @@ function MapLayer:backOriginFunc()
     	end
     end
     
-    for key, var in pairs(self.phantom) do
-        var:setVisible(false)
-    end
-    
     self.jumpFloorNum = 1
     local _size = self.m_player:getSize()
     local floorPos = self.floorPos[self.jumpFloorNum]
@@ -985,6 +1004,13 @@ function MapLayer:backOriginFunc()
     end)
 --    Tools.printDebug("----------brj 摄像机坐标：",self.m_camera:getPosition())
 
+end
+
+--重置幻影角色
+function MapLayer:resetPhantom()
+    for key, var in pairs(self.phantom) do
+        var:setVisible(false)
+    end
 end
 
 --销毁特殊刚体
