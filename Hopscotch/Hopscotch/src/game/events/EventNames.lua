@@ -53,4 +53,7 @@ EventNames.EVENT_USE_MAGNET = "event_use_magnet"
 --幻影药水
 EventNames.EVENT_USE_PHANTOM = "event_use_phantom"
 
+--冲刺火箭
+EventNames.EVENT_SPRING_ROCKET = "event_spring_rocket"
+
 return EventNames

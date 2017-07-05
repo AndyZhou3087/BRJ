@@ -42,6 +42,7 @@ function MapLayer:ctor(parameters)
     self.roomArr = {}
     self.specialBody = {}
     self.phantom = {}
+    self.havePhantom = {}
     self.runFloorNum = RunningFloorNum
     
     self.m_curZOrder = MAP_ZORDER_MAX   --房间当前显示层级
@@ -95,6 +96,9 @@ local lastTouchTime = 0
 function MapLayer:touchFunc(event)
     if tolua.isnull(self.m_player) or self.m_player:isDead() then
         return true
+    end
+    if GameController.isInState(PLAYER_STATE.Rocket) then
+        return
     end
 --    Tools.printDebug("-----------------------------self.backOrigin  ",self.backOrigin)
     if self.backOrigin then
@@ -457,6 +461,7 @@ function MapLayer:onEnterFrame(dt)
 
     local _scaleX=self.m_player:getScaleX()
     local vel=self.m_player:getBody():getVelocity()
+--    Tools.printDebug("brj--------角色速度---------: ",self.m_player:getSpeed())
     self.m_player:setVelocity(cc.p(-_scaleX/math.abs(_scaleX)*self.m_player:getSpeed(),vel.y))
 
     local _body = self.m_player:getBody()
@@ -469,10 +474,13 @@ function MapLayer:onEnterFrame(dt)
     else
         self.m_physicWorld:rayCast(handler(self,self.rayCastFunc),cc.p(_p.x,_p.y),cc.p(_p.x,_p.y-_size.height*0.5-Raycast_DisY))
     end
-    --左右射线检测
-    self.m_physicWorld:rayCast(handler(self,self.rayCastFuncX),cc.p(_p.x,_p.y-_size.height*0.25),cc.p(_p.x+_add*(_size.width*0.5+Raycast_DisX),_p.y-_size.height*0.25))
     
-    if self.curRoomType == MAPROOM_TYPE.Running then
+    --左右射线检测(火箭状态不做处理)
+    if not self.m_player:isInState(PLAYER_STATE.Rocket) then
+        self.m_physicWorld:rayCast(handler(self,self.rayCastFuncX),cc.p(_p.x,_p.y-_size.height*0.25),cc.p(_p.x+_add*(_size.width*0.5+Raycast_DisX),_p.y-_size.height*0.25))
+    end
+    
+    if self.curRoomType == MAPROOM_TYPE.Running and not GameController.isInState(PLAYER_STATE.Rocket) then
         if self.curState == State_Type.RunningState then
             local x,y = self.m_player:getPosition()
             local mx,my = self.m_camera:getPosition()
@@ -521,9 +529,9 @@ function MapLayer:onEnterFrame(dt)
     if #self.phantom > 0 then
         local to=cc.p(self.m_player:getPosition())
         for key, var in pairs(self.phantom) do
-        	if not tolua.isnull(var) then
+            if not tolua.isnull(var) then
                 var:follow(to,key)
-        	end
+            end
         end
     end
 
@@ -588,9 +596,13 @@ function MapLayer:collisionBeginCallBack(parameters)
         return false
     end
     
+    if self.m_player:isInState(PLAYER_STATE.Rocket) then
+    	return true
+    end
+    
     if obstacleTag == ELEMENT_TAG.FLOOR then
         self.isCollision = true
-        if not self.m_player:getJump() and self.curRoomType ~= MAPROOM_TYPE.Running then
+        if not self.m_player:getJump() and self.curRoomType ~= MAPROOM_TYPE.Running and not GameController.isInState(PLAYER_STATE.Rocket) then
             local _size = self.m_player:getSize()
             local bpx,bpy = self.m_player:getPosition()
             local roomIndex = math.ceil((self.m_player:getPositionY()-self.bottomHeight)/Room_Size.height)
@@ -660,7 +672,7 @@ function MapLayer:rayCastFunc(_world,_p1,_p2,_p3)
         local _size = self.m_player:getSize()
         local bpx,bpy = self.m_player:getPosition()
         local roomIndex = math.ceil((self.m_player:getPositionY()-self.bottomHeight)/Room_Size.height)
-        if not self.m_player:getJump() and self.curRoomType ~= MAPROOM_TYPE.Running then
+        if not self.m_player:getJump() and self.curRoomType ~= MAPROOM_TYPE.Running and not GameController.isInState(PLAYER_STATE.Rocket) then
             if roomIndex == self.jumpFloorNum then
                 local floorPos = self.floorPos[self.jumpFloorNum]
                 self.m_player:setPosition(cc.p(bpx,floorPos.y+_size.width*0.5+27))
@@ -803,11 +815,30 @@ end
 
 --设置幻影角色
 function MapLayer:setPhantom(count)
+    self.havePhantom[count] = count
     for key, var in pairs(self.phantom) do
     	if key == count then
             var:setVisible(true)
     	end
     end
+end
+
+--设置火箭
+function MapLayer:setRocket()
+    for key, var in pairs(self.havePhantom) do
+		self.phantom[var]:setVisible(false)
+	end
+end
+
+function MapLayer:setRocketVisible()
+    for key, var in pairs(self.havePhantom) do
+        self.phantom[var]:setVisible(true)
+    end
+end
+
+--获取摄像机对象，楼层坐标组，当前楼层
+function MapLayer:getRocketData()
+    return self.m_camera,self.floorPos,self.jumpFloorNum,self.curRoomType,self.bottomHeight
 end
 
 

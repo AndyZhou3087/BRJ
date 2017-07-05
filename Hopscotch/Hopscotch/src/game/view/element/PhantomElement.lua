@@ -70,7 +70,7 @@ function PhantomElement:follow(p,key)
 
         if #self.m_y~=0 then
             local dest=self.m_y[1].y
-            Tools.printDebug("----------- brj 幻影坐标2222222222222222：",#self.m_y)
+--            Tools.printDebug("----------- brj 幻影坐标2222222222222222：",#self.m_y)
             local y=self:getPositionY()
             local toY=0
 

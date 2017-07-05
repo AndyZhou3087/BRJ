@@ -52,6 +52,8 @@ function Player:ctor()
     GameDispatcher:addListener(EventNames.EVENT_USE_MAGNET,handler(self,self.magnet))
     --幻影药水
     GameDispatcher:addListener(EventNames.EVENT_USE_PHANTOM,handler(self,self.phantom))
+    --冲刺火箭
+    GameDispatcher:addListener(EventNames.EVENT_SPRING_ROCKET,handler(self,self.springRocket))
 
 end
 
@@ -177,6 +179,10 @@ function Player:slowly(parameters)
     if self:isInState(PLAYER_STATE.Slow) then
         self:clearBuff(PLAYER_STATE.Slow)
     end
+    
+    if self:isInState(PLAYER_STATE.Rocket) then
+        return
+    end
 
     local _time = parameters.data.time
     local _speed = parameters.data.speed
@@ -214,6 +220,9 @@ end
 
 --幻影药水
 function Player:phantom(parameters)
+    if self:isInState(PLAYER_STATE.Rocket) then
+        return
+    end
     local limit = parameters.data.limit
     if self.phantomCount >= limit then
     	return
@@ -222,6 +231,64 @@ function Player:phantom(parameters)
     if not tolua.isnull(self:getParent()) then
         self:getParent():setPhantom(self.phantomCount)
     end
+end
+
+--冲刺火箭
+function Player:springRocket(parameters)
+    if self:isInState(PLAYER_STATE.Rocket) then
+        return
+    end
+    
+    local speed = parameters.data.speed
+    self:addBuff({type=PLAYER_STATE.Rocket})
+    
+    local camera,floorPos,curFloor,roomType,dis
+    if not tolua.isnull(self:getParent()) then
+        self:getParent():setRocket()
+        camera,floorPos,curFloor,roomType,dis = self:getParent():getRocketData()
+    end
+    local curCloseFloor = math.ceil(curFloor/10)*10
+    local time,time2
+    if roomType == MAPROOM_TYPE.Running then
+    	time = (floorPos[curCloseFloor].x - floorPos[curFloor].x)/speed*0.5
+    	time2 = time
+    else
+        time = (floorPos[curCloseFloor+1].y - floorPos[curFloor].y)/speed
+        time = (curCloseFloor-curFloor)/(curCloseFloor+1)*time
+        time2 = 10/(curCloseFloor+1)*time
+    end
+    
+    self:toRocket()
+    local move = cc.MoveBy:create(time,cc.p(floorPos[curCloseFloor].x-self:getPositionX(),floorPos[curCloseFloor].y-self:getPositionY()))
+    local move2 = cc.MoveBy:create(time2,cc.p(floorPos[curCloseFloor+10].x-floorPos[curCloseFloor].x,floorPos[curCloseFloor+10].y-self:getPositionY()))
+    local callfun = cc.CallFunc:create(function()
+        self:toStopRocket()
+    end)
+    local seq = cc.Sequence:create(move,move2,callfun)
+    self:runAction(seq)
+    
+    local move = cc.MoveTo:create(time,cc.p(floorPos[curCloseFloor].x,floorPos[curCloseFloor].y-dis))
+    local move2 = cc.MoveTo:create(time2,cc.p(floorPos[curCloseFloor+10].x,floorPos[curCloseFloor+10].y-dis))
+    local seq = cc.Sequence:create(move,move2)
+    camera:runAction(seq)
+    
+    --火箭特效
+    
+end
+
+--火箭
+function Player:toRocket()
+    self.m_body:setCollisionBitmask(0x06)
+    self.m_body:setVelocityLimit(0)
+    self.m_stopVec = self.m_body:getVelocity()
+    self.m_body:setVelocity(cc.p(0,0))
+    self.m_body:setGravityEnable(false)
+    self.m_stopSpeed = self.m_speed
+    self.m_speed = 0
+end
+
+function Player:toStopRocket()
+    self:clearBuff(PLAYER_STATE.Rocket)
 end
 
 --角色复活
@@ -273,6 +340,9 @@ end
 --改变速度
 function Player:changeSpeed(_speed)
     self.m_speed = _speed
+    if self.m_stopSpeed then
+        self.m_stopSpeed = self.m_speed
+    end
 end
 
 --清除所有buff
@@ -323,6 +393,22 @@ function Player:clearBuff(_type)
                 Scheduler.unscheduleGlobal(self.magnetHandler)
                 self.magnetHandler=nil
             end
+        elseif _type == PLAYER_STATE.Rocket then
+            transition.stopTarget(self)
+            if not tolua.isnull(self:getParent()) then
+                self:getParent():setRocketVisible()
+            end
+--            if not tolua.isnull(self.m_rocket) then
+--                self.m_rocket:dispose(true)
+--            end
+            if self then
+                self:setVisible(true)
+            end
+            self.m_body:setCollisionBitmask(0x03)
+            self.m_body:setGravityEnable(true)
+            self:resumeVelocLimit()
+            self:setBodyVelocity(cc.p(self.m_stopVec.x,0))
+            self.m_speed = self.m_stopSpeed
         end
     end
 end
@@ -375,11 +461,7 @@ function Player:setVelocity(vec)
 end
 --恢复角色速度上限
 function Player:resumeVelocLimit()
-    if self:isInState(PLAYER_STATE.Scale) then
-        self.m_body:setVelocityLimit(Speed_Max*0.5)
-    else
-        self.m_body:setVelocityLimit(Speed_Max)
-    end
+    self.m_body:setVelocityLimit(Speed_Max)
 end
 
 --用于本类调用设置刚体速度 
@@ -405,6 +487,7 @@ function Player:dispose(_isDoor)
     GameDispatcher:removeListenerByName(EventNames.EVENT_GET_TOKEN)
     GameDispatcher:removeListenerByName(EventNames.EVENT_USE_MAGNET)
     GameDispatcher:removeListenerByName(EventNames.EVENT_USE_PHANTOM)
+    GameDispatcher:removeListenerByName(EventNames.EVENT_SPRING_ROCKET)
 
     if self.m_body then
         self.m_body:removeFromWorld()

@@ -336,7 +336,7 @@ function GameDataManager.useGoodsExp(_goodsId)
             GameDispatcher:dispatch(EventNames.EVENT_USE_PHANTOM,{limit=goodsCon.limit})
         elseif goodsCon.type == GOODS_TYPE.Rocket then
             Tools.printDebug("brj 冲刺火箭")
---            GameDispatcher:dispatch(EventNames.EVENT_USE_DRINK,{time=goodsCon.time+GameDataManager.getPlayerVo().m_invincibleTime,att=goodsCon.att,damageArea=goodsCon.damageArea})
+            GameDispatcher:dispatch(EventNames.EVENT_SPRING_ROCKET,{speed = goodsCon.speed})
         elseif goodsCon.type == GOODS_TYPE.SlowPotion then
             Tools.printDebug("brj 迟钝药水")
             GameDispatcher:dispatch(EventNames.EVENT_SLOWLY,{time=goodsCon.time,speed = goodsCon.speed})
