@@ -82,6 +82,16 @@ RoomBgs[1001]=
         floor = {{res="#Room_floor_7.png",x=Room_Distance.x+14,y=0},{res="#Room_floor_7.png",x=Room_Distance.x+14+94,y=0},
             {res="#Room_floor_7.png",x=Room_Distance.x+14+94*2,y=0},{res="#Room_floor_7.png",x=Room_Distance.x+14+94*3,y=0},
             {res="#Room_floor_7.png",x=Room_Distance.x+14+94*4,y=0},{res="#Room_floor_7.png",x=Room_Distance.x+14+94*5,y=0},},--地板
+        type = 1,   --横跑时的桥梁配置，0：水平方向一致，1：垂直方向一致，2：水平垂直均不一致
+        gap = 80,    --横跑房间之间的间隙
+    }
+    
+RoomBgs[1002]=
+    {
+        wallLeftRight = {},--左右两侧墙壁
+        floor = {{res="#Room_floor_7.png",x=Room_Distance.x+14,y=0},{res="#Room_floor_7.png",x=Room_Distance.x+14+94,y=0},
+            {res="#Room_floor_7.png",x=Room_Distance.x+14+94*2,y=0},{res="#Room_floor_7.png",x=Room_Distance.x+14+94*3,y=0},
+            {res="#Room_floor_7.png",x=Room_Distance.x+14+94*4,y=0},{res="#Room_floor_7.png",x=Room_Distance.x+14+94*5,y=0},},--地板
         type = 0,   --横跑时的桥梁配置，0：水平方向一致，1：垂直方向一致，2：水平垂直均不一致
         gap = 80,    --横跑房间之间的间隙
     }

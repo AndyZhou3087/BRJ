@@ -255,7 +255,7 @@ function MapRoom:initPosition(_x,_y,_isJustBody)
                 local x,y = var:getPosition()
                 var:setPosition(x+_x,y+_y)
                 _parent:addChild(var,MAP_ZORDER_MAX+MAP_ROOM_MAX)
---                var:setCameraMask(2)
+                var:setCameraMask(2)
             end
         end
     end
@@ -330,6 +330,14 @@ end
 --获取房间索引号
 function MapRoom:getRoomKey()
     return self.m_index
+end
+
+--获取当前房间所属楼层总层数
+function MapRoom:getRoomsCount()
+    if not self.m_curLevelCon.roomBgs then
+    	return 0
+    end
+    return #self.m_curLevelCon.roomBgs
 end
 
 --销毁

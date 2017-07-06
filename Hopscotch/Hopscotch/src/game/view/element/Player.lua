@@ -239,39 +239,48 @@ function Player:springRocket(parameters)
         return
     end
     
+    self.toRocketState = 0
+    
     local speed = parameters.data.speed
     self:addBuff({type=PLAYER_STATE.Rocket})
     
-    local camera,floorPos,curFloor,roomType,dis
+    local camera,floorPos,curFloor,dis
     if not tolua.isnull(self:getParent()) then
         self:getParent():setRocket()
-        camera,floorPos,curFloor,roomType,dis = self:getParent():getRocketData()
+        camera,floorPos,curFloor,dis = self:getParent():getRocketData()
     end
     local curCloseFloor = math.ceil(curFloor/10)*10
-    local time,time2
-    if roomType == MAPROOM_TYPE.Running then
-    	time = (floorPos[curCloseFloor].x - floorPos[curFloor].x)/speed*0.5
-    	time2 = time
-    else
-        time = (floorPos[curCloseFloor+1].y - floorPos[curFloor].y)/speed
-        time = (curCloseFloor-curFloor)/(curCloseFloor+1)*time
-        time2 = 10/(curCloseFloor+1)*time
-    end
+
+    Tools.printDebug("----------brj 跳房子 火箭冲刺：",self:getPositionX(),floorPos[curCloseFloor+10].x)
     
+    self.m_armature:setVisible(false)
     self:toRocket()
-    local move = cc.MoveBy:create(time,cc.p(floorPos[curCloseFloor].x-self:getPositionX(),floorPos[curCloseFloor].y-self:getPositionY()))
-    local move2 = cc.MoveBy:create(time2,cc.p(floorPos[curCloseFloor+10].x-floorPos[curCloseFloor].x,floorPos[curCloseFloor+10].y-self:getPositionY()))
-    local callfun = cc.CallFunc:create(function()
-        self:toStopRocket()
-    end)
-    local seq = cc.Sequence:create(move,move2,callfun)
-    self:runAction(seq)
-    
-    local move = cc.MoveTo:create(time,cc.p(floorPos[curCloseFloor].x,floorPos[curCloseFloor].y-dis))
-    local move2 = cc.MoveTo:create(time2,cc.p(floorPos[curCloseFloor+10].x,floorPos[curCloseFloor+10].y-dis))
-    local seq = cc.Sequence:create(move,move2)
-    camera:runAction(seq)
-    
+    local roomNextType = self:getParent():getRoomByIdx(curCloseFloor+1):getCurRoomType()
+    local roomType = self:getParent():getRoomByIdx(curFloor):getCurRoomType()
+    if roomType ~= MAPROOM_TYPE.Running and roomNextType ~= MAPROOM_TYPE.Running then
+        self.toRocketState = 1
+        local move = cc.MoveTo:create(1,cc.p(floorPos[curCloseFloor+10].x+display.cx,floorPos[curCloseFloor+10].y+self.m_size.width*0.5+30))
+        local callfun = cc.CallFunc:create(function()
+            self:toStopRocket()
+        end)
+        local seq = cc.Sequence:create(move,callfun)
+        self:runAction(seq)
+    elseif roomNextType == MAPROOM_TYPE.Running then
+        self.toRocketState = 2
+        local count = self:getParent():getRoomByIdx(curCloseFloor+1):getRoomsCount()
+        local time = (10-curFloor%10+1)*1/10
+        local time2 = count/10*1.5
+        local move = cc.MoveTo:create(time,cc.p(floorPos[curCloseFloor].x+display.cx,floorPos[curCloseFloor].y+self.m_size.width*0.5+30))
+        local move2 = cc.MoveTo:create(time2,cc.p(floorPos[curCloseFloor+10].x+display.cx,floorPos[curCloseFloor+10].y+self.m_size.width*0.5+30))
+        local callfun = cc.CallFunc:create(function()
+            self:toStopRocket()
+        end)
+        local seq = cc.Sequence:create(move,move2,callfun)
+        self:runAction(seq)
+        
+        self:getParent():toRocketRunningLogic()
+    end
+ 
     --火箭特效
     
 end
@@ -291,6 +300,10 @@ function Player:toStopRocket()
     self:clearBuff(PLAYER_STATE.Rocket)
 end
 
+function Player:getRocketState()
+	return self.toRocketState
+end
+
 --角色复活
 function Player:relive(parameters)
     
@@ -298,6 +311,9 @@ end
 
 --角色死亡
 function Player:selfDead()
+    if self:isInState(PLAYER_STATE.Rocket) then
+        return
+    end
     if self.m_isDead then
     	return
     end
@@ -394,6 +410,7 @@ function Player:clearBuff(_type)
                 self.magnetHandler=nil
             end
         elseif _type == PLAYER_STATE.Rocket then
+            self.toRocketState = 0
             transition.stopTarget(self)
             if not tolua.isnull(self:getParent()) then
                 self:getParent():setRocketVisible()
@@ -401,8 +418,8 @@ function Player:clearBuff(_type)
 --            if not tolua.isnull(self.m_rocket) then
 --                self.m_rocket:dispose(true)
 --            end
-            if self then
-                self:setVisible(true)
+            if self.m_armature then
+                self.m_armature:setVisible(true)
             end
             self.m_body:setCollisionBitmask(0x03)
             self.m_body:setGravityEnable(true)

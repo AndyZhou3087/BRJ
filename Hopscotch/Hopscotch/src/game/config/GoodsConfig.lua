@@ -58,5 +58,5 @@ GoodsConfig[5]=
         type = GOODS_TYPE.Rocket,       --道具类型
         discrebe = "冲刺火箭",
         res = "goods/Goods_1.png",
-        speed = 500,    --冲刺速度，每秒移动像素
+        speed = 300,    --冲刺速度，每秒移动像素
     }

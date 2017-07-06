@@ -36,6 +36,7 @@ function MapLayer:ctor(parameters)
     GameController.setRooms(self.m_chaceRooms)
     self.m_otherRooms = {}   --额外的房间(主要是横跑中不升楼层的房间)
     self.jumpFloorNum = 1
+    self.curRoomKey = 1
     self.backOrigin = false
     self.m_toJump = false
     self.floorPos = {}
@@ -448,14 +449,15 @@ function MapLayer:onEnterFrame(dt)
     
     local x,y = self.m_camera:getPosition()
     
+--    Tools.printDebug("brj2222222222222222--------跳房子角色坐标---------: ",bpx,x+Room_Distance.x-_size.width*0.5,x+display.width-Room_Distance.x+_size.width*0.5)
     if bpx <= x+Room_Distance.x-_size.width*0.5 then
         self.m_player:selfDead()
     end
-    if  bpx >= x+display.width-Room_Distance.x+_size.width*0.5 then
+    if bpx >= x+display.width-Room_Distance.x+_size.width*0.5 then
         self.m_player:selfDead()
     end
     local pos = self.floorPos[self.jumpFloorNum]
-    if bpy < pos.y-self.bottomHeight*0.5 then
+    if bpy < pos.y-self.bottomHeight*0.3 then
         self.m_player:selfDead()
     end
 
@@ -480,7 +482,8 @@ function MapLayer:onEnterFrame(dt)
         self.m_physicWorld:rayCast(handler(self,self.rayCastFuncX),cc.p(_p.x,_p.y-_size.height*0.25),cc.p(_p.x+_add*(_size.width*0.5+Raycast_DisX),_p.y-_size.height*0.25))
     end
     
-    if self.curRoomType == MAPROOM_TYPE.Running and not GameController.isInState(PLAYER_STATE.Rocket) then
+    
+    if self.curRoomType == MAPROOM_TYPE.Running then
         if self.curState == State_Type.RunningState then
             local x,y = self.m_player:getPosition()
             local mx,my = self.m_camera:getPosition()
@@ -499,8 +502,6 @@ function MapLayer:onEnterFrame(dt)
             end
         end
     end
-
---    Tools.printDebug("brj--------角色坐标---------: ",bpy)
     
     if self.jumpFloorNum == Map_Grade.floor_D then
         self.m_player:changeSpeed(MAP_SPEED.floor_D)
@@ -533,6 +534,10 @@ function MapLayer:onEnterFrame(dt)
                 var:follow(to,key)
             end
         end
+    end
+    
+    if GameController.isInState(PLAYER_STATE.Rocket) and self.m_player:getRocketState()==2 then
+        self.bg:setPosition(self.m_camera:getPosition())
     end
 
 end
@@ -680,72 +685,9 @@ function MapLayer:rayCastFunc(_world,_p1,_p2,_p3)
         end
         self.isCollision = true
         
-        --幻影角色
-        if self.phantonFollow then
-            if self.phantom and #self.phantom > 0 then
-                self.phantonFollow = false
-                local _room = self:getRoomByIdx(roomIndex)
-                for key, var in pairs(self.phantom) do
-                    local pos=cc.p(self.m_player:getPositionX(),17)
-                    if bpy+_size.height/2.0>pos.y then
-                        var:add(_room:getPositionY()+17+_size.height/2.0)
-                    end
-                end
-            end
-        end
-        
-        if self.m_lastRoomIdx ~= roomIndex then
-            local _room = self:getRoomByIdx(roomIndex)
-            if _room then
-                _room:intoRoom()
-                self.curRoomRunType = _room:getRunningRoomFloorType()
-                self.curRoomType = _room:getCurRoomType()
-                self.curRoomDistance = _room:getRunningDistance()
-                self.m_lastRoomIdx = roomIndex
-            end
-            if roomIndex > self.jumpFloorNum then
-                self.phantonFollow = true
-                self.jumpFloorNum = roomIndex
-                GameDataManager.setPoints(self.jumpFloorNum)
-                self:addNewRooms()
-                if self.curRoomType~=MAPROOM_TYPE.Running then
-                    self:toCameraMove()
-                else
-                    if self.jumpFloorNum % 10 == 1 then
-                        self.runningKey = 1
-                        self.roomKey = 0
-                        self:toCameraMove()
-                    else
-                        self:toRunCameraMove()
-                    end
-                end
-            end
-            if self.curRoomType==MAPROOM_TYPE.Running then
-                self:toRunFirstCameraMove()
-            end
-        end
-        
-        if self.curRoomType == MAPROOM_TYPE.Running then
-            if self.phantom and #self.phantom > 0 then
-                for key, var in pairs(self.phantom) do
-                    local pos=cc.p(self.m_player:getPositionX(),17)
-                    if self.m_player:getPositionY()+self.m_player:getSize().height/2.0>pos.y then
-                        var:add(self.m_player:getPositionY())
-                    end
-                end
-            end
-        end
-        
-        local _room,rKey = self:getOtherRoomByX(bpx,self.roomKey)
-        if _room then
-            if self.curRoomType == MAPROOM_TYPE.Running then
-                if self.runningKey and self.runningKey < _room:getRoomKey() then
-                    self.roomKey = rKey
-                    self.runningKey = _room:getRoomKey()
---                    Tools.printDebug("----------brj 射线检测------------: ",rKey,self.runningKey)
-                    self:addNewRooms()
-                end
-            end
+        if not GameController.isInState(PLAYER_STATE.Rocket) or (GameController.isInState(PLAYER_STATE.Rocket)
+            and self.m_player:getRocketState()==1) then
+            self:CoreLogic()
         end
         
         return true
@@ -785,6 +727,81 @@ function MapLayer:rayCastFuncX(_world,_p1,_p2,_p3)
     end
 
     return true
+end
+
+--主玩法核心逻辑
+function MapLayer:CoreLogic()
+    local _size = self.m_player:getSize()
+    local bpx,bpy = self.m_player:getPosition()
+    local roomIndex = math.ceil((self.m_player:getPositionY()-self.bottomHeight)/Room_Size.height)
+    --幻影角色
+    if self.phantonFollow then
+        if self.phantom and #self.phantom > 0 then
+            self.phantonFollow = false
+            local _room = self:getRoomByIdx(roomIndex)
+            for key, var in pairs(self.phantom) do
+                local pos=cc.p(self.m_player:getPositionX(),17)
+                if bpy+_size.height/2.0>pos.y then
+                    var:add(_room:getPositionY()+17+_size.height/2.0)
+                end
+            end
+        end
+    end
+
+    if self.m_lastRoomIdx ~= roomIndex then
+        local _room = self:getRoomByIdx(roomIndex)
+        local toStep = math.abs(_room:getRoomKey()-self.curRoomKey) == 1 or math.abs(_room:getRoomKey()-self.curRoomKey) == 9
+        if _room then
+            _room:intoRoom()
+            self.curRoomRunType = _room:getRunningRoomFloorType()
+            self.curRoomType = _room:getCurRoomType()
+            self.curRoomKey = _room:getRoomKey()
+            self.curRoomDistance = _room:getRunningDistance()
+            self.m_lastRoomIdx = roomIndex
+        end
+        if self.m_lastRoomIdx > self.jumpFloorNum then
+            self.phantonFollow = true
+            self.jumpFloorNum = roomIndex
+            GameDataManager.setPoints(self.jumpFloorNum)
+            self:addNewRooms()
+            if self.curRoomType~=MAPROOM_TYPE.Running then
+                self:toCameraMove()
+            else
+                if self.jumpFloorNum % 10 == 1 then
+                    self.runningKey = 1
+                    self.roomKey = 0
+                    self:toCameraMove()
+                else
+                    self:toRunCameraMove()
+                end
+            end
+        end
+        if self.curRoomType==MAPROOM_TYPE.Running then
+            self:toRunFirstCameraMove()
+        end
+    end
+
+    if self.curRoomType == MAPROOM_TYPE.Running then
+        if self.phantom and #self.phantom > 0 then
+            for key, var in pairs(self.phantom) do
+                local pos=cc.p(self.m_player:getPositionX(),17)
+                if self.m_player:getPositionY()+self.m_player:getSize().height/2.0>pos.y then
+                    var:add(self.m_player:getPositionY())
+                end
+            end
+        end
+    end
+
+    local _room,rKey = self:getOtherRoomByX(bpx,self.roomKey)
+    if _room then
+        if self.curRoomType == MAPROOM_TYPE.Running then
+            if self.runningKey and self.runningKey < _room:getRoomKey() then
+                self.roomKey = rKey
+                self.runningKey = _room:getRoomKey()
+                self:addNewRooms()
+            end
+        end
+    end
 end
 
 --根据房间编号从缓存中获取房间对象
@@ -830,6 +847,31 @@ function MapLayer:setRocket()
 	end
 end
 
+--设置火箭状态下2，3类型逻辑
+function MapLayer:toRocketRunningLogic()
+    local mx,my = self.m_camera:getPosition()
+    local curCloseFloor = math.ceil(self.jumpFloorNum/10)*10
+    local count = self:getRoomByIdx(curCloseFloor+1):getRoomsCount()
+    local time = (10-self.jumpFloorNum%10+1)*1/10
+    local time2 = count/10*1.5
+    local move = cc.MoveTo:create(time,cc.p(self.floorPos[curCloseFloor].x,self.floorPos[curCloseFloor].y-self.bottomHeight))
+    local move2 = cc.MoveTo:create(time2,cc.p(self.floorPos[curCloseFloor+10].x,self.floorPos[curCloseFloor+10].y-self.bottomHeight))
+    local seq = cc.Sequence:create(move,move2)
+    self.m_camera:runAction(seq)
+    
+    local curCloseFloor = math.ceil(self.jumpFloorNum/10)*10
+    local count = self:getRoomByIdx(curCloseFloor+1):getRoomsCount()
+--    local time = (10-self.jumpFloorNum%10+1)*1/10
+--    local time2 = count/10*1.5
+--    local bgx,bgy = self.bgNode:getPosition()
+--    local move = cc.MoveBy:create(time,cc.p(self.floorPos[curCloseFloor].x-mx,self.floorPos[curCloseFloor].y-self.bottomHeight-my))
+--    local move2 = cc.MoveBy:create(time2,cc.p(self.floorPos[curCloseFloor+10].x-(self.floorPos[curCloseFloor].x-mx),
+--        self.floorPos[curCloseFloor+10].y-self.bottomHeight-(self.floorPos[curCloseFloor].y-self.bottomHeight-my)))
+--    local seq = cc.Sequence:create(move,move2)
+--    self.bgNode:runAction(seq)
+    self.bgNode:toRocketMove(self.jumpFloorNum,mx,my,self.floorPos,self.bottomHeight,count)
+end
+
 function MapLayer:setRocketVisible()
     for key, var in pairs(self.havePhantom) do
         self.phantom[var]:setVisible(true)
@@ -838,7 +880,7 @@ end
 
 --获取摄像机对象，楼层坐标组，当前楼层
 function MapLayer:getRocketData()
-    return self.m_camera,self.floorPos,self.jumpFloorNum,self.curRoomType,self.bottomHeight
+    return self.m_camera,self.floorPos,self.jumpFloorNum,self.bottomHeight
 end
 
 
