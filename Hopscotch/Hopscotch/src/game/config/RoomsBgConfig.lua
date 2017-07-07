@@ -145,6 +145,8 @@ RoomBgs[2001]=
             {res="#Room_special_floor.png",x=Room_Distance.x+16+94*4,y=0},{res="#Room_special_floor.png",x=Room_Distance.x+15+94*5,y=0},
             {res="#Room_special_floor.png",x=Room_Distance.x+14+94*6,y=0},},--地板
     }
+
+--特殊钢架饱满情况下墙壁x坐标范围[57,631]
 RoomBgs[2010]=
     {
         wallLeftRight = {{res="#Room_wall.png",x=Room_Distance.x+57,y=16},{res="#Room_wall.png",x=Room_Distance.x+631,y=16},},--左右两侧墙壁

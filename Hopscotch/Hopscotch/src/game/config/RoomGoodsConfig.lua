@@ -5,9 +5,9 @@
 RoomGoods = {}
 
 
-RoomGoods[1]={{id=5,x=264, y=20},}
+RoomGoods[1]={{id=2,x=64, y=20},}
 
-RoomGoods[12]={{id=6,x=128,y=265},}
+RoomGoods[12]={{id=5,x=328,y=20},}
 RoomGoods[13]={{id=6,x=192,y=265},}
 RoomGoods[14]={{id=6,x=256,y=265},}
 RoomGoods[15]={{id=6,x=320,y=265},}

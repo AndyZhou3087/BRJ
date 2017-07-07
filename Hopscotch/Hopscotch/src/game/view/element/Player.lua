@@ -116,11 +116,7 @@ function Player:toJump(ty,isRunning)
         local easeOut = cc.EaseCubicActionOut:create(move)
         local easeIn = cc.EaseCubicActionIn:create(move2)
         local callfunc = cc.CallFunc:create(function()
-            self.m_body:setCollisionBitmask(0x03)
-            self:setGravityEnable(true)
-            self.m_jump = false
-            self.m_armature:stopAllActions()
-            self:createModle(self.m_modle)
+            self:toStopJump()
         end)
         local seq = cc.Sequence:create(easeOut,easeIn,callfunc)
         self:runAction(seq)
@@ -133,17 +129,21 @@ function Player:toJump(ty,isRunning)
         local move = cc.MoveTo:create(0.3,cc.p(x,ty+self.m_size.width*0.5+30))
         local easeOut = cc.EaseCubicActionOut:create(move)
         local callfunc = cc.CallFunc:create(function()
-            self.m_body:setCollisionBitmask(0x03)
-            self:setGravityEnable(true)
-            self.m_jump = false
-            self.m_armature:stopAllActions()
-            self:createModle(self.m_modle)
+            self:toStopJump()
         end)
         local seq = cc.Sequence:create(easeOut,callfunc)
         self:runAction(seq)
     end
 
 --    AudioManager.playSoundEffect(AudioManager.Sound_Effect_Type.Jump_High_Sound)
+end
+
+function Player:toStopJump()
+    self.m_body:setCollisionBitmask(0x03)
+    self:setGravityEnable(true)
+    self.m_jump = false
+    self.m_armature:stopAllActions()
+    self:createModle(self.m_modle)
 end
 
 --帧回调
@@ -239,6 +239,10 @@ function Player:springRocket(parameters)
         return
     end
     
+    if self:getJump() then
+    	self:toStopJump()
+    end
+    
     self.toRocketState = 0
     
     local speed = parameters.data.speed
@@ -251,7 +255,7 @@ function Player:springRocket(parameters)
     end
     local curCloseFloor = math.ceil(curFloor/10)*10
 
-    Tools.printDebug("----------brj 跳房子 火箭冲刺：",self:getPositionX(),floorPos[curCloseFloor+10].x)
+    Tools.printDebug("----------brj 跳房子 火箭冲刺：",curFloor,curCloseFloor+10,floorPos[curCloseFloor+10].y)
     
     self.m_armature:setVisible(false)
     self:toRocket()
@@ -259,7 +263,7 @@ function Player:springRocket(parameters)
     local roomType = self:getParent():getRoomByIdx(curFloor):getCurRoomType()
     if roomType ~= MAPROOM_TYPE.Running and roomNextType ~= MAPROOM_TYPE.Running then
         self.toRocketState = 1
-        local move = cc.MoveTo:create(1,cc.p(floorPos[curCloseFloor+10].x+display.cx,floorPos[curCloseFloor+10].y+self.m_size.width*0.5+30))
+        local move = cc.MoveTo:create(1,cc.p(floorPos[curCloseFloor+10].x+display.cx,floorPos[curCloseFloor+10].y+self.m_size.height*0.5+30))
         local callfun = cc.CallFunc:create(function()
             self:toStopRocket()
         end)
@@ -267,32 +271,30 @@ function Player:springRocket(parameters)
         self:runAction(seq)
     elseif roomNextType == MAPROOM_TYPE.Running then
         self.toRocketState = 2
+        self:getParent():toRocketRunningLogic(self.toRocketState)
         local count = self:getParent():getRoomByIdx(curCloseFloor+1):getRoomsCount()
         local time = (10-curFloor%10+1)*1/10
         local time2 = count/10*1.5
-        local move = cc.MoveTo:create(time,cc.p(floorPos[curCloseFloor].x+display.cx,floorPos[curCloseFloor].y+self.m_size.width*0.5+30))
-        local move2 = cc.MoveTo:create(time2,cc.p(floorPos[curCloseFloor+10].x+display.cx,floorPos[curCloseFloor+10].y+self.m_size.width*0.5+30))
+        local move = cc.MoveTo:create(time,cc.p(floorPos[curCloseFloor].x+display.cx,floorPos[curCloseFloor].y+self.m_size.height*0.5+30))
+        local move2 = cc.MoveTo:create(time2,cc.p(floorPos[curCloseFloor+10].x+display.cx,floorPos[curCloseFloor+10].y+self.m_size.height*0.5+30))
         local callfun = cc.CallFunc:create(function()
             self:toStopRocket()
         end)
         local seq = cc.Sequence:create(move,move2,callfun)
         self:runAction(seq)
-        
-        self:getParent():toRocketRunningLogic(self.toRocketState)
     elseif roomType == MAPROOM_TYPE.Running then
         self.toRocketState = 3
+        self:getParent():toRocketRunningLogic(self.toRocketState,curRoomKey)
         local count = self:getParent():getRoomByIdx(curFloor):getRoomsCount()
         local time = (count-curRoomKey)*1/10
         local time2 = 1
-        local move = cc.MoveTo:create(time,cc.p(floorPos[curCloseFloor].x+display.cx,floorPos[curCloseFloor].y+self.m_size.width*0.5+30))
-        local move2 = cc.MoveTo:create(time2,cc.p(floorPos[curCloseFloor+10].x+display.cx,floorPos[curCloseFloor+10].y+self.m_size.width*0.5+30))
+        local move = cc.MoveTo:create(time,cc.p(floorPos[curCloseFloor].x+display.cx,floorPos[curCloseFloor].y+self.m_size.height*0.5+30))
+        local move2 = cc.MoveTo:create(time2,cc.p(floorPos[curCloseFloor+10].x+display.cx,floorPos[curCloseFloor+10].y+self.m_size.height*0.5+30))
         local callfun = cc.CallFunc:create(function()
             self:toStopRocket()
         end)
         local seq = cc.Sequence:create(move,move2,callfun)
         self:runAction(seq)
-
-        self:getParent():toRocketRunningLogic(self.toRocketState,curRoomKey)
     end
  
     --火箭特效

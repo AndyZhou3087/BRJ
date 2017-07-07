@@ -490,13 +490,13 @@ function MapLayer:onEnterFrame(dt)
                 if x-display.cx+50 <= mx then
                     self.m_camera:setPositionX(x-display.cx+50)
                     self.bg:setPositionX(x-display.cx+50)
-                    self.bgNode:bgLandscapeMove(x-display.cx+50,(x-display.cx+50-mx)*0.95,mx,_scaleX)
+                    self.bgNode:bgLandscapeMove(x-display.cx+50,(x-display.cx+50-mx),mx,_scaleX)
                 end
             else
                 if x-display.cx-50 >= mx then
                     self.m_camera:setPositionX(x-display.cx-50)
                     self.bg:setPositionX(x-display.cx-50)
-                    self.bgNode:bgLandscapeMove(x-display.cx-50,(x-display.cx-50-mx)*0.95,mx,_scaleX)
+                    self.bgNode:bgLandscapeMove(x-display.cx-50,(x-display.cx-50-mx),mx,_scaleX)
                 end
             end
         end
@@ -537,6 +537,7 @@ function MapLayer:onEnterFrame(dt)
     
     if GameController.isInState(PLAYER_STATE.Rocket) and (self.m_player:getRocketState()==2 or self.m_player:getRocketState()==3) then
         self.bg:setPosition(self.m_camera:getPosition())
+        Tools.printDebug("brj--------角色坐标---------: ",self.m_player:getPosition())
     end
 
 end
@@ -846,6 +847,7 @@ end
 
 --设置火箭状态下2，3类型逻辑
 function MapLayer:toRocketRunningLogic(RocketState,curRoomKey)
+    self.m_camera:stopAllActions()
     local mx,my = self.m_camera:getPosition()
     if RocketState == 2 then
         local curFloor = self.jumpFloorNum
@@ -860,6 +862,8 @@ function MapLayer:toRocketRunningLogic(RocketState,curRoomKey)
             for var=1, addCount do
                 self:addNewRooms()
             end
+            self.jumpFloorNum = curCloseFloor+10
+            GameDataManager.setPoints(self.jumpFloorNum)
         end)
         local seq = cc.Sequence:create(move,move2,callfun)
         self.m_camera:runAction(seq)
@@ -871,16 +875,17 @@ function MapLayer:toRocketRunningLogic(RocketState,curRoomKey)
         local count = self:getRoomByIdx(curFloor):getRoomsCount()
         local time = (count-curRoomKey)*1/10
         local time2 = 1
+        local addCount = count-curRoomKey+10
+        for var=1, addCount do
+            self:addNewRooms()
+        end
         local move = cc.MoveTo:create(time,cc.p(self.floorPos[curCloseFloor].x,self.floorPos[curCloseFloor].y-self.bottomHeight))
         local move2 = cc.MoveTo:create(time2,cc.p(self.floorPos[curCloseFloor+10].x,self.floorPos[curCloseFloor+10].y-self.bottomHeight))
         local callfun = cc.CallFunc:create(function()
-            local addCount = count-curRoomKey+10
-            for var=1, addCount do
-                self:addNewRooms()
-            end
+            self.jumpFloorNum = curCloseFloor+10
+            GameDataManager.setPoints(self.jumpFloorNum)
         end)
-        local spawn = cc.Spawn:create(move2,callfun)
-        local seq = cc.Sequence:create(move,spawn)
+        local seq = cc.Sequence:create(move,move2,callfun)
         self.m_camera:runAction(seq)
 
         self.bgNode:toRocketMove(self.jumpFloorNum,mx,my,self.floorPos,self.bottomHeight,count,time,time2)

@@ -44,4 +44,8 @@
     <Project>SceneBg_4</Project>
     <GuidesList />
   </GuidesProject>
+  <GuidesProject>
+    <Project>SceneBg_6</Project>
+    <GuidesList />
+  </GuidesProject>
 </ArrayOfGuidesProject>

@@ -7,6 +7,7 @@ Payment=
         Scene_3 = "rzjxkp.zs.8", --场景3
         Scene_4 = "rzjxkp.zs.10", --场景4
         Scene_5 = "rzjxkp.zs.15", --场景5
+        Scene_6 = "rzjxkp.zs.15", --场景6
         
         Role_1 = "rzjxkp.zs.2",
         Role_2 = "rzjxkp.zs.2",

@@ -39,6 +39,10 @@ MAP_ROOM_OTHER_MAX = 20
 --地图当前ZOder
 MAP_ZORDER_MAX=0
 
+--背景移动系数
+Rdt_1 = 0.96
+Rdt_2 = 0.85
+
 
 Map_Grade = 
 {
