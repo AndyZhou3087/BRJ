@@ -36,7 +36,6 @@ function MapLayer:ctor(parameters)
     GameController.setRooms(self.m_chaceRooms)
     self.m_otherRooms = {}   --额外的房间(主要是横跑中不升楼层的房间)
     self.jumpFloorNum = 1
-    self.curRoomKey = 1
     self.backOrigin = false
     self.m_toJump = false
     self.floorPos = {}
@@ -536,7 +535,7 @@ function MapLayer:onEnterFrame(dt)
         end
     end
     
-    if GameController.isInState(PLAYER_STATE.Rocket) and self.m_player:getRocketState()==2 then
+    if GameController.isInState(PLAYER_STATE.Rocket) and (self.m_player:getRocketState()==2 or self.m_player:getRocketState()==3) then
         self.bg:setPosition(self.m_camera:getPosition())
     end
 
@@ -750,12 +749,10 @@ function MapLayer:CoreLogic()
 
     if self.m_lastRoomIdx ~= roomIndex then
         local _room = self:getRoomByIdx(roomIndex)
-        local toStep = math.abs(_room:getRoomKey()-self.curRoomKey) == 1 or math.abs(_room:getRoomKey()-self.curRoomKey) == 9
         if _room then
             _room:intoRoom()
             self.curRoomRunType = _room:getRunningRoomFloorType()
             self.curRoomType = _room:getCurRoomType()
-            self.curRoomKey = _room:getRoomKey()
             self.curRoomDistance = _room:getRunningDistance()
             self.m_lastRoomIdx = roomIndex
         end
@@ -848,28 +845,46 @@ function MapLayer:setRocket()
 end
 
 --设置火箭状态下2，3类型逻辑
-function MapLayer:toRocketRunningLogic()
+function MapLayer:toRocketRunningLogic(RocketState,curRoomKey)
     local mx,my = self.m_camera:getPosition()
-    local curCloseFloor = math.ceil(self.jumpFloorNum/10)*10
-    local count = self:getRoomByIdx(curCloseFloor+1):getRoomsCount()
-    local time = (10-self.jumpFloorNum%10+1)*1/10
-    local time2 = count/10*1.5
-    local move = cc.MoveTo:create(time,cc.p(self.floorPos[curCloseFloor].x,self.floorPos[curCloseFloor].y-self.bottomHeight))
-    local move2 = cc.MoveTo:create(time2,cc.p(self.floorPos[curCloseFloor+10].x,self.floorPos[curCloseFloor+10].y-self.bottomHeight))
-    local seq = cc.Sequence:create(move,move2)
-    self.m_camera:runAction(seq)
-    
-    local curCloseFloor = math.ceil(self.jumpFloorNum/10)*10
-    local count = self:getRoomByIdx(curCloseFloor+1):getRoomsCount()
---    local time = (10-self.jumpFloorNum%10+1)*1/10
---    local time2 = count/10*1.5
---    local bgx,bgy = self.bgNode:getPosition()
---    local move = cc.MoveBy:create(time,cc.p(self.floorPos[curCloseFloor].x-mx,self.floorPos[curCloseFloor].y-self.bottomHeight-my))
---    local move2 = cc.MoveBy:create(time2,cc.p(self.floorPos[curCloseFloor+10].x-(self.floorPos[curCloseFloor].x-mx),
---        self.floorPos[curCloseFloor+10].y-self.bottomHeight-(self.floorPos[curCloseFloor].y-self.bottomHeight-my)))
---    local seq = cc.Sequence:create(move,move2)
---    self.bgNode:runAction(seq)
-    self.bgNode:toRocketMove(self.jumpFloorNum,mx,my,self.floorPos,self.bottomHeight,count)
+    if RocketState == 2 then
+        local curFloor = self.jumpFloorNum
+        local curCloseFloor = math.ceil(self.jumpFloorNum/10)*10
+        local count = self:getRoomByIdx(curCloseFloor+1):getRoomsCount()
+        local time = (10-self.jumpFloorNum%10+1)*1/10
+        local time2 = count/10*1.5
+        local move = cc.MoveTo:create(time,cc.p(self.floorPos[curCloseFloor].x,self.floorPos[curCloseFloor].y-self.bottomHeight))
+        local move2 = cc.MoveTo:create(time2,cc.p(self.floorPos[curCloseFloor+10].x,self.floorPos[curCloseFloor+10].y-self.bottomHeight))
+        local callfun = cc.CallFunc:create(function()
+            local addCount = curCloseFloor-curFloor+count
+            for var=1, addCount do
+                self:addNewRooms()
+            end
+        end)
+        local seq = cc.Sequence:create(move,move2,callfun)
+        self.m_camera:runAction(seq)
+
+        self.bgNode:toRocketMove(self.jumpFloorNum,mx,my,self.floorPos,self.bottomHeight,count,time,time2)
+    elseif RocketState == 3 then
+        local curFloor = self.jumpFloorNum
+        local curCloseFloor = math.ceil(self.jumpFloorNum/10)*10
+        local count = self:getRoomByIdx(curFloor):getRoomsCount()
+        local time = (count-curRoomKey)*1/10
+        local time2 = 1
+        local move = cc.MoveTo:create(time,cc.p(self.floorPos[curCloseFloor].x,self.floorPos[curCloseFloor].y-self.bottomHeight))
+        local move2 = cc.MoveTo:create(time2,cc.p(self.floorPos[curCloseFloor+10].x,self.floorPos[curCloseFloor+10].y-self.bottomHeight))
+        local callfun = cc.CallFunc:create(function()
+            local addCount = count-curRoomKey+10
+            for var=1, addCount do
+                self:addNewRooms()
+            end
+        end)
+        local spawn = cc.Spawn:create(move2,callfun)
+        local seq = cc.Sequence:create(move,spawn)
+        self.m_camera:runAction(seq)
+
+        self.bgNode:toRocketMove(self.jumpFloorNum,mx,my,self.floorPos,self.bottomHeight,count,time,time2)
+    end
 end
 
 function MapLayer:setRocketVisible()
@@ -880,7 +895,7 @@ end
 
 --获取摄像机对象，楼层坐标组，当前楼层
 function MapLayer:getRocketData()
-    return self.m_camera,self.floorPos,self.jumpFloorNum,self.bottomHeight
+    return self.m_camera,self.floorPos,self.jumpFloorNum,self.bottomHeight,self.runningKey
 end
 
 

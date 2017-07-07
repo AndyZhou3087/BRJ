@@ -244,10 +244,10 @@ function Player:springRocket(parameters)
     local speed = parameters.data.speed
     self:addBuff({type=PLAYER_STATE.Rocket})
     
-    local camera,floorPos,curFloor,dis
+    local camera,floorPos,curFloor,dis,curRoomKey
     if not tolua.isnull(self:getParent()) then
         self:getParent():setRocket()
-        camera,floorPos,curFloor,dis = self:getParent():getRocketData()
+        camera,floorPos,curFloor,dis,curRoomKey = self:getParent():getRocketData()
     end
     local curCloseFloor = math.ceil(curFloor/10)*10
 
@@ -278,7 +278,21 @@ function Player:springRocket(parameters)
         local seq = cc.Sequence:create(move,move2,callfun)
         self:runAction(seq)
         
-        self:getParent():toRocketRunningLogic()
+        self:getParent():toRocketRunningLogic(self.toRocketState)
+    elseif roomType == MAPROOM_TYPE.Running then
+        self.toRocketState = 3
+        local count = self:getParent():getRoomByIdx(curFloor):getRoomsCount()
+        local time = (count-curRoomKey)*1/10
+        local time2 = 1
+        local move = cc.MoveTo:create(time,cc.p(floorPos[curCloseFloor].x+display.cx,floorPos[curCloseFloor].y+self.m_size.width*0.5+30))
+        local move2 = cc.MoveTo:create(time2,cc.p(floorPos[curCloseFloor+10].x+display.cx,floorPos[curCloseFloor+10].y+self.m_size.width*0.5+30))
+        local callfun = cc.CallFunc:create(function()
+            self:toStopRocket()
+        end)
+        local seq = cc.Sequence:create(move,move2,callfun)
+        self:runAction(seq)
+
+        self:getParent():toRocketRunningLogic(self.toRocketState,curRoomKey)
     end
  
     --火箭特效

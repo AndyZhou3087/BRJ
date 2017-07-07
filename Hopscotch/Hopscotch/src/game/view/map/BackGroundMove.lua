@@ -460,20 +460,18 @@ function BackGroundMove:toBackOrigin()
 end
 
 --火箭状态下移动
-function BackGroundMove:toRocketMove(curFloor,mx,my,floorPos,dis,count)
-    self:rocketMove(self.Panel_1,curFloor,mx,my,floorPos,dis,count)
-    self:rocketMove(self.Panel_2,curFloor,mx,my,floorPos,dis,count)
-    self:rocketMove(self.Panel_2_0,curFloor,mx,my,floorPos,dis,count)
-    self:rocketMove(self.Panel_3,curFloor,mx,my,floorPos,dis,count)
-    self:rocketMove(self.Panel_3_0,curFloor,mx,my,floorPos,dis,count)
+function BackGroundMove:toRocketMove(curFloor,mx,my,floorPos,dis,count,time,time2)
+    self:rocketMove(self.Panel_1,curFloor,mx,my,floorPos,dis,count,time,time2)
+    self:rocketMove(self.Panel_2,curFloor,mx,my,floorPos,dis,count,time,time2)
+    self:rocketMove(self.Panel_2_0,curFloor,mx,my,floorPos,dis,count,time,time2)
+    self:rocketMove(self.Panel_3,curFloor,mx,my,floorPos,dis,count,time,time2)
+    self:rocketMove(self.Panel_3_0,curFloor,mx,my,floorPos,dis,count,time,time2)
 end
-function BackGroundMove:rocketMove(_obj,curFloor,mx,my,floorPos,dis,count)
+function BackGroundMove:rocketMove(_obj,curFloor,mx,my,floorPos,dis,count,time,time2)
     local curCloseFloor = math.ceil(curFloor/10)*10
-    local time = (10-curFloor%10+1)*1/10
-    local time2 = count/10*1.5
     local move = cc.MoveBy:create(time,cc.p(floorPos[curCloseFloor].x-mx,floorPos[curCloseFloor].y-dis-my))
-    local move2 = cc.MoveBy:create(time2,cc.p(floorPos[curCloseFloor+10].x-(floorPos[curCloseFloor].x-mx),
-        floorPos[curCloseFloor+10].y-dis-(floorPos[curCloseFloor].y-dis-my)))
+    local move2 = cc.MoveBy:create(time2,cc.p(floorPos[curCloseFloor+10].x-floorPos[curCloseFloor].x,
+        floorPos[curCloseFloor+10].y-floorPos[curCloseFloor].y))
     local seq = cc.Sequence:create(move,move2)
     _obj:runAction(seq)
 end
