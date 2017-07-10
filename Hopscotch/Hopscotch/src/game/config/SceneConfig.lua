@@ -100,3 +100,20 @@ SceneConfig[6]=
         --{panel2的偏移量，panel3的距离差，panel2的初始高度，panel3的初始高度，panel1位置的偏移量,panel2的距离差,panel2偏移差}
         offset = {0,0,850,200,0,0,0},
     }
+    
+SceneConfig[7]=
+    {
+        id = 7,
+        type = Shop_Type.scene,
+        sceneName = "shop/scenename_5.png",
+        sceneIcon = "shop/scene_5.png",
+        priceRes = "shop/price_6.png",
+        des = "火星",
+        rmb = 6,   --人民币购买价格
+        payId = Payment.Scene_7,
+        bgColor = {cc.c4b(5,18,36,255),cc.c4b(4,9,16,255)},
+        specailRes = "#Room_special_3.png",
+        specailRes2 = "#Room_special_1.png",
+        --{panel2的偏移量，panel3的距离差，panel2的初始高度，panel3的初始高度，panel1位置的偏移量,panel2的距离差,panel2偏移差}
+        offset = {0,113,343,500,0,0,0},
+    }
