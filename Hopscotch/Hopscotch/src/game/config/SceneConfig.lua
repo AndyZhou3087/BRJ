@@ -80,7 +80,8 @@ SceneConfig[5]=
         bgColor = {cc.c4b(232,237,253,255),cc.c4b(93,196,248,255)},
         specailRes = "#Room_special_3.png",
         specailRes2 = "#Room_special_1.png",
-        offset = {0,50,1918,2229,-207,87,0},
+        --{panel2的偏移量，panel3的距离差，panel2的初始高度，panel3的初始高度，panel1位置的偏移量,panel2的距离差,panel2偏移差}
+        offset = {0,0,827,700,-46,0,0},
     }
     
 SceneConfig[6]=
@@ -97,5 +98,5 @@ SceneConfig[6]=
         specailRes = "#Room_special_3.png",
         specailRes2 = "#Room_special_1.png",
         --{panel2的偏移量，panel3的距离差，panel2的初始高度，panel3的初始高度，panel1位置的偏移量,panel2的距离差,panel2偏移差}
-        offset = {-337,0,850,1000,0,613,275},
+        offset = {0,0,850,200,0,0,0},
     }

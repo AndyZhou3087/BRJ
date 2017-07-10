@@ -139,6 +139,7 @@ function Player:toJump(ty,isRunning)
 end
 
 function Player:toStopJump()
+    self:stopAllActions()
     self.m_body:setCollisionBitmask(0x03)
     self:setGravityEnable(true)
     self.m_jump = false
@@ -240,27 +241,26 @@ function Player:springRocket(parameters)
     end
     
     if self:getJump() then
-    	self:toStopJump()
+        self:toStopJump()
     end
-    
-    self.toRocketState = 0
     
     local speed = parameters.data.speed
     self:addBuff({type=PLAYER_STATE.Rocket})
-    
+
     local camera,floorPos,curFloor,dis,curRoomKey
     if not tolua.isnull(self:getParent()) then
         self:getParent():setRocket()
         camera,floorPos,curFloor,dis,curRoomKey = self:getParent():getRocketData()
     end
     local curCloseFloor = math.ceil(curFloor/10)*10
+    local roomNextType = self:getParent():getRoomByIdx(curCloseFloor+1):getCurRoomType()
+    local roomType = self:getParent():getRoomByIdx(curFloor):getCurRoomType()
+    self.toRocketState = 0
 
     Tools.printDebug("----------brj 跳房子 火箭冲刺：",curFloor,curCloseFloor+10,floorPos[curCloseFloor+10].y)
     
     self.m_armature:setVisible(false)
     self:toRocket()
-    local roomNextType = self:getParent():getRoomByIdx(curCloseFloor+1):getCurRoomType()
-    local roomType = self:getParent():getRoomByIdx(curFloor):getCurRoomType()
     if roomType ~= MAPROOM_TYPE.Running and roomNextType ~= MAPROOM_TYPE.Running then
         self.toRocketState = 1
         local move = cc.MoveTo:create(1,cc.p(floorPos[curCloseFloor+10].x+display.cx,floorPos[curCloseFloor+10].y+self.m_size.height*0.5+30))
