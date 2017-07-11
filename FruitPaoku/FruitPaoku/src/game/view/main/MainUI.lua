@@ -40,11 +40,13 @@ function MainUI:init(parameters)
 --    self.Image_21:setScale(display.right/GroupSize.width)
     self.Image_21:setPositionX(display.cx)
     
-    self.Label_23 = cc.uiloader:seekNodeByName(self.m_json,"Label_23")
+    self.Label_23 = cc.uiloader:seekNodeByName(self.m_json,"BitmapLabel_9")
+    self.Label_23:setColor(cc.c3b(0,100,0))
     self.ProgressBar = cc.uiloader:seekNodeByName(self.m_json,"ProgressBar")
     self.ProgressBar:setPercent(0)
 
-    local Label_8 = cc.uiloader:seekNodeByName(self.m_json,"Label_8")
+    local Label_8 = cc.uiloader:seekNodeByName(self.m_json,"BitmapLabel_8")
+    Label_8:setColor(cc.c3b(0,0,0))
     Label_8:setPositionX(display.left+130)
     
     local Levelbtn = cc.uiloader:seekNodeByName(self.m_json,"Levelbtn")
