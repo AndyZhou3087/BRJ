@@ -34,11 +34,12 @@ function MapRoom:ctor(_idx,_levelCon,_floorNum)
         local spRes = SceneConfig[GameDataManager.getFightScene()].specailRes
         if spRes then
             local left = display.newSprite(spRes):addTo(self)
-            left:setPosition(cc.p(0+_levelCon.lineX,0))
+            local width = left:getCascadeBoundingBox().size.width
+            left:setPosition(cc.p(_levelCon.lineX[1]-width,0))
             left:setAnchorPoint(cc.p(0,0))
             local right = display.newSprite(spRes):addTo(self)
             right:setScaleX(-1)
-            right:setPosition(cc.p(display.right-_levelCon.lineX,0))
+            right:setPosition(cc.p(_levelCon.lineX[2]+width+16,0))
             right:setAnchorPoint(cc.p(0,0))
         end
     end

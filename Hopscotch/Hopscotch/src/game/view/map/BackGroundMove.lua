@@ -38,10 +38,83 @@ function BackGroundMove:ctor(_sceneId)
     
     self.panel2Size = self.Panel_2:getCascadeBoundingBox().size
     self.panel3Size = self.Panel_3:getCascadeBoundingBox().size
+
     
---    self.Panel_2:setVisible(false)
---    self.Panel_2_0:setVisible(false)
-    
+end
+
+function BackGroundMove:bgMapMove(cameraPos)
+    if self.lastCameraPos and (self.lastCameraPos.y ~= cameraPos.y or self.lastCameraPos.x ~= cameraPos.x) then
+        local bx,by = self.Panel_1:getPosition()
+        local bgx,bgy = self.Panel_2:getPosition()
+        local bgx2,bgy2 = self.Panel_2_0:getPosition()
+        local bgx3,bgy3 = self.Panel_3:getPosition()
+        local bgx4,bgy4 = self.Panel_3_0:getPosition()
+        if self.lastCameraPos.x ~= cameraPos.x then
+            self.Panel_1:setPositionX(cameraPos.x+self.offset[5])
+        end
+        if self.lastCameraPos.y ~= cameraPos.y then
+            self.Panel_1:setPositionY(by+self.offset[5]+BgMove_2*0.1)
+            self.Panel_2:setPositionY(bgy+BgMove_2*0.1)
+            self.Panel_2_0:setPositionY(bgy2+BgMove_2*0.1)
+            self.Panel_3:setPositionY(bgy3+BgMove_1*0.1)
+            self.Panel_3_0:setPositionY(bgy4+BgMove_1*0.1)
+        end
+        --type为1,左右移动
+        if self.lastCameraPos then
+            if cameraPos.x > self.lastCameraPos.x then
+                self.Panel_2:setPositionX(bgx+BgMove_2*0.1)
+                self.Panel_2_0:setPositionX(bgx2+BgMove_2*0.1)
+                self.Panel_3:setPositionY(bgx3+BgMove_1*0.1)
+                self.Panel_3_0:setPositionY(bgx4+BgMove_1*0.1)
+                local bgx,bgy = self.Panel_2:getPosition()
+                local bgx2,bgy2 = self.Panel_2_0:getPosition()
+                if bgx <= cameraPos.x - self.panel2Size.width + self.offset[7] then
+                    self.Panel_2:setPositionX(bgx2+self.panel2Size.width-self.offset[6])
+                    self.Panel_2_0:setLocalZOrder(1)
+                    self.Panel_2:setLocalZOrder(2)
+                end
+                if bgx2 <= cameraPos.x - self.panel2Size.width + self.offset[7] then
+                    self.Panel_2_0:setPositionX(bgx+self.panel2Size.width-self.offset[6])
+                    self.Panel_2:setLocalZOrder(1)
+                    self.Panel_2_0:setLocalZOrder(2)
+                end
+                local bgx3,bgy3 = self.Panel_3:getPosition()
+                local bgx4,bgy4 = self.Panel_3_0:getPosition()
+                if bgx3 <= cameraPos.x - self.panel3Size.width then
+                    self.Panel_3:setPositionX(bgx4+self.panel3Size.width+self.offset[2])
+                end
+                if bgx4 <= cameraPos.x - self.panel3Size.width then
+                    self.Panel_3_0:setPositionX(bgx3+self.panel3Size.width+self.offset[2])
+                end
+            elseif cameraPos.x < self.lastCameraPos.x then
+                self.Panel_2:setPositionX(bgx-BgMove_2*0.1)
+                self.Panel_2_0:setPositionX(bgx2-BgMove_2*0.1)
+                self.Panel_3:setPositionY(bgx3-BgMove_1*0.1)
+                self.Panel_3_0:setPositionY(bgx4-BgMove_1*0.1)
+                local bgx,bgy = self.Panel_2:getPosition()
+                local bgx2,bgy2 = self.Panel_2_0:getPosition()
+                if bgx + self.offset[1] >= cameraPos.x + display.width then
+                    self.Panel_2:setPositionX(bgx2-self.panel2Size.width+self.offset[6])
+                    self.Panel_2_0:setLocalZOrder(2)
+                    self.Panel_2:setLocalZOrder(1)
+                end
+                if bgx2 + self.offset[1] <= cameraPos.x + display.width then
+                    self.Panel_2_0:setPositionX(bgx-self.panel2Size.width+self.offset[6])
+                    self.Panel_2:setLocalZOrder(2)
+                    self.Panel_2_0:setLocalZOrder(1)
+                end
+                local bgx3,bgy3 = self.Panel_3:getPosition()
+                local bgx4,bgy4 = self.Panel_3_0:getPosition()
+                if bgx3 >= cameraPos.x + display.width then
+                    self.Panel_3:setPositionX(bgx4-self.panel3Size.width-self.offset[2])
+                end
+                if bgx4 >= cameraPos.x + display.width then
+                    self.Panel_3_0:setPositionX(bgx3-self.panel3Size.width-self.offset[2])
+                end
+            end
+        end
+    end
+    self.lastCameraPos = cameraPos
 end
 
 --背景分层横向移动
@@ -319,6 +392,7 @@ function BackGroundMove:toRunYtoXMove(_pos,_dis,toX,mx,vel)
         self.Panel_2_0:setLocalZOrder(2)
         self.Panel_2:setLocalZOrder(1)
     end
+    Tools.printDebug("----------------------brj 背景移动背景移动：",nx2,toX - self.panel2Size.width+self.offset[7])
     if nx2 < toX - self.panel2Size.width+self.offset[7] then
         local function toPosition()
             self.Panel_2_0:setPositionX(nx+self.panel2Size.width-self.offset[6])
@@ -350,7 +424,6 @@ function BackGroundMove:toRunYtoXMove(_pos,_dis,toX,mx,vel)
         end
         self:toYtoXMove(self.Panel_3,nx3,_pos.y*Rdt_1-_dis+self.offset[4],vel,toX - self.panel3Size.width,toPosition)
     end
-    Tools.printDebug("----------------------brj 背景移动背景移动：",nx4,toX - self.panel3Size.width)
     if nx4 < toX - self.panel3Size.width then
         local function toPosition()
             self.Panel_3_0:setPositionX(nx3+self.panel3Size.width+self.offset[2])

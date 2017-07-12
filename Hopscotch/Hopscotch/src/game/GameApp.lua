@@ -144,4 +144,29 @@ function GameApp:alert(_params)
     return self.m_alert
 end
 
+function GameApp:onEnterBackground()
+    print("chjh 进入后台")
+    GameController.setCollsionEnable(false)
+    GameDataManager.saveGameData()
+end
+
+function GameApp:onEnterForeground()
+    print("chjh 进入前台")
+    if GameController.isInPause() then
+        GameController.pauseGame()
+    else
+        TimeUtil.init()
+    end
+    GameController.setCollsionEnable(true)
+
+    --音乐处理
+    if GameDataManager.isMusicOpen()==false then
+        AudioManager.stop(1)
+    end
+
+    if GameDataManager.isSoundOpen()==false then
+        AudioManager.stop(2)
+    end
+end
+
 return GameApp

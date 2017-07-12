@@ -18,6 +18,7 @@ function LineElement:ctor(arr)
     self.line_1:setAnchorPoint(cc.p(0,1))
     self.line_2:setAnchorPoint(cc.p(0,1))
     self.line_2:setPositionX(50)
+    self.size = self.line_1:getCascadeBoundingBox().size
     
     local shake = cc.RotateTo:create(1.5,-4)
     local shake2 = cc.RotateTo:create(1.5,4)
@@ -42,6 +43,10 @@ function LineElement:moveUp()
     local scale = 8.5-(self.arrMove[self.moveCount]-1)
     local toScale = cc.ScaleTo:create(0.2,self:getScaleX(),scale)
     self:runAction(toScale)
+end
+
+function LineElement:getWidth()
+    return self.size.width+50
 end
 
 function LineElement:dispose()

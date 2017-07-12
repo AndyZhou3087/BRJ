@@ -42,15 +42,18 @@ MAP_ZORDER_MAX=0
 --背景移动系数
 Rdt_1 = 0.96
 Rdt_2 = 0.85
+--背景移动速率
+BgMove_1 = 52  --移动多即移动慢
+BgMove_2 = 25 
 
 
 Map_Grade = 
 {
     floor_D = 1,
     floor_C = 100,
-    floor_B = 150,
-    floor_A = 200,
-    floor_S = 300,
+    floor_B = 200,
+    floor_A = 400,
+    floor_S = 500,
 }
 MAP_SPEED = 
 {

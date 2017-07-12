@@ -44,6 +44,7 @@ function MapLayer:ctor(parameters)
     self.phantom = {}
     self.havePhantom = {}
     self.runFloorNum = RunningFloorNum
+    self.isBgMove = false
     
     self.m_curZOrder = MAP_ZORDER_MAX   --房间当前显示层级
     
@@ -71,7 +72,6 @@ function MapLayer:ctor(parameters)
     self.m_camera:setCameraFlag(cc.CameraFlag.USER1)
     self:addChild(self.m_camera)
     self.m_camera:setPosition3D(cc.vec3(0, 0, 0))
---    Tools.printDebug("-------brj 摄像机初始坐标：",self.m_camera:getPosition())
 
     self.m_player = Player.new()
     self:addChild(self.m_player,MAP_ZORDER_MAX+1)
@@ -131,6 +131,7 @@ function MapLayer:initRooms(parameters)
         if k > 1 then
             local i = GameDataManager.getDataIdByWeight(Map_Grade.floor_D)
             self.m_levelCon = MapGroupConfigD[i]
+            Tools.printDebug("brj error 配置组",k,i)
         else
             local i = GameDataManager.getDataIdByWeight(-1)
             self.m_levelCon = MapFirstGroup[i]
@@ -162,44 +163,7 @@ function MapLayer:initRooms(parameters)
             
             --特殊房间楼层的钢架
             if self.m_levelCon.roomType == MAPROOM_TYPE.Special and var == 1 then
-                --钢架线
-                local line_left = LineElement.new(self.m_levelCon.left)
-                self:addChild(line_left,self.m_curZOrder)
-                line_left:setAnchorPoint(cc.p(0,1))
-                local leftHeight = line_left:getCascadeBoundingBox().size.height
-                line_left:setPosition(cc.p(self._x+15+self.m_levelCon.lineX,leftHeight*9+_y))
-                line_left:setScaleY(8.5-(self.m_levelCon.left[1]-1))
-                line_left:setCameraMask(2)
-                local line_right = LineElement.new(self.m_levelCon.right)
-                self:addChild(line_right,self.m_curZOrder)
-                line_right:setAnchorPoint(cc.p(0,1))
-                line_right:setScaleX(-1)
-                local rightHeight = line_right:getCascadeBoundingBox().size.height
-                line_right:setPosition(cc.p(self._x+display.right-15-self.m_levelCon.lineX,rightHeight*9+_y))
-                line_right:setScaleY(8.5-(self.m_levelCon.right[1]-1))
-                line_right:setCameraMask(2)
-                
-                --钢架人
-                local steel1 = SpecialElement.new(self.m_levelCon.left,line_left)
-                self:addChild(steel1,self.m_curZOrder)
-                steel1:setAnchorPoint(cc.p(0,0))
-                local size = steel1:getCascadeBoundingBox().size
-                local steelY = (self.m_levelCon.left[1]-1)*Room_Size.height
-                steel1:setPosition(cc.p(self._x+size.width*0.5+5+self.m_levelCon.lineX,size.height*0.5+16+_y+steelY))
-                local steel2 = SpecialElement.new(self.m_levelCon.right,line_right)
-                self:addChild(steel2,self.m_curZOrder)
-                steel2:setAnchorPoint(cc.p(0,0))
-                steel2:setScaleX(-1)
-                local steel2Y = (self.m_levelCon.right[1]-1)*Room_Size.height
-                steel2:setPosition(cc.p(self._x+display.right-size.width*0.5-5-self.m_levelCon.lineX,size.height*0.5+16+_y+steel2Y))
-                steel1:setCameraMask(2)
-                steel2:setCameraMask(2)
-                self.specialBody[math.floor(self.m_roomsNum/10)] = {}
-                local spBodyArr = {steel1,cc.p(self._x+size.width*0.5+5+self.m_levelCon.lineX,size.height*0.5+16+_y+steelY),self.m_levelCon.left[1]}
-                local spBodyArr2 = {steel2,cc.p(self._x+display.right-size.width*0.5-5-self.m_levelCon.lineX,size.height*0.5+16+_y+steel2Y),self.m_levelCon.right[1]}
-                table.insert(self.specialBody[math.floor(self.m_roomsNum/10)],spBodyArr)
-                table.insert(self.specialBody[math.floor(self.m_roomsNum/10)],spBodyArr2)
---                Tools.printDebug("------------------ 初始化房间：： ",math.floor(self.m_roomsNum/10),self.specialBody[math.floor(self.m_roomsNum/10)][1])
+                self:createSteels(1,_y)
             end
             
             self.m_curZOrder = self.m_curZOrder + 1
@@ -216,7 +180,7 @@ function MapLayer:addNewRooms(parameters)
 --    	local i = math.random(RunningMin,RunningMax)
 --    	self.runFloorNum = i
         local k = GameDataManager.getDataIdByWeight()
---        Tools.printDebug("brj Hopscotch 横跑组：",k)
+        Tools.printDebug("brj Hopscotch 横跑组：",k)
         self.m_levelCon = MapRunningConfig[k]
         self.roomType = self.m_levelCon.roomType
         self.floorNum = 0
@@ -243,6 +207,7 @@ function MapLayer:addNewRooms(parameters)
             self.m_levelCon = config[i]
             self.roomType = self.m_levelCon.roomType
             self.floorNum = 0
+            Tools.printDebug("brj Hopscotch 普通组：",i)
         end 
     end
     
@@ -364,41 +329,7 @@ function MapLayer:CommonRoomAdd()
 
     --特殊房间楼层的钢架
     if self.m_levelCon.roomType == MAPROOM_TYPE.Special and self.floorNum == 1 then
-        --钢架线
-        local line_left = LineElement.new(self.m_levelCon.left)
-        self:addChild(line_left,self.m_curZOrder)
-        line_left:setAnchorPoint(cc.p(0,1))
-        local leftHeight = line_left:getCascadeBoundingBox().size.height
-        line_left:setPosition(cc.p(self._x+15+self.m_levelCon.lineX,leftHeight*9+_y))
-        line_left:setScaleY(8.5-(self.m_levelCon.left[1]-1))
-        line_left:setCameraMask(2)
-        local line_right = LineElement.new(self.m_levelCon.right)
-        self:addChild(line_right,self.m_curZOrder)
-        line_right:setAnchorPoint(cc.p(0,1))
-        line_right:setScaleX(-1)
-        local rightHeight = line_right:getCascadeBoundingBox().size.height
-        line_right:setPosition(cc.p(self._x+display.right-15-self.m_levelCon.lineX,rightHeight*9+_y))
-        line_right:setScaleY(8.5-(self.m_levelCon.right[1]-1))
-        line_right:setCameraMask(2)
-        --钢架人
-        local steel1 = SpecialElement.new(self.m_levelCon.left,line_left)
-        self:addChild(steel1,self.m_curZOrder)
-        steel1:setAnchorPoint(cc.p(0,0))
-        local size = steel1:getCascadeBoundingBox().size
-        local steelY = (self.m_levelCon.left[1]-1)*Room_Size.height
-        steel1:setPosition(cc.p(self._x+size.width*0.5+5+self.m_levelCon.lineX,size.height*0.5+16+_y+steelY))
-        local steel2 = SpecialElement.new(self.m_levelCon.right,line_right)
-        self:addChild(steel2,self.m_curZOrder)
-        steel2:setAnchorPoint(cc.p(0,0))
-        steel2:setScaleX(-1)
-        local steel2Y = (self.m_levelCon.right[1]-1)*Room_Size.height
-        steel2:setPosition(cc.p(self._x+display.right-size.width*0.5-5-self.m_levelCon.lineX,size.height*0.5+16+_y+steel2Y))
-        steel1:setCameraMask(2)
-        steel2:setCameraMask(2)
-        self.specialBody[math.ceil(self.m_roomsNum/10)] = {}
-        table.insert(self.specialBody[math.ceil(self.m_roomsNum/10)],steel1)
-        table.insert(self.specialBody[math.ceil(self.m_roomsNum/10)],steel2)
---        Tools.printDebug("------------------ 添加的房间：： ",math.ceil(self.m_roomsNum/10),self.specialBody[math.ceil(self.m_roomsNum/10)])
+        self:createSteels(2,_y)
     end
 
     self.m_curZOrder = self.m_curZOrder + 1
@@ -407,6 +338,52 @@ function MapLayer:CommonRoomAdd()
     if #self.m_chaceRooms > MAP_ROOM_MAX then
         local _room = table.remove(self.m_chaceRooms,1)
         _room:dispose()
+    end
+end
+
+function MapLayer:createSteels(_type,_y)
+    --钢架线
+    local line_left = LineElement.new(self.m_levelCon.left)
+    self:addChild(line_left,self.m_curZOrder)
+    line_left:setAnchorPoint(cc.p(0,1))
+    local leftHeight = line_left:getCascadeBoundingBox().size.height
+    local width = line_left:getWidth()
+    line_left:setPosition(cc.p(self._x+self.m_levelCon.lineX[1]-width-15,leftHeight*9+_y))
+    line_left:setScaleY(8.5-(self.m_levelCon.left[1]-1))
+    line_left:setCameraMask(2)
+    local line_right = LineElement.new(self.m_levelCon.right)
+    self:addChild(line_right,self.m_curZOrder)
+    line_right:setAnchorPoint(cc.p(0,1))
+    line_right:setScaleX(-1)
+    local rightHeight = line_right:getCascadeBoundingBox().size.height
+    line_right:setPosition(cc.p(self._x+self.m_levelCon.lineX[2]+16+width+15,rightHeight*9+_y))
+    line_right:setScaleY(8.5-(self.m_levelCon.right[1]-1))
+    line_right:setCameraMask(2)
+    --钢架人
+    local steel1 = SpecialElement.new(self.m_levelCon.left,line_left)
+    self:addChild(steel1,self.m_curZOrder)
+    steel1:setAnchorPoint(cc.p(0,0))
+    local size = steel1:getCascadeBoundingBox().size
+    local steelY = (self.m_levelCon.left[1]-1)*Room_Size.height
+    steel1:setPosition(cc.p(self._x+self.m_levelCon.lineX[1]-size.width*0.5-15,size.height*0.5+16+_y+steelY))
+    local steel2 = SpecialElement.new(self.m_levelCon.right,line_right)
+    self:addChild(steel2,self.m_curZOrder)
+    steel2:setAnchorPoint(cc.p(0,0))
+    steel2:setScaleX(-1)
+    local steel2Y = (self.m_levelCon.right[1]-1)*Room_Size.height
+    steel2:setPosition(cc.p(self._x+self.m_levelCon.lineX[2]+16+size.width*0.5+15,size.height*0.5+16+_y+steel2Y))
+    steel1:setCameraMask(2)
+    steel2:setCameraMask(2)
+    
+    self.specialBody[math.ceil(self.m_roomsNum/10)] = {}
+    if _type == 1 then
+        local spBodyArr = {steel1,cc.p(steel1:getPosition()),self.m_levelCon.left[1]}
+        local spBodyArr2 = {steel2,cc.p(steel2:getPosition()),self.m_levelCon.right[1]}
+        table.insert(self.specialBody[math.ceil(self.m_roomsNum/10)],spBodyArr)
+        table.insert(self.specialBody[math.ceil(self.m_roomsNum/10)],spBodyArr2)
+    else
+        table.insert(self.specialBody[math.ceil(self.m_roomsNum/10)],steel1)
+        table.insert(self.specialBody[math.ceil(self.m_roomsNum/10)],steel2)
     end
 end
 
@@ -490,16 +467,24 @@ function MapLayer:onEnterFrame(dt)
                 if x-display.cx+50 <= mx then
                     self.m_camera:setPositionX(x-display.cx+50)
                     self.bg:setPositionX(x-display.cx+50)
-                    self.bgNode:bgLandscapeMove(x-display.cx+50,(x-display.cx+50-mx),mx,_scaleX)
+--                    self.bgNode:bgLandscapeMove(x-display.cx+50,(x-display.cx+50-mx),mx,_scaleX)
+                    self.isBgMove = true
                 end
             else
                 if x-display.cx-50 >= mx then
                     self.m_camera:setPositionX(x-display.cx-50)
                     self.bg:setPositionX(x-display.cx-50)
-                    self.bgNode:bgLandscapeMove(x-display.cx-50,(x-display.cx-50-mx),mx,_scaleX)
+--                    self.bgNode:bgLandscapeMove(x-display.cx-50,(x-display.cx-50-mx),mx,_scaleX)
+                    self.isBgMove = true
                 end
             end
         end
+    end
+    
+    --背景移动
+    if self.isBgMove then
+        local pos = cc.p(self.m_camera:getPosition())
+        self.bgNode:bgMapMove(pos)
     end
     
     if self.jumpFloorNum == Map_Grade.floor_D then
@@ -864,11 +849,12 @@ function MapLayer:toRocketRunningLogic(RocketState,curRoomKey)
             end
             self.jumpFloorNum = curCloseFloor+10
             GameDataManager.setPoints(self.jumpFloorNum)
+            self.isBgMove = false
         end)
         local seq = cc.Sequence:create(move,move2,callfun)
         self.m_camera:runAction(seq)
-
-        self.bgNode:toRocketMove(self.jumpFloorNum,mx,my,self.floorPos,self.bottomHeight,count,time,time2)
+        self.isBgMove = true
+--        self.bgNode:toRocketMove(self.jumpFloorNum,mx,my,self.floorPos,self.bottomHeight,count,time,time2)
     elseif RocketState == 3 then
         local curFloor = self.jumpFloorNum
         local curCloseFloor = math.ceil(self.jumpFloorNum/10)*10
@@ -884,11 +870,12 @@ function MapLayer:toRocketRunningLogic(RocketState,curRoomKey)
         local callfun = cc.CallFunc:create(function()
             self.jumpFloorNum = curCloseFloor+10
             GameDataManager.setPoints(self.jumpFloorNum)
+            self.isBgMove = false
         end)
         local seq = cc.Sequence:create(move,move2,callfun)
         self.m_camera:runAction(seq)
-
-        self.bgNode:toRocketMove(self.jumpFloorNum,mx,my,self.floorPos,self.bottomHeight,count,time,time2)
+        self.isBgMove = true
+--        self.bgNode:toRocketMove(self.jumpFloorNum,mx,my,self.floorPos,self.bottomHeight,count,time,time2)
     end
 end
 
@@ -913,9 +900,13 @@ function MapLayer:toCameraMove()
             self.m_camera:stopAllActions()
             local mx,my = self.m_camera:getPosition()
             local move = cc.MoveTo:create(0.3,cc.p(mx,pos.y-self.bottomHeight))
-            self.m_camera:runAction(move)
-
-            self.bgNode:bgPortraitRunningMove(pos.y,self.bottomHeight,mx)
+            local callfun = cc.CallFunc:create(function()
+                self.isBgMove = false
+            end)
+            local seq = cc.Sequence:create(move,callfun)
+            self.m_camera:runAction(seq)
+            self.isBgMove = true
+--            self.bgNode:bgPortraitRunningMove(pos.y,self.bottomHeight,mx)
 
             self.bg:stopAllActions()
             local move3 = cc.MoveTo:create(0.3,cc.p(mx,pos.y-self.bottomHeight))
@@ -929,9 +920,13 @@ function MapLayer:toCameraMove()
             self.m_camera:stopAllActions()
             local mx,my = self.m_camera:getPosition()
             local move = cc.MoveTo:create(0.3,cc.p(pos.x,pos.y-self.bottomHeight))
-            self.m_camera:runAction(move)
-
-            self.bgNode:bgPortraitMove(pos,self.bottomHeight,mx)
+            local callfun = cc.CallFunc:create(function()
+                self.isBgMove = false
+            end)
+            local seq = cc.Sequence:create(move,callfun)
+            self.m_camera:runAction(seq)
+            self.isBgMove = true
+--            self.bgNode:bgPortraitMove(pos,self.bottomHeight,mx)
 
             self.bg:stopAllActions()
             local move3 = cc.MoveTo:create(0.3,cc.p(pos.x,pos.y-self.bottomHeight))
@@ -949,9 +944,13 @@ function MapLayer:toRunCameraMove()
         if self.jumpFloorNum % 10 ~= 1 and self.jumpFloorNum % 10 ~= 9 and self.jumpFloorNum % 10 ~= 0 then
             self.m_camera:stopAllActions()
             local move = cc.MoveBy:create(0.3,cc.p(0,pos.y-self.bottomHeight-my))
-            self.m_camera:runAction(move)
-
-            self.bgNode:toRunCameraMove(pos,self.bottomHeight,self.jumpFloorNum)
+            local callfun = cc.CallFunc:create(function()
+                self.isBgMove = false
+            end)
+            local seq = cc.Sequence:create(move,callfun)
+            self.m_camera:runAction(seq)
+            self.isBgMove = true
+--            self.bgNode:toRunCameraMove(pos,self.bottomHeight,self.jumpFloorNum)
 
             local bgx,bgy = self.bg:getPosition()
             self.bg:stopAllActions()
@@ -960,9 +959,14 @@ function MapLayer:toRunCameraMove()
         elseif self.jumpFloorNum % 10 == 0 then
             self.m_camera:stopAllActions()
             local move = cc.MoveTo:create(0.3,cc.p(pos.x,pos.y-self.bottomHeight))
-            self.m_camera:runAction(move)
+            local callfun = cc.CallFunc:create(function()
+                self.isBgMove = false
+            end)
+            local seq = cc.Sequence:create(move,callfun)
+            self.m_camera:runAction(seq)
+            self.isBgMove = true
 
-            self.bgNode:toRunCameraMove(pos,self.bottomHeight,self.jumpFloorNum)
+--            self.bgNode:toRunCameraMove(pos,self.bottomHeight,self.jumpFloorNum)
 
             self.bg:stopAllActions()
             local move3 = cc.MoveTo:create(0.3,cc.p(pos.x,pos.y-self.bottomHeight))
@@ -993,9 +997,11 @@ function MapLayer:toRunFirstCameraMove()
             local moveX = cc.MoveTo:create(1*moveSpeed/speed,cc.p(toX,pos.y-self.bottomHeight))
             local callfun = cc.CallFunc:create(function()
                 self.curState = State_Type.RunningState
+                self.isBgMove = false
             end)
             local seq = cc.Sequence:create(moveY,moveX,callfun)
             self.m_camera:runAction(seq)
+            self.isBgMove = true
 
             self.bg:stopAllActions()
             local moveY = cc.MoveTo:create(0.2*moveSpeed/speed,cc.p(mx,pos.y-self.bottomHeight))
@@ -1003,7 +1009,7 @@ function MapLayer:toRunFirstCameraMove()
             local seq = cc.Sequence:create(moveY,moveX)
             self.bg:runAction(seq)
 
-            self.bgNode:toRunYtoXMove(pos,self.bottomHeight,toX,mx,moveSpeed/speed)
+--            self.bgNode:toRunYtoXMove(pos,self.bottomHeight,toX,mx,moveSpeed/speed)
 
         end
     elseif self.jumpFloorNum % 10 == 9 then
@@ -1014,15 +1020,20 @@ function MapLayer:toRunFirstCameraMove()
         self.m_camera:stopAllActions()
         local moveY = cc.MoveTo:create(0.5*moveSpeed/speed,cc.p(pos.x,pos.y-self.bottomHeight))
         local moveX = cc.MoveTo:create(0.5*moveSpeed/speed,cc.p(pos.x,my))
-        local seq = cc.Sequence:create(moveX,moveY)
+        local callfun = cc.CallFunc:create(function()
+            self.isBgMove = false
+        end)
+        local seq = cc.Sequence:create(moveX,moveY,callfun)
         self.m_camera:runAction(seq)
+        self.isBgMove = true
+        
         self.bg:stopAllActions()
         local moveY = cc.MoveTo:create(0.5*moveSpeed/speed,cc.p(pos.x,pos.y-self.bottomHeight))
         local moveX = cc.MoveTo:create(0.5*moveSpeed/speed,cc.p(pos.x,my))
         local seq = cc.Sequence:create(moveX,moveY)
         self.bg:runAction(seq)
 
-        self.bgNode:toRunXtoYMove(pos,self.bottomHeight,moveSpeed/speed)
+--        self.bgNode:toRunXtoYMove(pos,self.bottomHeight,moveSpeed/speed)
     elseif self.jumpFloorNum % 10 == 0 then
         local removeCount = #self.m_otherRooms
         for var=1, removeCount do
@@ -1089,6 +1100,7 @@ function MapLayer:backOriginFunc()
     local move = cc.MoveTo:create(0.5,cc.p(0,0))
     self.m_camera:runAction(move)
     
+    self.isBgMove = false
     self.bgNode:toBackOrigin()
     
     Tools.delayCallFunc(1,function()
