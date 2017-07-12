@@ -3,7 +3,8 @@ FruitPaoku/FruitPaoku/frameworks
 FruitPaoku/FruitPaoku/runtime
 FruitPaoku/UI/FruitPaokuUI/Backup
 Hopscotch/Hopscotch/.settings
-Hopscotch/Hopscotch/frameworks
+Hopscotch/Hopscotch/frameworks/cocos2d-x
+Hopscotch/Hopscotch/frameworks/runtime-src/proj.win32
 Hopscotch/Hopscotch/runtime
 Hopscotch/UI/HopscotchUI/Backup
 Hopscotch/Sdk
