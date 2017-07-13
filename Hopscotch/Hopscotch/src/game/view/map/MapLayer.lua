@@ -905,8 +905,8 @@ function MapLayer:toCameraMove()
             end)
             local seq = cc.Sequence:create(move,callfun)
             self.m_camera:runAction(seq)
-            self.isBgMove = true
---            self.bgNode:bgPortraitRunningMove(pos.y,self.bottomHeight,mx)
+--            self.isBgMove = true
+            self.bgNode:bgPortraitRunningMove(pos.y,self.bottomHeight,mx)
 
             self.bg:stopAllActions()
             local move3 = cc.MoveTo:create(0.3,cc.p(mx,pos.y-self.bottomHeight))
@@ -925,8 +925,8 @@ function MapLayer:toCameraMove()
             end)
             local seq = cc.Sequence:create(move,callfun)
             self.m_camera:runAction(seq)
-            self.isBgMove = true
---            self.bgNode:bgPortraitMove(pos,self.bottomHeight,mx)
+--            self.isBgMove = true
+            self.bgNode:bgPortraitMove(pos,self.bottomHeight,mx)
 
             self.bg:stopAllActions()
             local move3 = cc.MoveTo:create(0.3,cc.p(pos.x,pos.y-self.bottomHeight))
@@ -949,8 +949,8 @@ function MapLayer:toRunCameraMove()
             end)
             local seq = cc.Sequence:create(move,callfun)
             self.m_camera:runAction(seq)
-            self.isBgMove = true
---            self.bgNode:toRunCameraMove(pos,self.bottomHeight,self.jumpFloorNum)
+--            self.isBgMove = true
+            self.bgNode:toRunCameraMove(pos,self.bottomHeight,self.jumpFloorNum)
 
             local bgx,bgy = self.bg:getPosition()
             self.bg:stopAllActions()
@@ -964,9 +964,9 @@ function MapLayer:toRunCameraMove()
             end)
             local seq = cc.Sequence:create(move,callfun)
             self.m_camera:runAction(seq)
-            self.isBgMove = true
+--            self.isBgMove = true
 
---            self.bgNode:toRunCameraMove(pos,self.bottomHeight,self.jumpFloorNum)
+            self.bgNode:toRunCameraMove(pos,self.bottomHeight,self.jumpFloorNum)
 
             self.bg:stopAllActions()
             local move3 = cc.MoveTo:create(0.3,cc.p(pos.x,pos.y-self.bottomHeight))
