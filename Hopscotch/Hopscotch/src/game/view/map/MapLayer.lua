@@ -465,15 +465,15 @@ function MapLayer:onEnterFrame(dt)
             local mx,my = self.m_camera:getPosition()
             if _scaleX == 1 then
                 if x-display.cx+50 <= mx then
-                    self.m_camera:setPositionX(x-display.cx+50)
-                    self.bg:setPositionX(x-display.cx+50)
+                    self.m_camera:setPositionX(x-display.cx+49)
+                    self.bg:setPositionX(x-display.cx+49)
 --                    self.bgNode:bgLandscapeMove(x-display.cx+50,(x-display.cx+50-mx),mx,_scaleX)
                     self.isBgMove = true
                 end
             else
                 if x-display.cx-50 >= mx then
-                    self.m_camera:setPositionX(x-display.cx-50)
-                    self.bg:setPositionX(x-display.cx-50)
+                    self.m_camera:setPositionX(x-display.cx-49)
+                    self.bg:setPositionX(x-display.cx-49)
 --                    self.bgNode:bgLandscapeMove(x-display.cx-50,(x-display.cx-50-mx),mx,_scaleX)
                     self.isBgMove = true
                 end
@@ -997,7 +997,7 @@ function MapLayer:toRunFirstCameraMove()
             local moveX = cc.MoveTo:create(1*moveSpeed/speed,cc.p(toX,pos.y-self.bottomHeight))
             local callfun = cc.CallFunc:create(function()
                 self.curState = State_Type.RunningState
-                self.isBgMove = false
+--                self.isBgMove = false
             end)
             local seq = cc.Sequence:create(moveY,moveX,callfun)
             self.m_camera:runAction(seq)
