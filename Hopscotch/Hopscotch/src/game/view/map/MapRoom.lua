@@ -69,10 +69,10 @@ function MapRoom:ctor(_idx,_levelCon,_floorNum)
     self:initDiamonds(_diamonds)
     self:initGoods(_goods)
     
-    if _idx == 10 and self.roomType ~= MAPROOM_TYPE.Running then
+    if _idx == #_levelCon.roomBgs and self.roomType ~= MAPROOM_TYPE.Running then
         local count = cc.LabelAtlas:_create()
         count:initWithString(_floorNum,"count/Count_4.png",17,25,string.byte("0"))
-        count:setPosition(cc.p(Room_Size.width*0.5,Room_Size.height*0.5+8))
+        count:setPosition(cc.p(Room_Size.width*0.5+Room_Distance.x,Room_Size.height*0.5+8))
         count:setAnchorPoint(0.5,0.5)
         count:setScaleX(2)
         count:setScaleY(1.5)
@@ -348,7 +348,7 @@ function MapRoom:dispose(parameters)
         if not tolua.isnull(self:getParent()) then
             if not tolua.isnull(self:getParent():getParent()) then
                 self:getParent():getParent():disposeSpecial(math.floor(self.m_floorNum/10))
-                Tools.printDebug("----------brj 这里可能有执行：",math.floor(self.m_floorNum/10))
+--                Tools.printDebug("----------brj 这里可能有执行：",math.floor(self.m_floorNum/10))
             end
         end
     end

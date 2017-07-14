@@ -27,7 +27,10 @@ GOLD_SPEED=26
 RunningFloorNum = 60
 --随机每多少层出现一次
 RunningMin = RunningFloorNum
-RunningMax = 100
+RunningMax = 300
+
+--出现双向倾斜房间的楼层条件
+TwoLeanFloor = 0
 
 --初始化房间数
 MAP_ROOM_INIT_NUM = 30

@@ -377,6 +377,8 @@ local configArrR = {}
 local _weightR = 0
 local configArrF = {}
 local _weightF = 0
+local configArrT = {}
+local _weightT = 0
 function GameDataManager.initRoomWeight()
     configArrD,_weightD = GameDataManager.getSorting(MapGroupConfigD)
     configArrC,_weightC = GameDataManager.getSorting(MapGroupConfigC)
@@ -385,6 +387,7 @@ function GameDataManager.initRoomWeight()
     configArrS,_weightS = GameDataManager.getSorting(MapGroupConfigS)
     configArrR,_weightR = GameDataManager.getSorting(MapRunningConfig)
     configArrF,_weightF = GameDataManager.getSorting(MapFirstGroup)
+    configArrT,_weightT = GameDataManager.getSorting(MapTwoLeanConfig)
 end
 
 --组合排序
@@ -432,9 +435,12 @@ function GameDataManager.getDataIdByWeight(_type)
         elseif _type == Map_Grade.floor_S then
             configArr = configArrS
             _weight = _weightS
-        else
+        elseif _type == -1 then 
             configArr = configArrF
             _weight = _weightF
+        elseif _type == -2 then
+            configArr = configArrT
+            _weight = _weightT
         end 
     end
     local _wegt = math.random(1,_weight)

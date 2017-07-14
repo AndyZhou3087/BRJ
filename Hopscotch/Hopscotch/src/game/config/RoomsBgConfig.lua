@@ -32,13 +32,15 @@ RoomBgs[1001]=
     
 RoomBgs[1002]=
     {
-        wallLeftRight = {{res="#Room_wall.png",x=Room_Distance.x+15+94*2-16,y=15,type = RoomWall_Type.Left},{res="#Room_wall.png",x=Room_Distance.x+13+94*5,y=15,type = RoomWall_Type.Right},},--左右两侧墙壁
+        wallLeftRight = {{res="#Room_wall.png",x=Room_Distance.x+0,y=15,type = RoomWall_Type.Left},{res="#Room_wall.png",x=Room_Distance.x+668,y=15,type = RoomWall_Type.Right},},--左右两侧墙壁
         floor = {
-            {res="#Room_floor_5.png",x=Room_Distance.x+94*2-1,y=0},
+            {res="#Room_floor_7.png",x=Room_Distance.x+17,y=0},
+            {res="#Room_floor_7.png",x=Room_Distance.x+16+94,y=0},
             {res="#Room_floor_7.png",x=Room_Distance.x+15+94*2,y=0},
             {res="#Room_floor_7.png",x=Room_Distance.x+14+94*3,y=0},
             {res="#Room_floor_7.png",x=Room_Distance.x+13+94*4,y=0},
-            {res="#Room_floor_6.png",x=Room_Distance.x+13+94*5,y=0},},--地板
+            {res="#Room_floor_7.png",x=Room_Distance.x+12+94*5,y=0},
+            {res="#Room_floor_7.png",x=Room_Distance.x+11+94*6,y=0},},--地板
     }
 
 --===========================普通房间=============================
