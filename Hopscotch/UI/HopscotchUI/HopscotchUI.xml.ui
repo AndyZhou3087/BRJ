@@ -21,6 +21,8 @@
     <string>SceneBg_6.json</string>
     <string>SceneBg_7.json</string>
     <string>SceneBg_8.json</string>
+    <string>SceneBg_9.json</string>
+    <string>SceneBg_10.json</string>
   </JsonList>
   <CanvasSize>
     <Width>750</Width>
@@ -32,5 +34,5 @@
   <imageFileList />
   <imagePngList />
   <JsonSuffix>.json</JsonSuffix>
-  <CurrentUIJson>SceneBg_1.json</CurrentUIJson>
+  <CurrentUIJson>SceneBg_10.json</CurrentUIJson>
 </UIProject>

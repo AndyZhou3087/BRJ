@@ -134,3 +134,37 @@ SceneConfig[8]=
         --{panel2的偏移量，panel3的距离差，panel2的初始高度，panel3的初始高度，panel1位置的偏移量,panel2的距离差,panel2偏移差}
         offset = {0,0,343,1000,0,0,0},
     }
+    
+SceneConfig[9]=
+    {
+        id = 9,
+        type = Shop_Type.scene,
+        sceneName = "shop/scenename_5.png",
+        sceneIcon = "shop/scene_5.png",
+        priceRes = "shop/price_6.png",
+        des = "中秋佳节",
+        rmb = 6,   --人民币购买价格
+        payId = Payment.Scene_9,
+        bgColor = {cc.c4b(9,134,185,255),cc.c4b(3,30,39,255)},
+        specailRes = "#Room_special_3.png",
+        specailRes2 = "#Room_special_1.png",
+        --{panel2的偏移量，panel3的距离差，panel2的初始高度，panel3的初始高度，panel1位置的偏移量,panel2的距离差,panel2偏移差}
+        offset = {0,0,0,1000,0,0,0},
+    }
+    
+SceneConfig[10]=
+    {
+        id = 10,
+        type = Shop_Type.scene,
+        sceneName = "shop/scenename_5.png",
+        sceneIcon = "shop/scene_5.png",
+        priceRes = "shop/price_6.png",
+        des = "中秋佳节",
+        rmb = 6,   --人民币购买价格
+        payId = Payment.Scene_10,
+        bgColor = {cc.c4b(226,244,184,255),cc.c4b(95,197,148,255)},
+        specailRes = "#Room_special_3.png",
+        specailRes2 = "#Room_special_1.png",
+        --{panel2的偏移量，panel3的距离差，panel2的初始高度，panel3的初始高度，panel1位置的偏移量,panel2的距离差,panel2偏移差}
+        offset = {0,0,700,1800,0,0,0},
+    }
