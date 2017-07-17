@@ -30,7 +30,18 @@ RunningMin = RunningFloorNum
 RunningMax = 300
 
 --出现双向倾斜房间的楼层条件
-TwoLeanFloor = 0
+TwoLeanFloor = 200
+
+--背景移动系数
+Rdt_1 = 0.96
+Rdt_2 = 0.85
+--横跑时背景移动速率
+RunBgMove_1 = 52  --移动多即移动慢
+RunBgMove_2 = 25
+--倾斜跳跃时背景移动速率
+BgMove_1 = 10  --移动多即移动慢
+BgMove_2 = 6
+
 
 --初始化房间数
 MAP_ROOM_INIT_NUM = 30
@@ -41,13 +52,6 @@ MAP_ROOM_OTHER_MAX = 20
 
 --地图当前ZOder
 MAP_ZORDER_MAX=0
-
---背景移动系数
-Rdt_1 = 0.96
-Rdt_2 = 0.85
---背景移动速率
-BgMove_1 = 52  --移动多即移动慢
-BgMove_2 = 25 
 
 
 Map_Grade = 

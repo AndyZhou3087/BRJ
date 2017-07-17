@@ -36,6 +36,7 @@ function MapLayer:ctor(parameters)
     GameController.setRooms(self.m_chaceRooms)
     self.m_otherRooms = {}   --额外的房间(主要是横跑中不升楼层的房间)
     self.m_rightRooms = {}   --双向倾斜房间时保存的右边列房间
+    self.m_moveRooms = {}    --默认左向倾斜房间之后的加载房间
     self.jumpFloorNum = 1
     self.backOrigin = false
     self.m_toJump = false
@@ -256,7 +257,6 @@ function MapLayer:addTwoLeanRoom(parameters)
         _newRoom:initPosition(self._x,_y)
         _newRoom:setCameraMask(2)
         table.insert(self.m_chaceRooms,_newRoom)
-        table.insert(self.m_rightRooms,_newRoom)
     else
         if self.floorNum % 2 == 0 then
             _oldRoom = self.m_chaceRooms[#self.m_chaceRooms]
@@ -280,8 +280,10 @@ function MapLayer:addTwoLeanRoom(parameters)
             end
             
             self.floorNum = self.floorNum + 1
-
-            _oldRoom = self.m_rightRooms[#self.m_rightRooms]
+            
+            if self.floorNum ~= 3 then
+                _oldRoom = self.m_rightRooms[#self.m_rightRooms]
+            end
             if _oldRoom then
                 _newRoom = MapRoom.new(self.floorNum,self.m_levelCon,self.m_roomsNum)
                 _y = _oldRoom:getPositionY() + Room_Size.height
@@ -400,6 +402,7 @@ function MapLayer:CommonRoomAdd()
         self._x = self.floorPos[self.m_roomsNum].x
     else
         self._x = self.floorPos[self.m_roomsNum][1].x
+        self.twoLeanFloor = true
     end
     self.m_roomsNum = self.m_roomsNum + 1
     local _oldRoom = self.m_chaceRooms[#self.m_chaceRooms]
@@ -420,6 +423,9 @@ function MapLayer:CommonRoomAdd()
     _newRoom:initPosition(self._x,_y)
     _newRoom:setCameraMask(2)
     table.insert(self.m_chaceRooms,_newRoom)
+    if self.twoLeanFloor then
+        table.insert(self.m_moveRooms,_newRoom)
+    end
 
     --特殊房间楼层的钢架
     if self.m_levelCon.roomType == MAPROOM_TYPE.Special and self.floorNum == 1 then
@@ -468,6 +474,12 @@ function MapLayer:createSteels(_type,_y)
     steel2:setPosition(cc.p(self._x+self.m_levelCon.lineX[2]+16+size.width*0.5+15,size.height*0.5+16+_y+steel2Y))
     steel1:setCameraMask(2)
     steel2:setCameraMask(2)
+    if self.twoLeanFloor then
+        table.insert(self.m_moveRooms,line_left)
+        table.insert(self.m_moveRooms,line_right)
+        table.insert(self.m_moveRooms,steel1)
+        table.insert(self.m_moveRooms,steel2)
+    end
     
     self.specialBody[math.ceil(self.m_roomsNum/10)] = {}
     if _type == 1 then
@@ -561,8 +573,7 @@ function MapLayer:onEnterFrame(dt)
     --左右射线检测(火箭状态不做处理)
     if not self.m_player:isInState(PLAYER_STATE.Rocket) then
         self.m_physicWorld:rayCast(handler(self,self.rayCastFuncX),cc.p(_p.x,_p.y-_size.height*0.25),cc.p(_p.x+_add*(_size.width*0.5+Raycast_DisX),_p.y-_size.height*0.25))
-    end
-    
+    end  
     
     if self.curRoomType == MAPROOM_TYPE.Running then
         if self.curState == State_Type.RunningState then
@@ -589,7 +600,7 @@ function MapLayer:onEnterFrame(dt)
     --背景移动
     if self.isBgMove then
         local pos = cc.p(self.m_camera:getPosition())
-        self.bgNode:bgMapMove(pos)
+        self.bgNode:bgMapMove(pos,self.curRoomType)
     end
     
     if self.jumpFloorNum == Map_Grade.floor_D then
@@ -627,7 +638,19 @@ function MapLayer:onEnterFrame(dt)
     
     if GameController.isInState(PLAYER_STATE.Rocket) and (self.m_player:getRocketState()==2 or self.m_player:getRocketState()==3) then
         self.bg:setPosition(self.m_camera:getPosition())
-        Tools.printDebug("brj--------角色坐标---------: ",self.m_player:getPosition())
+--        Tools.printDebug("brj--------角色坐标---------: ",self.m_player:getPosition())
+    end
+    
+    --当移出镜头时，移除右向缓存房间
+    if #self.m_rightRooms > 0 then
+        local roomPosY = self.m_rightRooms[1]:getPositionY()
+        local cameraPosY = self.m_camera:getPositionY()
+        if roomPosY < cameraPosY then
+            local var = table.remove(self.m_rightRooms,1)
+            if not tolua.isnull(var) then
+                var:dispose()
+            end
+    	end
     end
 
 end
@@ -884,7 +907,6 @@ function MapLayer:CoreLogic()
             self.phantonFollow = true
             self.jumpFloorNum = roomIndex
             GameDataManager.setPoints(self.jumpFloorNum)
-            self:addNewRooms()
             if self.curRoomType~=MAPROOM_TYPE.Running then
                 self:toCameraMove()
             else
@@ -896,6 +918,7 @@ function MapLayer:CoreLogic()
                     self:toRunCameraMove()
                 end
             end
+            self:addNewRooms()
         end
         if self.curRoomType==MAPROOM_TYPE.Running then
             self:toRunFirstCameraMove()
@@ -937,8 +960,10 @@ end
 --根据房间编号从右向缓存中获取房间对象
 function MapLayer:getRoomRightByIdx(_roomIndx)
     for key, var in pairs(self.m_rightRooms) do
-        if var:getRoomIndex() == _roomIndx then
-            return var
+        if not tolua.isnull(var) then
+            if var:getRoomIndex() == _roomIndx then
+                return var
+            end
         end
     end
 end
@@ -1076,6 +1101,22 @@ function MapLayer:toCameraMove()
 --                    Tools.printDebug("----------brj 当前房间roomKey：",pos.x)
                 else
                     pos = self.floorPos[self.jumpFloorNum][2]
+                    if self.curRoomKey == 3 then
+                        local r_posx = self.m_rightRooms[#self.m_rightRooms]:getPositionX()
+                        local l_posx = self.m_moveRooms[1]:getPositionX()
+                        for var=1, #self.m_moveRooms do
+                            local room = self.m_moveRooms[var]
+                            local roomX = room:getPositionX()
+                            room:setPositionX(roomX+r_posx-l_posx)
+                            local x,y = room:getPosition()
+                            if room.getRoomIndex then
+                                local roomNum = room:getRoomIndex()
+                                self.floorPos[roomNum] = cc.p(x,y)
+                            end
+                        end
+                        self.m_moveRooms = {}
+                        self.twoLeanFloor = false
+                    end
                 end
             end
         end
@@ -1090,7 +1131,7 @@ function MapLayer:toCameraMove()
             end)
             local seq = cc.Sequence:create(move,callfun)
             self.m_camera:runAction(seq)
---            self.isBgMove = true
+            self.isBgMove = true
             self.bgNode:bgPortraitMove(pos,self.bottomHeight,mx)
 
             self.bg:stopAllActions()
@@ -1334,6 +1375,12 @@ function MapLayer:dispose(parameters)
     end
     
     for key, var in ipairs(self.m_rightRooms) do
+        if not tolua.isnull(var) then
+            var:dispose()
+        end
+    end
+    
+    for key, var in ipairs(self.m_moveRooms) do
         if not tolua.isnull(var) then
             var:dispose()
         end
