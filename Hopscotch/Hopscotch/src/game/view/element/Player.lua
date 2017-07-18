@@ -283,25 +283,52 @@ function Player:springRocket(parameters)
         local seq = cc.Sequence:create(move,callfun)
         self:runAction(seq)
     elseif roomNextType == MAPROOM_TYPE.Running then
+        local nextCloseFloorX,nextCloseFloorY
+        if floorPos[curCloseFloor+10].x then
+            nextCloseFloorX = floorPos[curCloseFloor+10].x
+            nextCloseFloorY = floorPos[curCloseFloor+10].y
+        else
+            if self:getScaleX() == 1 then
+                nextCloseFloorX = floorPos[curCloseFloor+10][1].x
+                nextCloseFloorY = floorPos[curCloseFloor+10][1].y
+            else
+                nextCloseFloorX = floorPos[curCloseFloor+10][2].x
+                nextCloseFloorY = floorPos[curCloseFloor+10][2].y
+            end
+        end
+    
         self.toRocketState = 2
         self:getParent():toRocketRunningLogic(self.toRocketState)
         local count = self:getParent():getRoomByIdx(curCloseFloor+1):getRoomsCount()
         local time = (10-curFloor%10+1)*1/10
         local time2 = count/10*1.5
         local move = cc.MoveTo:create(time,cc.p(floorPos[curCloseFloor].x+display.cx,floorPos[curCloseFloor].y+self.m_size.height*0.5+30))
-        local move2 = cc.MoveTo:create(time2,cc.p(floorPos[curCloseFloor+10].x+display.cx,floorPos[curCloseFloor+10].y+self.m_size.height*0.5+30))
+        local move2 = cc.MoveTo:create(time2,cc.p(nextCloseFloorX+display.cx,nextCloseFloorY+self.m_size.height*0.5+30))
         local callfun = cc.CallFunc:create(function()
             self:toStopRocket()
         end)
         local seq = cc.Sequence:create(move,move2,callfun)
         self:runAction(seq)
     elseif roomType == MAPROOM_TYPE.Running then
+        local curCloseFloorX,curCloseFloorY
+        if floorPos[curCloseFloor].x then
+            curCloseFloorX = floorPos[curCloseFloor].x
+            curCloseFloorY = floorPos[curCloseFloor].y
+        else
+            if self:getScaleX() == 1 then
+                curCloseFloorX = floorPos[curCloseFloor][1].x
+                curCloseFloorY = floorPos[curCloseFloor][1].y
+            else
+                curCloseFloorX = floorPos[curCloseFloor][2].x
+                curCloseFloorY = floorPos[curCloseFloor][2].y
+            end
+        end
         self.toRocketState = 3
         self:getParent():toRocketRunningLogic(self.toRocketState,curRoomKey)
         local count = self:getParent():getRoomByIdx(curFloor):getRoomsCount()
         local time = (count-curRoomKey)*1/10
         local time2 = 1
-        local move = cc.MoveTo:create(time,cc.p(floorPos[curCloseFloor].x+display.cx,floorPos[curCloseFloor].y+self.m_size.height*0.5+30))
+        local move = cc.MoveTo:create(time,cc.p(curCloseFloorX+display.cx,curCloseFloorY+self.m_size.height*0.5+30))
         local move2 = cc.MoveTo:create(time2,cc.p(floorPos[curCloseFloor+10].x+display.cx,floorPos[curCloseFloor+10].y+self.m_size.height*0.5+30))
         local callfun = cc.CallFunc:create(function()
             self:toStopRocket()

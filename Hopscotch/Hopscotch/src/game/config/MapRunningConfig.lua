@@ -26,7 +26,7 @@ MapRunningConfig[1]=
         coins={0,0,0,0,0,0,0,0,0,0}, ---钻石
         roomGoods={0,0,0,0,0,0,0,0,0,0}, ---道具
         roomType = MAPROOM_TYPE.Running,
-        direction = MAPRUNNING_TYPE.Left,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
+        direction = MAPRUNNING_TYPE.Both,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
         distance = 0,        --房间x轴倾斜距离(单位：像素)(仅为倾斜类房间)
         probability = 100,     --权重
     } 

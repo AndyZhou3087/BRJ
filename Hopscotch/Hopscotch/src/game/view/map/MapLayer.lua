@@ -37,6 +37,11 @@ function MapLayer:ctor(parameters)
     self.m_otherRooms = {}   --额外的房间(主要是横跑中不升楼层的房间)
     self.m_rightRooms = {}   --双向倾斜房间时保存的右边列房间
     self.m_moveRooms = {}    --默认左向倾斜房间之后的加载房间
+    
+    self.m_bothRightRooms = {}   --双向横跑时右边的房间缓存
+    self.m_bothOtherRooms = {}   --双向右边房间的type为0类型房间
+    self.m_bothMoveRooms = {}    --双向横跑之后的房间缓存表
+    
     self.jumpFloorNum = 1
     self.backOrigin = false
     self.m_toJump = false
@@ -185,12 +190,13 @@ function MapLayer:addNewRooms(parameters)
         self.roomType = self.m_levelCon.roomType
         self.floorNum = 0
     elseif self.m_roomsNum % self.runFloorNum == 0 then
---    	local i = math.random(RunningMin,RunningMax)
---    	self.runFloorNum = i
+--        local i = math.random(math.floor(RunningMin/10),math.floor(RunningMax/10))
+--    	self.runFloorNum = i*10
         local k = GameDataManager.getDataIdByWeight()
         Tools.printDebug("brj Hopscotch 横跑组：",k)
         self.m_levelCon = MapRunningConfig[k]
         self.roomType = self.m_levelCon.roomType
+        self.roomDirection = self.m_levelCon.direction
         self.floorNum = 0
     else
         if self.m_roomsNum % 10 == 0 then
@@ -227,88 +233,125 @@ function MapLayer:addNewRooms(parameters)
             self:CommonRoomAdd() 
         end
     else
-        self:RunningRoomAdd(self.m_levelCon.direction)
+        if self.m_levelCon.direction ~= MAPRUNNING_TYPE.Both then
+            self:RunningRoomAdd(self.m_levelCon.direction)
+        else
+            self:addTwoRunningRoom()
+        end
     end
     
 end
 
---添加双向倾斜房间
-function MapLayer:addTwoLeanRoom(parameters)
-    if self.floorPos[self.m_roomsNum].x then
-        self._x = self.floorPos[self.m_roomsNum].x
-    else
-        self._x = self.floorPos[self.m_roomsNum][1].x
-    end
-    self.m_roomsNum = self.m_roomsNum + 1
-    local _oldRoom
-    if self.floorNum == 1 then
+--添加双向横跑房间
+function MapLayer:addTwoRunningRoom(parameters)
+	self.floorNum = self.floorNum + 1
+	
+    local _oldRoom,_oldRightRoom
+    if self.floorNum <= 2 then
         _oldRoom = self.m_chaceRooms[#self.m_chaceRooms]
-        local _newRoom
-        local _y = 0
-        if _oldRoom then
-            _newRoom = MapRoom.new(self.floorNum,self.m_levelCon,self.m_roomsNum)
-            _y = _oldRoom:getPositionY() + Room_Size.height
-            self.floorPos[self.m_roomsNum] = cc.p(self._x,_y)
+        if self.floorNum == 1 then
+            _oldRightRoom = self.m_chaceRooms[#self.m_chaceRooms]
         else
-            _newRoom = MapRoom.new(1)
+            _oldRightRoom = self.m_bothRightRooms[#self.m_bothRightRooms]
         end
-        self.m_roomNode:addChild(_newRoom,self.m_curZOrder)
-        Tools.printDebug("brj Hopscotch 双向倾斜楼层：",self.m_roomsNum,self._x,_y)
-        _newRoom:initPosition(self._x,_y)
-        _newRoom:setCameraMask(2)
-        table.insert(self.m_chaceRooms,_newRoom)
     else
-        if self.floorNum % 2 == 0 then
+        local oldType = RoomBgs[self.m_levelCon.roomBgs[self.floorNum-1]].type
+        if oldType~=0 then
             _oldRoom = self.m_chaceRooms[#self.m_chaceRooms]
-            local _newRoom,_newRoom1
-            local _y = 0
-            local _x = 0
-            if _oldRoom then
-                self.floorPos[self.m_roomsNum] = {}
-                _newRoom = MapRoom.new(self.floorNum,self.m_levelCon,self.m_roomsNum)
+            _oldRightRoom = self.m_bothRightRooms[#self.m_bothRightRooms]
+        else
+            _oldRoom = self.m_otherRooms[#self.m_otherRooms]
+            _oldRightRoom = self.m_bothOtherRooms[#self.m_bothOtherRooms]
+        end
+    end
+    local newType = RoomBgs[self.m_levelCon.roomBgs[self.floorNum]].type
+    if self.floorNum == 1 then
+        self._x = self.floorPos[self.m_roomsNum].x
+        self.r_x = self.floorPos[self.m_roomsNum].x
+    end
+    if newType~=0 or self.floorNum == 1 then
+        self.m_roomsNum = self.m_roomsNum + 1
+    end
+    local _newRoom
+    local _y = 0
+    if _oldRoom then
+        _newRoom = MapRoom.new(self.floorNum,self.m_levelCon,self.m_roomsNum)
+        if self.floorNum == 1 then
+            self._x = self._x-_newRoom:getRoomWidth()*0.5
+            _y = _oldRoom:getPositionY() + Room_Size.height
+        elseif self.floorNum == #self.m_levelCon.roomBgs then
+            self._x = self._x + self.m_levelCon.distance
+            _y = _oldRoom:getPositionY() + Room_Size.height
+        else
+            if _newRoom:getRunningRoomFloorType() == 0 then
+                self._x = self._x-_newRoom:getRoomWidth()-_oldRoom:getRoomGap()
+                _y = _oldRoom:getPositionY()
+            elseif _newRoom:getRunningRoomFloorType() == 1 then
+                self._x = self._x+_oldRoom:getRoomWidth()-_newRoom:getRoomWidth()-_oldRoom:getRoomGap()
                 _y = _oldRoom:getPositionY() + Room_Size.height
-                if self.floorNum == 2 then
-                    _x = _oldRoom:getPositionX() - display.width*0.3
-                else
-                    _x = _oldRoom:getPositionX() - self.m_levelCon.distance
-                end
-                self.floorPos[self.m_roomsNum][1] = cc.p(_x,_y)
-                self.m_roomNode:addChild(_newRoom,self.m_curZOrder)
-                _newRoom:initPosition(_x,_y)
-                _newRoom:setCameraMask(2)
-                table.insert(self.m_chaceRooms,_newRoom)
-            end
-            
-            self.floorNum = self.floorNum + 1
-            
-            if self.floorNum ~= 3 then
-                _oldRoom = self.m_rightRooms[#self.m_rightRooms]
-            end
-            if _oldRoom then
-                _newRoom = MapRoom.new(self.floorNum,self.m_levelCon,self.m_roomsNum)
+            elseif _newRoom:getRunningRoomFloorType() == 2 then
+                self._x = self._x-_newRoom:getRoomWidth()-_oldRoom:getRoomGap()
                 _y = _oldRoom:getPositionY() + Room_Size.height
-                if self.floorNum == 3 then
-                    _x = _oldRoom:getPositionX() + display.width*0.3
-                else
-                    _x = _oldRoom:getPositionX() + self.m_levelCon.distance
-                end
-                self.floorPos[self.m_roomsNum][2] = cc.p(_x,_y)
-                self.m_roomNode:addChild(_newRoom,self.m_curZOrder)
-                _newRoom:initPosition(_x,_y)
-                _newRoom:setCameraMask(2)
-                table.insert(self.m_rightRooms,_newRoom)
             end
         end
-    end 
+    else
+        _newRoom = MapRoom.new(1)
+    end
+    self.m_roomNode:addChild(_newRoom,self.m_curZOrder)
+    _newRoom:initPosition(self._x,_y)
+    _newRoom:setCameraMask(2)
+    if self.floorNum == 1 or (_newRoom:getRunningRoomFloorType() and _newRoom:getRunningRoomFloorType()~=0) then
+        self.floorPos[self.m_roomsNum] = {}
+        self.floorPos[self.m_roomsNum][1] = cc.p(self._x,_y)
+        table.insert(self.m_chaceRooms,_newRoom)
+        if #self.m_chaceRooms > MAP_ROOM_MAX then
+            local _room = table.remove(self.m_chaceRooms,1)
+            _room:dispose()
+        end
+    else
+        table.insert(self.m_otherRooms,_newRoom)
+    end
+    
+    
+    if _oldRightRoom then
+        _newRoom = MapRoom.new(self.floorNum,self.m_levelCon,self.m_roomsNum)
+        if self.floorNum == 1 then
+            self.r_x = self.r_x+_newRoom:getRoomWidth()*0.5
+            _y = _oldRightRoom:getPositionY() + Room_Size.height
+        elseif self.floorNum == #self.m_levelCon.roomBgs then
+            self.r_x = self.r_x + self.m_levelCon.distance
+            _y = _oldRightRoom:getPositionY() + Room_Size.height
+        else
+            if _newRoom:getRunningRoomFloorType() == 0 then
+                self.r_x = self.r_x+_oldRightRoom:getRoomWidth()+_oldRightRoom:getRoomGap()
+                _y = _oldRightRoom:getPositionY()
+            elseif _newRoom:getRunningRoomFloorType() == 1 then
+                self.r_x = self.r_x+_oldRightRoom:getRoomGap()
+                _y = _oldRightRoom:getPositionY() + Room_Size.height
+            elseif _newRoom:getRunningRoomFloorType() == 2 then
+                self.r_x = self.r_x+_oldRightRoom:getRoomWidth()+_oldRightRoom:getRoomGap()
+                _y = _oldRightRoom:getPositionY() + Room_Size.height
+            end
+        end
+    else
+        _newRoom = MapRoom.new(1)
+    end
+    self.m_roomNode:addChild(_newRoom,self.m_curZOrder)
+    _newRoom:initPosition(self.r_x,_y)
+    _newRoom:setCameraMask(2)
+    if self.floorNum == 1 or (_newRoom:getRunningRoomFloorType() and _newRoom:getRunningRoomFloorType()~=0) then
+        self.floorPos[self.m_roomsNum][2] = cc.p(self.r_x,_y)
+        table.insert(self.m_bothRightRooms,_newRoom)
+    else
+        table.insert(self.m_bothOtherRooms,_newRoom)
+    end
+    
 
     self.m_curZOrder = self.m_curZOrder + 1
     MAP_ZORDER_MAX = self.m_curZOrder
-
-    if #self.m_chaceRooms > MAP_ROOM_MAX then
-        local _room = table.remove(self.m_chaceRooms,1)
-        _room:dispose()
-    end
+    
 end
+
 
 --添加单向横跑房间
 function MapLayer:RunningRoomAdd(_dis)
@@ -396,16 +439,100 @@ function MapLayer:RunningRoomAdd(_dis)
     end
 end
 
---添加普通楼层普通倾斜特殊房间
-function MapLayer:CommonRoomAdd()
+--添加双向倾斜房间
+function MapLayer:addTwoLeanRoom(parameters)
     if self.floorPos[self.m_roomsNum].x then
         self._x = self.floorPos[self.m_roomsNum].x
     else
         self._x = self.floorPos[self.m_roomsNum][1].x
-        self.twoLeanFloor = true
     end
     self.m_roomsNum = self.m_roomsNum + 1
+    local _oldRoom
+    if self.floorNum == 1 then
+        _oldRoom = self.m_chaceRooms[#self.m_chaceRooms]
+        local _newRoom
+        local _y = 0
+        if _oldRoom then
+            _newRoom = MapRoom.new(self.floorNum,self.m_levelCon,self.m_roomsNum)
+            _y = _oldRoom:getPositionY() + Room_Size.height
+            self.floorPos[self.m_roomsNum] = cc.p(self._x,_y)
+        else
+            _newRoom = MapRoom.new(1)
+        end
+        self.m_roomNode:addChild(_newRoom,self.m_curZOrder)
+        Tools.printDebug("brj Hopscotch 双向倾斜楼层：",self.m_roomsNum,self._x,_y)
+        _newRoom:initPosition(self._x,_y)
+        _newRoom:setCameraMask(2)
+        table.insert(self.m_chaceRooms,_newRoom)
+    else
+        if self.floorNum % 2 == 0 then
+            _oldRoom = self.m_chaceRooms[#self.m_chaceRooms]
+            local _newRoom,_newRoom1
+            local _y = 0
+            local _x = 0
+            if _oldRoom then
+                self.floorPos[self.m_roomsNum] = {}
+                _newRoom = MapRoom.new(self.floorNum,self.m_levelCon,self.m_roomsNum)
+                _y = _oldRoom:getPositionY() + Room_Size.height
+                if self.floorNum == 2 then
+                    _x = _oldRoom:getPositionX() - display.width*0.3
+                else
+                    _x = _oldRoom:getPositionX() - self.m_levelCon.distance
+                end
+                self.floorPos[self.m_roomsNum][1] = cc.p(_x,_y)
+                self.m_roomNode:addChild(_newRoom,self.m_curZOrder)
+                _newRoom:initPosition(_x,_y)
+                _newRoom:setCameraMask(2)
+                table.insert(self.m_chaceRooms,_newRoom)
+            end
+
+            self.floorNum = self.floorNum + 1
+
+            if self.floorNum ~= 3 then
+                _oldRoom = self.m_rightRooms[#self.m_rightRooms]
+            end
+            if _oldRoom then
+                _newRoom = MapRoom.new(self.floorNum,self.m_levelCon,self.m_roomsNum)
+                _y = _oldRoom:getPositionY() + Room_Size.height
+                if self.floorNum == 3 then
+                    _x = _oldRoom:getPositionX() + display.width*0.3
+                else
+                    _x = _oldRoom:getPositionX() + self.m_levelCon.distance
+                end
+                self.floorPos[self.m_roomsNum][2] = cc.p(_x,_y)
+                self.m_roomNode:addChild(_newRoom,self.m_curZOrder)
+                _newRoom:initPosition(_x,_y)
+                _newRoom:setCameraMask(2)
+                table.insert(self.m_rightRooms,_newRoom)
+            end
+        end
+    end 
+
+    self.m_curZOrder = self.m_curZOrder + 1
+    MAP_ZORDER_MAX = self.m_curZOrder
+
+    if #self.m_chaceRooms > MAP_ROOM_MAX then
+        local _room = table.remove(self.m_chaceRooms,1)
+        _room:dispose()
+    end
+end
+
+--添加普通楼层普通倾斜特殊房间
+function MapLayer:CommonRoomAdd()
     local _oldRoom = self.m_chaceRooms[#self.m_chaceRooms]
+    if self.floorPos[self.m_roomsNum].x then
+        self._x = self.floorPos[self.m_roomsNum].x
+    else
+        self._x = self.floorPos[self.m_roomsNum][1].x
+        if _oldRoom:getCurRoomType() == MAPROOM_TYPE.TwoLean then
+            self.twoLeanFloor = true
+            self.twoRunningFloor = false
+        else
+            self.twoRunningFloor = true
+            self.twoLeanFloor = false
+        end
+    end
+    self.m_roomsNum = self.m_roomsNum + 1
     local _newRoom
     local _y = 0
     if _oldRoom then
@@ -425,6 +552,9 @@ function MapLayer:CommonRoomAdd()
     table.insert(self.m_chaceRooms,_newRoom)
     if self.twoLeanFloor then
         table.insert(self.m_moveRooms,_newRoom)
+    end
+    if self.twoRunningFloor then
+        table.insert(self.m_bothMoveRooms,_newRoom)
     end
 
     --特殊房间楼层的钢架
@@ -479,6 +609,12 @@ function MapLayer:createSteels(_type,_y)
         table.insert(self.m_moveRooms,line_right)
         table.insert(self.m_moveRooms,steel1)
         table.insert(self.m_moveRooms,steel2)
+    end
+    if self.twoRunningFloor then
+        table.insert(self.m_bothMoveRooms,line_left)
+        table.insert(self.m_bothMoveRooms,line_right)
+        table.insert(self.m_bothMoveRooms,steel1)
+        table.insert(self.m_bothMoveRooms,steel2)
     end
     
     self.specialBody[math.ceil(self.m_roomsNum/10)] = {}
@@ -542,8 +678,16 @@ function MapLayer:onEnterFrame(dt)
     if self.floorPos[self.jumpFloorNum].x then
         pos = self.floorPos[self.jumpFloorNum]
     else
-        if self.curRoomKey > 1 then
-            if self.curRoomKey % 2 == 0 then
+        if self.curRoomType ~= MAPROOM_TYPE.Running then
+            if self.curRoomKey > 1 then
+                if self.curRoomKey % 2 == 0 then
+                    pos = self.floorPos[self.jumpFloorNum][1]
+                else
+                    pos = self.floorPos[self.jumpFloorNum][2]
+                end
+            end
+        else
+            if self.m_player:getScaleX() == 1 then
                 pos = self.floorPos[self.jumpFloorNum][1]
             else
                 pos = self.floorPos[self.jumpFloorNum][2]
@@ -641,16 +785,49 @@ function MapLayer:onEnterFrame(dt)
 --        Tools.printDebug("brj--------角色坐标---------: ",self.m_player:getPosition())
     end
     
-    --当移出镜头时，移除右向缓存房间
+    --双向倾斜时，当移出镜头时，移除右向缓存房间
     if #self.m_rightRooms > 0 then
         local roomPosY = self.m_rightRooms[1]:getPositionY()
         local cameraPosY = self.m_camera:getPositionY()
-        if roomPosY < cameraPosY then
+--        Tools.printDebug("brj--------双向倾斜坐标---------: ",roomPosY,cameraPosY)
+        if roomPosY + Room_Size.height < cameraPosY then
             local var = table.remove(self.m_rightRooms,1)
             if not tolua.isnull(var) then
                 var:dispose()
             end
     	end
+    end
+    
+    --双向横跑时，当移出镜头时，移除右向缓存房间
+    if #self.m_bothRightRooms > 0 then
+        local roomPosY = self.m_bothRightRooms[1]:getPositionY()
+        local cameraPosY = self.m_camera:getPositionY()
+        if roomPosY + Room_Size.height < cameraPosY then
+            local var = table.remove(self.m_bothRightRooms,1)
+            if not tolua.isnull(var) then
+                var:dispose()
+            end
+        end
+    end
+    if #self.m_bothOtherRooms > 0 then
+        local roomOtherPosY = self.m_bothOtherRooms[1]:getPositionY()
+        local cameraPosY = self.m_camera:getPositionY()
+        if roomOtherPosY + Room_Size.height < cameraPosY then
+            local var = table.remove(self.m_bothOtherRooms,1)
+            if not tolua.isnull(var) then
+                var:dispose()
+            end
+        end
+    end
+    if #self.m_otherRooms > 0 then
+        local roomOtherPosY = self.m_otherRooms[1]:getPositionY()
+        local cameraPosY = self.m_camera:getPositionY()
+        if roomOtherPosY + Room_Size.height < cameraPosY then
+            local var = table.remove(self.m_otherRooms,1)
+            if not tolua.isnull(var) then
+                var:dispose()
+            end
+        end
     end
 
 end
@@ -868,6 +1045,7 @@ end
 function MapLayer:CoreLogic()
     local _size = self.m_player:getSize()
     local bpx,bpy = self.m_player:getPosition()
+    local cmx,cmy = self.m_camera:getPosition()
     local roomIndex = math.ceil((self.m_player:getPositionY()-self.bottomHeight)/Room_Size.height)
     --幻影角色
     if self.phantonFollow then
@@ -886,7 +1064,7 @@ function MapLayer:CoreLogic()
     if self.m_lastRoomIdx ~= roomIndex then
         local _room
         if self.curRoomType == MAPROOM_TYPE.TwoLean and self.jumpFloorNum % 10 ~= 0 then
-            if bpx > display.cx then
+            if bpx > cmx + display.cx then
                 _room = self:getRoomRightByIdx(roomIndex)
             else
                 _room = self:getRoomByIdx(roomIndex)
@@ -970,9 +1148,26 @@ end
 
 --根据房间编号从other中获取房间对象
 function MapLayer:getOtherRoomByX(_px,k)
-    for key, var in pairs(self.m_otherRooms) do
-        if math.abs(_px) >= math.abs(var:getRoomX()) and k<key then
-            return var,key
+    if self.curRoomDistance == MAPRUNNING_TYPE.Both then
+    	local scaleX = self.m_player:getScaleX()
+        if scaleX == 1 then
+            for key, var in pairs(self.m_otherRooms) do
+                if math.abs(_px) >= math.abs(var:getRoomX()) and k<key then
+                    return var,key
+                end
+            end
+        else
+            for key, var in pairs(self.m_bothOtherRooms) do
+                if math.abs(_px) >= math.abs(var:getRoomX()) and k<key then
+                    return var,key
+                end
+            end
+    	end
+    else
+        for key, var in pairs(self.m_otherRooms) do
+            if math.abs(_px) >= math.abs(var:getRoomX()) and k<key then
+                return var,key
+            end
         end
     end
 end
@@ -1014,11 +1209,40 @@ function MapLayer:toRocketRunningLogic(RocketState,curRoomKey)
     if RocketState == 2 then
         local curFloor = self.jumpFloorNum
         local curCloseFloor = math.ceil(self.jumpFloorNum/10)*10
+        
+        local nextCloseFloorX,nextCloseFloorY
+        if self.floorPos[curCloseFloor+10].x then
+            nextCloseFloorX = self.floorPos[curCloseFloor+10].x
+            nextCloseFloorY = self.floorPos[curCloseFloor+10].y
+        else
+            if self.m_player:getScaleX() == 1 then
+                nextCloseFloorX = self.floorPos[curCloseFloor+10][1].x
+                nextCloseFloorY = self.floorPos[curCloseFloor+10][1].y
+            else
+                nextCloseFloorX = self.floorPos[curCloseFloor+10][2].x
+                nextCloseFloorY = self.floorPos[curCloseFloor+10][2].y
+                local r_posx = self.m_bothRightRooms[#self.m_bothRightRooms]:getPositionX()
+                local l_posx = self.m_bothMoveRooms[1]:getPositionX()
+                for var=1, #self.m_bothMoveRooms do
+                    local room = self.m_bothMoveRooms[var]
+                    local roomX = room:getPositionX()
+                    room:setPositionX(roomX+r_posx-l_posx)
+                    local x,y = room:getPosition()
+                    if room.getRoomIndex then
+                        local roomNum = room:getRoomIndex()
+                        self.floorPos[roomNum] = cc.p(x,y)
+                    end
+                end
+                self.m_bothMoveRooms = {}
+                self.twoLeanFloor = false
+            end
+        end
+        
         local count = self:getRoomByIdx(curCloseFloor+1):getRoomsCount()
         local time = (10-self.jumpFloorNum%10+1)*1/10
         local time2 = count/10*1.5
         local move = cc.MoveTo:create(time,cc.p(self.floorPos[curCloseFloor].x,self.floorPos[curCloseFloor].y-self.bottomHeight))
-        local move2 = cc.MoveTo:create(time2,cc.p(self.floorPos[curCloseFloor+10].x,self.floorPos[curCloseFloor+10].y-self.bottomHeight))
+        local move2 = cc.MoveTo:create(time2,cc.p(nextCloseFloorX,nextCloseFloorY-self.bottomHeight))
         local callfun = cc.CallFunc:create(function()
             local addCount = curCloseFloor-curFloor+count
             for var=1, addCount do
@@ -1035,6 +1259,21 @@ function MapLayer:toRocketRunningLogic(RocketState,curRoomKey)
     elseif RocketState == 3 then
         local curFloor = self.jumpFloorNum
         local curCloseFloor = math.ceil(self.jumpFloorNum/10)*10
+        
+        local curCloseFloorX,curCloseFloorY
+        if self.floorPos[curCloseFloor].x then
+            curCloseFloorX = self.floorPos[curCloseFloor].x
+            curCloseFloorY = self.floorPos[curCloseFloor].y
+        else
+            if self.m_player:getScaleX() == 1 then
+                curCloseFloorX = self.floorPos[curCloseFloor][1].x
+                curCloseFloorY = self.floorPos[curCloseFloor][1].y
+            else
+                curCloseFloorX = self.floorPos[curCloseFloor][2].x
+                curCloseFloorY = self.floorPos[curCloseFloor][2].y
+            end
+        end
+        
         local count = self:getRoomByIdx(curFloor):getRoomsCount()
         local time = (count-curRoomKey)*1/10
         local time2 = 1
@@ -1042,7 +1281,7 @@ function MapLayer:toRocketRunningLogic(RocketState,curRoomKey)
         for var=1, addCount do
             self:addNewRooms()
         end
-        local move = cc.MoveTo:create(time,cc.p(self.floorPos[curCloseFloor].x,self.floorPos[curCloseFloor].y-self.bottomHeight))
+        local move = cc.MoveTo:create(time,cc.p(curCloseFloorX,curCloseFloorY-self.bottomHeight))
         local move2 = cc.MoveTo:create(time2,cc.p(self.floorPos[curCloseFloor+10].x,self.floorPos[curCloseFloor+10].y-self.bottomHeight))
         local callfun = cc.CallFunc:create(function()
             self.jumpFloorNum = curCloseFloor+10
@@ -1071,7 +1310,16 @@ end
 --摄像机移动
 function MapLayer:toCameraMove()
     if self.curRoomType==MAPROOM_TYPE.Running then
-        local pos = self.floorPos[self.jumpFloorNum]
+        local pos
+        if self.floorPos[self.jumpFloorNum].x then
+            pos = self.floorPos[self.jumpFloorNum]
+        else
+            if self.m_player:getScaleX() == 1 then
+                pos = self.floorPos[self.jumpFloorNum][1]
+            else
+                pos = self.floorPos[self.jumpFloorNum][2]
+            end
+        end
         local roomIndex = math.ceil((self.m_player:getPositionY()-self.bottomHeight)/Room_Size.height)
         if roomIndex >= GameDataManager.getPoints() then
             self.m_camera:stopAllActions()
@@ -1145,7 +1393,16 @@ end
 function MapLayer:toRunCameraMove()
     local roomIndex = math.ceil((self.m_player:getPositionY()-self.bottomHeight)/Room_Size.height)
     if roomIndex >= GameDataManager.getPoints() then
-        local pos = self.floorPos[self.jumpFloorNum]
+        local pos
+        if self.floorPos[self.jumpFloorNum].x then
+            pos = self.floorPos[self.jumpFloorNum]
+        else
+            if self.m_player:getScaleX() == 1 then
+                pos = self.floorPos[self.jumpFloorNum][1]
+            else
+                pos = self.floorPos[self.jumpFloorNum][2]
+            end
+        end
         local mx,my = self.m_camera:getPosition()
         if self.jumpFloorNum % 10 ~= 1 and self.jumpFloorNum % 10 ~= 9 and self.jumpFloorNum % 10 ~= 0 then
             self.m_camera:stopAllActions()
@@ -1184,26 +1441,56 @@ end
 --当横跑第一层时调用
 function MapLayer:toRunFirstCameraMove()
     local speed = self.m_player:getSpeed()
+    local _scaleX=self.m_player:getScaleX()
+    local pos
+    if self.floorPos[self.jumpFloorNum].x then
+        pos = self.floorPos[self.jumpFloorNum]
+    else
+        if _scaleX == 1 then
+            pos = self.floorPos[self.jumpFloorNum][1]
+        else
+            pos = self.floorPos[self.jumpFloorNum][2]
+        end
+    end
+    local mx,my = self.m_camera:getPosition()
+    local x,y = self.m_player:getPosition()
 	if self.jumpFloorNum % 10 == 1 then
-        local pos = self.floorPos[self.jumpFloorNum]
-        local _scaleX=self.m_player:getScaleX()
-        local mx,my = self.m_camera:getPosition()
-        local x,y = self.m_player:getPosition()
         local toX
         if _scaleX == 1 and self.curRoomDistance == MAPRUNNING_TYPE.Left then
             toX = x-display.width
         elseif _scaleX == -1 and self.curRoomDistance == MAPRUNNING_TYPE.Right then
             toX = x
         else
-            toX = mx
+            if _scaleX == 1 then
+                toX = x-display.width
+            else
+                toX = x 
+            end
         end
-        if _scaleX == 1 and self.curRoomDistance == MAPRUNNING_TYPE.Left or (_scaleX == -1 and self.curRoomDistance == MAPRUNNING_TYPE.Right) then
+        if _scaleX == 1 and self.curRoomDistance == MAPRUNNING_TYPE.Left or (_scaleX == -1 and self.curRoomDistance == MAPRUNNING_TYPE.Right)
+            or self.curRoomDistance == MAPRUNNING_TYPE.Both then
             self.m_camera:stopAllActions()
             local moveY = cc.MoveTo:create(0.2*moveSpeed/speed,cc.p(mx,pos.y-self.bottomHeight))
             local moveX = cc.MoveTo:create(1*moveSpeed/speed,cc.p(toX,pos.y-self.bottomHeight))
             local callfun = cc.CallFunc:create(function()
                 self.curState = State_Type.RunningState
 --                self.isBgMove = false
+                if _scaleX == -1 then
+                    local r_posx = self.m_bothRightRooms[#self.m_bothRightRooms]:getPositionX()
+                    local l_posx = self.m_bothMoveRooms[1]:getPositionX()
+                    for var=1, #self.m_bothMoveRooms do
+                        local room = self.m_bothMoveRooms[var]
+                        local roomX = room:getPositionX()
+                        room:setPositionX(roomX+r_posx-l_posx)
+                        local x,y = room:getPosition()
+                        if room.getRoomIndex then
+                            local roomNum = room:getRoomIndex()
+                            self.floorPos[roomNum] = cc.p(x,y)
+                        end
+                    end
+                    self.m_bothMoveRooms = {}
+                    self.twoLeanFloor = false
+                end
             end)
             local seq = cc.Sequence:create(moveY,moveX,callfun)
             self.m_camera:runAction(seq)
@@ -1215,14 +1502,9 @@ function MapLayer:toRunFirstCameraMove()
             local seq = cc.Sequence:create(moveY,moveX)
             self.bg:runAction(seq)
 
---            self.bgNode:toRunYtoXMove(pos,self.bottomHeight,toX,mx,moveSpeed/speed)
-
         end
     elseif self.jumpFloorNum % 10 == 9 then
         self.curState = State_Type.CommonState
-        local pos = self.floorPos[self.jumpFloorNum]
-        local _scaleX=self.m_player:getScaleX()
-        local mx,my = self.m_camera:getPosition()
         self.m_camera:stopAllActions()
         local moveY = cc.MoveTo:create(0.5*moveSpeed/speed,cc.p(pos.x,pos.y-self.bottomHeight))
         local moveX = cc.MoveTo:create(0.5*moveSpeed/speed,cc.p(pos.x,my))
@@ -1239,13 +1521,6 @@ function MapLayer:toRunFirstCameraMove()
         local seq = cc.Sequence:create(moveX,moveY)
         self.bg:runAction(seq)
 
---        self.bgNode:toRunXtoYMove(pos,self.bottomHeight,moveSpeed/speed)
-    elseif self.jumpFloorNum % 10 == 0 then
-        local removeCount = #self.m_otherRooms
-        for var=1, removeCount do
-            local _room = table.remove(self.m_otherRooms,1)
-            _room:dispose()
-        end
     end
 end
 
@@ -1381,6 +1656,24 @@ function MapLayer:dispose(parameters)
     end
     
     for key, var in ipairs(self.m_moveRooms) do
+        if not tolua.isnull(var) then
+            var:dispose()
+        end
+    end
+    
+    for key, var in ipairs(self.m_bothRightRooms) do
+        if not tolua.isnull(var) then
+            var:dispose()
+        end
+    end
+    
+    for key, var in ipairs(self.m_bothOtherRooms) do
+        if not tolua.isnull(var) then
+            var:dispose()
+        end
+    end
+    
+    for key, var in ipairs(self.m_bothMoveRooms) do
         if not tolua.isnull(var) then
             var:dispose()
         end

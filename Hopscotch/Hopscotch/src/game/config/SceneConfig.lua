@@ -159,12 +159,12 @@ SceneConfig[10]=
         sceneName = "shop/scenename_5.png",
         sceneIcon = "shop/scene_5.png",
         priceRes = "shop/price_6.png",
-        des = "中秋佳节",
+        des = "游乐场",
         rmb = 6,   --人民币购买价格
         payId = Payment.Scene_10,
         bgColor = {cc.c4b(226,244,184,255),cc.c4b(95,197,148,255)},
         specailRes = "#Room_special_3.png",
         specailRes2 = "#Room_special_1.png",
         --{panel2的偏移量，panel3的距离差，panel2的初始高度，panel3的初始高度，panel1位置的偏移量,panel2的距离差,panel2偏移差}
-        offset = {0,0,700,1800,0,0,0},
+        offset = {0,0,700,1700,0,0,0},
     }
