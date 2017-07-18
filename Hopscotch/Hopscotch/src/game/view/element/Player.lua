@@ -257,13 +257,26 @@ function Player:springRocket(parameters)
     local roomType = self:getParent():getRoomByIdx(curFloor):getCurRoomType()
     self.toRocketState = 0
 
-    Tools.printDebug("----------brj 跳房子 火箭冲刺：",curFloor,curCloseFloor+10,floorPos[curCloseFloor+10].y)
+    Tools.printDebug("----------brj 跳房子 火箭冲刺：",curFloor,curCloseFloor+10)
     
     self.m_armature:setVisible(false)
     self:toRocket()
     if roomType ~= MAPROOM_TYPE.Running and roomNextType ~= MAPROOM_TYPE.Running then
+        local nextCloseFloorX,nextCloseFloorY
+        if floorPos[curCloseFloor+10].x then
+            nextCloseFloorX = floorPos[curCloseFloor+10].x
+            nextCloseFloorY = floorPos[curCloseFloor+10].y
+        else
+            if self:getScaleX() == 1 then
+                nextCloseFloorX = floorPos[curCloseFloor+10][1].x
+                nextCloseFloorY = floorPos[curCloseFloor+10][1].y
+            else
+                nextCloseFloorX = floorPos[curCloseFloor+10][2].x
+                nextCloseFloorY = floorPos[curCloseFloor+10][2].y
+            end
+        end
         self.toRocketState = 1
-        local move = cc.MoveTo:create(1,cc.p(floorPos[curCloseFloor+10].x+display.cx,floorPos[curCloseFloor+10].y+self.m_size.height*0.5+30))
+        local move = cc.MoveTo:create(1,cc.p(nextCloseFloorX+display.cx,nextCloseFloorY+self.m_size.height*0.5+30))
         local callfun = cc.CallFunc:create(function()
             self:toStopRocket()
         end)
