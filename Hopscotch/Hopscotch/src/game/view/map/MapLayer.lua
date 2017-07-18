@@ -184,14 +184,14 @@ end
 function MapLayer:addNewRooms(parameters)
 --    Tools.printDebug("-------------------brj Hopscotch 总缓存楼层：",self.m_roomsNum % self.runFloorNum + math.ceil(self.runFloorNum*0.5))
     if self.m_roomsNum > TwoLeanFloor and self.m_roomsNum % self.runFloorNum - math.ceil(self.runFloorNum*0.5) == 0 then
+        local i = math.random(math.floor((self.m_roomsNum+RunningMin)/10),math.floor((self.m_roomsNum+RunningMax)/10))
+        self.runFloorNum = i*10
         local k = GameDataManager.getDataIdByWeight(-2)
-        Tools.printDebug("brj Hopscotch 双向倾斜组：",k)
+        Tools.printDebug("brj Hopscotch 双向倾斜组：",k,i)
         self.m_levelCon = MapTwoLeanConfig[k]
         self.roomType = self.m_levelCon.roomType
         self.floorNum = 0
     elseif self.m_roomsNum % self.runFloorNum == 0 then
---        local i = math.random(math.floor(RunningMin/10),math.floor(RunningMax/10))
---    	self.runFloorNum = i*10
         local k = GameDataManager.getDataIdByWeight()
         Tools.printDebug("brj Hopscotch 横跑组：",k)
         self.m_levelCon = MapRunningConfig[k]
