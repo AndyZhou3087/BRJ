@@ -182,7 +182,7 @@ end
 --添加新的房间
 --此处为动态添加的房间，不需调整刚体位置，即无需传第三个参数(room:initPosition(_x,_y))
 function MapLayer:addNewRooms(parameters)
---    Tools.printDebug("-------------------brj Hopscotch 总缓存楼层：",self.m_roomsNum % self.runFloorNum + math.ceil(self.runFloorNum*0.5))
+    Tools.printDebug("-------------------brj Hopscotch 总缓存楼层：",self.m_roomsNum)
     if self.m_roomsNum > TwoLeanFloor and self.m_roomsNum % self.runFloorNum - math.ceil(self.runFloorNum*0.5) == 0 then
         local i = math.random(math.floor((self.m_roomsNum+RunningMin)/10),math.floor((self.m_roomsNum+RunningMax)/10))
         self.runFloorNum = i*10
@@ -1234,7 +1234,7 @@ function MapLayer:toRocketRunningLogic(RocketState,curRoomKey)
                     end
                 end
                 self.m_bothMoveRooms = {}
-                self.twoLeanFloor = false
+                self.twoRunningFloor = false
             end
         end
         
@@ -1475,22 +1475,6 @@ function MapLayer:toRunFirstCameraMove()
             local callfun = cc.CallFunc:create(function()
                 self.curState = State_Type.RunningState
 --                self.isBgMove = false
-                if _scaleX == -1 then
-                    local r_posx = self.m_bothRightRooms[#self.m_bothRightRooms]:getPositionX()
-                    local l_posx = self.m_bothMoveRooms[1]:getPositionX()
-                    for var=1, #self.m_bothMoveRooms do
-                        local room = self.m_bothMoveRooms[var]
-                        local roomX = room:getPositionX()
-                        room:setPositionX(roomX+r_posx-l_posx)
-                        local x,y = room:getPosition()
-                        if room.getRoomIndex then
-                            local roomNum = room:getRoomIndex()
-                            self.floorPos[roomNum] = cc.p(x,y)
-                        end
-                    end
-                    self.m_bothMoveRooms = {}
-                    self.twoLeanFloor = false
-                end
             end)
             local seq = cc.Sequence:create(moveY,moveX,callfun)
             self.m_camera:runAction(seq)
@@ -1501,6 +1485,23 @@ function MapLayer:toRunFirstCameraMove()
             local moveX = cc.MoveTo:create(1*moveSpeed/speed,cc.p(toX,pos.y-self.bottomHeight))
             local seq = cc.Sequence:create(moveY,moveX)
             self.bg:runAction(seq)
+            
+            if _scaleX == -1 then
+                local r_posx = self.m_bothRightRooms[#self.m_bothRightRooms]:getPositionX()
+                local l_posx = self.m_bothMoveRooms[1]:getPositionX()
+                for var=1, #self.m_bothMoveRooms do
+                    local room = self.m_bothMoveRooms[var]
+                    local roomX = room:getPositionX()
+                    room:setPositionX(roomX+r_posx-l_posx)
+                    local x,y = room:getPosition()
+                    if room.getRoomIndex then
+                        local roomNum = room:getRoomIndex()
+                        self.floorPos[roomNum] = cc.p(x,y)
+                    end
+                end
+                self.m_bothMoveRooms = {}
+                self.twoRunningFloor = false
+            end
 
         end
     elseif self.jumpFloorNum % 10 == 9 then

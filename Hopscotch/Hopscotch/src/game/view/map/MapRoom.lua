@@ -29,7 +29,7 @@ function MapRoom:ctor(_idx,_levelCon,_floorNum)
     self.roomType = _levelCon.roomType
     self.roomDistance = _levelCon.direction
     
-    
+--    Tools.printDebug("--------brj 特殊钢架：",_floorNum,_idx,_levelCon.roomType == MAPROOM_TYPE.Special)
     if _levelCon.roomType == MAPROOM_TYPE.Special and _idx == 10 then
         local spRes = SceneConfig[GameDataManager.getFightScene()].specailRes
         if spRes then
