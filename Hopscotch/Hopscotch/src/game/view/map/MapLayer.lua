@@ -15,6 +15,8 @@ local Raycast_DisX = 6 --探测轴方向有无障碍物
 --用来计算横跑时第一阶层移动的固定值
 local runDis = 50
 local moveSpeed = 120
+--角色横跑第一层的理想化x坐标
+local runFirstX = 418
 
 math.randomseed(os.time())   --初始化随机种子
 
@@ -135,7 +137,7 @@ function MapLayer:initRooms(parameters)
     local _y = self.bottomHeight - Room_Size.height
     for k=1, MAP_ROOM_INIT_NUM*0.1 do
         --控制随机数种子
-        if k > 3 then
+        if k > 1 then
             local i = GameDataManager.getDataIdByWeight(Map_Grade.floor_D)
             self.m_levelCon = MapGroupConfigD[i]
             Tools.printDebug("brj error 配置组",k,i)
@@ -182,7 +184,7 @@ end
 --添加新的房间
 --此处为动态添加的房间，不需调整刚体位置，即无需传第三个参数(room:initPosition(_x,_y))
 function MapLayer:addNewRooms(parameters)
-    Tools.printDebug("-------------------brj Hopscotch 总缓存楼层：",self.m_roomsNum)
+--    Tools.printDebug("-------------------brj Hopscotch 总缓存楼层：",self.m_roomsNum)
     if self.m_roomsNum > TwoLeanFloor and self.m_roomsNum % self.runFloorNum - math.ceil(self.runFloorNum*0.5) == 0 then
         local i = math.random(math.floor((self.m_roomsNum+RunningMin)/10),math.floor((self.m_roomsNum+RunningMax)/10))
         self.runFloorNum = i*10
@@ -723,19 +725,61 @@ function MapLayer:onEnterFrame(dt)
         if self.curState == State_Type.RunningState then
             local x,y = self.m_player:getPosition()
             local mx,my = self.m_camera:getPosition()
-            if _scaleX == 1 then
-                if x-display.cx+50 <= mx then
-                    self.m_camera:setPositionX(x-display.cx+49)
-                    self.bg:setPositionX(x-display.cx+49)
---                    self.bgNode:bgLandscapeMove(x-display.cx+50,(x-display.cx+50-mx),mx,_scaleX)
-                    self.isBgMove = true
+            if self.curRoomDistance ~= MAPRUNNING_TYPE.Both then
+                if _scaleX == 1 then
+                    --                Tools.printDebug("brj--------横跑条件---------: ",mx,x-display.cx+50)
+                    if x-display.width*0.7 < mx and not self.arrival then
+                        self.m_camera:setPositionX(mx-10)
+                        self.bg:setPositionX(mx-10)
+                    else
+                        self.arrival = true
+                        self.m_camera:setPositionX(x-display.width*0.7)
+                        self.bg:setPositionX(x-display.width*0.7)
+                        self.isBgMove = true
+                    end
+                else
+                    Tools.printDebug("brj--------横跑条件---------: ",mx,x-display.width*0.3)
+                    if mx < x-display.width*0.3 and not self.arrival then
+                        self.m_camera:setPositionX(mx+10)
+                        self.bg:setPositionX(mx+10)
+                    else
+                        self.arrival = true
+                        self.m_camera:setPositionX(x-display.width*0.3)
+                        self.bg:setPositionX(x-display.width*0.3)
+                        self.isBgMove = true
+                    end
                 end
             else
-                if x-display.cx-50 >= mx then
-                    self.m_camera:setPositionX(x-display.cx-49)
-                    self.bg:setPositionX(x-display.cx-49)
---                    self.bgNode:bgLandscapeMove(x-display.cx-50,(x-display.cx-50-mx),mx,_scaleX)
-                    self.isBgMove = true
+                if _scaleX == 1 then
+                    if x-display.width*0.7 < mx then
+                        self.bothArrival = true
+                    end
+                    if self.bothArrival then
+                        if x-display.width*0.7 < mx and not self.arrival then
+                            self.m_camera:setPositionX(mx-10)
+                            self.bg:setPositionX(mx-10)
+                        else
+                            self.arrival = true
+                            self.m_camera:setPositionX(x-display.width*0.7)
+                            self.bg:setPositionX(x-display.width*0.7)
+                            self.isBgMove = true
+                        end
+                    end
+                else
+                    if mx < x-display.width*0.3 then
+                    	self.bothArrival = true
+                    end
+                    if self.bothArrival then
+                        if mx < x-display.width*0.3 and not self.arrival then
+                            self.m_camera:setPositionX(mx+10)
+                            self.bg:setPositionX(mx+10)
+                        else
+                            self.arrival = true
+                            self.m_camera:setPositionX(x-display.width*0.3)
+                            self.bg:setPositionX(x-display.width*0.3)
+                            self.isBgMove = true
+                        end
+                    end
                 end
             end
         end
@@ -1409,6 +1453,7 @@ function MapLayer:toRunCameraMove()
             local move = cc.MoveBy:create(0.3,cc.p(0,pos.y-self.bottomHeight-my))
             local callfun = cc.CallFunc:create(function()
                 self.isBgMove = false
+--                self.curState = State_Type.RunningState
             end)
             local seq = cc.Sequence:create(move,callfun)
             self.m_camera:runAction(seq)
@@ -1467,26 +1512,37 @@ function MapLayer:toRunFirstCameraMove()
                 toX = x 
             end
         end
+        Tools.printDebug("----------------最理想化的角色坐标：",x)
         if _scaleX == 1 and self.curRoomDistance == MAPRUNNING_TYPE.Left or (_scaleX == -1 and self.curRoomDistance == MAPRUNNING_TYPE.Right)
             or self.curRoomDistance == MAPRUNNING_TYPE.Both then
-            self.m_camera:stopAllActions()
-            local moveY = cc.MoveTo:create(0.2*moveSpeed/speed,cc.p(mx,pos.y-self.bottomHeight))
-            local moveX = cc.MoveTo:create(1*moveSpeed/speed,cc.p(toX,pos.y-self.bottomHeight))
-            local callfun = cc.CallFunc:create(function()
-                self.curState = State_Type.RunningState
---                self.isBgMove = false
-            end)
-            local seq = cc.Sequence:create(moveY,moveX,callfun)
-            self.m_camera:runAction(seq)
-            self.isBgMove = true
-
-            self.bg:stopAllActions()
-            local moveY = cc.MoveTo:create(0.2*moveSpeed/speed,cc.p(mx,pos.y-self.bottomHeight))
-            local moveX = cc.MoveTo:create(1*moveSpeed/speed,cc.p(toX,pos.y-self.bottomHeight))
-            local seq = cc.Sequence:create(moveY,moveX)
-            self.bg:runAction(seq)
             
-            if _scaleX == -1 then
+--            local xValue
+--            if _scaleX == 1 then
+--                xValue = math.abs(x/runFirstX)
+--            else
+--                xValue = math.abs(runFirstX/x)
+--            end
+--            
+--            self.m_camera:stopAllActions()
+--            local moveY = cc.MoveTo:create(0.2*(moveSpeed/speed),cc.p(mx,pos.y-self.bottomHeight))
+--            local moveX = cc.MoveTo:create(1*(moveSpeed/speed)*xValue,cc.p(toX,pos.y-self.bottomHeight))
+--            local callfun = cc.CallFunc:create(function()
+--                self.curState = State_Type.RunningState
+----                self.isBgMove = false
+--            end)
+--            local seq = cc.Sequence:create(moveY,moveX,callfun)
+--            self.m_camera:runAction(seq)
+            self.isBgMove = true
+            self.curPlayerX = x
+--
+--            self.bg:stopAllActions()
+--            local moveY = cc.MoveTo:create(0.2*(moveSpeed/speed),cc.p(mx,pos.y-self.bottomHeight))
+--            local moveX = cc.MoveTo:create(1*(moveSpeed/speed)*xValue,cc.p(toX,pos.y-self.bottomHeight))
+--            local seq = cc.Sequence:create(moveY,moveX)
+--            self.bg:runAction(seq)
+            self.curState = State_Type.RunningState
+            
+            if self.curRoomDistance == MAPRUNNING_TYPE.Both and  _scaleX == -1 then
                 local r_posx = self.m_bothRightRooms[#self.m_bothRightRooms]:getPositionX()
                 local l_posx = self.m_bothMoveRooms[1]:getPositionX()
                 for var=1, #self.m_bothMoveRooms do
@@ -1505,6 +1561,8 @@ function MapLayer:toRunFirstCameraMove()
 
         end
     elseif self.jumpFloorNum % 10 == 9 then
+        self.arrival = false
+        self.bothArrival = false
         self.curState = State_Type.CommonState
         self.m_camera:stopAllActions()
         local moveY = cc.MoveTo:create(0.5*moveSpeed/speed,cc.p(pos.x,pos.y-self.bottomHeight))

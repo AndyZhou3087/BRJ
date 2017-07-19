@@ -33,8 +33,8 @@ RunningMax = 300
 TwoLeanFloor = 200
 
 --背景移动系数
-Rdt_1 = 0.96
-Rdt_2 = 0.85
+Rdt_1 = 0.97
+Rdt_2 = 0.9
 --横跑时背景移动速率
 RunBgMove_1 = 52  --移动多即移动慢
 RunBgMove_2 = 25
