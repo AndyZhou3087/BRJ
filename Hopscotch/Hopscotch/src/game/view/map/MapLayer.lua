@@ -117,6 +117,7 @@ function MapLayer:touchFunc(event)
         if (Tools.getSysTime()-lastTouchTime)>=Sequent_Click_Time then
             if self.isCollision then
                 self.isCollision = false
+--                self.m_jump = false
 --                Tools.printDebug("brj 是否可连击跳跃: ",self.isCollision)
                 self:toJump()
             end
@@ -696,13 +697,13 @@ function MapLayer:onEnterFrame(dt)
             end
         end
     end
-    if bpy < pos.y-self.bottomHeight*0.3 then
+    if bpy < pos.y-Room_Size.height*3 then
         self.m_player:selfDead()
     end
 
     local _scaleX=self.m_player:getScaleX()
     local vel=self.m_player:getBody():getVelocity()
---    Tools.printDebug("brj--------角色速度---------: ",self.m_player:getSpeed())
+    
     self.m_player:setVelocity(cc.p(-_scaleX/math.abs(_scaleX)*self.m_player:getSpeed(),vel.y))
 
     local _body = self.m_player:getBody()
@@ -715,9 +716,10 @@ function MapLayer:onEnterFrame(dt)
     else
         self.m_physicWorld:rayCast(handler(self,self.rayCastFunc),cc.p(_p.x,_p.y),cc.p(_p.x,_p.y-_size.height*0.5-Raycast_DisY))
     end
-    
+--    Tools.printDebug("brj--------角色速度---------: ",_p.y-_size.height*0.5-Raycast_DisY)
     --左右射线检测(火箭状态不做处理)
     if not self.m_player:isInState(PLAYER_STATE.Rocket) then
+        self.m_physicWorld:rayCast(handler(self,self.rayCastFuncY),cc.p(_p.x+_size.width*0.5,_p.y-_size.height*2),cc.p(_size.width*0.5,_size.height*0.5))
         self.m_physicWorld:rayCast(handler(self,self.rayCastFuncX),cc.p(_p.x,_p.y-_size.height*0.25),cc.p(_p.x+_add*(_size.width*0.5+Raycast_DisX),_p.y-_size.height*0.25))
     end  
     
@@ -1046,6 +1048,34 @@ function MapLayer:rayCastFunc(_world,_p1,_p2,_p3)
             self:CoreLogic()
         end
         
+        return true
+    end
+
+    return true
+end
+
+--碰撞反射，从人物中心向下或向上发射一个比自身一半多 Raycast_DisY 像素的探测射线，进行检测有无障碍物
+function MapLayer:rayCastFuncY(_world,_p1,_p2,_p3)
+    if self.backOrigin then
+        return true
+    end
+
+    local _body = _p1.shape:getBody()
+    local _bnode = _body:getNode()
+    local _tag = _body:getTag()
+
+    if tolua.isnull(_bnode) then
+        return false
+    end
+    if _tag==ELEMENT_TAG.PLAYER_TAG then
+        return true
+    end
+
+    Tools.printDebug("-----------射线检测下方地板：",_tag)
+    if _tag < ELEMENT_TAG.PLAYER_TAG and _tag > ELEMENT_TAG.SPECIAL_TAG then
+        Tools.printDebug("-----------!!!!!!!!!!!!!!!!!!!!!!：")
+--        self.m_jump = true
+        self.m_player:selfDead()
         return true
     end
 
