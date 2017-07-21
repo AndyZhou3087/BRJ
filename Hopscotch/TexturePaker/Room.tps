@@ -56,7 +56,7 @@
             <key>width</key>
             <int>512</int>
             <key>height</key>
-            <int>512</int>
+            <int>1024</int>
         </QSize>
         <key>fixedTextureSize</key>
         <QSize>
@@ -186,6 +186,7 @@
             <filename>Room_wall.png</filename>
             <filename>Special_line.png</filename>
             <filename>../../../../Useful/跳房子/海底场景/Scene_sea.png</filename>
+            <filename>RoomRun_bg.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

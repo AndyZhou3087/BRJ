@@ -83,6 +83,15 @@ end
 
 --@param:墙壁和地板和背景
 function MapRoom:initBlock(_roomBgVo)
+    if _roomBgVo.bg then
+        for k=1, #_roomBgVo.bg do
+            local info = _roomBgVo.bg[k]
+            local bg = display.newSprite(info.res)
+            self:addChild(bg)
+            bg:setAnchorPoint(cc.p(0,1))
+            bg:setPosition(cc.p(info.x,info.y))
+        end
+    end
     if _roomBgVo.wallLeftRight then
         for j=1, #_roomBgVo.wallLeftRight do
             local info = _roomBgVo.wallLeftRight[j]

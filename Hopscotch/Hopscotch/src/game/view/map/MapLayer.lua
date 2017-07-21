@@ -731,7 +731,7 @@ function MapLayer:onEnterFrame(dt)
             local mx,my = self.m_camera:getPosition()
             if self.curRoomDistance ~= MAPRUNNING_TYPE.Both then
                 if _scaleX == 1 then
-                    if x + _size.width < self.otherX and y-_size.height*0.5 < self.otherY then
+                    if x + _size.width+20 < self.otherX and y-_size.height*0.5 < self.otherY then
                         self:playerDead()
                     end
                     --                Tools.printDebug("brj--------横跑条件---------: ",mx,x-display.cx+50)
@@ -746,7 +746,7 @@ function MapLayer:onEnterFrame(dt)
                     end
                 else
 --                    Tools.printDebug("brj--------横跑条件---------: ",x,self.otherX,y-_size.height*0.5,self.otherY)
-                    if x - _size.width > self.otherX and y-_size.height*0.5 < self.otherY then
+                    if x - _size.width - 20 > self.otherX and y-_size.height*0.5 < self.otherY then
                         self:playerDead()
                     end
                     if mx < x-display.width*0.3 and not self.arrival then
@@ -761,7 +761,7 @@ function MapLayer:onEnterFrame(dt)
                 end
             else
                 if _scaleX == 1 then
-                    if x + _size.width < self.otherX and y-_size.height*0.5 < self.otherY then
+                    if x + _size.width+20 < self.otherX and y-_size.height*0.5 < self.otherY then
                         self:playerDead()
                     end
                     if x-display.width*0.7 < mx then
@@ -780,7 +780,7 @@ function MapLayer:onEnterFrame(dt)
                     end
                 else
                     Tools.printDebug("brj--------横跑条件---------: ",x - _size.width*0.5,self.otherX)
-                    if x - _size.width > self.otherX and y-_size.height*0.5 < self.otherY then
+                    if x - _size.width - 20 > self.otherX and y-_size.height*0.5 < self.otherY then
                         self:playerDead()
                     end
                     if mx < x-display.width*0.3 then
