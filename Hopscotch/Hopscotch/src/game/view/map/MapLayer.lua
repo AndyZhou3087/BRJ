@@ -139,12 +139,19 @@ function MapLayer:initRooms(parameters)
     for k=1, MAP_ROOM_INIT_NUM*0.1 do
         --控制随机数种子
         if k > 1 then
-            local i = GameDataManager.getDataIdByWeight(Map_Grade.floor_D)
+            local i
+            if self.lastBgType == MapGroupD[1] or self.lastBgType == MapGroupD[2] then
+                i = GameDataManager.getDataIdByWeight(Map_Grade.floor_D)
+            else
+                i = GameDataManager.getDataIdByWeight(Map_Grade.floor_D)
+            end
             self.m_levelCon = MapGroupConfigD[i]
+            self.lastBgType = self.m_levelCon.bgType
             Tools.printDebug("brj error 配置组",k,i)
         else
             local i = GameDataManager.getDataIdByWeight(-1)
             self.m_levelCon = MapFirstGroup[i]
+            self.lastBgType = self.m_levelCon.bgType
         end 
         self.curRooms = self.m_levelCon.roomBgs
 
@@ -193,6 +200,7 @@ function MapLayer:addNewRooms(parameters)
         Tools.printDebug("brj Hopscotch 双向倾斜组：",k,i)
         self.m_levelCon = MapTwoLeanConfig[k]
         self.roomType = self.m_levelCon.roomType
+        self.lastBgType = self.m_levelCon.bgType
         self.floorNum = 0
     elseif self.m_roomsNum % self.runFloorNum == 0 then
         self.runMapFloor = self.m_roomsNum
@@ -201,6 +209,7 @@ function MapLayer:addNewRooms(parameters)
         self.m_levelCon = MapRunningConfig[k]
         self.roomType = self.m_levelCon.roomType
         self.roomDirection = self.m_levelCon.direction
+        self.lastBgType = self.m_levelCon.bgType
         self.floorNum = 0
     else
         if self.m_roomsNum % 10 == 0 then
@@ -224,6 +233,7 @@ function MapLayer:addNewRooms(parameters)
             local i = GameDataManager.getDataIdByWeight(type)
             self.m_levelCon = config[i]
             self.roomType = self.m_levelCon.roomType
+            self.lastBgType = self.m_levelCon.bgType
             self.floorNum = 0
             Tools.printDebug("brj Hopscotch 普通组：",i)
         end 

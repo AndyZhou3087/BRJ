@@ -28,6 +28,7 @@ MapFirstGroup[1]=
         direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
         distance = 0,        --房间x轴倾斜距离(单位：像素)
         probability = 5,     --权重
+        bgType = ROOMBGSIZE_TYPE.Seven,
     } 
 
 MapFirstGroup[2]= 
@@ -41,6 +42,7 @@ MapFirstGroup[2]=
         direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
         distance = 0,        --房间x轴倾斜距离(单位：像素)
         probability = 5,     --权重
+        bgType = ROOMBGSIZE_TYPE.Seven,
     } 
 
 MapFirstGroup[3]= 
@@ -54,6 +56,7 @@ MapFirstGroup[3]=
         direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
         distance = 0,        --房间x轴倾斜距离(单位：像素)
         probability = 5,     --权重
+        bgType = ROOMBGSIZE_TYPE.Seven,
     } 
 
 MapFirstGroup[4]= 
@@ -67,6 +70,7 @@ MapFirstGroup[4]=
         direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
         distance = 0,        --房间x轴倾斜距离(单位：像素)
         probability = 5,     --权重
+        bgType = ROOMBGSIZE_TYPE.Seven,
     } 
 
 MapFirstGroup[5]= 
@@ -80,4 +84,5 @@ MapFirstGroup[5]=
         direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
         distance = 0,        --房间x轴倾斜距离(单位：像素)
         probability = 5,     --权重
+        bgType = ROOMBGSIZE_TYPE.Seven,
     } 

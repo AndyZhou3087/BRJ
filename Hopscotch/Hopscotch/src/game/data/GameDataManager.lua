@@ -379,6 +379,9 @@ local configArrF = {}
 local _weightF = 0
 local configArrT = {}
 local _weightT = 0
+--新增配置表容纳器
+local bgConfig = {}
+local bgWeight = {}
 function GameDataManager.initRoomWeight()
     configArrD,_weightD = GameDataManager.getSorting(MapGroupConfigD)
     configArrC,_weightC = GameDataManager.getSorting(MapGroupConfigC)
@@ -388,6 +391,48 @@ function GameDataManager.initRoomWeight()
     configArrR,_weightR = GameDataManager.getSorting(MapRunningConfig)
     configArrF,_weightF = GameDataManager.getSorting(MapFirstGroup)
     configArrT,_weightT = GameDataManager.getSorting(MapTwoLeanConfig)
+--    if not bgWeight[Map_Grade.floor_D] then
+--    	bgWeight[Map_Grade.floor_D] = {}
+--    end
+--    bgConfig[Map_Grade.floor_D][MapGroupD[1]],bgWeight[Map_Grade.floor_D][MapGroupD[1]] = GameDataManager.getSorting(bgConfig[Map_Grade.floor_D][MapGroupD[1]])
+--    bgConfig[Map_Grade.floor_D][MapGroupD[2]],bgWeight[Map_Grade.floor_D][MapGroupD[2]] = GameDataManager.getSorting(bgConfig[Map_Grade.floor_D][MapGroupD[2]])
+end
+
+function GameDataManager.getMapInArr(_type)
+    if not bgConfig[_type] then
+        bgConfig[_type] = {}
+    end
+    local config
+    local group
+    if _type == Map_Grade.floor_D then
+        config = MapGroupConfigD
+        group = MapGroupD
+    elseif _type == Map_Grade.floor_C then
+        config = MapGroupConfigC
+        group = MapGroupC
+    elseif _type == Map_Grade.floor_B then
+        config = MapGroupConfigB
+        group = MapGroupB
+    elseif _type == Map_Grade.floor_A then
+        config = MapGroupConfigA
+        group = MapGroupA
+    end
+    for var=1, #config do
+        local info = config[var]
+        if not bgConfig[_type][group[1]] then
+            bgConfig[_type][group[1]] = {}
+        end
+        if not bgConfig[_type][group[2]] then
+            bgConfig[_type][group[2]] = {}
+        end
+        if info.bgType == group[1] then
+            bgConfig[_type][group[1]][#bgConfig[_type][group[1]]+1] = info;
+        elseif info.bgType == group[2] then
+            bgConfig[_type][group[1]][#bgConfig[_type][group[1]]+1] = info;
+            bgConfig[_type][group[2]][#bgConfig[_type][group[2]]+1] = info;
+        end
+    end
+    return bgConfig[_type][group[1]],bgConfig[_type][group[2]]
 end
 
 --组合排序
@@ -414,7 +459,7 @@ function GameDataManager.getSorting(arr)
 end
 
 --按权重抽取一组数据
-function GameDataManager.getDataIdByWeight(_type)
+function GameDataManager.getDataIdByWeight(_type,_bgType)
     local _weight,configArr
     if not _type then
         configArr = configArrR

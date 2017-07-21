@@ -79,6 +79,24 @@ MAPROOM_TYPE =
         Running = 4,  --横向奔跑类型
         TwoLean = 5,    --双向倾斜
     }
+    
+--房间背景格子数类型
+ROOMBGSIZE_TYPE = 
+{
+    Two = 1,
+    Two_1 = 2,
+    Three = 3,
+    Three_1 = 4,
+    Four = 5,
+    Four_1 = 6,
+    Five = 7,
+    Five_1 = 8,
+    Six = 9,
+    Six_1 = 10,
+    Seven = 11,
+}
+    
+    
 --横跑时的方向
 MAPRUNNING_TYPE = 
     {

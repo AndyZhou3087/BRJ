@@ -17,6 +17,10 @@ MapGroupConfigA={}
 --    --房间物品,此id对应RoomGoodsConfig配置文件,填0则视为对应楼层不出现
 --    roomGoods = {0,0,0,0,0,1,0},
 --}
+
+MapGroupA = {ROOMBGSIZE_TYPE.Six_1,ROOMBGSIZE_TYPE.Six}
+
+
 MapGroupConfigA[1]= 
     { 
         _id=1, 
