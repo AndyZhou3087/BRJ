@@ -321,6 +321,7 @@ function MapLayer:addTwoRunningRoom(parameters)
         if self.floorNum == 1 then
             self.r_x = self.r_x+_newRoom:getRoomWidth()*0.5
             _y = _oldRightRoom:getPositionY() + Room_Size.height
+            Tools.printDebug("--------------------------aaaaaaaaaaaaaaaaaaaaa  ",self.r_x+_newRoom:getRoomWidth())
         elseif self.floorNum == #self.m_levelCon.roomBgs then
             self.r_x = self.r_x + self.m_levelCon.distance
             _y = _oldRightRoom:getPositionY() + Room_Size.height
@@ -672,10 +673,10 @@ function MapLayer:onEnterFrame(dt)
     
 --    Tools.printDebug("brj2222222222222222--------跳房子角色坐标---------: ",bpx,x+Room_Distance.x-_size.width*0.5,x+display.width-Room_Distance.x+_size.width*0.5)
     if bpx <= x+Room_Distance.x-_size.width*0.5 then
-        self.m_player:selfDead()
+        self:playerDead()
     end
     if bpx >= x+display.width-Room_Distance.x+_size.width*0.5 then
-        self.m_player:selfDead()
+        self:playerDead()
     end
     local pos
     if self.floorPos[self.jumpFloorNum].x then
@@ -698,7 +699,7 @@ function MapLayer:onEnterFrame(dt)
         end
     end
     if bpy < pos.y-Room_Size.height*3 then
-        self.m_player:selfDead()
+        self:playerDead()
     end
 
     local _scaleX=self.m_player:getScaleX()
@@ -712,23 +713,27 @@ function MapLayer:onEnterFrame(dt)
     local _scaleX = self.m_player:getScaleX()
     local _add = -1*_scaleX/math.abs(_scaleX)  --因为人物默认是向左的，所以乘以-1
     if self.m_player:getJump() then
-        self.m_physicWorld:rayCast(handler(self,self.rayCastFunc),cc.p(_p.x,_p.y),cc.p(_p.x,_p.y+_size.height*0.5+Raycast_DisY))
+        self.m_physicWorld:rayCast(handler(self,self.rayCastFunc),cc.p(_p.x,_p.y),cc.p(_p.x,_p.y+_size.height*0.5+Raycast_DisY))--起始坐标和结束坐标(是指发出的一条射线)
     else
         self.m_physicWorld:rayCast(handler(self,self.rayCastFunc),cc.p(_p.x,_p.y),cc.p(_p.x,_p.y-_size.height*0.5-Raycast_DisY))
     end
---    Tools.printDebug("brj--------角色速度---------: ",_p.y-_size.height*0.5-Raycast_DisY)
+    
     --左右射线检测(火箭状态不做处理)
     if not self.m_player:isInState(PLAYER_STATE.Rocket) then
-        self.m_physicWorld:rayCast(handler(self,self.rayCastFuncY),cc.p(_p.x+_size.width*0.5,_p.y-_size.height*2),cc.p(_size.width*0.5,_size.height*0.5))
         self.m_physicWorld:rayCast(handler(self,self.rayCastFuncX),cc.p(_p.x,_p.y-_size.height*0.25),cc.p(_p.x+_add*(_size.width*0.5+Raycast_DisX),_p.y-_size.height*0.25))
     end  
     
     if self.curRoomType == MAPROOM_TYPE.Running then
+--        Tools.printDebug("brj--------横跑射线检测---------: ",_p.y,_p.y-Room_Size.height,_p.y-_size.height*0.5)
+--        self.m_physicWorld:rayCast(handler(self,self.rayCastFuncY),cc.p(_p.x,_p.y-_size.height*0.5),cc.p(_p.x,_p.y-_size.height*0.5-Raycast_DisX))
         if self.curState == State_Type.RunningState then
             local x,y = self.m_player:getPosition()
             local mx,my = self.m_camera:getPosition()
             if self.curRoomDistance ~= MAPRUNNING_TYPE.Both then
                 if _scaleX == 1 then
+                    if x + _size.width < self.otherX and y-_size.height*0.5 < self.otherY then
+                        self:playerDead()
+                    end
                     --                Tools.printDebug("brj--------横跑条件---------: ",mx,x-display.cx+50)
                     if x-display.width*0.7 < mx and not self.arrival then
                         self.m_camera:setPositionX(mx-10)
@@ -740,7 +745,10 @@ function MapLayer:onEnterFrame(dt)
                         self.isBgMove = true
                     end
                 else
-                    Tools.printDebug("brj--------横跑条件---------: ",mx,x-display.width*0.3)
+--                    Tools.printDebug("brj--------横跑条件---------: ",x,self.otherX,y-_size.height*0.5,self.otherY)
+                    if x - _size.width > self.otherX and y-_size.height*0.5 < self.otherY then
+                        self:playerDead()
+                    end
                     if mx < x-display.width*0.3 and not self.arrival then
                         self.m_camera:setPositionX(mx+10)
                         self.bg:setPositionX(mx+10)
@@ -753,6 +761,9 @@ function MapLayer:onEnterFrame(dt)
                 end
             else
                 if _scaleX == 1 then
+                    if x + _size.width < self.otherX and y-_size.height*0.5 < self.otherY then
+                        self:playerDead()
+                    end
                     if x-display.width*0.7 < mx then
                         self.bothArrival = true
                     end
@@ -768,6 +779,10 @@ function MapLayer:onEnterFrame(dt)
                         end
                     end
                 else
+                    Tools.printDebug("brj--------横跑条件---------: ",x - _size.width*0.5,self.otherX)
+                    if x - _size.width > self.otherX and y-_size.height*0.5 < self.otherY then
+                        self:playerDead()
+                    end
                     if mx < x-display.width*0.3 then
                     	self.bothArrival = true
                     end
@@ -942,6 +957,7 @@ function MapLayer:collisionBeginCallBack(parameters)
     end
     
     if obstacleTag == ELEMENT_TAG.FLOOR then
+--        Tools.printDebug("----------brj 碰撞检测------------: ")
         self.isCollision = true
         if not self.m_player:getJump() and self.curRoomType ~= MAPROOM_TYPE.Running and not GameController.isInState(PLAYER_STATE.Rocket) then
             local _size = self.m_player:getSize()
@@ -1075,7 +1091,7 @@ function MapLayer:rayCastFuncY(_world,_p1,_p2,_p3)
     if _tag < ELEMENT_TAG.PLAYER_TAG and _tag > ELEMENT_TAG.SPECIAL_TAG then
         Tools.printDebug("-----------!!!!!!!!!!!!!!!!!!!!!!：")
 --        self.m_jump = true
-        self.m_player:selfDead()
+        self:playerDead()
         return true
     end
 
@@ -1118,6 +1134,7 @@ end
 --主玩法核心逻辑
 function MapLayer:CoreLogic()
     local _size = self.m_player:getSize()
+    local _scaleX = self.m_player:getScaleX()
     local bpx,bpy = self.m_player:getPosition()
     local cmx,cmy = self.m_camera:getPosition()
     local roomIndex = math.ceil((self.m_player:getPositionY()-self.bottomHeight)/Room_Size.height)
@@ -1144,7 +1161,12 @@ function MapLayer:CoreLogic()
                 _room = self:getRoomByIdx(roomIndex)
             end
         else
-            _room = self:getRoomByIdx(roomIndex)
+            local firstRunRoom = self:getRightRoomByIdx(roomIndex)
+            if firstRunRoom and _scaleX == -1 then
+                _room = firstRunRoom
+            else
+                _room = self:getRoomByIdx(roomIndex) 
+            end
         end
         if _room then
             _room:intoRoom()
@@ -1152,7 +1174,13 @@ function MapLayer:CoreLogic()
             self.curRoomType = _room:getCurRoomType()
             self.curRoomDistance = _room:getRunningDistance()
             self.curRoomKey = _room:getRoomKey()
---            Tools.printDebug("----------brj 当前房间roomKey------------------------：",self.curRoomKey)
+            if _scaleX == -1 then
+                self.otherX = _room:getRoomWidth()+_room:getPositionX()+Room_Distance.x
+            else
+                self.otherX = _room:getPositionX()+Room_Distance.x
+            end
+            self.otherY = _room:getPositionY()+Room_Size.height
+            Tools.printDebug("----------brj 当前房间roomKey------------------------：",_room:getPositionX())
             self.m_lastRoomIdx = roomIndex
         end
         if self.m_lastRoomIdx > self.jumpFloorNum then
@@ -1194,8 +1222,29 @@ function MapLayer:CoreLogic()
             if self.runningKey and self.runningKey < _room:getRoomKey() then
                 self.roomKey = rKey
                 self.runningKey = _room:getRoomKey()
+                if _scaleX == -1 then
+                    self.otherX = _room:getRoomWidth()+_room:getPositionX()+Room_Distance.x
+                else
+                    self.otherX = _room:getPositionX()+Room_Distance.x
+                end
+                self.otherY = _room:getPositionY()+Room_Size.height
                 self:addNewRooms()
             end
+        end
+    end
+end
+
+--游戏死亡
+function MapLayer:playerDead()
+    self.isCollision = false
+    self.m_player:selfDead()
+end
+
+--双向横跑时根据编号从右边缓存中取出房间
+function MapLayer:getRightRoomByIdx(_roomIndx)
+    for key, var in pairs(self.m_bothRightRooms) do
+        if var:getRoomIndex() == _roomIndx then
+            return var
         end
     end
 end
@@ -1209,7 +1258,7 @@ function MapLayer:getRoomByIdx(_roomIndx)
     end
 end
 
---根据房间编号从右向缓存中获取房间对象
+--双向倾斜根据房间编号从右向缓存中获取房间对象
 function MapLayer:getRoomRightByIdx(_roomIndx)
     for key, var in pairs(self.m_rightRooms) do
         if not tolua.isnull(var) then

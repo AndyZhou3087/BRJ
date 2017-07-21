@@ -385,6 +385,8 @@ function Player:selfDead()
                 self:getParent():backOriginFunc()
             end
         else
+            self:stopAllActions()
+            self.m_armature:stopAllActions()
             --弹出结算界面
             GameDispatcher:dispatch(EventNames.EVENT_OPEN_SETTLEMENT) 
         end
