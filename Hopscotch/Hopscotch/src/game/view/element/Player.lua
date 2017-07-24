@@ -135,7 +135,7 @@ function Player:toJump(ty,isRunning)
         self:runAction(seq)
     end
 
---    AudioManager.playSoundEffect(AudioManager.Sound_Effect_Type.Jump_High_Sound)
+    AudioManager.playSoundEffect(AudioManager.Sound_Effect_Type.Jump_Sound)
 end
 
 function Player:toStopJump()

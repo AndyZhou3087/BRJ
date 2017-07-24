@@ -52,7 +52,7 @@ function GameScene:onEnter()
     self.m_fightView = MapView.new()
     self:addChild(self.m_fightView,UI_ZORDER.VIEW_ZORDER)
 
---    AudioManager.playGroundMusic(AudioManager.Ground_Music_Type.Fight_Bg,true)
+    AudioManager.playGroundMusic(AudioManager.Ground_Music_Type.Fight_Bg,true)
     
 --    if DataPersistence.getAttribute("first_into") then
 --        GameDispatcher:dispatch(EventNames.EVENT_GUIDE_EXPLAIN,{animation = true})

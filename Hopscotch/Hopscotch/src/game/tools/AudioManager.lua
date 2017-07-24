@@ -9,12 +9,8 @@ AudioManager.Music_Path = "music/"
 --背景音乐类型
 AudioManager.Ground_Music_Type=
     {
-        --主界面背景音乐
-        Main_Bg = "bgm_menu.ogg",
-        --关卡背景音乐
-        Select_Bg = "bgm_menu.ogg",
         --战斗场景音乐
-        Fight_Bg = "bgm_game_02.ogg",
+        Fight_Bg = "bg.ogg",
     }
 --音效类型
 AudioManager.Sound_Effect_Type=
