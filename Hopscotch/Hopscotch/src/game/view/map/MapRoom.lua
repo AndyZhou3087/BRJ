@@ -16,7 +16,7 @@ local Block_MASS = 400
 
 --@param1:房间编号
 --@param2:房间的配置id
-function MapRoom:ctor(_idx,_levelCon,_floorNum)
+function MapRoom:ctor(_idx,_levelCon,_floorNum,dArr,gFloor)
     --物理块儿
     self.m_blocks = {}
     self.m_cacheBodys = {} --缓存的刚体数组
@@ -28,6 +28,7 @@ function MapRoom:ctor(_idx,_levelCon,_floorNum)
     self.m_floorNum = _floorNum
     self.roomType = _levelCon.roomType
     self.roomDistance = _levelCon.direction
+    
     
 --    Tools.printDebug("--------brj 特殊钢架：",_floorNum,_idx,_levelCon.roomType == MAPROOM_TYPE.Special)
     if _levelCon.roomType == MAPROOM_TYPE.Special and _idx == 10 then
@@ -66,8 +67,16 @@ function MapRoom:ctor(_idx,_levelCon,_floorNum)
     --房间装饰
     self:initOrnament(_ornaments)
     --房间内钻石
-    self:initDiamonds(_diamonds)
-    self:initGoods(_goods)
+    local isShow = false
+    if dArr and (dArr[1] == _idx or (#dArr == 2 and dArr[2] == _idx) or (#dArr == 3 and dArr[3] == _idx)) then
+    	isShow = true
+    end
+    self:initDiamonds(_diamonds,isShow)
+    local isGoodsShow = false
+    if gFloor and gFloor == _idx then
+    	isGoodsShow = true
+    end
+    self:initGoods(_goods,isGoodsShow)
     
     if _idx == #_levelCon.roomBgs and self.roomType ~= MAPROOM_TYPE.Running then
         local count = cc.LabelAtlas:_create()
@@ -182,8 +191,8 @@ function MapRoom:initOrnament(_roomBgVo)
 end
 
 --创建钻石
-function MapRoom:initDiamonds(diamondCon)
-    if diamondCon and #diamondCon>0 then
+function MapRoom:initDiamonds(diamondCon,isShow)
+    if diamondCon and #diamondCon>0 and isShow then
         self.m_diamonds = {}
         for var=1,#diamondCon do
             local _diamondObj = diamondCon[var]
@@ -194,7 +203,10 @@ function MapRoom:initDiamonds(diamondCon)
                     diamond:setCahceType(CACHE_TYPE.Diamond)
                     diamond:retain()
                 end
-                diamond:setPosition(_diamondObj.x,_diamondObj.y)
+                local dismondSize = diamond:getCascadeBoundingBox().size
+                local x = math.random(Room_Distance.x+50+dismondSize.width,display.right-Room_Distance.x-50-dismondSize.width)
+--                Tools.printDebug("-------brj 房间钻石x坐标：",x)
+                diamond:setPosition(x,_diamondObj.y)
                 diamond:setGroup(self.m_floorNum)
                 diamond:setAnchorPoint(cc.p(0,0))
                 table.insert(self.m_diamonds,diamond)
@@ -204,14 +216,18 @@ function MapRoom:initDiamonds(diamondCon)
     end
 end
 --创建道具
-function MapRoom:initGoods(goodCon)
-    for var=1,#goodCon do
-        local good=GoodsElement.new(goodCon[var].id):addTo(self)
-        local goodSize = good:getCascadeBoundingBox().size
-        good:setPosition(goodCon[var].x+goodSize.width*0.5,goodCon[var].y+goodSize.height*0.5)
-        table.insert(self.m_goods,good)
-        table.insert(self.m_blocks,good)
---        GameController.addGoodBody(good)
+function MapRoom:initGoods(goodCon,isShow)
+    if isShow then
+        for var=1,#goodCon do
+            local good=GoodsElement.new(goodCon[var].id):addTo(self)
+            local goodSize = good:getCascadeBoundingBox().size
+            local x = math.random(Room_Distance.x+50+goodSize.width,display.right-Room_Distance.x-50-goodSize.width)
+--            Tools.printDebug("-------brj 道具x坐标：",x)
+            good:setPosition(x+goodSize.width*0.5,goodCon[var].y+goodSize.height*0.5)
+            table.insert(self.m_goods,good)
+            table.insert(self.m_blocks,good)
+            --        GameController.addGoodBody(good)
+        end
     end
 end
 

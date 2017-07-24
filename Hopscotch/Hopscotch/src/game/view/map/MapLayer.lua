@@ -169,14 +169,19 @@ function MapLayer:initRooms(parameters)
             return
         end
 
+        local dCount = math.random(1,MaxShowCount)
+        local dArr = GameController.createRand(dCount,self.m_roomAmount)
+        local gFloor = math.random(1,self.m_roomAmount)
+--        for var=1, #dArr do
+--            Tools.printDebug("brj hopscotch 随机钻石和道具：",dCount,dArr[var],gFloor)
+--        end
         for var=1, self.m_roomAmount do
-            local _room = MapRoom.new(var,self.m_levelCon,var+(k-1)*10)
+            local _room = MapRoom.new(var,self.m_levelCon,var+(k-1)*10,dArr,gFloor)
             _room:setAnchorPoint(cc.p(0,0))
             _y = _y + Room_Size.height
             if self.m_levelCon.roomType == MAPROOM_TYPE.Lean then
                 self._x = self._x + self.m_levelCon.distance
             end
-            Tools.printDebug("brj 初始楼层",_y)
             self.m_roomNode:addChild(_room,self.m_curZOrder)
             _room:initPosition(self._x,_y,true)
             self.floorPos[var+(k-1)*10] = cc.p(self._x,_y)
@@ -198,6 +203,9 @@ end
 --此处为动态添加的房间，不需调整刚体位置，即无需传第三个参数(room:initPosition(_x,_y))
 function MapLayer:addNewRooms(parameters)
 --    Tools.printDebug("-------------------brj Hopscotch 总缓存楼层：",self.m_roomsNum)
+    local dCount
+    local dArr
+    local gFloor
     if self.m_roomsNum > Map_Grade.floor_B and self.m_roomsNum % self.runFloorNum - math.ceil(self.runFloorNum*0.5) == 0 then
         local i = math.random(math.floor((self.m_roomsNum+RunningMin)/10),math.floor((self.m_roomsNum+RunningMax)/10))
         self.runFloorNum = i*10
@@ -207,6 +215,9 @@ function MapLayer:addNewRooms(parameters)
         self.roomType = self.m_levelCon.roomType
         self.lastBgType = self.m_levelCon.bgType
         self.floorNum = 0
+        dCount = math.random(1,MaxShowCount)
+        dArr = GameController.createRand(dCount,#self.m_levelCon.roomBgs)
+        gFloor = math.random(1,#self.m_levelCon.roomBgs)
     elseif self.m_roomsNum % self.runFloorNum == 0 then
         self.runMapFloor = self.m_roomsNum
         local k = GameDataManager.getDataIdByWeight()
@@ -216,6 +227,9 @@ function MapLayer:addNewRooms(parameters)
         self.roomDirection = self.m_levelCon.direction
         self.lastBgType = self.m_levelCon.bgType
         self.floorNum = 0
+        dCount = math.random(1,MaxShowCount)
+        dArr = GameController.createRand(dCount,#self.m_levelCon.roomBgs)
+        gFloor = math.random(1,#self.m_levelCon.roomBgs)
     else
         if self.m_roomsNum % 10 == 0 then
             local type,config,group
@@ -259,28 +273,31 @@ function MapLayer:addNewRooms(parameters)
             self.roomType = self.m_levelCon.roomType
             self.lastBgType = self.m_levelCon.bgType
             self.floorNum = 0
+            dCount = math.random(1,MaxShowCount)
+            dArr = GameController.createRand(dCount,#self.m_levelCon.roomBgs)
+            gFloor = math.random(1,#self.m_levelCon.roomBgs)
         end 
     end
     
     if self.roomType ~= MAPROOM_TYPE.Running then
         self.floorNum = self.floorNum + 1
         if self.roomType == MAPROOM_TYPE.TwoLean then
-            self:addTwoLeanRoom()
+            self:addTwoLeanRoom(dArr,gFloor)
         else
-            self:CommonRoomAdd() 
+            self:CommonRoomAdd(dArr,gFloor) 
         end
     else
         if self.m_levelCon.direction ~= MAPRUNNING_TYPE.Both then
-            self:RunningRoomAdd(self.m_levelCon.direction)
+            self:RunningRoomAdd(self.m_levelCon.direction,dArr,gFloor)
         else
-            self:addTwoRunningRoom()
+            self:addTwoRunningRoom(dArr,gFloor)
         end
     end
     
 end
 
 --添加双向横跑房间
-function MapLayer:addTwoRunningRoom(parameters)
+function MapLayer:addTwoRunningRoom(dArr,gFloor)
 	self.floorNum = self.floorNum + 1
 	
     local _oldRoom,_oldRightRoom
@@ -312,7 +329,7 @@ function MapLayer:addTwoRunningRoom(parameters)
     local _newRoom
     local _y = 0
     if _oldRoom then
-        _newRoom = MapRoom.new(self.floorNum,self.m_levelCon,self.m_roomsNum)
+        _newRoom = MapRoom.new(self.floorNum,self.m_levelCon,self.m_roomsNum,dArr,gFloor)
         if self.floorNum == 1 then
             self._x = self._x-_newRoom:getRoomWidth()*0.5+Room_Distance.x
             _y = _oldRoom:getPositionY() + Room_Size.height
@@ -351,7 +368,7 @@ function MapLayer:addTwoRunningRoom(parameters)
     
     
     if _oldRightRoom then
-        _newRoom = MapRoom.new(self.floorNum,self.m_levelCon,self.m_roomsNum)
+        _newRoom = MapRoom.new(self.floorNum,self.m_levelCon,self.m_roomsNum,dArr,gFloor)
         if self.floorNum == 1 then
             self.r_x = self.r_x+_newRoom:getRoomWidth()*0.5-Room_Distance.x
             _y = _oldRightRoom:getPositionY() + Room_Size.height
@@ -392,7 +409,7 @@ end
 
 
 --添加单向横跑房间
-function MapLayer:RunningRoomAdd(_dis)
+function MapLayer:RunningRoomAdd(_dis,dArr,gFloor)
 
     self.floorNum = self.floorNum + 1
     local _oldRoom
@@ -416,7 +433,7 @@ function MapLayer:RunningRoomAdd(_dis)
         if newType~=0 or self.floorNum == 1 then
             self.m_roomsNum = self.m_roomsNum + 1
         end
-        _newRoom = MapRoom.new(self.floorNum,self.m_levelCon,self.m_roomsNum)
+        _newRoom = MapRoom.new(self.floorNum,self.m_levelCon,self.m_roomsNum,dArr,gFloor)
         if _dis == MAPRUNNING_TYPE.Left then
             if self.floorNum == 1 then
                 self._x = self._x-_newRoom:getRoomWidth()*0.5+Room_Distance.x
@@ -478,7 +495,7 @@ function MapLayer:RunningRoomAdd(_dis)
 end
 
 --添加双向倾斜房间
-function MapLayer:addTwoLeanRoom(parameters)
+function MapLayer:addTwoLeanRoom(dArr,gFloor)
     if self.floorPos[self.m_roomsNum].x then
         self._x = self.floorPos[self.m_roomsNum].x
     else
@@ -491,7 +508,7 @@ function MapLayer:addTwoLeanRoom(parameters)
         local _newRoom
         local _y = 0
         if _oldRoom then
-            _newRoom = MapRoom.new(self.floorNum,self.m_levelCon,self.m_roomsNum)
+            _newRoom = MapRoom.new(self.floorNum,self.m_levelCon,self.m_roomsNum,dArr,gFloor)
             _y = _oldRoom:getPositionY() + Room_Size.height
             self.floorPos[self.m_roomsNum] = cc.p(self._x,_y)
         else
@@ -510,7 +527,7 @@ function MapLayer:addTwoLeanRoom(parameters)
             local _x = 0
             if _oldRoom then
                 self.floorPos[self.m_roomsNum] = {}
-                _newRoom = MapRoom.new(self.floorNum,self.m_levelCon,self.m_roomsNum)
+                _newRoom = MapRoom.new(self.floorNum,self.m_levelCon,self.m_roomsNum,dArr,gFloor)
                 _y = _oldRoom:getPositionY() + Room_Size.height
                 if self.floorNum == 2 then
                     _x = _oldRoom:getPositionX() - display.width*0.3
@@ -530,7 +547,7 @@ function MapLayer:addTwoLeanRoom(parameters)
                 _oldRoom = self.m_rightRooms[#self.m_rightRooms]
             end
             if _oldRoom then
-                _newRoom = MapRoom.new(self.floorNum,self.m_levelCon,self.m_roomsNum)
+                _newRoom = MapRoom.new(self.floorNum,self.m_levelCon,self.m_roomsNum,dArr,gFloor)
                 _y = _oldRoom:getPositionY() + Room_Size.height
                 if self.floorNum == 3 then
                     _x = _oldRoom:getPositionX() + display.width*0.3
@@ -556,7 +573,7 @@ function MapLayer:addTwoLeanRoom(parameters)
 end
 
 --添加普通楼层普通倾斜特殊房间
-function MapLayer:CommonRoomAdd()
+function MapLayer:CommonRoomAdd(dArr,gFloor)
     local _oldRoom = self.m_chaceRooms[#self.m_chaceRooms]
     if self.floorPos[self.m_roomsNum].x then
         self._x = self.floorPos[self.m_roomsNum].x
@@ -575,7 +592,7 @@ function MapLayer:CommonRoomAdd()
     local _y = 0
     if _oldRoom then
 --        Tools.printDebug("------------111缓存楼层数量111111111111111：",self.m_roomsNum)
-        _newRoom = MapRoom.new(self.floorNum,self.m_levelCon,self.m_roomsNum)
+        _newRoom = MapRoom.new(self.floorNum,self.m_levelCon,self.m_roomsNum,dArr,gFloor)
         _y = _oldRoom:getPositionY() + Room_Size.height
         if self.m_levelCon.roomType == MAPROOM_TYPE.Lean then
             self._x = self._x + self.m_levelCon.distance

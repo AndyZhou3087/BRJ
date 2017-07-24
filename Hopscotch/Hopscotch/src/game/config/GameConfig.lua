@@ -39,6 +39,8 @@ RunBgMove_2 = 25
 BgMove_1 = 10  --移动多即移动慢
 BgMove_2 = 6
 
+--每组钻石最多出现的次数
+MaxShowCount = 3
 
 --初始化房间数
 MAP_ROOM_INIT_NUM = 30
