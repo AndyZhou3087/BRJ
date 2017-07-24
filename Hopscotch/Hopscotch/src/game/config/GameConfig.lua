@@ -29,9 +29,6 @@ RunningFloorNum = 60
 RunningMin = RunningFloorNum
 RunningMax = 300
 
---出现双向倾斜房间的楼层条件
-TwoLeanFloor = 200
-
 --背景移动系数
 Rdt_1 = 0.97
 Rdt_2 = 0.9

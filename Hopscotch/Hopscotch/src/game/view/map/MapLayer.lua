@@ -140,18 +140,23 @@ function MapLayer:initRooms(parameters)
         --控制随机数种子
         if k > 1 then
             local i
-            if self.lastBgType == MapGroupD[1] or self.lastBgType == MapGroupD[2] then
+            if self.lastBgType > MapGroupD[1] then
                 i = GameDataManager.getDataIdByWeight(Map_Grade.floor_D)
+                self.m_levelCon = MapGroupConfigD[i] 
+            elseif not MapGroupD[2] or self.lastBgType > MapGroupD[2] then
+                i = GameDataManager.getDataIdByWeight(Map_Grade.floor_D,MapGroupD[1])
+                self.m_levelCon = GameDataManager.getMpaGradeTable(Map_Grade.floor_D,MapGroupD[1])[i]
             else
-                i = GameDataManager.getDataIdByWeight(Map_Grade.floor_D)
+                i = GameDataManager.getDataIdByWeight(Map_Grade.floor_D,MapGroupD[2])
+                self.m_levelCon = GameDataManager.getMpaGradeTable(Map_Grade.floor_D,MapGroupD[2])[i]
             end
-            self.m_levelCon = MapGroupConfigD[i]
+            Tools.printDebug("brj hop 配置组",self.lastBgType,k,i)
             self.lastBgType = self.m_levelCon.bgType
-            Tools.printDebug("brj error 配置组",k,i)
         else
             local i = GameDataManager.getDataIdByWeight(-1)
             self.m_levelCon = MapFirstGroup[i]
             self.lastBgType = self.m_levelCon.bgType
+--            Tools.printDebug("brj hop 配置组",k,i)
         end 
         self.curRooms = self.m_levelCon.roomBgs
 
@@ -193,7 +198,7 @@ end
 --此处为动态添加的房间，不需调整刚体位置，即无需传第三个参数(room:initPosition(_x,_y))
 function MapLayer:addNewRooms(parameters)
 --    Tools.printDebug("-------------------brj Hopscotch 总缓存楼层：",self.m_roomsNum)
-    if self.m_roomsNum > TwoLeanFloor and self.m_roomsNum % self.runFloorNum - math.ceil(self.runFloorNum*0.5) == 0 then
+    if self.m_roomsNum > Map_Grade.floor_B and self.m_roomsNum % self.runFloorNum - math.ceil(self.runFloorNum*0.5) == 0 then
         local i = math.random(math.floor((self.m_roomsNum+RunningMin)/10),math.floor((self.m_roomsNum+RunningMax)/10))
         self.runFloorNum = i*10
         local k = GameDataManager.getDataIdByWeight(-2)
@@ -213,29 +218,47 @@ function MapLayer:addNewRooms(parameters)
         self.floorNum = 0
     else
         if self.m_roomsNum % 10 == 0 then
-            local type,config
+            local type,config,group
             if self.m_roomsNum >= Map_Grade.floor_S then
                 type = Map_Grade.floor_S
                 config = MapGroupConfigS
             elseif self.m_roomsNum >= Map_Grade.floor_A then
                 type = Map_Grade.floor_A
                 config = MapGroupConfigA
+                group = MapGroupA
             elseif self.m_roomsNum >= Map_Grade.floor_B then
                 type = Map_Grade.floor_B
                 config = MapGroupConfigB
+                group = MapGroupB
             elseif self.m_roomsNum >= Map_Grade.floor_C then
                 type = Map_Grade.floor_C
                 config = MapGroupConfigC
+                group = MapGroupC
             else
                 type = Map_Grade.floor_D
                 config = MapGroupConfigD
+                group = MapGroupD
             end
-            local i = GameDataManager.getDataIdByWeight(type)
-            self.m_levelCon = config[i]
+            local i
+            if type ~= Map_Grade.floor_S then
+                if self.lastBgType > MapGroupD[1] then
+                    i = GameDataManager.getDataIdByWeight(type)
+                    self.m_levelCon = config[i] 
+                elseif not group[2] or self.lastBgType > group[2] then
+                    i = GameDataManager.getDataIdByWeight(type,group[1])
+                    self.m_levelCon = GameDataManager.getMpaGradeTable(type,group[1])[i]
+                else
+                    i = GameDataManager.getDataIdByWeight(type,group[2])
+                    self.m_levelCon = GameDataManager.getMpaGradeTable(type,group[2])[i]
+                end
+            else
+                i = GameDataManager.getDataIdByWeight(type)
+                self.m_levelCon = config[i]
+            end
+            Tools.printDebug("brj Hopscotch 普通组：",i,self.lastBgType,self.m_levelCon.bgType)
             self.roomType = self.m_levelCon.roomType
             self.lastBgType = self.m_levelCon.bgType
             self.floorNum = 0
-            Tools.printDebug("brj Hopscotch 普通组：",i)
         end 
     end
     
