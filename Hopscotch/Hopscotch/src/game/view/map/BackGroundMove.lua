@@ -31,10 +31,15 @@ function BackGroundMove:ctor(_sceneId)
     self.Panel_3_0:setPositionY(display.bottom+self.offset[4])
     
     self.panel1PosX,self.panel1PosY = self.Panel_1:getPosition()
+    self.lastPandelPosY = self.panel1PosY
     self.panel2PosX,self.panel2PosY = self.Panel_2:getPosition()
+    self.lastPande2PosY = self.panel2PosY
     self.panel2Pos2X,self.panel2Pos2Y = self.Panel_2_0:getPosition()
+    self.lastPande2_0PosY = self.panel2Pos2Y
     self.panel3PosX,self.panel3PosY = self.Panel_3:getPosition()
+    self.lastPande3PosY = self.panel3PosY
     self.panel3Pos2X,self.panel3Pos2Y = self.Panel_3_0:getPosition()
+    self.lastPande3_0PosY = self.panel3Pos2Y
     
     self.panel2Size = self.Panel_2:getCascadeBoundingBox().size
     self.panel3Size = self.Panel_3:getCascadeBoundingBox().size
@@ -127,106 +132,31 @@ end
 function BackGroundMove:bgPortraitMove(_pos,_dis,_mx)
     local x,y = self.Panel_1:getPosition()
     self.Panel_1:stopAllActions()
-    local move1 = cc.MoveTo:create(0.3,cc.p(_pos.x+self.offset[5],y+Room_Size.height*Rdt_2))
+    local move1 = cc.MoveTo:create(0.3,cc.p(_pos.x+self.offset[5],self.lastPandelPosY+Room_Size.height*Rdt_2))
     self.Panel_1:runAction(move1)
+    self.lastPandelPosY = self.lastPandelPosY+Room_Size.height*Rdt_2
 
     local p2x,p2y = self.Panel_2:getPosition()
     self.Panel_2:stopAllActions()
-    local move2 = cc.MoveTo:create(0.3,cc.p(p2x,p2y+Room_Size.height*Rdt_2))
+    local move2 = cc.MoveTo:create(0.3,cc.p(p2x,self.lastPande2PosY+Room_Size.height*Rdt_2))
     self.Panel_2:runAction(move2)
+    self.lastPande2PosY = self.lastPande2PosY+Room_Size.height*Rdt_2
     local p2x2,p2y2 = self.Panel_2_0:getPosition()
     self.Panel_2_0:stopAllActions()
-    local move2_2 = cc.MoveTo:create(0.3,cc.p(p2x2,p2y2+Room_Size.height*Rdt_2))
+    local move2_2 = cc.MoveTo:create(0.3,cc.p(p2x2,self.lastPande2_0PosY+Room_Size.height*Rdt_2))
     self.Panel_2_0:runAction(move2_2)
-    --    if p2x+(_pos.x-_mx)*Rdt_2 > _pos.x + display.width + self.offset[1] then
-    --        self.Panel_2:stopAllActions()
-    --        local move2 = cc.MoveTo:create(0.3,cc.p(_pos.x + display.width + self.offset[1],_pos.y*Rdt_2-_dis+self.offset[3]))
-    --        local call = cc.CallFunc:create(function()
-    --            self.Panel_2:setPositionX(p2x2+(_pos.x-_mx)*Rdt_2-self.panel2Size.width+self.offset[6])
-    --            self.Panel_2_0:setLocalZOrder(2)
-    --            self.Panel_2:setLocalZOrder(1)
-    --        end)
-    --        local seq = cc.Sequence:create(move2,call)
-    --        self.Panel_2:runAction(seq)
-    --    end
-    --    if p2x2+(_pos.x-_mx)*Rdt_2 > _pos.x + display.width + self.offset[1]  then
-    --        self.Panel_2_0:stopAllActions()
-    --        local move2 = cc.MoveTo:create(0.3,cc.p(_pos.x + display.width + self.offset[1],_pos.y*Rdt_2-_dis+self.offset[3]))
-    --        local call = cc.CallFunc:create(function()
-    --            self.Panel_2_0:setPositionX(p2x+(_pos.x-_mx)*Rdt_2-self.panel2Size.width+self.offset[6])
-    --            self.Panel_2_0:setLocalZOrder(1)
-    --            self.Panel_2:setLocalZOrder(2)
-    --        end)
-    --        local seq = cc.Sequence:create(move2,call)
-    --        self.Panel_2_0:runAction(seq)
-    --    end
-    --    if p2x+(_pos.x-_mx)*Rdt_2 < _pos.x - self.panel2Size.width+self.offset[7] then
-    --        self.Panel_2:stopAllActions()
-    --        local move2 = cc.MoveTo:create(0.3,cc.p(_pos.x - self.panel2Size.width,_pos.y*Rdt_2-_dis+self.offset[3]))
-    --        local call = cc.CallFunc:create(function()
-    --            self.Panel_2:setPositionX(p2x2+(_pos.x-_mx)*Rdt_2+self.panel2Size.width-self.offset[6])
-    --            self.Panel_2_0:setLocalZOrder(2)
-    --            self.Panel_2:setLocalZOrder(1)
-    --        end)
-    --        local seq = cc.Sequence:create(move2,call)
-    --        self.Panel_2:runAction(seq)
-    --    end
-    --    if p2x2+(_pos.x-_mx)*Rdt_2 < _pos.x - self.panel2Size.width+self.offset[7] then
-    --        self.Panel_2_0:stopAllActions()
-    --        local move2 = cc.MoveTo:create(0.3,cc.p(_pos.x - self.panel2Size.width,_pos.y*Rdt_2-_dis+self.offset[3]))
-    --        local call = cc.CallFunc:create(function()
-    --            self.Panel_2_0:setPositionX(p2x+(_pos.x-_mx)*Rdt_2+self.panel2Size.width-self.offset[6])
-    --            self.Panel_2_0:setLocalZOrder(1)
-    --            self.Panel_2:setLocalZOrder(2)
-    --        end)
-    --        local seq = cc.Sequence:create(move2,call)
-    --        self.Panel_2_0:runAction(seq)
-    --    end
+    self.lastPande2_0PosY = self.lastPande2_0PosY+Room_Size.height*Rdt_2
 
     local p3x,p3y = self.Panel_3:getPosition()
     self.Panel_3:stopAllActions()
-    local move3 = cc.MoveTo:create(0.3,cc.p(p3x,p3y+Room_Size.height*Rdt_1))
+    local move3 = cc.MoveTo:create(0.3,cc.p(p3x,self.lastPande3PosY+Room_Size.height*Rdt_1))
     self.Panel_3:runAction(move3)
+    self.lastPande3PosY = self.lastPande3PosY+Room_Size.height*Rdt_2
     local p3x2,p3y2 = self.Panel_3_0:getPosition()
     self.Panel_3_0:stopAllActions()
-    local move3_2 = cc.MoveTo:create(0.3,cc.p(p3x2,p3y2+Room_Size.height*Rdt_1))
+    local move3_2 = cc.MoveTo:create(0.3,cc.p(p3x2,self.lastPande3_0PosY+Room_Size.height*Rdt_1))
     self.Panel_3_0:runAction(move3_2)
-    --    if p3x+(_pos.x-_mx)*Rdt_1 > _pos.x + display.width then
-    --        self.Panel_3:stopAllActions()
-    --        local move2 = cc.MoveTo:create(0.3,cc.p(_pos.x + display.width,_pos.y*Rdt_1-_dis+self.offset[4]))
-    --        local call = cc.CallFunc:create(function()
-    --            self.Panel_3:setPositionX(p3x2+(_pos.x-_mx)*Rdt_1-self.panel3Size.width-self.offset[2])
-    --        end)
-    --        local seq = cc.Sequence:create(move2,call)
-    --        self.Panel_3:runAction(seq)
-    --    end
-    --    if p3x2+(_pos.x-_mx)*Rdt_1 > _pos.x + display.width then
-    --        self.Panel_3_0:stopAllActions()
-    --        local move2 = cc.MoveTo:create(0.3,cc.p(_pos.x + display.width,_pos.y*Rdt_1-_dis+self.offset[4]))
-    --        local call = cc.CallFunc:create(function()
-    --            self.Panel_3_0:setPositionX(p3x+(_pos.x-_mx)*Rdt_1-self.panel3Size.width-self.offset[2])
-    --        end)
-    --        local seq = cc.Sequence:create(move2,call)
-    --        self.Panel_3_0:runAction(seq)
-    --    end
-    --    if p3x+(_pos.x-_mx)*Rdt_1 < _pos.x - self.panel3Size.width then
-    --        self.Panel_3:stopAllActions()
-    --        local move2 = cc.MoveTo:create(0.3,cc.p(_pos.x - self.panel3Size.width,_pos.y*Rdt_1-_dis+self.offset[4]))
-    --        local call = cc.CallFunc:create(function()
-    --            self.Panel_3:setPositionX(p3x2+(_pos.x-_mx)*Rdt_1+self.panel3Size.width+self.offset[2])
-    --        end)
-    --        local seq = cc.Sequence:create(move2,call)
-    --        self.Panel_3:runAction(seq)
-    --    end
-    --    if p3x2+(_pos.x-_mx)*Rdt_1 < _pos.x - self.panel3Size.width then
-    --        self.Panel_3_0:stopAllActions()
-    --        local move2 = cc.MoveTo:create(0.3,cc.p(_pos.x - self.panel3Size.width,_pos.y*Rdt_1-_dis+self.offset[4]))
-    --        local call = cc.CallFunc:create(function()
-    --            self.Panel_3_0:setPositionX(p3x+(_pos.x-_mx)*Rdt_1+self.panel3Size.width+self.offset[2])
-    --        end)
-    --        local seq = cc.Sequence:create(move2,call)
-    --        self.Panel_3_0:runAction(seq)
-    --    end
+    self.lastPande3_0PosY = self.lastPande3_0PosY+Room_Size.height*Rdt_2
 end
 
 
