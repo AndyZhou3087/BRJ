@@ -56,4 +56,13 @@ EventNames.EVENT_USE_PHANTOM = "event_use_phantom"
 --冲刺火箭
 EventNames.EVENT_SPRING_ROCKET = "event_spring_rocket"
 
+--判断封闭倒计时
+EventNames.EVENT_CLOSE_TIME = "event_close_time"
+
+--停止倒计时
+EventNames.EVENT_STOP_COUNTDOWN = "event_stop_countdown"
+
+--游戏死亡
+EventNames.EVENT_GAME_OVER = "event_game_over"
+
 return EventNames

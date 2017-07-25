@@ -124,6 +124,11 @@ function MapRoom:initBlock(_roomBgVo)
             wall:setPosition(cc.p(info.x+wallSize.width*0.5,info.y+wallSize.height*0.5))
             table.insert(self.m_blocks,wall)
         end
+        if #_roomBgVo.wallLeftRight == 2 then
+        	self.isCloseRoom = true
+        else
+            self.isCloseRoom = false
+        end
     end
     if _roomBgVo.floor then
         local lastWidth = 0
@@ -356,6 +361,11 @@ end
 --获取房间索引号
 function MapRoom:getRoomKey()
     return self.m_index
+end
+
+--是否为封闭房间
+function MapRoom:getRoomCloseValue()
+    return self.isCloseRoom
 end
 
 --获取当前房间所属楼层总层数

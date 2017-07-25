@@ -98,6 +98,8 @@ function MapLayer:ctor(parameters)
     end
 
     self:setCameraMask(2)
+    
+    GameDispatcher:addListener(EventNames.EVENT_GAME_OVER,handler(self,self.playerDead))
 
 end
 
@@ -720,7 +722,7 @@ function MapLayer:onEnterFrame(dt)
         local floorPos = self.floorPos[self.jumpFloorNum]
         self.m_player:setPosition(cc.p(bpx,floorPos.y+_size.height*0.5+self.m_player:getErrorValue()))
     end
-    Tools.printDebug("brj2222222222222222--------角色停留位置---------: ",self.m_player:getPositionY(),self.backOrigin)
+--    Tools.printDebug("brj2222222222222222--------角色停留位置---------: ",self.m_player:getPositionY(),self.backOrigin)
     
     local x,y = self.m_camera:getPosition()
     
@@ -1249,6 +1251,7 @@ function MapLayer:CoreLogic()
             self.curRoomDistance = _room:getRunningDistance()
             self.curRoomKey = _room:getRoomKey()
             self.curRoomWidth = _room:getRoomWidth()
+            self.isCloseRoom = _room:getRoomCloseValue()
             if self.curRoomType == MAPROOM_TYPE.Running and self.curRoomDistance == MAPRUNNING_TYPE.Both then
                 if _scaleX == -1 then
                     self.otherX = _room:getRoomWidth()+_room:getPositionX()+Room_Distance.x
@@ -1280,6 +1283,14 @@ function MapLayer:CoreLogic()
         end
         if self.curRoomType==MAPROOM_TYPE.Running then
             self:toRunFirstCameraMove()
+        end
+        
+        --判断是否封闭房间
+        if self.isCloseRoom and self.jumpFloorNum ~= 1 then
+        	--传事件
+            GameDispatcher:dispatch(EventNames.EVENT_CLOSE_TIME,{floor = self.jumpFloorNum})
+        else
+            GameDispatcher:dispatch(EventNames.EVENT_STOP_COUNTDOWN)
         end
     end
 
@@ -1852,7 +1863,7 @@ function MapLayer:dispose(parameters)
     --移除帧事件
     self:removeNodeEventListenersByEvent(cc.NODE_ENTER_FRAME_EVENT)
     --移除其它事件
---    GameDispatcher:removeListenerByName(EventNames.EVENT_BACK_ORIGIN)
+    GameDispatcher:removeListenerByName(EventNames.EVENT_GAME_OVER)
 
 
     if self.m_player then
