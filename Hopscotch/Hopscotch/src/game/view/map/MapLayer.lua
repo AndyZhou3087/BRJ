@@ -719,8 +719,8 @@ function MapLayer:onEnterFrame(dt)
     if self.backOrigin then
         local floorPos = self.floorPos[self.jumpFloorNum]
         self.m_player:setPosition(cc.p(bpx,floorPos.y+_size.height*0.5+self.m_player:getErrorValue()))
---        Tools.printDebug("brj2222222222222222--------角色停留位置---------: ",floorPos.y+_size.width*0.5+self.m_player:getErrorValue())
     end
+    Tools.printDebug("brj2222222222222222--------角色停留位置---------: ",self.m_player:getPositionY(),self.backOrigin)
     
     local x,y = self.m_camera:getPosition()
     
@@ -1795,6 +1795,7 @@ function MapLayer:backOriginFunc()
     self.jumpFloorNum = 1
     local _size = self.m_player:getSize()
     local floorPos = self.floorPos[self.jumpFloorNum]
+    self.m_player:toStopJump()
     self.m_player:addLifeNum(1)
     self.m_player:setPosition(cc.p(display.cx,floorPos.y+_size.height*0.5+self.m_player:getErrorValue()))
     --清除所有角色buff
@@ -1807,7 +1808,7 @@ function MapLayer:backOriginFunc()
     self.isBgMove = false
     self.bgNode:toBackOrigin()
     
-    Tools.delayCallFunc(1,function()
+    Tools.delayCallFunc(1.5,function()
         self.backOrigin = false
         self.bg:setTouchEnabled(false)
         self.bg:setTouchSwallowEnabled(false)

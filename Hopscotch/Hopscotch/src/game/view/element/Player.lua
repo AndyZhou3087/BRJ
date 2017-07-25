@@ -453,13 +453,11 @@ function Player:selfDead()
     if self:isInState(PLAYER_STATE.Rocket) then
         return
     end
-    if self.m_isDead then
-    	return
-    end
     self.m_vo.m_lifeNum = self.m_vo.m_lifeNum - 1
-    if self.m_vo.m_lifeNum <= 0 then
+    if not self.m_isDead and self.m_vo.m_lifeNum <= 0 then
         self.m_isDead = true
         if GameDataManager.getPoints() <= 20 then
+--            Tools.printDebug("--------brj 角色死亡：")
             if GameDataManager.getPoints()>=GameDataManager.getRecord() then
                 GameDataManager.saveRecord(GameDataManager.getPoints())
             end
