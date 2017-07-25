@@ -31,6 +31,7 @@ GoodsConfig[2]=
         discrebe = "幻影药水",
         res = "goods/Goods_1.png",
         limit = 5,     --幻影数量上限
+        time = 5,    --时限
     }
 
 GoodsConfig[3]=

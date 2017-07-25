@@ -13,6 +13,48 @@ local Speed_Max = 600   --人物最大速度
 local DustRepair=5
 
 
+Player._FILTERS = {
+
+        -- custom
+        {"CUSTOM"},
+
+        -- {"CUSTOM", json.encode({frag = "Shaders/example_Flower.fsh",
+        --                  center = {display.cx, display.cy},
+        --                  resolution = {480, 320}})},
+
+        {{"CUSTOM", "CUSTOM"},
+            {json.encode({frag = "Shaders/example_Blur.fsh",
+                shaderName = "blurShader",
+                resolution = {480,320},
+                blurRadius = 10,
+                sampleNum = 5}),
+            json.encode({frag = "Shaders/example_sepia.fsh",
+                shaderName = "sepiaShader",})}},
+
+        -- colors
+        {"GRAY",{0.2, 0.3, 0.5, 0.1}},
+        {"RGB",{1, 0.5, 0.3}},
+        {"HUE", {90}},
+        {"BRIGHTNESS", {0.3}},
+        {"SATURATION", {0}},
+        {"CONTRAST", {2}},
+        {"EXPOSURE", {2}},
+        {"GAMMA", {2}},
+        {"HAZE", {0.1, 0.2}},
+        --{"SEPIA", {}},
+        -- blurs
+        {"GAUSSIAN_VBLUR", {7}},
+        {"GAUSSIAN_HBLUR", {7}},
+        {"ZOOM_BLUR", {4, 0.7, 0.7}},
+        {"MOTION_BLUR", {5, 135}},
+        -- others
+        {"SHARPEN", {1, 1}},
+        {{"GRAY", "GAUSSIAN_VBLUR", "GAUSSIAN_HBLUR"}, {nil, {10}, {10}}},
+        {{"BRIGHTNESS", "CONTRAST"}, {{0.1}, {4}}},
+        {{"HUE", "SATURATION", "BRIGHTNESS"}, {{240}, {1.5}, {-0.4}}},
+}
+
+
 ---人物类
 function Player:ctor()
     Player.super.ctor(self)
@@ -34,6 +76,7 @@ function Player:ctor()
         self.m_modle=modle
         self.m_jumpModle = jump
         self.m_armature = display.newSprite(res):addTo(self)
+--        self:_showFilter(res)
         self:createModle(modle)
         self.m_armature:setScale(0.45)
         p_size = cc.size(50,75)
@@ -56,6 +99,24 @@ function Player:ctor()
     GameDispatcher:addListener(EventNames.EVENT_SPRING_ROCKET,handler(self,self.springRocket))
 
 end
+
+
+function Player:_showFilter(res)
+    if self._filterSprite then
+        self._filterSprite:removeSelf()
+        self._filterSprite = nil
+    end
+    local __curFilter = Player._FILTERS[12]
+    local __filters, __params = unpack(__curFilter)
+    if __params and #__params == 0 then
+        __params = nil
+    end
+    self.m_armature = display.newFilteredSprite(res, __filters, __params)
+--        :align(display.CENTER, display.cx, display.cy)
+        :addTo(self)
+
+end
+
 
 --创建人物模型动画
 function Player:createModle(_actionName)
@@ -224,14 +285,30 @@ function Player:phantom(parameters)
     if self:isInState(PLAYER_STATE.Rocket) then
         return
     end
-    local limit = parameters.data.limit
-    if self.phantomCount >= limit then
-    	return
+    
+    if self:isInState(PLAYER_STATE.Phantom) then
+        return
     end
-    self.phantomCount = self.phantomCount + 1
+    
+    local time = parameters.data.time
+    self:addBuff({type=PLAYER_STATE.Phantom,time = time})
+    
     if not tolua.isnull(self:getParent()) then
-        self:getParent():setPhantom(self.phantomCount)
+        self:getParent():setPhantomShow(true)
     end
+    
+    self.phantomHandler = Tools.delayCallFunc(time,function()
+        self:clearBuff(PLAYER_STATE.Phantom)
+    end)
+    
+--    local limit = parameters.data.limit
+--    if self.phantomCount >= limit then
+--    	return
+--    end
+--    self.phantomCount = self.phantomCount + 1
+--    if not tolua.isnull(self:getParent()) then
+--        self:getParent():setPhantom(self.phantomCount)
+--    end
 end
 
 --冲刺火箭
@@ -484,6 +561,14 @@ function Player:clearBuff(_type)
             self:resumeVelocLimit()
             self:setBodyVelocity(cc.p(self.m_stopVec.x,0))
             self.m_speed = self.m_stopSpeed
+        elseif _type == PLAYER_STATE.Phantom then
+            if not tolua.isnull(self:getParent()) then
+                self:getParent():setPhantomShow(false)
+            end
+            if self.phantomHandler then
+                Scheduler.unscheduleGlobal(self.phantomHandler)
+                self.phantomHandler=nil
+            end
         end
     end
 end
@@ -553,7 +638,7 @@ end
 --销毁生物
 --_isDoor：是否碰到结算门而销毁角色
 function Player:dispose(_isDoor)
---    AudioManager.clear(AudioManager.Sound_Effect_Type.Player_Normal_Step)
+    AudioManager.clear(AudioManager.Sound_Effect_Type.Jump_Sound)
 --    AudioManager.clear(AudioManager.Sound_Effect_Type.Player_Big_Sound)
 
     transition.stopTarget(self)
@@ -577,6 +662,12 @@ function Player:dispose(_isDoor)
         Scheduler.unscheduleGlobal(self.magnetHandler)
         self.magnetHandler=nil
     end
+    
+    if self.phantomHandler then
+        Scheduler.unscheduleGlobal(self.phantomHandler)
+        self.phantomHandler=nil
+    end
+    
 
     GameController.stopDetect()
 

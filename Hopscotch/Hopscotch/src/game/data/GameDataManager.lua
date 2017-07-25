@@ -333,7 +333,7 @@ function GameDataManager.useGoodsExp(_goodsId)
             GameDispatcher:dispatch(EventNames.EVENT_USE_MAGNET,{time=goodsCon.time,radius=goodsCon.radius})
         elseif goodsCon.type == GOODS_TYPE.Phantom then
             Tools.printDebug("brj 幻影药水")
-            GameDispatcher:dispatch(EventNames.EVENT_USE_PHANTOM,{limit=goodsCon.limit})
+            GameDispatcher:dispatch(EventNames.EVENT_USE_PHANTOM,{limit=goodsCon.limit,time = goodsCon.time})
         elseif goodsCon.type == GOODS_TYPE.Rocket then
             Tools.printDebug("brj 冲刺火箭")
             GameDispatcher:dispatch(EventNames.EVENT_SPRING_ROCKET,{speed = goodsCon.speed})

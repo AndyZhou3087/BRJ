@@ -755,6 +755,7 @@ function MapLayer:onEnterFrame(dt)
     if bpy < pos.y-Room_Size.height*3 then
         self:playerDead()
     end
+    
 
     local _scaleX=self.m_player:getScaleX()
     local vel=self.m_player:getBody():getVelocity()
@@ -775,7 +776,28 @@ function MapLayer:onEnterFrame(dt)
     --左右射线检测(火箭状态不做处理)
     if not self.m_player:isInState(PLAYER_STATE.Rocket) then
         self.m_physicWorld:rayCast(handler(self,self.rayCastFuncX),cc.p(_p.x,_p.y-_size.height*0.25),cc.p(_p.x+_add*(_size.width*0.5+Raycast_DisX),_p.y-_size.height*0.25))
-    end  
+    end
+    
+    
+    --=====================幻影效果
+    if self.phantomShow then
+--        Tools.printDebug("----brj hopscotch 幻影效果：",self.phantomShow,math.abs(bpx - 20),self.lastPlsyerX)
+        if not self.lastPlsyerX or math.abs(bpx - self.lastPlsyerX) > 20 then
+--            Tools.printDebug("----brj ?????????????????????????：",self.phantomShow,self.lastPlsyerX)
+            self.lastPlsyerX = bpx
+            local sprite = display.newSprite(RoleConfig[GameDataManager.getFightRole()].roleImg):addTo(self)
+            local pos = self.m_camera:convertToNodeSpace(cc.p(bpx,bpy))
+            sprite:setPosition(pos)
+            sprite:setScale(0.45)
+            sprite:setScaleX(_scaleX*0.45)
+            local fadeout = cc.FadeOut:create(1)
+            local remove = cc.RemoveSelf:create()
+            local seq = cc.Sequence:create(fadeout,remove)
+            sprite:runAction(seq)
+        end
+    end
+    
+    
     
     if self.curRoomType == MAPROOM_TYPE.Running then
 --        Tools.printDebug("brj--------横跑射线检测---------: ",_p.y,_p.y-Room_Size.height,_p.y-_size.height*0.5)
@@ -1370,6 +1392,11 @@ function MapLayer:setPhantom(count)
             var:setVisible(true)
     	end
     end
+end
+
+--设置幻影
+function MapLayer:setPhantomShow(enable)
+    self.phantomShow = enable
 end
 
 --设置火箭
