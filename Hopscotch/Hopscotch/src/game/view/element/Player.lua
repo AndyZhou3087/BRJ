@@ -79,7 +79,13 @@ function Player:ctor()
 --        self:_showFilter(res)
         self:createModle(modle)
         self.m_armature:setScale(0.45)
-        p_size = cc.size(50,75)
+        if self.m_curModle == 1 or self.m_curModle == 7 then
+            p_size = cc.size(50,75)
+            self.errorValue = 15
+        else
+            p_size = cc.size(45,65)
+            self.errorValue = 15
+        end
     else
         self.m_armature = PhysicSprite.new(res):addTo(self)
         self.m_armature:setScale(0.45)
@@ -603,6 +609,11 @@ end
 --获取跳跃值
 function Player:getJump()
 	return self.m_jump
+end
+
+--获取误差高度
+function Player:getErrorValue()
+    return self.errorValue
 end
 
 function Player:toPlay(_actionName)

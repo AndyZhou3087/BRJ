@@ -59,7 +59,7 @@ function MapLayer:ctor(parameters)
     
     local color = SceneConfig[GameDataManager.getFightScene()].bgColor
     self.bg = cc.LayerGradient:create(color[1],color[2]):addTo(self)
-    Tools.delayCallFunc(0.5,function()
+    self.touchHandler = Tools.delayCallFunc(0.5,function()
         self.bg:setTouchEnabled(false)
         self.bg:setTouchSwallowEnabled(false)
     end)
@@ -86,8 +86,9 @@ function MapLayer:ctor(parameters)
     self:addChild(self.m_player,MAP_ZORDER_MAX+1)
     local floorPos = self.floorPos[self.jumpFloorNum]
     local _size = self.m_player:getSize()
-    self.m_player:setPosition(cc.p(display.cx,floorPos.y+_size.height*0.5+27))
+    self.m_player:setPosition(cc.p(display.cx,floorPos.y+_size.height*0.5+self.m_player:getErrorValue()))
     GameController.setCurPlayer(self.m_player)
+    self.curRoomWidth = self:getRoomByIdx(1):getRoomWidth()
     
     for var=1, 5 do
         local phantom = PhantomElement.new(self:getScaleX())
@@ -104,14 +105,14 @@ end
 local lastTouchTime = 0
 function MapLayer:touchFunc(event)
     if tolua.isnull(self.m_player) or self.m_player:isDead() then
-        return true
+        return
     end
     if GameController.isInState(PLAYER_STATE.Rocket) then
         return
     end
 --    Tools.printDebug("-----------------------------self.backOrigin  ",self.backOrigin)
     if self.backOrigin then
-    	return true
+    	return
     end
     if event.name == "began" then
         if (Tools.getSysTime()-lastTouchTime)>=Sequent_Click_Time then
@@ -717,17 +718,18 @@ function MapLayer:onEnterFrame(dt)
     
     if self.backOrigin then
         local floorPos = self.floorPos[self.jumpFloorNum]
-        self.m_player:setPosition(cc.p(bpx,floorPos.y+_size.width*0.5+27))
+        self.m_player:setPosition(cc.p(bpx,floorPos.y+_size.height*0.5+self.m_player:getErrorValue()))
+--        Tools.printDebug("brj2222222222222222--------角色停留位置---------: ",floorPos.y+_size.width*0.5+self.m_player:getErrorValue())
     end
     
     local x,y = self.m_camera:getPosition()
     
 --    Tools.printDebug("brj2222222222222222--------跳房子角色坐标---------: ",bpx,x+Room_Distance.x-_size.width*0.5,x+display.width-Room_Distance.x+_size.width*0.5)
     if not self.runMapFloor or (self.jumpFloorNum ~= self.runMapFloor and self.jumpFloorNum ~= self.runMapFloor + 1) then
-        if bpx <= x+Room_Distance.x-_size.width*0.5 then
+        if bpx <= x+(display.right-self.curRoomWidth)*0.5-_size.width then
             self:playerDead()
         end
-        if bpx >= x+display.width-Room_Distance.x+_size.width*0.5 then
+        if bpx >= x+display.right-(display.right-self.curRoomWidth)*0.5+_size.width then
             self:playerDead()
         end
     end
@@ -796,8 +798,7 @@ function MapLayer:onEnterFrame(dt)
             sprite:runAction(seq)
         end
     end
-    
-    
+ 
     
     if self.curRoomType == MAPROOM_TYPE.Running then
 --        Tools.printDebug("brj--------横跑射线检测---------: ",_p.y,_p.y-Room_Size.height,_p.y-_size.height*0.5)
@@ -1047,7 +1048,7 @@ function MapLayer:collisionBeginCallBack(parameters)
                         end
                     end
                 end
-                self.m_player:setPosition(cc.p(bpx,floorPos.y+_size.width*0.5+27))
+                self.m_player:setPosition(cc.p(bpx,floorPos.y+_size.height*0.5+self.m_player:getErrorValue()))
 --                Tools.printDebug("----------brj 碰撞检测------------: ")
             end
         end
@@ -1125,7 +1126,7 @@ function MapLayer:rayCastFunc(_world,_p1,_p2,_p3)
                         end
                     end
                 end
-                self.m_player:setPosition(cc.p(bpx,floorPos.y+_size.width*0.5+27))
+                self.m_player:setPosition(cc.p(bpx,floorPos.y+_size.height*0.5+self.m_player:getErrorValue()))
             end
         end
         self.isCollision = true
@@ -1170,9 +1171,9 @@ function MapLayer:rayCastFuncY(_world,_p1,_p2,_p3)
 end
 
 function MapLayer:rayCastFuncX(_world,_p1,_p2,_p3)
-    if self.backOrigin then
-        return true
-    end
+--    if self.backOrigin then
+--        return true
+--    end
 
     local _body = _p1.shape:getBody()
     local _bnode = _body:getNode()
@@ -1247,6 +1248,7 @@ function MapLayer:CoreLogic()
             self.curRoomType = _room:getCurRoomType()
             self.curRoomDistance = _room:getRunningDistance()
             self.curRoomKey = _room:getRoomKey()
+            self.curRoomWidth = _room:getRoomWidth()
             if self.curRoomType == MAPROOM_TYPE.Running and self.curRoomDistance == MAPRUNNING_TYPE.Both then
                 if _scaleX == -1 then
                     self.otherX = _room:getRoomWidth()+_room:getPositionX()+Room_Distance.x
@@ -1752,6 +1754,9 @@ function MapLayer:backOriginFunc()
     end
 
     self.backOrigin = true
+    self.bg:setTouchEnabled(true)
+    self.bg:setTouchSwallowEnabled(true)
+    
     GameDataManager.resetPoints()
     GameDataManager.resetGameDiamond()
     local removeCount = 0
@@ -1791,7 +1796,7 @@ function MapLayer:backOriginFunc()
     local _size = self.m_player:getSize()
     local floorPos = self.floorPos[self.jumpFloorNum]
     self.m_player:addLifeNum(1)
-    self.m_player:setPosition(cc.p(display.cx,self.bottomHeight+_size.width*0.5+27))
+    self.m_player:setPosition(cc.p(display.cx,floorPos.y+_size.height*0.5+self.m_player:getErrorValue()))
     --清除所有角色buff
     self.m_player:clearAllBuff()
     
@@ -1804,6 +1809,8 @@ function MapLayer:backOriginFunc()
     
     Tools.delayCallFunc(1,function()
         self.backOrigin = false
+        self.bg:setTouchEnabled(false)
+        self.bg:setTouchSwallowEnabled(false)
         self.m_player:setDeadReback()
     end)
 --    Tools.printDebug("----------brj 摄像机坐标：",self.m_camera:getPosition())
@@ -1910,6 +1917,12 @@ function MapLayer:dispose(parameters)
             end
     	end
     end
+    
+    if self.touchHandler then
+        Scheduler.unscheduleGlobal(self.touchHandler)
+        self.touchHandler=nil
+    end
+    
 
     GameDataManager.resetPoints()
     GameDataManager.resetGameDiamond()

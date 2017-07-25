@@ -310,6 +310,12 @@ function BackGroundMove:toBackOrigin()
     self.Panel_3_0:stopAllActions()
     local move4 = cc.MoveTo:create(0.5,cc.p(self.panel3Pos2X,self.panel3Pos2Y))
     self.Panel_3_0:runAction(move4)
+    
+    self.lastPandelPosY = self.panel1PosY
+    self.lastPande2PosY = self.panel2PosY
+    self.lastPande2_0PosY = self.panel2Pos2Y
+    self.lastPande3PosY = self.panel3PosY
+    self.lastPande3_0PosY = self.panel3Pos2Y
 end
 
 

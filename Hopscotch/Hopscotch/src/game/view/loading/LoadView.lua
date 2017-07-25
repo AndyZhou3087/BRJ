@@ -56,9 +56,12 @@ function LoadView:ctor(parameters)
 --    self:setTouchEnabled(true)
     self:addNodeEventListener(cc.NODE_TOUCH_EVENT, function(event)
         if event.name == "began" then
-            Tools.printDebug("-------------------进入主场景")
-            GameDataManager.generatePlayerVo()  --产生新的角色数据对象
-            app:enterGameScene()
+            if not self.touchClick then
+            	self.touchClick = true
+                Tools.printDebug("-------------------进入主场景")
+                GameDataManager.generatePlayerVo()  --产生新的角色数据对象
+                app:enterGameScene()
+            end
             return true
         elseif event.name == "ended" then
         end
