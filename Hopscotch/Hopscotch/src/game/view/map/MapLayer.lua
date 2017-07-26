@@ -964,6 +964,11 @@ function MapLayer:onEnterFrame(dt)
             end
         end
     end
+    
+    --火箭道具第一种类型
+    if GameController.isInState(PLAYER_STATE.Rocket) and self.m_player:getRocketState()==1 then
+        self:CoreLogic()
+    end
 
 end
 
@@ -1133,8 +1138,7 @@ function MapLayer:rayCastFunc(_world,_p1,_p2,_p3)
         end
         self.isCollision = true
         
-        if not GameController.isInState(PLAYER_STATE.Rocket) or (GameController.isInState(PLAYER_STATE.Rocket)
-            and self.m_player:getRocketState()==1) then
+        if not GameController.isInState(PLAYER_STATE.Rocket) then
             self:CoreLogic()
         end
         
@@ -1528,7 +1532,6 @@ function MapLayer:toRocketRunningLogic(RocketState,curRoomKey)
         local seq = cc.Sequence:create(move,move2,callfun)
         self.m_camera:runAction(seq)
         self.isBgMove = true
---        self.bgNode:toRocketMove(self.jumpFloorNum,mx,my,self.floorPos,self.bottomHeight,count,time,time2)
     end
 end
 
