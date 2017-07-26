@@ -728,10 +728,10 @@ function MapLayer:onEnterFrame(dt)
     
 --    Tools.printDebug("brj2222222222222222--------跳房子角色坐标---------: ",bpx,x+Room_Distance.x-_size.width*0.5,x+display.width-Room_Distance.x+_size.width*0.5)
     if not self.runMapFloor or (self.jumpFloorNum ~= self.runMapFloor and self.jumpFloorNum ~= self.runMapFloor + 1) then
-        if bpx <= x+(display.right-self.curRoomWidth)*0.5-_size.width then
+        if bpx <= x-_size.width*0.5 then
             self:playerDead()
         end
-        if bpx >= x+display.right-(display.right-self.curRoomWidth)*0.5+_size.width then
+        if bpx >= x+display.right+_size.width*0.5 then
             self:playerDead()
         end
     end
@@ -1332,6 +1332,22 @@ function MapLayer:playerDead()
     self.isCollision = false
     self.m_player:selfDead()
 end
+
+--死亡时判断下方三层内宽度是否大于此层
+--function MapLayer:deadFloor(_type)
+--	if _type == 1 then
+--        local size = self.m_player:getSize()
+--        local curRoomWidth = self:getRoomByIdx(self.jumpFloorNum):getRoomWidth()
+--        local room1Width = self:getRoomByIdx(self.jumpFloorNum-1):getRoomWidth()
+--        local room2Width = self:getRoomByIdx(self.jumpFloorNum-2):getRoomWidth()
+--        if room1Width >= curRoomWidth + size.width*2 or room2Width >= curRoomWidth + size.width*2 then
+--        	return true
+--        else
+--            return false
+--        end
+--    
+--	end
+--end
 
 --双向横跑时根据编号从右边缓存中取出房间
 function MapLayer:getRightRoomByIdx(_roomIndx)
