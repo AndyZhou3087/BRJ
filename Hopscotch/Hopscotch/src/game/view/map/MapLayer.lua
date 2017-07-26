@@ -258,6 +258,7 @@ function MapLayer:addNewRooms(parameters)
             end
             local i
             if type ~= Map_Grade.floor_S then
+                Tools.printDebug("brj Hopscotch 普通组：",self.m_roomsNum,self.lastBgType)
                 if not group[1] or self.lastBgType > group[1] then
                     i = GameDataManager.getDataIdByWeight(type)
                     self.m_levelCon = config[i]
@@ -272,7 +273,6 @@ function MapLayer:addNewRooms(parameters)
                 i = GameDataManager.getDataIdByWeight(type)
                 self.m_levelCon = config[i]
             end
-            Tools.printDebug("brj Hopscotch 普通组：",i,self.lastBgType,self.m_levelCon.bgType)
             self.roomType = self.m_levelCon.roomType
             self.lastBgType = self.m_levelCon.bgType
             self.floorNum = 0

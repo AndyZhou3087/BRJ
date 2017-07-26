@@ -28,4 +28,5 @@ MapTwoLeanConfig[1]=
         direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
         distance = 30,        --房间x轴倾斜距离(单位：像素)
         probability = 5,     --权重
+        bgType = ROOMBGSIZE_TYPE.Six_1,
     } 
