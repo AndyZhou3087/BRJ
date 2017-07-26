@@ -1252,6 +1252,7 @@ function MapLayer:CoreLogic()
             self.curRoomKey = _room:getRoomKey()
             self.curRoomWidth = _room:getRoomWidth()
             self.isCloseRoom = _room:getRoomCloseValue()
+            Tools.printDebug("----------brj 当前房间是否封闭层：",self.isCloseRoom)
             if self.curRoomType == MAPROOM_TYPE.Running and self.curRoomDistance == MAPRUNNING_TYPE.Both then
                 if _scaleX == -1 then
                     self.otherX = _room:getRoomWidth()+_room:getPositionX()+Room_Distance.x
@@ -1286,8 +1287,8 @@ function MapLayer:CoreLogic()
         end
         
         --判断是否封闭房间
-        if self.isCloseRoom and self.jumpFloorNum ~= 1 then
-        	--传事件
+        if self.isCloseRoom and self.jumpFloorNum ~= 1 and not self.backOrigin then
+            --传事件
             GameDispatcher:dispatch(EventNames.EVENT_CLOSE_TIME,{floor = self.jumpFloorNum})
         else
             GameDispatcher:dispatch(EventNames.EVENT_STOP_COUNTDOWN)
@@ -1325,6 +1326,9 @@ end
 
 --游戏死亡
 function MapLayer:playerDead()
+    if self.backOrigin then
+    	return
+    end
     self.isCollision = false
     self.m_player:selfDead()
 end
@@ -1763,6 +1767,8 @@ function MapLayer:backOriginFunc()
     if GameController.isInState(PLAYER_STATE.Magnet) then
         GameController.getCurPlayer():clearBuff(PLAYER_STATE.Magnet)
     end
+    
+    GameDispatcher:dispatch(EventNames.EVENT_STOP_COUNTDOWN)
 
     self.backOrigin = true
     self.bg:setTouchEnabled(true)

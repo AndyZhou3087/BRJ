@@ -31,7 +31,7 @@ MapGroupConfigD[1]=
         roomType = MAPROOM_TYPE.Common,
         direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
         distance = 0,        --房间x轴倾斜距离(单位：像素)
-        probability = 5,     --权重
+        probability = 50,     --权重
         bgType = ROOMBGSIZE_TYPE.Seven,
     } 
     
@@ -45,7 +45,7 @@ MapGroupConfigD[2]=
         roomType = MAPROOM_TYPE.Common,
         direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
         distance = 0,        --房间x轴倾斜距离(单位：像素)
-        probability = 5, --权重
+        probability = 50, --权重
         bgType = ROOMBGSIZE_TYPE.Six_1,
     } 
     
@@ -59,7 +59,7 @@ MapGroupConfigD[3]=
         roomType = MAPROOM_TYPE.Common,
         direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
         distance = 0,        --房间x轴倾斜距离(单位：像素)
-        probability = 5, --权重
+        probability = 50, --权重
         bgType = ROOMBGSIZE_TYPE.Six_1,
     } 
     
@@ -73,7 +73,7 @@ MapGroupConfigD[4]=
         roomType = MAPROOM_TYPE.Common,
         direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
         distance = 0,        --房间x轴倾斜距离(单位：像素)
-        probability = 5,     --权重
+        probability = 50,     --权重
         bgType = ROOMBGSIZE_TYPE.Six_1,
     } 
 
@@ -87,7 +87,7 @@ MapGroupConfigD[5]=
         roomType = MAPROOM_TYPE.Common,
         direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
         distance = 0,        --房间x轴倾斜距离(单位：像素)
-        probability = 5,     --权重
+        probability = 50,     --权重
         bgType = ROOMBGSIZE_TYPE.Six_1,
     } 
   
@@ -101,7 +101,7 @@ MapGroupConfigD[6]=
         roomType = MAPROOM_TYPE.Common,
         direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
         distance = 0,        --房间x轴倾斜距离(单位：像素)
-        probability = 5,     --权重
+        probability = 50,     --权重
         bgType = ROOMBGSIZE_TYPE.Six_1,
     } 
 
@@ -115,7 +115,7 @@ MapGroupConfigD[7]=
         roomType = MAPROOM_TYPE.Common,
         direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
         distance = 0,        --房间x轴倾斜距离(单位：像素)
-        probability = 5,     --权重
+        probability = 50,     --权重
         bgType = ROOMBGSIZE_TYPE.Six_1,
     } 
 
@@ -129,7 +129,7 @@ MapGroupConfigD[8]=
         roomType = MAPROOM_TYPE.Common,
         direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
         distance = 0,        --房间x轴倾斜距离(单位：像素)
-        probability = 5,     --权重
+        probability = 50,     --权重
         bgType = ROOMBGSIZE_TYPE.Six_1,
     } 
 
@@ -143,7 +143,7 @@ MapGroupConfigD[9]=
         roomType = MAPROOM_TYPE.Common,
         direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
         distance = 0,        --房间x轴倾斜距离(单位：像素)
-        probability = 5,     --权重
+        probability = 50,     --权重
         bgType = ROOMBGSIZE_TYPE.Six_1,
     } 
 
@@ -157,7 +157,7 @@ MapGroupConfigD[10]=
         roomType = MAPROOM_TYPE.Common,
         direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
         distance = 0,        --房间x轴倾斜距离(单位：像素)
-        probability = 5,     --权重
+        probability = 50,     --权重
         bgType = ROOMBGSIZE_TYPE.Six_1,
     } 
 
@@ -171,7 +171,7 @@ MapGroupConfigD[11]=
         roomType = MAPROOM_TYPE.Common,
         direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
         distance = 0,        --房间x轴倾斜距离(单位：像素)
-        probability = 5,     --权重
+        probability = 50,     --权重
         bgType = ROOMBGSIZE_TYPE.Six_1,
     } 
 
@@ -185,7 +185,7 @@ MapGroupConfigD[12]=
         roomType = MAPROOM_TYPE.Common,
         direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
         distance = 0,        --房间x轴倾斜距离(单位：像素)
-        probability = 5,     --权重
+        probability = 50,     --权重
         bgType = ROOMBGSIZE_TYPE.Six_1,
     } 
 
@@ -199,7 +199,7 @@ MapGroupConfigD[13]=
         roomType = MAPROOM_TYPE.Common,
         direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
         distance = 0,        --房间x轴倾斜距离(单位：像素)
-        probability = 5,     --权重
+        probability = 50,     --权重
         bgType = ROOMBGSIZE_TYPE.Six_1,
     } 
 
@@ -213,7 +213,7 @@ MapGroupConfigD[14]=
         roomType = MAPROOM_TYPE.Common,
         direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
         distance = 0,        --房间x轴倾斜距离(单位：像素)
-        probability = 5,     --权重
+        probability = 50,     --权重
         bgType = ROOMBGSIZE_TYPE.Six_1,
     } 
 
@@ -227,7 +227,7 @@ MapGroupConfigD[15]=
         roomType = MAPROOM_TYPE.Common,
         direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
         distance = 0,        --房间x轴倾斜距离(单位：像素)
-        probability = 5,     --权重
+        probability = 50,     --权重
         bgType = ROOMBGSIZE_TYPE.Six_1,
     }
     
@@ -241,7 +241,7 @@ MapGroupConfigD[16]=
         roomType = MAPROOM_TYPE.Common,
         direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
         distance = 0,        --房间x轴倾斜距离(单位：像素)
-        probability = 5,     --权重
+        probability = 50,     --权重
         bgType = ROOMBGSIZE_TYPE.Six_1,
     } 
 
@@ -255,7 +255,7 @@ MapGroupConfigD[17]=
         roomType = MAPROOM_TYPE.Common,
         direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
         distance = 0,        --房间x轴倾斜距离(单位：像素)
-        probability = 5,     --权重
+        probability = 50,     --权重
         bgType = ROOMBGSIZE_TYPE.Six_1,
     } 
 
@@ -269,7 +269,7 @@ MapGroupConfigD[18]=
         roomType = MAPROOM_TYPE.Common,
         direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
         distance = 0,        --房间x轴倾斜距离(单位：像素)
-        probability = 5,     --权重
+        probability = 50,     --权重
         bgType = ROOMBGSIZE_TYPE.Six_1,
     } 
 
@@ -283,7 +283,7 @@ MapGroupConfigD[19]=
         roomType = MAPROOM_TYPE.Common,
         direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
         distance = 0,        --房间x轴倾斜距离(单位：像素)
-        probability = 5,     --权重
+        probability = 50,     --权重
         bgType = ROOMBGSIZE_TYPE.Six_1,
     } 
 
@@ -297,7 +297,7 @@ MapGroupConfigD[20]=
         roomType = MAPROOM_TYPE.Common,
         direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
         distance = 0,        --房间x轴倾斜距离(单位：像素)
-        probability = 5,     --权重
+        probability = 50,     --权重
         bgType = ROOMBGSIZE_TYPE.Six_1,
     } 
 
@@ -314,11 +314,11 @@ MapGroupConfigD[20]=
         lineX = {Room_Distance.x+0,Room_Distance.x+668},    --钢架线离边距的距离
         direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
         distance = 0,        --房间x轴倾斜距离(单位：像素)
-        probability = 20,     --权重
+        probability = 60,     --权重
         bgType = ROOMBGSIZE_TYPE.Six_1,
     } 
 
-     MapGroupConfigD[22]= 
+MapGroupConfigD[22]= 
     { 
         _id=22, 
         roomBgs={201,201,201,201,201,201,201,201,201,1}, --房间背景地面
@@ -331,48 +331,7 @@ MapGroupConfigD[20]=
         lineX = {Room_Distance.x+0,Room_Distance.x+668},    --钢架线离边距的距离
         direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
         distance = 0,        --房间x轴倾斜距离(单位：像素)
-        probability = 20,     --权重
-        bgType = ROOMBGSIZE_TYPE.Six_1,
-    } 
-
-MapGroupConfigD[23]= 
-    { 
-        _id=23, 
-        roomBgs={3,8,13,14,5,12,18,19,7,1}, --房间背景地面
-        ornaments={6,16,34,28,14,19,22,35,18,2}, ---小挂件
-        coins={0,0,1,0,0,0,0,0,0,0}, ---钻石
-        roomGoods={0,0,0,0,0,0,0,0,0,0}, ---道具
-        roomType = MAPROOM_TYPE.Common,
-        direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
-        distance = 0,        --房间x轴倾斜距离(单位：像素)
-        probability = 3,     --权重
-        bgType = ROOMBGSIZE_TYPE.Six_1,
-    } 
-
-MapGroupConfigD[24]= 
-    { 
-        _id=24, 
-        roomBgs={13,18,15,5,8,17,7,12,5,1}, --房间背景地面
-        ornaments={16,27,32,48,6,14,22,35,18,2}, ---小挂件
-        coins={0,0,0,0,0,0,0,0,1,0}, ---钻石
-        roomGoods={0,0,0,0,0,0,0,0,0,0}, ---道具
-        roomType = MAPROOM_TYPE.Common,
-        direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
-        distance = 0,        --房间x轴倾斜距离(单位：像素)
-        probability = 3,     --权重
-        bgType = ROOMBGSIZE_TYPE.Six_1,
-    } 
-
-MapGroupConfigD[25]= 
-    { 
-        _id=25, 
-        roomBgs={17,15,18,7,12,5,16,7,2,1}, --房间背景地面
-        ornaments={35,42,47,16,35,18,19,24,35,3}, ---小挂件
-        coins={0,0,0,0,0,0,0,0,0,0}, ---钻石
-        roomGoods={0,0,0,0,0,0,0,1,0,0}, ---道具
-        roomType = MAPROOM_TYPE.Common,
-        direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
-        distance = 0,        --房间x轴倾斜距离(单位：像素)
-        probability = 3,     --权重
+        probability = 60,     --权重
         bgType = ROOMBGSIZE_TYPE.Six_1,
     }
+

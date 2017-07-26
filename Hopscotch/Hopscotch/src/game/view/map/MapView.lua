@@ -116,6 +116,10 @@ end
 function MapView:stopProcess()
     self.process:stopAllActions()
     self.process:setPercentage(100)
+    if self.timeHandler then
+        Scheduler.unscheduleGlobal(self.timeHandler)
+        self.timeHandler=nil
+    end
 end
 
 function MapView:dispose(parameters)

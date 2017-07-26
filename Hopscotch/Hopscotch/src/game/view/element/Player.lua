@@ -454,6 +454,7 @@ function Player:selfDead()
         return
     end
     self.m_vo.m_lifeNum = self.m_vo.m_lifeNum - 1
+    Tools.printDebug("--------brj 角色死亡：",self.m_vo.m_lifeNum)
     if not self.m_isDead and self.m_vo.m_lifeNum <= 0 then
         self.m_isDead = true
         if GameDataManager.getPoints() <= 20 then
@@ -490,6 +491,7 @@ end
 --增加一条生命
 function Player:addLifeNum(_count)
     self.m_vo.m_lifeNum = self.m_vo.m_lifeNum + _count
+    Tools.printDebug("------------------brj 添加生命：",_count,self.m_vo.m_lifeNum)
 end
 
 --改变速度
@@ -591,6 +593,7 @@ function Player:isInState(_state)
 end
 --判断角色是否死亡
 function Player:isDead()
+--    Tools.printDebug("-------------------角色死亡：",self.m_vo.m_lifeNum)
     return self.m_vo.m_lifeNum<=0
 end
 
