@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfGuidesProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <GuidesProject>
+    <Project>MainUI</Project>
+    <GuidesList />
+  </GuidesProject>
+  <GuidesProject>
+    <Project>SetUI</Project>
+    <GuidesList />
+  </GuidesProject>
+  <GuidesProject>
+    <Project>PauseUI</Project>
+    <GuidesList />
+  </GuidesProject>
+  <GuidesProject>
+    <Project>SettlementUI</Project>
+    <GuidesList />
+  </GuidesProject>
+  <GuidesProject>
+    <Project>ShopView</Project>
+    <GuidesList />
+  </GuidesProject>
+  <GuidesProject>
+    <Project>MapView</Project>
+    <GuidesList />
+  </GuidesProject>
+  <GuidesProject>
+    <Project>SceneBg_1</Project>
+    <GuidesList />
+  </GuidesProject>
+  <GuidesProject>
+    <Project>SceneBg_5</Project>
+    <GuidesList />
+  </GuidesProject>
+  <GuidesProject>
+    <Project>SceneBg_2</Project>
+    <GuidesList />
+  </GuidesProject>
+  <GuidesProject>
+    <Project>SceneBg_3</Project>
+    <GuidesList />
+  </GuidesProject>
+  <GuidesProject>
+    <Project>SceneBg_4</Project>
+    <GuidesList />
+  </GuidesProject>
+  <GuidesProject>
+    <Project>SceneBg_6</Project>
+    <GuidesList />
+  </GuidesProject>
+  <GuidesProject>
+    <Project>SceneBg_7</Project>
+    <GuidesList />
+  </GuidesProject>
+  <GuidesProject>
+    <Project>SceneBg_8</Project>
+    <GuidesList />
+  </GuidesProject>
+  <GuidesProject>
+    <Project>SceneBg_9</Project>
+    <GuidesList />
+  </GuidesProject>
+  <GuidesProject>
+    <Project>SceneBg_10</Project>
+    <GuidesList />
+  </GuidesProject>
+</ArrayOfGuidesProject>

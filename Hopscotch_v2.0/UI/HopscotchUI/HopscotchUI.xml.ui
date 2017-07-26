@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<UIProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <ProjectDir>G:\dev\BRJ\Hopscotch\UI\HopscotchUI</ProjectDir>
+  <Version>1.6.0.0</Version>
+  <Resources>G:\dev\BRJ\Hopscotch\UI\HopscotchUI\Resources</Resources>
+  <Name>HopscotchUI</Name>
+  <JsonFileName>HopscotchUI.json</JsonFileName>
+  <JsonFolder>G:\dev\BRJ\Hopscotch\UI\HopscotchUI\Json</JsonFolder>
+  <JsonList>
+    <string>MainUI.json</string>
+    <string>SetUI.json</string>
+    <string>PauseUI.json</string>
+    <string>SettlementUI.json</string>
+    <string>ShopView.json</string>
+    <string>MapView.json</string>
+    <string>SceneBg_1.json</string>
+    <string>SceneBg_5.json</string>
+    <string>SceneBg_2.json</string>
+    <string>SceneBg_3.json</string>
+    <string>SceneBg_4.json</string>
+    <string>SceneBg_6.json</string>
+    <string>SceneBg_7.json</string>
+    <string>SceneBg_8.json</string>
+    <string>SceneBg_9.json</string>
+    <string>SceneBg_10.json</string>
+  </JsonList>
+  <CanvasSize>
+    <Width>750</Width>
+    <Height>1334</Height>
+  </CanvasSize>
+  <filePath>G:\dev\BRJ\Hopscotch\UI\HopscotchUI\HopscotchUI.xml.ui</filePath>
+  <ProjectType>UIProject</ProjectType>
+  <ResRelativePath />
+  <imageFileList />
+  <imagePngList />
+  <JsonSuffix>.json</JsonSuffix>
+  <CurrentUIJson>ShopView.json</CurrentUIJson>
+</UIProject>
