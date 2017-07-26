@@ -18,7 +18,7 @@ MapGroupConfigC={}
 --    roomGoods = {0,0,0,0,0,1,0},
 --}
 
-MapGroupC = {ROOMBGSIZE_TYPE.Six_1,ROOMBGSIZE_TYPE.Six}
+MapGroupC = {}
 
 MapGroupConfigC[1]= 
     { 

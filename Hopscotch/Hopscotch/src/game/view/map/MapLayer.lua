@@ -143,7 +143,7 @@ function MapLayer:initRooms(parameters)
         --控制随机数种子
         if k > 1 then
             local i
-            if self.lastBgType > MapGroupD[1] then
+            if not MapGroupD[1] or self.lastBgType > MapGroupD[1] then
                 i = GameDataManager.getDataIdByWeight(Map_Grade.floor_D)
                 self.m_levelCon = MapGroupConfigD[i] 
             elseif not MapGroupD[2] or self.lastBgType > MapGroupD[2] then
@@ -258,9 +258,9 @@ function MapLayer:addNewRooms(parameters)
             end
             local i
             if type ~= Map_Grade.floor_S then
-                if self.lastBgType > MapGroupD[1] then
+                if not group[1] or self.lastBgType > group[1] then
                     i = GameDataManager.getDataIdByWeight(type)
-                    self.m_levelCon = config[i] 
+                    self.m_levelCon = config[i]
                 elseif not group[2] or self.lastBgType > group[2] then
                     i = GameDataManager.getDataIdByWeight(type,group[1])
                     self.m_levelCon = GameDataManager.getMpaGradeTable(type,group[1])[i]

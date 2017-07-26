@@ -416,8 +416,10 @@ function GameDataManager.initSpecialWeight()
                 bgWeight[var] = {}
             end
             local arr = {}
-            arr,bgWeight[var][_group[1]] = GameDataManager.getSorting(bgConfig[var][_group[1]])
-            bgConfig[var][_group[1]] = {}
+            if _group[1] then
+                arr,bgWeight[var][_group[1]] = GameDataManager.getSorting(bgConfig[var][_group[1]])
+                bgConfig[var][_group[1]] = {}
+            end
             for vr=1, #arr do
                 bgConfig[var][_group[1]][arr[vr]._id] = arr[vr]
             end
@@ -461,15 +463,15 @@ function GameDataManager.getMapInArr(_type)
     end
     for var=1, #config do
         local info = config[var]
-        if not bgConfig[_type][group[1]] then
+        if group[1] and not bgConfig[_type][group[1]] then
             bgConfig[_type][group[1]] = {}
         end
         if group[2] and not bgConfig[_type][group[2]] then
             bgConfig[_type][group[2]] = {}
         end
-        if info.bgType == group[1] then
+        if group[1] and info.bgType == group[1] then
             bgConfig[_type][group[1]][info._id] = info;
-        elseif info.bgType == group[2] then
+        elseif group[2] and info.bgType == group[2] then
             bgConfig[_type][group[1]][info._id] = info;
             bgConfig[_type][group[2]][info._id] = info;
         end
