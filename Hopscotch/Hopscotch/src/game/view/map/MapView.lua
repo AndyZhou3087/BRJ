@@ -25,7 +25,8 @@ function MapView:ctor(parameters)
     self.RecordScroe:setString(GameDataManager.getRecord())
     
     self.Score = cc.uiloader:seekNodeByName(self.m_mapView,"Score")
-    self.Score:setPositionY(display.top-144)
+--    self.Score:setPositionY(display.top-144)
+    self.Score:setPositionY(display.top-65)
     self.Score:setString(1)
     
     self.PauseBtn = cc.uiloader:seekNodeByName(self.m_mapView,"PauseBtn")
@@ -45,6 +46,7 @@ function MapView:ctor(parameters)
     
     self.proBg = cc.uiloader:seekNodeByName(self.m_mapView,"Image_9")
     self.proBg:setPositionY(display.top-56)
+    self.proBg:setVisible(false)
     --进度条
     local fill = display.newSprite("ui/Time_process.png")
     self.process = display.newProgressTimer(fill, display.PROGRESS_TIMER_BAR):addTo(self.proBg)

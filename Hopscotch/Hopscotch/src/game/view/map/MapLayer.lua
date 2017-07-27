@@ -1305,12 +1305,12 @@ function MapLayer:CoreLogic()
         end
         
         --判断是否封闭房间
-        if self.isCloseRoom and self.jumpFloorNum ~= 1 and not self.backOrigin then
-            --传事件
-            GameDispatcher:dispatch(EventNames.EVENT_CLOSE_TIME,{floor = self.jumpFloorNum})
-        else
-            GameDispatcher:dispatch(EventNames.EVENT_STOP_COUNTDOWN)
-        end
+--        if self.isCloseRoom and self.jumpFloorNum ~= 1 and not self.backOrigin then
+--            --传事件
+--            GameDispatcher:dispatch(EventNames.EVENT_CLOSE_TIME,{floor = self.jumpFloorNum})
+--        else
+--            GameDispatcher:dispatch(EventNames.EVENT_STOP_COUNTDOWN)
+--        end
     end
 
     if self.curRoomType == MAPROOM_TYPE.Running then
