@@ -888,23 +888,6 @@ MapGroupConfigA[80]=
         probability = 50,     --权重
         bgType = ROOMBGSIZE_TYPE.Five,
     } 
-
-     MapGroupConfigD[92]= 
-    { 
-        _id=92, 
-        roomBgs={2005,2005,2005,2005,2005,2005,2005,2005,2005,128}, --房间背景地面
-        ornaments={2202,2201,2202,2201,2202,2201,2202,2201,2202,203}, ---小挂件
-        coins={0,0,0,0,0,0,0,0,0,0}, ---钻石
-        roomGoods={0,0,0,0,0,0,0,0,0,0}, ---道具
-        roomType = MAPROOM_TYPE.Special,
-        left = {3,6,8},     --左边默认停留的楼层位置
-        right = {2,4,9},    --右边默认停留的楼层位置
-        lineX = {Room_Distance.x+94,Room_Distance.x+575},    --钢架线离边距的距离
-        direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
-        distance = 0,        --房间x轴倾斜距离(单位：像素)
-        probability = 50,     --权重
-        bgType = ROOMBGSIZE_TYPE.Five,
-    } 
 --=======================================================================四块半钢架楼层
 MapGroupConfigA[111]= 
     { 

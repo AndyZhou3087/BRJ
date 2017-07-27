@@ -150,10 +150,12 @@ function MapLayer:initRooms(parameters)
             local i
             if not MapGroupD[1] or self.lastBgType > MapGroupD[1] then
                 i = GameDataManager.getDataIdByWeight(Map_Grade.floor_D)
-                self.m_levelCon = MapGroupConfigD[i] 
+                self.m_levelCon = MapGroupConfigD[i]
+                Tools.printDebug("----111111111111111111---------------",i)
             elseif not MapGroupD[2] or self.lastBgType > MapGroupD[2] then
                 i = GameDataManager.getDataIdByWeight(Map_Grade.floor_D,MapGroupD[1])
                 self.m_levelCon = GameDataManager.getMpaGradeTable(Map_Grade.floor_D,MapGroupD[1])[i]
+                Tools.printDebug("----2222222222222222222---------------",i)
             else
                 i = GameDataManager.getDataIdByWeight(Map_Grade.floor_D,MapGroupD[2])
                 self.m_levelCon = GameDataManager.getMpaGradeTable(Map_Grade.floor_D,MapGroupD[2])[i]
