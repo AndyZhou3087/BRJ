@@ -461,8 +461,8 @@ function GameDataManager.getMapInArr(_type)
         config = MapGroupConfigA
         group = MapGroupA
     end
-    for var=1, #config do
-        local info = config[var]
+    for key, var in pairs(config) do
+        local info = var
         if group[1] and not bgConfig[_type][group[1]] then
             bgConfig[_type][group[1]] = {}
         end
@@ -485,29 +485,6 @@ function GameDataManager.getSorting(arr)
     local _weight = 0
     for key, var in pairs(arr) do
         table.insert(configArr,var)
-    end
-    for vr=1, #configArr do
-        for var=vr+1, #configArr do
-            if configArr[vr].probability > configArr[var].probability then
-                local temp
-                temp = configArr[vr]
-                configArr[vr] = configArr[var]
-                configArr[var] = temp
-            end
-        end
-    end
-    for key, var in pairs(arr) do
-        _weight = _weight + var.probability
-    end
-    return configArr,_weight
-end
-
---内部组合排序
-function GameDataManager.getInSorting(arr)
-    local configArr = {}
-    local _weight = 0
-    for key, var in pairs(arr) do
-        configArr[var._id] = var
     end
     for vr=1, #configArr do
         for var=vr+1, #configArr do

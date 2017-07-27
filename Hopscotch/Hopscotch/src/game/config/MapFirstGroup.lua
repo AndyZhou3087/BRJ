@@ -102,3 +102,16 @@ MapFirstGroup[5]=
         bgType = ROOMBGSIZE_TYPE.Seven,
     } 
     
+MapFirstGroup[6]= 
+    { 
+        _id=6, 
+        roomBgs={41,47,45,48,45,39,33,42,34,38}, --房间背景地面
+        ornaments={83,78,79,56,92,67,76,58,94,53}, ---小挂件
+        coins={1,1,1,1,1,1,1,1,1,1}, --钻石(随机出现层数、次数和位置)
+        roomGoods={1,1,1,1,1,1,1,1,1,1}, ---道具
+        roomType = MAPROOM_TYPE.Common,
+        direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
+        distance = 0,        --房间x轴倾斜距离(单位：像素)
+        probability = 0,     --权重
+        bgType = ROOMBGSIZE_TYPE.Six_1,
+   } 
