@@ -65,4 +65,7 @@ EventNames.EVENT_STOP_COUNTDOWN = "event_stop_countdown"
 --游戏死亡
 EventNames.EVENT_GAME_OVER = "event_game_over"
 
+--开局冲刺
+EventNames.EVENT_START_ROCKET = "event_start_rocket"
+
 return EventNames

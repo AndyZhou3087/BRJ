@@ -37,7 +37,7 @@ function ShopItem:initRole(parameters)
         if GameDataManager.getRoleModle(self.id) then
             self.img:setColor(cc.c3b(255,255,255))
         else
-            self.img:setColor(cc.c3b(0,0,0))
+            self.img:setColor(cc.c3b(20,20,20))
         end
     end
     self:addChild(self.img)
@@ -55,7 +55,7 @@ function ShopItem:initScene(parameters)
         if GameDataManager.getSceneModle(self.id) then
             self.img:setColor(cc.c3b(255,255,255))
         else
-            self.img:setColor(cc.c3b(0,0,0))
+            self.img:setColor(cc.c3b(20,20,20))
         end
     end
     self:addChild(self.img)

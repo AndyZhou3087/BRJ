@@ -75,13 +75,23 @@ function SettlementUI:initMiddle()
     self.framebtn2 = cc.uiloader:seekNodeByName(self.m_json,"framebtn2")
     self.framebtn3 = cc.uiloader:seekNodeByName(self.m_json,"framebtn3")
     self.framebtn4 = cc.uiloader:seekNodeByName(self.m_json,"framebtn4")
+    self.frame_4:setVisible(false)
     
     --
     self.framebtn1:onButtonClicked(function (event)
         Tools.printDebug("brj hopscotch 免费钻石")
     end)
     self.framebtn2:onButtonClicked(function (event)
-        Tools.printDebug("brj hopscotch 获取钻石")
+        Tools.printDebug("--------brj 看视频得钻石")
+        SDKUtil.getDiamondByVideo({callback=function(_res)
+            if SDKUtil.PayResult.Success == _res then
+                local diaCount = math.random(VideoDiamond[1],VideoDiamond[2])
+                GameDataManager.addDiamond(diaCount)
+                GameDispatcher:dispatch(EventNames.EVENT_FLY_TEXT,{text ="获得"..diaCount.."钻石"})
+            else
+                GameDispatcher:dispatch(EventNames.EVENT_FLY_TEXT,{text ="获取失败"})
+            end
+        end})
     end)
     self.framebtn3:onButtonClicked(function (event)
         Tools.printDebug("brj hopscotch 获取奖励")

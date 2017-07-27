@@ -5,6 +5,8 @@ local BaseUI = require("game.view.BaseUI")
 local LoadView = class("LoadView",BaseUI)
 local Scheduler = require("framework.scheduler")
 
+math.randomseed(os.time())   --初始化随机种子
+
 function LoadView:ctor(parameters)
     LoadView.super.ctor(self)
     
@@ -50,7 +52,16 @@ function LoadView:ctor(parameters)
         self.tv2:setButtonImage("disabled","main/Main_tv_1.png")
     end)
     self.tv:onButtonClicked(function (event)
-
+        Tools.printDebug("--------brj 看视频得钻石")
+        SDKUtil.getDiamondByVideo({callback=function(_res)
+            if SDKUtil.PayResult.Success == _res then
+                local diaCount = math.random(VideoDiamond[1],VideoDiamond[2])
+                GameDataManager.addDiamond(diaCount)
+                GameDispatcher:dispatch(EventNames.EVENT_FLY_TEXT,{text ="获得"..diaCount.."钻石"})
+            else
+                GameDispatcher:dispatch(EventNames.EVENT_FLY_TEXT,{text ="获取失败"})
+            end
+        end})
     end)
 
 --    self:setTouchEnabled(true)

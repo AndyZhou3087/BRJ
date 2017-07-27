@@ -105,7 +105,14 @@ function MapLayer:ctor(parameters)
     self:setCameraMask(2)
     
     GameDispatcher:addListener(EventNames.EVENT_GAME_OVER,handler(self,self.playerDead))
+    --看视频或花费钻石开局冲刺
+    GameDispatcher:addListener(EventNames.EVENT_START_ROCKET,handler(self,self.startRocket))
 
+end
+
+function MapLayer:startRocket(parameters)
+    local floor = math.random(OpenRocketFloor[1],OpenRocketFloor[2])
+    
 end
 
 --触摸
@@ -166,6 +173,7 @@ function MapLayer:initRooms(parameters)
             if self.m_levelCon.transit_1 then
             	self.transit_1 = true
             end
+            self.groupType = Map_Grade.floor_D
         else
             local i = GameDataManager.getDataIdByWeight(-1)
             self.m_levelCon = MapFirstGroup[i]
@@ -248,14 +256,26 @@ function MapLayer:addNewRooms(parameters)
                 type = Map_Grade.floor_S
                 config = MapGroupConfigS
             elseif self.m_roomsNum >= Map_Grade.floor_A then
+                if self.groupType ~= Map_Grade.floor_A then
+                    self.transit = false
+                    self.transit_1 = false
+                end
                 type = Map_Grade.floor_A
                 config = MapGroupConfigA
                 group = MapGroupA
             elseif self.m_roomsNum >= Map_Grade.floor_B then
+                if self.groupType ~= Map_Grade.floor_B then
+                    self.transit = false
+                    self.transit_1 = false
+                end
                 type = Map_Grade.floor_B
                 config = MapGroupConfigB
                 group = MapGroupB
             elseif self.m_roomsNum >= Map_Grade.floor_C then
+                if self.groupType ~= Map_Grade.floor_C then
+                    self.transit = false
+                    self.transit_1 = false
+                end
                 type = Map_Grade.floor_C
                 config = MapGroupConfigC
                 group = MapGroupC
@@ -287,6 +307,7 @@ function MapLayer:addNewRooms(parameters)
             if self.m_levelCon.transit_1 then
                 self.transit_1 = true
             end
+            self.groupType = type
             self.roomType = self.m_levelCon.roomType
             self.lastBgType = self.m_levelCon.bgType
             self.floorNum = 0
@@ -1907,6 +1928,7 @@ function MapLayer:dispose(parameters)
     self:removeNodeEventListenersByEvent(cc.NODE_ENTER_FRAME_EVENT)
     --移除其它事件
     GameDispatcher:removeListenerByName(EventNames.EVENT_GAME_OVER)
+    GameDispatcher:removeListenerByName(EventNames.EVENT_START_ROCKET)
 
 
     if self.m_player then

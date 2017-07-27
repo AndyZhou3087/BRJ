@@ -59,6 +59,21 @@ function SDKUtil.getOrderId(_goodsId)
     return "20170310"..tostring(_goodsId)..TimeUtil.getTimeStamp()..os.clock()..math.random(1,10000)
 end
 
+--看视频得钻石
+function SDKUtil.getDiamondByVideo(_data)
+    local params = {_data.callback}
+    local sigs = "(I)V"
+    if luaj then
+        luaj.callStaticMethod(className,"getDiamondByVideo",params,sigs)
+        return
+    end
+    if luaoc then
+        luaoc.callStaticMethod(className,"getDiamondByVideo",params,sigs)
+        return
+    end
+    _data.callback(SDKUtil.PayResult.Success)
+end
+
 --调用友盟付费计录
 function SDKUtil.umentPay(_cost,_diamonds)
     local params = {_cost,_diamonds,UMPaySource}

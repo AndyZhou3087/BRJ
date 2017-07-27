@@ -7,6 +7,8 @@ local ShopView = class("ShopView",BaseUI)
 local CustomListView = require("game.custom.CustomListView")
 local ShopItem = require("game.view.shop.ShopItem")
 
+local Scheduler = require("framework.scheduler")
+
 local shopX = {300,450,600,750,900,1050,1200,150,0}
 local sceneX = {340,510,680,850,1020,1190,1360,1530,1700,1870,2040,2210,170,0}
 local roleX = {300,450,600,750,900,1050,1200,1350,1500,1650,1800,1950,150,0}
@@ -211,7 +213,43 @@ function ShopView:ctor(parameters)
     GameDispatcher:addListener(EventNames.EVENT_UPDATE_SCENE,handler(self,self.updateScene))
     GameDispatcher:addListener(EventNames.EVENT_DIAMOND_CHANGE,handler(self,self.updateDiamond))
     GameDispatcher:addListener(EventNames.EVENT_UPDATE_ROLE,handler(self,self.updateRole))
+    
+    
+    -----------==============测试
+--    self:test()
 
+end
+
+function ShopView:test()
+    self.lv = cc.ui.UIListView.new {
+        bgScale9 = true,
+        viewRect = cc.rect(0, 0, display.width, 200),
+        direction = cc.ui.UIScrollView.DIRECTION_HORIZONTAL}
+        :onTouch(handler(self, self.touchListener))
+        :addTo(self)
+    self.lv:setPosition(cc.p(0,display.cy))
+    
+    for i=1,#RoleConfig do
+        local item = self.lv:newItem()
+        local content = display.newSprite(RoleConfig[GameDataManager.getFightRole()].roleImg)
+        local size = content:getCascadeBoundingBox().size
+        content:setTouchEnabled(false)
+        content:setContentSize(size.width, size.height)
+        item:setItemSize(size.width*1.5, size.height)
+        item:addContent(content)
+        self.lv:addItem(item)
+    end
+    self.lv:reload()
+    
+    self.ooh = Scheduler.scheduleGlobal(handler(self,self.onEnterFrame),0.01)
+end
+
+function ShopView:onEnterFrame()
+    print("000000000000000000000---------------------  ",self.lv.scrollNode:getPositionX())
+end
+
+function ShopView:touchListener(event)
+	
 end
 
 function ShopView:initRoleList()

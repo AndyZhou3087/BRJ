@@ -14,6 +14,12 @@ InitDiamond = 20
 --获取礼物花费钻石的数量
 DiamondSpendReward = 100
 
+--看视频得钻石随机范围
+VideoDiamond = {50,100}
+--开局冲刺随机层数
+OpenRocketFloor = {70,120}
+
+
 --视觉开关
 Game_Visible = true
 
