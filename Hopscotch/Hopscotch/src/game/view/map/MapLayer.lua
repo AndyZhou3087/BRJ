@@ -59,6 +59,11 @@ function MapLayer:ctor(parameters)
     
     local color = SceneConfig[GameDataManager.getFightScene()].bgColor
     self.bg = cc.LayerGradient:create(color[1],color[2]):addTo(self)
+    
+    if self.touchHandler then
+        Scheduler.unscheduleGlobal(self.touchHandler)
+        self.touchHandler=nil
+    end
     self.touchHandler = Tools.delayCallFunc(0.5,function()
         self.bg:setTouchEnabled(false)
         self.bg:setTouchSwallowEnabled(false)
@@ -1844,7 +1849,11 @@ function MapLayer:backOriginFunc()
     self.isBgMove = false
     self.bgNode:toBackOrigin()
     
-    Tools.delayCallFunc(1.5,function()
+    if self.delayHandler then
+        Scheduler.unscheduleGlobal(self.delayHandler)
+        self.delayHandler=nil
+    end
+    self.delayHandler = Tools.delayCallFunc(1,function()
         self.backOrigin = false
         self.bg:setTouchEnabled(false)
         self.bg:setTouchSwallowEnabled(false)
@@ -1958,6 +1967,11 @@ function MapLayer:dispose(parameters)
     if self.touchHandler then
         Scheduler.unscheduleGlobal(self.touchHandler)
         self.touchHandler=nil
+    end
+    
+    if self.delayHandler then
+        Scheduler.unscheduleGlobal(self.delayHandler)
+        self.delayHandler=nil
     end
     
 
