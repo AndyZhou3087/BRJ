@@ -18,7 +18,7 @@ MapGroupConfigD={}
 --    roomGoods = {0,0,0,0,0,1,0},
 --}
 
-MapGroupD = {ROOMBGSIZE_TYPE.Six_1}
+MapGroupD = {ROOMBGSIZE_TYPE.Seven,ROOMBGSIZE_TYPE.Six_1}
 
 --七块地板普通楼层1-30
 --六块地板普通楼层31-60
@@ -38,6 +38,7 @@ MapGroupConfigD[1]=
         distance = 0,        --房间x轴倾斜距离(单位：像素)
         probability = 5,     --权重
         bgType = ROOMBGSIZE_TYPE.Seven,
+        transit = true,
     } 
     
 MapGroupConfigD[2]= 
@@ -319,6 +320,7 @@ MapGroupConfigD[31]=
         distance = 0,        --房间x轴倾斜距离(单位：像素)
         probability = 5,     --权重
         bgType = ROOMBGSIZE_TYPE.Six_1,
+        transit_1 = true,
     } 
     
 MapGroupConfigD[32]= 

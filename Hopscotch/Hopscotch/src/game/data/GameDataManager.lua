@@ -431,6 +431,14 @@ function GameDataManager.initSpecialWeight()
                     bgConfig[var][_group[2]][arr2[v]._id] = arr2[v]
                 end
             end
+            if _group[3] then
+                local arr2 = {}
+                arr2,bgWeight[var][_group[3]] = GameDataManager.getSorting(bgConfig[var][_group[3]])
+                bgConfig[var][_group[3]] = {}
+                for v=1, #arr2 do
+                    bgConfig[var][_group[3]][arr2[v]._id] = arr2[v]
+                end
+            end
         end
     end
 end
@@ -469,11 +477,15 @@ function GameDataManager.getMapInArr(_type)
         if group[2] and not bgConfig[_type][group[2]] then
             bgConfig[_type][group[2]] = {}
         end
+        if group[3] and not bgConfig[_type][group[3]] then
+            bgConfig[_type][group[3]] = {}
+        end
         if group[1] and info.bgType == group[1] then
             bgConfig[_type][group[1]][info._id] = info;
         elseif group[2] and info.bgType == group[2] then
-            bgConfig[_type][group[1]][info._id] = info;
             bgConfig[_type][group[2]][info._id] = info;
+        elseif group[3] and info.bgType == group[3] then
+            bgConfig[_type][group[3]][info._id] = info;
         end
     end
     return bgConfig[_type][group[1]],bgConfig[_type][group[2]]
@@ -517,6 +529,9 @@ function GameDataManager.getDataIdByWeight(_type,_bgType)
                 elseif _bgType == MapGroupD[2] then
                     configArr = bgConfig[_type][MapGroupD[2]]
                     _weight = bgWeight[_type][MapGroupD[2]]
+                elseif _bgType == MapGroupD[3] then
+                    configArr = bgConfig[_type][MapGroupD[3]]
+                    _weight = bgWeight[_type][MapGroupD[3]]
                 end
             else
                 configArr = configArrD
@@ -530,6 +545,9 @@ function GameDataManager.getDataIdByWeight(_type,_bgType)
                 elseif _bgType == MapGroupC[2] then
                     configArr = bgConfig[_type][MapGroupC[2]]
                     _weight = bgWeight[_type][MapGroupC[2]]
+                elseif _bgType == MapGroupC[3] then
+                    configArr = bgConfig[_type][MapGroupC[3]]
+                    _weight = bgWeight[_type][MapGroupC[3]]
                 end
             else
                 configArr = configArrC
@@ -543,6 +561,9 @@ function GameDataManager.getDataIdByWeight(_type,_bgType)
                 elseif _bgType == MapGroupB[2] then
                     configArr = bgConfig[_type][MapGroupB[2]]
                     _weight = bgWeight[_type][MapGroupB[2]]
+                elseif _bgType == MapGroupB[3] then
+                    configArr = bgConfig[_type][MapGroupB[3]]
+                    _weight = bgWeight[_type][MapGroupB[3]]
                 end
             else
                 configArr = configArrB
@@ -556,6 +577,9 @@ function GameDataManager.getDataIdByWeight(_type,_bgType)
                 elseif _bgType == MapGroupA[2] then
                     configArr = bgConfig[_type][MapGroupA[2]]
                     _weight = bgWeight[_type][MapGroupA[2]]
+                elseif _bgType == MapGroupA[3] then
+                    configArr = bgConfig[_type][MapGroupA[3]]
+                    _weight = bgWeight[_type][MapGroupA[3]]
                 end
             else
                 configArr = configArrA
@@ -574,11 +598,11 @@ function GameDataManager.getDataIdByWeight(_type,_bgType)
     end
     local _wegt = math.random(1,_weight)
     local t = 0
+    Tools.printDebug("brj Hopscotch -------------------------------所有权重：",_wegt,_weight)
     --得到当前id
     local id = 0
     for key, var in pairs(configArr) do
         t = t + var.probability
---        Tools.printDebug("brj Hopscotch -------------------------------所有id：",var._id,_wegt)
         if t >= _wegt then
             id = var._id
             Tools.printDebug("brj Hopscotch 随机值：",id)

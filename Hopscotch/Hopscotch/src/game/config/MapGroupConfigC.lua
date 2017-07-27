@@ -601,7 +601,7 @@ MapGroupConfigC[50]=
         direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
         distance = 0,        --房间x轴倾斜距离(单位：像素)
         probability = 50,     --权重
-        bgType = ROOMBGSIZE_TYPE.Seven,
+        bgType = ROOMBGSIZE_TYPE.Six_1,
     } 
 
      MapGroupConfigC[62]= 
@@ -618,7 +618,7 @@ MapGroupConfigC[50]=
         direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
         distance = 0,        --房间x轴倾斜距离(单位：像素)
         probability = 50,     --权重
-        bgType = ROOMBGSIZE_TYPE.Seven,
+        bgType = ROOMBGSIZE_TYPE.Six_1,
     } 
 
 --=======================================================================六块钢架楼层
@@ -636,7 +636,7 @@ MapGroupConfigC[81]=
         direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
         distance = 0,        --房间x轴倾斜距离(单位：像素)
         probability = 50,     --权重
-        bgType = ROOMBGSIZE_TYPE.Seven,
+        bgType = ROOMBGSIZE_TYPE.Six,
     } 
 
      MapGroupConfigC[82]= 
@@ -653,5 +653,5 @@ MapGroupConfigC[81]=
         direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
         distance = 0,        --房间x轴倾斜距离(单位：像素)
         probability = 50,     --权重
-        bgType = ROOMBGSIZE_TYPE.Seven,
+        bgType = ROOMBGSIZE_TYPE.Six,
     } 

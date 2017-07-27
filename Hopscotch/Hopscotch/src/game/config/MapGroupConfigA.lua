@@ -18,7 +18,7 @@ MapGroupConfigA={}
 --    roomGoods = {0,0,0,0,0,1,0},
 --}
 
-MapGroupA = {ROOMBGSIZE_TYPE.Six_1,ROOMBGSIZE_TYPE.Six}
+MapGroupA = {ROOMBGSIZE_TYPE.Five,ROOMBGSIZE_TYPE.Four_1}
 
 
 --五块地板普通楼层1-30
@@ -938,7 +938,7 @@ MapGroupConfigA[131]=
         direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
         distance = 0,        --房间x轴倾斜距离(单位：像素)
         probability = 50,     --权重
-        bgType = ROOMBGSIZE_TYPE.Seven,
+        bgType = ROOMBGSIZE_TYPE.Four,
     } 
 
      MapGroupConfigA[132]= 

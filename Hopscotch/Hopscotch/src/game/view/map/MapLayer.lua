@@ -148,20 +148,24 @@ function MapLayer:initRooms(parameters)
         --控制随机数种子
         if k > 1 then
             local i
-            if not MapGroupD[1] or self.lastBgType > MapGroupD[1] then
-                i = GameDataManager.getDataIdByWeight(Map_Grade.floor_D)
-                self.m_levelCon = MapGroupConfigD[i]
-                Tools.printDebug("----111111111111111111---------------",i)
-            elseif not MapGroupD[2] or self.lastBgType > MapGroupD[2] then
-                i = GameDataManager.getDataIdByWeight(Map_Grade.floor_D,MapGroupD[1])
-                self.m_levelCon = GameDataManager.getMpaGradeTable(Map_Grade.floor_D,MapGroupD[1])[i]
-                Tools.printDebug("----2222222222222222222---------------",i)
-            else
+            if self.transit_1 then
+                i = GameDataManager.getDataIdByWeight(Map_Grade.floor_D,MapGroupD[3])
+                self.m_levelCon = GameDataManager.getMpaGradeTable(Map_Grade.floor_D,MapGroupD[3])[i]
+            elseif self.transit then
                 i = GameDataManager.getDataIdByWeight(Map_Grade.floor_D,MapGroupD[2])
                 self.m_levelCon = GameDataManager.getMpaGradeTable(Map_Grade.floor_D,MapGroupD[2])[i]
+            else
+                i = GameDataManager.getDataIdByWeight(Map_Grade.floor_D,MapGroupD[1])
+                self.m_levelCon = GameDataManager.getMpaGradeTable(Map_Grade.floor_D,MapGroupD[1])[i]
             end
             Tools.printDebug("brj hop 配置组",self.lastBgType,k,i)
             self.lastBgType = self.m_levelCon.bgType
+            if self.m_levelCon.transit then
+            	self.transit = true
+            end
+            if self.m_levelCon.transit_1 then
+            	self.transit_1 = true
+            end
         else
             local i = GameDataManager.getDataIdByWeight(-1)
             self.m_levelCon = MapFirstGroup[i]
@@ -182,9 +186,6 @@ function MapLayer:initRooms(parameters)
         local dCount = math.random(1,MaxShowCount)
         local dArr = GameController.createRand(dCount,self.m_roomAmount)
         local gFloor = math.random(1,self.m_roomAmount)
---        for var=1, #dArr do
---            Tools.printDebug("brj hopscotch 随机钻石和道具：",dCount,dArr[var],gFloor)
---        end
         for var=1, self.m_roomAmount do
             local _room = MapRoom.new(var,self.m_levelCon,var+(k-1)*10,dArr,gFloor)
             _room:setAnchorPoint(cc.p(0,0))
@@ -265,20 +266,26 @@ function MapLayer:addNewRooms(parameters)
             end
             local i
             if type ~= Map_Grade.floor_S then
-                Tools.printDebug("brj Hopscotch 普通组：",self.m_roomsNum,self.lastBgType)
-                if not group[1] or self.lastBgType > group[1] then
-                    i = GameDataManager.getDataIdByWeight(type)
-                    self.m_levelCon = config[i]
-                elseif not group[2] or self.lastBgType > group[2] then
-                    i = GameDataManager.getDataIdByWeight(type,group[1])
-                    self.m_levelCon = GameDataManager.getMpaGradeTable(type,group[1])[i]
-                else
+                if self.transit_1 then
+                    i = GameDataManager.getDataIdByWeight(type,group[3])
+                    self.m_levelCon = GameDataManager.getMpaGradeTable(type,group[3])[i]
+                elseif self.transit then
                     i = GameDataManager.getDataIdByWeight(type,group[2])
                     self.m_levelCon = GameDataManager.getMpaGradeTable(type,group[2])[i]
+                else
+                    i = GameDataManager.getDataIdByWeight(type,group[1])
+                    self.m_levelCon = GameDataManager.getMpaGradeTable(type,group[1])[i]
                 end
             else
                 i = GameDataManager.getDataIdByWeight(type)
                 self.m_levelCon = config[i]
+            end
+            Tools.printDebug("brj Hopscotch 普通组组：",self.m_levelCon.transit,self.m_levelCon.transit_1)
+            if self.m_levelCon.transit then
+                self.transit = true
+            end
+            if self.m_levelCon.transit_1 then
+                self.transit_1 = true
             end
             self.roomType = self.m_levelCon.roomType
             self.lastBgType = self.m_levelCon.bgType
