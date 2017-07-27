@@ -59,6 +59,11 @@ function MapLayer:ctor(parameters)
     
     local color = SceneConfig[GameDataManager.getFightScene()].bgColor
     self.bg = cc.LayerGradient:create(color[1],color[2]):addTo(self)
+    
+    if self.touchHandler then
+        Scheduler.unscheduleGlobal(self.touchHandler)
+        self.touchHandler=nil
+    end
     self.touchHandler = Tools.delayCallFunc(0.5,function()
         self.bg:setTouchEnabled(false)
         self.bg:setTouchSwallowEnabled(false)
@@ -143,18 +148,24 @@ function MapLayer:initRooms(parameters)
         --控制随机数种子
         if k > 1 then
             local i
-            if self.lastBgType > MapGroupD[1] then
-                i = GameDataManager.getDataIdByWeight(Map_Grade.floor_D)
-                self.m_levelCon = MapGroupConfigD[i] 
-            elseif not MapGroupD[2] or self.lastBgType > MapGroupD[2] then
-                i = GameDataManager.getDataIdByWeight(Map_Grade.floor_D,MapGroupD[1])
-                self.m_levelCon = GameDataManager.getMpaGradeTable(Map_Grade.floor_D,MapGroupD[1])[i]
-            else
+            if self.transit_1 then
+                i = GameDataManager.getDataIdByWeight(Map_Grade.floor_D,MapGroupD[3])
+                self.m_levelCon = GameDataManager.getMpaGradeTable(Map_Grade.floor_D,MapGroupD[3])[i]
+            elseif self.transit then
                 i = GameDataManager.getDataIdByWeight(Map_Grade.floor_D,MapGroupD[2])
                 self.m_levelCon = GameDataManager.getMpaGradeTable(Map_Grade.floor_D,MapGroupD[2])[i]
+            else
+                i = GameDataManager.getDataIdByWeight(Map_Grade.floor_D,MapGroupD[1])
+                self.m_levelCon = GameDataManager.getMpaGradeTable(Map_Grade.floor_D,MapGroupD[1])[i]
             end
             Tools.printDebug("brj hop 配置组",self.lastBgType,k,i)
             self.lastBgType = self.m_levelCon.bgType
+            if self.m_levelCon.transit then
+            	self.transit = true
+            end
+            if self.m_levelCon.transit_1 then
+            	self.transit_1 = true
+            end
         else
             local i = GameDataManager.getDataIdByWeight(-1)
             self.m_levelCon = MapFirstGroup[i]
@@ -175,9 +186,6 @@ function MapLayer:initRooms(parameters)
         local dCount = math.random(1,MaxShowCount)
         local dArr = GameController.createRand(dCount,self.m_roomAmount)
         local gFloor = math.random(1,self.m_roomAmount)
---        for var=1, #dArr do
---            Tools.printDebug("brj hopscotch 随机钻石和道具：",dCount,dArr[var],gFloor)
---        end
         for var=1, self.m_roomAmount do
             local _room = MapRoom.new(var,self.m_levelCon,var+(k-1)*10,dArr,gFloor)
             _room:setAnchorPoint(cc.p(0,0))
@@ -258,21 +266,27 @@ function MapLayer:addNewRooms(parameters)
             end
             local i
             if type ~= Map_Grade.floor_S then
-                if self.lastBgType > MapGroupD[1] then
-                    i = GameDataManager.getDataIdByWeight(type)
-                    self.m_levelCon = config[i] 
-                elseif not group[2] or self.lastBgType > group[2] then
-                    i = GameDataManager.getDataIdByWeight(type,group[1])
-                    self.m_levelCon = GameDataManager.getMpaGradeTable(type,group[1])[i]
-                else
+                if self.transit_1 then
+                    i = GameDataManager.getDataIdByWeight(type,group[3])
+                    self.m_levelCon = GameDataManager.getMpaGradeTable(type,group[3])[i]
+                elseif self.transit then
                     i = GameDataManager.getDataIdByWeight(type,group[2])
                     self.m_levelCon = GameDataManager.getMpaGradeTable(type,group[2])[i]
+                else
+                    i = GameDataManager.getDataIdByWeight(type,group[1])
+                    self.m_levelCon = GameDataManager.getMpaGradeTable(type,group[1])[i]
                 end
             else
                 i = GameDataManager.getDataIdByWeight(type)
                 self.m_levelCon = config[i]
             end
-            Tools.printDebug("brj Hopscotch 普通组：",i,self.lastBgType,self.m_levelCon.bgType)
+            Tools.printDebug("brj Hopscotch 普通组组：",self.m_levelCon.transit,self.m_levelCon.transit_1)
+            if self.m_levelCon.transit then
+                self.transit = true
+            end
+            if self.m_levelCon.transit_1 then
+                self.transit_1 = true
+            end
             self.roomType = self.m_levelCon.roomType
             self.lastBgType = self.m_levelCon.bgType
             self.floorNum = 0
@@ -728,10 +742,10 @@ function MapLayer:onEnterFrame(dt)
     
 --    Tools.printDebug("brj2222222222222222--------跳房子角色坐标---------: ",bpx,x+Room_Distance.x-_size.width*0.5,x+display.width-Room_Distance.x+_size.width*0.5)
     if not self.runMapFloor or (self.jumpFloorNum ~= self.runMapFloor and self.jumpFloorNum ~= self.runMapFloor + 1) then
-        if bpx <= x+(display.right-self.curRoomWidth)*0.5-_size.width then
+        if bpx <= x-_size.width*0.5 then
             self:playerDead()
         end
-        if bpx >= x+display.right-(display.right-self.curRoomWidth)*0.5+_size.width then
+        if bpx >= x+display.right+_size.width*0.5 then
             self:playerDead()
         end
     end
@@ -964,6 +978,11 @@ function MapLayer:onEnterFrame(dt)
             end
         end
     end
+    
+    --火箭道具第一种类型
+    if GameController.isInState(PLAYER_STATE.Rocket) and self.m_player:getRocketState()==1 then
+        self:CoreLogic()
+    end
 
 end
 
@@ -1133,8 +1152,7 @@ function MapLayer:rayCastFunc(_world,_p1,_p2,_p3)
         end
         self.isCollision = true
         
-        if not GameController.isInState(PLAYER_STATE.Rocket) or (GameController.isInState(PLAYER_STATE.Rocket)
-            and self.m_player:getRocketState()==1) then
+        if not GameController.isInState(PLAYER_STATE.Rocket) then
             self:CoreLogic()
         end
         
@@ -1252,6 +1270,7 @@ function MapLayer:CoreLogic()
             self.curRoomKey = _room:getRoomKey()
             self.curRoomWidth = _room:getRoomWidth()
             self.isCloseRoom = _room:getRoomCloseValue()
+            Tools.printDebug("----------brj 当前房间是否封闭层：",self.isCloseRoom)
             if self.curRoomType == MAPROOM_TYPE.Running and self.curRoomDistance == MAPRUNNING_TYPE.Both then
                 if _scaleX == -1 then
                     self.otherX = _room:getRoomWidth()+_room:getPositionX()+Room_Distance.x
@@ -1286,8 +1305,8 @@ function MapLayer:CoreLogic()
         end
         
         --判断是否封闭房间
-        if self.isCloseRoom and self.jumpFloorNum ~= 1 then
-        	--传事件
+        if self.isCloseRoom and self.jumpFloorNum ~= 1 and not self.backOrigin then
+            --传事件
             GameDispatcher:dispatch(EventNames.EVENT_CLOSE_TIME,{floor = self.jumpFloorNum})
         else
             GameDispatcher:dispatch(EventNames.EVENT_STOP_COUNTDOWN)
@@ -1325,9 +1344,28 @@ end
 
 --游戏死亡
 function MapLayer:playerDead()
+    if self.backOrigin then
+    	return
+    end
     self.isCollision = false
     self.m_player:selfDead()
 end
+
+--死亡时判断下方三层内宽度是否大于此层
+--function MapLayer:deadFloor(_type)
+--	if _type == 1 then
+--        local size = self.m_player:getSize()
+--        local curRoomWidth = self:getRoomByIdx(self.jumpFloorNum):getRoomWidth()
+--        local room1Width = self:getRoomByIdx(self.jumpFloorNum-1):getRoomWidth()
+--        local room2Width = self:getRoomByIdx(self.jumpFloorNum-2):getRoomWidth()
+--        if room1Width >= curRoomWidth + size.width*2 or room2Width >= curRoomWidth + size.width*2 then
+--        	return true
+--        else
+--            return false
+--        end
+--    
+--	end
+--end
 
 --双向横跑时根据编号从右边缓存中取出房间
 function MapLayer:getRightRoomByIdx(_roomIndx)
@@ -1508,7 +1546,6 @@ function MapLayer:toRocketRunningLogic(RocketState,curRoomKey)
         local seq = cc.Sequence:create(move,move2,callfun)
         self.m_camera:runAction(seq)
         self.isBgMove = true
---        self.bgNode:toRocketMove(self.jumpFloorNum,mx,my,self.floorPos,self.bottomHeight,count,time,time2)
     end
 end
 
@@ -1763,6 +1800,8 @@ function MapLayer:backOriginFunc()
     if GameController.isInState(PLAYER_STATE.Magnet) then
         GameController.getCurPlayer():clearBuff(PLAYER_STATE.Magnet)
     end
+    
+    GameDispatcher:dispatch(EventNames.EVENT_STOP_COUNTDOWN)
 
     self.backOrigin = true
     self.bg:setTouchEnabled(true)
@@ -1819,7 +1858,11 @@ function MapLayer:backOriginFunc()
     self.isBgMove = false
     self.bgNode:toBackOrigin()
     
-    Tools.delayCallFunc(1.5,function()
+    if self.delayHandler then
+        Scheduler.unscheduleGlobal(self.delayHandler)
+        self.delayHandler=nil
+    end
+    self.delayHandler = Tools.delayCallFunc(1,function()
         self.backOrigin = false
         self.bg:setTouchEnabled(false)
         self.bg:setTouchSwallowEnabled(false)
@@ -1933,6 +1976,11 @@ function MapLayer:dispose(parameters)
     if self.touchHandler then
         Scheduler.unscheduleGlobal(self.touchHandler)
         self.touchHandler=nil
+    end
+    
+    if self.delayHandler then
+        Scheduler.unscheduleGlobal(self.delayHandler)
+        self.delayHandler=nil
     end
     
 

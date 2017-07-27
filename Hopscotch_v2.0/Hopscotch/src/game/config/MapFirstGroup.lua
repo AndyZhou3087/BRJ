@@ -17,6 +17,21 @@ MapFirstGroup={}
 --    --房间物品,此id对应RoomGoodsConfig配置文件,填0则视为对应楼层不出现
 --    roomGoods = {0,0,0,0,0,1,0},
 --}
+--MapFirstGroup[1]= 
+--    { 
+--        _id=1, 
+--        roomBgs={188,232,249,250,251,256,257,258,259,1}, --房间背景地面
+--        ornaments={354,446,447,448,449,450,443,444,445,54}, ---小挂件
+--        coins={0,0,0,0,0,0,0,0,0,0}, ---钻石
+--        roomGoods={0,0,0,0,0,0,0,0,0,0}, ---道具
+--        roomType = MAPROOM_TYPE.Common,
+--        direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
+--        distance = 0,        --房间x轴倾斜距离(单位：像素)
+--        probability = 500,     --权重
+--        bgType = ROOMBGSIZE_TYPE.Seven,
+--    } 
+
+
 MapFirstGroup[1]= 
     { 
         _id=1, 
@@ -87,17 +102,16 @@ MapFirstGroup[5]=
         bgType = ROOMBGSIZE_TYPE.Seven,
     } 
     
---MapFirstGroup[6]= 
---    { 
---        _id=6, 
---        roomBgs={188,232,249,250,251,256,257,258,259,1}, --房间背景地面
---        ornaments={354,446,447,448,449,450,443,444,445,54}, ---小挂件
---        coins={0,0,0,0,0,0,0,0,0,0}, ---钻石
---        roomGoods={0,0,0,0,0,0,0,0,0,0}, ---道具
---        roomType = MAPROOM_TYPE.Common,
---        direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
---        distance = 0,        --房间x轴倾斜距离(单位：像素)
---        probability = 5,     --权重
---        bgType = ROOMBGSIZE_TYPE.Seven,
---    } 
-    
+MapFirstGroup[6]= 
+    { 
+        _id=6, 
+        roomBgs={41,47,45,48,45,39,33,42,34,38}, --房间背景地面
+        ornaments={83,78,79,56,92,67,76,58,94,53}, ---小挂件
+        coins={1,1,1,1,1,1,1,1,1,1}, --钻石(随机出现层数、次数和位置)
+        roomGoods={1,1,1,1,1,1,1,1,1,1}, ---道具
+        roomType = MAPROOM_TYPE.Common,
+        direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
+        distance = 0,        --房间x轴倾斜距离(单位：像素)
+        probability = 0,     --权重
+        bgType = ROOMBGSIZE_TYPE.Six_1,
+   } 

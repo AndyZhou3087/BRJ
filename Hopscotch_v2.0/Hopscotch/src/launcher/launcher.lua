@@ -1,6 +1,11 @@
 package.loaded["launcher.init"] = nil
 require("launcher.init")
 
+-- 热更新
+--local LCHER_FONT = "res/fonts/arial.ttf"
+--local STR_LCHER_HAS_UPDATE = "checking update.."
+--local STR_LCHER_UPDATING_TEXT = "update wait.."
+local PROGRESS_TEXT = "正在加载资源 "--"正在加载资源"
 local function enter_game()
     Launcher.performWithDelayGlobal(function()
         if GAME_RELEASE then
