@@ -103,6 +103,10 @@ function Player:ctor()
     GameDispatcher:addListener(EventNames.EVENT_USE_PHANTOM,handler(self,self.phantom))
     --冲刺火箭
     GameDispatcher:addListener(EventNames.EVENT_SPRING_ROCKET,handler(self,self.springRocket))
+    --看视频或花费钻石开局冲刺
+    GameDispatcher:addListener(EventNames.EVENT_START_ROCKET,handler(self,self.startRocket))
+    --复活
+    GameDispatcher:addListener(EventNames.EVENT_ROLE_REVIVE,handler(self,self.relive))
 
 end
 
@@ -317,9 +321,40 @@ function Player:phantom(parameters)
 --    end
 end
 
+--开局冲刺
+function Player:startRocket(parameters)
+    if self:isInState(PLAYER_STATE.Rocket) then
+        return
+    end
+    local floor = math.random(OpenRocketFloor[1]/10,OpenRocketFloor[2]/10)*10
+    if not tolua.isnull(self:getParent()) then
+        self:getParent():startRocket(floor)
+    end
+    
+    self:addBuff({type=PLAYER_STATE.StartRocket})
+    self.m_armature:setVisible(false)
+    self:toRocket()
+    
+    local time = math.floor(floor/10)*0.4
+--    Tools.printDebug("-=-------------------brj 奔跑距离：",pos.y+self.m_size.height*0.5+30-self:getPositionY(),time)
+    local move = cc.MoveBy:create(0.4,cc.p(100,0))
+    local move2 = cc.MoveBy:create(0.4,cc.p(-100,0))
+    local moveY = cc.MoveBy:create(0.8,cc.p(0,Room_Size.height*20))
+    local seq = cc.Spawn:create(move,move2)
+    local spawn = cc.Spawn:create(seq,moveY)
+    local repeatF = cc.RepeatForever:create(spawn)
+    self:runAction(repeatF)
+    
+    --火箭特效
+end
+
 --冲刺火箭
 function Player:springRocket(parameters)
     if self:isInState(PLAYER_STATE.Rocket) then
+        return
+    end
+    
+    if self:isInState(PLAYER_STATE.StartRocket) then
         return
     end
     
@@ -327,7 +362,7 @@ function Player:springRocket(parameters)
         self:toStopJump()
     end
     
-    local speed = parameters.data.speed
+--    local speed = parameters.data.speed
     self:addBuff({type=PLAYER_STATE.Rocket})
 
     local camera,floorPos,curFloor,dis,curRoomKey
@@ -435,6 +470,10 @@ function Player:toRocket()
     self.m_speed = 0
 end
 
+function Player:toStopStartRocket()
+    self:clearBuff(PLAYER_STATE.StartRocket)
+end
+
 function Player:toStopRocket()
     self:clearBuff(PLAYER_STATE.Rocket)
 end
@@ -445,12 +484,25 @@ end
 
 --角色复活
 function Player:relive(parameters)
-    
+    GameController.resumeGame()
+    self.m_isDead = false
+    self:addLifeNum(1)
+    local camera,floorPos,curFloor,dis,curRoomKey
+    if not tolua.isnull(self:getParent()) then
+        self:getParent():setRocket()
+        camera,floorPos,curFloor,dis,curRoomKey = self:getParent():getRocketData()
+    end
+    self:setPosition(cc.p(floorPos[curFloor].x+display.cx,floorPos[curFloor].y))
+    self:clearAllBuff()
+    self:springRocket()
 end
 
 --角色死亡
 function Player:selfDead()
     if self:isInState(PLAYER_STATE.Rocket) then
+        return
+    end
+    if not self.m_armature:isVisible() then
         return
     end
     self.m_vo.m_lifeNum = self.m_vo.m_lifeNum - 1
@@ -469,8 +521,10 @@ function Player:selfDead()
         else
             self:stopAllActions()
             self.m_armature:stopAllActions()
-            --弹出结算界面
+            --弹结算，后期弹复活
             GameDispatcher:dispatch(EventNames.EVENT_OPEN_SETTLEMENT) 
+            --测试
+--            GameController.pauseGame()
         end
     end
 end
@@ -553,9 +607,23 @@ function Player:clearBuff(_type)
         elseif _type == PLAYER_STATE.Rocket then
             self.toRocketState = 0
             transition.stopTarget(self)
-            if not tolua.isnull(self:getParent()) then
-                self:getParent():setRocketVisible()
+--            if not tolua.isnull(self:getParent()) then
+--                self:getParent():setRocketVisible()
+--            end
+--            if not tolua.isnull(self.m_rocket) then
+--                self.m_rocket:dispose(true)
+--            end
+            if self.m_armature then
+                self.m_armature:setVisible(true)
             end
+            self.m_body:setCollisionBitmask(0x03)
+            self.m_body:setGravityEnable(true)
+            self:resumeVelocLimit()
+            self:setBodyVelocity(cc.p(self.m_stopVec.x,0))
+            self.m_speed = self.m_stopSpeed
+        elseif _type == PLAYER_STATE.StartRocket then
+            transition.stopTarget(self)
+            self:stopAllActions()
 --            if not tolua.isnull(self.m_rocket) then
 --                self.m_rocket:dispose(true)
 --            end
@@ -660,6 +728,9 @@ function Player:dispose(_isDoor)
     GameDispatcher:removeListenerByName(EventNames.EVENT_USE_MAGNET)
     GameDispatcher:removeListenerByName(EventNames.EVENT_USE_PHANTOM)
     GameDispatcher:removeListenerByName(EventNames.EVENT_SPRING_ROCKET)
+    GameDispatcher:removeListenerByName(EventNames.EVENT_START_ROCKET)
+    GameDispatcher:removeListenerByName(EventNames.EVENT_ROLE_REVIVE)
+    
 
     if self.m_body then
         self.m_body:removeFromWorld()

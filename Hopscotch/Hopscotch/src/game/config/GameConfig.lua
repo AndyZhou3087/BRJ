@@ -17,7 +17,7 @@ DiamondSpendReward = 100
 --看视频得钻石随机范围
 VideoDiamond = {50,100}
 --开局冲刺随机层数
-OpenRocketFloor = {70,120}
+OpenRocketFloor = {80,120}
 
 
 --视觉开关
@@ -51,7 +51,8 @@ MaxShowCount = 3
 --初始化房间数
 MAP_ROOM_INIT_NUM = 30
 --地图房间最大数
-MAP_ROOM_MAX = 50
+MAXROOM = 50
+MAP_ROOM_MAX = MAXROOM
 --其它缓存房间最大数
 MAP_ROOM_OTHER_MAX = 20
 

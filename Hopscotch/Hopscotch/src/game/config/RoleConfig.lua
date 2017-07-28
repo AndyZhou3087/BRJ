@@ -12,6 +12,7 @@ PLAYER_STATE=
         Magnet = 2,--磁铁
         Rocket = 3,   --火箭
         Phantom = 4,  --幻影
+        StartRocket = 5,  --开局道具
     }
 --角色动作
 PLAYER_ACTION=

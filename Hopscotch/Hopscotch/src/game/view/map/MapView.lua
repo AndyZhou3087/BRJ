@@ -40,7 +40,10 @@ function MapView:ctor(parameters)
         pause:setButtonImage("disabled","pause/pause_1.png")
     end)
     self.PauseBtn:onButtonClicked(function (event)
-        GameDispatcher:dispatch(EventNames.EVENT_OPEN_PAUSE)
+--        GameDispatcher:dispatch(EventNames.EVENT_OPEN_PAUSE)
+        --测试
+--        GameDispatcher:dispatch(EventNames.EVENT_START_ROCKET)
+--        GameDispatcher:dispatch(EventNames.EVENT_ROLE_REVIVE)
     end)
     
     

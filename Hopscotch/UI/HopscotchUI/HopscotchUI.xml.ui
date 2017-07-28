@@ -34,5 +34,5 @@
   <imageFileList />
   <imagePngList />
   <JsonSuffix>.json</JsonSuffix>
-  <CurrentUIJson>ShopView.json</CurrentUIJson>
+  <CurrentUIJson>MapView.json</CurrentUIJson>
 </UIProject>

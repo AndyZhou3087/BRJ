@@ -68,4 +68,7 @@ EventNames.EVENT_GAME_OVER = "event_game_over"
 --开局冲刺
 EventNames.EVENT_START_ROCKET = "event_start_rocket"
 
+--复活
+EventNames.EVENT_ROLE_REVIVE = "event_role_revive"
+
 return EventNames

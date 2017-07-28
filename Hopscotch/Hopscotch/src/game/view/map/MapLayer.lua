@@ -105,14 +105,7 @@ function MapLayer:ctor(parameters)
     self:setCameraMask(2)
     
     GameDispatcher:addListener(EventNames.EVENT_GAME_OVER,handler(self,self.playerDead))
-    --看视频或花费钻石开局冲刺
-    GameDispatcher:addListener(EventNames.EVENT_START_ROCKET,handler(self,self.startRocket))
 
-end
-
-function MapLayer:startRocket(parameters)
-    local floor = math.random(OpenRocketFloor[1],OpenRocketFloor[2])
-    
 end
 
 --触摸
@@ -121,7 +114,7 @@ function MapLayer:touchFunc(event)
     if tolua.isnull(self.m_player) or self.m_player:isDead() then
         return
     end
-    if GameController.isInState(PLAYER_STATE.Rocket) then
+    if GameController.isInState(PLAYER_STATE.Rocket) or GameController.isInState(PLAYER_STATE.StartRocket) then
         return
     end
 --    Tools.printDebug("-----------------------------self.backOrigin  ",self.backOrigin)
@@ -1000,8 +993,15 @@ function MapLayer:onEnterFrame(dt)
         end
     end
     
+    --开局冲刺火箭
+    if self.rocketFloor and GameDataManager.getPoints() == self.rocketFloor and GameController.isInState(PLAYER_STATE.StartRocket) then
+    	--
+        self:toStopStartRocket()
+        self.m_player:toStopStartRocket()
+    end
+    
     --火箭道具第一种类型
-    if GameController.isInState(PLAYER_STATE.Rocket) and self.m_player:getRocketState()==1 then
+    if (GameController.isInState(PLAYER_STATE.Rocket) and self.m_player:getRocketState()==1) or GameController.isInState(PLAYER_STATE.StartRocket) then
         self:CoreLogic()
     end
 
@@ -1173,7 +1173,8 @@ function MapLayer:rayCastFunc(_world,_p1,_p2,_p3)
         end
         self.isCollision = true
         
-        if not GameController.isInState(PLAYER_STATE.Rocket) then
+        if not GameController.isInState(PLAYER_STATE.Rocket) and not GameController.isInState(PLAYER_STATE.StartRocket) then
+--            Tools.printDebug("----------brj 开局冲刺：")
             self:CoreLogic()
         end
         
@@ -1264,7 +1265,7 @@ function MapLayer:CoreLogic()
             end
         end
     end
-
+--    Tools.printDebug("----------brj 当前room：111111111111111",self.m_lastRoomIdx,roomIndex)
     if self.m_lastRoomIdx ~= roomIndex then
         local _room
         if self.curRoomType == MAPROOM_TYPE.TwoLean and self.jumpFloorNum % 10 ~= 0 then
@@ -1291,7 +1292,7 @@ function MapLayer:CoreLogic()
             self.curRoomKey = _room:getRoomKey()
             self.curRoomWidth = _room:getRoomWidth()
             self.isCloseRoom = _room:getRoomCloseValue()
-            Tools.printDebug("----------brj 当前房间是否封闭层：",self.isCloseRoom)
+--            Tools.printDebug("----------brj 当前房间是否封闭层：",self.isCloseRoom)
             if self.curRoomType == MAPROOM_TYPE.Running and self.curRoomDistance == MAPRUNNING_TYPE.Both then
                 if _scaleX == -1 then
                     self.otherX = _room:getRoomWidth()+_room:getPositionX()+Room_Distance.x
@@ -1304,12 +1305,14 @@ function MapLayer:CoreLogic()
             self.otherY = _room:getPositionY()+Room_Size.height
             self.m_lastRoomIdx = roomIndex
         end
+        
         if self.m_lastRoomIdx > self.jumpFloorNum then
             self.phantonFollow = true
             self.jumpFloorNum = roomIndex
             GameDataManager.setPoints(self.jumpFloorNum)
             if self.curRoomType~=MAPROOM_TYPE.Running then
                 self:toCameraMove()
+                Tools.printDebug("----------brj 当前room：111111111111111")
             else
                 if self.jumpFloorNum % 10 == 1 then
                     self.runningKey = 1
@@ -1893,6 +1896,16 @@ function MapLayer:backOriginFunc()
 
 end
 
+--开局火箭冲刺
+function MapLayer:startRocket(_floor)
+    self.rocketFloor = _floor
+    self.runFloorNum = self.runFloorNum + _floor
+end
+
+function MapLayer:toStopStartRocket()
+    self.m_player:setPositionX(self.m_camera:getPositionX()+display.cx)
+end
+
 --重置幻影角色
 function MapLayer:resetPhantom()
     for key, var in pairs(self.phantom) do
@@ -1928,7 +1941,6 @@ function MapLayer:dispose(parameters)
     self:removeNodeEventListenersByEvent(cc.NODE_ENTER_FRAME_EVENT)
     --移除其它事件
     GameDispatcher:removeListenerByName(EventNames.EVENT_GAME_OVER)
-    GameDispatcher:removeListenerByName(EventNames.EVENT_START_ROCKET)
 
 
     if self.m_player then
