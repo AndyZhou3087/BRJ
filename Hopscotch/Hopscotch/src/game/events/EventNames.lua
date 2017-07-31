@@ -18,6 +18,9 @@ EventNames.EVENT_OPEN_SHOP = "event_open_shop"
 --飘字
 EventNames.EVENT_FLY_TEXT = "event_fly_text"
 
+--打开火箭界面
+EventNames.EVENT_ROCKET_VIEW = "event_rocket_view"
+
 --=======================刷新功能=======================
 --刷新场景
 EventNames.EVENT_UPDATE_SCENE = "event_update_scene"
@@ -70,5 +73,8 @@ EventNames.EVENT_START_ROCKET = "event_start_rocket"
 
 --复活
 EventNames.EVENT_ROLE_REVIVE = "event_role_revive"
+
+--点击隐藏开局冲刺
+EventNames.EVENT_HIDE_BOTTOM = "event_hide_bottom"
 
 return EventNames

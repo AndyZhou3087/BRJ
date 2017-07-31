@@ -179,6 +179,26 @@ function GameController.createRand(count,max)
     return randArr
 end
 
+
+----抛物线逻辑
+--function GameController.ParabolaTo(t, startPoint, endPoint, width, angle)
+--    local _angle = angle or 60
+--    --把角度转换为弧度  
+--    local radian = _angle*3.14159/180.0;  
+--    --第一个控制点为抛物线左半弧的中点  
+--    local q1x = startPoint.x+(endPoint.x - startPoint.x)/4.0;  
+--    local q1 = cc.p(width + startPoint.x+cos(radian)*q1x, startPoint.y);         
+--    --第二个控制点为整个抛物线的中点  
+--    local q2x = startPoint.y + (endPoint.y - startPoint.y)/2.0;
+--    local q2 = ccp(width + startPoint.x+cos(radian)*q2x, startPoint.y);  
+--      
+--    --曲线配置  
+--    local cfg = {q1,q2,endPoint};  
+--    --使用CCEaseInOut让曲线运动有一个由慢到快的变化，显得更自然  
+--    return cc.EaseInOut:create(cc.BezierTo:create(t,cfg),0.5)
+--end
+
+
 --添加钻石
 --_obj:钻石对象    _isMoving:是否移动中
 function GameController.addGoldBody(body,_isMoving)

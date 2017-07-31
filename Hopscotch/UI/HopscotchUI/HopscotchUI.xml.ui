@@ -23,6 +23,8 @@
     <string>SceneBg_8.json</string>
     <string>SceneBg_9.json</string>
     <string>SceneBg_10.json</string>
+    <string>RocketView.json</string>
+    <string>ReviveView.json</string>
   </JsonList>
   <CanvasSize>
     <Width>750</Width>
@@ -34,5 +36,5 @@
   <imageFileList />
   <imagePngList />
   <JsonSuffix>.json</JsonSuffix>
-  <CurrentUIJson>MapView.json</CurrentUIJson>
+  <CurrentUIJson>ReviveView.json</CurrentUIJson>
 </UIProject>

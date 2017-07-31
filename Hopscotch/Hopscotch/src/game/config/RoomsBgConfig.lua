@@ -703,15 +703,15 @@ RoomBgs[49]=
 RoomBgs[50]=
     {
         wallLeftRight = {{res="#Room_wall.png",x=Room_Distance.x+24,y=15,type = RoomWall_Type.Left},{res="#Room_wall.png",x=Room_Distance.x+645,y=15,type = RoomWall_Type.Right},},--左右两侧墙壁
-        floor = {{res="#Room_floor_1.png",x=Room_Distance.x+24,y=0},
-	         {res="#Room_floor_7.png",x=Room_Distance.x+40,y=0},
-		 {res="#Room_floor_7.png",x=Room_Distance.x+39+94,y=0},
-                 {res="#Room_floor_7.png",x=Room_Distance.x+38+94*2,y=0},
-		 {res="#Room_floor_7.png",x=Room_Distance.x+37+94*3,y=0},
-		 {res="#Room_floor_7.png",x=Room_Distance.x+36+94*4,y=0},
-                 {res="#Room_floor_7.png",x=Room_Distance.x+35+94*5,y=0},
-                 {res="#Room_floor_7.png",x=Room_Distance.x+34+94*5+47,y=0},
-		 {res="#Room_floor_2.png",x=Room_Distance.x+33+94*6+48,y=0},
+        floor = {{res="#Room_floor_1.png",x=Room_Distance.x+0,y=0},
+	         {res="#Room_floor_7.png",x=Room_Distance.x+17,y=0},
+		 {res="#Room_floor_7.png",x=Room_Distance.x+16+94,y=0},
+                 {res="#Room_floor_7.png",x=Room_Distance.x+15+94*2,y=0},
+		 {res="#Room_floor_7.png",x=Room_Distance.x+14+94*3,y=0},
+		 {res="#Room_floor_7.png",x=Room_Distance.x+13+94*4,y=0},
+                 {res="#Room_floor_7.png",x=Room_Distance.x+12+94*5,y=0},
+                 {res="#Room_floor_7.png",x=Room_Distance.x+11+94*6,y=0},
+		 {res="#Room_floor_2.png",x=Room_Distance.x+10+94*7,y=0},
 		 },--地板
     }
 
@@ -2824,8 +2824,8 @@ RoomBgs[1003]=
 	         {res="#Room_floor_6.png",x=Room_Distance.x+10+94*7,y=0},},--地板
     }
     
---=============================特殊房间配置=================================
---红钢管，长地板
+--==============================================================钢架楼层
+--七块地板钢架
 RoomBgs[2001]=
     {
         wallLeftRight = {},--左右两侧墙壁
@@ -2840,17 +2840,109 @@ RoomBgs[2001]=
 		 },--地板
     }
 
+--六块半地板钢架
 RoomBgs[2002]=
     {
-        wallLeftRight = {{res="#Room_wall.png",x=Room_Distance.x+57,y=16},{res="#Room_wall.png",x=Room_Distance.x+631,y=16},},--左右两侧墙壁
-        floor = {{res="#Room_floor_3.png",x=Room_Distance.x+57,y=0},
-	         {res="#Room_floor_7.png",x=Room_Distance.x+17+57,y=0},
-	         {res="#Room_floor_7.png",x=Room_Distance.x+17+94+57,y=0},
-                 {res="#Room_floor_7.png",x=Room_Distance.x+17+94*2+57,y=0},
-	         {res="#Room_floor_7.png",x=Room_Distance.x+17+94*3+57,y=0},
-                 {res="#Room_floor_7.png",x=Room_Distance.x+17+94*4+57,y=0},
-	         {res="#Room_floor_7.png",x=Room_Distance.x+17+94*5+57,y=0},
-                 {res="#Room_floor_4.png",x=Room_Distance.x+10+94*6+57,y=0},},--地板
+        wallLeftRight = {},--左右两侧墙壁
+        floor = {{res="#Room_special_floor.png",x=Room_Distance.x+24,y=0},
+		 {res="#Room_special_floor.png",x=Room_Distance.x+23+94,y=0},
+                 {res="#Room_special_floor.png",x=Room_Distance.x+22+94*2,y=0},
+		 {res="#Room_special_floor.png",x=Room_Distance.x+21+94*3,y=0},
+                 {res="#Room_special_floor.png",x=Room_Distance.x+20+94*4,y=0},
+		 {res="#Room_special_floor.png",x=Room_Distance.x+19+94*5,y=0},
+                 {res="#Room_special_floor.png",x=Room_Distance.x+2+94*6,y=0},
+		 },--地板
+    }
+
+--六块地板钢架
+RoomBgs[2003]=
+    {
+        wallLeftRight = {},--左右两侧墙壁
+        floor = {
+		 {res="#Room_special_floor.png",x=Room_Distance.x+48,y=0},
+                 {res="#Room_special_floor.png",x=Room_Distance.x+47+94,y=0},
+		 {res="#Room_special_floor.png",x=Room_Distance.x+46+94*2,y=0},
+                 {res="#Room_special_floor.png",x=Room_Distance.x+45+94*3,y=0},
+		 {res="#Room_special_floor.png",x=Room_Distance.x+44+94*4,y=0},
+                 {res="#Room_special_floor.png",x=Room_Distance.x+43+94*5,y=0},
+                 {res="#Room_special_floor.png",x=Room_Distance.x+43+94*5+34,y=0},
+                 },--地板
+    }
+--五块半地板钢架
+RoomBgs[2004]=
+    {
+        wallLeftRight = {},--左右两侧墙壁
+        floor = {
+		 {res="#Room_special_floor.png",x=Room_Distance.x+70,y=0},
+                 {res="#Room_special_floor.png",x=Room_Distance.x+69+94,y=0},
+		 {res="#Room_special_floor.png",x=Room_Distance.x+68+94*2,y=0},
+                 {res="#Room_special_floor.png",x=Room_Distance.x+67+94*3,y=0},
+		 {res="#Room_special_floor.png",x=Room_Distance.x+66+94*4,y=0},
+                 {res="#Room_special_floor.png",x=Room_Distance.x+52+94*5,y=0},
+                 },--地板
+    }
+
+--五块地板钢架
+RoomBgs[2005]=
+    {
+        wallLeftRight = {},--左右两侧墙壁
+        floor = {
+		 {res="#Room_special_floor.png",x=Room_Distance.x+94,y=0},
+                 {res="#Room_special_floor.png",x=Room_Distance.x+93+94,y=0},
+		 {res="#Room_special_floor.png",x=Room_Distance.x+92+94*2,y=0},
+                 {res="#Room_special_floor.png",x=Room_Distance.x+91+94*3,y=0},
+		 {res="#Room_special_floor.png",x=Room_Distance.x+90+94*4,y=0},
+                 {res="#Room_special_floor.png",x=Room_Distance.x+28+94*5,y=0},
+                 },--地板
+    }
+
+--四块半地板钢架
+RoomBgs[2006]=
+    {
+        wallLeftRight = {},--左右两侧墙壁
+        floor = {
+		 {res="#Room_special_floor.png",x=Room_Distance.x+117,y=0},
+                 {res="#Room_special_floor.png",x=Room_Distance.x+116+94,y=0},
+		 {res="#Room_special_floor.png",x=Room_Distance.x+115+94*2,y=0},
+                 {res="#Room_special_floor.png",x=Room_Distance.x+114+94*3,y=0},
+		 {res="#Room_special_floor.png",x=Room_Distance.x+100+94*4,y=0},
+                 },--地板
+    }
+
+--四块地板钢架
+RoomBgs[2007]=
+    {
+        wallLeftRight = {},--左右两侧墙壁
+        floor = {
+		 {res="#Room_special_floor.png",x=Room_Distance.x+142,y=0},
+                 {res="#Room_special_floor.png",x=Room_Distance.x+141+94,y=0},
+		 {res="#Room_special_floor.png",x=Room_Distance.x+140+94*2,y=0},
+                 {res="#Room_special_floor.png",x=Room_Distance.x+139+94*3,y=0},
+                 {res="#Room_special_floor.png",x=Room_Distance.x+77+94*4,y=0},
+                 },--地板
+    }
+--三块半地板钢架
+RoomBgs[2008]=
+    {
+        wallLeftRight = {},--左右两侧墙壁
+        floor = {
+		 {res="#Room_special_floor.png",x=Room_Distance.x+166,y=0},
+                 {res="#Room_special_floor.png",x=Room_Distance.x+165+94,y=0},
+		 {res="#Room_special_floor.png",x=Room_Distance.x+164+94*2,y=0},
+                 {res="#Room_special_floor.png",x=Room_Distance.x+147+94*3,y=0},
+                 },--地板
+    }
+
+--三块地板钢架
+RoomBgs[2009]=
+    {
+        wallLeftRight = {},--左右两侧墙壁
+        floor = {
+		 {res="#Room_special_floor.png",x=Room_Distance.x+188,y=0},
+                 {res="#Room_special_floor.png",x=Room_Distance.x+187+94,y=0},
+		 {res="#Room_special_floor.png",x=Room_Distance.x+186+94*2,y=0},
+                 {res="#Room_special_floor.png",x=Room_Distance.x+135+94*3,y=0},
+                 },--地板
     }
 
 --===============================横跑房间===============================

@@ -54,6 +54,7 @@ function MapLayer:ctor(parameters)
     self.havePhantom = {}
     self.runFloorNum = RunningFloorNum
     self.isBgMove = false
+    self.isMapBottom = true
     
     self.m_curZOrder = MAP_ZORDER_MAX   --房间当前显示层级
     
@@ -123,6 +124,10 @@ function MapLayer:touchFunc(event)
     end
     if event.name == "began" then
         if (Tools.getSysTime()-lastTouchTime)>=Sequent_Click_Time then
+            if self.isMapBottom then
+                self.isMapBottom = false
+                GameDispatcher:dispatch(EventNames.EVENT_HIDE_BOTTOM)
+            end
             if self.isCollision then
                 self.isCollision = false
 --                self.m_jump = false
@@ -158,8 +163,7 @@ function MapLayer:initRooms(parameters)
                 i = GameDataManager.getDataIdByWeight(Map_Grade.floor_D,MapGroupD[1])
                 self.m_levelCon = GameDataManager.getMpaGradeTable(Map_Grade.floor_D,MapGroupD[1])[i]
             end
-            Tools.printDebug("brj hop 配置组",self.lastBgType,k,i)
-            self.lastBgType = self.m_levelCon.bgType
+            Tools.printDebug("------------------------------------brj hop 配置组",k,i)
             if self.m_levelCon.transit then
             	self.transit = true
             end
@@ -170,7 +174,6 @@ function MapLayer:initRooms(parameters)
         else
             local i = GameDataManager.getDataIdByWeight(-1)
             self.m_levelCon = MapFirstGroup[i]
-            self.lastBgType = self.m_levelCon.bgType
 --            Tools.printDebug("brj hop 配置组",k,i)
         end 
         self.curRooms = self.m_levelCon.roomBgs
@@ -217,7 +220,6 @@ function MapLayer:addNewRooms(parameters)
 --    Tools.printDebug("-------------------brj Hopscotch 总缓存楼层：",self.m_roomsNum)
     local dCount
     local dArr
-    local gFloor
     if self.m_roomsNum > Map_Grade.floor_B and self.m_roomsNum % self.runFloorNum - math.ceil(self.runFloorNum*0.5) == 0 then
         local i = math.random(math.floor((self.m_roomsNum+RunningMin)/10),math.floor((self.m_roomsNum+RunningMax)/10))
         self.runFloorNum = i*10
@@ -225,11 +227,10 @@ function MapLayer:addNewRooms(parameters)
         Tools.printDebug("brj Hopscotch 双向倾斜组：",k,i)
         self.m_levelCon = MapTwoLeanConfig[k]
         self.roomType = self.m_levelCon.roomType
-        self.lastBgType = self.m_levelCon.bgType
         self.floorNum = 0
         dCount = math.random(1,MaxShowCount)
         dArr = GameController.createRand(dCount,#self.m_levelCon.roomBgs)
-        gFloor = math.random(1,#self.m_levelCon.roomBgs)
+        self.gFloor = math.random(1,#self.m_levelCon.roomBgs)
     elseif self.m_roomsNum % self.runFloorNum == 0 then
         self.runMapFloor = self.m_roomsNum
         local k = GameDataManager.getDataIdByWeight()
@@ -237,11 +238,10 @@ function MapLayer:addNewRooms(parameters)
         self.m_levelCon = MapRunningConfig[k]
         self.roomType = self.m_levelCon.roomType
         self.roomDirection = self.m_levelCon.direction
-        self.lastBgType = self.m_levelCon.bgType
         self.floorNum = 0
         dCount = math.random(1,MaxShowCount)
         dArr = GameController.createRand(dCount,#self.m_levelCon.roomBgs)
-        gFloor = math.random(1,#self.m_levelCon.roomBgs)
+        self.gFloor = math.random(1,#self.m_levelCon.roomBgs)
     else
         if self.m_roomsNum % 10 == 0 then
             local type,config,group
@@ -293,7 +293,7 @@ function MapLayer:addNewRooms(parameters)
                 i = GameDataManager.getDataIdByWeight(type)
                 self.m_levelCon = config[i]
             end
-            Tools.printDebug("brj Hopscotch 普通组组：",self.m_levelCon.transit,self.m_levelCon.transit_1)
+            Tools.printDebug("-----------------------------brj Hopscotch 普通组组：",i,self.transit,self.transit_1)
             if self.m_levelCon.transit then
                 self.transit = true
             end
@@ -302,26 +302,26 @@ function MapLayer:addNewRooms(parameters)
             end
             self.groupType = type
             self.roomType = self.m_levelCon.roomType
-            self.lastBgType = self.m_levelCon.bgType
             self.floorNum = 0
             dCount = math.random(1,MaxShowCount)
             dArr = GameController.createRand(dCount,#self.m_levelCon.roomBgs)
-            gFloor = math.random(1,#self.m_levelCon.roomBgs)
+            self.gFloor = math.random(1,#self.m_levelCon.roomBgs)
+            Tools.printDebug("-----------------------------brj Hopscotch 普通组层：",self.gFloor)
         end 
     end
     
     if self.roomType ~= MAPROOM_TYPE.Running then
         self.floorNum = self.floorNum + 1
         if self.roomType == MAPROOM_TYPE.TwoLean then
-            self:addTwoLeanRoom(dArr,gFloor)
+            self:addTwoLeanRoom(dArr,self.gFloor)
         else
-            self:CommonRoomAdd(dArr,gFloor) 
+            self:CommonRoomAdd(dArr,self.gFloor) 
         end
     else
         if self.m_levelCon.direction ~= MAPRUNNING_TYPE.Both then
-            self:RunningRoomAdd(self.m_levelCon.direction,dArr,gFloor)
+            self:RunningRoomAdd(self.m_levelCon.direction,dArr,self.gFloor)
         else
-            self:addTwoRunningRoom(dArr,gFloor)
+            self:addTwoRunningRoom(dArr,self.gFloor)
         end
     end
     
@@ -800,7 +800,7 @@ function MapLayer:onEnterFrame(dt)
     local _scaleX = self.m_player:getScaleX()
     local _add = -1*_scaleX/math.abs(_scaleX)  --因为人物默认是向左的，所以乘以-1
     if self.m_player:getJump() then
-        self.m_physicWorld:rayCast(handler(self,self.rayCastFunc),cc.p(_p.x,_p.y+_size.height*0.5),cc.p(_p.x,_p.y+_size.height*0.5+Raycast_DisY))--起始坐标和结束坐标(是指发出的一条射线)
+        self.m_physicWorld:rayCast(handler(self,self.rayCastFunc),cc.p(_p.x,_p.y-_size.height*0.5),cc.p(_p.x,_p.y-_size.height*0.5-Raycast_DisY))--起始坐标和结束坐标(是指发出的一条射线)
     else
         self.m_physicWorld:rayCast(handler(self,self.rayCastFunc),cc.p(_p.x,_p.y-_size.height*0.5),cc.p(_p.x,_p.y-_size.height*0.5-Raycast_DisY))
     end
@@ -1003,6 +1003,15 @@ function MapLayer:onEnterFrame(dt)
     --火箭道具第一种类型
     if (GameController.isInState(PLAYER_STATE.Rocket) and self.m_player:getRocketState()==1) or GameController.isInState(PLAYER_STATE.StartRocket) then
         self:CoreLogic()
+    end
+    
+    if self.rocket then
+        local cameraPos = cc.p(self.m_camera:getPosition())
+        self.rocket:setPosition(cc.p(cameraPos.x+display.cx,cameraPos.y+display.cy))
+        local angle = math.asin((cameraPos.x-self.rocketLastPos.x)/math.sqrt(math.pow((cameraPos.x-self.rocketLastPos.x),2)+
+            math.pow((cameraPos.y-self.rocketLastPos.y),2)))
+        self.rocket:setRotation(angle)
+        self.rocketLastPos = cameraPos
     end
 
 end
@@ -1474,11 +1483,17 @@ function MapLayer:setPhantomShow(enable)
     self.phantomShow = enable
 end
 
---设置火箭
+--设置火箭对应幻影
 function MapLayer:setRocket()
     for key, var in pairs(self.havePhantom) do
 		self.phantom[var]:setVisible(false)
 	end
+end
+
+--火箭对象
+function MapLayer:setRocketObj(_obj)
+	self.rocket = _obj
+	self.rocketLastPos = cc.p(0,0)
 end
 
 --设置火箭状态下2，3类型逻辑

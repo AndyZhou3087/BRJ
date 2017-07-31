@@ -64,4 +64,12 @@
     <Project>SceneBg_10</Project>
     <GuidesList />
   </GuidesProject>
+  <GuidesProject>
+    <Project>RocketView</Project>
+    <GuidesList />
+  </GuidesProject>
+  <GuidesProject>
+    <Project>ReviveView</Project>
+    <GuidesList />
+  </GuidesProject>
 </ArrayOfGuidesProject>

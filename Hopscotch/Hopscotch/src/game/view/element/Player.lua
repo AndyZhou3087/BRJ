@@ -4,6 +4,7 @@ local Player = class("Player", LiveThing)
 local BuffState = require("game.view.element.BuffState")
 local PhysicSprite = require("game.custom.PhysicSprite")
 local Scheduler = require("framework.scheduler")
+local RocketElement = require("game.view.element.RocketElement")
 
 local MASS = 200
 local DENSITY = 10   --密度
@@ -346,6 +347,7 @@ function Player:startRocket(parameters)
     self:runAction(repeatF)
     
     --火箭特效
+    self:rocketEffect()
 end
 
 --冲刺火箭
@@ -456,7 +458,16 @@ function Player:springRocket(parameters)
     end
  
     --火箭特效
-    
+    self:rocketEffect()
+end
+
+function Player:rocketEffect()
+    if not tolua.isnull(self:getParent()) then
+        self.m_rocketEffect = RocketElement.new():addTo(self:getParent())
+        self.m_rocketEffect:setPosition(cc.p(display.cx,display.cy))
+        self.m_rocketEffect:setCameraMask(2)
+        self:getParent():setRocketObj(self.m_rocketEffect)
+    end
 end
 
 --火箭
@@ -610,9 +621,12 @@ function Player:clearBuff(_type)
 --            if not tolua.isnull(self:getParent()) then
 --                self:getParent():setRocketVisible()
 --            end
---            if not tolua.isnull(self.m_rocket) then
---                self.m_rocket:dispose(true)
---            end
+            if not tolua.isnull(self.m_rocketEffect) then
+                self.m_rocketEffect:removeFromParent(true)
+            end
+            if not tolua.isnull(self:getParent()) then
+                self:getParent():setRocketObj(nil)
+            end
             if self.m_armature then
                 self.m_armature:setVisible(true)
             end
@@ -624,9 +638,12 @@ function Player:clearBuff(_type)
         elseif _type == PLAYER_STATE.StartRocket then
             transition.stopTarget(self)
             self:stopAllActions()
---            if not tolua.isnull(self.m_rocket) then
---                self.m_rocket:dispose(true)
---            end
+            if not tolua.isnull(self.m_rocketEffect) then
+                self.m_rocketEffect:removeFromParent(true)
+            end
+            if not tolua.isnull(self:getParent()) then
+                self:getParent():setRocketObj(nil)
+            end
             if self.m_armature then
                 self.m_armature:setVisible(true)
             end

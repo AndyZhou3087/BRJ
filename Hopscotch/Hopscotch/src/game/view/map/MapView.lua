@@ -17,6 +17,10 @@ function MapView:ctor(parameters)
     Image_2:setPositionY(display.top-34)
     local Image_2_0 = cc.uiloader:seekNodeByName(self.m_mapView,"Image_2_0")
     Image_2_0:setPositionY(display.top-84)
+    self.Image_10 = cc.uiloader:seekNodeByName(self.m_mapView,"Image_10")
+    self.Image_10:setPositionY(display.bottom+106)
+    
+    self:fingerAct()
 
     self.DiamondCount = cc.uiloader:seekNodeByName(self.m_mapView,"DiamondCount")
     self.DiamondCount:setString(GameDataManager.getDiamond())
@@ -40,10 +44,42 @@ function MapView:ctor(parameters)
         pause:setButtonImage("disabled","pause/pause_1.png")
     end)
     self.PauseBtn:onButtonClicked(function (event)
---        GameDispatcher:dispatch(EventNames.EVENT_OPEN_PAUSE)
+        GameDispatcher:dispatch(EventNames.EVENT_OPEN_PAUSE)
         --测试
---        GameDispatcher:dispatch(EventNames.EVENT_START_ROCKET)
 --        GameDispatcher:dispatch(EventNames.EVENT_ROLE_REVIVE)
+    end)
+    
+    self.shop = cc.uiloader:seekNodeByName(self.m_mapView,"Button_left")
+    self.shop2 = cc.uiloader:seekNodeByName(self.m_mapView,"shop")
+    self.shop2:setButtonEnabled(false)
+    self.rocket = cc.uiloader:seekNodeByName(self.m_mapView,"Button_right")
+    self.rocket2 = cc.uiloader:seekNodeByName(self.m_mapView,"rocketBtn")
+    self.rocket2:setButtonEnabled(false)
+
+    --购物车按钮
+    self.shop:onButtonPressed(function(_event)    --按下
+        self.shop2:setButtonImage("disabled","main/Main_shop_2.png")
+    end)
+    self.shop:onButtonRelease(function(_event)    --触摸离开
+        self.shop2:setButtonImage("disabled","main/Main_shop_1.png")
+    end)
+    self.shop:onButtonClicked(function (event)
+        GameDispatcher:dispatch(EventNames.EVENT_OPEN_SHOP)
+    end)
+
+    --火箭按钮
+    self.rocket:onButtonPressed(function(_event)    --按下
+        self.rocket2:setButtonImage("disabled","rocket/Rocket_2.png")
+    end)
+    self.rocket:onButtonRelease(function(_event)    --触摸离开
+        self.rocket2:setButtonImage("disabled","rocket/Rocket_1.png")
+    end)
+    self.rocket:onButtonClicked(function (event)
+        Tools.printDebug("--------brj 打开开局冲刺界面")
+        if not self.openClick then
+        	self.openClick = true
+            self:openRocketView()
+        end
     end)
     
     
@@ -65,6 +101,40 @@ function MapView:ctor(parameters)
     GameDispatcher:addListener(EventNames.EVENT_UPDATE_BEST,handler(self,self.updateBestFloor))
     GameDispatcher:addListener(EventNames.EVENT_CLOSE_TIME,handler(self,self.startProcess))
     GameDispatcher:addListener(EventNames.EVENT_STOP_COUNTDOWN,handler(self,self.stopProcess))
+    GameDispatcher:addListener(EventNames.EVENT_HIDE_BOTTOM,handler(self,self.hideBottom))
+end
+
+function MapView:fingerAct()
+    ccs.ArmatureDataManager:getInstance():addArmatureFileInfo("effect/szc0.png", "effect/szc0.plist" , "effect/szc.ExportJson" )
+    self.finger = ccs.Armature:create("szc")
+    self:addChild(self.finger)
+    self.finger:getAnimation():playWithIndex(0)
+    self.finger:setPosition(cc.p(display.cx,display.bottom+250))
+end
+
+function MapView:hideBottom(parm)
+    self.Image_10:stopAllActions()
+    self.finger:setVisible(false)
+    if parm.data then
+        local move = cc.MoveBy:create(0.2,cc.p(0,220))
+        self.Image_10:runAction(move) 
+    else
+        local move = cc.MoveBy:create(0.2,cc.p(0,-220))
+        self.Image_10:runAction(move) 
+    end
+end
+
+--打开火箭冲刺界面
+function MapView:openRocketView()
+    self.Image_10:stopAllActions()
+    self.finger:setVisible(false)
+    local move = cc.MoveBy:create(0.1,cc.p(0,-220))
+    local callfunc = cc.CallFunc:create(function()
+        self.openClick = false
+        GameDispatcher:dispatch(EventNames.EVENT_ROCKET_VIEW)
+    end)
+    local seq = cc.Sequence:create(move,callfunc)
+    self.Image_10:runAction(seq)
 end
 
 function MapView:updateDiamond()
@@ -133,6 +203,7 @@ function MapView:dispose(parameters)
     GameDispatcher:removeListenerByName(EventNames.EVENT_UPDATE_FLOOR)
     GameDispatcher:removeListenerByName(EventNames.EVENT_CLOSE_TIME)
     GameDispatcher:removeListenerByName(EventNames.EVENT_STOP_COUNTDOWN)
+    GameDispatcher:removeListenerByName(EventNames.EVENT_HIDE_BOTTOM)
     
     if self.timeHandler then
         Scheduler.unscheduleGlobal(self.timeHandler)

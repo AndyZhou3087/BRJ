@@ -13,6 +13,8 @@ InitDiamond = 20
 
 --获取礼物花费钻石的数量
 DiamondSpendReward = 100
+--冲刺花费数量
+CostSpringDiamond = 50
 
 --看视频得钻石随机范围
 VideoDiamond = {50,100}

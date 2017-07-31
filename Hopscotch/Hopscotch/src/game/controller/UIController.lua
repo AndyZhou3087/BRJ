@@ -3,6 +3,7 @@ local PauseView = require("game.view.pause.PauseUI")
 local SettlementView = require("game.view.settlement.SettlementUI")
 local ShopView = require("game.view.shop.ShopView")
 local FlyText = require("game.view.flyText.FlyText")
+local RocketView = require("game.view.map.RocketView")
 
 local UIController = class("UIController")
 
@@ -17,6 +18,8 @@ function UIController:ctor()
     GameDispatcher:addListener(EventNames.EVENT_OPEN_SHOP,handler(self,self.openShopUI))
     --飘字
     GameDispatcher:addListener(EventNames.EVENT_FLY_TEXT,handler(self,self.flyText))
+    --火箭界面
+    GameDispatcher:addListener(EventNames.EVENT_ROCKET_VIEW,handler(self,self.rocketView))
 end
 
 --打开设置界面
@@ -47,6 +50,12 @@ end
 function UIController:flyText(parameters)
     local _flyUi = FlyText.new(parameters.data)
     _flyUi:show(UI_ZORDER.TIPS_ZORDER)
+end
+
+--火箭界面
+function UIController:rocketView(parameters)
+    local _flyUi = RocketView.new(parameters.data)
+    _flyUi:show(UI_ZORDER.VIEW_ZORDER)
 end
 
 return UIController
