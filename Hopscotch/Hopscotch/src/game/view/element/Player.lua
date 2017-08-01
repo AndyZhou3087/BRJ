@@ -492,6 +492,7 @@ end
 --角色复活
 function Player:relive(parameters)
     GameController.resumeGame()
+    self:createModle(self.m_modle)
     self.m_isDead = false
     self:addLifeNum(1)
     local camera,floorPos,curFloor,dis,curRoomKey
@@ -531,10 +532,13 @@ function Player:selfDead()
         else
             self:stopAllActions()
             self.m_armature:stopAllActions()
-            --弹结算，后期弹复活
-            GameDispatcher:dispatch(EventNames.EVENT_OPEN_SETTLEMENT) 
-            --测试
---            GameController.pauseGame()
+            if GameDataManager.getRevive() then
+                --弹结算
+                GameDispatcher:dispatch(EventNames.EVENT_OPEN_SETTLEMENT)
+            else
+                --复活
+                GameDispatcher:dispatch(EventNames.EVENT_REVIVE_VIEW)
+            end
         end
     end
 end

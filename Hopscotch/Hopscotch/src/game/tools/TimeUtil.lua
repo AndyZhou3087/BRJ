@@ -58,7 +58,7 @@ function TimeUtil._onResponse(event,backHandle)
     if not timeHandler then
         timeHandler = Scheduler.scheduleGlobal(TimeUtil._updateTime,1)
     end
-    GameDispatcher:dispatch(EventNames.EVENT_NET_TIME_CHANGE)
+--    GameDispatcher:dispatch(EventNames.EVENT_NET_TIME_CHANGE)
     if backHandle then
         backHandle()
     end
@@ -77,7 +77,7 @@ function TimeUtil._updateTime()
 end
 --跨天变化触发（零点触发）
 function TimeUtil._dayChange(parameters)
-    GameDataManager.resetSign()
+--    GameDataManager.resetSign()
 end
 
 --获取时间戳

@@ -8,12 +8,12 @@ local RocketElement=class("RocketElement",BaseElement)
 function RocketElement:ctor(arr,lineSprite)
     RocketElement.super.ctor(self)
 
---    self.m_rocketEffect = display.newSprite("rocket/rocket.png"):addTo(self)
+    self.m_rocketEffect = display.newSprite("rocket/rocket.png"):addTo(self)
     
-    ccs.ArmatureDataManager:getInstance():addArmatureFileInfo("effect/hj0.png", "effect/hj0.plist" , "effect/hj.ExportJson" )
-    self.m_rocketEffect = ccs.Armature:create("hj")
-    self:addChild(self.m_rocketEffect)
-    self.m_rocketEffect:getAnimation():playWithIndex(0)
+--    ccs.ArmatureDataManager:getInstance():addArmatureFileInfo("effect/hj0.png", "effect/hj0.plist" , "effect/hj.ExportJson" )
+--    self.m_rocketEffect = ccs.Armature:create("hj")
+--    self:addChild(self.m_rocketEffect)
+--    self.m_rocketEffect:getAnimation():playWithIndex(0)
     
 --    local function toRotation()
 --        local time = math.random(8,15)

@@ -59,6 +59,8 @@ function GameDataManager.initUserData()
     GameDataManager.initGoodsData()
     --初始化房间楼层权重
     GameDataManager.initRoomWeight()
+    --复活
+    GameDataManager.initRevive()
 
     --初始化礼包信息
 --    GameDataManager.initGift()
@@ -175,6 +177,57 @@ function GameDataManager.resetGameDiamond()
 end
 
 --===================End=========================
+
+
+--========================复活=============================
+--复活次数
+local reviveCount = 0
+function GameDataManager.initRevive()
+    reviveCount = DataPersistence.getAttribute("reviveCount")
+end
+
+function GameDataManager.addReviveCount()
+    reviveCount = reviveCount + 1
+    if reviveCount>=2 then
+    	reviveCount = 2
+        GameDataManager.setReviveEndTime(TimeUtil.getTimeStamp(),CountDownTime)
+        GameDispatcher:dispatch(EventNames.EVENT_UPDATE_REVIVE)
+    end
+end
+
+function GameDataManager.getReviveCount()
+    return reviveCount
+end
+
+function GameDataManager.resetReviveCount()
+	reviveCount = 0
+end
+
+--游戏内倒计时回满结束时间
+function GameDataManager.setReviveEndTime(_time,_pTime)
+    DataPersistence.updateAttribute("revive_endTime",_time) --距体力回满结束时间戳
+    DataPersistence.updateAttribute("remain_reviveTime",_pTime)  --距离回满剩余时间
+end
+function GameDataManager.getReviveEndTime()
+    return DataPersistence.getAttribute("revive_endTime"),DataPersistence.getAttribute("remain_reviveTime") --距体力回满结束时间戳
+end
+
+--游戏内复活
+local isRevive = false
+function GameDataManager.setRevive(_enable)
+    isRevive = _enable
+end
+--
+function GameDataManager.getRevive()
+    return isRevive
+end
+--重置游戏内复活
+function GameDataManager.resetRevive()
+    isRevive = false
+end
+
+--===================End=========================
+
 
 
 --===================角色信息相关=========================
@@ -762,6 +815,8 @@ function GameDataManager.saveGameData()
     DataPersistence.updateAttribute("bestscore",userData.record)
     DataPersistence.updateAttribute("cur_roleID",curRoleID)
     DataPersistence.updateAttribute("cur_sceneID",curSceneID)
+    
+    DataPersistence.updateAttribute("reviveCount",reviveCount)
 
     local modleList = {}
     for key, var in pairs(modleDic) do

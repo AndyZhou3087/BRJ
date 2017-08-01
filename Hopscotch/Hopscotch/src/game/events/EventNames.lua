@@ -21,6 +21,9 @@ EventNames.EVENT_FLY_TEXT = "event_fly_text"
 --打开火箭界面
 EventNames.EVENT_ROCKET_VIEW = "event_rocket_view"
 
+--复活界面
+EventNames.EVENT_REVIVE_VIEW = "event_revive_view"
+
 --=======================刷新功能=======================
 --刷新场景
 EventNames.EVENT_UPDATE_SCENE = "event_update_scene"
@@ -42,6 +45,9 @@ EventNames.EVENT_UPDATE_BEST = "event_update_best"
 
 --检测回到起点
 EventNames.EVENT_BACK_ORIGIN = "event_back_origin"
+
+--复活次数刷新
+EventNames.EVENT_UPDATE_REVIVE = "event_update_revive"
 
 --======================游戏内场景=======================
 --迟钝药水

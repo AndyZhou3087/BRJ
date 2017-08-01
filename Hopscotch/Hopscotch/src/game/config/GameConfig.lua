@@ -21,6 +21,7 @@ VideoDiamond = {50,100}
 --开局冲刺随机层数
 OpenRocketFloor = {80,120}
 
+CountDownTime = 30*60
 
 --视觉开关
 Game_Visible = true

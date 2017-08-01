@@ -66,6 +66,17 @@ function GameApp:ctor()
     --需要缓存的使用道具记录,{当前使用的道具id列表}
     DataPersistence.insertAttribute("cacheGoods",{})
 
+    --复活倒计时
+    DataPersistence.insertAttribute("revive_endTime",0) --倒计时回满结束时间戳
+    --复活剩余时间
+    DataPersistence.insertAttribute("remain_reviveTime",0) --倒计时回满结束时间戳
+    --复活次数
+    DataPersistence.insertAttribute("reviveCount",0)
+    
+    --开局倒计时
+    DataPersistence.insertAttribute("start_endTime",0) --倒计时回满结束时间戳
+    --开局次数
+    DataPersistence.insertAttribute("startCount",0)
 
     --角色礼包每日领奖
 --    DataPersistence.insertAttribute("rolegift",{})

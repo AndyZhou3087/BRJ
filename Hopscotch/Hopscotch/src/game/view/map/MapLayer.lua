@@ -2046,7 +2046,7 @@ function MapLayer:dispose(parameters)
         self.delayHandler=nil
     end
     
-
+    GameDataManager.resetRevive()
     GameDataManager.resetPoints()
     GameDataManager.resetGameDiamond()
     
