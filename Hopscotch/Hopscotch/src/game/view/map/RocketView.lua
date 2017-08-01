@@ -42,6 +42,8 @@ function RocketView:ctor(parameters)
             GameDataManager.costDiamond(CostSpringDiamond)
             self:toClose(true)
             GameDispatcher:dispatch(EventNames.EVENT_START_ROCKET)
+        else
+            GameDispatcher:dispatch(EventNames.EVENT_FLY_TEXT,{text ="钻石不足"})
         end
     end)
 
