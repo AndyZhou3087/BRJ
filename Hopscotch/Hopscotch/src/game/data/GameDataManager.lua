@@ -396,12 +396,12 @@ end
 
 function GameDataManager.initSpecialWeight()
     for key, var in pairs(Map_Grade) do
-        if var~=Map_Grade.floor_S then
+--        if var~=Map_Grade.floor_S then
             GameDataManager.getMapInArr(var)
-        end
+--        end
     end
     for key, var in pairs(Map_Grade) do
-        if var ~= Map_Grade.floor_S then
+--        if var ~= Map_Grade.floor_S then
             local _group
             if var == Map_Grade.floor_D then
                 _group = MapGroupD
@@ -411,6 +411,8 @@ function GameDataManager.initSpecialWeight()
                 _group = MapGroupB
             elseif var == Map_Grade.floor_A then
                 _group = MapGroupA
+            elseif var == Map_Grade.floor_S then
+                _group = MapGroupS
             end
             if not bgWeight[var] then
                 bgWeight[var] = {}
@@ -439,7 +441,7 @@ function GameDataManager.initSpecialWeight()
                     bgConfig[var][_group[3]][arr2[v]._id] = arr2[v]
                 end
             end
-        end
+--        end
     end
 end
 
@@ -468,6 +470,9 @@ function GameDataManager.getMapInArr(_type)
     elseif _type == Map_Grade.floor_A then
         config = MapGroupConfigA
         group = MapGroupA
+    elseif _type == Map_Grade.floor_S then
+        config = MapGroupConfigS
+        group = MapGroupS
     end
     for key, var in pairs(config) do
         local info = var
@@ -586,8 +591,21 @@ function GameDataManager.getDataIdByWeight(_type,_bgType)
                 _weight = _weightA
             end
         elseif _type == Map_Grade.floor_S then
-            configArr = configArrS
-            _weight = _weightS
+            if _bgType then
+                if _bgType == MapGroupS[1] then
+                    configArr = bgConfig[_type][MapGroupS[1]]
+                    _weight = bgWeight[_type][MapGroupS[1]]
+                elseif _bgType == MapGroupS[2] then
+                    configArr = bgConfig[_type][MapGroupS[2]]
+                    _weight = bgWeight[_type][MapGroupS[2]]
+                elseif _bgType == MapGroupS[3] then
+                    configArr = bgConfig[_type][MapGroupS[3]]
+                    _weight = bgWeight[_type][MapGroupS[3]]
+                end
+            else
+                configArr = configArrS
+                _weight = _weightS
+            end
         elseif _type == -1 then 
             configArr = configArrF
             _weight = _weightF

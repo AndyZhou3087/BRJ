@@ -278,7 +278,7 @@ function MapLayer:addNewRooms(parameters)
                 group = MapGroupD
             end
             local i
-            if type ~= Map_Grade.floor_S then
+--            if type ~= Map_Grade.floor_S then
                 if self.transit_1 then
                     i = GameDataManager.getDataIdByWeight(type,group[3])
                     self.m_levelCon = GameDataManager.getMpaGradeTable(type,group[3])[i]
@@ -289,10 +289,10 @@ function MapLayer:addNewRooms(parameters)
                     i = GameDataManager.getDataIdByWeight(type,group[1])
                     self.m_levelCon = GameDataManager.getMpaGradeTable(type,group[1])[i]
                 end
-            else
-                i = GameDataManager.getDataIdByWeight(type)
-                self.m_levelCon = config[i]
-            end
+--            else
+--                i = GameDataManager.getDataIdByWeight(type)
+--                self.m_levelCon = config[i]
+--            end
             Tools.printDebug("-----------------------------brj Hopscotch 普通组组：",i,self.transit,self.transit_1)
             if self.m_levelCon.transit then
                 self.transit = true
@@ -750,19 +750,6 @@ function MapLayer:onEnterFrame(dt)
         local floorPos = self.floorPos[self.jumpFloorNum]
         self.m_player:setPosition(cc.p(bpx,floorPos.y+_size.height*0.5+self.m_player:getErrorValue()))
     end
---    Tools.printDebug("brj2222222222222222--------角色停留位置---------: ",self.m_player:getPositionY(),self.backOrigin)
-    
-    local x,y = self.m_camera:getPosition()
-    
---    Tools.printDebug("brj2222222222222222--------跳房子角色坐标---------: ",bpx,x+Room_Distance.x-_size.width*0.5,x+display.width-Room_Distance.x+_size.width*0.5)
-    if not self.runMapFloor or (self.jumpFloorNum ~= self.runMapFloor and self.jumpFloorNum ~= self.runMapFloor + 1) then
-        if bpx <= x-_size.width*0.5 then
-            self:playerDead()
-        end
-        if bpx >= x+display.right+_size.width*0.5 then
-            self:playerDead()
-        end
-    end
     
     local pos
     if self.floorPos[self.jumpFloorNum].x then
@@ -782,6 +769,17 @@ function MapLayer:onEnterFrame(dt)
             else
                 pos = self.floorPos[self.jumpFloorNum][2]
             end
+        end
+    end
+    local x,y = self.m_camera:getPosition()
+    if not self.runMapFloor or (self.jumpFloorNum ~= self.runMapFloor and self.jumpFloorNum ~= self.runMapFloor + 1) then
+        if bpx <= pos.x-_size.width*0.5 then
+            self:playerDead()
+--            Tools.printDebug("brj2222222222222222--------左边死亡---------:")
+        end
+        if bpx >= pos.x+display.right+_size.width*0.5 then
+            self:playerDead()
+--            Tools.printDebug("brj1111111111111111--------右边死亡---------:")
         end
     end
     if bpy < pos.y-Room_Size.height*3 then
@@ -1007,10 +1005,18 @@ function MapLayer:onEnterFrame(dt)
     
     if self.rocket then
         local cameraPos = cc.p(self.m_camera:getPosition())
-        self.rocket:setPosition(cc.p(cameraPos.x+display.cx,cameraPos.y+display.cy))
-        local angle = math.asin((cameraPos.x-self.rocketLastPos.x)/math.sqrt(math.pow((cameraPos.x-self.rocketLastPos.x),2)+
-            math.pow((cameraPos.y-self.rocketLastPos.y),2)))
-        self.rocket:setRotation(angle)
+        self.rocket:setPosition(cc.p(cameraPos.x+display.cx,cameraPos.y+display.cy-200))
+        local lean = math.pow((cameraPos.x-self.rocketLastPos.x),2)+ math.pow((cameraPos.y-self.rocketLastPos.y),2)
+        local sqLean = math.sqrt(lean)
+        if sqLean~=0 then
+            local radian = math.asin((cameraPos.x-self.rocketLastPos.x)/sqLean)
+            local angle = math.deg(radian)
+            Tools.printDebug("------------火箭移动角度---------：",angle)
+--            if self.lastAngle~=angle then
+                self.rocket:setRotation(angle)
+--                self.lastAngle = angle
+--            end
+        end
         self.rocketLastPos = cameraPos
     end
 
@@ -1914,11 +1920,14 @@ end
 --开局火箭冲刺
 function MapLayer:startRocket(_floor)
     self.rocketFloor = _floor
+    Tools.printDebug("---------------------brj hoshos 随机层数：",_floor)
     self.runFloorNum = self.runFloorNum + _floor
 end
 
 function MapLayer:toStopStartRocket()
-    self.m_player:setPositionX(self.m_camera:getPositionX()+display.cx)
+    local pos = self.floorPos[self.rocketFloor]
+    self.m_player:setPositionX(pos.x+display.cx)
+--    self.m_camera:setPosition(cc.p(pos.x,pos.y-self.bottomHeight))
 end
 
 --重置幻影角色

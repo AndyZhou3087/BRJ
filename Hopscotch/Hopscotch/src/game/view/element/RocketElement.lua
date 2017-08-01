@@ -24,11 +24,11 @@ function RocketElement:ctor(arr,lineSprite)
 --    local move3 = cc.MoveBy:create(0.3,cc.p(-200,0))
 --    local move6 = cc.MoveBy:create(0.3,cc.p(0,0))
 --    local move4 = cc.MoveBy:create(0.3,cc.p(200,0))
-    local rotate = cc.RotateTo:create(0.1,5)
-    local rotate2 = cc.RotateTo:create(0.1,-5)
-    local seq = cc.Sequence:create(rotate,rotate2)
-    local repeatF = cc.RepeatForever:create(seq)
-    self.m_rocketEffect:runAction(repeatF)
+--    local rotate = cc.RotateTo:create(0.1,5)
+--    local rotate2 = cc.RotateTo:create(0.1,-5)
+--    local seq = cc.Sequence:create(rotate,rotate2)
+--    local repeatF = cc.RepeatForever:create(seq)
+--    self.m_rocketEffect:runAction(repeatF)
 
 end  
 

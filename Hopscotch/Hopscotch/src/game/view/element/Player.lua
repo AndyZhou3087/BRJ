@@ -338,12 +338,8 @@ function Player:startRocket(parameters)
     
     local time = math.floor(floor/10)*0.4
 --    Tools.printDebug("-=-------------------brj 奔跑距离：",pos.y+self.m_size.height*0.5+30-self:getPositionY(),time)
-    local move = cc.MoveBy:create(0.4,cc.p(100,0))
-    local move2 = cc.MoveBy:create(0.4,cc.p(-100,0))
-    local moveY = cc.MoveBy:create(0.8,cc.p(0,Room_Size.height*20))
-    local seq = cc.Spawn:create(move,move2)
-    local spawn = cc.Spawn:create(seq,moveY)
-    local repeatF = cc.RepeatForever:create(spawn)
+    local moveY = cc.MoveBy:create(0.04,cc.p(0,Room_Size.height))
+    local repeatF = cc.RepeatForever:create(moveY)
     self:runAction(repeatF)
     
     --火箭特效
@@ -464,7 +460,7 @@ end
 function Player:rocketEffect()
     if not tolua.isnull(self:getParent()) then
         self.m_rocketEffect = RocketElement.new():addTo(self:getParent())
-        self.m_rocketEffect:setPosition(cc.p(display.cx,display.cy))
+        self.m_rocketEffect:setPosition(cc.p(display.cx,display.cy-200))
         self.m_rocketEffect:setCameraMask(2)
         self:getParent():setRocketObj(self.m_rocketEffect)
     end
@@ -512,6 +508,9 @@ end
 function Player:selfDead()
     if self:isInState(PLAYER_STATE.Rocket) then
         return
+    end
+    if self:isInState(PLAYER_STATE.StartRocket) then
+    	return
     end
     if not self.m_armature:isVisible() then
         return

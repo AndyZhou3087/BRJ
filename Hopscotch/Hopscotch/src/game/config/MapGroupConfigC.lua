@@ -18,7 +18,7 @@ MapGroupConfigC={}
 --    roomGoods = {0,0,0,0,0,1,0},
 --}
 
-MapGroupC = {ROOMBGSIZE_TYPE.Six_1,ROOMBGSIZE_TYPE.Six}
+MapGroupC = {ROOMBGSIZE_TYPE.Six_1,ROOMBGSIZE_TYPE.Six}  --51-150层
 
 --六块半地板普通楼层1-30
 --六块过渡层31-60
@@ -240,7 +240,7 @@ MapGroupConfigC[15]=
 MapGroupConfigC[16]= 
     { 
         _id=16, 
-        roomBgs={43,47,49,37,38,41,43,35,32,38}, --房间背景地面
+        roomBgs={43,48,49,37,38,41,43,35,32,38}, --房间背景地面
         ornaments={73,61,57,80,68,97,62,90,58,52}, ---小挂件
         coins={1,1,1,1,1,1,1,1,1,1}, --钻石(随机出现层数、次数和位置)
         roomGoods={1,1,1,1,1,1,1,1,1,1}, ---道具
@@ -319,6 +319,7 @@ MapGroupConfigC[31]=
         distance = 0,        --房间x轴倾斜距离(单位：像素)
         probability = 5,     --权重
         bgType = ROOMBGSIZE_TYPE.Six_1,
+	transit = true,
     } 
     
 MapGroupConfigC[32]= 
@@ -333,6 +334,7 @@ MapGroupConfigC[32]=
         distance = 0,        --房间x轴倾斜距离(单位：像素)
         probability = 5, --权重
         bgType = ROOMBGSIZE_TYPE.Six_1,
+	transit = true,
     } 
     
 MapGroupConfigC[33]= 
@@ -347,6 +349,7 @@ MapGroupConfigC[33]=
         distance = 0,        --房间x轴倾斜距离(单位：像素)
         probability = 5, --权重
         bgType = ROOMBGSIZE_TYPE.Six_1,
+	transit = true,
     } 
     
 MapGroupConfigC[34]= 
@@ -361,6 +364,7 @@ MapGroupConfigC[34]=
         distance = 0,        --房间x轴倾斜距离(单位：像素)
         probability = 5,     --权重
         bgType = ROOMBGSIZE_TYPE.Six_1,
+	transit = true,
     } 
 
 MapGroupConfigC[35]= 
@@ -375,6 +379,7 @@ MapGroupConfigC[35]=
         distance = 0,        --房间x轴倾斜距离(单位：像素)
         probability = 5,     --权重
         bgType = ROOMBGSIZE_TYPE.Six_1,
+	transit = true,
     } 
   
 MapGroupConfigC[36]= 
@@ -389,6 +394,7 @@ MapGroupConfigC[36]=
         distance = 0,        --房间x轴倾斜距离(单位：像素)
         probability = 5,     --权重
         bgType = ROOMBGSIZE_TYPE.Six_1,
+	transit = true,
     } 
 
 MapGroupConfigC[37]= 
@@ -403,6 +409,7 @@ MapGroupConfigC[37]=
         distance = 0,        --房间x轴倾斜距离(单位：像素)
         probability = 5,     --权重
         bgType = ROOMBGSIZE_TYPE.Six_1,
+	transit = true,
     } 
 
 MapGroupConfigC[38]= 
@@ -417,6 +424,7 @@ MapGroupConfigC[38]=
         distance = 0,        --房间x轴倾斜距离(单位：像素)
         probability = 5,     --权重
         bgType = ROOMBGSIZE_TYPE.Six_1,
+	transit = true,
     } 
 
 MapGroupConfigC[39]= 
@@ -431,6 +439,7 @@ MapGroupConfigC[39]=
         distance = 0,        --房间x轴倾斜距离(单位：像素)
         probability = 5,     --权重
         bgType = ROOMBGSIZE_TYPE.Six_1,
+	transit = true,
     } 
 
 MapGroupConfigC[40]= 
@@ -445,6 +454,7 @@ MapGroupConfigC[40]=
         distance = 0,        --房间x轴倾斜距离(单位：像素)
         probability = 5,     --权重
         bgType = ROOMBGSIZE_TYPE.Six_1,
+	transit = true,
     } 
 
 MapGroupConfigC[41]= 
@@ -459,6 +469,7 @@ MapGroupConfigC[41]=
         distance = 0,        --房间x轴倾斜距离(单位：像素)
         probability = 5,     --权重
         bgType = ROOMBGSIZE_TYPE.Six_1,
+	transit = true,
     } 
 
 MapGroupConfigC[42]= 
@@ -473,6 +484,7 @@ MapGroupConfigC[42]=
         distance = 0,        --房间x轴倾斜距离(单位：像素)
         probability = 5,     --权重
         bgType = ROOMBGSIZE_TYPE.Six_1,
+	transit = true,
     } 
 
 MapGroupConfigC[43]= 
@@ -487,6 +499,7 @@ MapGroupConfigC[43]=
         distance = 0,        --房间x轴倾斜距离(单位：像素)
         probability = 5,     --权重
         bgType = ROOMBGSIZE_TYPE.Six_1,
+	transit = true,
     } 
 
 MapGroupConfigC[44]= 
@@ -501,6 +514,7 @@ MapGroupConfigC[44]=
         distance = 0,        --房间x轴倾斜距离(单位：像素)
         probability = 5,     --权重
         bgType = ROOMBGSIZE_TYPE.Six_1,
+	transit = true,
     } 
 
 MapGroupConfigC[45]= 
@@ -515,12 +529,13 @@ MapGroupConfigC[45]=
         distance = 0,        --房间x轴倾斜距离(单位：像素)
         probability = 5,     --权重
         bgType = ROOMBGSIZE_TYPE.Six_1,
+	transit = true,
     }
     
 MapGroupConfigC[46]= 
     { 
         _id=46, 
-        roomBgs={81,77,79,67,68,71,73,65,62,68}, --房间背景地面
+        roomBgs={81,78,79,67,68,71,73,65,62,68}, --房间背景地面
         ornaments={93,121,147,150,108,137,122,140,108,102}, ---小挂件
         coins={1,1,1,1,1,1,1,1,1,1}, --钻石(随机出现层数、次数和位置)
         roomGoods={1,1,1,1,1,1,1,1,1,1}, ---道具
@@ -529,6 +544,7 @@ MapGroupConfigC[46]=
         distance = 0,        --房间x轴倾斜距离(单位：像素)
         probability = 5,     --权重
         bgType = ROOMBGSIZE_TYPE.Six_1,
+	transit = true,
     } 
 
 MapGroupConfigC[47]= 
@@ -543,6 +559,7 @@ MapGroupConfigC[47]=
         distance = 0,        --房间x轴倾斜距离(单位：像素)
         probability = 5,     --权重
         bgType = ROOMBGSIZE_TYPE.Six_1,
+	transit = true,
     } 
 
 MapGroupConfigC[48]= 
@@ -557,6 +574,7 @@ MapGroupConfigC[48]=
         distance = 0,        --房间x轴倾斜距离(单位：像素)
         probability = 5,     --权重
         bgType = ROOMBGSIZE_TYPE.Six_1,
+	transit = true,
     } 
 
 MapGroupConfigC[49]= 
@@ -571,6 +589,7 @@ MapGroupConfigC[49]=
         distance = 0,        --房间x轴倾斜距离(单位：像素)
         probability = 5,     --权重
         bgType = ROOMBGSIZE_TYPE.Six_1,
+	transit = true,
     } 
 
 MapGroupConfigC[50]= 
@@ -585,6 +604,7 @@ MapGroupConfigC[50]=
         distance = 0,        --房间x轴倾斜距离(单位：像素)
         probability = 5,     --权重
         bgType = ROOMBGSIZE_TYPE.Six_1,
+	transit = true,
     } 
 
 MapGroupConfigC[51]= 
@@ -599,6 +619,7 @@ MapGroupConfigC[51]=
         distance = 0,        --房间x轴倾斜距离(单位：像素)
         probability = 5,     --权重
         bgType = ROOMBGSIZE_TYPE.Six_1,
+	transit = true,
     } 
 
 MapGroupConfigC[52]= 
@@ -613,6 +634,7 @@ MapGroupConfigC[52]=
         distance = 0,        --房间x轴倾斜距离(单位：像素)
         probability = 5,     --权重
         bgType = ROOMBGSIZE_TYPE.Six_1,
+	transit = true,
     } 
 
 MapGroupConfigC[53]= 
@@ -627,6 +649,7 @@ MapGroupConfigC[53]=
         distance = 0,        --房间x轴倾斜距离(单位：像素)
         probability = 5,     --权重
         bgType = ROOMBGSIZE_TYPE.Six_1,
+	transit = true,
     } 
 
 
@@ -649,7 +672,7 @@ MapGroupConfigC[62]=
     { 
         _id=62, 
         roomBgs={63,62,62,68,73,74,78,79,67,68}, --房间背景地面
-        ornaments={121,133,136,119,130,145,124,131,108,104}, ---小挂件
+        ornaments={121,133,136,119,130,145,127,131,108,104}, ---小挂件
         coins={1,1,1,1,1,1,1,1,1,1}, --钻石(随机出现层数、次数和位置)
         roomGoods={1,1,1,1,1,1,1,1,1,1}, ---道具
         roomType = MAPROOM_TYPE.Common,
@@ -662,7 +685,7 @@ MapGroupConfigC[62]=
 MapGroupConfigC[63]= 
     { 
         _id=63, 
-        roomBgs={77,75,69,77,75,64,62,68,63,68}, --房间背景地面
+        roomBgs={77,75,69,77,75,65,62,68,63,68}, --房间背景地面
         ornaments={131,126,108,116,145,132,109,142,136,103}, ---小挂件
         coins={1,1,1,1,1,1,1,1,1,1}, --钻石(随机出现层数、次数和位置)
         roomGoods={1,1,1,1,1,1,1,1,1,1}, ---道具
@@ -705,7 +728,7 @@ MapGroupConfigC[66]=
     { 
         _id=66, 
         roomBgs={77,79,75,74,78,67,68,63,68,71}, --房间背景地面
-        ornaments={13,124,108,147,132,146,128,130,109,102}, ---小挂件
+        ornaments={123,124,108,147,132,146,128,130,109,102}, ---小挂件
         coins={1,1,1,1,1,1,1,1,1,1}, --钻石(随机出现层数、次数和位置)
         roomGoods={1,1,1,1,1,1,1,1,1,1}, ---道具
         roomType = MAPROOM_TYPE.Common,
@@ -830,7 +853,7 @@ MapGroupConfigC[74]=
 MapGroupConfigC[75]= 
     { 
         _id=75, 
-        roomBgs={77,75,78,77,72,65,76,67,62,68}, --房间背景地面
+        roomBgs={77,75,78,79,75,65,76,67,62,68}, --房间背景地面
         ornaments={115,122,147,136,145,128,109,134,145,103}, ---小挂件
         coins={1,1,1,1,1,1,1,1,1,1}, --钻石(随机出现层数、次数和位置)
         roomGoods={1,1,1,1,1,1,1,1,1,1}, ---道具
@@ -844,7 +867,7 @@ MapGroupConfigC[75]=
 MapGroupConfigC[76]= 
     { 
         _id=76, 
-        roomBgs={73,77,79,67,68,71,73,65,62,68}, --房间背景地面
+        roomBgs={73,78,79,67,68,71,73,65,62,68}, --房间背景地面
         ornaments={113,121,107,140,148,137,122,150,108,102}, ---小挂件
         coins={1,1,1,1,1,1,1,1,1,1}, --钻石(随机出现层数、次数和位置)
         roomGoods={1,1,1,1,1,1,1,1,1,1}, ---道具
@@ -915,7 +938,7 @@ MapGroupConfigC[81]=
     { 
         _id=81, 
         roomBgs={63,68,73,42,35,72,78,79,67,68}, --房间背景地面
-        ornaments={146,116,124,75,64,139,122,145,105,102}, ---小挂件
+        ornaments={146,116,124,75,134,139,122,145,105,102}, ---小挂件
         coins={1,1,1,1,1,1,1,1,1,1}, ---钻石
         roomGoods={1,1,1,1,1,1,1,1,1,1}, ---道具
         roomType = MAPROOM_TYPE.Common,
@@ -928,7 +951,7 @@ MapGroupConfigC[81]=
 MapGroupConfigC[82]= 
     { 
         _id=82, 
-        roomBgs={77,75,69,63,8,13,9,63,62,68}, --房间背景地面
+        roomBgs={77,75,69,63,8,13,9,3,62,68}, --房间背景地面
         ornaments={105,114,142,135,38,40,29,138,147,104}, ---小挂件
         coins={1,1,1,1,1,1,1,1,1,1}, ---钻石
         roomGoods={1,1,1,1,1,1,1,1,1,1}, ---道具
