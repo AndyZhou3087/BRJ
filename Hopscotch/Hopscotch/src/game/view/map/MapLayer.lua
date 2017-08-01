@@ -246,8 +246,13 @@ function MapLayer:addNewRooms(parameters)
         if self.m_roomsNum % 10 == 0 then
             local type,config,group
             if self.m_roomsNum >= Map_Grade.floor_S then
+                if self.groupType ~= Map_Grade.floor_S then
+                    self.transit = false
+                    self.transit_1 = false
+                end
                 type = Map_Grade.floor_S
                 config = MapGroupConfigS
+                group = MapGroupS
             elseif self.m_roomsNum >= Map_Grade.floor_A then
                 if self.groupType ~= Map_Grade.floor_A then
                     self.transit = false
@@ -293,7 +298,7 @@ function MapLayer:addNewRooms(parameters)
 --                i = GameDataManager.getDataIdByWeight(type)
 --                self.m_levelCon = config[i]
 --            end
-            Tools.printDebug("-----------------------------brj Hopscotch 普通组组：",i,self.transit,self.transit_1)
+            Tools.printDebug("-----------------------------brj Hopscotch 普通组组：",self.m_roomsNum,i,type)
             if self.m_levelCon.transit then
                 self.transit = true
             end
@@ -306,7 +311,7 @@ function MapLayer:addNewRooms(parameters)
             dCount = math.random(1,MaxShowCount)
             dArr = GameController.createRand(dCount,#self.m_levelCon.roomBgs)
             self.gFloor = math.random(1,#self.m_levelCon.roomBgs)
-            Tools.printDebug("-----------------------------brj Hopscotch 普通组层：",self.gFloor)
+--            Tools.printDebug("-----------------------------brj Hopscotch 普通组层：",self.gFloor)
         end 
     end
     
