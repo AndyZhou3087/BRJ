@@ -27,9 +27,9 @@ function RocketView:ctor(parameters)
         Tools.printDebug("--------brj 看视频冲刺")
         SDKUtil.getDiamondByVideo({callback=function(_res)
             if SDKUtil.PayResult.Success == _res then
-                self:toClose(true)
                 GameDataManager.addStartCount()
                 GameDispatcher:dispatch(EventNames.EVENT_START_ROCKET)
+                self:toClose(true)
             else
                 GameDispatcher:dispatch(EventNames.EVENT_FLY_TEXT,{text ="冲刺失败"})
             end
@@ -41,9 +41,9 @@ function RocketView:ctor(parameters)
         Tools.printDebug("--------brj 花费钻石冲刺")
         if GameDataManager.getDiamond()>=CostSpringDiamond then
             GameDataManager.costDiamond(CostSpringDiamond)
-            self:toClose(true)
             GameDataManager.addStartCount()
             GameDispatcher:dispatch(EventNames.EVENT_START_ROCKET)
+            self:toClose(true)
         else
             GameDispatcher:dispatch(EventNames.EVENT_FLY_TEXT,{text ="钻石不足"})
         end

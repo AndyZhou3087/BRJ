@@ -329,21 +329,23 @@ function Player:startRocket(parameters)
     end
     local floor = math.random(OpenRocketFloor[1]/10,OpenRocketFloor[2]/10)*10
     if not tolua.isnull(self:getParent()) then
-        self:getParent():startRocket(floor)
+        self:getParent():toStartRocket(floor)
     end
     
     self:addBuff({type=PLAYER_STATE.StartRocket})
     self.m_armature:setVisible(false)
     self:toRocket()
-    
-    local time = math.floor(floor/10)*0.4
---    Tools.printDebug("-=-------------------brj 奔跑距离：",pos.y+self.m_size.height*0.5+30-self:getPositionY(),time)
-    local moveY = cc.MoveBy:create(0.04,cc.p(0,Room_Size.height))
-    local repeatF = cc.RepeatForever:create(moveY)
-    self:runAction(repeatF)
+    self:toStartRocket()
+--    self:toStartRocket()
     
     --火箭特效
     self:rocketEffect()
+end
+
+function Player:toStartRocket()
+    local moveY = cc.MoveBy:create(0.04,cc.p(0,Room_Size.height))
+    local repeatF = cc.RepeatForever:create(moveY)
+    self:runAction(repeatF)
 end
 
 --冲刺火箭
@@ -627,6 +629,7 @@ function Player:clearBuff(_type)
             if not tolua.isnull(self.m_rocketEffect) then
                 self.m_rocketEffect:removeFromParent(true)
             end
+--            self:rocketMoveLittle()
             if not tolua.isnull(self:getParent()) then
                 self:getParent():setRocketObj(nil)
             end
@@ -644,6 +647,7 @@ function Player:clearBuff(_type)
             if not tolua.isnull(self.m_rocketEffect) then
                 self.m_rocketEffect:removeFromParent(true)
             end
+--            self:rocketMoveLittle()
             if not tolua.isnull(self:getParent()) then
                 self:getParent():setRocketObj(nil)
             end
@@ -679,6 +683,25 @@ function Player:isInState(_state)
         return false
     end
 end
+
+--最后一点火箭飞行一会
+--function Player:rocketMoveLittle()
+--	local move = cc.MoveBy:create(0.4,cc.p(0,900))
+--	local removeSelf = cc.RemoveSelf:create()
+--	local callfunc = cc.CallFunc:create(function()
+--        if self.m_armature then
+--            self.m_armature:setVisible(true)
+--        end
+--	end)
+--    local spawn = cc.Spawn:create(removeSelf,callfunc)
+--    local seq = cc.Sequence:create(move,spawn)
+--    self.m_rocketEffect:runAction(seq)
+--end
+
+function Player:getActionVisible()
+    return self.m_armature:isVisible()
+end
+
 --判断角色是否死亡
 function Player:isDead()
 --    Tools.printDebug("-------------------角色死亡：",self.m_vo.m_lifeNum)

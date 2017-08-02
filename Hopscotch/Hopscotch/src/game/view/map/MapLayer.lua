@@ -118,6 +118,9 @@ function MapLayer:touchFunc(event)
     if GameController.isInState(PLAYER_STATE.Rocket) or GameController.isInState(PLAYER_STATE.StartRocket) then
         return
     end
+    if not self.m_player:getActionVisible() then
+    	return
+    end
 --    Tools.printDebug("-----------------------------self.backOrigin  ",self.backOrigin)
     if self.backOrigin then
     	return
@@ -1923,7 +1926,7 @@ function MapLayer:backOriginFunc()
 end
 
 --开局火箭冲刺
-function MapLayer:startRocket(_floor)
+function MapLayer:toStartRocket(_floor)
     self.rocketFloor = _floor
     Tools.printDebug("---------------------brj hoshos 随机层数：",_floor)
     self.runFloorNum = self.runFloorNum + _floor
