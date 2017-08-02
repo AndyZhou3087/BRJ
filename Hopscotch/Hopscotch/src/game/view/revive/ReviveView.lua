@@ -143,6 +143,9 @@ function ReviveView:closeRocketView()
     end)
     local seq = cc.Sequence:create(move,callfunc)
     self.Image_110:runAction(seq)
+    
+    local move2 = cc.MoveBy:create(0.15,cc.p(0,-220))
+    self.countDownLabel:runAction(move2)
 end
 
 function ReviveView:onCleanup(parameters)

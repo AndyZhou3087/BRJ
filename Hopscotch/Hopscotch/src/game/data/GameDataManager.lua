@@ -704,14 +704,14 @@ function GameDataManager.getDataIdByWeight(_type,_bgType)
     end
     local _wegt = math.random(1,_weight)
     local t = 0
-    Tools.printDebug("brj Hopscotch -------------------------------所有权重：",_wegt,_weight)
+--    Tools.printDebug("brj Hopscotch ----------------所有权重：",_wegt,_weight)
     --得到当前id
     local id = 0
     for key, var in pairs(configArr) do
         t = t + var.probability
         if t >= _wegt then
             id = var._id
-            Tools.printDebug("brj Hopscotch 随机值：",id)
+            Tools.printDebug("brj Hopscotch 随机值：",id,t,_wegt)
             return id
         end
     end
