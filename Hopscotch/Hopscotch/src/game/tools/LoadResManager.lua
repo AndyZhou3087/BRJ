@@ -23,6 +23,7 @@ local fightRes = {
     {type = PreLoadType.Texture,plist="role/RoleJump9.plist",png="role/RoleJump9.png"},
     {type = PreLoadType.Texture,plist="role/RoleJump10.plist",png="role/RoleJump10.png"},
     {type = PreLoadType.Animate,plist = "role/RoleJump.plist"},
+    {type = PreLoadType.Animate,plist = "role/RoleJump_1.plist"},
 --    {type = PreLoadType.Animation,plist="role/nv_pao0.plist",png="role/nv_pao0.png",json="role/nv_pao.ExportJson"},
 --    {type = PreLoadType.Animation,plist="role/chongci0.plist",png="role/chongci0.png",json="role/chongci.ExportJson"},
 --    {type = PreLoadType.Animation,plist="role/nan30.plist",png="role/nan30.png",json="role/nan3.ExportJson"},

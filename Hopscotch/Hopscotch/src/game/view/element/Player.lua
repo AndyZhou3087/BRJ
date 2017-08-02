@@ -183,8 +183,8 @@ function Player:toJump(ty,isRunning)
         self:stopAllActions()
         self:createModle(self.m_jumpModle)
         local x,y = self:getPosition()
-        local move = cc.MoveBy:create(0.2,cc.p(0,ty-y+self.m_size.width*0.5+50))
-        local move2 = cc.MoveBy:create(0.1,cc.p(0,-20))
+        local move = cc.MoveBy:create(0.2,cc.p(0,ty-y+self.m_size.width*0.5+40))
+        local move2 = cc.MoveBy:create(0.15,cc.p(0,-10))
         local easeOut = cc.EaseCubicActionOut:create(move)
         local easeIn = cc.EaseCubicActionIn:create(move2)
         local callfunc = cc.CallFunc:create(function()
@@ -207,7 +207,7 @@ function Player:toJump(ty,isRunning)
         self:runAction(seq)
     end
 
-    AudioManager.playSoundEffect(AudioManager.Sound_Effect_Type.Jump_Sound)
+--    AudioManager.playSoundEffect(AudioManager.Sound_Effect_Type.Jump_Sound)
 end
 
 function Player:toStopJump()
