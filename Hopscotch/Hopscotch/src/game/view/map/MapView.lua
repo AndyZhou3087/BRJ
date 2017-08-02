@@ -94,6 +94,14 @@ function MapView:ctor(parameters)
     self.process:setPosition(self.proBg:getContentSize().width/2, self.proBg:getContentSize().height/2)
     self.process:setPercentage(100)
     
+    
+    self.countDown = 0  
+    self.countDownLabel = cc.uiloader:seekNodeByName(self.m_mapView,"BitmapLabel_14")
+    self.countDownLabel:setVisible(false)
+    self.countDownLabel:setColor(cc.c3b(50,222,255))
+    self.countDownLabel:setString((self.countDown/60)..":"..(self.countDown%60))
+    self:updateStartTime()
+
 
     --监听钻石
     self.diamondHandler = GameDispatcher:addListener(EventNames.EVENT_DIAMOND_CHANGE,handler(self,self.updateDiamond))
@@ -102,6 +110,52 @@ function MapView:ctor(parameters)
     GameDispatcher:addListener(EventNames.EVENT_CLOSE_TIME,handler(self,self.startProcess))
     GameDispatcher:addListener(EventNames.EVENT_STOP_COUNTDOWN,handler(self,self.stopProcess))
     GameDispatcher:addListener(EventNames.EVENT_HIDE_BOTTOM,handler(self,self.hideBottom))
+    GameDispatcher:addListener(EventNames.EVENT_UPDATE_STARTROCKET,handler(self,self.updateStartRocket))
+end
+
+function MapView:updateStartTime()
+    local time1,time2 = GameDataManager.getStartEndTime()
+    if GameDataManager.getStartCount()==2 then
+        if TimeUtil.getTimeStamp() - time1 >= time2 then
+            self.rocket:setButtonEnabled(true)
+            self.countDownLabel:setVisible(false)
+            GameDataManager.resetStartCount()
+        else
+            self.countDown = time2 - (TimeUtil.getTimeStamp() - time1)
+            GameDataManager.setStartEndTime(TimeUtil.getTimeStamp(),self.countDown)
+            self.countDownLabel:setVisible(true)
+            self.countDownLabel:setString(string.format("%02d:%02d",self.countDown/60,self.countDown%60))
+            self.rocket:setButtonEnabled(false)
+            self.m_Handler = Scheduler.scheduleGlobal(handler(self,self.updateCountDown), 1)
+        end
+    end
+end
+
+function MapView:updateStartRocket()
+    if GameDataManager.getStartCount() == 2 then
+        self.countDown = CountDownTime
+        GameDataManager.setStartEndTime(TimeUtil.getTimeStamp(),self.countDown)
+        self.countDownLabel:setString(string.format("%02d:%02d",self.countDown/60,self.countDown%60))
+        self.rocket:setButtonEnabled(false)
+        self.countDownLabel:setVisible(true)
+        self.m_Handler = Scheduler.scheduleGlobal(handler(self,self.updateCountDown), 1)
+    end
+end
+
+function MapView:updateCountDown()
+    self.countDown = self.countDown - 1
+    GameDataManager.setStartEndTime(TimeUtil.getTimeStamp(),self.countDown)
+    self.countDownLabel:setString(string.format("%02d:%02d",self.countDown/60,self.countDown%60))
+    if self.countDown <= 0 then
+        self.countDown = 0
+        self.rocket:setButtonEnabled(true)
+        self.countDownLabel:setVisible(false)
+        GameDataManager.resetStartCount()
+        if self.m_Handler then
+            Scheduler.unscheduleGlobal(self.m_Handler)
+            self.m_Handler=nil
+        end
+    end
 end
 
 function MapView:fingerAct()
@@ -117,10 +171,14 @@ function MapView:hideBottom(parm)
     self.finger:setVisible(false)
     if parm.data then
         local move = cc.MoveBy:create(0.2,cc.p(0,220))
-        self.Image_10:runAction(move) 
+        self.Image_10:runAction(move)
+        local move2 = cc.MoveBy:create(0.2,cc.p(0,220))
+        self.countDownLabel:runAction(move2)
     else
         local move = cc.MoveBy:create(0.2,cc.p(0,-220))
-        self.Image_10:runAction(move) 
+        self.Image_10:runAction(move)
+        local move2 = cc.MoveBy:create(0.2,cc.p(0,-220))
+        self.countDownLabel:runAction(move2)
     end
 end
 
@@ -204,10 +262,16 @@ function MapView:dispose(parameters)
     GameDispatcher:removeListenerByName(EventNames.EVENT_CLOSE_TIME)
     GameDispatcher:removeListenerByName(EventNames.EVENT_STOP_COUNTDOWN)
     GameDispatcher:removeListenerByName(EventNames.EVENT_HIDE_BOTTOM)
+    GameDispatcher:removeListenerByName(EventNames.EVENT_UPDATE_STARTROCKET)
     
     if self.timeHandler then
         Scheduler.unscheduleGlobal(self.timeHandler)
         self.timeHandler=nil
+    end
+    
+    if self.m_Handler then
+        Scheduler.unscheduleGlobal(self.m_Handler)
+        self.m_Handler=nil
     end
 
     self:removeFromParent(true)

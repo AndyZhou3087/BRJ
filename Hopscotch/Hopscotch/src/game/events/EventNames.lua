@@ -49,6 +49,9 @@ EventNames.EVENT_BACK_ORIGIN = "event_back_origin"
 --复活次数刷新
 EventNames.EVENT_UPDATE_REVIVE = "event_update_revive"
 
+--开局次数刷新
+EventNames.EVENT_UPDATE_STARTROCKET = "event_update_startrocket"
+
 --======================游戏内场景=======================
 --迟钝药水
 EventNames.EVENT_SLOWLY = "event_slowly"

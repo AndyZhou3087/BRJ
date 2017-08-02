@@ -75,6 +75,8 @@ function GameApp:ctor()
     
     --开局倒计时
     DataPersistence.insertAttribute("start_endTime",0) --倒计时回满结束时间戳
+    --开局剩余时间
+    DataPersistence.insertAttribute("remain_startTime",0) --倒计时回满结束时间戳
     --开局次数
     DataPersistence.insertAttribute("startCount",0)
 

@@ -61,6 +61,8 @@ function GameDataManager.initUserData()
     GameDataManager.initRoomWeight()
     --复活
     GameDataManager.initRevive()
+    --初始化开局
+    GameDataManager.initStartRocket()
 
     --初始化礼包信息
 --    GameDataManager.initGift()
@@ -178,7 +180,6 @@ end
 
 --===================End=========================
 
-
 --========================复活=============================
 --复活次数
 local reviveCount = 0
@@ -228,6 +229,40 @@ end
 
 --===================End=========================
 
+--========================开局倒计时=============================
+--开局使用次数
+local startCount = 0
+function GameDataManager.initStartRocket()
+    startCount = DataPersistence.getAttribute("startCount")
+end
+
+function GameDataManager.addStartCount()
+    startCount = startCount + 1
+    if startCount>=2 then
+        startCount = 2
+        GameDataManager.setStartEndTime(TimeUtil.getTimeStamp(),CountDownTime)
+        GameDispatcher:dispatch(EventNames.EVENT_UPDATE_STARTROCKET)
+    end
+end
+
+function GameDataManager.getStartCount()
+    return startCount
+end
+
+function GameDataManager.resetStartCount()
+    startCount = 0
+end
+
+--游戏内倒计时回满结束时间
+function GameDataManager.setStartEndTime(_time,_pTime)
+    DataPersistence.updateAttribute("start_endTime",_time) --距体力回满结束时间戳
+    DataPersistence.updateAttribute("remain_startTime",_pTime)  --距离回满剩余时间
+end
+function GameDataManager.getStartEndTime()
+    return DataPersistence.getAttribute("start_endTime"),DataPersistence.getAttribute("remain_startTime") --距体力回满结束时间戳
+end
+
+--===================End=========================
 
 
 --===================角色信息相关=========================
@@ -817,6 +852,7 @@ function GameDataManager.saveGameData()
     DataPersistence.updateAttribute("cur_sceneID",curSceneID)
     
     DataPersistence.updateAttribute("reviveCount",reviveCount)
+    DataPersistence.updateAttribute("startCount",startCount)
 
     local modleList = {}
     for key, var in pairs(modleDic) do

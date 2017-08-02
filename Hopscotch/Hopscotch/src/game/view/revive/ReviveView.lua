@@ -47,7 +47,6 @@ function ReviveView:ctor(parameters)
             GameDataManager.costDiamond(CostSpringDiamond)
             self:toClose(true)
             GameDispatcher:dispatch(EventNames.EVENT_ROLE_REVIVE)
-            GameDataManager.addReviveCount()
             GameDataManager.setRevive(true)
         else
             GameDispatcher:dispatch(EventNames.EVENT_FLY_TEXT,{text ="钻石不足"})
@@ -71,10 +70,11 @@ function ReviveView:ctor(parameters)
         end
     end)
     
+    self.countDown = 0
     self.countDownLabel = cc.uiloader:seekNodeByName(self.m_mapView,"BitmapLabel_13")
     self.countDownLabel:setVisible(false)
     self.countDownLabel:setColor(cc.c3b(50,222,255))
-    self.countDownLabel:setString(string.format("%02d:%02d",0/60,0%60))
+--    self.countDownLabel:setString((self.countDown/60)..":"..(self.countDown%60))
     self:updateReviveTime()
 
     local move2 = cc.MoveTo:create(0.15,cc.p(0,0))
@@ -94,7 +94,7 @@ function ReviveView:updateReviveTime()
             self.countDown = time2 - (TimeUtil.getTimeStamp() - time1)
             GameDataManager.setReviveEndTime(TimeUtil.getTimeStamp(),self.countDown)
             self.countDownLabel:setVisible(true)
-            self.countDownLabel:setString(string.format("%02d:%02d",self.countDown/60,self.countDown%60))
+            self.countDownLabel:setString((self.countDown/60)..":"..(self.countDown%60))
             self.tvRocket:setButtonEnabled(false)
             self.m_Handler = Scheduler.scheduleGlobal(handler(self,self.updateCountDown), 1)
         end
@@ -105,7 +105,7 @@ function ReviveView:updateRevive()
     if GameDataManager.getReviveCount() == 2 then
         self.countDown = CountDownTime
         GameDataManager.setReviveEndTime(TimeUtil.getTimeStamp(),self.countDown)
-        self.countDownLabel:setString(string.format("%02d:%02d",self.countDown/60,self.countDown%60))
+        self.countDownLabel:setString((self.countDown/60)..":"..(self.countDown%60))
         self.tvRocket:setButtonEnabled(false)
         self.countDownLabel:setVisible(true)
         self.m_Handler = Scheduler.scheduleGlobal(handler(self,self.updateCountDown), 1)
