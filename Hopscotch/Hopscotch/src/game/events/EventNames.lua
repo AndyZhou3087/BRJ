@@ -86,4 +86,10 @@ EventNames.EVENT_ROLE_REVIVE = "event_role_revive"
 --点击隐藏开局冲刺
 EventNames.EVENT_HIDE_BOTTOM = "event_hide_bottom"
 
+--进入前台
+EventNames.EVENT_FOREGROUND = "event_foreground"
+
+--进入后台
+EventNames.EVENT_BACKGROUND = "event_Background"
+
 return EventNames

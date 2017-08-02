@@ -4,35 +4,35 @@
     {
       "strVersion": "1.6.0.0",
       "version": 1.6,
-      "name": "hj",
+      "name": "hj1",
       "bone_data": [
         {
-          "name": "Layer4",
+          "name": "Layer3",
           "parent": "",
           "dI": 0,
-          "x": -3.5,
-          "y": 72.67333984375,
+          "x": -2.2301931381225586,
+          "y": 2.197120189666748,
           "z": 1,
           "cX": 1.0,
           "cY": 1.0,
-          "kX": 1.56365359,
-          "kY": -1.56365359,
-          "arrow_x": 140.00352478027344,
-          "arrow_y": -2.6230503863189369E-05,
+          "kX": 1.55772519,
+          "kY": -1.55772519,
+          "arrow_x": 85.007240295410156,
+          "arrow_y": 2.8375925467116758E-06,
           "effectbyskeleton": true,
-          "bl": 140,
+          "bl": 85,
           "display_data": [
             {
               "name": "ZYhjtp.png",
               "displayType": 0,
               "skin_data": [
                 {
-                  "x": 73.01957,
-                  "y": 2.478508,
+                  "x": 2.77564788,
+                  "y": 2.24970222,
                   "cX": 1.0,
                   "cY": 1.0,
-                  "kX": -1.56365335,
-                  "kY": 1.56365514
+                  "kX": -1.55772507,
+                  "kY": 1.55772519
                 }
               ]
             }
@@ -43,7 +43,7 @@
   ],
   "animation_data": [
     {
-      "name": "hj",
+      "name": "hj1",
       "mov_data": [
         {
           "name": "Animation1",
@@ -52,10 +52,10 @@
           "to": 0,
           "drTW": 0,
           "twE": 0,
-          "sc": 1.66666663,
+          "sc": 1.0,
           "mov_bone_data": [
             {
-              "name": "Layer4",
+              "name": "Layer3",
               "dl": 0.0,
               "frame_data": [
                 {
@@ -81,7 +81,7 @@
                   "cX": 1.0,
                   "cY": 1.0,
                   "kX": 0.0,
-                  "kY": -0.06981317,
+                  "kY": -0.0174532924,
                   "fi": 5,
                   "twE": 0,
                   "tweenFrame": true,
@@ -111,7 +111,7 @@
                   "cX": 1.0,
                   "cY": 1.0,
                   "kX": 0.0,
-                  "kY": 0.06981317,
+                  "kY": 0.0174532924,
                   "fi": 15,
                   "twE": 0,
                   "tweenFrame": true,
@@ -136,9 +136,9 @@
     }
   ],
   "config_file_path": [
-    "hj0.plist"
+    "hj10.plist"
   ],
   "config_png_path": [
-    "hj0.png"
+    "hj10.png"
   ]
 }

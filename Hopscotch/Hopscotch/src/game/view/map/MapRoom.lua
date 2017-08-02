@@ -131,9 +131,9 @@ function MapRoom:initBlock(_roomBgVo)
         end
     end
     if _roomBgVo.floor then
-        local lastWidth = 0
-        local lastX = 0
-        local firstX = 0
+        self.lastWidth = 0
+        self.lastX = 0
+        self.firstX = 0
         for k=1, #_roomBgVo.floor do
             local info = _roomBgVo.floor[k]
             local type = Tools.Split("0"..info.res,"#")
@@ -149,13 +149,13 @@ function MapRoom:initBlock(_roomBgVo)
             floor:setAnchorPoint(cc.p(0.5,0.5))
             floor:setPosition(cc.p(info.x+floorSize.width*0.5,info.y+floorSize.height*0.5))
             table.insert(self.m_blocks,floor)
-            lastWidth = floorSize.width
-            lastX = info.x
+            self.lastWidth = floorSize.width
+            self.lastX = info.x
             if k == 1 then
-                firstX = info.x
+                self.firstX = info.x
             end
         end
-        self.roomWidth = lastX-firstX+lastWidth
+        self.roomWidth = self.lastX-self.firstX+self.lastWidth
     end
 end
 
@@ -226,7 +226,7 @@ function MapRoom:initGoods(goodCon,isShow)
         for var=1,#goodCon do
             local good=GoodsElement.new(goodCon[var].id):addTo(self)
             local goodSize = good:getCascadeBoundingBox().size
-            local x = math.random(Room_Distance.x+50+goodSize.width,display.right-Room_Distance.x-50-goodSize.width)
+            local x = math.random(self.firstX+50+goodSize.width,self.lastX+self.lastWidth-50-goodSize.width)
 --            Tools.printDebug("-------brj 道具x坐标：",x)
             good:setPosition(x+goodSize.width*0.5,goodCon[var].y+goodSize.height*0.5)
             table.insert(self.m_goods,good)

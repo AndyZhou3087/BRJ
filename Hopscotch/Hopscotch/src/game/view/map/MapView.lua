@@ -111,6 +111,12 @@ function MapView:ctor(parameters)
     GameDispatcher:addListener(EventNames.EVENT_STOP_COUNTDOWN,handler(self,self.stopProcess))
     GameDispatcher:addListener(EventNames.EVENT_HIDE_BOTTOM,handler(self,self.hideBottom))
     GameDispatcher:addListener(EventNames.EVENT_UPDATE_STARTROCKET,handler(self,self.updateStartRocket))
+    self.m_background = GameDispatcher:addListener(EventNames.EVENT_BACKGROUND,handler(self,self.enterBackground))
+
+end
+
+function MapView:enterBackground()
+    GameDataManager.setStartEndTime(TimeUtil.getTimeStamp(),self.countDown)
 end
 
 function MapView:updateStartTime()
@@ -263,6 +269,7 @@ function MapView:dispose(parameters)
     GameDispatcher:removeListenerByName(EventNames.EVENT_STOP_COUNTDOWN)
     GameDispatcher:removeListenerByName(EventNames.EVENT_HIDE_BOTTOM)
     GameDispatcher:removeListenerByName(EventNames.EVENT_UPDATE_STARTROCKET)
+    GameDispatcher:removeListenerByHandle(self.m_background)
     
     if self.timeHandler then
         Scheduler.unscheduleGlobal(self.timeHandler)

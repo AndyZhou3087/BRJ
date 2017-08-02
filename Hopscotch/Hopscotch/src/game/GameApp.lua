@@ -160,6 +160,7 @@ end
 
 function GameApp:onEnterBackground()
     print("chjh 进入后台")
+--    GameDispatcher:dispatch(EventNames.EVENT_BACKGROUND)
     GameController.setCollsionEnable(false)
     GameDataManager.saveGameData()
 end

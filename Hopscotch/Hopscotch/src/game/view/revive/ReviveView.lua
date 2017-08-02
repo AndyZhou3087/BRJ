@@ -81,6 +81,11 @@ function ReviveView:ctor(parameters)
     self.Image_110:runAction(move2)
     
     GameDispatcher:addListener(EventNames.EVENT_UPDATE_REVIVE,handler(self,self.updateRevive))
+    self.m_background = GameDispatcher:addListener(EventNames.EVENT_BACKGROUND,handler(self,self.enterBackground))
+end
+
+function ReviveView:enterBackground()
+    GameDataManager.setStartEndTime(TimeUtil.getTimeStamp(),self.countDown)
 end
 
 function ReviveView:updateReviveTime()
@@ -142,6 +147,7 @@ end
 
 function ReviveView:onCleanup(parameters)
     GameDispatcher:removeListenerByName(EventNames.EVENT_UPDATE_REVIVE)
+    GameDispatcher:removeListenerByHandle(self.m_background)
     
     if self.m_Handler then
         Scheduler.unscheduleGlobal(self.m_Handler)
