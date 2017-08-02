@@ -26,6 +26,35 @@ MapGroupC = {ROOMBGSIZE_TYPE.Six_1,ROOMBGSIZE_TYPE.Six}  --51-150层
 --六块半地板钢架楼层91-110
 --六块地板钢架楼层111-130
 
+--==========防止连续出现钢价层特殊楼层
+MapGroupConfigC[9999]= 
+    { 
+        _id=9999, 
+        roomBgs={41,47,45,48,45,39,33,42,35,38}, --房间背景地面
+        ornaments={83,78,79,56,92,67,76,58,94,53}, ---小挂件
+        coins={1,1,1,1,1,1,1,1,1,1}, --钻石(随机出现层数、次数和位置)
+        roomGoods={1,1,1,1,1,1,1,1,1,1}, ---道具
+        roomType = MAPROOM_TYPE.Common,
+        direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
+        distance = 0,        --房间x轴倾斜距离(单位：像素)
+        probability = 0,     --权重
+        bgType = ROOMBGSIZE_TYPE.Six_1,
+    }
+    
+MapGroupConfigC[8888]= 
+    { 
+        _id=8888, 
+        roomBgs={71,77,75,78,75,69,63,72,65,68}, --房间背景地面
+        ornaments={123,118,139,146,122,137,116,108,114,103}, ---小挂件
+        coins={1,1,1,1,1,1,1,1,1,1}, --钻石(随机出现层数、次数和位置)
+        roomGoods={1,1,1,1,1,1,1,1,1,1}, ---道具
+        roomType = MAPROOM_TYPE.Common,
+        direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
+        distance = 0,        --房间x轴倾斜距离(单位：像素)
+        probability = 0,     --权重
+        bgType = ROOMBGSIZE_TYPE.Six,
+    } 
+
 --==========================================================================六块半地板楼层1-30
 MapGroupConfigC[1]= 
     { 

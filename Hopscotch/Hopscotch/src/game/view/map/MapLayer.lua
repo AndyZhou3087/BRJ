@@ -160,22 +160,19 @@ function MapLayer:initRooms(parameters)
                 i = GameDataManager.getDataIdByWeight(Map_Grade.floor_D,MapGroupD[3])
                 self.m_levelCon = GameDataManager.getMpaGradeTable(Map_Grade.floor_D,MapGroupD[3])[i]
                 if self.m_levelCon.roomType == MAPROOM_TYPE.Special and self.roomType == MAPROOM_TYPE.Special then
-                    i = GameDataManager.getDataIdByWeight(Map_Grade.floor_D,MapGroupD[3])
-                    self.m_levelCon = GameDataManager.getMpaGradeTable(Map_Grade.floor_D,MapGroupD[3])[i]
+                    self.m_levelCon = GameDataManager.getMpaGradeTable(Map_Grade.floor_D,MapGroupD[3])[7777]
                 end
             elseif self.transit then
                 i = GameDataManager.getDataIdByWeight(Map_Grade.floor_D,MapGroupD[2])
                 self.m_levelCon = GameDataManager.getMpaGradeTable(Map_Grade.floor_D,MapGroupD[2])[i]
                 if self.m_levelCon.roomType == MAPROOM_TYPE.Special and self.roomType == MAPROOM_TYPE.Special then
-                    i = GameDataManager.getDataIdByWeight(Map_Grade.floor_D,MapGroupD[2])
-                    self.m_levelCon = GameDataManager.getMpaGradeTable(Map_Grade.floor_D,MapGroupD[2])[i]
+                    self.m_levelCon = GameDataManager.getMpaGradeTable(Map_Grade.floor_D,MapGroupD[2])[8888]
                 end
             else
                 i = GameDataManager.getDataIdByWeight(Map_Grade.floor_D,MapGroupD[1])
                 self.m_levelCon = GameDataManager.getMpaGradeTable(Map_Grade.floor_D,MapGroupD[1])[i]
                 if self.m_levelCon.roomType == MAPROOM_TYPE.Special and self.roomType == MAPROOM_TYPE.Special then
-                    i = GameDataManager.getDataIdByWeight(Map_Grade.floor_D,MapGroupD[1])
-                    self.m_levelCon = GameDataManager.getMpaGradeTable(Map_Grade.floor_D,MapGroupD[1])[i]
+                    self.m_levelCon = GameDataManager.getMpaGradeTable(Map_Grade.floor_D,MapGroupD[1])[9999]
                 end
             end
             Tools.printDebug("------------------------------------brj hop 配置组",k,i)
@@ -304,24 +301,21 @@ function MapLayer:addNewRooms(parameters)
                 if self.transit_1 then
                     i = GameDataManager.getDataIdByWeight(type,group[3])
                     self.m_levelCon = GameDataManager.getMpaGradeTable(type,group[3])[i]
---                    if self.m_levelCon.roomType == MAPROOM_TYPE.Special and self.roomType == MAPROOM_TYPE.Special then
---                        i = GameDataManager.getDataIdByWeight(type,group[3])
---                        self.m_levelCon = GameDataManager.getMpaGradeTable(type,group[3])[i]
---                    end
+                    if self.m_levelCon.roomType == MAPROOM_TYPE.Special and self.roomType == MAPROOM_TYPE.Special then
+                        self.m_levelCon = GameDataManager.getMpaGradeTable(type,group[3])[7777]
+                    end
                 elseif self.transit then
                     i = GameDataManager.getDataIdByWeight(type,group[2])
                     self.m_levelCon = GameDataManager.getMpaGradeTable(type,group[2])[i]
---                    if self.m_levelCon.roomType == MAPROOM_TYPE.Special and self.roomType == MAPROOM_TYPE.Special then
---                        i = GameDataManager.getDataIdByWeight(type,group[2])
---                        self.m_levelCon = GameDataManager.getMpaGradeTable(type,group[2])[i]
---                    end
+                    if self.m_levelCon.roomType == MAPROOM_TYPE.Special and self.roomType == MAPROOM_TYPE.Special then
+                        self.m_levelCon = GameDataManager.getMpaGradeTable(type,group[2])[8888]
+                    end
                 else
                     i = GameDataManager.getDataIdByWeight(type,group[1])
                     self.m_levelCon = GameDataManager.getMpaGradeTable(type,group[1])[i]
---                    if self.m_levelCon.roomType == MAPROOM_TYPE.Special and self.roomType == MAPROOM_TYPE.Special then
---                        i = GameDataManager.getDataIdByWeight(type,group[1])
---                        self.m_levelCon = GameDataManager.getMpaGradeTable(type,group[1])[i]
---                    end
+                    if self.m_levelCon.roomType == MAPROOM_TYPE.Special and self.roomType == MAPROOM_TYPE.Special then
+                        self.m_levelCon = GameDataManager.getMpaGradeTable(type,group[1])[9999]
+                    end
                 end
 --            else
 --                i = GameDataManager.getDataIdByWeight(type)

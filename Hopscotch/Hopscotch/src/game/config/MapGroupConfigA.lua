@@ -29,6 +29,48 @@ MapGroupA = {ROOMBGSIZE_TYPE.Five,ROOMBGSIZE_TYPE.Four_1,ROOMBGSIZE_TYPE.Four}  
 --四块半地板钢架楼层171-190
 --四块地板钢架楼层191-210
 
+--==========防止连续出现钢价层特殊楼层
+MapGroupConfigA[9999]= 
+    { 
+        _id=9999, 
+        ornaments={233,228,219,216,225,207,236,218,214,203}, ---小挂件
+        coins={1,1,1,1,1,1,1,1,1,1}, --钻石(随机出现层数、次数和位置)
+        roomGoods={1,1,1,1,1,1,1,1,1,1}, ---道具
+        roomType = MAPROOM_TYPE.Common,
+        direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
+        distance = 0,        --房间x轴倾斜距离(单位：像素)
+        probability = 0,     --权重
+        bgType = ROOMBGSIZE_TYPE.Five,
+    }
+
+MapGroupConfigA[8888]= 
+    { 
+        _id=8888, 
+        roomBgs={161,167,165,168,165,159,153,162,155,158}, --房间背景地面
+        ornaments={283,268,279,256,265,287,296,268,274,253}, ---小挂件
+        coins={1,1,1,1,1,1,1,1,1,1}, --钻石(随机出现层数、次数和位置)
+        roomGoods={1,1,1,1,1,1,1,1,1,1}, ---道具
+        roomType = MAPROOM_TYPE.Common,
+        direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
+        distance = 0,        --房间x轴倾斜距离(单位：像素)
+        probability = 0,     --权重
+        bgType = ROOMBGSIZE_TYPE.Four_1,
+    }
+
+MapGroupConfigA[7777]= 
+    { 
+        _id=7777, 
+        roomBgs={191,197,195,198,195,189,183,192,185,188}, --房间背景地面
+        ornaments={333,328,319,316,325,307,306,318,314,303}, ---小挂件
+        coins={1,1,1,1,1,1,1,1,1,1}, --钻石(随机出现层数、次数和位置)
+        roomGoods={1,1,1,1,1,1,1,1,1,1}, ---道具
+        roomType = MAPROOM_TYPE.Common,
+        direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
+        distance = 0,        --房间x轴倾斜距离(单位：像素)
+        probability = 0,     --权重
+        bgType = ROOMBGSIZE_TYPE.Four,
+    }
+
 --==========================================================================五块地板楼层1-30
 MapGroupConfigA[1]= 
     { 
@@ -1296,7 +1338,7 @@ MapGroupConfigA[121]=
         direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
         distance = 0,        --房间x轴倾斜距离(单位：像素)
         probability = 5,     --权重
-        bgType = ROOMBGSIZE_TYPE.Four_1,
+        bgType = ROOMBGSIZE_TYPE.Four,
     } 
     
 MapGroupConfigA[122]= 

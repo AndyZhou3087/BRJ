@@ -29,6 +29,49 @@ MapGroupS = {ROOMBGSIZE_TYPE.Four,ROOMBGSIZE_TYPE.Three_1,ROOMBGSIZE_TYPE.Three}
 --三块半地板钢架楼层171-190
 --三块地板钢架楼层191-220
 
+--==========防止连续出现钢价层特殊楼层
+MapGroupConfigS[9999]= 
+    { 
+        _id=9999, 
+        roomBgs={191,197,195,198,195,189,183,192,185,188}, --房间背景地面
+        ornaments={333,328,319,316,325,307,316,318,314,303}, ---小挂件
+        coins={1,1,1,1,1,1,1,1,1,1}, --钻石(随机出现层数、次数和位置)
+        roomGoods={1,1,1,1,1,1,1,1,1,1}, ---道具
+        roomType = MAPROOM_TYPE.Common,
+        direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
+        distance = 0,        --房间x轴倾斜距离(单位：像素)
+        probability = 0,     --权重
+        bgType = ROOMBGSIZE_TYPE.Four,
+    }
+
+MapGroupConfigS[8888]= 
+    { 
+        _id=8888, 
+        roomBgs={221,227,225,228,225,219,213,222,215,218}, --房间背景地面
+        ornaments={373,388,369,376,385,397,386,368,374,353}, ---小挂件
+        coins={1,1,1,1,1,1,1,1,1,1}, --钻石(随机出现层数、次数和位置)
+        roomGoods={1,1,1,1,1,1,1,1,1,1}, ---道具
+        roomType = MAPROOM_TYPE.Common,
+        direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
+        distance = 0,        --房间x轴倾斜距离(单位：像素)
+        probability = 0,     --权重
+        bgType = ROOMBGSIZE_TYPE.Three_1,
+    }
+
+MapGroupConfigS[7777]= 
+    { 
+        _id=7777, 
+        roomBgs={251,257,255,258,255,249,243,252,245,248}, --房间背景地面
+        ornaments={433,428,419,416,425,427,416,418,414,403}, ---小挂件
+        coins={1,1,1,1,1,1,1,1,1,1}, --钻石(随机出现层数、次数和位置)
+        roomGoods={1,1,1,1,1,1,1,1,1,1}, ---道具
+        roomType = MAPROOM_TYPE.Common,
+        direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
+        distance = 0,        --房间x轴倾斜距离(单位：像素)
+        probability = 5,     --权重
+        bgType = ROOMBGSIZE_TYPE.Three,
+    }
+
 --========================================================================四块地板楼层1-30
 MapGroupConfigS[1]= 
     { 
