@@ -134,7 +134,7 @@ function MapLayer:touchFunc(event)
             if self.isCollision then
                 self.isCollision = false
 --                self.m_jump = false
---                Tools.printDebug("brj 是否可连击跳跃: ",self.isCollision)
+                Tools.printDebug("brj 是否可连击跳跃: ",self.isCollision)
                 self:toJump()
             end
         end
@@ -800,7 +800,7 @@ function MapLayer:onEnterFrame(dt)
         end
     end
     local x,y = self.m_camera:getPosition()
-    if not self.runMapFloor or (self.jumpFloorNum ~= self.runMapFloor and self.jumpFloorNum ~= self.runMapFloor + 1) then
+    if self.curRoomType ~= MAPROOM_TYPE.Running and (not self.runMapFloor or (self.jumpFloorNum ~= self.runMapFloor and self.jumpFloorNum ~= self.runMapFloor + 1)) then
         if bpx <= pos.x-_size.width*0.5 then
             self:playerDead()
 --            Tools.printDebug("brj2222222222222222--------左边死亡---------:")
@@ -892,6 +892,7 @@ function MapLayer:onEnterFrame(dt)
             else
                 if _scaleX == 1 then
                     if x + _size.width+20 < self.otherX and y-_size.height*0.5 < self.otherY then
+                        Tools.printDebug("brj--------执行角色死亡---------: ",x + _size.width+20,self.otherX,y-_size.height*0.5,self.otherY)
                         self:playerDead()
                     end
                     if x-display.width*0.7 < mx then

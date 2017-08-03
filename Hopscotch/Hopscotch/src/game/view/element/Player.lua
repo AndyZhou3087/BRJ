@@ -180,25 +180,25 @@ function Player:toJump(pos,isRunning)
         self:toStarJump()
         local x,y = self:getPosition()
         
-        local move = cc.JumpTo:create(0.3,cc.p(x,pos.y+self.m_size.width*0.5+self.errorValue),Room_Size.height*0.8,1)
---        local move2 = cc.JumpBy:create(0.15,cc.p(0,-5),5,1)
---        local easeOut = cc.EaseCubicActionOut:create(move)
---        local easeIn = cc.EaseCubicActionIn:create(move2)
-        local callfunc = cc.CallFunc:create(function()
-            self:toStopJump()
-        end)
-        local seq = cc.Sequence:create(move,callfunc)
-        self:runAction(seq) 
-        
---        local move = cc.MoveBy:create(0.3,cc.p(0,pos.y-y+self.m_size.width*0.5+35))
---        local move2 = cc.MoveBy:create(0.15,cc.p(0,-5))
---        local easeOut = cc.EaseCubicActionOut:create(move)
---        local easeIn = cc.EaseCubicActionIn:create(move2)
+--        local move = cc.JumpTo:create(0.3,cc.p(x,pos.y+self.m_size.width*0.5+self.errorValue),Room_Size.height*0.8,1)
+----        local move2 = cc.JumpBy:create(0.15,cc.p(0,-5),5,1)
+----        local easeOut = cc.EaseCubicActionOut:create(move)
+----        local easeIn = cc.EaseCubicActionIn:create(move2)
 --        local callfunc = cc.CallFunc:create(function()
 --            self:toStopJump()
 --        end)
---        local seq = cc.Sequence:create(easeOut,callfunc)
---        self:runAction(seq)
+--        local seq = cc.Sequence:create(move,callfunc)
+--        self:runAction(seq) 
+        
+        local move = cc.MoveBy:create(0.2,cc.p(0,pos.y-y+self.m_size.width*0.5+40))
+        local move2 = cc.MoveBy:create(0.1,cc.p(0,-10))
+        local easeOut = cc.EaseCubicActionOut:create(move)
+        local easeIn = cc.EaseCubicActionIn:create(move2)
+        local callfunc = cc.CallFunc:create(function()
+            self:toStopJump()
+        end)
+        local seq = cc.Sequence:create(easeOut,easeIn,callfunc)
+        self:runAction(seq)
     else
         self:toStarJump()
         local x,y = self:getPosition()
@@ -514,7 +514,17 @@ function Player:relive(parameters)
         self:getParent():setRocket()
         camera,floorPos,curFloor,dis,curRoomKey = self:getParent():getRocketData()
     end
-    self:setPosition(cc.p(floorPos[curFloor].x+display.cx,floorPos[curFloor].y))
+    local pos
+    if floorPos[curFloor].x then
+        pos = floorPos[curFloor]
+    else
+        if self:getScaleX() == 1 then
+            pos = floorPos[curFloor][1]
+        else
+            pos = floorPos[curFloor][2]
+        end
+    end
+    self:setPosition(cc.p(pos.x+display.cx,pos.y))
     self:clearAllBuff()
     self:springRocket()
 end
