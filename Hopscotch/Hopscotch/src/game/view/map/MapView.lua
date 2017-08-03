@@ -165,10 +165,15 @@ function MapView:updateCountDown()
 end
 
 function MapView:fingerAct()
-    ccs.ArmatureDataManager:getInstance():addArmatureFileInfo("effect/szc0.png", "effect/szc0.plist" , "effect/szc.ExportJson" )
-    self.finger = ccs.Armature:create("szc")
-    self:addChild(self.finger)
-    self.finger:getAnimation():playWithIndex(0)
+    self.finger = display.newSprite("effect/guide_1.png"):addTo(self)
+    local animation = cc.AnimationCache:getInstance():getAnimation("guide")
+    local animate = cc.Animate:create(animation)
+    local seq = cc.RepeatForever:create(animate)
+    self.finger:runAction(seq)
+--    ccs.ArmatureDataManager:getInstance():addArmatureFileInfo("effect/szc0.png", "effect/szc0.plist" , "effect/szc.ExportJson" )
+--    self.finger = ccs.Armature:create("szc")
+--    self:addChild(self.finger)
+--    self.finger:getAnimation():playWithIndex(0)
     self.finger:setPosition(cc.p(display.cx,display.bottom+250))
 end
 

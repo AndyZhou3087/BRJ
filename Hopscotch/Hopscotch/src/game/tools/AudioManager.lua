@@ -10,7 +10,7 @@ AudioManager.Music_Path = "music/"
 AudioManager.Ground_Music_Type=
     {
         --战斗场景音乐
-        Fight_Bg = "bg.ogg",
+        Fight_Bg = "bg.mp3",
     }
 --音效类型
 AudioManager.Sound_Effect_Type=
@@ -20,7 +20,7 @@ AudioManager.Sound_Effect_Type=
         Get_Prop_Sound = "get_item.ogg",    --获得道具
         Player_Up_Lv = "u_level_up.ogg",  --角色升级
         Diamond_Cost = "zuanshixiaohao.ogg",   --消耗钻石
-        Jump_Sound = "jump.mp3",  --跳跃
+        Jump_Sound = "jump.ogg",  --跳跃
         GetGold_Sound = "gold.ogg",  --获得金币
         Magnet_Sound = "magnet.ogg",  --吸铁石
         RoleMan_Dead = "nanshoushang.ogg",   --男角色死亡
