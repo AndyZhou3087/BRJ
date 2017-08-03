@@ -774,7 +774,7 @@ function MapLayer:onEnterFrame(dt)
     local _size = self.m_player:getSize()
     self.m_player:update(dt,bpx,bpy)
     
-    if self.backOrigin then
+    if self.backOrigin or not self.m_player:getJump() then
         local floorPos = self.floorPos[self.jumpFloorNum]
         self.m_player:setPosition(cc.p(bpx,floorPos.y+_size.height*0.5+self.m_player:getErrorValue()))
     end
@@ -826,7 +826,7 @@ function MapLayer:onEnterFrame(dt)
     local _scaleX = self.m_player:getScaleX()
     local _add = -1*_scaleX/math.abs(_scaleX)  --因为人物默认是向左的，所以乘以-1
     if self.m_player:getJump() then
-        self.m_physicWorld:rayCast(handler(self,self.rayCastFunc),cc.p(_p.x,_p.y-_size.height*0.5),cc.p(_p.x,_p.y-_size.height*0.5-Raycast_DisY))--起始坐标和结束坐标(是指发出的一条射线)
+        self.m_physicWorld:rayCast(handler(self,self.rayCastFunc),cc.p(_p.x,_p.y+_size.height*0.5),cc.p(_p.x,_p.y+_size.height*0.5-Raycast_DisY))--起始坐标和结束坐标(是指发出的一条射线)
     else
         self.m_physicWorld:rayCast(handler(self,self.rayCastFunc),cc.p(_p.x,_p.y-_size.height*0.5),cc.p(_p.x,_p.y-_size.height*0.5-Raycast_DisY))
     end
@@ -1116,7 +1116,8 @@ function MapLayer:collisionBeginCallBack(parameters)
     if obstacleTag == ELEMENT_TAG.FLOOR then
 --        Tools.printDebug("----------brj 碰撞检测------------: ")
         self.isCollision = true
-        if not self.m_player:getJump() and self.curRoomType ~= MAPROOM_TYPE.Running and not GameController.isInState(PLAYER_STATE.Rocket) then
+        if not self.m_player:getJump() and self.curRoomType ~= MAPROOM_TYPE.Running and not GameController.isInState(PLAYER_STATE.Rocket) 
+            and not GameController.isInState(PLAYER_STATE.StartRocket) then
             local _size = self.m_player:getSize()
             local bpx,bpy = self.m_player:getPosition()
             local roomIndex = math.ceil((self.m_player:getPositionY()-self.bottomHeight)/Room_Size.height)
@@ -1499,7 +1500,7 @@ function MapLayer:toJump()
     else
         pos = self.floorPos[roomIndex+1][1]
     end
-    self.m_player:toJump(pos.y,self.curRoomType)
+    self.m_player:toJump(pos,self.curRoomType)
 end
 
 --设置幻影角色

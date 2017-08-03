@@ -16,7 +16,9 @@ function SetUI:ctor(parameters)
     local img = cc.uiloader:seekNodeByName(self.m_json,"Image_1")
     local BgX,BgY = img:getPosition()
     if parameters.animation == true then
-        self:popupLeft(BgX,BgY,img)
+        self:popupLeft(BgX,BgY,img,function()
+            GameController.pauseGame()
+        end)
     end
     
     self.Button_4 = cc.uiloader:seekNodeByName(self.m_json,"closeBtn")
@@ -31,6 +33,7 @@ function SetUI:ctor(parameters)
     end)
     self.closeBtn:onButtonClicked(function (event)
         if parameters.animation == true then
+            GameController.resumeGame()
             self:closeRight(BgX,BgY,img)
         end
     end)

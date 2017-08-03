@@ -32,13 +32,13 @@ Ornaments = {}
 --黄色楼层，三电梯
 Ornaments[1]=
     {
-       bg = {{res="#Room_bg_1.png",x=Room_Distance.x+17,y=16,type = RoomBg_Type.Half,},
-	      {res="#Room_bg_1.png",x=Room_Distance.x+16+94,y=16,type = RoomBg_Type.Full,},
-	      {res="#Room_bg_1.png",x=Room_Distance.x+15+94*2,y=16,type = RoomBg_Type.Full,},
-              {res="#Room_bg_1.png",x=Room_Distance.x+14+94*3,y=16,type = RoomBg_Type.Full,},
-	      {res="#Room_bg_1.png",x=Room_Distance.x+13+94*4,y=16,type = RoomBg_Type.Full,},
-	      {res="#Room_bg_1.png",x=Room_Distance.x+12+94*5,y=16,type = RoomBg_Type.Full,},
-              {res="#Room_bg_1.png",x=Room_Distance.x+11+94*6,y=16,type = RoomBg_Type.Half,},
+        bg = {{res="#Room_bg_1.png",x=Room_Distance.x+17,y=16,type = RoomBg_Type.All,},
+            {res="#Room_bg_1.png",x=Room_Distance.x+16+94,y=16,type = RoomBg_Type.All,},
+            {res="#Room_bg_1.png",x=Room_Distance.x+15+94*2,y=16,type = RoomBg_Type.All,},
+            {res="#Room_bg_1.png",x=Room_Distance.x+14+94*3,y=16,type = RoomBg_Type.All,},
+            {res="#Room_bg_1.png",x=Room_Distance.x+13+94*4,y=16,type = RoomBg_Type.All,},
+            {res="#Room_bg_1.png",x=Room_Distance.x+12+94*5,y=16,type = RoomBg_Type.All,},
+            {res="#Room_bg_1.png",x=Room_Distance.x+11+94*6,y=16,type = RoomBg_Type.All,},
 	      },--房间背景(背景窗户随机其实是在有背景图的几张图随机抽取一张替换图片为窗户)
         ornament = {{res="#Room_ornament_5.png",x=150,y=16},{res="#Room_ornament_5.png",x=350,y=16},{res="#Room_ornament_5.png",x=550,y=16}}
     }
@@ -46,13 +46,13 @@ Ornaments[1]=
 --黄色楼层，两电梯
 Ornaments[2]=
     {
-       bg = {{res="#Room_bg_1.png",x=Room_Distance.x+17,y=16,type = RoomBg_Type.Half,},
-	      {res="#Room_bg_1.png",x=Room_Distance.x+16+94,y=16,type = RoomBg_Type.Full,},
-	      {res="#Room_bg_1.png",x=Room_Distance.x+15+94*2,y=16,type = RoomBg_Type.Full,},
-              {res="#Room_bg_1.png",x=Room_Distance.x+14+94*3,y=16,type = RoomBg_Type.Full,},
-	      {res="#Room_bg_1.png",x=Room_Distance.x+13+94*4,y=16,type = RoomBg_Type.Full,},
-	      {res="#Room_bg_1.png",x=Room_Distance.x+12+94*5,y=16,type = RoomBg_Type.Full,},
-              {res="#Room_bg_1.png",x=Room_Distance.x+11+94*6,y=16,type = RoomBg_Type.Half,},
+        bg = {{res="#Room_bg_1.png",x=Room_Distance.x+17,y=16,type = RoomBg_Type.All,},
+            {res="#Room_bg_1.png",x=Room_Distance.x+16+94,y=16,type = RoomBg_Type.All,},
+            {res="#Room_bg_1.png",x=Room_Distance.x+15+94*2,y=16,type = RoomBg_Type.All,},
+            {res="#Room_bg_1.png",x=Room_Distance.x+14+94*3,y=16,type = RoomBg_Type.All,},
+            {res="#Room_bg_1.png",x=Room_Distance.x+13+94*4,y=16,type = RoomBg_Type.All,},
+            {res="#Room_bg_1.png",x=Room_Distance.x+12+94*5,y=16,type = RoomBg_Type.All,},
+            {res="#Room_bg_1.png",x=Room_Distance.x+11+94*6,y=16,type = RoomBg_Type.All,},
 	      },--房间背景(背景窗户随机其实是在有背景图的几张图随机抽取一张替换图片为窗户)
          ornament = {{res="#Room_ornament_5.png",x=150,y=16},{res="#Room_ornament_5.png",x=550,y=16}}
     }

@@ -82,6 +82,20 @@ function MapView:ctor(parameters)
         end
     end)
     
+    --设置按钮
+    self.icon_set = cc.uiloader:seekNodeByName(self.m_mapView,"icon_set")
+    self.icon_set:setButtonEnabled(false)
+    self.Button_set = cc.uiloader:seekNodeByName(self.m_mapView,"Button_set")
+    self.Button_set:onButtonPressed(function(_event)    --按下
+        self.icon_set:setButtonImage("disabled","settlement/setIcon_1.png")
+    end)
+    self.Button_set:onButtonRelease(function(_event)    --触摸离开
+        self.icon_set:setButtonImage("disabled","settlement/setIcon_2.png")
+    end)
+    self.Button_set:onButtonClicked(function (event)
+        GameDispatcher:dispatch(EventNames.EVENT_OPEN_SET,{animation = true})
+    end)
+    
     
     self.proBg = cc.uiloader:seekNodeByName(self.m_mapView,"Image_9")
     self.proBg:setPositionY(display.top-56)
