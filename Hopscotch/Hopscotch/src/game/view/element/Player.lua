@@ -6,8 +6,8 @@ local PhysicSprite = require("game.custom.PhysicSprite")
 local Scheduler = require("framework.scheduler")
 local RocketElement = require("game.view.element.RocketElement")
 
-local MASS = 200
-local DENSITY = 10   --密度
+local MASS = 50
+local DENSITY = 0   --密度
 local FRICTION   = 0    --摩擦力
 local ELASTICITY = 0    --反弹力
 local Speed_Max = 600   --人物最大速度
@@ -174,31 +174,35 @@ function Player:setGravityEnable(_enable)
 end
 
 --上跳状态
-function Player:toJump(ty,isRunning)
-    self.m_jump = true
+function Player:toJump(pos,isRunning)
 --    Tools.printDebug("---------------hehehahi------------",isTwoJump)
     if isRunning ~= MAPROOM_TYPE.Running then
-        self.m_body:setCollisionBitmask(0x06)
-        self:setGravityEnable(false)
-        self:stopAllActions()
-        self:createModle(self.m_jumpModle)
+        self:toStarJump()
         local x,y = self:getPosition()
-        local move = cc.MoveBy:create(0.2,cc.p(0,ty-y+self.m_size.width*0.5+40))
-        local move2 = cc.MoveBy:create(0.15,cc.p(0,-10))
-        local easeOut = cc.EaseCubicActionOut:create(move)
-        local easeIn = cc.EaseCubicActionIn:create(move2)
+        
+        local move = cc.JumpTo:create(0.3,cc.p(x,pos.y+self.m_size.width*0.5+self.errorValue),Room_Size.height*0.8,1)
+--        local move2 = cc.JumpBy:create(0.15,cc.p(0,-5),5,1)
+--        local easeOut = cc.EaseCubicActionOut:create(move)
+--        local easeIn = cc.EaseCubicActionIn:create(move2)
         local callfunc = cc.CallFunc:create(function()
             self:toStopJump()
         end)
-        local seq = cc.Sequence:create(easeOut,easeIn,callfunc)
-        self:runAction(seq)
+        local seq = cc.Sequence:create(move,callfunc)
+        self:runAction(seq) 
+        
+--        local move = cc.MoveBy:create(0.3,cc.p(0,pos.y-y+self.m_size.width*0.5+35))
+--        local move2 = cc.MoveBy:create(0.15,cc.p(0,-5))
+--        local easeOut = cc.EaseCubicActionOut:create(move)
+--        local easeIn = cc.EaseCubicActionIn:create(move2)
+--        local callfunc = cc.CallFunc:create(function()
+--            self:toStopJump()
+--        end)
+--        local seq = cc.Sequence:create(easeOut,callfunc)
+--        self:runAction(seq)
     else
-        self.m_body:setCollisionBitmask(0x06)
-        self:setGravityEnable(false)
-        self:stopAllActions()
-        self:createModle(self.m_jumpModle)
+        self:toStarJump()
         local x,y = self:getPosition()
-        local move = cc.MoveTo:create(0.3,cc.p(x,ty+self.m_size.width*0.5+30))
+        local move = cc.MoveTo:create(0.3,cc.p(x,pos.y+self.m_size.width*0.5+30))
         local easeOut = cc.EaseCubicActionOut:create(move)
         local callfunc = cc.CallFunc:create(function()
             self:toStopJump()
@@ -210,11 +214,19 @@ function Player:toJump(ty,isRunning)
     AudioManager.playSoundEffect(AudioManager.Sound_Effect_Type.Jump_Sound)
 end
 
-function Player:toStopJump()
+function Player:toStarJump()
+    self.m_body:setCollisionBitmask(0x06)
+    self:setGravityEnable(false)
     self:stopAllActions()
+    self:createModle(self.m_jumpModle)
+    self.m_jump = true
+end
+
+function Player:toStopJump()
+    self.m_jump = false
     self.m_body:setCollisionBitmask(0x03)
     self:setGravityEnable(true)
-    self.m_jump = false
+    self:stopAllActions()
     self.m_armature:stopAllActions()
     self:createModle(self.m_modle)
 end

@@ -91,7 +91,6 @@ function MapLayer:ctor(parameters)
     self.m_player = Player.new()
     self:addChild(self.m_player,MAP_ZORDER_MAX+1)
     local floorPos = self.floorPos[self.jumpFloorNum]
-    self.curPlayerPos = floorPos
     local _size = self.m_player:getSize()
     self.m_player:setPosition(cc.p(display.cx,floorPos.y+_size.height*0.5+self.m_player:getErrorValue()))
     GameController.setCurPlayer(self.m_player)
@@ -780,11 +779,6 @@ function MapLayer:onEnterFrame(dt)
         self.m_player:setPosition(cc.p(bpx,floorPos.y+_size.height*0.5+self.m_player:getErrorValue()))
     end
     
-    if not self.m_player:getJump() and not self.backOrigin then
-        local floorPos = self.floorPos[self.jumpFloorNum]
-        self.m_player:setPosition(cc.p(bpx,self.curPlayerPos.y+_size.height*0.5+self.m_player:getErrorValue()))
-    end
-    
     local pos
     if self.floorPos[self.jumpFloorNum].x then
         pos = self.floorPos[self.jumpFloorNum]
@@ -1029,7 +1023,6 @@ function MapLayer:onEnterFrame(dt)
     if self.rocketFloor and GameDataManager.getPoints() == self.rocketFloor and GameController.isInState(PLAYER_STATE.StartRocket) then
     	--
         self:toStopStartRocket()
-        self.m_player:toStopStartRocket()
     end
     
     --火箭道具第一种类型
@@ -1140,7 +1133,7 @@ function MapLayer:collisionBeginCallBack(parameters)
                         end
                     end
                 end
-                self.m_player:setPosition(cc.p(bpx,self.curPlayerPos.y+_size.height*0.5+self.m_player:getErrorValue()))
+                self.m_player:setPosition(cc.p(bpx,floorPos.y+_size.height*0.5+self.m_player:getErrorValue()))
 --                Tools.printDebug("----------brj 碰撞检测------------: ")
             end
         end
@@ -1204,7 +1197,8 @@ function MapLayer:rayCastFunc(_world,_p1,_p2,_p3)
         local _size = self.m_player:getSize()
         local bpx,bpy = self.m_player:getPosition()
         local roomIndex = math.ceil((self.m_player:getPositionY()-self.bottomHeight)/Room_Size.height)
-        if not self.m_player:getJump() and self.curRoomType ~= MAPROOM_TYPE.Running and not GameController.isInState(PLAYER_STATE.Rocket) then
+        if not self.m_player:getJump() and self.curRoomType ~= MAPROOM_TYPE.Running and not GameController.isInState(PLAYER_STATE.Rocket) 
+            and not GameController.isInState(PLAYER_STATE.StartRocket)then
             if roomIndex == self.jumpFloorNum then
                 local floorPos
                 if self.floorPos[self.jumpFloorNum].x then
@@ -1218,7 +1212,7 @@ function MapLayer:rayCastFunc(_world,_p1,_p2,_p3)
                         end
                     end
                 end
-                self.m_player:setPosition(cc.p(bpx,self.curPlayerPos.y+_size.height*0.5+self.m_player:getErrorValue()))
+                self.m_player:setPosition(cc.p(bpx,floorPos.y+_size.height*0.5+self.m_player:getErrorValue()))
             end
         end
         self.isCollision = true
@@ -1506,7 +1500,6 @@ function MapLayer:toJump()
     else
         pos = self.floorPos[roomIndex+1][1]
     end
-    self.curPlayerPos = pos
     self.m_player:toJump(pos,self.curRoomType)
 end
 
@@ -1963,6 +1956,7 @@ end
 function MapLayer:toStopStartRocket()
     local pos = self.floorPos[self.rocketFloor]
     self.m_player:setPositionX(pos.x+display.cx)
+    self.m_player:toStopStartRocket()
 --    self.m_camera:setPosition(cc.p(pos.x,pos.y-self.bottomHeight))
 end
 

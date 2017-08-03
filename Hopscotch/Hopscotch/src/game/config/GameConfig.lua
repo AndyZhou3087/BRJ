@@ -73,11 +73,11 @@ Map_Grade =
 }
 MAP_SPEED = 
 {
-    floor_D = 140,  --角色初始速度
+    floor_D = 150,  --角色初始速度
     floor_C = 150,
-    floor_B = 160,
-    floor_A = 180,
-    floor_S = 200,
+    floor_B = 150,
+    floor_A = 150,
+    floor_S = 150,
 }
 
 --封闭房间停顿时间
