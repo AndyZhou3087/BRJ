@@ -32,7 +32,7 @@ Ornaments = {}
 --黄色楼层，三电梯
 Ornaments[1]=
     {
-        bg = {{res="#Room_bg_1.png",x=Room_Distance.x+17,y=16,type = RoomBg_Type.All,},
+        bg = {{res="#Room_bg_1.png",x=Room_Distance.x+17,y=16,},
             {res="#Room_bg_1.png",x=Room_Distance.x+16+94,y=16,type = RoomBg_Type.All,},
             {res="#Room_bg_1.png",x=Room_Distance.x+15+94*2,y=16,type = RoomBg_Type.All,},
             {res="#Room_bg_1.png",x=Room_Distance.x+14+94*3,y=16,type = RoomBg_Type.All,},

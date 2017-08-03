@@ -86,6 +86,7 @@ function MapView:ctor(parameters)
     self.icon_set = cc.uiloader:seekNodeByName(self.m_mapView,"icon_set")
     self.icon_set:setButtonEnabled(false)
     self.Button_set = cc.uiloader:seekNodeByName(self.m_mapView,"Button_set")
+    self.Button_set:setButtonEnabled(false)
     self.Button_set:onButtonPressed(function(_event)    --按下
         self.icon_set:setButtonImage("disabled","settlement/setIcon_1.png")
     end)
@@ -193,13 +194,16 @@ end
 
 function MapView:hideBottom(parm)
     self.Image_10:stopAllActions()
-    self.finger:setVisible(false)
     if parm.data then
+        self.finger:setVisible(true)
+        self.Button_set:setButtonEnabled(false)
         local move = cc.MoveBy:create(0.2,cc.p(0,220))
         self.Image_10:runAction(move)
         local move2 = cc.MoveBy:create(0.2,cc.p(0,220))
         self.countDownLabel:runAction(move2)
     else
+        self.finger:setVisible(false)
+        self.Button_set:setButtonEnabled(true)
         local move = cc.MoveBy:create(0.2,cc.p(0,-220))
         self.Image_10:runAction(move)
         local move2 = cc.MoveBy:create(0.2,cc.p(0,-220))

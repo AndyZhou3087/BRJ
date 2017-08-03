@@ -91,6 +91,7 @@ function MapLayer:ctor(parameters)
     self.m_player = Player.new()
     self:addChild(self.m_player,MAP_ZORDER_MAX+1)
     local floorPos = self.floorPos[self.jumpFloorNum]
+    self.curPlayerPos = floorPos
     local _size = self.m_player:getSize()
     self.m_player:setPosition(cc.p(display.cx,floorPos.y+_size.height*0.5+self.m_player:getErrorValue()))
     GameController.setCurPlayer(self.m_player)
@@ -774,9 +775,14 @@ function MapLayer:onEnterFrame(dt)
     local _size = self.m_player:getSize()
     self.m_player:update(dt,bpx,bpy)
     
-    if self.backOrigin or not self.m_player:getJump() then
+    if self.backOrigin then
         local floorPos = self.floorPos[self.jumpFloorNum]
         self.m_player:setPosition(cc.p(bpx,floorPos.y+_size.height*0.5+self.m_player:getErrorValue()))
+    end
+    
+    if not self.m_player:getJump() and not self.backOrigin then
+        local floorPos = self.floorPos[self.jumpFloorNum]
+        self.m_player:setPosition(cc.p(bpx,self.curPlayerPos.y+_size.height*0.5+self.m_player:getErrorValue()))
     end
     
     local pos
@@ -1134,7 +1140,7 @@ function MapLayer:collisionBeginCallBack(parameters)
                         end
                     end
                 end
-                self.m_player:setPosition(cc.p(bpx,floorPos.y+_size.height*0.5+self.m_player:getErrorValue()))
+                self.m_player:setPosition(cc.p(bpx,self.curPlayerPos.y+_size.height*0.5+self.m_player:getErrorValue()))
 --                Tools.printDebug("----------brj 碰撞检测------------: ")
             end
         end
@@ -1212,7 +1218,7 @@ function MapLayer:rayCastFunc(_world,_p1,_p2,_p3)
                         end
                     end
                 end
-                self.m_player:setPosition(cc.p(bpx,floorPos.y+_size.height*0.5+self.m_player:getErrorValue()))
+                self.m_player:setPosition(cc.p(bpx,self.curPlayerPos.y+_size.height*0.5+self.m_player:getErrorValue()))
             end
         end
         self.isCollision = true
@@ -1500,6 +1506,7 @@ function MapLayer:toJump()
     else
         pos = self.floorPos[roomIndex+1][1]
     end
+    self.curPlayerPos = pos
     self.m_player:toJump(pos,self.curRoomType)
 end
 
