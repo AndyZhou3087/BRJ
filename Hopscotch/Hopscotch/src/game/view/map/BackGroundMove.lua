@@ -79,7 +79,7 @@ function BackGroundMove:bgMapMove(cameraPos,type)
             self.Panel_3_0:setPositionX(bgx4+bgMoveSpeed_1*0.1)
             local bgx,bgy = self.Panel_2:getPosition()
             local bgx2,bgy2 = self.Panel_2_0:getPosition()
-            Tools.printDebug("------brj 背景移动~！！！！！！ ：",bgx,cameraPos.x - self.panel2Size.width + self.offset[7],bgx2,cameraPos.x - self.panel2Size.width + self.offset[7])
+--            Tools.printDebug("------brj 背景移动~！！！！！！ ：",bgx,cameraPos.x - self.panel2Size.width + self.offset[7],bgx2,cameraPos.x - self.panel2Size.width + self.offset[7])
             if bgx <= cameraPos.x - self.panel2Size.width + self.offset[7] then
                 self.Panel_2:setPositionX(bgx2+self.panel2Size.width-self.offset[6])
                 self.Panel_2_0:setLocalZOrder(1)

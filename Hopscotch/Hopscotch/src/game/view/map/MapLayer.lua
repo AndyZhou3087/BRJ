@@ -856,7 +856,7 @@ function MapLayer:onEnterFrame(dt)
     end
  
     
-    if self.curRoomType == MAPROOM_TYPE.Running then
+    if self.curRoomType == MAPROOM_TYPE.Running and not GameController.isInState(PLAYER_STATE.Rocket) and not GameController.isInState(PLAYER_STATE.StartRocket) then
 --        Tools.printDebug("brj--------横跑射线检测---------: ",_p.y,_p.y-Room_Size.height,_p.y-_size.height*0.5)
 --        self.m_physicWorld:rayCast(handler(self,self.rayCastFuncY),cc.p(_p.x,_p.y-_size.height*0.5),cc.p(_p.x,_p.y-_size.height*0.5-Raycast_DisX))
         if self.curState == State_Type.RunningState then
@@ -1039,7 +1039,7 @@ function MapLayer:onEnterFrame(dt)
         if sqLean~=0 then
             local radian = math.asin((cameraPos.x-self.rocketLastPos.x)/sqLean)
             local angle = math.deg(radian)
-            Tools.printDebug("------------火箭移动角度---------：",angle)
+--            Tools.printDebug("------------火箭移动角度---------：",angle)
 --            if self.lastAngle~=angle then
                 self.rocket:setRotation(angle)
 --                self.lastAngle = angle
@@ -1047,6 +1047,8 @@ function MapLayer:onEnterFrame(dt)
         end
         self.rocketLastPos = cameraPos
     end
+    
+    Tools.printDebug("------------镜头坐标---------：",self.m_camera:getPositionX())
 
 end
 
@@ -1621,6 +1623,7 @@ function MapLayer:toRocketRunningLogic(RocketState,curRoomKey)
         local seq = cc.Sequence:create(move,move2,callfun)
         self.m_camera:runAction(seq)
         self.isBgMove = true
+        Tools.printDebug("--------brj 火箭冲刺镜头坐标：",self.floorPos[curCloseFloor+10].x)
     end
 end
 
@@ -1797,7 +1800,7 @@ function MapLayer:toRunFirstCameraMove()
                 toX = x 
             end
         end
-        Tools.printDebug("----------------最理想化的角色坐标：",x)
+        
         if _scaleX == 1 and self.curRoomDistance == MAPRUNNING_TYPE.Left or (_scaleX == -1 and self.curRoomDistance == MAPRUNNING_TYPE.Right)
             or self.curRoomDistance == MAPRUNNING_TYPE.Both then
             
@@ -1837,6 +1840,7 @@ function MapLayer:toRunFirstCameraMove()
                     if room.getRoomIndex then
                         local roomNum = room:getRoomIndex()
                         self.floorPos[roomNum] = cc.p(x,y)
+                        Tools.printDebug("----------------最理想化的角色坐标：",roomNum,self.floorPos[roomNum].x)
                     end
                 end
                 self.m_bothMoveRooms = {}

@@ -32,7 +32,7 @@ Sequent_Click_Time = 0.05
 --金币移动速度
 GOLD_SPEED=26
 
---横跑出现的层数(每50层出现一次)
+--横跑出现的层数(每60层出现一次)
 RunningFloorNum = 100000
 --随机每多少层出现一次
 RunningMin = RunningFloorNum
