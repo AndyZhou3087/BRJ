@@ -430,7 +430,7 @@ function GameDataManager.useGoodsExp(_goodsId)
             GameDispatcher:dispatch(EventNames.EVENT_SLOWLY,{time=goodsCon.time,speed = goodsCon.speed})
         elseif goodsCon.type == GOODS_TYPE.TokenAdd then
             Tools.printDebug("brj 获得一代币")
-            GameDispatcher:dispatch(EventNames.EVENT_SLOWLY,{count=goodsCon.count})
+            GameDispatcher:dispatch(EventNames.EVENT_GET_TOKEN,{count=goodsCon.count})
         end
         return true
     else

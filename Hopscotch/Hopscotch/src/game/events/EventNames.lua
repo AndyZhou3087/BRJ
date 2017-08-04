@@ -59,7 +59,7 @@ EventNames.EVENT_SLOWLY = "event_slowly"
 --获得代币
 EventNames.EVENT_GET_TOKEN = "event_get_token"
 
---获得代币
+--磁铁
 EventNames.EVENT_USE_MAGNET = "event_use_magnet"
 
 --幻影药水

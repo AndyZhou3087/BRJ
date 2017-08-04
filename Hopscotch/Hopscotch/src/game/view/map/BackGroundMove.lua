@@ -50,7 +50,7 @@ end
 function BackGroundMove:bgMapMove(cameraPos,type)
     local bgMoveSpeed_1 = 0
     local bgMoveSpeed_2 = 0
-    if not GameController.isInState(PLAYER_STATE.Rocket) then
+    if not GameController.isInState(PLAYER_STATE.Rocket) and not GameController.isInState(PLAYER_STATE.StartRocket) then
         if type == MAPROOM_TYPE.Running then
             bgMoveSpeed_1 = RunBgMove_1
             bgMoveSpeed_2 = RunBgMove_2
@@ -59,8 +59,8 @@ function BackGroundMove:bgMapMove(cameraPos,type)
             bgMoveSpeed_2 = BgMove_2
         end
     else
-        bgMoveSpeed_1 = BgMove_1*50
-        bgMoveSpeed_2 = BgMove_2*50
+        bgMoveSpeed_1 = BgMove_1
+        bgMoveSpeed_2 = BgMove_2
     end
     if self.lastCameraPos then
         local bx,by = self.Panel_1:getPosition()
@@ -71,7 +71,6 @@ function BackGroundMove:bgMapMove(cameraPos,type)
         if self.lastCameraPos.x ~= cameraPos.x then
             self.Panel_1:setPositionX(cameraPos.x+self.offset[5])
         end
---        Tools.printDebug("------brj 背景移动~！！！！！！ ：",cameraPos.x,self.lastCameraPos.x)
         --左右移动
         if cameraPos.x > self.lastCameraPos.x then
             self.Panel_2:setPositionX(bgx+bgMoveSpeed_2*0.1)
@@ -80,6 +79,7 @@ function BackGroundMove:bgMapMove(cameraPos,type)
             self.Panel_3_0:setPositionX(bgx4+bgMoveSpeed_1*0.1)
             local bgx,bgy = self.Panel_2:getPosition()
             local bgx2,bgy2 = self.Panel_2_0:getPosition()
+            Tools.printDebug("------brj 背景移动~！！！！！！ ：",bgx,cameraPos.x - self.panel2Size.width + self.offset[7],bgx2,cameraPos.x - self.panel2Size.width + self.offset[7])
             if bgx <= cameraPos.x - self.panel2Size.width + self.offset[7] then
                 self.Panel_2:setPositionX(bgx2+self.panel2Size.width-self.offset[6])
                 self.Panel_2_0:setLocalZOrder(1)

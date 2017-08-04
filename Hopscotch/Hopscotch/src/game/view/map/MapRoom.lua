@@ -224,7 +224,8 @@ end
 function MapRoom:initGoods(goodCon,isShow)
     if isShow then
         for var=1,#goodCon do
-            local good=GoodsElement.new(goodCon[var].id):addTo(self)
+            local id = math.random(1,#GoodsConfig)
+            local good=GoodsElement.new(id):addTo(self)
             local goodSize = good:getCascadeBoundingBox().size
             local x = math.random(self.firstX+50+goodSize.width,self.lastX+self.lastWidth-50-goodSize.width)
 --            Tools.printDebug("-------brj 道具x坐标：",x)
