@@ -30,6 +30,19 @@
                 <key>sourceSize</key>
                 <string>{108,165}</string>
             </dict>
+            <key>RoleJump_3.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{222,2},{108,165}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{108,165}}</string>
+                <key>sourceSize</key>
+                <string>{108,165}</string>
+            </dict>
         </dict>
         <key>metadata</key>
         <dict>
@@ -38,9 +51,9 @@
             <key>realTextureFileName</key>
             <string>RoleJump1.png</string>
             <key>size</key>
-            <string>{256,256}</string>
+            <string>{512,256}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:12c56c4e4ee87f6b43787fc329fc8362$</string>
+            <string>$TexturePacker:SmartUpdate:6a8ccadbec80d9bebec2968b4fcc28e1$</string>
             <key>textureFileName</key>
             <string>RoleJump1.png</string>
         </dict>

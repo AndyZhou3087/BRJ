@@ -32,7 +32,8 @@ MapGroupA = {ROOMBGSIZE_TYPE.Five,ROOMBGSIZE_TYPE.Four_1,ROOMBGSIZE_TYPE.Four}  
 --==========防止连续出现钢价层特殊楼层
 MapGroupConfigA[9999]= 
     { 
-        _id=9999, 
+        _id=9999,
+        roomBgs={131,137,135,138,135,129,123,132,125,128}, --房间背景地面
         ornaments={233,228,219,216,225,207,236,218,214,203}, ---小挂件
         coins={1,1,1,1,1,1,1,1,1,1}, --钻石(随机出现层数、次数和位置)
         roomGoods={1,1,1,1,1,1,1,1,1,1}, ---道具

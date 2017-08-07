@@ -1048,7 +1048,7 @@ function MapLayer:onEnterFrame(dt)
         self.rocketLastPos = cameraPos
     end
     
-    Tools.printDebug("------------镜头坐标---------：",self.m_camera:getPositionX())
+--    Tools.printDebug("------------镜头坐标---------：",self.m_camera:getPositionX())
 
 end
 
@@ -1152,6 +1152,9 @@ function MapLayer:collisionBeginCallBack(parameters)
 --    Tools.printDebug("brj------------碰撞tag: ",obstacleTag)
     if obstacleTag==ELEMENT_TAG.WALLLEFT or obstacleTag==ELEMENT_TAG.WALLRIGHT or obstacleTag==ELEMENT_TAG.SPECIAL_TAG then
        if not tolua.isnull(obstacle) then
+            if player:getJump() then
+                player:toStopJump()
+            end
             local vel=self.m_player:getBody():getVelocity()
             local _size = self.m_player:getSize()
             if playerBP.x+_size.width*0.5<obstacleBP.x then

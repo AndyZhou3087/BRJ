@@ -176,8 +176,8 @@ end
 --上跳状态
 function Player:toJump(pos,isRunning)
 --    Tools.printDebug("---------------hehehahi------------",isTwoJump)
-    if isRunning ~= MAPROOM_TYPE.Running then
-        self:toStarJump()
+--    if isRunning ~= MAPROOM_TYPE.Running then
+        self:toStartJump()
         local x,y = self:getPosition()
         
 --        local move = cc.JumpTo:create(0.3,cc.p(x,pos.y+self.m_size.width*0.5+self.errorValue),Room_Size.height*0.8,1)
@@ -190,39 +190,59 @@ function Player:toJump(pos,isRunning)
 --        local seq = cc.Sequence:create(move,callfunc)
 --        self:runAction(seq) 
         
-        local move = cc.MoveBy:create(0.2,cc.p(0,pos.y-y+self.m_size.width*0.5+40))
-        local move2 = cc.MoveBy:create(0.1,cc.p(0,-10))
-        local easeOut = cc.EaseCubicActionOut:create(move)
-        local easeIn = cc.EaseCubicActionIn:create(move2)
-        local callfunc = cc.CallFunc:create(function()
+--        local move = cc.MoveBy:create(0.2,cc.p(0,pos.y-y+self.m_size.width*0.5+40))
+--        local move2 = cc.MoveBy:create(0.1,cc.p(0,-10))
+--        local easeOut = cc.EaseCubicActionOut:create(move)
+--        local easeIn = cc.EaseCubicActionIn:create(move2)
+--        local callfunc = cc.CallFunc:create(function()
+--            self:toStopJump()
+--        end)
+--        local seq = cc.Sequence:create(easeOut,easeIn,callfunc)
+--        self:runAction(seq)
+
+        local _vec = self.m_body:getVelocity()
+        local _scaleX=self:getScaleX()
+        if _scaleX<0 then
+            _vec.x=self.m_vo.m_speed
+        else
+            _vec.x=-self.m_vo.m_speed
+        end
+        self:setBodyVelocity(cc.p(_vec.x,265))
+        self.jumpHandler = Tools.delayCallFunc(0.35,function()
             self:toStopJump()
         end)
-        local seq = cc.Sequence:create(easeOut,easeIn,callfunc)
-        self:runAction(seq)
-    else
-        self:toStarJump()
-        local x,y = self:getPosition()
-        local move = cc.MoveTo:create(0.3,cc.p(x,pos.y+self.m_size.width*0.5+30))
-        local easeOut = cc.EaseCubicActionOut:create(move)
-        local callfunc = cc.CallFunc:create(function()
-            self:toStopJump()
-        end)
-        local seq = cc.Sequence:create(easeOut,callfunc)
-        self:runAction(seq)
-    end
+--    else
+--        self:toStartJump()
+--        local x,y = self:getPosition()
+--        local move = cc.MoveTo:create(0.3,cc.p(x,pos.y+self.m_size.width*0.5+30))
+--        local easeOut = cc.EaseCubicActionOut:create(move)
+--        local callfunc = cc.CallFunc:create(function()
+--            self:toStopJump()
+--        end)
+--        local seq = cc.Sequence:create(easeOut,callfunc)
+--        self:runAction(seq)
+--    end
 
     AudioManager.playSoundEffect(AudioManager.Sound_Effect_Type.Jump_Sound)
 end
 
-function Player:toStarJump()
+function Player:toStartJump()
+    if self.jumpHandler then
+        Scheduler.unscheduleGlobal(self.jumpHandler)
+        self.jumpHandler=nil
+    end
     self.m_body:setCollisionBitmask(0x06)
-    self:setGravityEnable(false)
+--    self:setGravityEnable(false)
     self:stopAllActions()
     self:createModle(self.m_jumpModle)
     self.m_jump = true
 end
 
 function Player:toStopJump()
+    if self.jumpHandler then
+        Scheduler.unscheduleGlobal(self.jumpHandler)
+        self.jumpHandler=nil
+    end
     self.m_jump = false
     self.m_body:setCollisionBitmask(0x03)
     self:setGravityEnable(true)
@@ -814,6 +834,11 @@ function Player:dispose(_isDoor)
     if self.phantomHandler then
         Scheduler.unscheduleGlobal(self.phantomHandler)
         self.phantomHandler=nil
+    end
+    
+    if self.jumpHandler then
+        Scheduler.unscheduleGlobal(self.jumpHandler)
+        self.jumpHandler=nil
     end
     
 
