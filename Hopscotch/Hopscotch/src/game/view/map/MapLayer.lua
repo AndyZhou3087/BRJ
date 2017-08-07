@@ -1027,9 +1027,9 @@ function MapLayer:onEnterFrame(dt)
     end
     
     --火箭道具第一种类型
---    if (GameController.isInState(PLAYER_STATE.Rocket) and self.m_player:getRocketState()==1) or GameController.isInState(PLAYER_STATE.StartRocket) then
+    if not (GameController.isInState(PLAYER_STATE.Rocket) and self.m_player:getRocketState()~=1) then
         self:CoreLogic()
---    end
+    end
     
     if self.rocket then
         local cameraPos = cc.p(self.m_camera:getPosition())
@@ -1223,10 +1223,9 @@ function MapLayer:rayCastFunc(_world,_p1,_p2,_p3)
         end
         self.isCollision = true
         
-        if not GameController.isInState(PLAYER_STATE.Rocket) and not GameController.isInState(PLAYER_STATE.StartRocket) then
---            Tools.printDebug("----------brj 开局冲刺：")
-            self:CoreLogic()
-        end
+--        if not GameController.isInState(PLAYER_STATE.Rocket) and not GameController.isInState(PLAYER_STATE.StartRocket) then
+--            self:CoreLogic()
+--        end
         
         return true
     end
