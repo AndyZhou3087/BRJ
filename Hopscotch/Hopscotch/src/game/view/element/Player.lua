@@ -207,7 +207,7 @@ function Player:toJump(pos,isRunning)
         else
             _vec.x=-self.m_vo.m_speed
         end
-        self:setBodyVelocity(cc.p(_vec.x,265))
+        self:setBodyVelocity(cc.p(_vec.x,260))
         self.jumpHandler = Tools.delayCallFunc(0.35,function()
             self:toStopJump()
         end)
