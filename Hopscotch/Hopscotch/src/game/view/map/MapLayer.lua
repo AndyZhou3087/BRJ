@@ -805,11 +805,11 @@ function MapLayer:onEnterFrame(dt)
         if self.curRoomType ~= MAPROOM_TYPE.Running and (not self.runMapFloor or (self.jumpFloorNum ~= self.runMapFloor and self.jumpFloorNum ~= self.runMapFloor + 1)) then
             if bpx <= pos.x-_size.width*0.5 then
                 self:playerDead()
-                Tools.printDebug("brj2222222222222222--------左边死亡---------:",self.jumpFloorNum,bpx,pos.x-_size.width*0.5)
+--                Tools.printDebug("brj2222222222222222--------左边死亡---------:",self.jumpFloorNum,bpx,pos.x-_size.width*0.5)
             end
             if bpx >= pos.x+display.right+_size.width*0.5 then
                 self:playerDead()
-                Tools.printDebug("brj1111111111111111--------右边死亡---------:",self.jumpFloorNum,bpx,pos.x+display.right+_size.width*0.5)
+--                Tools.printDebug("brj1111111111111111--------右边死亡---------:",self.jumpFloorNum,bpx,pos.x+display.right+_size.width*0.5)
             end
         end
         if bpy < pos.y-Room_Size.height*3 then
@@ -866,7 +866,6 @@ function MapLayer:onEnterFrame(dt)
     
     if self.curRoomType == MAPROOM_TYPE.Running and not self.m_player:isInState(PLAYER_STATE.Rocket) and not self.m_player:isInState(PLAYER_STATE.StartRocket) then
 --        Tools.printDebug("brj--------横跑射线检测---------: ",_p.y,_p.y-Room_Size.height,_p.y-_size.height*0.5)
---        self.m_physicWorld:rayCast(handler(self,self.rayCastFuncY),cc.p(_p.x,_p.y-_size.height*0.5),cc.p(_p.x,_p.y-_size.height*0.5-Raycast_DisX))
         if self.curState == State_Type.RunningState then
             self.isBgMove = true
             local x,y = self.m_player:getPosition()
@@ -1155,11 +1154,12 @@ function MapLayer:collisionBeginCallBack(parameters)
 --    Tools.printDebug("brj------------碰撞tag: ",obstacleTag)
     if obstacleTag==ELEMENT_TAG.WALLLEFT or obstacleTag==ELEMENT_TAG.WALLRIGHT or obstacleTag==ELEMENT_TAG.SPECIAL_TAG then
        if not tolua.isnull(obstacle) then
-            if player:getJump() then
-                player:toStopJump()
-            end
             local vel=self.m_player:getBody():getVelocity()
             local _size = self.m_player:getSize()
+            if playerBP.y+_size.height<=obstacleBP.y then
+                self:playerDead()
+                return false
+            end
             if playerBP.x+_size.width*0.5<obstacleBP.x then
                 player:setVelocity(cc.p(self.m_player:getSpeed(),vel.y))
                 player:setScaleX(math.abs(_scaleX))
@@ -1174,10 +1174,13 @@ function MapLayer:collisionBeginCallBack(parameters)
             end
        end
        self.isCollision = true
+       
+        return true
     elseif obstacleTag == ELEMENT_TAG.GOOD_TAG then
         if not tolua.isnull(obstacle) then
             obstacle:collision()
         end
+        return true
     end
 
     return true
@@ -1236,33 +1239,6 @@ function MapLayer:rayCastFunc(_world,_p1,_p2,_p3)
     return true
 end
 
---碰撞反射，从人物中心向下或向上发射一个比自身一半多 Raycast_DisY 像素的探测射线，进行检测有无障碍物
-function MapLayer:rayCastFuncY(_world,_p1,_p2,_p3)
-    if self.backOrigin then
-        return true
-    end
-
-    local _body = _p1.shape:getBody()
-    local _bnode = _body:getNode()
-    local _tag = _body:getTag()
-
-    if tolua.isnull(_bnode) then
-        return false
-    end
-    if _tag==ELEMENT_TAG.PLAYER_TAG then
-        return true
-    end
-
-    Tools.printDebug("-----------射线检测下方地板：",_tag)
-    if _tag < ELEMENT_TAG.PLAYER_TAG and _tag > ELEMENT_TAG.SPECIAL_TAG then
-        Tools.printDebug("-----------!!!!!!!!!!!!!!!!!!!!!!：")
---        self.m_jump = true
-        self:playerDead()
-        return true
-    end
-
-    return true
-end
 
 function MapLayer:rayCastFuncX(_world,_p1,_p2,_p3)
 --    if self.backOrigin then
