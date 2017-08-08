@@ -203,7 +203,7 @@ function MapLayer:initRooms(parameters)
 
         local dCount = math.random(1,MaxShowCount)
         local dArr = GameController.createRand(dCount,self.m_roomAmount)
-        local gFloor = math.random(1,self.m_roomAmount)
+        local gFloor = math.random(1,self.m_roomAmount-2)
         for var=1, self.m_roomAmount do
             local _room = MapRoom.new(var,self.m_levelCon,var+(k-1)*10,dArr,gFloor)
             _room:setAnchorPoint(cc.p(0,0))
@@ -244,7 +244,7 @@ function MapLayer:addNewRooms(parameters)
         self.floorNum = 0
         dCount = math.random(1,MaxShowCount)
         dArr = GameController.createRand(dCount,#self.m_levelCon.roomBgs)
-        self.gFloor = math.random(1,#self.m_levelCon.roomBgs)
+        self.gFloor = math.random(1,#self.m_levelCon.roomBgs-2)
     elseif self.m_roomsNum % self.runFloorNum == 0 then
         self.runMapFloor = self.m_roomsNum
         local k = GameDataManager.getDataIdByWeight()
@@ -255,7 +255,7 @@ function MapLayer:addNewRooms(parameters)
         self.floorNum = 0
         dCount = math.random(1,MaxShowCount)
         dArr = GameController.createRand(dCount,#self.m_levelCon.roomBgs)
-        self.gFloor = math.random(1,#self.m_levelCon.roomBgs)
+        self.gFloor = math.random(1,#self.m_levelCon.roomBgs-2)
     else
         if self.m_roomsNum % 10 == 0 then
             local type,config,group
@@ -333,7 +333,7 @@ function MapLayer:addNewRooms(parameters)
             self.floorNum = 0
             dCount = math.random(1,MaxShowCount)
             dArr = GameController.createRand(dCount,#self.m_levelCon.roomBgs)
-            self.gFloor = math.random(1,#self.m_levelCon.roomBgs)
+            self.gFloor = math.random(1,#self.m_levelCon.roomBgs-2)
 --            Tools.printDebug("-----------------------------brj Hopscotch 普通组层：",self.gFloor)
         end 
     end
@@ -416,6 +416,7 @@ function MapLayer:addTwoRunningRoom(dArr,gFloor)
     if self.floorNum == 1 or (_newRoom:getRunningRoomFloorType() and _newRoom:getRunningRoomFloorType()~=0) then
         self.floorPos[self.m_roomsNum] = {}
         self.floorPos[self.m_roomsNum][1] = cc.p(self._x,_y)
+--        Tools.printDebug("--------------------------aaaaaaaaaaaaaaaaaaaaa  ",self.m_roomsNum,self.floorPos[self.m_roomsNum][1].x)
         table.insert(self.m_chaceRooms,_newRoom)
         if #self.m_chaceRooms > MAP_ROOM_MAX then
             local _room = table.remove(self.m_chaceRooms,1)
@@ -800,20 +801,27 @@ function MapLayer:onEnterFrame(dt)
         end
     end
     local x,y = self.m_camera:getPosition()
-    if self.curRoomType ~= MAPROOM_TYPE.Running and (not self.runMapFloor or (self.jumpFloorNum ~= self.runMapFloor and self.jumpFloorNum ~= self.runMapFloor + 1)) then
-        if bpx <= pos.x-_size.width*0.5 then
-            self:playerDead()
---            Tools.printDebug("brj2222222222222222--------左边死亡---------:")
+    if not self.m_player:isInState(PLAYER_STATE.StartRocket) and not self.m_player:isInState(PLAYER_STATE.Rocket) then
+        if self.curRoomType ~= MAPROOM_TYPE.Running and (not self.runMapFloor or (self.jumpFloorNum ~= self.runMapFloor and self.jumpFloorNum ~= self.runMapFloor + 1)) then
+            if bpx <= pos.x-_size.width*0.5 then
+                self:playerDead()
+                Tools.printDebug("brj2222222222222222--------左边死亡---------:",self.jumpFloorNum,bpx,pos.x-_size.width*0.5)
+            end
+            if bpx >= pos.x+display.right+_size.width*0.5 then
+                self:playerDead()
+                Tools.printDebug("brj1111111111111111--------右边死亡---------:",self.jumpFloorNum,bpx,pos.x+display.right+_size.width*0.5)
+            end
         end
-        if bpx >= pos.x+display.right+_size.width*0.5 then
+        if bpy < pos.y-Room_Size.height*3 then
             self:playerDead()
---            Tools.printDebug("brj1111111111111111--------右边死亡---------:")
         end
-    end
-    if bpy < pos.y-Room_Size.height*3 then
-        self:playerDead()
     end
     
+    --火箭状态下背景移动
+    if self.m_player:isInState(PLAYER_STATE.Rocket) or self.m_player:isInState(PLAYER_STATE.StartRocket) then
+        self.bg:setPosition(self.m_camera:getPosition())
+    end
+
 
     local _scaleX=self.m_player:getScaleX()
     local vel=self.m_player:getBody():getVelocity()
@@ -832,7 +840,7 @@ function MapLayer:onEnterFrame(dt)
     end
     
     --左右射线检测(火箭状态不做处理)
-    if not self.m_player:isInState(PLAYER_STATE.Rocket) then
+    if not self.m_player:isInState(PLAYER_STATE.Rocket) or not self.m_player:isInState(PLAYER_STATE.StartRocket) then
         self.m_physicWorld:rayCast(handler(self,self.rayCastFuncX),cc.p(_p.x,_p.y-_size.height*0.25),cc.p(_p.x+_add*(_size.width*0.5+Raycast_DisX),_p.y-_size.height*0.25))
     end
     
@@ -856,7 +864,7 @@ function MapLayer:onEnterFrame(dt)
     end
  
     
-    if self.curRoomType == MAPROOM_TYPE.Running and not GameController.isInState(PLAYER_STATE.Rocket) and not GameController.isInState(PLAYER_STATE.StartRocket) then
+    if self.curRoomType == MAPROOM_TYPE.Running and not self.m_player:isInState(PLAYER_STATE.Rocket) and not self.m_player:isInState(PLAYER_STATE.StartRocket) then
 --        Tools.printDebug("brj--------横跑射线检测---------: ",_p.y,_p.y-Room_Size.height,_p.y-_size.height*0.5)
 --        self.m_physicWorld:rayCast(handler(self,self.rayCastFuncY),cc.p(_p.x,_p.y-_size.height*0.5),cc.p(_p.x,_p.y-_size.height*0.5-Raycast_DisX))
         if self.curState == State_Type.RunningState then
@@ -970,11 +978,6 @@ function MapLayer:onEnterFrame(dt)
         end
     end
     
-    if GameController.isInState(PLAYER_STATE.Rocket) and (self.m_player:getRocketState()==2 or self.m_player:getRocketState()==3) then
-        self.bg:setPosition(self.m_camera:getPosition())
---        Tools.printDebug("brj--------角色坐标---------: ",self.m_player:getPosition())
-    end
-    
     --双向倾斜时，当移出镜头时，移除右向缓存房间
     if #self.m_rightRooms > 0 then
         local roomPosY = self.m_rightRooms[1]:getPositionY()
@@ -1021,13 +1024,13 @@ function MapLayer:onEnterFrame(dt)
     end
     
     --开局冲刺火箭
-    if self.rocketFloor and GameDataManager.getPoints() == self.rocketFloor and GameController.isInState(PLAYER_STATE.StartRocket) then
+    if self.rocketFloor and GameDataManager.getPoints() == self.rocketFloor and self.m_player:isInState(PLAYER_STATE.StartRocket) then
     	--
         self:toStopStartRocket()
     end
     
     --火箭道具第一种类型
-    if not (GameController.isInState(PLAYER_STATE.Rocket) and self.m_player:getRocketState()~=1) then
+    if not (self.m_player:isInState(PLAYER_STATE.Rocket) and self.m_player:getRocketState()~=1) then
         self:CoreLogic()
     end
     
@@ -1048,7 +1051,7 @@ function MapLayer:onEnterFrame(dt)
         self.rocketLastPos = cameraPos
     end
     
---    Tools.printDebug("------------镜头坐标---------：",self.m_camera:getPositionX())
+--    Tools.printDebug("------------bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb---------：",self.m_player:getPositionX())
 
 end
 
@@ -1223,9 +1226,9 @@ function MapLayer:rayCastFunc(_world,_p1,_p2,_p3)
         end
         self.isCollision = true
         
---        if not GameController.isInState(PLAYER_STATE.Rocket) and not GameController.isInState(PLAYER_STATE.StartRocket) then
---            self:CoreLogic()
---        end
+        if not GameController.isInState(PLAYER_STATE.Rocket) and not GameController.isInState(PLAYER_STATE.StartRocket) then
+            self:CoreLogic()
+        end
         
         return true
     end
@@ -1377,13 +1380,6 @@ function MapLayer:CoreLogic()
             self:toRunFirstCameraMove()
         end
         
-        --判断是否封闭房间
---        if self.isCloseRoom and self.jumpFloorNum ~= 1 and not self.backOrigin then
---            --传事件
---            GameDispatcher:dispatch(EventNames.EVENT_CLOSE_TIME,{floor = self.jumpFloorNum})
---        else
---            GameDispatcher:dispatch(EventNames.EVENT_STOP_COUNTDOWN)
---        end
     end
 
     if self.curRoomType == MAPROOM_TYPE.Running then
@@ -1537,8 +1533,9 @@ function MapLayer:setRocketObj(_obj)
 end
 
 --设置火箭状态下2，3类型逻辑
-function MapLayer:toRocketRunningLogic(RocketState,curRoomKey)
+function MapLayer:toRocketRunningLogic(RocketState,scaleX,curRoomKey)
     self.m_camera:stopAllActions()
+    self.curState = State_Type.CommonState
     local mx,my = self.m_camera:getPosition()
     if RocketState == 2 then
         local curFloor = self.jumpFloorNum
@@ -1549,7 +1546,7 @@ function MapLayer:toRocketRunningLogic(RocketState,curRoomKey)
             nextCloseFloorX = self.floorPos[curCloseFloor+10].x
             nextCloseFloorY = self.floorPos[curCloseFloor+10].y
         else
-            if self.m_player:getScaleX() == 1 then
+            if scaleX == 1 then
                 nextCloseFloorX = self.floorPos[curCloseFloor+10][1].x
                 nextCloseFloorY = self.floorPos[curCloseFloor+10][1].y
             else
@@ -1570,6 +1567,7 @@ function MapLayer:toRocketRunningLogic(RocketState,curRoomKey)
                 self.m_bothMoveRooms = {}
                 self.twoRunningFloor = false
             end
+            self.curRunDistance = scaleX
         end
         
         local count = self:getRoomByIdx(curCloseFloor+1):getRoomsCount()
@@ -1585,11 +1583,13 @@ function MapLayer:toRocketRunningLogic(RocketState,curRoomKey)
             self.jumpFloorNum = curCloseFloor+10
             GameDataManager.setPoints(self.jumpFloorNum)
             self.isBgMove = false
+            self.bg:setPosition(self.m_camera:getPosition())
+            self.curRoomType = MAPROOM_TYPE.Running
         end)
         local seq = cc.Sequence:create(move,move2,callfun)
         self.m_camera:runAction(seq)
         self.isBgMove = true
---        self.bgNode:toRocketMove(self.jumpFloorNum,mx,my,self.floorPos,self.bottomHeight,count,time,time2)
+
     elseif RocketState == 3 then
         local curFloor = self.jumpFloorNum
         local curCloseFloor = math.ceil(self.jumpFloorNum/10)*10
@@ -1599,13 +1599,14 @@ function MapLayer:toRocketRunningLogic(RocketState,curRoomKey)
             curCloseFloorX = self.floorPos[curCloseFloor].x
             curCloseFloorY = self.floorPos[curCloseFloor].y
         else
-            if self.m_player:getScaleX() == 1 then
+            if scaleX == 1 then
                 curCloseFloorX = self.floorPos[curCloseFloor][1].x
                 curCloseFloorY = self.floorPos[curCloseFloor][1].y
             else
                 curCloseFloorX = self.floorPos[curCloseFloor][2].x
                 curCloseFloorY = self.floorPos[curCloseFloor][2].y
             end
+            self.curRunDistance = scaleX
         end
         
         local count = self:getRoomByIdx(curFloor):getRoomsCount()
@@ -1621,11 +1622,12 @@ function MapLayer:toRocketRunningLogic(RocketState,curRoomKey)
             self.jumpFloorNum = curCloseFloor+10
             GameDataManager.setPoints(self.jumpFloorNum)
             self.isBgMove = false
+            self.bg:setPosition(self.m_camera:getPosition())
         end)
         local seq = cc.Sequence:create(move,move2,callfun)
         self.m_camera:runAction(seq)
         self.isBgMove = true
-        Tools.printDebug("--------brj 火箭冲刺镜头坐标：",self.floorPos[curCloseFloor+10].x)
+--        Tools.printDebug("--------brj 火箭冲刺镜头坐标：",self.floorPos[curCloseFloor+10].x)
     end
 end
 
@@ -1637,7 +1639,7 @@ end
 
 --获取摄像机对象，楼层坐标组，当前楼层
 function MapLayer:getRocketData()
-    return self.m_camera,self.floorPos,self.jumpFloorNum,self.bottomHeight,self.runningKey
+    return self.m_camera,self.floorPos,self.jumpFloorNum,self.bottomHeight,self.curRoomKey
 end
 
 
@@ -1806,29 +1808,9 @@ function MapLayer:toRunFirstCameraMove()
         if _scaleX == 1 and self.curRoomDistance == MAPRUNNING_TYPE.Left or (_scaleX == -1 and self.curRoomDistance == MAPRUNNING_TYPE.Right)
             or self.curRoomDistance == MAPRUNNING_TYPE.Both then
             
---            local xValue
---            if _scaleX == 1 then
---                xValue = math.abs(x/runFirstX)
---            else
---                xValue = math.abs(runFirstX/x)
---            end
---            
---            self.m_camera:stopAllActions()
---            local moveY = cc.MoveTo:create(0.2*(moveSpeed/speed),cc.p(mx,pos.y-self.bottomHeight))
---            local moveX = cc.MoveTo:create(1*(moveSpeed/speed)*xValue,cc.p(toX,pos.y-self.bottomHeight))
---            local callfun = cc.CallFunc:create(function()
---                self.curState = State_Type.RunningState
-----                self.isBgMove = false
---            end)
---            local seq = cc.Sequence:create(moveY,moveX,callfun)
---            self.m_camera:runAction(seq)
             self.isBgMove = true
---
---            self.bg:stopAllActions()
---            local moveY = cc.MoveTo:create(0.2*(moveSpeed/speed),cc.p(mx,pos.y-self.bottomHeight))
---            local moveX = cc.MoveTo:create(1*(moveSpeed/speed)*xValue,cc.p(toX,pos.y-self.bottomHeight))
---            local seq = cc.Sequence:create(moveY,moveX)
---            self.bg:runAction(seq)
+            self.curRunDistance = _scaleX
+
             self.curState = State_Type.RunningState
             
             if self.curRoomDistance == MAPRUNNING_TYPE.Both and  _scaleX == -1 then
@@ -1842,7 +1824,7 @@ function MapLayer:toRunFirstCameraMove()
                     if room.getRoomIndex then
                         local roomNum = room:getRoomIndex()
                         self.floorPos[roomNum] = cc.p(x,y)
-                        Tools.printDebug("----------------最理想化的角色坐标：",roomNum,self.floorPos[roomNum].x)
+--                        Tools.printDebug("----------------最理想化的角色坐标：",roomNum,self.floorPos[roomNum].x)
                     end
                 end
                 self.m_bothMoveRooms = {}
@@ -1851,25 +1833,27 @@ function MapLayer:toRunFirstCameraMove()
 
         end
     elseif self.jumpFloorNum % 10 == 9 then
-        self.arrival = false
-        self.bothArrival = false
-        self.curState = State_Type.CommonState
-        self.m_camera:stopAllActions()
-        local moveY = cc.MoveTo:create(0.5*moveSpeed/speed,cc.p(pos.x,pos.y-self.bottomHeight))
-        local moveX = cc.MoveTo:create(0.5*moveSpeed/speed,cc.p(pos.x,my))
-        local callfun = cc.CallFunc:create(function()
-            self.isBgMove = false
-        end)
-        local seq = cc.Sequence:create(moveX,moveY,callfun)
-        self.m_camera:runAction(seq)
-        self.isBgMove = true
-        
-        self.bg:stopAllActions()
-        local moveY = cc.MoveTo:create(0.5*moveSpeed/speed,cc.p(pos.x,pos.y-self.bottomHeight))
-        local moveX = cc.MoveTo:create(0.5*moveSpeed/speed,cc.p(pos.x,my))
-        local seq = cc.Sequence:create(moveX,moveY)
-        self.bg:runAction(seq)
+--        Tools.printDebug("----------------最理想化的角色坐标：",self.jumpFloorNum,x,pos.x+self.curRoomWidth)
+        if x-200 < pos.x+self.curRoomWidth and self.curRunDistance == 1 or (x+200 > pos.x and self.curRunDistance == -1) then
+            self.arrival = false
+            self.bothArrival = false
+            self.curState = State_Type.CommonState
+            self.m_camera:stopAllActions()
+            local moveY = cc.MoveTo:create(0.4*moveSpeed/speed,cc.p(pos.x,pos.y-self.bottomHeight))
+            local moveX = cc.MoveTo:create(0.4*moveSpeed/speed,cc.p(pos.x,my))
+            local callfun = cc.CallFunc:create(function()
+                self.isBgMove = false
+            end)
+            local seq = cc.Sequence:create(moveX,moveY,callfun)
+            self.m_camera:runAction(seq)
+            self.isBgMove = true
 
+            self.bg:stopAllActions()
+            local moveY = cc.MoveTo:create(0.4*moveSpeed/speed,cc.p(pos.x,pos.y-self.bottomHeight))
+            local moveX = cc.MoveTo:create(0.4*moveSpeed/speed,cc.p(pos.x,my))
+            local seq = cc.Sequence:create(moveX,moveY)
+            self.bg:runAction(seq)
+        end
     end
 end
 

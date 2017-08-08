@@ -411,7 +411,7 @@ function Player:springRocket(parameters)
     
     self.m_armature:setVisible(false)
     self:toRocket()
-    if roomType ~= MAPROOM_TYPE.Running and roomNextType ~= MAPROOM_TYPE.Running then
+    if roomType ~= MAPROOM_TYPE.Running and roomNextType ~= MAPROOM_TYPE.Running or (roomType == MAPROOM_TYPE.Running and curFloor>8) then
         local nextCloseFloorX,nextCloseFloorY
         if floorPos[curCloseFloor+10].x then
             nextCloseFloorX = floorPos[curCloseFloor+10].x
@@ -448,7 +448,7 @@ function Player:springRocket(parameters)
         end
     
         self.toRocketState = 2
-        self:getParent():toRocketRunningLogic(self.toRocketState)
+        self:getParent():toRocketRunningLogic(self.toRocketState,self:getScaleX())
         local count = self:getParent():getRoomByIdx(curCloseFloor+1):getRoomsCount()
         local time = (10-curFloor%10+1)*1/10
         local time2 = count/10*1.5
@@ -474,7 +474,7 @@ function Player:springRocket(parameters)
             end
         end
         self.toRocketState = 3
-        self:getParent():toRocketRunningLogic(self.toRocketState,curRoomKey)
+        self:getParent():toRocketRunningLogic(self.toRocketState,self:getScaleX(),curRoomKey)
         local count = self:getParent():getRoomByIdx(curFloor):getRoomsCount()
         local time = (count-curRoomKey)*1/10
         local time2 = 1

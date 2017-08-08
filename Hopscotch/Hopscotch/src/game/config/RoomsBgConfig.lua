@@ -3429,7 +3429,7 @@ RoomBgs[3006]=
     
 RoomBgs[3002]=
     {
-        wallLeftRight = {{res="#Room_wall.png",x=Room_Distance.x+668,y=16}},--左右两侧墙壁
+        wallLeftRight = {{res="#Room_wall.png",x=Room_Distance.x+0,y=16},{res="#Room_wall.png",x=Room_Distance.x+668,y=16}},--左右两侧墙壁
         floor = {{res="#Room_floor_5.png",x=Room_Distance.x+0,y=0},
 	         {res="#Room_floor_7.png",x=Room_Distance.x+17,y=0},
 	         {res="#Room_floor_7.png",x=Room_Distance.x+17+94,y=0},
