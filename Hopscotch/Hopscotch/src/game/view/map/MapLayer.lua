@@ -840,7 +840,7 @@ function MapLayer:onEnterFrame(dt)
     end
     
     --左右射线检测(火箭状态不做处理)
-    if not self.m_player:isInState(PLAYER_STATE.Rocket) or not self.m_player:isInState(PLAYER_STATE.StartRocket) then
+    if not self.m_player:isInState(PLAYER_STATE.Rocket) and not self.m_player:isInState(PLAYER_STATE.StartRocket) then
         self.m_physicWorld:rayCast(handler(self,self.rayCastFuncX),cc.p(_p.x,_p.y-_size.height*0.25),cc.p(_p.x+_add*(_size.width*0.5+Raycast_DisX),_p.y-_size.height*0.25))
     end
     
@@ -1161,10 +1161,10 @@ function MapLayer:collisionBeginCallBack(parameters)
                 return false
             end
             if playerBP.x+_size.width*0.5<obstacleBP.x then
-                player:setVelocity(cc.p(self.m_player:getSpeed(),vel.y))
+                player:setVelocity(cc.p(player:getSpeed(),vel.y))
                 player:setScaleX(math.abs(_scaleX))
             else
-                player:setVelocity(cc.p(-self.m_player:getSpeed(),vel.y))
+                player:setVelocity(cc.p(-player:getSpeed(),vel.y))
                 player:setScaleX(-math.abs(_scaleX))
             end
        end
@@ -1241,9 +1241,6 @@ end
 
 
 function MapLayer:rayCastFuncX(_world,_p1,_p2,_p3)
---    if self.backOrigin then
---        return true
---    end
 
     local _body = _p1.shape:getBody()
     local _bnode = _body:getNode()
