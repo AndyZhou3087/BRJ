@@ -705,18 +705,18 @@ function MapLayer:createSteels(_type,_y)
     line_right:setScaleY(8.5-(self.m_levelCon.right[1]-1))
     line_right:setCameraMask(2)
     --钢架人
-    local steel1 = SpecialElement.new(self.m_levelCon.left,line_left)
+    local steel1 = SpecialElement.new(self.m_levelCon.left,line_left,1)
     self:addChild(steel1,self.m_curZOrder)
     steel1:setAnchorPoint(cc.p(0,0))
     local size = steel1:getCascadeBoundingBox().size
     local steelY = (self.m_levelCon.left[1]-1)*Room_Size.height
     steel1:setPosition(cc.p(self._x+self.m_levelCon.lineX[1]-size.width*0.5-15,size.height*0.5+16+_y+steelY))
-    local steel2 = SpecialElement.new(self.m_levelCon.right,line_right)
+    local steel2 = SpecialElement.new(self.m_levelCon.right,line_right,2)
     self:addChild(steel2,self.m_curZOrder)
     steel2:setAnchorPoint(cc.p(0,0))
-    steel2:setScaleX(-1)
+--    steel2:setScaleX(-1)-------------因为右边钢架反转导致右边钢架无法检测！！
     local steel2Y = (self.m_levelCon.right[1]-1)*Room_Size.height
-    steel2:setPosition(cc.p(self._x+self.m_levelCon.lineX[2]+16+size.width*0.5+15,size.height*0.5+16+_y+steel2Y))
+    steel2:setPosition(cc.p(self._x+self.m_levelCon.lineX[2]+10+size.width*0.5+15,size.height*0.5+16+_y+steel2Y))
     steel1:setCameraMask(2)
     steel2:setCameraMask(2)
     if self.twoLeanFloor then
@@ -1050,7 +1050,7 @@ function MapLayer:onEnterFrame(dt)
         self.rocketLastPos = cameraPos
     end
     
---    Tools.printDebug("------------bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb---------：",self.m_player:getPositionX())
+--    Tools.printDebug("------------bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb---------：",self.m_player:getPositionY())
 
 end
 
@@ -1156,9 +1156,12 @@ function MapLayer:collisionBeginCallBack(parameters)
        if not tolua.isnull(obstacle) then
             local vel=self.m_player:getBody():getVelocity()
             local _size = self.m_player:getSize()
+            local _scaleX = self.m_player:getScaleX()
             if playerBP.y+_size.height<=obstacleBP.y then
-                self:playerDead()
-                return false
+                if playerBP.x+_size.width*0.5 >= obstacleBP.x-8 and _scaleX == -1 or (playerBP.x-_size.width*0.5 <= obstacleBP.x+8 and _scaleX == 1) then
+                    self:playerDead()
+                    return false
+                end
             end
             if playerBP.x+_size.width*0.5<obstacleBP.x then
                 player:setVelocity(cc.p(player:getSpeed(),vel.y))
@@ -1211,7 +1214,7 @@ function MapLayer:rayCastFunc(_world,_p1,_p2,_p3)
         local roomIndex = math.ceil((self.m_player:getPositionY()-self.bottomHeight)/Room_Size.height)
         if not self.m_player:getJump() and self.curRoomType ~= MAPROOM_TYPE.Running and not GameController.isInState(PLAYER_STATE.Rocket) 
             and not GameController.isInState(PLAYER_STATE.StartRocket)then
-            if roomIndex == self.jumpFloorNum then
+--            if roomIndex == self.jumpFloorNum then
                 local floorPos
                 if self.floorPos[self.jumpFloorNum].x then
                     floorPos = self.floorPos[self.jumpFloorNum]
@@ -1224,8 +1227,9 @@ function MapLayer:rayCastFunc(_world,_p1,_p2,_p3)
                         end
                     end
                 end
+--                Tools.printDebug("----------brj 不停检测角色y轴：",self.jumpFloorNum,floorPos.y)
                 self.m_player:setPosition(cc.p(bpx,floorPos.y+_size.height*0.5+self.m_player:getErrorValue()))
-            end
+--            end
         end
         self.isCollision = true
         

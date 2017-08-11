@@ -8,7 +8,7 @@ local PhysicSprite=require("game.custom.PhysicSprite")
 local Special_MATERIAL=cc.PhysicsMaterial(0,0,0)
 
 
-function SpecialElement:ctor(arr,lineSprite)
+function SpecialElement:ctor(arr,lineSprite,type)
     SpecialElement.super.ctor(self)
 
     self.lineSprite = lineSprite
@@ -17,8 +17,16 @@ function SpecialElement:ctor(arr,lineSprite)
     local res = SceneConfig[GameDataManager.getFightScene()].specailRes2
     self.m_img = PhysicSprite.new(res):addTo(self)
     self:addBody(cc.p(0,0))
-    local shake = cc.MoveBy:create(1.5,cc.p(12,0))
-    local shake2 = cc.MoveBy:create(1.5,cc.p(-12,0))
+    
+    local dis = 0
+    if type == 1 then
+    	dis = 12
+    else
+        dis = -12
+        self.m_img:setScaleX(-1)
+    end
+    local shake = cc.MoveBy:create(1.5,cc.p(dis,0))
+    local shake2 = cc.MoveBy:create(1.5,cc.p(-dis,0))
     local seq = cc.Sequence:create(shake,shake2)
     local repeat1 = cc.RepeatForever:create(seq)
     self.m_img:runAction(repeat1)

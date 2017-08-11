@@ -6,54 +6,12 @@ local PhysicSprite = require("game.custom.PhysicSprite")
 local Scheduler = require("framework.scheduler")
 local RocketElement = require("game.view.element.RocketElement")
 
-local MASS = 50
+local MASS = 0
 local DENSITY = 0   --密度
 local FRICTION   = 0    --摩擦力
 local ELASTICITY = 0    --反弹力
 local Speed_Max = 600   --人物最大速度
 local DustRepair=5
-
-
-Player._FILTERS = {
-
-        -- custom
-        {"CUSTOM"},
-
-        -- {"CUSTOM", json.encode({frag = "Shaders/example_Flower.fsh",
-        --                  center = {display.cx, display.cy},
-        --                  resolution = {480, 320}})},
-
-        {{"CUSTOM", "CUSTOM"},
-            {json.encode({frag = "Shaders/example_Blur.fsh",
-                shaderName = "blurShader",
-                resolution = {480,320},
-                blurRadius = 10,
-                sampleNum = 5}),
-            json.encode({frag = "Shaders/example_sepia.fsh",
-                shaderName = "sepiaShader",})}},
-
-        -- colors
-        {"GRAY",{0.2, 0.3, 0.5, 0.1}},
-        {"RGB",{1, 0.5, 0.3}},
-        {"HUE", {90}},
-        {"BRIGHTNESS", {0.3}},
-        {"SATURATION", {0}},
-        {"CONTRAST", {2}},
-        {"EXPOSURE", {2}},
-        {"GAMMA", {2}},
-        {"HAZE", {0.1, 0.2}},
-        --{"SEPIA", {}},
-        -- blurs
-        {"GAUSSIAN_VBLUR", {7}},
-        {"GAUSSIAN_HBLUR", {7}},
-        {"ZOOM_BLUR", {4, 0.7, 0.7}},
-        {"MOTION_BLUR", {5, 135}},
-        -- others
-        {"SHARPEN", {1, 1}},
-        {{"GRAY", "GAUSSIAN_VBLUR", "GAUSSIAN_HBLUR"}, {nil, {10}, {10}}},
-        {{"BRIGHTNESS", "CONTRAST"}, {{0.1}, {4}}},
-        {{"HUE", "SATURATION", "BRIGHTNESS"}, {{240}, {1.5}, {-0.4}}},
-}
 
 
 ---人物类
@@ -77,7 +35,6 @@ function Player:ctor()
         self.m_modle=modle
         self.m_jumpModle = jump
         self.m_armature = display.newSprite(res):addTo(self)
---        self:_showFilter(res)
         self:createModle(modle)
         self.m_armature:setScale(0.45)
         if self.m_curModle == 1 or self.m_curModle == 7 then
@@ -108,23 +65,6 @@ function Player:ctor()
     GameDispatcher:addListener(EventNames.EVENT_START_ROCKET,handler(self,self.startRocket))
     --复活
     GameDispatcher:addListener(EventNames.EVENT_ROLE_REVIVE,handler(self,self.relive))
-
-end
-
-
-function Player:_showFilter(res)
-    if self._filterSprite then
-        self._filterSprite:removeSelf()
-        self._filterSprite = nil
-    end
-    local __curFilter = Player._FILTERS[12]
-    local __filters, __params = unpack(__curFilter)
-    if __params and #__params == 0 then
-        __params = nil
-    end
-    self.m_armature = display.newFilteredSprite(res, __filters, __params)
---        :align(display.CENTER, display.cx, display.cy)
-        :addTo(self)
 
 end
 
@@ -208,8 +148,9 @@ function Player:toJump(pos,isRunning)
             _vec.x=-self.m_vo.m_speed
         end
         self:setBodyVelocity(cc.p(_vec.x,260))
-        self.jumpHandler = Tools.delayCallFunc(0.35,function()
+        self.jumpHandler = Tools.delayCallFunc(0.3,function()
             self:toStopJump()
+            self:setPositionY(pos.y+self.m_size.height*0.5+self.errorValue)
         end)
 --    else
 --        self:toStartJump()
@@ -528,6 +469,8 @@ function Player:relive(parameters)
     GameController.resumeGame()
     self:createModle(self.m_modle)
     self.m_isDead = false
+    self.m_body:setCollisionBitmask(0x03)
+--    self:setVisible(true)
     self:addLifeNum(1)
     local camera,floorPos,curFloor,dis,curRoomKey
     if not tolua.isnull(self:getParent()) then
@@ -560,6 +503,9 @@ function Player:selfDead()
     if not self.m_armature:isVisible() then
         return
     end
+    
+    self.m_body:setCollisionBitmask(0x04)
+--    self:setVisible(false)
     self.m_vo.m_lifeNum = self.m_vo.m_lifeNum - 1
     Tools.printDebug("--------brj 角色死亡：",self.m_vo.m_lifeNum)
     if not self.m_isDead and self.m_vo.m_lifeNum <= 0 then
@@ -573,6 +519,8 @@ function Player:selfDead()
             if not tolua.isnull(self:getParent()) then
                 self:getParent():backOriginFunc()
             end
+--            self:setVisible(true)
+            self.m_body:setCollisionBitmask(0x03)
         else
             self:stopAllActions()
             self.m_armature:stopAllActions()
