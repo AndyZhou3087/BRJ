@@ -125,9 +125,19 @@ function MapRoom:initBlock(_roomBgVo)
             table.insert(self.m_blocks,wall)
         end
         if #_roomBgVo.wallLeftRight == 2 then
-        	self.isCloseRoom = true
+            self.isCloseRoom = true
+            self.wallDirection = OpenWallType.Close
         else
             self.isCloseRoom = false
+            if #_roomBgVo.wallLeftRight == 1 then
+                if _roomBgVo.wallLeftRight[1].x < display.cx then
+                    self.wallDirection = OpenWallType.Right
+                else
+                    self.wallDirection = OpenWallType.Left
+                end
+            elseif #_roomBgVo.wallLeftRight == 0 then
+                self.wallDirection = OpenWallType.All
+            end
         end
     end
     if _roomBgVo.floor then
@@ -375,6 +385,11 @@ function MapRoom:getRoomsCount()
     	return 0
     end
     return #self.m_curLevelCon.roomBgs
+end
+
+--获取房间开口方向
+function MapRoom:getSingleOpenWallDir()
+    return self.wallDirection
 end
 
 --销毁

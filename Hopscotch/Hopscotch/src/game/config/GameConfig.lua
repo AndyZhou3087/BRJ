@@ -62,6 +62,14 @@ MAP_ROOM_OTHER_MAX = 20
 --地图当前ZOder
 MAP_ZORDER_MAX=0
 
+OpenWallType = 
+    {
+        Left = 1,
+        Right = 2,
+        All = 3,
+        Close = 4,
+    }
+
 
 Map_Grade = 
 {

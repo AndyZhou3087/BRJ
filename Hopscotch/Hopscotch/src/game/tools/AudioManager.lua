@@ -16,26 +16,22 @@ AudioManager.Ground_Music_Type=
 AudioManager.Sound_Effect_Type=
     {
         Button_Click_Sound = "button.ogg",--按钮点击
-        Sprint_Sound = "fevertime.ogg",   --冲刺
-        Get_Prop_Sound = "get_item.ogg",    --获得道具
-        Player_Up_Lv = "u_level_up.ogg",  --角色升级
-        Diamond_Cost = "zuanshixiaohao.ogg",   --消耗钻石
+        Dead_Sound = "fevertime.ogg",   --死亡
+        GameOver_Sound = "gameover.ogg",    --游戏结束
+        Rocket_Sound = "u_level_up.ogg",  --火箭冲刺
+        Phantom_Sound = "phantom.ogg",   --幻影
         Jump_Sound = "jump.ogg",  --跳跃
-        GetGold_Sound = "gold.ogg",  --获得金币
+        Diamond_Sound = "diamond.ogg",  --获得钻石
         Magnet_Sound = "magnet.ogg",  --吸铁石
-        RoleMan_Dead = "nanshoushang.ogg",   --男角色死亡
-        RoleWomen_Dead = "nvshoushang.ogg",  --女角色死亡
-        Dart_Sound = "swish.ogg",  --飞镖
-        Win_Sound = "jiesuan.ogg",  --挑战成功
     }
 
 --游戏战斗中的音效，加此项是为了在游戏中弹出界面时要屏蔽战斗音效
 local fightSoundOff = false --战斗音效是否处于关闭中
 local fightSound={}
-fightSound[AudioManager.Sound_Effect_Type.Sprint_Sound] = 1
+fightSound[AudioManager.Sound_Effect_Type.Rocket_Sound] = 1
 fightSound[AudioManager.Sound_Effect_Type.Jump_Sound] = 1
 fightSound[AudioManager.Sound_Effect_Type.Magnet_Sound] = 1
-fightSound[AudioManager.Sound_Effect_Type.Dart_Sound] = 1
+fightSound[AudioManager.Sound_Effect_Type.Phantom_Sound] = 1
 
 
 --循环音效记录表

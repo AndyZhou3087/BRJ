@@ -69,6 +69,7 @@ function ShopView:ctor(parameters)
         else
             GameDispatcher:dispatch(EventNames.EVENT_FLY_TEXT,{text ="钻石不足"})
         end
+        AudioManager.playSoundEffect(AudioManager.Sound_Effect_Type.Button_Click_Sound)
     end)
     
     --弹礼包
@@ -83,7 +84,7 @@ function ShopView:ctor(parameters)
     end)
     RightBtn:onButtonClicked(function (event)
         Tools.printDebug("brj hopscotch 礼包弹出")
-        
+        AudioManager.playSoundEffect(AudioManager.Sound_Effect_Type.Button_Click_Sound)
     end)
     
     --开始游戏
@@ -104,7 +105,7 @@ function ShopView:ctor(parameters)
         Tools.delayCallFunc(0.1,function()
             app:enterGameScene()
         end)
-        
+        AudioManager.playSoundEffect(AudioManager.Sound_Effect_Type.Button_Click_Sound)
     end)
     
     --角色购买
@@ -121,6 +122,7 @@ function ShopView:ctor(parameters)
         self.rolePrice:setPositionY(self.rolePrice:getPositionY()+8)
     end)
     self.roleBuy:onButtonClicked(function (event)
+        AudioManager.playSoundEffect(AudioManager.Sound_Effect_Type.Button_Click_Sound)
         Tools.printDebug("brj hopscotch 购买 角色")
         if not self.roleMove and not GameDataManager.getRoleModle(self.roleId) then
 --            local payId = RoleConfig[self.roleId].payId
@@ -157,6 +159,7 @@ function ShopView:ctor(parameters)
         self.scenePrice:setPositionY(self.scenePrice:getPositionY()+8)
     end)
     self.sceneBuy:onButtonClicked(function (event)
+        AudioManager.playSoundEffect(AudioManager.Sound_Effect_Type.Button_Click_Sound)
         Tools.printDebug("brj hopscotch 购买 场景")
         if not self.move and not GameDataManager.getSceneModle(self.sceneId) then
 --            local payId = SceneConfig[self.sceneId].payId
@@ -190,6 +193,7 @@ function ShopView:ctor(parameters)
         self.priceImg_diamond:setPositionY(self.priceImg_diamond:getPositionY()+8)
     end)
     self.diamondBuy:onButtonClicked(function (event)
+        AudioManager.playSoundEffect(AudioManager.Sound_Effect_Type.Button_Click_Sound)
         Tools.printDebug("brj hopscotch 购买 钻石")
         if not self.moveDia then
             local payId = DiamondConfig[self.diamondId].payId

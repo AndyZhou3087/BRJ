@@ -834,7 +834,7 @@ function MapLayer:onEnterFrame(dt)
     local _scaleX = self.m_player:getScaleX()
     local _add = -1*_scaleX/math.abs(_scaleX)  --因为人物默认是向左的，所以乘以-1
     if self.m_player:getJump() then
-        self.m_physicWorld:rayCast(handler(self,self.rayCastFunc),cc.p(_p.x,_p.y+_size.height*0.5),cc.p(_p.x,_p.y+_size.height*0.5-Raycast_DisY))--起始坐标和结束坐标(是指发出的一条射线)
+        self.m_physicWorld:rayCast(handler(self,self.rayCastFunc),cc.p(_p.x,_p.y-_size.height*0.5),cc.p(_p.x,_p.y-_size.height*0.5-Raycast_DisY))--起始坐标和结束坐标(是指发出的一条射线)
     else
         self.m_physicWorld:rayCast(handler(self,self.rayCastFunc),cc.p(_p.x,_p.y-_size.height*0.5),cc.p(_p.x,_p.y-_size.height*0.5-Raycast_DisY))
     end
@@ -844,8 +844,7 @@ function MapLayer:onEnterFrame(dt)
         self.m_physicWorld:rayCast(handler(self,self.rayCastFuncX),cc.p(_p.x,_p.y-_size.height*0.25),cc.p(_p.x+_add*(_size.width*0.5+Raycast_DisX),_p.y-_size.height*0.25))
     end
     
-    
-    --=====================幻影效果
+    --=====================幻影效果===================
     if self.phantomShow then
 --        Tools.printDebug("----brj hopscotch 幻影效果：",self.phantomShow,math.abs(bpx - 20),self.lastPlsyerX)
         if not self.lastPlsyerX or math.abs(bpx - self.lastPlsyerX) > 20 then
@@ -862,6 +861,7 @@ function MapLayer:onEnterFrame(dt)
             sprite:runAction(seq)
         end
     end
+    --===============================================
  
     
     if self.curRoomType == MAPROOM_TYPE.Running and not self.m_player:isInState(PLAYER_STATE.Rocket) and not self.m_player:isInState(PLAYER_STATE.StartRocket) then
@@ -1125,7 +1125,7 @@ function MapLayer:collisionBeginCallBack(parameters)
             local _size = self.m_player:getSize()
             local bpx,bpy = self.m_player:getPosition()
             local roomIndex = math.ceil((self.m_player:getPositionY()-self.bottomHeight)/Room_Size.height)
-            if roomIndex == self.jumpFloorNum then
+            if self.m_player:getCheckSign() then
                 local floorPos
                 if self.floorPos[self.jumpFloorNum].x then
                     floorPos = self.floorPos[self.jumpFloorNum]
@@ -1139,7 +1139,7 @@ function MapLayer:collisionBeginCallBack(parameters)
                     end
                 end
                 self.m_player:setPosition(cc.p(bpx,floorPos.y+_size.height*0.5+self.m_player:getErrorValue()))
---                Tools.printDebug("----------brj 碰撞检测------------: ")
+--                Tools.printDebug("----------brj 碰撞检测------------: ",floorPos.y+_size.height*0.5+self.m_player:getErrorValue())
             end
         end
     end
@@ -1151,27 +1151,36 @@ function MapLayer:collisionBeginCallBack(parameters)
     else
         _x = 1
     end
---    Tools.printDebug("brj------------碰撞tag: ",obstacleTag)
+
     if obstacleTag==ELEMENT_TAG.WALLLEFT or obstacleTag==ELEMENT_TAG.WALLRIGHT or obstacleTag==ELEMENT_TAG.SPECIAL_TAG then
        if not tolua.isnull(obstacle) then
             local vel=self.m_player:getBody():getVelocity()
             local _size = self.m_player:getSize()
             local _scaleX = self.m_player:getScaleX()
             if playerBP.y+_size.height<=obstacleBP.y then
-                if playerBP.x+_size.width*0.5 >= obstacleBP.x-8 and _scaleX == -1 or (playerBP.x-_size.width*0.5 <= obstacleBP.x+8 and _scaleX == 1) then
+                if (playerBP.x+_size.width*0.5 >= obstacleBP.x-8 and _scaleX == -1 and (self.openDistance == OpenWallType.Right or self.openDistance == OpenWallType.All)) 
+                    or (playerBP.x-_size.width*0.5 <= obstacleBP.x+8 and _scaleX == 1 and (self.openDistance == OpenWallType.Left or self.openDistance == OpenWallType.All)) then
                     self:playerDead()
                     return false
+                else
+                    if self.m_player:getJump() then
+                        self.m_player:toStopJump()
+                    end
+                end  
+            end
+            if playerBP.y+_size.height>obstacleBP.y and playerBP.y-_size.height<obstacleBP.y then
+                if playerBP.x+_size.width*0.5<obstacleBP.x then
+                    player:setVelocity(cc.p(player:getSpeed(),vel.y))
+                    player:setScaleX(math.abs(_scaleX))
+                else
+                    player:setVelocity(cc.p(-player:getSpeed(),vel.y))
+                    player:setScaleX(-math.abs(_scaleX))
                 end
             end
-            if playerBP.x+_size.width*0.5<obstacleBP.x then
-                player:setVelocity(cc.p(player:getSpeed(),vel.y))
-                player:setScaleX(math.abs(_scaleX))
-            else
-                player:setVelocity(cc.p(-player:getSpeed(),vel.y))
-                player:setScaleX(-math.abs(_scaleX))
-            end
        end
+        
        if obstacleTag==ELEMENT_TAG.SPECIAL_TAG then
+--            Tools.printDebug("brj22222222222222222222222------------碰撞tag: ",not tolua.isnull(obstacle))
             if not tolua.isnull(obstacle) then
             	obstacle:collision()
             end
@@ -1228,7 +1237,7 @@ function MapLayer:rayCastFunc(_world,_p1,_p2,_p3)
                     end
                 end
 --                Tools.printDebug("----------brj 不停检测角色y轴：",self.jumpFloorNum,floorPos.y)
-                self.m_player:setPosition(cc.p(bpx,floorPos.y+_size.height*0.5+self.m_player:getErrorValue()))
+--                self.m_player:setPosition(cc.p(bpx,floorPos.y+_size.height*0.5+self.m_player:getErrorValue()))
 --            end
         end
         self.isCollision = true
@@ -1261,12 +1270,17 @@ function MapLayer:rayCastFuncX(_world,_p1,_p2,_p3)
         if not tolua.isnull(_bnode) then
             local vel=self.m_player:getBody():getVelocity()
             local _size = self.m_player:getSize()
-            if playerBP.x+_size.width*0.5<obstacleBP.x then
-                self.m_player:setVelocity(cc.p(self.m_player:getSpeed(),vel.y))
-                self.m_player:setScaleX(math.abs(_scaleX))
-            else
-                self.m_player:setVelocity(cc.p(-self.m_player:getSpeed(),vel.y))
-                self.m_player:setScaleX(-math.abs(_scaleX))
+            if playerBP.y+_size.height>obstacleBP.y and playerBP.y-_size.height<obstacleBP.y then
+                if playerBP.x+_size.width*0.5<obstacleBP.x then
+                    self.m_player:setVelocity(cc.p(self.m_player:getSpeed(),vel.y))
+                    self.m_player:setScaleX(math.abs(_scaleX))
+                else
+                    self.m_player:setVelocity(cc.p(-self.m_player:getSpeed(),vel.y))
+                    self.m_player:setScaleX(-math.abs(_scaleX))
+                end
+            end
+            if _tag==ELEMENT_TAG.SPECIAL_TAG then
+                _bnode:collision()
             end
        end
     end
@@ -1321,6 +1335,7 @@ function MapLayer:CoreLogic()
             self.curRoomKey = _room:getRoomKey()
             self.curRoomWidth = _room:getRoomWidth()
             self.isCloseRoom = _room:getRoomCloseValue()
+            self.openDistance = _room:getSingleOpenWallDir()
 --            Tools.printDebug("----------brj 当前房间是否封闭层：",self.isCloseRoom)
             if self.curRoomType == MAPROOM_TYPE.Running and self.curRoomDistance == MAPRUNNING_TYPE.Both then
                 if _scaleX == -1 then
@@ -1396,22 +1411,6 @@ function MapLayer:playerDead()
     self.isCollision = false
     self.m_player:selfDead()
 end
-
---死亡时判断下方三层内宽度是否大于此层
---function MapLayer:deadFloor(_type)
---	if _type == 1 then
---        local size = self.m_player:getSize()
---        local curRoomWidth = self:getRoomByIdx(self.jumpFloorNum):getRoomWidth()
---        local room1Width = self:getRoomByIdx(self.jumpFloorNum-1):getRoomWidth()
---        local room2Width = self:getRoomByIdx(self.jumpFloorNum-2):getRoomWidth()
---        if room1Width >= curRoomWidth + size.width*2 or room2Width >= curRoomWidth + size.width*2 then
---        	return true
---        else
---            return false
---        end
---    
---	end
---end
 
 --双向横跑时根据编号从右边缓存中取出房间
 function MapLayer:getRightRoomByIdx(_roomIndx)

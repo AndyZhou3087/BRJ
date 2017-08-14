@@ -36,7 +36,7 @@ end
 function SpecialElement:addBody(_offset)
     local size=self.m_img:getCascadeBoundingBox()
     self.m_body=cc.PhysicsBody:createBox(size,Special_MATERIAL,_offset)
-    self.m_body:setCategoryBitmask(0x01)
+    self.m_body:setCategoryBitmask(0x03)
     self.m_body:setContactTestBitmask(0x1111)
     self.m_body:setCollisionBitmask(0x03)
     self.m_body:setDynamic(false)
@@ -49,13 +49,21 @@ function SpecialElement:collision()
     if self.moveCount == #self.arrMove then
     	return
     end
+    if self.isMove then
+    	return
+    end
+    self.isMove = true
     self:stopAllActions()
     local x,y = self:getPosition()
     local count_1 = self.moveCount
     self.moveCount = self.moveCount + 1
     local _y = (self.arrMove[self.moveCount]-self.arrMove[count_1])*Room_Size.height
     local move = cc.MoveTo:create(0.2,cc.p(x,y+_y))
-    self:runAction(move)
+    local callfunc = cc.CallFunc:create(function()
+        self.isMove = false
+    end)
+    local seq = cc.Sequence:create(move,callfunc)
+    self:runAction(seq)
     if not tolua.isnull(self.lineSprite) then
     	self.lineSprite:moveUp()
     end

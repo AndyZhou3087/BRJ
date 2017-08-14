@@ -27,6 +27,7 @@ function ReviveView:ctor(parameters)
 
     self.tvRocket = cc.uiloader:seekNodeByName(self.m_mapView,"tvRocket")
     self.tvRocket:onButtonClicked(function (event)
+        AudioManager.playSoundEffect(AudioManager.Sound_Effect_Type.Button_Click_Sound)
         Tools.printDebug("--------brj 看视频冲刺")
         SDKUtil.getDiamondByVideo({callback=function(_res)
             if SDKUtil.PayResult.Success == _res then
@@ -42,6 +43,7 @@ function ReviveView:ctor(parameters)
 
     self.diamondRocket = cc.uiloader:seekNodeByName(self.m_mapView,"diamondRocket")
     self.diamondRocket:onButtonClicked(function (event)
+        AudioManager.playSoundEffect(AudioManager.Sound_Effect_Type.Button_Click_Sound)
         Tools.printDebug("--------brj 花费钻石冲刺")
         if GameDataManager.getDiamond()>=CostSpringDiamond then
             GameDataManager.costDiamond(CostSpringDiamond)
@@ -68,6 +70,7 @@ function ReviveView:ctor(parameters)
             self.closeClick = true
             self:closeRocketView()
         end
+        AudioManager.playSoundEffect(AudioManager.Sound_Effect_Type.Button_Click_Sound)
     end)
     
     self.countDown = 0

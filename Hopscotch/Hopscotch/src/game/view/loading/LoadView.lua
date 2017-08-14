@@ -42,6 +42,7 @@ function LoadView:ctor(parameters)
     end)
     self.shop:onButtonClicked(function (event)
         GameDispatcher:dispatch(EventNames.EVENT_OPEN_SHOP)
+        AudioManager.playSoundEffect(AudioManager.Sound_Effect_Type.Button_Click_Sound)
     end)
     
     --tv按钮
@@ -62,6 +63,7 @@ function LoadView:ctor(parameters)
                 GameDispatcher:dispatch(EventNames.EVENT_FLY_TEXT,{text ="获取失败"})
             end
         end})
+        AudioManager.playSoundEffect(AudioManager.Sound_Effect_Type.Button_Click_Sound)
     end)
 
 --    self:setTouchEnabled(true)
@@ -73,6 +75,7 @@ function LoadView:ctor(parameters)
                 GameDataManager.generatePlayerVo()  --产生新的角色数据对象
                 app:enterGameScene()
             end
+            AudioManager.playSoundEffect(AudioManager.Sound_Effect_Type.Button_Click_Sound)
             return true
         elseif event.name == "ended" then
         end

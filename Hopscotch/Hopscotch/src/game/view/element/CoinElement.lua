@@ -23,7 +23,7 @@ end
 
 --被碰触
 function CoinElement:collision()
---    AudioManager.playSoundEffect(AudioManager.Sound_Effect_Type.GetGold_Sound)
+    AudioManager.playSoundEffect(AudioManager.Sound_Effect_Type.Diamond_Sound)
     GameDataManager.addDiamond(1)
     GameDataManager.addGameDiamond(1)
     

@@ -36,11 +36,13 @@ function SetUI:ctor(parameters)
             GameController.resumeGame()
             self:closeRight(BgX,BgY,img)
         end
+        AudioManager.playSoundEffect(AudioManager.Sound_Effect_Type.Button_Click_Sound)
     end)
     
     self.Sound = cc.uiloader:seekNodeByName(self.m_json,"Sound")
     self.Sound:onButtonClicked(function (event)
         self:setSound()
+        AudioManager.playSoundEffect(AudioManager.Sound_Effect_Type.Button_Click_Sound)
     end)
     
     self.eye = cc.uiloader:seekNodeByName(self.m_json,"eye")
@@ -52,6 +54,7 @@ function SetUI:ctor(parameters)
             Game_Visible = true
         end
         GameController.setGameVisible(Game_Visible)
+        AudioManager.playSoundEffect(AudioManager.Sound_Effect_Type.Button_Click_Sound)
     end)
     
 end

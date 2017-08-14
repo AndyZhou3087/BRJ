@@ -115,59 +115,36 @@ end
 
 --上跳状态
 function Player:toJump(pos,isRunning)
---    Tools.printDebug("---------------hehehahi------------",isTwoJump)
---    if isRunning ~= MAPROOM_TYPE.Running then
-        self:toStartJump()
-        local x,y = self:getPosition()
-        
---        local move = cc.JumpTo:create(0.3,cc.p(x,pos.y+self.m_size.width*0.5+self.errorValue),Room_Size.height*0.8,1)
-----        local move2 = cc.JumpBy:create(0.15,cc.p(0,-5),5,1)
-----        local easeOut = cc.EaseCubicActionOut:create(move)
-----        local easeIn = cc.EaseCubicActionIn:create(move2)
---        local callfunc = cc.CallFunc:create(function()
---            self:toStopJump()
---        end)
---        local seq = cc.Sequence:create(move,callfunc)
---        self:runAction(seq) 
-        
---        local move = cc.MoveBy:create(0.2,cc.p(0,pos.y-y+self.m_size.width*0.5+40))
---        local move2 = cc.MoveBy:create(0.1,cc.p(0,-10))
---        local easeOut = cc.EaseCubicActionOut:create(move)
---        local easeIn = cc.EaseCubicActionIn:create(move2)
---        local callfunc = cc.CallFunc:create(function()
---            self:toStopJump()
---        end)
---        local seq = cc.Sequence:create(easeOut,easeIn,callfunc)
---        self:runAction(seq)
 
-        local _vec = self.m_body:getVelocity()
-        local _scaleX=self:getScaleX()
-        if _scaleX<0 then
-            _vec.x=self.m_vo.m_speed
-        else
-            _vec.x=-self.m_vo.m_speed
-        end
-        self:setBodyVelocity(cc.p(_vec.x,260))
-        self.jumpHandler = Tools.delayCallFunc(0.3,function()
-            self:toStopJump()
+    self.checkPos = false
+    self:toStartJump()
+    local x,y = self:getPosition()
+
+    local _vec = self.m_body:getVelocity()
+--    self:setBodyVelocity(cc.p(_vec.x,0))
+    local _scaleX=self:getScaleX()
+    if _scaleX<0 then
+        _vec.x=self.m_vo.m_speed
+    else
+        _vec.x=-self.m_vo.m_speed
+    end
+    self:setBodyVelocity(cc.p(_vec.x,260))
+    self.jumpHandler = Tools.delayCallFunc(0.23,function()
+        self.checkHandler = Tools.delayCallFunc(0.1,function()
             self:setPositionY(pos.y+self.m_size.height*0.5+self.errorValue)
+            self.checkPos = true
         end)
---    else
---        self:toStartJump()
---        local x,y = self:getPosition()
---        local move = cc.MoveTo:create(0.3,cc.p(x,pos.y+self.m_size.width*0.5+30))
---        local easeOut = cc.EaseCubicActionOut:create(move)
---        local callfunc = cc.CallFunc:create(function()
---            self:toStopJump()
---        end)
---        local seq = cc.Sequence:create(easeOut,callfunc)
---        self:runAction(seq)
---    end
+        self:toStopJump()
+    end)
 
     AudioManager.playSoundEffect(AudioManager.Sound_Effect_Type.Jump_Sound)
 end
 
 function Player:toStartJump()
+    if self.checkHandler then
+        Scheduler.unscheduleGlobal(self.checkHandler)
+        self.checkHandler=nil
+    end
     if self.jumpHandler then
         Scheduler.unscheduleGlobal(self.jumpHandler)
         self.jumpHandler=nil
@@ -285,6 +262,8 @@ function Player:phantom(parameters)
         self:clearBuff(PLAYER_STATE.Phantom)
     end)
     
+    AudioManager.playSoundEffect(AudioManager.Sound_Effect_Type.Phantom_Sound,true)
+    
 --    local limit = parameters.data.limit
 --    if self.phantomCount >= limit then
 --    	return
@@ -313,6 +292,8 @@ function Player:startRocket(parameters)
     
     --火箭特效
     self:rocketEffect()
+    
+    AudioManager.playSoundEffect(AudioManager.Sound_Effect_Type.Rocket_Sound,true)
 end
 
 function Player:toStartRocket()
@@ -348,6 +329,7 @@ function Player:springRocket(parameters)
     local roomType = self:getParent():getRoomByIdx(curFloor):getCurRoomType()
     self.toRocketState = 0
 
+    AudioManager.playSoundEffect(AudioManager.Sound_Effect_Type.Rocket_Sound,true)
     Tools.printDebug("----------brj 跳房子 火箭冲刺：",curFloor,curCloseFloor+10)
     
     self.m_armature:setVisible(false)
@@ -512,16 +494,20 @@ function Player:selfDead()
         self.m_isDead = true
         if GameDataManager.getPoints() <= 20 then
 --            Tools.printDebug("--------brj 角色死亡：")
-            if GameDataManager.getPoints()>=GameDataManager.getRecord() then
-                GameDataManager.saveRecord(GameDataManager.getPoints())
-            end
-            --低于20层回到起点
-            if not tolua.isnull(self:getParent()) then
-                self:getParent():backOriginFunc()
-            end
---            self:setVisible(true)
-            self.m_body:setCollisionBitmask(0x03)
+            AudioManager.playSoundEffect(AudioManager.Sound_Effect_Type.Dead_Sound)
+            Tools.delayCallFunc(0.5,function()
+                if GameDataManager.getPoints()>=GameDataManager.getRecord() then
+                    GameDataManager.saveRecord(GameDataManager.getPoints())
+                end
+                --低于20层回到起点
+                if not tolua.isnull(self:getParent()) then
+                    self:getParent():backOriginFunc()
+                end
+                --            self:setVisible(true)
+                self.m_body:setCollisionBitmask(0x03)
+            end)
         else
+            AudioManager.playSoundEffect(AudioManager.Sound_Effect_Type.GameOver_Sound)
             self:stopAllActions()
             self.m_armature:stopAllActions()
             if GameDataManager.getRevive() then
@@ -631,6 +617,8 @@ function Player:clearBuff(_type)
             self:resumeVelocLimit()
             self:setBodyVelocity(cc.p(self.m_stopVec.x,0))
             self.m_speed = self.m_stopSpeed
+            
+            AudioManager.stopSoundEffect(AudioManager.Sound_Effect_Type.Rocket_Sound)
         elseif _type == PLAYER_STATE.StartRocket then
             transition.stopTarget(self)
             self:stopAllActions()
@@ -649,6 +637,8 @@ function Player:clearBuff(_type)
             self:resumeVelocLimit()
             self:setBodyVelocity(cc.p(self.m_stopVec.x,0))
             self.m_speed = self.m_stopSpeed
+            
+            AudioManager.stopSoundEffect(AudioManager.Sound_Effect_Type.Rocket_Sound)
         elseif _type == PLAYER_STATE.Phantom then
             if not tolua.isnull(self:getParent()) then
                 self:getParent():setPhantomShow(false)
@@ -657,6 +647,7 @@ function Player:clearBuff(_type)
                 Scheduler.unscheduleGlobal(self.phantomHandler)
                 self.phantomHandler=nil
             end
+            AudioManager.stopSoundEffect(AudioManager.Sound_Effect_Type.Phantom_Sound)
         end
     end
 end
@@ -716,6 +707,11 @@ end
 --获取误差高度
 function Player:getErrorValue()
     return self.errorValue
+end
+
+--获取可检测坐标标识
+function Player:getCheckSign()
+    return self.checkPos
 end
 
 function Player:toPlay(_actionName)
@@ -787,6 +783,11 @@ function Player:dispose(_isDoor)
     if self.jumpHandler then
         Scheduler.unscheduleGlobal(self.jumpHandler)
         self.jumpHandler=nil
+    end
+    
+    if self.checkHandler then
+        Scheduler.unscheduleGlobal(self.checkHandler)
+        self.checkHandler=nil
     end
     
 
