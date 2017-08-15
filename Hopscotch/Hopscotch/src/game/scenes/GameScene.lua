@@ -53,10 +53,12 @@ function GameScene:onEnter()
     self:addChild(self.m_fightView,UI_ZORDER.VIEW_ZORDER)
 
     AudioManager.playGroundMusic(AudioManager.Ground_Music_Type.Fight_Bg,true)
-    
---    if DataPersistence.getAttribute("first_into") then
---        GameDispatcher:dispatch(EventNames.EVENT_GUIDE_EXPLAIN,{animation = true})
---    end
+    if GameDataManager.isMusicOpen()==false then
+        AudioManager.stop(1)
+    end
+    if GameDataManager.isSoundOpen()==false then
+        AudioManager.stop(2)
+    end
 
     Tools.delayCallFunc(0.001,function()
         self.m_map:initPlayerPos()

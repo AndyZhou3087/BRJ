@@ -90,7 +90,7 @@ end
 function GameApp:run()
     cc.FileUtils:getInstance():addSearchPath("res/")
     if DataPersistence.init() then
-        self:enterScene("MainScene")
+        self:enterScene("LoginScene")
     end
 end
 

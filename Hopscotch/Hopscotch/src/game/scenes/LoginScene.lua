@@ -1,43 +1,43 @@
 
 local LoadView = require("game.view.loading.LoadView")
 
-local MainScene = class("MainScene", function()
-    return display.newScene("MainScene")
+local LoginScene = class("LoginScene", function()
+    return display.newScene("LoginScene")
 end)
 
-function MainScene:ctor()
---    self:initData()
+function LoginScene:ctor()
+    self:initData()
 
     self.loading = LoadView.new()
     self:addChild(self.loading)
 end
 
 --数据初始化
-function MainScene:initData()
+function LoginScene:initData()
     GameDataManager.initUserData()
     GameDataManager.saveGameData()
     TimeUtil.init()
 end
 
-function MainScene:onEnter()
+function LoginScene:onEnter()
     if GameDataManager.isMusicOpen()==false then
-        AudioManager.stop(1)
+        AudioManager.open(1)
     end
     if GameDataManager.isSoundOpen()==false then
-        AudioManager.stop(2)
+        AudioManager.open(2)
     end
---    AudioManager.playGroundMusic(AudioManager.Ground_Music_Type.Main_Bg,true)
+    --    AudioManager.playGroundMusic(AudioManager.Ground_Music_Type.Main_Bg,true)
     if not tolua.isnull(self.loading) then
         self.loading:addedToScene()
     end
 end
 
-function MainScene:onExit()
+function LoginScene:onExit()
 end
 
 --场景销毁
-function MainScene:onCleanup()
+function LoginScene:onCleanup()
     GameDataManager.saveGameData()
 end
 
-return MainScene
+return LoginScene

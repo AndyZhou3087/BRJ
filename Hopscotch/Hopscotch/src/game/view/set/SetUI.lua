@@ -57,6 +57,12 @@ function SetUI:ctor(parameters)
         AudioManager.playSoundEffect(AudioManager.Sound_Effect_Type.Button_Click_Sound)
     end)
     
+    if GameDataManager.isMusicOpen() then
+        self.Sound:setButtonImage("normal","set/music.png")
+    else
+        self.Sound:setButtonImage("normal","set/NoSound.png")
+    end
+    
 end
 
 function SetUI:setSound()
