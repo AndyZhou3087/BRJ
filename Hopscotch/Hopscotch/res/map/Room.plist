@@ -72,20 +72,20 @@
             <key>Room_floor_1.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{388,2},{17,16}}</string>
+                <string>{{388,2},{19,18}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
                 <false/>
                 <key>sourceColorRect</key>
-                <string>{{0,0},{17,16}}</string>
+                <string>{{0,0},{19,18}}</string>
                 <key>sourceSize</key>
-                <string>{17,16}</string>
+                <string>{19,18}</string>
             </dict>
             <key>Room_floor_2.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{407,2},{17,16}}</string>
+                <string>{{409,2},{17,16}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -98,7 +98,7 @@
             <key>Room_floor_3.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{426,2},{17,16}}</string>
+                <string>{{428,2},{17,16}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -111,7 +111,7 @@
             <key>Room_floor_4.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{445,2},{17,16}}</string>
+                <string>{{447,2},{17,16}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -124,7 +124,7 @@
             <key>Room_floor_5.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{464,2},{17,16}}</string>
+                <string>{{466,2},{17,16}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -137,7 +137,7 @@
             <key>Room_floor_6.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{483,2},{17,16}}</string>
+                <string>{{485,2},{17,16}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -160,10 +160,36 @@
                 <key>sourceSize</key>
                 <string>{94,16}</string>
             </dict>
+            <key>Room_floor_8.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{98,504},{17,16}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{17,16}}</string>
+                <key>sourceSize</key>
+                <string>{17,16}</string>
+            </dict>
+            <key>Room_floor_9.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{117,504},{17,16}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{17,16}}</string>
+                <key>sourceSize</key>
+                <string>{17,16}</string>
+            </dict>
             <key>Room_ornament_1.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{98,504},{54,38}}</string>
+                <string>{{136,504},{54,38}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -176,7 +202,7 @@
             <key>Room_ornament_2.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{154,504},{55,36}}</string>
+                <string>{{192,504},{55,36}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -189,7 +215,7 @@
             <key>Room_ornament_3.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{211,504},{54,45}}</string>
+                <string>{{249,504},{54,45}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -202,7 +228,7 @@
             <key>Room_ornament_4.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{267,504},{21,18}}</string>
+                <string>{{305,504},{21,18}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -215,7 +241,7 @@
             <key>Room_ornament_5.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{290,504},{78,75}}</string>
+                <string>{{328,504},{78,75}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -228,7 +254,7 @@
             <key>Room_ornament_6.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{370,504},{91,32}}</string>
+                <string>{{408,504},{91,32}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -355,10 +381,23 @@
                 <key>sourceSize</key>
                 <string>{17,85}</string>
             </dict>
+            <key>Room_wall_1.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{119,667},{17,88}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{17,88}}</string>
+                <key>sourceSize</key>
+                <string>{17,88}</string>
+            </dict>
             <key>Room_window_1.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{119,667},{94,83}}</string>
+                <string>{{138,667},{94,83}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -371,7 +410,7 @@
             <key>Room_window_2.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{215,667},{94,83}}</string>
+                <string>{{234,667},{94,83}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -384,7 +423,7 @@
             <key>Room_window_3.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{311,667},{94,83}}</string>
+                <string>{{330,667},{94,83}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -397,7 +436,7 @@
             <key>Room_window_4.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{407,667},{94,83}}</string>
+                <string>{{2,757},{94,83}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -410,7 +449,7 @@
             <key>Scene_sea.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{2,754},{73,69}}</string>
+                <string>{{98,757},{73,69}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -423,7 +462,7 @@
             <key>Special_line.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{77,754},{3,99}}</string>
+                <string>{{173,757},{3,99}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -443,7 +482,7 @@
             <key>size</key>
             <string>{512,1024}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:adcfadd7acb0b8c4c6ac5f888be75bf6$</string>
+            <string>$TexturePacker:SmartUpdate:bcbd3f0132eb29e3d7597a106a1f5c33$</string>
             <key>textureFileName</key>
             <string>Room.png</string>
         </dict>
