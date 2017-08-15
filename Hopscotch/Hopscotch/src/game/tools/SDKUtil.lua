@@ -47,7 +47,7 @@ function SDKUtil.toPay(_data)
 		return
 	end
     if luaoc then
-        luaoc.callStaticMethod(className,methodName,params,sigs)
+        luaoc.callStaticMethod(className,methodName,params)
         return
 	end
     _data.callback(SDKUtil.PayResult.Success)
@@ -59,16 +59,18 @@ function SDKUtil.getOrderId(_goodsId)
     return "20170310"..tostring(_goodsId)..TimeUtil.getTimeStamp()..os.clock()..math.random(1,10000)
 end
 
+local videoMethodName = "getDiamondByVideo"
+
 --看视频得钻石
 function SDKUtil.getDiamondByVideo(_data)
     local params = {_data.callback}
     local sigs = "(I)V"
     if luaj then
-        luaj.callStaticMethod(className,"getDiamondByVideo",params,sigs)
+        luaj.callStaticMethod(className,videoMethodName,params,sigs)
         return
     end
     if luaoc then
-        luaoc.callStaticMethod(className,"getDiamondByVideo",params,sigs)
+        luaoc.callStaticMethod(className,videoMethodName,params)
         return
     end
     _data.callback(SDKUtil.PayResult.Success)
@@ -83,7 +85,7 @@ function SDKUtil.umentPay(_cost,_diamonds)
         return
     end
     if luaoc then
-        luaoc.callStaticMethod(className,"umengPay",params,sigs)
+        luaoc.callStaticMethod(className,"umengPay",params)
         return
     end
 end
@@ -99,7 +101,7 @@ function SDKUtil.umentPayEx(_cost,_item,_num,_diamonds)
         return
     end
     if luaoc then
-        luaoc.callStaticMethod(className,"umengPay",params,sigs)
+        luaoc.callStaticMethod(className,"umengPay",params)
         return
     end
 end
@@ -116,7 +118,7 @@ function SDKUtil.umentBuy(item,number,price)
         return
     end
     if luaoc then
-        luaoc.callStaticMethod(className,"umentBuy",params,sigs)
+        luaoc.callStaticMethod(className,"umentBuy",params)
         return
     end
 end
@@ -132,7 +134,7 @@ function SDKUtil.umentUse(item,number,price)
         return
     end
     if luaoc then
-        luaoc.callStaticMethod(className,"umentUse",params,sigs)
+        luaoc.callStaticMethod(className,"umentUse",params)
         return
     end
 end
@@ -149,7 +151,7 @@ function SDKUtil.umentBonus(item,number,price,trigger)
         return
     end
     if luaoc then
-        luaoc.callStaticMethod(className,"umentBonus",params,sigs)
+        luaoc.callStaticMethod(className,"umentBonus",params)
         return
     end
 end
@@ -163,7 +165,7 @@ function SDKUtil.umentOnEvent(eventId)
         return
     end
     if luaoc then
-        luaoc.callStaticMethod(className,"umentOnEvent",params,sigs)
+        luaoc.callStaticMethod(className,"umentOnEvent",params)
         return
     end
 end
@@ -177,7 +179,7 @@ function SDKUtil.umentStartLevel(_level)
         return
     end
     if luaoc then
-        luaoc.callStaticMethod(className,"umentStartLevel",params,sigs)
+        luaoc.callStaticMethod(className,"umentStartLevel",params)
         return
     end
 end
@@ -191,7 +193,7 @@ function SDKUtil.umentFinishLevel(_level)
         return
     end
     if luaoc then
-        luaoc.callStaticMethod(className,"umentFinishLevel",params,sigs)
+        luaoc.callStaticMethod(className,"umentFinishLevel",params)
         return
     end
 end
@@ -205,7 +207,7 @@ function SDKUtil.umentFailLevel(_level)
         return
     end
     if luaoc then
-        luaoc.callStaticMethod(className,"umentFailLevel",params,sigs)
+        luaoc.callStaticMethod(className,"umentFailLevel",params)
         return
     end
 end
@@ -219,7 +221,7 @@ function SDKUtil.giftPop(_data)
         return
     end
     if luaoc then
-        luaoc.callStaticMethod(className,"getGift",params,sigs)
+        luaoc.callStaticMethod(className,"getGift",params)
         return
     end
     _data.callback("rzjxkp.lb.15|rzjxkp.lb.10.1|rzjxkp.tc.20#0|rzjxkp.by.30")
@@ -234,7 +236,7 @@ function SDKUtil.getGameGiftTaggleParam(_data)
         return
     end
     if luaoc then
-        luaoc.callStaticMethod(className,"getGameGiftTaggleParam",params,sigs)
+        luaoc.callStaticMethod(className,"getGameGiftTaggleParam",params)
         return
     end
     _data.callback("1")
