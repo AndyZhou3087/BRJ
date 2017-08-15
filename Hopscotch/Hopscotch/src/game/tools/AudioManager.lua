@@ -167,9 +167,9 @@ function AudioManager.open(parameters)
     --	for key,value in pairs(AudioManager.Music_Mark) do
     --        value.handler=audio.playMusic(AudioManager.Music_Path..key,true)
     --	end
-    if GameController.isInPause() then
-        return
-    end
+--    if GameController.isInPause() then
+--        return
+--    end
     if parameters==nil then
         GameDataManager.setMusic(true)
         audio.rewindMusic()
