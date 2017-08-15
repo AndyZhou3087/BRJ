@@ -62,7 +62,7 @@ function MapRoom:ctor(_idx,_levelCon,_floorNum,dArr,gFloor)
         self.m_type = false
     end
 
-    --房间内背景
+    --房间内地板墙壁
     self:initBlock(_roomBgVo)
     --房间装饰
     self:initOrnament(_ornaments)
