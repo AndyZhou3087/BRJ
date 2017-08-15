@@ -101,6 +101,33 @@ function MapRoom:initBlock(_roomBgVo)
             bg:setPosition(cc.p(info.x,info.y))
         end
     end
+    if _roomBgVo.floor then
+        self.lastWidth = 0
+        self.lastX = 0
+        self.firstX = 0
+        for k=1, #_roomBgVo.floor do
+            local info = _roomBgVo.floor[k]
+            local type = Tools.Split("0"..info.res,"#")
+            local floor = PoolManager.getCacheObjByType(CACHE_TYPE[type[2]])
+            if not floor then
+                floor = PhysicSprite.new(info.res)
+                floor:setCahceType(CACHE_TYPE[info.res])
+                self:addPhysicsBody(floor,ELEMENT_TAG.FLOOR)
+                floor:retain()
+            end
+            self:addChild(floor)
+            local floorSize = floor:getCascadeBoundingBox().size
+            floor:setAnchorPoint(cc.p(0.5,0.5))
+            floor:setPosition(cc.p(info.x+floorSize.width*0.5,info.y+floorSize.height*0.5))
+            table.insert(self.m_blocks,floor)
+            self.lastWidth = floorSize.width
+            self.lastX = info.x
+            if k == 1 then
+                self.firstX = info.x
+            end
+        end
+        self.roomWidth = self.lastX-self.firstX+self.lastWidth
+    end
     if _roomBgVo.wallLeftRight then
         for j=1, #_roomBgVo.wallLeftRight do
             local info = _roomBgVo.wallLeftRight[j]
@@ -139,33 +166,6 @@ function MapRoom:initBlock(_roomBgVo)
                 self.wallDirection = OpenWallType.All
             end
         end
-    end
-    if _roomBgVo.floor then
-        self.lastWidth = 0
-        self.lastX = 0
-        self.firstX = 0
-        for k=1, #_roomBgVo.floor do
-            local info = _roomBgVo.floor[k]
-            local type = Tools.Split("0"..info.res,"#")
-            local floor = PoolManager.getCacheObjByType(CACHE_TYPE[type[2]])
-            if not floor then
-                floor = PhysicSprite.new(info.res)
-                floor:setCahceType(CACHE_TYPE[info.res])
-                self:addPhysicsBody(floor,ELEMENT_TAG.FLOOR)
-                floor:retain()
-            end
-            self:addChild(floor)
-            local floorSize = floor:getCascadeBoundingBox().size
-            floor:setAnchorPoint(cc.p(0.5,0.5))
-            floor:setPosition(cc.p(info.x+floorSize.width*0.5,info.y+floorSize.height*0.5))
-            table.insert(self.m_blocks,floor)
-            self.lastWidth = floorSize.width
-            self.lastX = info.x
-            if k == 1 then
-                self.firstX = info.x
-            end
-        end
-        self.roomWidth = self.lastX-self.firstX+self.lastWidth
     end
 end
 
