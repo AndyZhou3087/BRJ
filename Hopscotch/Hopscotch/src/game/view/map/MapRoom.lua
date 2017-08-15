@@ -242,7 +242,7 @@ function MapRoom:initGoods(goodCon,isShow)
             good:setPosition(x+goodSize.width*0.5,goodCon[var].y+goodSize.height*0.5)
             table.insert(self.m_goods,good)
             table.insert(self.m_blocks,good)
-            --        GameController.addGoodBody(good)
+--            GameController.addGoodBody(good)
         end
     end
 end
