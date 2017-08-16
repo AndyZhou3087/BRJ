@@ -72,7 +72,7 @@ function ShopView:ctor(parameters)
         AudioManager.playSoundEffect(AudioManager.Sound_Effect_Type.Button_Click_Sound)
     end)
     
-    --弹礼包
+    --看视频获取礼包
     local RightBtn = cc.uiloader:seekNodeByName(self.m_json,"RightBtn")
     local RightImg = cc.uiloader:seekNodeByName(self.m_json,"RightImg")
     RightImg:setButtonEnabled(false)

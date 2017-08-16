@@ -77,10 +77,19 @@ function SettlementUI:initMiddle()
     self.framebtn4 = cc.uiloader:seekNodeByName(self.m_json,"framebtn4")
     self.frame_4:setVisible(false)
     
+    self.countDown = 0
+    self.countDownLabel = cc.uiloader:seekNodeByName(self.m_json,"BitmapLabel_14")
+    self.countDownLabel:setColor(cc.c3b(50,222,255))
+    self:updateTime()
+    
     --
     self.framebtn1:onButtonClicked(function (event)
         AudioManager.playSoundEffect(AudioManager.Sound_Effect_Type.Button_Click_Sound)
-        Tools.printDebug("brj hopscotch 免费钻石")
+        local diaCount = math.random(VideoDiamond[1],VideoDiamond[2])
+        GameDataManager.addDiamond(diaCount)
+        GameDispatcher:dispatch(EventNames.EVENT_FLY_TEXT,{text ="获得"..diaCount.."钻石"})
+        Tools.printDebug("brj hopscotch 获得免费钻石"..diaCount.."个")
+        self:freeLogic()
     end)
     self.framebtn2:onButtonClicked(function (event)
         AudioManager.playSoundEffect(AudioManager.Sound_Effect_Type.Button_Click_Sound)
@@ -98,6 +107,25 @@ function SettlementUI:initMiddle()
     self.framebtn3:onButtonClicked(function (event)
         AudioManager.playSoundEffect(AudioManager.Sound_Effect_Type.Button_Click_Sound)
         Tools.printDebug("brj hopscotch 获取奖励")
+        if GameDataManager.getDiamond() >= DiamondSpendReward then
+            GameDataManager.costDiamond(DiamondSpendReward)
+        	local type = math.random(1,3)
+        	if type == 1 then
+                local count = math.random(VideoDiamond[1],VideoDiamond[2])
+                GameDataManager.addDiamond(count)
+                GameDispatcher:dispatch(EventNames.EVENT_FLY_TEXT,{text ="获得"..count.."钻石"})
+            elseif type == 2 then
+                local id = math.random(1,#RoleConfig)
+                GameDataManager.unLockModle(id,true)
+                GameDispatcher:dispatch(EventNames.EVENT_FLY_TEXT,{text ="获得新角色"})
+            elseif type == 3 then
+                local id = math.random(1,#SceneConfig)
+                GameDataManager.unLockScene(id,true)
+                GameDispatcher:dispatch(EventNames.EVENT_FLY_TEXT,{text ="获得新场景"})
+        	end
+        else
+            GameDispatcher:dispatch(EventNames.EVENT_FLY_TEXT,{text ="钻石不足"})
+        end
     end)
     self.framebtn4:onButtonClicked(function (event)
         AudioManager.playSoundEffect(AudioManager.Sound_Effect_Type.Button_Click_Sound)
@@ -160,6 +188,46 @@ function SettlementUI:initBottom()
     end)
 end
 
+function SettlementUI:freeLogic()
+    self.countDown = CountDownTime
+    GameDataManager.setFreeEndTime(TimeUtil.getTimeStamp(),self.countDown)
+    self.countDownLabel:setString(100)
+    self.framebtn1:setButtonEnabled(false)
+    self.countDownLabel:setVisible(true)
+    self.m_Handler = Scheduler.scheduleGlobal(handler(self,self.updateCountDown), 1)
+end
+
+function SettlementUI:updateTime()
+    local time1,time2 = GameDataManager.getFreeEndTime()
+    if TimeUtil.getTimeStamp() - time1 >= time2 then
+        self.framebtn1:setButtonEnabled(true)
+        self.countDownLabel:setVisible(false)
+    else
+        self.countDown = time2 - (TimeUtil.getTimeStamp() - time1)
+        GameDataManager.setReviveEndTime(TimeUtil.getTimeStamp(),self.countDown)
+        self.countDownLabel:setVisible(true)
+        self.countDownLabel:setString(100)
+        self.framebtn1:setButtonEnabled(false)
+        self.m_Handler = Scheduler.scheduleGlobal(handler(self,self.updateCountDown), 1)
+    end
+end
+
+function SettlementUI:updateCountDown()
+    self.countDown = self.countDown - 1
+    GameDataManager.setFreeEndTime(TimeUtil.getTimeStamp(),self.countDown)
+    self.countDownLabel:setString(string.format("%02d:%02d",self.countDown/60,self.countDown%60))
+    if self.countDown <= 0 then
+        self.countDown = 0
+        self.framebtn1:setButtonEnabled(true)
+        self.countDownLabel:setVisible(false)
+        GameDataManager.setFreeEndTime(0,0)
+        if self.m_Handler then
+            Scheduler.unscheduleGlobal(self.m_Handler)
+            self.m_Handler=nil
+        end
+    end
+end
+
 --清理数据
 function SettlementUI:onCleanup()
     if self.handler1 then
@@ -177,6 +245,11 @@ function SettlementUI:onCleanup()
     if self.handler4 then
         Scheduler.unscheduleGlobal(self.handler4)
         self.handler4 = nil
+    end
+    
+    if self.m_Handler then
+        Scheduler.unscheduleGlobal(self.m_Handler)
+        self.m_Handler=nil
     end
 end
 

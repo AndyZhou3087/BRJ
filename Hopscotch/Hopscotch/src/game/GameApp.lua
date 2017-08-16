@@ -79,6 +79,11 @@ function GameApp:ctor()
     DataPersistence.insertAttribute("remain_startTime",0) --倒计时回满结束时间戳
     --开局次数
     DataPersistence.insertAttribute("startCount",0)
+    
+    --免费礼物倒计时
+    DataPersistence.insertAttribute("free_endTime",0) --倒计时回满结束时间戳
+    --免费礼物剩余时间
+    DataPersistence.insertAttribute("remain_freeTime",0) --倒计时回满结束时间戳
 
     --角色礼包每日领奖
 --    DataPersistence.insertAttribute("rolegift",{})

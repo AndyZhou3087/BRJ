@@ -114,14 +114,16 @@ function GameDataManager.getDiamond()
 end
 
 --解锁角色皮肤
-function GameDataManager.unLockModle(_roleId)
+function GameDataManager.unLockModle(_roleId,isNotFight)
     if modleDic[_roleId] then
         return
     end
     local _modleVo = clone(ModleVo)
     _modleVo.roleId = _roleId
     modleDic[_roleId] = _modleVo
-    GameDataManager.setCurFightRole(_roleId)
+    if not isNotFight then
+        GameDataManager.setCurFightRole(_roleId)
+    end
     GameDispatcher:dispatch(EventNames.EVENT_UPDATE_ROLE,{id = _roleId})
 end
 
@@ -264,6 +266,18 @@ end
 
 --===================End=========================
 
+--==================免费礼物倒计时=======================
+--游戏内倒计时回满结束时间
+function GameDataManager.setFreeEndTime(_time,_pTime)
+    DataPersistence.updateAttribute("free_endTime",_time) --距体力回满结束时间戳
+    DataPersistence.updateAttribute("remain_freeTime",_pTime)  --距离回满剩余时间
+end
+function GameDataManager.getFreeEndTime()
+    return DataPersistence.getAttribute("free_endTime"),DataPersistence.getAttribute("remain_freeTime") --距体力回满结束时间戳
+end
+
+--==================End=======================
+
 
 --===================角色信息相关=========================
 --初始化角色信息
@@ -338,14 +352,16 @@ end
 
 --===================场景信息相关=========================
 --解锁新场景
-function GameDataManager.unLockScene(_sceneId)
+function GameDataManager.unLockScene(_sceneId,isNotFight)
     if sceneDic[_sceneId] then
         return
     end
     local _sceneVo = clone(SceneVo)
     _sceneVo.sceneId = _sceneId
     sceneDic[_sceneId] = _sceneVo
-    GameDataManager.setCurFightScene(_sceneId)
+    if not isNotFight then
+        GameDataManager.setCurFightScene(_sceneId)
+    end
     GameDispatcher:dispatch(EventNames.EVENT_UPDATE_SCENE,{id = _sceneId})
 end
 
