@@ -3030,14 +3030,14 @@ RoomBgs[1024]=
 		 {res="#Room_floor_7.png",x=Room_Distance.x+36+94*4,y=0},
                  {res="#Room_floor_7.png",x=Room_Distance.x+35+94*5,y=0},
                  {res="#Room_floor_7.png",x=Room_Distance.x+34+94*6-27,y=0},
-                 {res="#Room_floor_2.png",x=Room_Distance.x+32+94*7-28,y=-2},
+                 {res="#Room_floor_2.png",x=Room_Distance.x+33+94*7-28,y=-2},
 		 },--地板
     }
 
 --两侧有墙壁。
 RoomBgs[1025]=
     {
-        wallLeftRight = {{res="#Room_wall.png",x=Room_Distance.x+24,y=15,type = RoomWall_Type.Left},{res="#Room_wall.png",x=Room_Distance.x+644,y=15,type = RoomWall_Type.Right},},--左右两侧墙壁
+        wallLeftRight = {{res="#Room_wall.png",x=Room_Distance.x+24,y=15,type = RoomWall_Type.Left},{res="#Room_wall.png",x=Room_Distance.x+645,y=15,type = RoomWall_Type.Right},},--左右两侧墙壁
         floor = {
 	         {res="#Room_floor_3.png",x=Room_Distance.x+24,y=0},
 	         {res="#Room_floor_7.png",x=Room_Distance.x+40,y=0},
@@ -3047,14 +3047,14 @@ RoomBgs[1025]=
                  {res="#Room_floor_7.png",x=Room_Distance.x+36+94*4,y=0},
 		 {res="#Room_floor_7.png",x=Room_Distance.x+35+94*5,y=0},
                  {res="#Room_floor_7.png",x=Room_Distance.x+35+94*5+46,y=0},
-		 {res="#Room_floor_4.png",x=Room_Distance.x+32+94*6+46,y=0},
+		 {res="#Room_floor_4.png",x=Room_Distance.x+33+94*6+46,y=0},
 		 },--地板
     }
 
 --右侧有墙，
 RoomBgs[1026]=
     {
-        wallLeftRight = {{res="#Room_wall.png",x=Room_Distance.x+644,y=15,type = RoomWall_Type.Right},},--左右两侧墙壁
+        wallLeftRight = {{res="#Room_wall.png",x=Room_Distance.x+645,y=15,type = RoomWall_Type.Right},},--左右两侧墙壁
         floor = {
 	         {res="#Room_floor_7.png",x=Room_Distance.x+40,y=0},
 		 {res="#Room_floor_7.png",x=Room_Distance.x+39+94,y=0},
@@ -3063,14 +3063,14 @@ RoomBgs[1026]=
                  {res="#Room_floor_7.png",x=Room_Distance.x+36+94*4,y=0},
 		 {res="#Room_floor_7.png",x=Room_Distance.x+35+94*5,y=0},
                  {res="#Room_floor_7.png",x=Room_Distance.x+35+94*5+46,y=0},
-		 {res="#Room_floor_4.png",x=Room_Distance.x+32+94*6+46,y=0},
+		 {res="#Room_floor_4.png",x=Room_Distance.x+33+94*6+46,y=0},
 		 },--地板
     }
 
 --右侧有墙，下层右侧有墙
 RoomBgs[1027]=
     {
-        wallLeftRight = {{res="#Room_wall_1.png",x=Room_Distance.x+644,y=13,type = RoomWall_Type.Right},},--左右两侧墙壁
+        wallLeftRight = {{res="#Room_wall_1.png",x=Room_Distance.x+645,y=13,type = RoomWall_Type.Right},},--左右两侧墙壁
         floor = {
 	         {res="#Room_floor_7.png",x=Room_Distance.x+40,y=0},
 		 {res="#Room_floor_7.png",x=Room_Distance.x+39+94,y=0},
@@ -3079,14 +3079,14 @@ RoomBgs[1027]=
 		 {res="#Room_floor_7.png",x=Room_Distance.x+36+94*4,y=0},
                  {res="#Room_floor_7.png",x=Room_Distance.x+35+94*5,y=0},
                  {res="#Room_floor_7.png",x=Room_Distance.x+34+94*6-27,y=0},
-                 {res="#Room_floor_2.png",x=Room_Distance.x+31+94*7-27,y=-2},
+                 {res="#Room_floor_2.png",x=Room_Distance.x+32+94*7-27,y=-2},
 		 },--地板
     }
 
 --右侧有墙，下层两侧有墙
 RoomBgs[1028]=
     {
-        wallLeftRight = {{res="#Room_wall_1.png",x=Room_Distance.x+644,y=13,type = RoomWall_Type.Right},},--左右两侧墙壁
+        wallLeftRight = {{res="#Room_wall_1.png",x=Room_Distance.x+645,y=13,type = RoomWall_Type.Right},},--左右两侧墙壁
         floor = {
 	         {res="#Room_floor_1.png",x=Room_Distance.x+44,y=-2},
 	         {res="#Room_floor_7.png",x=Room_Distance.x+60,y=0},
@@ -3096,7 +3096,7 @@ RoomBgs[1028]=
                  {res="#Room_floor_7.png",x=Room_Distance.x+56+94*4,y=0},
 		 {res="#Room_floor_7.png",x=Room_Distance.x+55+94*5,y=0},
                  {res="#Room_floor_7.png",x=Room_Distance.x+55+94*5+46,y=0},
-		 {res="#Room_floor_2.png",x=Room_Distance.x+52+94*6+46,y=-2},
+		 {res="#Room_floor_2.png",x=Room_Distance.x+53+94*6+46,y=-2},
 		 },--地板
     }
 
@@ -3104,7 +3104,7 @@ RoomBgs[1028]=
 --右侧有墙壁，下层左边有墙。
 RoomBgs[1029]=
      {
-        wallLeftRight = {{res="#Room_wall.png",x=Room_Distance.x+644,y=15,type = RoomWall_Type.Right},},--左右两侧墙壁
+        wallLeftRight = {{res="#Room_wall.png",x=Room_Distance.x+645,y=15,type = RoomWall_Type.Right},},--左右两侧墙壁
         floor = {
 	         {res="#Room_floor_1.png",x=Room_Distance.x+44,y=-2},
 	         {res="#Room_floor_7.png",x=Room_Distance.x+60,y=0},
@@ -3114,7 +3114,7 @@ RoomBgs[1029]=
                  {res="#Room_floor_7.png",x=Room_Distance.x+56+94*4,y=0},
 		 {res="#Room_floor_7.png",x=Room_Distance.x+55+94*5,y=0},
                  {res="#Room_floor_7.png",x=Room_Distance.x+55+94*5+26,y=0},
-                 {res="#Room_floor_4.png",x=Room_Distance.x+53+94*6+25,y=0},
+                 {res="#Room_floor_4.png",x=Room_Distance.x+54+94*6+25,y=0},
 		 },--地板
     }
 
@@ -3147,7 +3147,7 @@ RoomBgs[1031]=
 		 {res="#Room_floor_7.png",x=Room_Distance.x+36+94*4,y=0},
                  {res="#Room_floor_7.png",x=Room_Distance.x+35+94*5,y=0},
                  {res="#Room_floor_7.png",x=Room_Distance.x+34+94*6-27,y=0},
-                 {res="#Room_floor_2.png",x=Room_Distance.x+31+94*7-27,y=-2},
+                 {res="#Room_floor_2.png",x=Room_Distance.x+32+94*7-27,y=-2},
                  },--地板
     }
 

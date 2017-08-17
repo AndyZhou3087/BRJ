@@ -87,13 +87,13 @@ function LoadView:ctor(parameters)
         end
     end)
     
+    
     self.countDown = 0
     self.countDownLabel = cc.uiloader:seekNodeByName(self.m_json,"BitmapLabel_14")
     self.countDownLabel:setColor(cc.c3b(50,222,255))
     self:updateTime()
-    
-    
     LoadResManager.toLoadPlayerRes(handler(self,self.playerResFinish))
+    
 end
 
 function LoadView:freeLogic()
