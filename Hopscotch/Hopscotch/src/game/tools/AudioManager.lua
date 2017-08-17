@@ -17,14 +17,14 @@ AudioManager.Ground_Music_Type=
 --音效类型
 AudioManager.Sound_Effect_Type=
     {
-        Button_Click_Sound = "button.ogg",--按钮点击
-        Dead_Sound = "fevertime.ogg",   --死亡
-        GameOver_Sound = "gameover.ogg",    --游戏结束
-        Rocket_Sound = "rocket.ogg",  --火箭冲刺
-        Phantom_Sound = "phantom.ogg",   --幻影
-        Jump_Sound = "jump.ogg",  --跳跃
-        Diamond_Sound = "diamond.ogg",  --获得钻石
-        Magnet_Sound = "magnet.ogg",  --吸铁石
+        Button_Click_Sound = "button.wav",--按钮点击
+        Dead_Sound = "fevertime.wav",   --死亡
+        GameOver_Sound = "gameover.wav",    --游戏结束
+        Rocket_Sound = "rocket.wav",  --火箭冲刺
+        Phantom_Sound = "phantom.wav",   --幻影
+        Jump_Sound = "jump.wav",  --跳跃
+        Diamond_Sound = "diamond.wav",  --获得钻石
+        Magnet_Sound = "magnet.wav",  --吸铁石
     }
 
 --游戏战斗中的音效，加此项是为了在游戏中弹出界面时要屏蔽战斗音效
