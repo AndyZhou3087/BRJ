@@ -52,6 +52,9 @@ EventNames.EVENT_UPDATE_REVIVE = "event_update_revive"
 --开局次数刷新
 EventNames.EVENT_UPDATE_STARTROCKET = "event_update_startrocket"
 
+--视频次数刷新
+EventNames.EVENT_UPDATE_DIAMOND = "event_update_diamond"
+
 --======================游戏内场景=======================
 --迟钝药水
 EventNames.EVENT_SLOWLY = "event_slowly"

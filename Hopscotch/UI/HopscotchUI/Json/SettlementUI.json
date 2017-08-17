@@ -678,53 +678,6 @@
               "scale9Height": 44,
               "scale9Width": 48
             }
-          },
-          {
-            "classname": "LabelBMFont",
-            "name": null,
-            "children": [],
-            "options": {
-              "__type": "LabelBMFontSurrogate:#EditorCommon.JsonModel.Component.GUI",
-              "classname": "LabelBMFont",
-              "name": "BitmapLabel_14",
-              "ZOrder": 1,
-              "actiontag": 33868853,
-              "anchorPointX": 0.5,
-              "anchorPointY": 0.5,
-              "classType": "CocoStudio.EngineAdapterWrap.CSLabelBMFont",
-              "colorB": 255,
-              "colorG": 255,
-              "colorR": 255,
-              "customProperty": "",
-              "flipX": false,
-              "flipY": false,
-              "height": 40,
-              "ignoreSize": true,
-              "layoutParameter": null,
-              "opacity": 255,
-              "positionPercentX": 0.592000067,
-              "positionPercentY": 0.0330578052,
-              "positionType": 0,
-              "rotation": 0,
-              "scaleX": 1.3,
-              "scaleY": 1.3,
-              "sizePercentX": 0.313333333,
-              "sizePercentY": 0.30578512,
-              "sizeType": 0,
-              "tag": 1166,
-              "touchAble": false,
-              "useMergedTexture": false,
-              "visible": true,
-              "width": 87,
-              "x": 444,
-              "y": 3,
-              "fileNameData": {
-                "path": "font/font.fnt",
-                "plistFile": "",
-                "resourceType": 0
-              },
-              "text": "30:30"
-            }
           }
         ],
         "options": {
@@ -1068,6 +1021,53 @@
               "textColorB": 255,
               "textColorG": 255,
               "textColorR": 255
+            }
+          },
+          {
+            "classname": "LabelBMFont",
+            "name": null,
+            "children": [],
+            "options": {
+              "__type": "LabelBMFontSurrogate:#EditorCommon.JsonModel.Component.GUI",
+              "classname": "LabelBMFont",
+              "name": "BitmapLabel_14",
+              "ZOrder": 1,
+              "actiontag": 33868853,
+              "anchorPointX": 0.5,
+              "anchorPointY": 0.5,
+              "classType": "CocoStudio.EngineAdapterWrap.CSLabelBMFont",
+              "colorB": 255,
+              "colorG": 255,
+              "colorR": 255,
+              "customProperty": "",
+              "flipX": false,
+              "flipY": false,
+              "height": 40,
+              "ignoreSize": true,
+              "layoutParameter": null,
+              "opacity": 255,
+              "positionPercentX": 0.600444436,
+              "positionPercentY": 0.0110186031,
+              "positionType": 0,
+              "rotation": 0,
+              "scaleX": 1.3,
+              "scaleY": 1.3,
+              "sizePercentX": 0.116,
+              "sizePercentY": 0.3305785,
+              "sizeType": 0,
+              "tag": 1166,
+              "touchAble": false,
+              "useMergedTexture": false,
+              "visible": true,
+              "width": 87,
+              "x": 450,
+              "y": 1,
+              "fileNameData": {
+                "path": "font/font.fnt",
+                "plistFile": "",
+                "resourceType": 0
+              },
+              "text": "30:30"
             }
           }
         ],

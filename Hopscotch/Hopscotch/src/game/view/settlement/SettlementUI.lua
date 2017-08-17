@@ -13,6 +13,8 @@ function SettlementUI:ctor(parameters)
     self:setNodeEventEnabled(true)
 
     local bg = display.newColorLayer(cc.c4b(0,0,0,OPACITY)):addTo(self)
+    
+    AudioManager.stop(1)
 
     self.m_json = cc.uiloader:load("json/SettlementUI.json")
     self:addChild(self.m_json)
@@ -22,6 +24,8 @@ function SettlementUI:ctor(parameters)
     self:initBottom()
     
     self:initAction()
+    
+    GameDispatcher:addListener(EventNames.EVENT_UPDATE_DIAMOND,handler(self,self.updateDiamondCount))
 end
 
 function SettlementUI:initAction()
@@ -75,21 +79,12 @@ function SettlementUI:initMiddle()
     self.framebtn2 = cc.uiloader:seekNodeByName(self.m_json,"framebtn2")
     self.framebtn3 = cc.uiloader:seekNodeByName(self.m_json,"framebtn3")
     self.framebtn4 = cc.uiloader:seekNodeByName(self.m_json,"framebtn4")
+    self.frame_1:setVisible(false)
     self.frame_4:setVisible(false)
-    
-    self.countDown = 0
-    self.countDownLabel = cc.uiloader:seekNodeByName(self.m_json,"BitmapLabel_14")
-    self.countDownLabel:setColor(cc.c3b(50,222,255))
-    self:updateTime()
     
     --
     self.framebtn1:onButtonClicked(function (event)
-        AudioManager.playSoundEffect(AudioManager.Sound_Effect_Type.Button_Click_Sound)
-        local diaCount = math.random(VideoDiamond[1],VideoDiamond[2])
-        GameDataManager.addDiamond(diaCount)
-        GameDispatcher:dispatch(EventNames.EVENT_FLY_TEXT,{text ="获得"..diaCount.."钻石"})
-        Tools.printDebug("brj hopscotch 获得免费钻石"..diaCount.."个")
-        self:freeLogic()
+        
     end)
     self.framebtn2:onButtonClicked(function (event)
         AudioManager.playSoundEffect(AudioManager.Sound_Effect_Type.Button_Click_Sound)
@@ -98,6 +93,7 @@ function SettlementUI:initMiddle()
             if SDKUtil.PayResult.Success == _res then
                 local diaCount = math.random(VideoDiamond[1],VideoDiamond[2])
                 GameDataManager.addDiamond(diaCount)
+                GameDataManager.addDiamondCount()
                 GameDispatcher:dispatch(EventNames.EVENT_FLY_TEXT,{text ="获得"..diaCount.."钻石"})
             else
                 GameDispatcher:dispatch(EventNames.EVENT_FLY_TEXT,{text ="获取失败"})
@@ -109,7 +105,7 @@ function SettlementUI:initMiddle()
         Tools.printDebug("brj hopscotch 获取奖励")
         if GameDataManager.getDiamond() >= DiamondSpendReward then
             GameDataManager.costDiamond(DiamondSpendReward)
-        	local type = math.random(1,3)
+        	local type = math.random(2,3)
         	if type == 1 then
                 local count = math.random(VideoDiamond[1],VideoDiamond[2])
                 GameDataManager.addDiamond(count)
@@ -131,6 +127,12 @@ function SettlementUI:initMiddle()
         AudioManager.playSoundEffect(AudioManager.Sound_Effect_Type.Button_Click_Sound)
         Tools.printDebug("brj hopscotch 五星好评")
     end)
+    
+    self.countDown = 0
+    self.countDownLabel = cc.uiloader:seekNodeByName(self.m_json,"BitmapLabel_14")
+    self.countDownLabel:setVisible(false)
+    self.countDownLabel:setColor(cc.c3b(50,222,255))
+    self:diamondTime()
 end
 
 function SettlementUI:initBottom()
@@ -188,39 +190,44 @@ function SettlementUI:initBottom()
     end)
 end
 
-function SettlementUI:freeLogic()
-    self.countDown = CountDownTime
-    GameDataManager.setFreeEndTime(TimeUtil.getTimeStamp(),self.countDown)
-    self.countDownLabel:setString(100)
-    self.framebtn1:setButtonEnabled(false)
-    self.countDownLabel:setVisible(true)
-    self.m_Handler = Scheduler.scheduleGlobal(handler(self,self.updateCountDown), 1)
+function SettlementUI:diamondTime()
+    local time1,time2 = GameDataManager.getDiamondEndTime()
+    if GameDataManager.getDiamondCount()==2 then
+        if TimeUtil.getTimeStamp() - time1 >= time2 then
+            self.framebtn2:setButtonEnabled(true)
+            self.countDownLabel:setVisible(false)
+            GameDataManager.resetDiamondCount()
+        else
+            self.countDown = time2 - (TimeUtil.getTimeStamp() - time1)
+            GameDataManager.setDiamondEndTime(TimeUtil.getTimeStamp(),self.countDown)
+            self.countDownLabel:setVisible(true)
+            self.countDownLabel:setString("")
+            self.framebtn2:setButtonEnabled(false)
+            self.m_Handler = Scheduler.scheduleGlobal(handler(self,self.updateCountDown), 1)
+        end
+    end
 end
 
-function SettlementUI:updateTime()
-    local time1,time2 = GameDataManager.getFreeEndTime()
-    if TimeUtil.getTimeStamp() - time1 >= time2 then
-        self.framebtn1:setButtonEnabled(true)
-        self.countDownLabel:setVisible(false)
-    else
-        self.countDown = time2 - (TimeUtil.getTimeStamp() - time1)
-        GameDataManager.setReviveEndTime(TimeUtil.getTimeStamp(),self.countDown)
+function SettlementUI:updateDiamondCount()
+    if GameDataManager.getDiamondCount() == 2 then
+        self.countDown = CountDownTime
+        GameDataManager.setDiamondEndTime(TimeUtil.getTimeStamp(),self.countDown)
+        self.countDownLabel:setString("")
+        self.framebtn2:setButtonEnabled(false)
         self.countDownLabel:setVisible(true)
-        self.countDownLabel:setString(100)
-        self.framebtn1:setButtonEnabled(false)
         self.m_Handler = Scheduler.scheduleGlobal(handler(self,self.updateCountDown), 1)
     end
 end
 
 function SettlementUI:updateCountDown()
     self.countDown = self.countDown - 1
-    GameDataManager.setFreeEndTime(TimeUtil.getTimeStamp(),self.countDown)
+    GameDataManager.setDiamondEndTime(TimeUtil.getTimeStamp(),self.countDown)
     self.countDownLabel:setString(string.format("%02d:%02d",self.countDown/60,self.countDown%60))
     if self.countDown <= 0 then
         self.countDown = 0
-        self.framebtn1:setButtonEnabled(true)
+        self.framebtn2:setButtonEnabled(true)
         self.countDownLabel:setVisible(false)
-        GameDataManager.setFreeEndTime(0,0)
+        GameDataManager.resetDiamondCount()
         if self.m_Handler then
             Scheduler.unscheduleGlobal(self.m_Handler)
             self.m_Handler=nil
@@ -251,6 +258,8 @@ function SettlementUI:onCleanup()
         Scheduler.unscheduleGlobal(self.m_Handler)
         self.m_Handler=nil
     end
+    
+    GameDispatcher:removeListenerByName(EventNames.EVENT_UPDATE_DIAMOND)
 end
 
 --关闭界面调用

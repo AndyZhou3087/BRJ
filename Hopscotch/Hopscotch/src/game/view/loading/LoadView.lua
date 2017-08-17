@@ -53,16 +53,22 @@ function LoadView:ctor(parameters)
         self.tv2:setButtonImage("disabled","main/Main_tv_1.png")
     end)
     self.tv:onButtonClicked(function (event)
-        Tools.printDebug("--------brj 看视频得钻石")
-        SDKUtil.getDiamondByVideo({callback=function(_res)
-            if SDKUtil.PayResult.Success == _res then
-                local diaCount = math.random(VideoDiamond[1],VideoDiamond[2])
-                GameDataManager.addDiamond(diaCount)
-                GameDispatcher:dispatch(EventNames.EVENT_FLY_TEXT,{text ="获得"..diaCount.."钻石"})
-            else
-                GameDispatcher:dispatch(EventNames.EVENT_FLY_TEXT,{text ="获取失败"})
-            end
-        end})
+        Tools.printDebug("--------brj 点击获得礼包")
+        local type = math.random(1,3)
+        if type == 1 then
+            local count = math.random(VideoDiamond[1],VideoDiamond[2])
+            GameDataManager.addDiamond(count)
+            GameDispatcher:dispatch(EventNames.EVENT_FLY_TEXT,{text ="获得"..count.."钻石"})
+        elseif type == 2 then
+            local id = math.random(1,#RoleConfig)
+            GameDataManager.unLockModle(id,true)
+            GameDispatcher:dispatch(EventNames.EVENT_FLY_TEXT,{text ="获得新角色"})
+        elseif type == 3 then
+            local id = math.random(1,#SceneConfig)
+            GameDataManager.unLockScene(id,true)
+            GameDispatcher:dispatch(EventNames.EVENT_FLY_TEXT,{text ="获得新场景"})
+        end
+        self:freeLogic()
         AudioManager.playSoundEffect(AudioManager.Sound_Effect_Type.Button_Click_Sound)
     end)
 
@@ -81,8 +87,53 @@ function LoadView:ctor(parameters)
         end
     end)
     
+    self.countDown = 0
+    self.countDownLabel = cc.uiloader:seekNodeByName(self.m_json,"BitmapLabel_14")
+    self.countDownLabel:setColor(cc.c3b(50,222,255))
+    self:updateTime()
+    
     
     LoadResManager.toLoadPlayerRes(handler(self,self.playerResFinish))
+end
+
+function LoadView:freeLogic()
+    self.countDown = FreeRemainTime
+    GameDataManager.setFreeEndTime(TimeUtil.getTimeStamp(),self.countDown)
+    self.countDownLabel:setString(100)
+    self.tv:setButtonEnabled(false)
+    self.countDownLabel:setVisible(true)
+    self.m_Handler = Scheduler.scheduleGlobal(handler(self,self.updateCountDown), 1)
+end
+
+function LoadView:updateTime()
+    local time1,time2 = GameDataManager.getFreeEndTime()
+    if TimeUtil.getTimeStamp() - time1 >= time2 then
+        self.tv:setButtonEnabled(true)
+        self.countDownLabel:setVisible(false)
+    else
+        self.countDown = time2 - (TimeUtil.getTimeStamp() - time1)
+        GameDataManager.setReviveEndTime(TimeUtil.getTimeStamp(),self.countDown)
+        self.countDownLabel:setVisible(true)
+        self.countDownLabel:setString(100)
+        self.tv:setButtonEnabled(false)
+        self.m_Handler = Scheduler.scheduleGlobal(handler(self,self.updateCountDown), 1)
+    end
+end
+
+function LoadView:updateCountDown()
+    self.countDown = self.countDown - 1
+    GameDataManager.setFreeEndTime(TimeUtil.getTimeStamp(),self.countDown)
+    self.countDownLabel:setString(string.format("%02d:%02d:%02d",self.countDown/3600,(self.countDown%3600)/60,self.countDown%60))
+    if self.countDown <= 0 then
+        self.countDown = 0
+        self.tv:setButtonEnabled(true)
+        self.countDownLabel:setVisible(false)
+        GameDataManager.setFreeEndTime(0,0)
+        if self.m_Handler then
+            Scheduler.unscheduleGlobal(self.m_Handler)
+            self.m_Handler=nil
+        end
+    end
 end
 
 function LoadView:playerResFinish()
@@ -98,7 +149,10 @@ end
 
 --清理数据
 function LoadView:onCleanup()
-   
+    if self.m_Handler then
+        Scheduler.unscheduleGlobal(self.m_Handler)
+        self.m_Handler=nil
+    end
 end
 
 --关闭界面调用

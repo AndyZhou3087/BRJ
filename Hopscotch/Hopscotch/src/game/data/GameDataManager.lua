@@ -63,6 +63,8 @@ function GameDataManager.initUserData()
     GameDataManager.initRevive()
     --初始化开局
     GameDataManager.initStartRocket()
+    --看视频得钻石
+    GameDataManager.initDiamondGet()
 
     --初始化礼包信息
 --    GameDataManager.initGift()
@@ -262,6 +264,41 @@ function GameDataManager.setStartEndTime(_time,_pTime)
 end
 function GameDataManager.getStartEndTime()
     return DataPersistence.getAttribute("start_endTime"),DataPersistence.getAttribute("remain_startTime") --距体力回满结束时间戳
+end
+
+--===================End=========================
+
+--========================看视频得钻石倒计时=============================
+--开局使用次数
+local diamondCount = 0
+function GameDataManager.initDiamondGet()
+    diamondCount = DataPersistence.getAttribute("diamondCount")
+end
+
+function GameDataManager.addDiamondCount()
+    diamondCount = diamondCount + 1
+    if diamondCount>=2 then
+        diamondCount = 2
+        GameDataManager.setDiamondEndTime(TimeUtil.getTimeStamp(),CountDownTime)
+        GameDispatcher:dispatch(EventNames.EVENT_UPDATE_DIAMOND)
+    end
+end
+
+function GameDataManager.getDiamondCount()
+    return diamondCount
+end
+
+function GameDataManager.resetDiamondCount()
+    diamondCount = 0
+end
+
+--游戏内倒计时回满结束时间
+function GameDataManager.setDiamondEndTime(_time,_pTime)
+    DataPersistence.updateAttribute("diamond_endTime",_time) --距体力回满结束时间戳
+    DataPersistence.updateAttribute("remain_diamondTime",_pTime)  --距离回满剩余时间
+end
+function GameDataManager.getDiamondEndTime()
+    return DataPersistence.getAttribute("diamond_endTime"),DataPersistence.getAttribute("remain_diamondTime") --距体力回满结束时间戳
 end
 
 --===================End=========================

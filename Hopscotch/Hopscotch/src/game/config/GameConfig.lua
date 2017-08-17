@@ -23,6 +23,9 @@ OpenRocketFloor = {80,120}
 
 CountDownTime = 30*60
 
+--免费礼物倒计时
+FreeRemainTime = 300*60
+
 --视觉开关
 Game_Visible = true
 

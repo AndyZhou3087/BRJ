@@ -9,6 +9,8 @@ AudioManager.Music_Path = "music/"
 --背景音乐类型
 AudioManager.Ground_Music_Type=
     {
+        --主界面背景音乐
+        Main_Bg = "bg.mp3",
         --战斗场景音乐
         Fight_Bg = "bg.mp3",
     }

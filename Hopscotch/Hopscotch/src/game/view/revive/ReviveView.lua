@@ -102,7 +102,7 @@ function ReviveView:updateReviveTime()
             self.countDown = time2 - (TimeUtil.getTimeStamp() - time1)
             GameDataManager.setReviveEndTime(TimeUtil.getTimeStamp(),self.countDown)
             self.countDownLabel:setVisible(true)
-            self.countDownLabel:setString(100)
+            self.countDownLabel:setString("")
             self.tvRocket:setButtonEnabled(false)
             self.m_Handler = Scheduler.scheduleGlobal(handler(self,self.updateCountDown), 1)
         end
@@ -113,7 +113,7 @@ function ReviveView:updateRevive()
     if GameDataManager.getReviveCount() == 2 then
         self.countDown = CountDownTime
         GameDataManager.setReviveEndTime(TimeUtil.getTimeStamp(),self.countDown)
-        self.countDownLabel:setString(100)
+        self.countDownLabel:setString("")
         self.tvRocket:setButtonEnabled(false)
         self.countDownLabel:setVisible(true)
         self.m_Handler = Scheduler.scheduleGlobal(handler(self,self.updateCountDown), 1)

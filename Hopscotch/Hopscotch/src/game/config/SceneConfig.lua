@@ -51,7 +51,8 @@ SceneConfig[3]=
         bgColor = {cc.c4b(1,189,255,255),cc.c4b(62,237,255,255)},
         specailRes = "#Room_special_3.png",
         specailRes2 = "#Scene_sea.png",
-        offset = {0,0,521,343,-59,92,0},
+        --{panel2的偏移量，panel3的距离差，panel2的初始高度，panel3的初始高度，panel1位置的偏移量,panel2的距离差}
+        offset = {0,0,521,343,0,0,0},
     }
 
 SceneConfig[4]=

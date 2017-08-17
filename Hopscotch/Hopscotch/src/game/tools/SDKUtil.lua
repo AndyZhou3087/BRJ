@@ -59,18 +59,20 @@ function SDKUtil.getOrderId(_goodsId)
     return "20170310"..tostring(_goodsId)..TimeUtil.getTimeStamp()..os.clock()..math.random(1,10000)
 end
 
-local videoMethodName = "getDiamondByVideo"
+local ocClassName = "MyUnityAdsDelegate"
+local videoMethodName = "showVungleAds"
 
 --看视频得钻石
 function SDKUtil.getDiamondByVideo(_data)
     local params = {_data.callback}
+    local _params = {callback = _data.callback}
     local sigs = "(I)V"
     if luaj then
         luaj.callStaticMethod(className,videoMethodName,params,sigs)
         return
     end
     if luaoc then
-        luaoc.callStaticMethod(className,videoMethodName,params)
+        luaoc.callStaticMethod(ocClassName,videoMethodName,_params)
         return
     end
     _data.callback(SDKUtil.PayResult.Success)

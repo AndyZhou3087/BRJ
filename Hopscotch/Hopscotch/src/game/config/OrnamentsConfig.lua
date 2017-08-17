@@ -4091,7 +4091,7 @@ Ornaments[301]=
        bg = {{res="#Room_bg_1.png",x=Room_Distance.x+64+94,y=16,},
              {res="#Room_bg_1.png",x=Room_Distance.x+63+94*2,y=16,},
 	     {res="#Room_bg_1.png",x=Room_Distance.x+62+94*3,y=16,},
-             {res="#Room_bg_1.png",x=Room_Distance.x+61+94*4,y=16,},--X+459
+             {res="#Room_bg_1.png",x=Room_Distance.x+61+94*4-1,y=16,},--X+459
 	     },--房间背景(背景窗户随机其实是在有背景图的几张图随机抽取一张替换图片为窗户)
         ornament = {{res="#Room_ornament_5.png",x=200,y=16},{res="#Room_ornament_5.png",x=330,y=16},{res="#Room_ornament_5.png",x=410,y=16}}
     }
@@ -4102,7 +4102,7 @@ Ornaments[302]=
        bg = {{res="#Room_bg_1.png",x=Room_Distance.x+64+94,y=16,},
 	      {res="#Room_bg_1.png",x=Room_Distance.x+63+94*2,y=16,},
               {res="#Room_bg_1.png",x=Room_Distance.x+62+94*3,y=16,},
-	      {res="#Room_bg_1.png",x=Room_Distance.x+61+94*4,y=16,},
+	      {res="#Room_bg_1.png",x=Room_Distance.x+61+94*4-1,y=16,},
 	      },--房间背景(背景窗户随机其实是在有背景图的几张图随机抽取一张替换图片为窗户)
          ornament = {{res="#Room_ornament_5.png",x=210,y=16},{res="#Room_ornament_5.png",x=420,y=16}}
     }
@@ -4113,7 +4113,7 @@ Ornaments[303]=
        bg = {{res="#Room_bg_1.png",x=Room_Distance.x+64+94,y=16,},
 	      {res="#Room_bg_1.png",x=Room_Distance.x+63+94*2,y=16,},
               {res="#Room_bg_1.png",x=Room_Distance.x+62+94*3,y=16,},
-	      {res="#Room_bg_1.png",x=Room_Distance.x+61+94*4,y=16,},
+	      {res="#Room_bg_1.png",x=Room_Distance.x+61+94*4-1,y=16,},
 	      },--房间背景(背景窗户随机其实是在有背景图的几张图随机抽取一张替换图片为窗户)
         ornament = {{res="#Room_ornament_5.png",x=200,y=16},{res="#Room_ornament_6.png",x=320,y=16},{res="#Room_ornament_5.png",x=400,y=16}}
     }
@@ -4124,7 +4124,7 @@ Ornaments[304]=
        bg = {{res="#Room_bg_1.png",x=Room_Distance.x+64+94,y=16,},
 	      {res="#Room_bg_1.png",x=Room_Distance.x+63+94*2,y=16,},
               {res="#Room_bg_1.png",x=Room_Distance.x+62+94*3,y=16,},
-	      {res="#Room_bg_1.png",x=Room_Distance.x+61+94*4,y=16,},
+	      {res="#Room_bg_1.png",x=Room_Distance.x+61+94*4-1,y=16,},
 	      },--房间背景(背景窗户随机其实是在有背景图的几张图随机抽取一张替换图片为窗户)
         ornament = {{res="#Room_ornament_5.png",x=230,y=16},{res="#Room_ornament_6.png",x=380,y=16}}
     }
@@ -5241,7 +5241,7 @@ Ornaments[401]=
     {
        bg = {{res="#Room_bg_1.png",x=Room_Distance.x+110+94,y=16,},
              {res="#Room_bg_1.png",x=Room_Distance.x+109+94*2,y=16,},
-	     {res="#Room_bg_1.png",x=Room_Distance.x+108+94*3,y=16,},
+	     {res="#Room_bg_1.png",x=Room_Distance.x+108+94*3-1,y=16,},
 	     },--房间背景(背景窗户随机其实是在有背景图的几张图随机抽取一张替换图片为窗户)
         ornament = {{res="#Room_ornament_5.png",x=240,y=16},{res="#Room_ornament_5.png",x=330,y=16},{res="#Room_ornament_5.png",x=420,y=16}}
     }
@@ -5251,7 +5251,7 @@ Ornaments[402]=
     {
        bg = {{res="#Room_bg_1.png",x=Room_Distance.x+110+94,y=16,},
 	     {res="#Room_bg_1.png",x=Room_Distance.x+109+94*2,y=16,},
-             {res="#Room_bg_1.png",x=Room_Distance.x+108+94*3,y=16,},
+             {res="#Room_bg_1.png",x=Room_Distance.x+108+94*3-1,y=16,},
 	     },--房间背景(背景窗户随机其实是在有背景图的几张图随机抽取一张替换图片为窗户)
          ornament = {{res="#Room_ornament_5.png",x=250,y=16},{res="#Room_ornament_5.png",x=420,y=16}}
     }
@@ -5261,7 +5261,7 @@ Ornaments[403]=
     {
        bg = {{res="#Room_bg_1.png",x=Room_Distance.x+110+94,y=16,},
 	      {res="#Room_bg_1.png",x=Room_Distance.x+109+94*2,y=16,},
-              {res="#Room_bg_1.png",x=Room_Distance.x+108+94*3,y=16,},
+              {res="#Room_bg_1.png",x=Room_Distance.x+108+94*3-1,y=16,},
 	      },--房间背景(背景窗户随机其实是在有背景图的几张图随机抽取一张替换图片为窗户)
         ornament = {{res="#Room_ornament_5.png",x=250,y=16},{res="#Room_ornament_6.png",x=330,y=16},{res="#Room_ornament_5.png",x=410,y=16}}
     }
@@ -5271,7 +5271,7 @@ Ornaments[404]=
     {
        bg = {{res="#Room_bg_1.png",x=Room_Distance.x+110+94,y=16,},
 	      {res="#Room_bg_1.png",x=Room_Distance.x+109+94*2,y=16,},
-              {res="#Room_bg_1.png",x=Room_Distance.x+108+94*3,y=16,},
+              {res="#Room_bg_1.png",x=Room_Distance.x+108+94*3-1,y=16,},
 	      },--房间背景(背景窗户随机其实是在有背景图的几张图随机抽取一张替换图片为窗户)
         ornament = {{res="#Room_ornament_5.png",x=260,y=16},{res="#Room_ornament_6.png",x=400,y=16}}
     }

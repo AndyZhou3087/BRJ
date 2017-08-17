@@ -85,11 +85,12 @@ function GameApp:ctor()
     --免费礼物剩余时间
     DataPersistence.insertAttribute("remain_freeTime",0) --倒计时回满结束时间戳
 
-    --角色礼包每日领奖
---    DataPersistence.insertAttribute("rolegift",{})
-
-    --vip礼包每日领奖
---    DataPersistence.insertAttribute("vipgift",{})
+    --看视频得钻石倒计时
+    DataPersistence.insertAttribute("diamond_endTime",0) --倒计时回满结束时间戳
+    --剩余时间
+    DataPersistence.insertAttribute("remain_diamondTime",0) --倒计时回满结束时间戳
+    --次数
+    DataPersistence.insertAttribute("diamondCount",0)
 end
 
 function GameApp:run()
