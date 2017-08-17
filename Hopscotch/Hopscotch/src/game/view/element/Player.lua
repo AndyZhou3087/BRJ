@@ -447,7 +447,6 @@ function Player:relive(parameters)
     self:createModle(self.m_modle)
     self.m_isDead = false
     self.m_body:setCollisionBitmask(0x03)
---    self:setVisible(true)
     self:addLifeNum(1)
     local camera,floorPos,curFloor,dis,curRoomKey
     if not tolua.isnull(self:getParent()) then
@@ -490,9 +489,9 @@ function Player:selfDead()
     if not self.m_isDead and self.m_vo.m_lifeNum <= 0 then
         self.m_isDead = true
         if GameDataManager.getPoints() <= 20 then
---            Tools.printDebug("--------brj 角色死亡：")
             AudioManager.playSoundEffect(AudioManager.Sound_Effect_Type.Dead_Sound)
             Tools.delayCallFunc(0.5,function()
+--                Tools.printDebug("--------brj 角色死亡：")
                 if GameDataManager.getPoints()>=GameDataManager.getRecord() then
                     GameDataManager.saveRecord(GameDataManager.getPoints())
                 end

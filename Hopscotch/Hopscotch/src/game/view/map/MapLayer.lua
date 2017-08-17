@@ -626,7 +626,6 @@ end
 --添加普通楼层普通倾斜特殊房间
 function MapLayer:CommonRoomAdd(dArr,gFloor)
     local _oldRoom = self.m_chaceRooms[#self.m_chaceRooms]
-    Tools.printDebug("~~~~~~~~~~~~~~~~~~~~~~~~~~brj,",self.m_roomsNum,self.floorPos[self.m_roomsNum])
     if self.floorPos[self.m_roomsNum].x then
         self._x = self.floorPos[self.m_roomsNum].x
     else
@@ -1430,12 +1429,10 @@ function MapLayer:toJump()
     self.m_player:toJump(pos,self.curRoomType)
 end
 
-
 --设置幻影
 function MapLayer:setPhantomShow(enable)
     self.phantomShow = enable
 end
-
 
 --火箭对象
 function MapLayer:setRocketObj(_obj)
@@ -1541,7 +1538,6 @@ function MapLayer:toRocketRunningLogic(RocketState,scaleX,curRoomKey)
 --        Tools.printDebug("--------brj 火箭冲刺镜头坐标：",self.floorPos[curCloseFloor+10].x)
     end
 end
-
 
 
 --获取摄像机对象，楼层坐标组，当前楼层
