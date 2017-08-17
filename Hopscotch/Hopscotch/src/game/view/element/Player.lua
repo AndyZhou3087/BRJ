@@ -19,7 +19,6 @@ function Player:ctor()
     Player.super.ctor(self)
     self.m_vo = GameDataManager.getPlayerVo()
     self.m_buffArr = {} --buff列表
-    self.phantomCount = 0
 
     self.m_life = self.m_vo.m_lifeNum
     self.m_speed = MAP_SPEED.floor_D
@@ -34,7 +33,8 @@ function Player:ctor()
     if modle then
         self.m_modle=modle
         self.m_jumpModle = jump
-        self.m_armature = display.newSprite(res):addTo(self)
+        self.m_armature = display.newSprite(res)
+        self:addChild(self.m_armature,1)
         self:createModle(modle)
         self.m_armature:setScale(0.45)
         if self.m_curModle == 1 or self.m_curModle == 7 then
@@ -264,14 +264,6 @@ function Player:phantom(parameters)
     
     AudioManager.playSoundEffect(AudioManager.Sound_Effect_Type.Phantom_Sound,true)
     
---    local limit = parameters.data.limit
---    if self.phantomCount >= limit then
---    	return
---    end
---    self.phantomCount = self.phantomCount + 1
---    if not tolua.isnull(self:getParent()) then
---        self:getParent():setPhantom(self.phantomCount)
---    end
 end
 
 --开局冲刺
@@ -325,7 +317,6 @@ function Player:springRocket(parameters)
 
     local camera,floorPos,curFloor,dis,curRoomKey
     if not tolua.isnull(self:getParent()) then
-        self:getParent():setRocket()
         camera,floorPos,curFloor,dis,curRoomKey = self:getParent():getRocketData()
     end
     local curCloseFloor = math.ceil(curFloor/10)*10
@@ -460,7 +451,6 @@ function Player:relive(parameters)
     self:addLifeNum(1)
     local camera,floorPos,curFloor,dis,curRoomKey
     if not tolua.isnull(self:getParent()) then
-        self:getParent():setRocket()
         camera,floorPos,curFloor,dis,curRoomKey = self:getParent():getRocketData()
     end
     local pos
@@ -491,7 +481,6 @@ function Player:selfDead()
     end
     
     self.m_body:setCollisionBitmask(0x04)
---    self:setVisible(false)
     self.m_vo.m_lifeNum = self.m_vo.m_lifeNum - 1
     Tools.printDebug("--------brj 角色死亡：",self.m_vo.m_lifeNum)
     if not self.m_isDead and self.m_vo.m_lifeNum <= 0 then
@@ -507,13 +496,17 @@ function Player:selfDead()
                 if not tolua.isnull(self:getParent()) then
                     self:getParent():backOriginFunc()
                 end
-                --            self:setVisible(true)
                 self.m_body:setCollisionBitmask(0x03)
             end)
         else
             AudioManager.playSoundEffect(AudioManager.Sound_Effect_Type.GameOver_Sound)
             self:stopAllActions()
             self.m_armature:stopAllActions()
+            
+            local jumpSack = display.newSprite("ui/jumpsack.png")
+            self:addChild(jumpSack,0)
+            jumpSack:setPosition(cc.p(0,50))
+            
             if GameDataManager.getRevive() then
                 --弹结算
                 GameDispatcher:dispatch(EventNames.EVENT_OPEN_SETTLEMENT)
@@ -562,10 +555,7 @@ function Player:clearAllBuff()
         end
     end
     self.m_buffArr = {}
-    self.phantomCount = 0
-    if not tolua.isnull(self:getParent()) then
-    	self:getParent():resetPhantom()
-    end
+
 end
 
 --添加buff
@@ -603,9 +593,7 @@ function Player:clearBuff(_type)
         elseif _type == PLAYER_STATE.Rocket then
             self.toRocketState = 0
             transition.stopTarget(self)
---            if not tolua.isnull(self:getParent()) then
---                self:getParent():setRocketVisible()
---            end
+
             if not tolua.isnull(self.m_rocketEffect) then
                 self.m_rocketEffect:removeFromParent(true)
             end

@@ -50,8 +50,6 @@ function MapLayer:ctor(parameters)
     self.floorPos = {}
     self.roomArr = {}
     self.specialBody = {}
-    self.phantom = {}
-    self.havePhantom = {}
     self.runFloorNum = RunningFloorNum
     self.isBgMove = false
     self.isMapBottom = true
@@ -95,13 +93,6 @@ function MapLayer:ctor(parameters)
     self.m_player:setPosition(cc.p(display.cx,floorPos.y+_size.height*0.5+self.m_player:getErrorValue()))
     GameController.setCurPlayer(self.m_player)
     self.curRoomWidth = self:getRoomByIdx(1):getRoomWidth()
-    
-    for var=1, 5 do
-        local phantom = PhantomElement.new(self:getScaleX())
-        self:addChild(phantom,MAP_ZORDER_MAX+1)
-        phantom:setVisible(false)
-        self.phantom[var] = phantom
-    end
 
     self:setCameraMask(2)
     
@@ -635,6 +626,7 @@ end
 --添加普通楼层普通倾斜特殊房间
 function MapLayer:CommonRoomAdd(dArr,gFloor)
     local _oldRoom = self.m_chaceRooms[#self.m_chaceRooms]
+    Tools.printDebug("~~~~~~~~~~~~~~~~~~~~~~~~~~brj,",self.m_roomsNum,self.floorPos[self.m_roomsNum])
     if self.floorPos[self.m_roomsNum].x then
         self._x = self.floorPos[self.m_roomsNum].x
     else
@@ -803,11 +795,11 @@ function MapLayer:onEnterFrame(dt)
     local x,y = self.m_camera:getPosition()
     if not self.m_player:isInState(PLAYER_STATE.StartRocket) and not self.m_player:isInState(PLAYER_STATE.Rocket) then
         if self.curRoomType ~= MAPROOM_TYPE.Running and (not self.runMapFloor or (self.jumpFloorNum ~= self.runMapFloor and self.jumpFloorNum ~= self.runMapFloor + 1)) then
-            if bpx <= pos.x-_size.width*0.5 then
+            if bpx <= pos.x+_size.width*0.5 then
                 self:playerDead()
 --                Tools.printDebug("brj2222222222222222--------左边死亡---------:",self.jumpFloorNum,bpx,pos.x-_size.width*0.5)
             end
-            if bpx >= pos.x+display.right+_size.width*0.5 then
+            if bpx >= pos.x+display.right-_size.width*0.5 then
                 self:playerDead()
 --                Tools.printDebug("brj1111111111111111--------右边死亡---------:",self.jumpFloorNum,bpx,pos.x+display.right+_size.width*0.5)
             end
@@ -955,27 +947,7 @@ function MapLayer:onEnterFrame(dt)
     elseif self.jumpFloorNum == Map_Grade.floor_S then
         self.m_player:changeSpeed(MAP_SPEED.floor_S)
     end
-    
-    if self.m_player:getJump() and self.curRoomType == MAPROOM_TYPE.Running then
-        if self.phantom and #self.phantom > 0 then
-            for key, var in pairs(self.phantom) do
-                local pos=cc.p(self.m_player:getPositionX(),17)
-                if self.m_player:getPositionY()+self.m_player:getSize().height/2.0>pos.y then
-                    var:add(self.m_player:getPositionY())
-                end
-            end
-        end
-    end
-    
-    --幻影角色
-    if #self.phantom > 0 then
-        local to=cc.p(self.m_player:getPosition())
-        for key, var in pairs(self.phantom) do
-            if not tolua.isnull(var) then
-                var:follow(to,key)
-            end
-        end
-    end
+   
     
     --双向倾斜时，当移出镜头时，移除右向缓存房间
     if #self.m_rightRooms > 0 then
@@ -1294,19 +1266,7 @@ function MapLayer:CoreLogic()
     local bpx,bpy = self.m_player:getPosition()
     local cmx,cmy = self.m_camera:getPosition()
     local roomIndex = math.ceil((bpy-self.bottomHeight)/Room_Size.height)
-    --幻影角色
-    if self.phantonFollow then
-        if self.phantom and #self.phantom > 0 then
-            self.phantonFollow = false
-            local _room = self:getRoomByIdx(roomIndex)
-            for key, var in pairs(self.phantom) do
-                local pos=cc.p(self.m_player:getPositionX(),17)
-                if bpy+_size.height/2.0>pos.y then
-                    var:add(_room:getPositionY()+17+_size.height/2.0)
-                end
-            end
-        end
-    end
+
 --    Tools.printDebug("----------brj 当前room：111111111111111",self.m_lastRoomIdx,roomIndex)
     if self.m_lastRoomIdx ~= roomIndex then
         local _room
@@ -1373,20 +1333,10 @@ function MapLayer:CoreLogic()
         
     end
 
-    if self.curRoomType == MAPROOM_TYPE.Running then
-        if self.phantom and #self.phantom > 0 then
-            for key, var in pairs(self.phantom) do
-                local pos=cc.p(self.m_player:getPositionX(),17)
-                if self.m_player:getPositionY()+self.m_player:getSize().height/2.0>pos.y then
-                    var:add(self.m_player:getPositionY())
-                end
-            end
-        end
-    end
 
-    local _room,rKey = self:getOtherRoomByX(bpx,self.roomKey)
-    if _room then
-        if self.curRoomType == MAPROOM_TYPE.Running then
+    if self.curRoomType == MAPROOM_TYPE.Running then
+        local _room,rKey = self:getOtherRoomByX(bpx,self.roomKey)
+        if _room then
             if self.runningKey and self.runningKey < _room:getRoomKey() then
                 self.roomKey = rKey
                 self.runningKey = _room:getRoomKey()
@@ -1400,6 +1350,7 @@ function MapLayer:CoreLogic()
             end
         end
     end
+    
 end
 
 --游戏死亡
@@ -1479,27 +1430,12 @@ function MapLayer:toJump()
     self.m_player:toJump(pos,self.curRoomType)
 end
 
---设置幻影角色
-function MapLayer:setPhantom(count)
-    self.havePhantom[count] = count
-    for key, var in pairs(self.phantom) do
-    	if key == count then
-            var:setVisible(true)
-    	end
-    end
-end
 
 --设置幻影
 function MapLayer:setPhantomShow(enable)
     self.phantomShow = enable
 end
 
---设置火箭对应幻影
-function MapLayer:setRocket()
-    for key, var in pairs(self.havePhantom) do
-		self.phantom[var]:setVisible(false)
-	end
-end
 
 --火箭对象
 function MapLayer:setRocketObj(_obj)
@@ -1606,11 +1542,7 @@ function MapLayer:toRocketRunningLogic(RocketState,scaleX,curRoomKey)
     end
 end
 
-function MapLayer:setRocketVisible()
-    for key, var in pairs(self.havePhantom) do
-        self.phantom[var]:setVisible(true)
-    end
-end
+
 
 --获取摄像机对象，楼层坐标组，当前楼层
 function MapLayer:getRocketData()
@@ -1926,12 +1858,6 @@ function MapLayer:toStopStartRocket()
 --    self.m_camera:setPosition(cc.p(pos.x,pos.y-self.bottomHeight))
 end
 
---重置幻影角色
-function MapLayer:resetPhantom()
-    for key, var in pairs(self.phantom) do
-        var:setVisible(false)
-    end
-end
 
 --销毁特殊刚体
 function MapLayer:disposeSpecial(_typeNum)

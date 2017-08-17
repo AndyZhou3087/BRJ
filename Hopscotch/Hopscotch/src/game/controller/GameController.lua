@@ -41,9 +41,7 @@ function GameController.pauseGame()
     display.pause()
     _canCollision = false
     _isPause = true
-    if GameDataManager.isSoundOpen() then
-        audio.pauseAllSounds()
-    end
+    AudioManager.stop()
 end
 
 --游戏恢复
@@ -53,9 +51,7 @@ function GameController.resumeGame()
     _canCollision = true
     _isPause = false
     TimeUtil.init()
-    if GameDataManager.isSoundOpen() then
-        audio.resumeAllSounds()
-    end
+    AudioManager.open()
 end
 
 function GameController.isInPause()
