@@ -466,6 +466,10 @@ function Player:relive(parameters)
     self:setPosition(cc.p(pos.x+display.cx,pos.y))
     self:clearAllBuff()
     self:springRocket()
+    if not tolua.isnull(self.jumpSack) then
+    	self.jumpSack:removeFromParent()
+    	self.jumpSack = nil
+    end
 end
 
 --角色死亡
@@ -503,9 +507,9 @@ function Player:selfDead()
             self:stopAllActions()
             self.m_armature:stopAllActions()
             
-            local jumpSack = display.newSprite("ui/jumpsack.png")
-            self:addChild(jumpSack,0)
-            jumpSack:setPosition(cc.p(0,50))
+            self.jumpSack = display.newSprite("ui/jumpsack.png")
+            self:addChild(self.jumpSack,0)
+            self.jumpSack:setPosition(cc.p(0,50))
             
             if GameDataManager.getRevive() then
                 --弹结算
