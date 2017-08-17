@@ -906,6 +906,7 @@ function GameDataManager.saveGameData()
     
     DataPersistence.updateAttribute("reviveCount",reviveCount)
     DataPersistence.updateAttribute("startCount",startCount)
+    DataPersistence.updateAttribute("diamondCount",diamondCount)
 
     local modleList = {}
     for key, var in pairs(modleDic) do

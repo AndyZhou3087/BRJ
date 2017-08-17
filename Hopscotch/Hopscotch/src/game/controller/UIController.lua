@@ -5,6 +5,7 @@ local ShopView = require("game.view.shop.ShopView")
 local FlyText = require("game.view.flyText.FlyText")
 local RocketView = require("game.view.map.RocketView")
 local ReviveView = require("game.view.revive.ReviveView")
+local RewardView = require("game.view.settlement.RewardView")
 
 local UIController = class("UIController")
 
@@ -23,6 +24,8 @@ function UIController:ctor()
     GameDispatcher:addListener(EventNames.EVENT_ROCKET_VIEW,handler(self,self.rocketView))
     --复活界面
     GameDispatcher:addListener(EventNames.EVENT_REVIVE_VIEW,handler(self,self.openReviveView))
+    --奖励界面
+    GameDispatcher:addListener(EventNames.EVENT_OPEN_REWARD,handler(self,self.openRewardView))
 end
 
 --打开设置界面
@@ -67,5 +70,10 @@ function UIController:openReviveView(parameters)
     _flyUi:show(UI_ZORDER.VIEW_ZORDER)
 end
 
+--复活界面
+function UIController:openRewardView(parameters)
+    local _rewardUi = RewardView.new(parameters.data)
+    _rewardUi:show(UI_ZORDER.VIEW_ZORDER)
+end
 
 return UIController

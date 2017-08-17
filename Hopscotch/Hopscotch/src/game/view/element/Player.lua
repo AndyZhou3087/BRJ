@@ -243,7 +243,7 @@ end
 
 --幻影药水
 function Player:phantom(parameters)
-    if self:isInState(PLAYER_STATE.Rocket) then
+    if self:isInState(PLAYER_STATE.Rocket) or self:isInState(PLAYER_STATE.StartRocket) then
         return
     end
     
@@ -310,6 +310,10 @@ function Player:springRocket(parameters)
     
     if self:isInState(PLAYER_STATE.StartRocket) then
         return
+    end
+    
+    if self:isInState(PLAYER_STATE.Phantom) then
+        self:addBuff({type=PLAYER_STATE.Phantom})
     end
     
     if self:getJump() then

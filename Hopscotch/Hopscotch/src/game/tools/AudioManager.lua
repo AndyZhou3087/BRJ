@@ -195,6 +195,18 @@ function AudioManager.open(parameters)
     end
 end
 
+--停止音乐
+function AudioManager.stopAudio(type)
+    if type==nil then
+        audio.pauseMusic()
+        audio.stopAllSounds()
+    elseif type==1 then
+        audio.pauseMusic()
+    elseif type==2 then
+        audio.stopAllSounds()
+    end
+end
+
 
 function AudioManager.clear(_soundType)
     local markObj = AudioManager.Sound_Mark[_soundType]

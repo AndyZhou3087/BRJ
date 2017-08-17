@@ -24,6 +24,9 @@ EventNames.EVENT_ROCKET_VIEW = "event_rocket_view"
 --复活界面
 EventNames.EVENT_REVIVE_VIEW = "event_revive_view"
 
+--打开奖励界面
+EventNames.EVENT_OPEN_REWARD = "event_open_reward"
+
 --=======================刷新功能=======================
 --刷新场景
 EventNames.EVENT_UPDATE_SCENE = "event_update_scene"

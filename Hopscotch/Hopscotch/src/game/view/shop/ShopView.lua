@@ -73,17 +73,32 @@ function ShopView:ctor(parameters)
     end)
     
     --看视频获取礼包
-    local RightBtn = cc.uiloader:seekNodeByName(self.m_json,"RightBtn")
+    self.RightBtn = cc.uiloader:seekNodeByName(self.m_json,"RightBtn")
     local RightImg = cc.uiloader:seekNodeByName(self.m_json,"RightImg")
     RightImg:setButtonEnabled(false)
-    RightBtn:onButtonPressed(function(_event)    --按下
+    self.RightBtn:onButtonPressed(function(_event)    --按下
         RightImg:setButtonImage("disabled","shop/shop_gift_2.png")
     end)
-    RightBtn:onButtonRelease(function(_event)    --触摸离开
+    self.RightBtn:onButtonRelease(function(_event)    --触摸离开
         RightImg:setButtonImage("disabled","shop/shop_gift_1.png")
     end)
-    RightBtn:onButtonClicked(function (event)
+    self.RightBtn:onButtonClicked(function (event)
         Tools.printDebug("brj hopscotch 礼包弹出")
+        local type = math.random(1,3)
+        if type == 1 then
+            local count = math.random(VideoDiamond[1],VideoDiamond[2])
+            GameDataManager.addDiamond(count)
+            GameDispatcher:dispatch(EventNames.EVENT_FLY_TEXT,{text ="获得"..count.."钻石"})
+        elseif type == 2 then
+            local id = math.random(1,#RoleConfig)
+            GameDataManager.unLockModle(id,true)
+            GameDispatcher:dispatch(EventNames.EVENT_FLY_TEXT,{text ="获得新角色"})
+        elseif type == 3 then
+            local id = math.random(1,#SceneConfig)
+            GameDataManager.unLockScene(id,true)
+            GameDispatcher:dispatch(EventNames.EVENT_FLY_TEXT,{text ="获得新场景"})
+        end
+        self:freeLogic()
         AudioManager.playSoundEffect(AudioManager.Sound_Effect_Type.Button_Click_Sound)
     end)
     
@@ -219,10 +234,56 @@ function ShopView:ctor(parameters)
     GameDispatcher:addListener(EventNames.EVENT_UPDATE_ROLE,handler(self,self.updateRole))
     
     
+    self.countDown = 0
+    self.countDownLabel = cc.uiloader:seekNodeByName(self.m_json,"BitmapLabel_15")
+    self.countDownLabel:setColor(cc.c3b(50,222,255))
+    self:updateTime()
+    
     -----------==============测试
 --    self:test()
 
 end
+
+function ShopView:freeLogic()
+    self.countDown = FreeRemainTime
+    GameDataManager.setFreeEndTime(TimeUtil.getTimeStamp(),self.countDown)
+    self.countDownLabel:setString("")
+    self.RightBtn:setButtonEnabled(false)
+    self.countDownLabel:setVisible(true)
+    self.m_Handler = Scheduler.scheduleGlobal(handler(self,self.updateCountDown), 1)
+end
+
+function ShopView:updateTime()
+    local time1,time2 = GameDataManager.getFreeEndTime()
+    if TimeUtil.getTimeStamp() - time1 >= time2 then
+        self.RightBtn:setButtonEnabled(true)
+        self.countDownLabel:setVisible(false)
+    else
+        self.countDown = time2 - (TimeUtil.getTimeStamp() - time1)
+        GameDataManager.setReviveEndTime(TimeUtil.getTimeStamp(),self.countDown)
+        self.countDownLabel:setVisible(true)
+        self.countDownLabel:setString("")
+        self.RightBtn:setButtonEnabled(false)
+        self.m_Handler = Scheduler.scheduleGlobal(handler(self,self.updateCountDown), 1)
+    end
+end
+
+function ShopView:updateCountDown()
+    self.countDown = self.countDown - 1
+    GameDataManager.setFreeEndTime(TimeUtil.getTimeStamp(),self.countDown)
+    self.countDownLabel:setString(string.format("%02d:%02d:%02d",self.countDown/3600,(self.countDown%3600)/60,self.countDown%60))
+    if self.countDown <= 0 then
+        self.countDown = 0
+        self.RightBtn:setButtonEnabled(true)
+        self.countDownLabel:setVisible(false)
+        GameDataManager.setFreeEndTime(0,0)
+        if self.m_Handler then
+            Scheduler.unscheduleGlobal(self.m_Handler)
+            self.m_Handler=nil
+        end
+    end
+end
+
 
 function ShopView:test()
     self.lv = cc.ui.UIListView.new {
@@ -580,6 +641,11 @@ function ShopView:onCleanup(parameters)
     GameDispatcher:removeListenerByName(EventNames.EVENT_UPDATE_SCENE)
     GameDispatcher:removeListenerByName(EventNames.EVENT_DIAMOND_CHANGE)
     GameDispatcher:removeListenerByName(EventNames.EVENT_UPDATE_ROLE)
+    
+    if self.m_Handler then
+        Scheduler.unscheduleGlobal(self.m_Handler)
+        self.m_Handler=nil
+    end
 end
 
 --关闭界面调用

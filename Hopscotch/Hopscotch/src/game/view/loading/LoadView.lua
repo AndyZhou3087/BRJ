@@ -99,7 +99,7 @@ end
 function LoadView:freeLogic()
     self.countDown = FreeRemainTime
     GameDataManager.setFreeEndTime(TimeUtil.getTimeStamp(),self.countDown)
-    self.countDownLabel:setString(100)
+    self.countDownLabel:setString("")
     self.tv:setButtonEnabled(false)
     self.countDownLabel:setVisible(true)
     self.m_Handler = Scheduler.scheduleGlobal(handler(self,self.updateCountDown), 1)
@@ -114,7 +114,7 @@ function LoadView:updateTime()
         self.countDown = time2 - (TimeUtil.getTimeStamp() - time1)
         GameDataManager.setReviveEndTime(TimeUtil.getTimeStamp(),self.countDown)
         self.countDownLabel:setVisible(true)
-        self.countDownLabel:setString(100)
+        self.countDownLabel:setString("")
         self.tv:setButtonEnabled(false)
         self.m_Handler = Scheduler.scheduleGlobal(handler(self,self.updateCountDown), 1)
     end

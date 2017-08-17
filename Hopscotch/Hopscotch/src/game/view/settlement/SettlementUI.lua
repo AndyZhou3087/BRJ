@@ -14,7 +14,7 @@ function SettlementUI:ctor(parameters)
 
     local bg = display.newColorLayer(cc.c4b(0,0,0,OPACITY)):addTo(self)
     
-    AudioManager.stop(1)
+    AudioManager.stopAudio(1)
 
     self.m_json = cc.uiloader:load("json/SettlementUI.json")
     self:addChild(self.m_json)
@@ -105,20 +105,18 @@ function SettlementUI:initMiddle()
         Tools.printDebug("brj hopscotch 获取奖励")
         if GameDataManager.getDiamond() >= DiamondSpendReward then
             GameDataManager.costDiamond(DiamondSpendReward)
-        	local type = math.random(2,3)
-        	if type == 1 then
-                local count = math.random(VideoDiamond[1],VideoDiamond[2])
-                GameDataManager.addDiamond(count)
-                GameDispatcher:dispatch(EventNames.EVENT_FLY_TEXT,{text ="获得"..count.."钻石"})
+        	local type = math.random(1,2)
+        	local id
+            if type == 1 then
+                id = math.random(1,#RoleConfig)
+                GameDataManager.unLockModle(id)
+--                GameDispatcher:dispatch(EventNames.EVENT_FLY_TEXT,{text ="获得新角色"})
             elseif type == 2 then
-                local id = math.random(1,#RoleConfig)
-                GameDataManager.unLockModle(id,true)
-                GameDispatcher:dispatch(EventNames.EVENT_FLY_TEXT,{text ="获得新角色"})
-            elseif type == 3 then
-                local id = math.random(1,#SceneConfig)
-                GameDataManager.unLockScene(id,true)
-                GameDispatcher:dispatch(EventNames.EVENT_FLY_TEXT,{text ="获得新场景"})
+                id = math.random(1,#SceneConfig)
+                GameDataManager.unLockScene(id)
+--                GameDispatcher:dispatch(EventNames.EVENT_FLY_TEXT,{text ="获得新场景"})
         	end
+            GameDispatcher:dispatch(EventNames.EVENT_OPEN_REWARD,{_type = type,_id = id,view = self}) 
         else
             GameDispatcher:dispatch(EventNames.EVENT_FLY_TEXT,{text ="钻石不足"})
         end
