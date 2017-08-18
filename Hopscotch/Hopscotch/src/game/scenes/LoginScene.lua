@@ -7,6 +7,8 @@ end)
 
 function LoginScene:ctor()
     self:initData()
+    
+    SDKUtil.initVungleSdk()
 
     self.loading = LoadView.new()
     self:addChild(self.loading)

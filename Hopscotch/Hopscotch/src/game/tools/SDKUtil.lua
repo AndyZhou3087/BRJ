@@ -62,6 +62,21 @@ end
 local ocClassName = "MyUnityAdsDelegate"
 local videoMethodName = "showVungleAds"
 
+--初始化vungleSdk
+function SDKUtil.initVungleSdk()
+    local params = {}
+    local _params = {}
+    local sigs = "V"
+    if luaj then
+        luaj.callStaticMethod(className,videoMethodName,params,sigs)
+        return
+    end
+    if luaoc then
+        luaoc.callStaticMethod(ocClassName,"initVungleSdk",_params)
+        return
+    end
+end
+
 --看视频得钻石
 function SDKUtil.getDiamondByVideo(_data)
     local params = {_data.callback}
