@@ -13,9 +13,22 @@ function RewardView:ctor(parameters)
 
     local bg = display.newColorLayer(cc.c4b(255,255,255,130)):addTo(self)
 
-    Tools.delayCallFunc(3,function()
-        self:getReward(parameters)
-    end)
+    
+    ccs.ArmatureDataManager:getInstance():addArmatureFileInfo("effect/lb0.png", "effect/lb0.plist" , "effect/lb.ExportJson" )
+    self._mon = ccs.Armature:create("lb")
+    self:addChild(self._mon)
+    self._mon:setPosition(cc.p(display.cx,display.cy))
+    self._mon:getAnimation():play("cd")
+    
+    local function moveEvent(armatureBack,movementType,movementID)
+        if movementID=="cd" and movementType==ccs.MovementEventType.complete then --动画结束后执行
+            self._mon:getAnimation():play("dj")
+        elseif movementID=="dj" and movementType==ccs.MovementEventType.complete then --动画结束后执行
+            self:getReward(parameters)
+        end
+    end
+    self._mon:getAnimation():setMovementEventCallFunc(moveEvent)
+    
 
     bg:addNodeEventListener(cc.NODE_TOUCH_EVENT, function(event)
         if event.name == "began" then
@@ -31,9 +44,15 @@ function RewardView:ctor(parameters)
 end
 
 function RewardView:getReward(parameters)
+    --粒子特效
+    local m_effect=cc.ParticleSystemQuad:create("effect/cd.plist"):addTo(self)
+    m_effect:setScale(4)
+    m_effect:setAutoRemoveOnFinish(false)
+    m_effect:setPosition(cc.p(display.cx,display.cy))
+
     local spriteBg = display.newSprite("ui/rewardBg.png"):addTo(self)
     spriteBg:setPosition(cc.p(display.cx,display.cy))
-    local rotate = cc.RotateBy:create(1,360)
+    local rotate = cc.RotateBy:create(2,360)
     local forever = cc.RepeatForever:create(rotate)
     spriteBg:runAction(forever)
 

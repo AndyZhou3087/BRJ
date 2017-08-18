@@ -24,7 +24,7 @@ function LoadView:ctor(parameters)
     self.Image_2:setPositionY(display.bottom+108)
     
     local logo = display.newSprite("loading/Logo.png"):addTo(self.bg)
-    logo:setPosition(cc.p(display.cx,display.top-400))
+    logo:setPosition(cc.p(display.cx,display.top-250))
     
     self.shop = cc.uiloader:seekNodeByName(self.m_json,"Button_left")
     self.shop2 = cc.uiloader:seekNodeByName(self.m_json,"shopBtn")
@@ -76,7 +76,7 @@ function LoadView:ctor(parameters)
     self:addNodeEventListener(cc.NODE_TOUCH_EVENT, function(event)
         if event.name == "began" then
             if not self.touchClick then
-            	self.touchClick = true
+                self.touchClick = true
                 Tools.printDebug("-------------------进入主场景")
                 GameDataManager.generatePlayerVo()  --产生新的角色数据对象
                 app:enterGameScene()
@@ -87,13 +87,22 @@ function LoadView:ctor(parameters)
         end
     end)
     
-    
     self.countDown = 0
     self.countDownLabel = cc.uiloader:seekNodeByName(self.m_json,"BitmapLabel_14")
     self.countDownLabel:setColor(cc.c3b(50,222,255))
     self:updateTime()
+    
     LoadResManager.toLoadPlayerRes(handler(self,self.playerResFinish))
     
+end
+
+function LoadView:showAni(parameters)
+    self.finger = display.newSprite("loading/click.png"):addTo(self)
+    local animation = cc.AnimationCache:getInstance():getAnimation("clickAni")
+    local animate = cc.Animate:create(animation)
+    local seq = cc.RepeatForever:create(animate)
+    self.finger:runAction(seq)
+    self.finger:setPosition(cc.p(display.cx,display.bottom+190))
 end
 
 function LoadView:freeLogic()
@@ -141,10 +150,58 @@ function LoadView:playerResFinish()
         local fadeOut = cc.FadeOut:create(1.5)
         local callfunc = cc.CallFunc:create(function()
             self:setTouchEnabled(true)
+            
+            --角色跑
+            self:roleMove()
+            --屏幕字幕闪现
+            self:showAni()
         end)
         local seq = cc.Sequence:create(fadeOut,callfunc)
         self.bg:runAction(seq)
     end)
+end
+
+function LoadView:roleMove()
+    local res = RoleConfig[1].roleImg
+    local _actionName = RoleConfig[1].armatureName
+    local jump = RoleConfig[1].jumpName
+    
+    local node = display.newNode():addTo(self)
+    node:setPosition(cc.p(display.right+100,display.bottom+350))
+    local role = display.newSprite(res):addTo(node)
+    
+    local animation = cc.AnimationCache:getInstance():getAnimation(_actionName)
+    local animate = cc.Animate:create(animation)
+    local rf = cc.RepeatForever:create(animate)
+    role:runAction(rf)
+    role:setColor(cc.c3b(40,50,66))
+
+    local move = cc.MoveTo:create(1,cc.p(display.cx+100,display.bottom+350))
+    local toJump = cc.JumpBy:create(0.3,cc.p(0,0),180,1)
+    local call = cc.CallFunc:create(function()
+--        role:stopAllActions()
+--        local animation2 = cc.AnimationCache:getInstance():getAnimation(jump)
+--        local animate2 = cc.Animate:create(animation2)
+--        role:runAction(animate2)
+    end)
+    local mm = cc.MoveBy:create(0.3,cc.p(-200,0))
+    local spawn = cc.Spawn:create(toJump,call,mm)
+    local move2 = cc.MoveTo:create(1,cc.p(-100,display.bottom+350))
+    local call2 = cc.CallFunc:create(function()
+        role:stopAllActions()
+        local animation3 = cc.AnimationCache:getInstance():getAnimation(_actionName)
+        local animate3 = cc.Animate:create(animation3)
+        local rf2 = cc.RepeatForever:create(animate3)
+        role:runAction(rf2)
+    end)
+    local spawn2 = cc.Spawn:create(move2,call2)
+    local seq = cc.Sequence:create(move,spawn,spawn2)
+    local callfunc = cc.CallFunc:create(function()
+        node:setPosition(cc.p(display.right+100,display.bottom+350))
+    end)
+    local seq2 = cc.Sequence:create(seq,callfunc)
+    local rff = cc.Repeat:create(seq2,3)
+    node:runAction(rff)
 end
 
 --清理数据

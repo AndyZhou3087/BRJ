@@ -12,7 +12,7 @@ local PreLoadType =
 --战斗中预加载资源
 local fightRes = {
     {type = PreLoadType.Texture,plist="map/Room.plist",png="map/Room.png"},
-    {type = PreLoadType.Texture,plist="role/RoleJump1.plist",png="role/RoleJump1.png"},
+    
     {type = PreLoadType.Texture,plist="role/RoleJump2.plist",png="role/RoleJump2.png"},
     {type = PreLoadType.Texture,plist="role/RoleJump3.plist",png="role/RoleJump3.png"},
     {type = PreLoadType.Texture,plist="role/RoleJump4.plist",png="role/RoleJump4.png"},
@@ -23,7 +23,6 @@ local fightRes = {
     {type = PreLoadType.Texture,plist="role/RoleJump9.plist",png="role/RoleJump9.png"},
     {type = PreLoadType.Texture,plist="role/RoleJump10.plist",png="role/RoleJump10.png"},
     {type = PreLoadType.Animate,plist = "role/RoleJump.plist"},
-    {type = PreLoadType.Animate,plist = "role/RoleJump_1.plist"},
     {type = PreLoadType.Texture,plist="effect/Guide.plist",png="effect/Guide.png"},
     {type = PreLoadType.Animate,plist = "effect/GuideAct.plist"},
 --    {type = PreLoadType.Animation,plist="role/nv_pao0.plist",png="role/nv_pao0.png",json="role/nv_pao.ExportJson"},
@@ -46,7 +45,11 @@ local playerRes = {
     {type = PreLoadType.Texture,plist="role/Role8.plist",png="role/Role8.png"},
     {type = PreLoadType.Texture,plist="role/Role9.plist",png="role/Role9.png"},
     {type = PreLoadType.Texture,plist="role/Role10.plist",png="role/Role10.png"},
+    {type = PreLoadType.Texture,plist="role/RoleJump1.plist",png="role/RoleJump1.png"},
     {type = PreLoadType.Animate,plist = "role/RoleAni.plist"},
+    {type = PreLoadType.Animate,plist = "role/RoleJump_1.plist"},
+    {type = PreLoadType.Texture,plist="effect/click.plist",png="effect/click.png"},
+    {type = PreLoadType.Animate,plist = "effect/clickAni.plist"},
 }
 
 --加载角色动画

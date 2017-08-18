@@ -41,6 +41,44 @@ RoomBgs = {}
 --钢架2001
 --双向倾斜3001
 
+RoomBgs[40012]=
+    {
+        bg = {
+            {res="#RoomRun_bg.png",x=Room_Distance.x+32,y=0},
+            {res="#RoomRun_bg.png",x=Room_Distance.x+31+94,y=0},
+            {res="#RoomRun_bg.png",x=Room_Distance.x+30+94*2,y=0},
+            {res="#RoomRun_bg.png",x=Room_Distance.x+29+94*3,y=0},
+            {res="#RoomRun_bg.png",x=Room_Distance.x+28+94*4,y=0},
+            {res="#RoomRun_bg.png",x=Room_Distance.x+27+94*5,y=0},
+            {res="#RoomRun_bg.png",x=Room_Distance.x+26+94*6-29,y=0},
+        },
+        wallLeftRight = {},--左右两侧墙壁
+        floor = {{res="#Room_floor_7.png",x=Room_Distance.x+17,y=0},
+            {res="#Room_floor_7.png",x=Room_Distance.x+17+94,y=0},
+            {res="#Room_floor_7.png",x=Room_Distance.x+17+94*2,y=0},
+            {res="#Room_floor_7.png",x=Room_Distance.x+17+94*3,y=0},
+            {res="#Room_floor_7.png",x=Room_Distance.x+17+94*4,y=0},
+            {res="#Room_floor_7.png",x=Room_Distance.x+17+94*5,y=0},
+            {res="#Room_floor_7.png",x=Room_Distance.x+17+94*6,y=0}},--地板
+        type = 2,
+        gap = 30,
+    }
+    
+RoomBgs[40011]=
+    {
+        wallLeftRight = {},--左右两侧墙壁
+        floor = {{res="#Room_floor_7.png",x=Room_Distance.x+17,y=0},
+            {res="#Room_floor_7.png",x=Room_Distance.x+17+94,y=0},
+            {res="#Room_floor_7.png",x=Room_Distance.x+17+94*2,y=0},
+            {res="#Room_floor_7.png",x=Room_Distance.x+17+94*3,y=0},
+            {res="#Room_floor_7.png",x=Room_Distance.x+17+94*4,y=0},
+            {res="#Room_floor_7.png",x=Room_Distance.x+17+94*5,y=0},
+            {res="#Room_floor_7.png",x=Room_Distance.x+17+94*6,y=0}},--地板
+        type = 2,
+        gap = 30,
+    }
+
+
 
 --===========================测试双向倾斜========================
 RoomBgs[10001]=
