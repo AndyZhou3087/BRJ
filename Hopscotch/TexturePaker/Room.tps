@@ -190,6 +190,8 @@
             <filename>Room_wall_1.png</filename>
             <filename>Room_floor_8.png</filename>
             <filename>Room_floor_9.png</filename>
+            <filename>Room_wall_2.png</filename>
+            <filename>Room_wall_3.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

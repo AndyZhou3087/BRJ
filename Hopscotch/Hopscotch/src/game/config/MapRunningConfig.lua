@@ -22,7 +22,7 @@ MapRunningConfig[1]=
     { 
         _id=1, 
         --第一层地板尽量配长一点
-        roomBgs={40011,40012,40012,40012,40012,40012,40012,40012,40012,40012}, --房间背景地面
+        roomBgs={4001,40011,40011,40012,40011,40012,40012,40012,40012,40012,40012,40012,40012}, --房间背景地面
         ornaments={0,0,0,0,0,0,0,0,0,0}, ---小挂件
         coins={0,0,0,0,0,0,0,0,0,0}, ---钻石
         roomGoods={0,0,0,0,0,0,0,0,0,0}, ---道具
@@ -30,6 +30,6 @@ MapRunningConfig[1]=
         direction = MAPRUNNING_TYPE.Both,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
         distance = 0,        --房间x轴倾斜距离(单位：像素)(仅为倾斜类房间)
         probability = 100,     --权重
-        bgType = ROOMBGSIZE_TYPE.Six_1,
+        bgType = ROOMBGSIZE_TYPE.Seven,
     } 
     

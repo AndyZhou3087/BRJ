@@ -105,13 +105,12 @@ MapFirstGroup[5]=
 MapFirstGroup[6]= 
     { 
         _id=6, 
-        roomBgs={38,1031,1025,1031,38,1025,38,1027,38,1028}, --房间背景地面
-        ornaments={58,58,358,358,358,356,355,355,357,354}, ---小挂件
+        roomBgs={248,253,248,257,248,258,252,254,256,259}, --房间背景地面
+        ornaments={401,405,405,405,405,405,405,405,405,401}, ---小挂件
         coins={0,0,0,0,0,0,0,0,0,0}, ---钻石
         roomGoods={0,0,0,0,0,0,0,0,0,0}, ---道具
-        roomType = MAPROOM_TYPE.Lean,
+        roomType = MAPROOM_TYPE.Common,
         direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
-        distance = -20,        --房间x轴倾斜距离(单位：像素)
+        distance = 0,        --房间x轴倾斜距离(单位：像素)
         probability = 0,     --权重
-        bgType = ROOMBGSIZE_TYPE.Seven,
     } 

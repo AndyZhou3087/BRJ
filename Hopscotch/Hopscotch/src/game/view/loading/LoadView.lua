@@ -200,7 +200,7 @@ function LoadView:roleMove()
         node:setPosition(cc.p(display.right+100,display.bottom+350))
     end)
     local seq2 = cc.Sequence:create(seq,callfunc)
-    local rff = cc.Repeat:create(seq2,3)
+    local rff = cc.RepeatForever:create(seq2)
     node:runAction(rff)
 end
 

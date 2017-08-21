@@ -131,7 +131,7 @@ function Player:toJump(pos,isRunning)
     self:setBodyVelocity(cc.p(_vec.x,260))
     self.jumpHandler = Tools.delayCallFunc(0.23,function()
 --        self.checkHandler = Tools.delayCallFunc(0.01,function()
-            self:setPositionY(pos.y+self.m_size.height*0.5+self.errorValue)
+--            self:setPositionY(pos.y+self.m_size.height*0.5+self.errorValue)
             self.checkPos = true
 --        end)
         self:toStopJump()

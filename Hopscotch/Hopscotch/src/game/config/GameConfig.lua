@@ -36,10 +36,10 @@ Sequent_Click_Time = 0.05
 GOLD_SPEED=26
 
 --横跑出现的层数(每60层出现一次)
-RunningFloorNum = 100000
+RunningFloorNum = 60
 --随机每多少层出现一次
 RunningMin = RunningFloorNum
-RunningMax = 100000
+RunningMax = 60
 
 --背景移动系数
 Rdt_1 = 0.97
@@ -84,11 +84,11 @@ Map_Grade =
 }
 MAP_SPEED = 
 {
-    floor_D = 100,  --角色初始速度
-    floor_C = 100,
-    floor_B = 100,
-    floor_A = 100,
-    floor_S = 100,
+    floor_D = 120,  --角色初始速度
+    floor_C = 120,
+    floor_B = 120,
+    floor_A = 120,
+    floor_S = 120,
 }
 
 --封闭房间停顿时间

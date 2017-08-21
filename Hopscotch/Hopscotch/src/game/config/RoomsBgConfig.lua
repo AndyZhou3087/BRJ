@@ -40,8 +40,8 @@ RoomBgs = {}
 --三块单向向左倾斜2081-2091
 --钢架2001
 --双向倾斜3001
-
-RoomBgs[40012]=
+--横跑房间4001
+RoomBgs[100012]=
     {
         bg = {
             {res="#RoomRun_bg.png",x=Room_Distance.x+32,y=0},
@@ -64,7 +64,7 @@ RoomBgs[40012]=
         gap = 30,
     }
     
-RoomBgs[40011]=
+RoomBgs[100011]=
     {
         wallLeftRight = {},--左右两侧墙壁
         floor = {{res="#Room_floor_7.png",x=Room_Distance.x+17,y=0},
@@ -74,7 +74,7 @@ RoomBgs[40011]=
             {res="#Room_floor_7.png",x=Room_Distance.x+17+94*4,y=0},
             {res="#Room_floor_7.png",x=Room_Distance.x+17+94*5,y=0},
             {res="#Room_floor_7.png",x=Room_Distance.x+17+94*6,y=0}},--地板
-        type = 2,
+        type = 0,
         gap = 30,
     }
 
@@ -215,8 +215,8 @@ RoomBgs[2]=
 		 {res="#Room_floor_7.png",x=Room_Distance.x+29+94*3,y=0},
 		 {res="#Room_floor_7.png",x=Room_Distance.x+28+94*4,y=0},
                  {res="#Room_floor_7.png",x=Room_Distance.x+27+94*5,y=0},
-                 {res="#Room_floor_7.png",x=Room_Distance.x+26+94*6-29,y=0},
-		 {res="#Room_floor_9.png",x=Room_Distance.x+25+94*7-29,y=0},
+                 {res="#Room_floor_7.png",x=Room_Distance.x+26+94*6-30,y=0},
+		 {res="#Room_floor_9.png",x=Room_Distance.x+25+94*7-30,y=0},
 		 },--地板
     }
 
@@ -469,14 +469,15 @@ RoomBgs[17]=
 RoomBgs[32]=
     {
         wallLeftRight = {},--左右两侧墙壁
-        floor = {
+        floor = {{res="#Room_floor_8.png",x=Room_Distance.x+37,y=0},
 	         {res="#Room_floor_7.png",x=Room_Distance.x+40,y=0},
 		 {res="#Room_floor_7.png",x=Room_Distance.x+39+94,y=0},
                  {res="#Room_floor_7.png",x=Room_Distance.x+38+94*2,y=0},
 		 {res="#Room_floor_7.png",x=Room_Distance.x+37+94*3,y=0},
 		 {res="#Room_floor_7.png",x=Room_Distance.x+36+94*4,y=0},
                  {res="#Room_floor_7.png",x=Room_Distance.x+35+94*5,y=0},
-		 {res="#Room_floor_7.png",x=Room_Distance.x+34+94*5+47-1,y=0},
+		 {res="#Room_floor_7.png",x=Room_Distance.x+34+94*5+47-15,y=0},
+                 {res="#Room_floor_9.png",x=Room_Distance.x+33+94*6+47-15,y=0},
 		 },--地板
     }
 
@@ -507,7 +508,8 @@ RoomBgs[34]=
 		 {res="#Room_floor_7.png",x=Room_Distance.x+37+94*3,y=0},
 		 {res="#Room_floor_7.png",x=Room_Distance.x+36+94*4,y=0},
                  {res="#Room_floor_7.png",x=Room_Distance.x+35+94*5,y=0},
-                 {res="#Room_floor_7.png",x=Room_Distance.x+34+94*5+64-1,y=0},
+		 {res="#Room_floor_7.png",x=Room_Distance.x+34+94*5+47-15,y=0},
+                 {res="#Room_floor_9.png",x=Room_Distance.x+33+94*6+47-15,y=0},
 		 },--地板
     }
 
@@ -521,8 +523,9 @@ RoomBgs[35]=
                  {res="#Room_floor_7.png",x=Room_Distance.x+38+94*2,y=0},
 		 {res="#Room_floor_7.png",x=Room_Distance.x+37+94*3,y=0},
 		 {res="#Room_floor_7.png",x=Room_Distance.x+36+94*4,y=0},
-		 {res="#Room_floor_7.png",x=Room_Distance.x+35+94*5,y=0},
-                 {res="#Room_floor_7.png",x=Room_Distance.x+34+94*5+47,y=0},
+                 {res="#Room_floor_7.png",x=Room_Distance.x+35+94*5,y=0},
+		 {res="#Room_floor_7.png",x=Room_Distance.x+34+94*5+47-15,y=0},
+                 {res="#Room_floor_9.png",x=Room_Distance.x+33+94*6+47-15,y=0},
                  },--地板
     }
 
@@ -530,7 +533,8 @@ RoomBgs[35]=
 RoomBgs[36]=
     {
         wallLeftRight = {},--左右两侧墙壁
-        floor = {{res="#Room_floor_7.png",x=Room_Distance.x+24,y=0},
+        floor = {{res="#Room_floor_8.png",x=Room_Distance.x+37,y=0},
+	         {res="#Room_floor_7.png",x=Room_Distance.x+40,y=0},
 		 {res="#Room_floor_7.png",x=Room_Distance.x+23+94,y=0},
                  {res="#Room_floor_7.png",x=Room_Distance.x+22+94*2,y=0},
 		 {res="#Room_floor_7.png",x=Room_Distance.x+21+94*3,y=0},
@@ -545,7 +549,8 @@ RoomBgs[36]=
 RoomBgs[37]=
     {
         wallLeftRight = {},--左右两侧墙壁
-        floor = {{res="#Room_floor_7.png",x=Room_Distance.x+40,y=0},
+        floor = {{res="#Room_floor_8.png",x=Room_Distance.x+37,y=0},
+	         {res="#Room_floor_7.png",x=Room_Distance.x+40,y=0},
 		 {res="#Room_floor_7.png",x=Room_Distance.x+39+94,y=0},
                  {res="#Room_floor_7.png",x=Room_Distance.x+38+94*2,y=0},
 		 {res="#Room_floor_7.png",x=Room_Distance.x+37+94*3,y=0},
@@ -633,6 +638,7 @@ RoomBgs[42]=
 		 {res="#Room_floor_7.png",x=Room_Distance.x+36+94*4,y=0},
 		 {res="#Room_floor_7.png",x=Room_Distance.x+35+94*5,y=0},
                  {res="#Room_floor_7.png",x=Room_Distance.x+34+94*5+47-1,y=0},
+                 {res="#Room_floor_9.png",x=Room_Distance.x+33+94*6+47-15,y=0},
                  },--地板
     }
 
@@ -664,6 +670,7 @@ RoomBgs[44]=
 		 {res="#Room_floor_7.png",x=Room_Distance.x+36+94*4,y=0},
 		 {res="#Room_floor_7.png",x=Room_Distance.x+35+94*5,y=0},
                  {res="#Room_floor_7.png",x=Room_Distance.x+34+94*5+47-1,y=0},
+		 {res="#Room_floor_9.png",x=Room_Distance.x+33+94*6+47-15,y=0},
 		 },--地板
     }
 
@@ -687,7 +694,8 @@ RoomBgs[45]=
 RoomBgs[46]=
     {
         wallLeftRight = {{res="#Room_wall.png",x=Room_Distance.x+645,y=15,type = RoomWall_Type.Right},},--左右两侧墙壁
-        floor = {{res="#Room_floor_7.png",x=Room_Distance.x+40,y=0},
+        floor = {{res="#Room_floor_8.png",x=Room_Distance.x+37,y=0},
+	         {res="#Room_floor_7.png",x=Room_Distance.x+40,y=0},
 		 {res="#Room_floor_7.png",x=Room_Distance.x+39+94,y=0},
                  {res="#Room_floor_7.png",x=Room_Distance.x+38+94*2,y=0},
 		 {res="#Room_floor_7.png",x=Room_Distance.x+37+94*3,y=0},
@@ -734,7 +742,7 @@ RoomBgs[48]=
 RoomBgs[49]=
     {
         wallLeftRight = {{res="#Room_wall.png",x=Room_Distance.x+645,y=15,type = RoomWall_Type.Right},},--左右两侧墙壁
-        floor = {
+        floor = {{res="#Room_floor_8.png",x=Room_Distance.x+37,y=0},
 	         {res="#Room_floor_7.png",x=Room_Distance.x+40,y=0},
 		 {res="#Room_floor_7.png",x=Room_Distance.x+39+94,y=0},
                  {res="#Room_floor_7.png",x=Room_Distance.x+38+94*2,y=0},
@@ -801,12 +809,14 @@ RoomBgs[62]=
     {
         wallLeftRight = {},--左右两侧墙壁
         floor = {
-	         {res="#Room_floor_7.png",x=Room_Distance.x+64,y=0},
-		 {res="#Room_floor_7.png",x=Room_Distance.x+63+94,y=0},
-                 {res="#Room_floor_7.png",x=Room_Distance.x+62+94*2,y=0},
-		 {res="#Room_floor_7.png",x=Room_Distance.x+61+94*3,y=0},
-		 {res="#Room_floor_7.png",x=Room_Distance.x+60+94*4,y=0},
-                 {res="#Room_floor_7.png",x=Room_Distance.x+59+94*5-1,y=0},
+	         {res="#Room_floor_8.png",x=Room_Distance.x+63,y=0},
+                 {res="#Room_floor_7.png",x=Room_Distance.x+65,y=0},
+		 {res="#Room_floor_7.png",x=Room_Distance.x+64+94,y=0},
+                 {res="#Room_floor_7.png",x=Room_Distance.x+63+94*2,y=0},
+		 {res="#Room_floor_7.png",x=Room_Distance.x+62+94*3,y=0},
+		 {res="#Room_floor_7.png",x=Room_Distance.x+61+94*4,y=0},
+                 {res="#Room_floor_7.png",x=Room_Distance.x+60+94*5-17,y=0},
+                 {res="#Room_floor_9.png",x=Room_Distance.x+59+94*6-17,y=0},
 		 },--地板
     }
 
@@ -835,8 +845,8 @@ RoomBgs[64]=
                  {res="#Room_floor_7.png",x=Room_Distance.x+62+94*2,y=0},
 		 {res="#Room_floor_7.png",x=Room_Distance.x+61+94*3,y=0},
 		 {res="#Room_floor_7.png",x=Room_Distance.x+60+94*4,y=0},
-                 {res="#Room_floor_7.png",x=Room_Distance.x+59+94*5,y=0},
-		 {res="#Room_floor_7.png",x=Room_Distance.x+94*6-17-1,y=0},
+                 {res="#Room_floor_7.png",x=Room_Distance.x+60+94*5-17,y=0},
+                 {res="#Room_floor_9.png",x=Room_Distance.x+59+94*6-17,y=0},
 		 },--地板
     }
 
@@ -849,8 +859,9 @@ RoomBgs[65]=
 		 {res="#Room_floor_7.png",x=Room_Distance.x+63+94,y=0},
                  {res="#Room_floor_7.png",x=Room_Distance.x+62+94*2,y=0},
 		 {res="#Room_floor_7.png",x=Room_Distance.x+61+94*3,y=0},
-		 {res="#Room_floor_7.png",x=Room_Distance.x+60+94*4,y=0},
-                 {res="#Room_floor_7.png",x=Room_Distance.x+59+94*5-1,y=0},		
+                 {res="#Room_floor_7.png",x=Room_Distance.x+60+94*4,y=0},
+		 {res="#Room_floor_7.png",x=Room_Distance.x+60+94*5-17,y=0},
+                 {res="#Room_floor_9.png",x=Room_Distance.x+59+94*6-17,y=0},	
 		 },--地板
     }
 
@@ -858,7 +869,7 @@ RoomBgs[65]=
 RoomBgs[66]=
     {
         wallLeftRight = {},--左右两侧墙壁
-        floor = {{res="#Room_floor_7.png",x=Room_Distance.x+48,y=0},
+        floor = {{res="#Room_floor_8.png",x=Room_Distance.x+63,y=0},
 	         {res="#Room_floor_7.png",x=Room_Distance.x+64,y=0},
 		 {res="#Room_floor_7.png",x=Room_Distance.x+63+94,y=0},
                  {res="#Room_floor_7.png",x=Room_Distance.x+62+94*2,y=0},
@@ -873,7 +884,7 @@ RoomBgs[66]=
 RoomBgs[67]=
     {
         wallLeftRight = {},--左右两侧墙壁
-       floor = {
+        floor = {{res="#Room_floor_8.png",x=Room_Distance.x+63,y=0},
 	         {res="#Room_floor_7.png",x=Room_Distance.x+64,y=0},
 		 {res="#Room_floor_7.png",x=Room_Distance.x+63+94,y=0},
                  {res="#Room_floor_7.png",x=Room_Distance.x+62+94*2,y=0},
@@ -955,7 +966,8 @@ RoomBgs[72]=
                  {res="#Room_floor_7.png",x=Room_Distance.x+62+94*2,y=0},
 		 {res="#Room_floor_7.png",x=Room_Distance.x+61+94*3,y=0},
 		 {res="#Room_floor_7.png",x=Room_Distance.x+60+94*4,y=0},
-                 {res="#Room_floor_7.png",x=Room_Distance.x+56+94*5,y=0},	
+                 {res="#Room_floor_7.png",x=Room_Distance.x+56+94*5,y=0},
+		 {res="#Room_floor_9.png",x=Room_Distance.x+59+94*6-17,y=0},
                  },--地板
     }
 
@@ -984,7 +996,8 @@ RoomBgs[74]=
                  {res="#Room_floor_7.png",x=Room_Distance.x+62+94*2,y=0},
 		 {res="#Room_floor_7.png",x=Room_Distance.x+61+94*3,y=0},
 		 {res="#Room_floor_7.png",x=Room_Distance.x+60+94*4,y=0},
-                 {res="#Room_floor_7.png",x=Room_Distance.x+56+94*5,y=0},	
+                 {res="#Room_floor_7.png",x=Room_Distance.x+56+94*5,y=0},
+		 {res="#Room_floor_9.png",x=Room_Distance.x+59+94*6-17,y=0},
 		 },--地板
     }
 
@@ -1007,7 +1020,7 @@ RoomBgs[75]=
 RoomBgs[76]=
     {
         wallLeftRight = {{res="#Room_wall.png",x=Room_Distance.x+622,y=15,type = RoomWall_Type.Right},},--左右两侧墙壁
-        floor = {
+        floor = {{res="#Room_floor_8.png",x=Room_Distance.x+63,y=0},
 	         {res="#Room_floor_7.png",x=Room_Distance.x+64,y=0},
 		 {res="#Room_floor_7.png",x=Room_Distance.x+63+94,y=0},
                  {res="#Room_floor_7.png",x=Room_Distance.x+62+94*2,y=0},
@@ -1052,7 +1065,7 @@ RoomBgs[78]=
 RoomBgs[79]=
     {
         wallLeftRight = {{res="#Room_wall.png",x=Room_Distance.x+622,y=15,type = RoomWall_Type.Right},},--左右两侧墙壁
-        floor = {
+        floor = {{res="#Room_floor_8.png",x=Room_Distance.x+63,y=0},
 	         {res="#Room_floor_7.png",x=Room_Distance.x+64,y=0},
 		 {res="#Room_floor_7.png",x=Room_Distance.x+63+94,y=0},
                  {res="#Room_floor_7.png",x=Room_Distance.x+62+94*2,y=0},
@@ -1118,12 +1131,14 @@ RoomBgs[92]=
     {
         wallLeftRight = {},--左右两侧墙壁
         floor = {
+                 {res="#Room_floor_8.png",x=Room_Distance.x+85,y=0},
 	         {res="#Room_floor_7.png",x=Room_Distance.x+87,y=0},
 		 {res="#Room_floor_7.png",x=Room_Distance.x+86+94,y=0},
                  {res="#Room_floor_7.png",x=Room_Distance.x+85+94*2,y=0},
 		 {res="#Room_floor_7.png",x=Room_Distance.x+84+94*3,y=0},
 		 {res="#Room_floor_7.png",x=Room_Distance.x+83+94*4,y=0},
-                 {res="#Room_floor_7.png",x=Room_Distance.x+82+94*4+47-1,y=0},		
+                 {res="#Room_floor_7.png",x=Room_Distance.x+82+94*4+47-1,y=0},
+		 {res="#Room_floor_9.png",x=Room_Distance.x+81+94*5+32,y=0},
 		 },--地板
     }
 
@@ -1154,7 +1169,8 @@ RoomBgs[94]=
                  {res="#Room_floor_7.png",x=Room_Distance.x+85+94*2,y=0},
 		 {res="#Room_floor_7.png",x=Room_Distance.x+84+94*3,y=0},
                  {res="#Room_floor_7.png",x=Room_Distance.x+83+94*4,y=0},
-                 {res="#Room_floor_7.png",x=Room_Distance.x+82+94*5-30-1,y=0},
+                 {res="#Room_floor_7.png",x=Room_Distance.x+82+94*4+47-1,y=0},
+		 {res="#Room_floor_9.png",x=Room_Distance.x+81+94*5+32,y=0},
 		 },--地板
     }
 
@@ -1169,7 +1185,8 @@ RoomBgs[95]=
                  {res="#Room_floor_7.png",x=Room_Distance.x+85+94*2,y=0},
 		 {res="#Room_floor_7.png",x=Room_Distance.x+84+94*3,y=0},
 		 {res="#Room_floor_7.png",x=Room_Distance.x+83+94*4,y=0},
-                 {res="#Room_floor_7.png",x=Room_Distance.x+82+94*4+47-1,y=0},		
+		 {res="#Room_floor_7.png",x=Room_Distance.x+82+94*4+47-1,y=0},
+		 {res="#Room_floor_9.png",x=Room_Distance.x+81+94*5+32,y=0},
 		 },--地板
     }
 
@@ -1177,7 +1194,7 @@ RoomBgs[95]=
 RoomBgs[96]=
     {
         wallLeftRight = {},--左右两侧墙壁
-        floor = {
+        floor = {{res="#Room_floor_8.png",x=Room_Distance.x+85,y=0},
 	         {res="#Room_floor_7.png",x=Room_Distance.x+87,y=0},
 		 {res="#Room_floor_7.png",x=Room_Distance.x+86+94,y=0},
                  {res="#Room_floor_7.png",x=Room_Distance.x+85+94*2,y=0},
@@ -1192,7 +1209,7 @@ RoomBgs[96]=
 RoomBgs[97]=
     {
         wallLeftRight = {},--左右两侧墙壁
-       floor = {
+        floor = {{res="#Room_floor_8.png",x=Room_Distance.x+85,y=0},
 	         {res="#Room_floor_7.png",x=Room_Distance.x+87,y=0},
 		 {res="#Room_floor_7.png",x=Room_Distance.x+86+94,y=0},
                  {res="#Room_floor_7.png",x=Room_Distance.x+85+94*2,y=0},
@@ -1279,7 +1296,8 @@ RoomBgs[102]=
                  {res="#Room_floor_7.png",x=Room_Distance.x+85+94*2,y=0},
 		 {res="#Room_floor_7.png",x=Room_Distance.x+84+94*3,y=0},
                  {res="#Room_floor_7.png",x=Room_Distance.x+83+94*4,y=0},
-		 {res="#Room_floor_7.png",x=Room_Distance.x+78+94*4+47,y=0},
+		 {res="#Room_floor_7.png",x=Room_Distance.x+82+94*4+47-1,y=0},
+		 {res="#Room_floor_9.png",x=Room_Distance.x+81+94*5+32,y=0},
                  },--地板
     }
 
@@ -1310,7 +1328,8 @@ RoomBgs[104]=
                  {res="#Room_floor_7.png",x=Room_Distance.x+85+94*2,y=0},
 		 {res="#Room_floor_7.png",x=Room_Distance.x+84+94*3,y=0},
                  {res="#Room_floor_7.png",x=Room_Distance.x+83+94*4,y=0},
-		 {res="#Room_floor_7.png",x=Room_Distance.x+78+94*4+47,y=0},
+                 {res="#Room_floor_7.png",x=Room_Distance.x+82+94*4+47-1,y=0},
+		 {res="#Room_floor_9.png",x=Room_Distance.x+81+94*5+32,y=0},
 		 },--地板
     }
 
@@ -1334,7 +1353,7 @@ RoomBgs[105]=
 RoomBgs[106]=
     {
         wallLeftRight = {{res="#Room_wall.png",x=Room_Distance.x+598,y=15,type = RoomWall_Type.Right},},--左右两侧墙壁
-        floor = {
+        floor = {{res="#Room_floor_8.png",x=Room_Distance.x+85,y=0},
 	         {res="#Room_floor_7.png",x=Room_Distance.x+87,y=0},
 		 {res="#Room_floor_7.png",x=Room_Distance.x+86+94,y=0},
                  {res="#Room_floor_7.png",x=Room_Distance.x+85+94*2,y=0},
@@ -1381,7 +1400,7 @@ RoomBgs[108]=
 RoomBgs[109]=
     {
         wallLeftRight = {{res="#Room_wall.png",x=Room_Distance.x+598,y=15,type = RoomWall_Type.Right},},--左右两侧墙壁
-        floor = {
+        floor = {{res="#Room_floor_8.png",x=Room_Distance.x+85,y=0},
 	         {res="#Room_floor_7.png",x=Room_Distance.x+87,y=0},
 		 {res="#Room_floor_7.png",x=Room_Distance.x+86+94,y=0},
                  {res="#Room_floor_7.png",x=Room_Distance.x+85+94*2,y=0},
@@ -1444,11 +1463,13 @@ RoomBgs[122]=
     {
         wallLeftRight = {},--左右两侧墙壁
         floor = {
+                 {res="#Room_floor_8.png",x=Room_Distance.x+15+94,y=0},
 		 {res="#Room_floor_7.png",x=Room_Distance.x+16+94,y=0},
                  {res="#Room_floor_7.png",x=Room_Distance.x+15+94*2,y=0},
 		 {res="#Room_floor_7.png",x=Room_Distance.x+14+94*3,y=0},
 		 {res="#Room_floor_7.png",x=Room_Distance.x+13+94*4,y=0},
-                 {res="#Room_floor_7.png",x=Room_Distance.x+12+94*5-1,y=0},
+                 {res="#Room_floor_7.png",x=Room_Distance.x+12+94*5-15,y=0},
+                 {res="#Room_floor_9.png",x=Room_Distance.x+11+94*6-15,y=0},
 		 },--地板
     }
 
@@ -1476,6 +1497,7 @@ RoomBgs[124]=
 		 {res="#Room_floor_7.png",x=Room_Distance.x+14+94*3,y=0},
                  {res="#Room_floor_7.png",x=Room_Distance.x+13+94*4,y=0},
                  {res="#Room_floor_7.png",x=Room_Distance.x+12+94*5-1,y=0},
+		 {res="#Room_floor_9.png",x=Room_Distance.x+11+94*6-15,y=0},
 		 },--地板
     }
 
@@ -1488,7 +1510,8 @@ RoomBgs[125]=
                  {res="#Room_floor_7.png",x=Room_Distance.x+15+94*2,y=0},
 		 {res="#Room_floor_7.png",x=Room_Distance.x+14+94*3,y=0},
 		 {res="#Room_floor_7.png",x=Room_Distance.x+13+94*4,y=0},
-		 {res="#Room_floor_7.png",x=Room_Distance.x+12+94*5-1,y=0},		
+		 {res="#Room_floor_7.png",x=Room_Distance.x+12+94*5-1,y=0},
+		 {res="#Room_floor_9.png",x=Room_Distance.x+11+94*6-15,y=0},
 		 },--地板
     }
 
@@ -1497,12 +1520,12 @@ RoomBgs[126]=
     {
         wallLeftRight = {},--左右两侧墙壁
         floor = {
-	         {res="#Room_floor_7.png",x=Room_Distance.x+94,y=0},
-                 {res="#Room_floor_7.png",x=Room_Distance.x+15+94,y=0},
-		 {res="#Room_floor_7.png",x=Room_Distance.x+14+94*2,y=0},
-                 {res="#Room_floor_7.png",x=Room_Distance.x+13+94*3,y=0},
-		 {res="#Room_floor_7.png",x=Room_Distance.x+12+94*4,y=0},
-                 {res="#Room_floor_7.png",x=Room_Distance.x+11+94*5,y=0},
+	         {res="#Room_floor_8.png",x=Room_Distance.x+15+94,y=0},
+		 {res="#Room_floor_7.png",x=Room_Distance.x+16+94,y=0},
+                 {res="#Room_floor_7.png",x=Room_Distance.x+15+94*2,y=0},
+		 {res="#Room_floor_7.png",x=Room_Distance.x+14+94*3,y=0},
+		 {res="#Room_floor_7.png",x=Room_Distance.x+13+94*4,y=0},
+                 {res="#Room_floor_7.png",x=Room_Distance.x+12+94*5,y=0},
 		 {res="#Room_floor_2.png",x=Room_Distance.x+8+94*6,y=-2},
 		 },--地板
     }
@@ -1511,7 +1534,8 @@ RoomBgs[126]=
 RoomBgs[127]=
     {
         wallLeftRight = {},--左右两侧墙壁
-       floor = {
+         floor = { 
+                 {res="#Room_floor_8.png",x=Room_Distance.x+15+94,y=0},
 		 {res="#Room_floor_7.png",x=Room_Distance.x+16+94,y=0},
                  {res="#Room_floor_7.png",x=Room_Distance.x+15+94*2,y=0},
 		 {res="#Room_floor_7.png",x=Room_Distance.x+14+94*3,y=0},
@@ -1588,6 +1612,7 @@ RoomBgs[132]=
 		 {res="#Room_floor_7.png",x=Room_Distance.x+14+94*3,y=0},
                  {res="#Room_floor_7.png",x=Room_Distance.x+13+94*4,y=0},
 	         {res="#Room_floor_7.png",x=Room_Distance.x+12+94*5-1,y=0},
+		 {res="#Room_floor_9.png",x=Room_Distance.x+11+94*6-15,y=0},
                  },--地板
     }
 
@@ -1615,6 +1640,7 @@ RoomBgs[134]=
 		 {res="#Room_floor_7.png",x=Room_Distance.x+14+94*3,y=0},
                  {res="#Room_floor_7.png",x=Room_Distance.x+13+94*4,y=0},
                  {res="#Room_floor_7.png",x=Room_Distance.x+12+94*5-1,y=0},
+		 {res="#Room_floor_9.png",x=Room_Distance.x+11+94*6-15,y=0},
 		 },--地板
     }
 
@@ -1637,6 +1663,7 @@ RoomBgs[136]=
     {
         wallLeftRight = {{res="#Room_wall.png",x=Room_Distance.x+574,y=16,type = RoomWall_Type.Right},},--左右两侧墙壁
         floor = {
+	         {res="#Room_floor_8.png",x=Room_Distance.x+15+94,y=0},
 	         {res="#Room_floor_7.png",x=Room_Distance.x+16+94,y=0},
                  {res="#Room_floor_7.png",x=Room_Distance.x+15+94*2,y=0},
 		 {res="#Room_floor_7.png",x=Room_Distance.x+14+94*3,y=0},
@@ -1679,6 +1706,7 @@ RoomBgs[139]=
     {
         wallLeftRight = {{res="#Room_wall.png",x=Room_Distance.x+574,y=16,type = RoomWall_Type.Right},},--左右两侧墙壁
         floor = {
+	         {res="#Room_floor_8.png",x=Room_Distance.x+15+94,y=0},
 	         {res="#Room_floor_7.png",x=Room_Distance.x+16+94,y=0},
                  {res="#Room_floor_7.png",x=Room_Distance.x+15+94*2,y=0},
 		 {res="#Room_floor_7.png",x=Room_Distance.x+14+94*3,y=0},
@@ -1739,12 +1767,14 @@ RoomBgs[142]=
 RoomBgs[152]=
     {
         wallLeftRight = {},--左右两侧墙壁
-        floor = {
+         floor = {
+                 {res="#Room_floor_8.png",x=Room_Distance.x+39+94,y=0},
 	         {res="#Room_floor_7.png",x=Room_Distance.x+40+94,y=0},--X+134
 		 {res="#Room_floor_7.png",x=Room_Distance.x+39+94*2,y=0},
                  {res="#Room_floor_7.png",x=Room_Distance.x+38+94*3,y=0},
 		 {res="#Room_floor_7.png",x=Room_Distance.x+37+94*4,y=0},
 		 {res="#Room_floor_7.png",x=Room_Distance.x+36+94*5-47-1,y=0},--X+459
+                 {res="#Room_floor_9.png",x=Room_Distance.x+36+94*6-62,y=0},--X+459
 		 },--地板
     }
 
@@ -1752,7 +1782,8 @@ RoomBgs[152]=
 RoomBgs[153]=
     {
         wallLeftRight = {},--左右两侧墙壁
-        floor = {{res="#Room_floor_1.png",x=Room_Distance.x+23+94,y=-2},--X+117
+         floor = {
+	         {res="#Room_floor_1.png",x=Room_Distance.x+23+94,y=-2},--X+117
 	         {res="#Room_floor_7.png",x=Room_Distance.x+39+94,y=0},
 		 {res="#Room_floor_7.png",x=Room_Distance.x+38+94*2,y=0},
                  {res="#Room_floor_7.png",x=Room_Distance.x+37+94*3,y=0},
@@ -1766,12 +1797,14 @@ RoomBgs[153]=
 RoomBgs[154]=
     {
         wallLeftRight = {},--左右两侧墙壁
-        floor = {{res="#Room_floor_1.png",x=Room_Distance.x+23+94,y=-2},--X+117
+         floor = {
+	         {res="#Room_floor_1.png",x=Room_Distance.x+23+94,y=-2},--X+117
 	         {res="#Room_floor_7.png",x=Room_Distance.x+39+94,y=0},
 		 {res="#Room_floor_7.png",x=Room_Distance.x+38+94*2,y=0},
                  {res="#Room_floor_7.png",x=Room_Distance.x+37+94*3,y=0},
 		 {res="#Room_floor_7.png",x=Room_Distance.x+36+94*4,y=0},
-		 {res="#Room_floor_7.png",x=Room_Distance.x+36+94*5-30-1,y=0},
+		 {res="#Room_floor_7.png",x=Room_Distance.x+36+94*5-47-1,y=0},
+		 {res="#Room_floor_9.png",x=Room_Distance.x+36+94*6-62,y=0}
 		 },--地板
     }
 
@@ -1779,12 +1812,14 @@ RoomBgs[154]=
 RoomBgs[155]=
     {
         wallLeftRight = {},--左右两侧墙壁
-        floor = {{res="#Room_floor_1.png",x=Room_Distance.x+23+94,y=-2},--X+117
+         floor = {
+	         {res="#Room_floor_1.png",x=Room_Distance.x+23+94,y=-2},--X+117
 	         {res="#Room_floor_7.png",x=Room_Distance.x+39+94,y=0},
 		 {res="#Room_floor_7.png",x=Room_Distance.x+38+94*2,y=0},
                  {res="#Room_floor_7.png",x=Room_Distance.x+37+94*3,y=0},
 		 {res="#Room_floor_7.png",x=Room_Distance.x+36+94*4,y=0},
-		 {res="#Room_floor_7.png",x=Room_Distance.x+36+94*5-47-1,y=0},	
+		 {res="#Room_floor_7.png",x=Room_Distance.x+36+94*5-47-1,y=0},
+		 {res="#Room_floor_9.png",x=Room_Distance.x+36+94*6-62,y=0}
 		 },--地板
     }
 
@@ -1792,11 +1827,13 @@ RoomBgs[155]=
 RoomBgs[156]=
     {
         wallLeftRight = {},--左右两侧墙壁
-        floor = {{res="#Room_floor_7.png",x=Room_Distance.x+23+94,y=0},
-		 {res="#Room_floor_7.png",x=Room_Distance.x+22+94*2,y=0},
-                 {res="#Room_floor_7.png",x=Room_Distance.x+21+94*3,y=0},
-		 {res="#Room_floor_7.png",x=Room_Distance.x+20+94*4,y=0},
-		 {res="#Room_floor_7.png",x=Room_Distance.x+19+94*5-30,y=0},
+         floor = {
+	         {res="#Room_floor_8.png",x=Room_Distance.x+39+94,y=0},
+		 {res="#Room_floor_7.png",x=Room_Distance.x+40+94,y=0},--X+134
+		 {res="#Room_floor_7.png",x=Room_Distance.x+39+94*2,y=0},
+                 {res="#Room_floor_7.png",x=Room_Distance.x+38+94*3,y=0},
+		 {res="#Room_floor_7.png",x=Room_Distance.x+37+94*4,y=0},
+		 {res="#Room_floor_7.png",x=Room_Distance.x+36+94*5-47,y=0},
                  {res="#Room_floor_2.png",x=Room_Distance.x+32+94*6-46,y=-2},
 		 },--地板
     }
@@ -1805,8 +1842,9 @@ RoomBgs[156]=
 RoomBgs[157]=
     {
         wallLeftRight = {},--左右两侧墙壁
-       floor = {
-	         {res="#Room_floor_7.png",x=Room_Distance.x+40+94,y=0},--X+134
+         floor = {
+	         {res="#Room_floor_8.png",x=Room_Distance.x+39+94,y=0},
+		 {res="#Room_floor_7.png",x=Room_Distance.x+40+94,y=0},--X+134
 		 {res="#Room_floor_7.png",x=Room_Distance.x+39+94*2,y=0},
                  {res="#Room_floor_7.png",x=Room_Distance.x+38+94*3,y=0},
 		 {res="#Room_floor_7.png",x=Room_Distance.x+37+94*4,y=0},
@@ -1880,7 +1918,8 @@ RoomBgs[162]=
 		 {res="#Room_floor_7.png",x=Room_Distance.x+38+94*2,y=0},
                  {res="#Room_floor_7.png",x=Room_Distance.x+37+94*3,y=0},
 		 {res="#Room_floor_7.png",x=Room_Distance.x+36+94*4,y=0},
-		 {res="#Room_floor_7.png",x=Room_Distance.x+36+94*5-47-1,y=0},	
+		 {res="#Room_floor_7.png",x=Room_Distance.x+36+94*5-47-1,y=0},
+		 {res="#Room_floor_9.png",x=Room_Distance.x+36+94*6-62,y=0},
                  },--地板
     }
 
@@ -1908,6 +1947,7 @@ RoomBgs[164]=
                  {res="#Room_floor_7.png",x=Room_Distance.x+37+94*3,y=0},
 		 {res="#Room_floor_7.png",x=Room_Distance.x+36+94*4,y=0},
 		 {res="#Room_floor_7.png",x=Room_Distance.x+36+94*5-47-1,y=0},	
+		 {res="#Room_floor_9.png",x=Room_Distance.x+36+94*6-62,y=0},
 		 },--地板
     }
 
@@ -1930,7 +1970,8 @@ RoomBgs[166]=
     {
         wallLeftRight = {{res="#Room_wall.png",x=Room_Distance.x+552,y=15,type = RoomWall_Type.Right},},--左右两侧墙壁
         floor = {
-	         {res="#Room_floor_7.png",x=Room_Distance.x+40+94,y=0},--X+134
+	         {res="#Room_floor_8.png",x=Room_Distance.x+39+94,y=0},
+		 {res="#Room_floor_7.png",x=Room_Distance.x+40+94,y=0},--X+134
 		 {res="#Room_floor_7.png",x=Room_Distance.x+39+94*2,y=0},
                  {res="#Room_floor_7.png",x=Room_Distance.x+38+94*3,y=0},
 		 {res="#Room_floor_7.png",x=Room_Distance.x+37+94*4,y=0},
@@ -1972,6 +2013,7 @@ RoomBgs[169]=
     {
         wallLeftRight = {{res="#Room_wall.png",x=Room_Distance.x+552,y=15,type = RoomWall_Type.Right},},--左右两侧墙壁
         floor = {
+                 {res="#Room_floor_8.png",x=Room_Distance.x+39+94,y=0},
 	         {res="#Room_floor_7.png",x=Room_Distance.x+40+94,y=0},--X+134
 		 {res="#Room_floor_7.png",x=Room_Distance.x+39+94*2,y=0},
                  {res="#Room_floor_7.png",x=Room_Distance.x+38+94*3,y=0},
@@ -2031,10 +2073,12 @@ RoomBgs[182]=
     {
         wallLeftRight = {},--左右两侧墙壁
         floor = {
-	         {res="#Room_floor_7.png",x=Room_Distance.x+64+94,y=0},
-		 {res="#Room_floor_7.png",x=Room_Distance.x+63+94*2,y=0},
-                 {res="#Room_floor_7.png",x=Room_Distance.x+62+94*3,y=0},
-		 {res="#Room_floor_7.png",x=Room_Distance.x+61+94*4-1,y=0},
+	         {res="#Room_floor_8.png",x=Room_Distance.x+61+94,y=0},
+		 {res="#Room_floor_7.png",x=Room_Distance.x+63+94,y=0},
+		 {res="#Room_floor_7.png",x=Room_Distance.x+62+94*2,y=0},
+                 {res="#Room_floor_7.png",x=Room_Distance.x+61+94*3,y=0},
+		 {res="#Room_floor_7.png",x=Room_Distance.x+60+94*4-14,y=0},
+		 {res="#Room_floor_9.png",x=Room_Distance.x+59+94*5-14,y=0},
 		 },--地板
     }
 
@@ -2056,12 +2100,13 @@ RoomBgs[183]=
 RoomBgs[184]=
     {
         wallLeftRight = {},--左右两侧墙壁
-        floor = {{res="#Room_floor_1.png",x=Room_Distance.x+48+94,y=-2},
+        floor = {
+	         {res="#Room_floor_1.png",x=Room_Distance.x+48+94,y=-2},
 	         {res="#Room_floor_7.png",x=Room_Distance.x+64+94,y=0},
                  {res="#Room_floor_7.png",x=Room_Distance.x+63+94*2,y=0},
 		 {res="#Room_floor_7.png",x=Room_Distance.x+62+94*3,y=0},
-                 {res="#Room_floor_7.png",x=Room_Distance.x+61+94*4,y=0},
-		 {res="#Room_floor_7.png",x=Room_Distance.x+60+94*4+17-1,y=0},
+                 {res="#Room_floor_7.png",x=Room_Distance.x+58+94*4,y=0},
+		 {res="#Room_floor_9.png",x=Room_Distance.x+59+94*5-14,y=0},
 		 },--地板
     }
 
@@ -2069,11 +2114,13 @@ RoomBgs[184]=
 RoomBgs[185]=
     {
         wallLeftRight = {},--左右两侧墙壁
-        floor = {{res="#Room_floor_1.png",x=Room_Distance.x+48+94,y=-2},
+        floor = {
+	         {res="#Room_floor_1.png",x=Room_Distance.x+48+94,y=-2},
 	         {res="#Room_floor_7.png",x=Room_Distance.x+64+94,y=0},
                  {res="#Room_floor_7.png",x=Room_Distance.x+63+94*2,y=0},
 		 {res="#Room_floor_7.png",x=Room_Distance.x+62+94*3,y=0},
-                 {res="#Room_floor_7.png",x=Room_Distance.x+58+94*4,y=0},	
+                 {res="#Room_floor_7.png",x=Room_Distance.x+58+94*4,y=0},
+		 {res="#Room_floor_9.png",x=Room_Distance.x+59+94*5-14,y=0},
 		 },--地板
     }
 
@@ -2082,12 +2129,12 @@ RoomBgs[186]=
     {
         wallLeftRight = {},--左右两侧墙壁
         floor = {
-		 {res="#Room_floor_7.png",x=Room_Distance.x+48+94,y=0},
-                 {res="#Room_floor_7.png",x=Room_Distance.x+47+94*2,y=0},
-		 {res="#Room_floor_7.png",x=Room_Distance.x+46+94*3,y=0},
-                 {res="#Room_floor_7.png",x=Room_Distance.x+45+94*4,y=0},
-                 {res="#Room_floor_7.png",x=Room_Distance.x+44+94*4+17,y=0},
-		 {res="#Room_floor_2.png",x=Room_Distance.x+43+94*5+15,y=-2},
+	         {res="#Room_floor_8.png",x=Room_Distance.x+61+94,y=0},
+		 {res="#Room_floor_7.png",x=Room_Distance.x+64+94,y=0},
+                 {res="#Room_floor_7.png",x=Room_Distance.x+63+94*2,y=0},
+		 {res="#Room_floor_7.png",x=Room_Distance.x+62+94*3,y=0},
+		 {res="#Room_floor_7.png",x=Room_Distance.x+61+94*4,y=0},
+                 {res="#Room_floor_2.png",x=Room_Distance.x+58+94*5,y=-2},
 		 },--地板
     }
 
@@ -2095,7 +2142,8 @@ RoomBgs[186]=
 RoomBgs[187]=
     {
         wallLeftRight = {},--左右两侧墙壁
-       floor = {
+         floor = { 
+                 {res="#Room_floor_8.png",x=Room_Distance.x+61+94,y=0},
 		 {res="#Room_floor_7.png",x=Room_Distance.x+64+94,y=0},
                  {res="#Room_floor_7.png",x=Room_Distance.x+63+94*2,y=0},
 		 {res="#Room_floor_7.png",x=Room_Distance.x+62+94*3,y=0},
@@ -2161,11 +2209,13 @@ RoomBgs[191]=
 RoomBgs[192]=
     {
         wallLeftRight = {{res="#Room_wall.png",x=Room_Distance.x+142,y=15,type = RoomWall_Type.Left},},--左右两侧墙壁
-        floor = {{res="#Room_floor_3.png",x=Room_Distance.x+48+94,y=0},
+        floor = {
+	         {res="#Room_floor_3.png",x=Room_Distance.x+48+94,y=0},
 	         {res="#Room_floor_7.png",x=Room_Distance.x+64+94,y=0},
                  {res="#Room_floor_7.png",x=Room_Distance.x+63+94*2,y=0},
 		 {res="#Room_floor_7.png",x=Room_Distance.x+62+94*3,y=0},
                  {res="#Room_floor_7.png",x=Room_Distance.x+61+94*4-1,y=0},
+		 {res="#Room_floor_9.png",x=Room_Distance.x+59+94*5-14,y=0},
                  },--地板
     }
 
@@ -2173,7 +2223,8 @@ RoomBgs[192]=
 RoomBgs[193]=
     {
         wallLeftRight = {{res="#Room_wall.png",x=Room_Distance.x+142,y=15,type = RoomWall_Type.Left},},--左右两侧墙壁
-        floor = {{res="#Room_floor_5.png",x=Room_Distance.x+48+94,y=-2},
+        floor = {
+	         {res="#Room_floor_5.png",x=Room_Distance.x+48+94,y=-2},
 	         {res="#Room_floor_7.png",x=Room_Distance.x+64+94,y=0},
                  {res="#Room_floor_7.png",x=Room_Distance.x+63+94*2,y=0},
 		 {res="#Room_floor_7.png",x=Room_Distance.x+62+94*3,y=0},
@@ -2186,11 +2237,13 @@ RoomBgs[193]=
 RoomBgs[194]=
     {
         wallLeftRight = {{res="#Room_wall.png",x=Room_Distance.x+142,y=15,type = RoomWall_Type.Left},},--左右两侧墙壁
-        floor = {{res="#Room_floor_5.png",x=Room_Distance.x+48+94,y=-2},
+        floor = {
+	         {res="#Room_floor_5.png",x=Room_Distance.x+48+94,y=-2},
 	         {res="#Room_floor_7.png",x=Room_Distance.x+64+94,y=0},
                  {res="#Room_floor_7.png",x=Room_Distance.x+63+94*2,y=0},
 		 {res="#Room_floor_7.png",x=Room_Distance.x+62+94*3,y=0},
                  {res="#Room_floor_7.png",x=Room_Distance.x+58+94*4,y=0},
+		 {res="#Room_floor_9.png",x=Room_Distance.x+59+94*5-14,y=0},
 		 },--地板
     }
 
@@ -2198,7 +2251,8 @@ RoomBgs[194]=
 RoomBgs[195]=
     {
         wallLeftRight = {{res="#Room_wall.png",x=Room_Distance.x+142,y=15,type = RoomWall_Type.Left},},--左右两侧墙壁
-        floor = {{res="#Room_floor_3.png",x=Room_Distance.x+48+94,y=0},
+        floor = {
+	         {res="#Room_floor_3.png",x=Room_Distance.x+48+94,y=0},
 	         {res="#Room_floor_7.png",x=Room_Distance.x+64+94,y=0},
                  {res="#Room_floor_7.png",x=Room_Distance.x+63+94*2,y=0},
 		 {res="#Room_floor_7.png",x=Room_Distance.x+62+94*3,y=0},
@@ -2211,7 +2265,9 @@ RoomBgs[195]=
 RoomBgs[196]=
     {
         wallLeftRight = {{res="#Room_wall.png",x=Room_Distance.x+530,y=15,type = RoomWall_Type.Right},},--左右两侧墙壁
-        floor = {{res="#Room_floor_7.png",x=Room_Distance.x+64+94,y=0},
+        floor = {
+	         {res="#Room_floor_8.png",x=Room_Distance.x+61+94,y=0},
+	         {res="#Room_floor_7.png",x=Room_Distance.x+64+94,y=0},
                  {res="#Room_floor_7.png",x=Room_Distance.x+63+94*2,y=0},
 		 {res="#Room_floor_7.png",x=Room_Distance.x+62+94*3,y=0},
 		 {res="#Room_floor_7.png",x=Room_Distance.x+61+94*4,y=0},
@@ -2223,7 +2279,8 @@ RoomBgs[196]=
 RoomBgs[197]=
     {
         wallLeftRight = {{res="#Room_wall.png",x=Room_Distance.x+530,y=15,type = RoomWall_Type.Right},},--左右两侧墙壁
-        floor = {{res="#Room_floor_1.png",x=Room_Distance.x+48+94,y=-2},
+        floor = {
+	         {res="#Room_floor_1.png",x=Room_Distance.x+48+94,y=-2},
 	         {res="#Room_floor_7.png",x=Room_Distance.x+64+94,y=0},
                  {res="#Room_floor_7.png",x=Room_Distance.x+63+94*2,y=0},
 		 {res="#Room_floor_7.png",x=Room_Distance.x+62+94*3,y=0},
@@ -2236,7 +2293,8 @@ RoomBgs[197]=
 RoomBgs[198]=
     {
         wallLeftRight = {{res="#Room_wall.png",x=Room_Distance.x+530,y=15,type = RoomWall_Type.Right},},--左右两侧墙壁
-        floor = {{res="#Room_floor_1.png",x=Room_Distance.x+48+94,y=-2},
+        floor = {
+	         {res="#Room_floor_1.png",x=Room_Distance.x+48+94,y=-2},
 	         {res="#Room_floor_7.png",x=Room_Distance.x+64+94,y=0},
                  {res="#Room_floor_7.png",x=Room_Distance.x+63+94*2,y=0},
 		 {res="#Room_floor_7.png",x=Room_Distance.x+62+94*3,y=0},
@@ -2250,7 +2308,8 @@ RoomBgs[199]=
     {
         wallLeftRight = {{res="#Room_wall.png",x=Room_Distance.x+530,y=15,type = RoomWall_Type.Right},},--左右两侧墙壁
         floor = {
-	         {res="#Room_floor_7.png",x=Room_Distance.x+64+94,y=0},
+	         {res="#Room_floor_8.png",x=Room_Distance.x+61+94,y=0},
+		 {res="#Room_floor_7.png",x=Room_Distance.x+64+94,y=0},
                  {res="#Room_floor_7.png",x=Room_Distance.x+63+94*2,y=0},
 		 {res="#Room_floor_7.png",x=Room_Distance.x+62+94*3,y=0},
 		 {res="#Room_floor_7.png",x=Room_Distance.x+61+94*4,y=0},
@@ -2308,10 +2367,12 @@ RoomBgs[212]=
     {
         wallLeftRight = {},--左右两侧墙壁
         floor = {
+                 {res="#Room_floor_8.png",x=Room_Distance.x+86+94,y=0},
 	         {res="#Room_floor_7.png",x=Room_Distance.x+87+94,y=0},
                  {res="#Room_floor_7.png",x=Room_Distance.x+86+94*2,y=0},
 		 {res="#Room_floor_7.png",x=Room_Distance.x+85+94*3,y=0},
 		 {res="#Room_floor_7.png",x=Room_Distance.x+84+94*3+47-1,y=0},
+                 {res="#Room_floor_9.png",x=Room_Distance.x+83+94*4+33,y=0},
 		 },--地板
     }
 
@@ -2332,11 +2393,13 @@ RoomBgs[213]=
 RoomBgs[214]=
     {
         wallLeftRight = {},--左右两侧墙壁
-        floor = {{res="#Room_floor_1.png",x=Room_Distance.x+70+94,y=-2},
+        floor = {
+	         {res="#Room_floor_1.png",x=Room_Distance.x+70+94,y=-2},
 	         {res="#Room_floor_7.png",x=Room_Distance.x+87+94,y=0},
                  {res="#Room_floor_7.png",x=Room_Distance.x+86+94*2,y=0},
 		 {res="#Room_floor_7.png",x=Room_Distance.x+85+94*3,y=0},
-                 {res="#Room_floor_7.png",x=Room_Distance.x+84+94*3+64-1,y=0},                
+                 {res="#Room_floor_7.png",x=Room_Distance.x+84+94*3+47-1,y=0},   
+		 {res="#Room_floor_9.png",x=Room_Distance.x+83+94*4+33,y=0},          
 		 },--地板
     }
 
@@ -2344,11 +2407,13 @@ RoomBgs[214]=
 RoomBgs[215]=
     {
         wallLeftRight = {},--左右两侧墙壁
-        floor = {{res="#Room_floor_1.png",x=Room_Distance.x+70+94,y=-2},
+        floor = {
+	         {res="#Room_floor_1.png",x=Room_Distance.x+70+94,y=-2},
 	         {res="#Room_floor_7.png",x=Room_Distance.x+87+94,y=0},
                  {res="#Room_floor_7.png",x=Room_Distance.x+86+94*2,y=0},
 		 {res="#Room_floor_7.png",x=Room_Distance.x+85+94*3,y=0},
-                 {res="#Room_floor_7.png",x=Room_Distance.x+84+94*3+47-1,y=0},   	
+                 {res="#Room_floor_7.png",x=Room_Distance.x+84+94*3+47-1,y=0},   
+		 {res="#Room_floor_9.png",x=Room_Distance.x+83+94*4+33,y=0},
 		 },--地板
     }
 
@@ -2356,13 +2421,14 @@ RoomBgs[215]=
 RoomBgs[216]=
     {
         wallLeftRight = {},--左右两侧墙壁
-        floor = {{res="#Room_floor_7.png",x=Room_Distance.x+70+94,y=0},
-	         {res="#Room_floor_7.png",x=Room_Distance.x+69+94,y=0},
-                 {res="#Room_floor_7.png",x=Room_Distance.x+68+94*2,y=0},
-		 {res="#Room_floor_7.png",x=Room_Distance.x+67+94*3,y=0},
-                 {res="#Room_floor_7.png",x=Room_Distance.x+66+94*3+64,y=0},
-                 {res="#Room_floor_2.png",x=Room_Distance.x+65+94*4+64,y=-2},                
-		 },--地板
+        floor = {
+	        {res="#Room_floor_8.png",x=Room_Distance.x+86+94,y=0},
+	        {res="#Room_floor_7.png",x=Room_Distance.x+87+94,y=0},
+                {res="#Room_floor_7.png",x=Room_Distance.x+86+94*2,y=0},
+		{res="#Room_floor_7.png",x=Room_Distance.x+85+94*3,y=0},
+		{res="#Room_floor_7.png",x=Room_Distance.x+84+94*3+47,y=0},
+                {res="#Room_floor_2.png",x=Room_Distance.x+82+94*4+47,y=-2},             
+		},--地板
     }
 
 --两侧无墙壁，下层右边有墙，左边短地板。
@@ -2370,6 +2436,7 @@ RoomBgs[217]=
     {
         wallLeftRight = {},--左右两侧墙壁
        floor = {
+                {res="#Room_floor_8.png",x=Room_Distance.x+86+94,y=0},
 	        {res="#Room_floor_7.png",x=Room_Distance.x+87+94,y=0},
                 {res="#Room_floor_7.png",x=Room_Distance.x+86+94*2,y=0},
 		{res="#Room_floor_7.png",x=Room_Distance.x+85+94*3,y=0},
@@ -2440,6 +2507,7 @@ RoomBgs[222]=
                  {res="#Room_floor_7.png",x=Room_Distance.x+86+94*2,y=0},
 		 {res="#Room_floor_7.png",x=Room_Distance.x+85+94*3,y=0},
                  {res="#Room_floor_7.png",x=Room_Distance.x+84+94*3+47-1,y=0},  
+		 {res="#Room_floor_9.png",x=Room_Distance.x+83+94*4+33,y=0},
                  },--地板
     }
 
@@ -2464,7 +2532,8 @@ RoomBgs[224]=
 	         {res="#Room_floor_7.png",x=Room_Distance.x+87+94,y=0},
                  {res="#Room_floor_7.png",x=Room_Distance.x+86+94*2,y=0},
 		 {res="#Room_floor_7.png",x=Room_Distance.x+85+94*3,y=0},
-                 {res="#Room_floor_7.png",x=Room_Distance.x+84+94*3+47-1,y=0},  
+                 {res="#Room_floor_7.png",x=Room_Distance.x+84+94*3+47-1,y=0},
+		 {res="#Room_floor_9.png",x=Room_Distance.x+83+94*4+33,y=0},
 		 },--地板
     }
 
@@ -2486,6 +2555,7 @@ RoomBgs[226]=
     {
         wallLeftRight = {{res="#Room_wall.png",x=Room_Distance.x+507,y=15,type = RoomWall_Type.Right},},--左右两侧墙壁
         floor = {
+	        {res="#Room_floor_8.png",x=Room_Distance.x+86+94,y=0},
 	        {res="#Room_floor_7.png",x=Room_Distance.x+87+94,y=0},
                 {res="#Room_floor_7.png",x=Room_Distance.x+86+94*2,y=0},
 		{res="#Room_floor_7.png",x=Room_Distance.x+85+94*3,y=0},
@@ -2525,6 +2595,7 @@ RoomBgs[229]=
     {
         wallLeftRight = {{res="#Room_wall.png",x=Room_Distance.x+507,y=15,type = RoomWall_Type.Right},},--左右两侧墙壁
         floor = {
+	        {res="#Room_floor_8.png",x=Room_Distance.x+86+94,y=0},
 	        {res="#Room_floor_7.png",x=Room_Distance.x+87+94,y=0},
                 {res="#Room_floor_7.png",x=Room_Distance.x+86+94*2,y=0},
 		{res="#Room_floor_7.png",x=Room_Distance.x+85+94*3,y=0},
@@ -2579,9 +2650,11 @@ RoomBgs[242]=
     {
         wallLeftRight = {},--左右两侧墙壁
         floor = {
+                 {res="#Room_floor_8.png",x=Room_Distance.x+108+94,y=0},
 	         {res="#Room_floor_7.png",x=Room_Distance.x+110+94,y=0},
 		 {res="#Room_floor_7.png",x=Room_Distance.x+109+94*2,y=0},
-                 {res="#Room_floor_7.png",x=Room_Distance.x+108+94*3-1,y=0},
+                 {res="#Room_floor_7.png",x=Room_Distance.x+108+94*3-15,y=0},
+		 {res="#Room_floor_9.png",x=Room_Distance.x+107+94*4-15,y=0},
 		 },--地板
     }
 
@@ -2601,11 +2674,12 @@ RoomBgs[243]=
 RoomBgs[244]=
     {
         wallLeftRight = {},--左右两侧墙壁
-        floor = {{res="#Room_floor_1.png",x=Room_Distance.x+94+94,y=-2},
+         floor = {
+	         {res="#Room_floor_1.png",x=Room_Distance.x+94+94,y=-2},
 	         {res="#Room_floor_7.png",x=Room_Distance.x+110+94,y=0},
 		 {res="#Room_floor_7.png",x=Room_Distance.x+109+94*2,y=0},
-                 {res="#Room_floor_7.png",x=Room_Distance.x+108+94*3,y=0},
-		 {res="#Room_floor_7.png",x=Room_Distance.x+107+94*3+17-1,y=0},
+                 {res="#Room_floor_7.png",x=Room_Distance.x+108+94*3-1,y=0},	
+		 {res="#Room_floor_9.png",x=Room_Distance.x+107+94*4-15,y=0},
 		 },--地板
     }
 
@@ -2613,10 +2687,12 @@ RoomBgs[244]=
 RoomBgs[245]=
     {
         wallLeftRight = {},--左右两侧墙壁
-        floor = {{res="#Room_floor_1.png",x=Room_Distance.x+94+94,y=-2},
+         floor = {
+	         {res="#Room_floor_1.png",x=Room_Distance.x+94+94,y=-2},
 	         {res="#Room_floor_7.png",x=Room_Distance.x+110+94,y=0},
 		 {res="#Room_floor_7.png",x=Room_Distance.x+109+94*2,y=0},
                  {res="#Room_floor_7.png",x=Room_Distance.x+108+94*3-1,y=0},	
+		 {res="#Room_floor_9.png",x=Room_Distance.x+107+94*4-15,y=0},
 		 },--地板
     }
 
@@ -2624,12 +2700,12 @@ RoomBgs[245]=
 RoomBgs[246]=
     {
         wallLeftRight = {},--左右两侧墙壁
-        floor = {
-	         {res="#Room_floor_7.png",x=Room_Distance.x+94+94,y=0},
-                 {res="#Room_floor_7.png",x=Room_Distance.x+93+94*2,y=0},
-		 {res="#Room_floor_7.png",x=Room_Distance.x+92+94*3,y=0},
-                 {res="#Room_floor_7.png",x=Room_Distance.x+92+94*3+17,y=0},
-                 {res="#Room_floor_2.png",x=Room_Distance.x+10+94*5,y=-2},
+         floor = {
+	         {res="#Room_floor_8.png",x=Room_Distance.x+108+94,y=0},
+	         {res="#Room_floor_7.png",x=Room_Distance.x+110+94,y=0},
+                 {res="#Room_floor_7.png",x=Room_Distance.x+109+94*2,y=0},
+		 {res="#Room_floor_7.png",x=Room_Distance.x+108+94*3,y=0},
+		 {res="#Room_floor_2.png",x=Room_Distance.x+104+94*4,y=-2},
 		 },--地板
     }
 
@@ -2637,7 +2713,8 @@ RoomBgs[246]=
 RoomBgs[247]=
     {
         wallLeftRight = {},--左右两侧墙壁
-       floor = {
+         floor = {
+                 {res="#Room_floor_8.png",x=Room_Distance.x+108+94,y=0},
 	         {res="#Room_floor_7.png",x=Room_Distance.x+110+94,y=0},
                  {res="#Room_floor_7.png",x=Room_Distance.x+109+94*2,y=0},
 		 {res="#Room_floor_7.png",x=Room_Distance.x+108+94*3,y=0},
@@ -2698,10 +2775,12 @@ RoomBgs[251]=
 RoomBgs[252]=
     {
         wallLeftRight = {{res="#Room_wall.png",x=Room_Distance.x+188,y=15,type = RoomWall_Type.Left},},--左右两侧墙壁
-        floor = {{res="#Room_floor_3.png",x=Room_Distance.x+94+94,y=0},
+         floor = {
+	         {res="#Room_floor_3.png",x=Room_Distance.x+94+94,y=0},
 	         {res="#Room_floor_7.png",x=Room_Distance.x+110+94,y=0},
 		 {res="#Room_floor_7.png",x=Room_Distance.x+109+94*2,y=0},
                  {res="#Room_floor_7.png",x=Room_Distance.x+108+94*3-1,y=0},
+		 {res="#Room_floor_9.png",x=Room_Distance.x+107+94*4-15,y=0},
                  },--地板
     }
 
@@ -2721,10 +2800,12 @@ RoomBgs[253]=
 RoomBgs[254]=
     {
         wallLeftRight = {{res="#Room_wall.png",x=Room_Distance.x+188,y=15,type = RoomWall_Type.Left},},--左右两侧墙壁
-        floor = {{res="#Room_floor_5.png",x=Room_Distance.x+94+94,y=-2},
+         floor = {
+	         {res="#Room_floor_5.png",x=Room_Distance.x+94+94,y=-2},
 	         {res="#Room_floor_7.png",x=Room_Distance.x+110+94,y=0},
 		 {res="#Room_floor_7.png",x=Room_Distance.x+109+94*2,y=0},
                  {res="#Room_floor_7.png",x=Room_Distance.x+108+94*3-1,y=0},
+		 {res="#Room_floor_9.png",x=Room_Distance.x+107+94*4-15,y=0},
 		 },--地板
     }
 
@@ -2745,6 +2826,7 @@ RoomBgs[256]=
     {
         wallLeftRight = {{res="#Room_wall.png",x=Room_Distance.x+482,y=15,type = RoomWall_Type.Right},},--左右两侧墙壁
         floor = {
+	         {res="#Room_floor_8.png",x=Room_Distance.x+108+94,y=0},
 	         {res="#Room_floor_7.png",x=Room_Distance.x+110+94,y=0},
                  {res="#Room_floor_7.png",x=Room_Distance.x+109+94*2,y=0},
 		 {res="#Room_floor_7.png",x=Room_Distance.x+108+94*3,y=0},
@@ -2781,6 +2863,7 @@ RoomBgs[259]=
     {
         wallLeftRight = {{res="#Room_wall.png",x=Room_Distance.x+482,y=15,type = RoomWall_Type.Right},},--左右两侧墙壁
         floor = {
+	         {res="#Room_floor_8.png",x=Room_Distance.x+108+94,y=0},
 	         {res="#Room_floor_7.png",x=Room_Distance.x+110+94,y=0},
                  {res="#Room_floor_7.png",x=Room_Distance.x+109+94*2,y=0},
 		 {res="#Room_floor_7.png",x=Room_Distance.x+108+94*3,y=0},
@@ -2840,7 +2923,7 @@ RoomBgs[1001]=
                  {res="#Room_floor_7.png",x=Room_Distance.x+16+94*4,y=0},
 		 {res="#Room_floor_7.png",x=Room_Distance.x+15+94*5,y=0},
 		 {res="#Room_floor_7.png",x=Room_Distance.x+15+94*5+46,y=0},
-		 {res="#Room_floor_2.png",x=Room_Distance.x+13+94*6+45,y=-2},
+		 {res="#Room_floor_2.png",x=Room_Distance.x+14+94*6+45,y=-2},
 		 },--地板
     }
 
@@ -4313,71 +4396,479 @@ RoomBgs[3009]=
     }
 
 --===============================横跑房间===============================
+--横跑第一层，下面没砖
 RoomBgs[4001]=
     {
         wallLeftRight = {},--左右两侧墙壁
-        floor = {{res="#Room_floor_7.png",x=Room_Distance.x+14,y=0},
-	         {res="#Room_floor_7.png",x=Room_Distance.x+14+94,y=0},
-                 {res="#Room_floor_7.png",x=Room_Distance.x+14+94*2,y=0},
-	         {res="#Room_floor_7.png",x=Room_Distance.x+14+94*3,y=0},
-                 {res="#Room_floor_7.png",x=Room_Distance.x+14+94*4,y=0},
-	         {res="#Room_floor_7.png",x=Room_Distance.x+14+94*5,y=0},
-            {res="#Room_floor_7.png",x=Room_Distance.x+14+94*6,y=0},
-            {res="#Room_floor_7.png",x=Room_Distance.x+14+94*7,y=0},},--地板
-        type = 2,   --横跑时的桥梁配置，0：水平方向一致，1：垂直方向一致，2：水平垂直均不一致
-        gap = 80,    --横跑房间之间的间隙
+        floor = {
+	         {res="#Room_floor_7.png",x=Room_Distance.x+17,y=0},
+		 {res="#Room_floor_7.png",x=Room_Distance.x+16+94,y=0},
+                 {res="#Room_floor_7.png",x=Room_Distance.x+15+94*2,y=0},
+		 {res="#Room_floor_7.png",x=Room_Distance.x+14+94*3,y=0},
+		 {res="#Room_floor_7.png",x=Room_Distance.x+13+94*4,y=0},
+                 {res="#Room_floor_7.png",x=Room_Distance.x+12+94*5,y=0},
+                 {res="#Room_floor_7.png",x=Room_Distance.x+11+94*6,y=0},
+		 },--地板
+        gap = 60,
     }
-    
-RoomBgs[4006]=
-    {
-        wallLeftRight = {},--左右两侧墙壁
-        floor = {{res="#Room_floor_7.png",x=Room_Distance.x+14,y=0},
-            {res="#Room_floor_7.png",x=Room_Distance.x+14+94,y=0},
-            {res="#Room_floor_7.png",x=Room_Distance.x+14+94*2,y=0},
-            {res="#Room_floor_7.png",x=Room_Distance.x+14+94*3,y=0},
-            {res="#Room_floor_7.png",x=Room_Distance.x+14+94*4,y=0},
-            {res="#Room_floor_7.png",x=Room_Distance.x+14+94*5,y=0},},--地板
-        bg = {{res="#RoomRun_bg.png",x=Room_Distance.x+14,y=0},
-            {res="#RoomRun_bg.png",x=Room_Distance.x+14+94,y=0},
-            {res="#RoomRun_bg.png",x=Room_Distance.x+14+94*2,y=0},
-            {res="#RoomRun_bg.png",x=Room_Distance.x+14+94*3,y=0},
-            {res="#RoomRun_bg.png",x=Room_Distance.x+14+94*4,y=0},
-            {res="#RoomRun_bg.png",x=Room_Distance.x+14+94*5,y=0},},
-        type = 2,   --横跑时的桥梁配置，0：水平方向一致，1：垂直方向一致，2：水平垂直均不一致
-        gap = 80,    --横跑房间之间的间隙
-    }
-    
+
 RoomBgs[4002]=
     {
-        wallLeftRight = {{res="#Room_wall.png",x=Room_Distance.x+668,y=16}},--左右两侧墙壁
-        floor = {{res="#Room_floor_5.png",x=Room_Distance.x+0,y=0},
+        wallLeftRight = {},--左右两侧墙壁
+        floor = {
+	         {res="#Room_floor_8.png",x=Room_Distance.x+16,y=0},
 	         {res="#Room_floor_7.png",x=Room_Distance.x+17,y=0},
-	         {res="#Room_floor_7.png",x=Room_Distance.x+17+94,y=0},
-                 {res="#Room_floor_7.png",x=Room_Distance.x+17+94*2,y=0},
-	         {res="#Room_floor_7.png",x=Room_Distance.x+17+94*3,y=0},
-                 {res="#Room_floor_7.png",x=Room_Distance.x+17+94*4,y=0},
-	         {res="#Room_floor_7.png",x=Room_Distance.x+17+94*5,y=0},
-                 {res="#Room_floor_7.png",x=Room_Distance.x+17+94*6,y=0},
-	         {res="#Room_floor_6.png",x=Room_Distance.x+10+94*7,y=0},},--地板
-        type = 2,
-	gap = 30,    --横跑房间之间的间隙
+		 {res="#Room_floor_7.png",x=Room_Distance.x+16+94,y=0},
+                 {res="#Room_floor_7.png",x=Room_Distance.x+15+94*2,y=0},
+		 {res="#Room_floor_7.png",x=Room_Distance.x+14+94*3,y=0},
+		 {res="#Room_floor_7.png",x=Room_Distance.x+13+94*4,y=0},
+                 {res="#Room_floor_7.png",x=Room_Distance.x+12+94*5,y=0},
+                 {res="#Room_floor_7.png",x=Room_Distance.x+11+94*6,y=0},
+		 {res="#Room_floor_9.png",x=Room_Distance.x-5+94*7,y=0},
+		 },--地板
     }
-    
+
+--7块砖
+RoomBgs[40011]=
+    {
+        wallLeftRight = {},--左右两侧墙壁
+        floor = {
+	         {res="#Room_floor_8.png",x=Room_Distance.x+16,y=0},
+	         {res="#Room_floor_7.png",x=Room_Distance.x+17,y=0},
+		     {res="#Room_floor_7.png",x=Room_Distance.x+16+94,y=0},
+             {res="#Room_floor_7.png",x=Room_Distance.x+15+94*2,y=0},
+		     {res="#Room_floor_7.png",x=Room_Distance.x+14+94*3,y=0},
+		     {res="#Room_floor_7.png",x=Room_Distance.x+13+94*4,y=0},
+             {res="#Room_floor_7.png",x=Room_Distance.x+12+94*5,y=0},
+             {res="#Room_floor_7.png",x=Room_Distance.x+11+94*6,y=0},
+		      {res="#Room_floor_9.png",x=Room_Distance.x-5+94*7,y=0},
+		 },--地板
+		 
+		 
+	    bg = {
+	         {res="#RoomRun_bg.png",x=Room_Distance.x+17,y=0},
+		 {res="#RoomRun_bg.png",x=Room_Distance.x+16+94,y=0},
+                 {res="#RoomRun_bg.png",x=Room_Distance.x+15+94*2,y=0},
+		 {res="#RoomRun_bg.png",x=Room_Distance.x+14+94*3,y=0},
+		 {res="#RoomRun_bg.png",x=Room_Distance.x+13+94*4,y=0},
+                 {res="#RoomRun_bg.png",x=Room_Distance.x+12+94*5,y=0},
+                 {res="#RoomRun_bg.png",x=Room_Distance.x+11+94*6,y=0},
+		 },
+        type = 0,   --横跑时的桥梁配置，0：水平方向一致，1：垂直方向一致，2：水平垂直均不一致
+        gap = 60,    --横跑房间之间的间隙
+    }
+
+--7块砖
+RoomBgs[40012]=
+    {
+        wallLeftRight = {},--左右两侧墙壁
+        floor = {
+	         {res="#Room_floor_8.png",x=Room_Distance.x+16,y=0},
+	         {res="#Room_floor_7.png",x=Room_Distance.x+17,y=0},
+		 {res="#Room_floor_7.png",x=Room_Distance.x+16+94,y=0},
+                 {res="#Room_floor_7.png",x=Room_Distance.x+15+94*2,y=0},
+		 {res="#Room_floor_7.png",x=Room_Distance.x+14+94*3,y=0},
+		 {res="#Room_floor_7.png",x=Room_Distance.x+13+94*4,y=0},
+                 {res="#Room_floor_7.png",x=Room_Distance.x+12+94*5,y=0},
+                 {res="#Room_floor_7.png",x=Room_Distance.x+11+94*6,y=0},
+		 {res="#Room_floor_9.png",x=Room_Distance.x-5+94*7,y=0},
+	         },--地板
+            bg = {
+	         {res="#RoomRun_bg.png",x=Room_Distance.x+17,y=0},
+		 {res="#RoomRun_bg.png",x=Room_Distance.x+16+94,y=0},
+                 {res="#RoomRun_bg.png",x=Room_Distance.x+15+94*2,y=0},
+		 {res="#RoomRun_bg.png",x=Room_Distance.x+14+94*3,y=0},
+		 {res="#RoomRun_bg.png",x=Room_Distance.x+13+94*4,y=0},
+                 {res="#RoomRun_bg.png",x=Room_Distance.x+12+94*5,y=0},
+                 {res="#RoomRun_bg.png",x=Room_Distance.x+11+94*6,y=0},
+		 },
+        type = 1,
+        gap = 60,
+    }
+
+--7块砖
+RoomBgs[40013]=
+    {
+        wallLeftRight = {},--左右两侧墙壁
+        floor = {
+	         {res="#Room_floor_8.png",x=Room_Distance.x+16,y=0},
+	         {res="#Room_floor_7.png",x=Room_Distance.x+17,y=0},
+		 {res="#Room_floor_7.png",x=Room_Distance.x+16+94,y=0},
+                 {res="#Room_floor_7.png",x=Room_Distance.x+15+94*2,y=0},
+		 {res="#Room_floor_7.png",x=Room_Distance.x+14+94*3,y=0},
+		 {res="#Room_floor_7.png",x=Room_Distance.x+13+94*4,y=0},
+                 {res="#Room_floor_7.png",x=Room_Distance.x+12+94*5,y=0},
+                 {res="#Room_floor_7.png",x=Room_Distance.x+11+94*6,y=0},
+		 {res="#Room_floor_9.png",x=Room_Distance.x-5+94*7,y=0},
+		 },--地板
+            bg = {
+	         {res="#RoomRun_bg.png",x=Room_Distance.x+17,y=0},
+		 {res="#RoomRun_bg.png",x=Room_Distance.x+16+94,y=0},
+                 {res="#RoomRun_bg.png",x=Room_Distance.x+15+94*2,y=0},
+		 {res="#RoomRun_bg.png",x=Room_Distance.x+14+94*3,y=0},
+		 {res="#RoomRun_bg.png",x=Room_Distance.x+13+94*4,y=0},
+                 {res="#RoomRun_bg.png",x=Room_Distance.x+12+94*5,y=0},
+                 {res="#RoomRun_bg.png",x=Room_Distance.x+11+94*6,y=0},
+		 },
+        type = 2,   --横跑时的桥梁配置，0：水平方向一致，1：垂直方向一致，2：水平垂直均不一致
+        gap = 60,    --横跑房间之间的间隙
+    }
+
+--6块砖，下层没砖
+RoomBgs[40021]=
+    {
+        wallLeftRight = {},--左右两侧墙壁
+        floor = {
+	         {res="#Room_floor_8.png",x=Room_Distance.x+16,y=0},
+                 {res="#Room_floor_7.png",x=Room_Distance.x+17,y=0},
+		 {res="#Room_floor_7.png",x=Room_Distance.x+16+94,y=0},
+                 {res="#Room_floor_7.png",x=Room_Distance.x+15+94*2,y=0},
+		 {res="#Room_floor_7.png",x=Room_Distance.x+14+94*3,y=0},
+		 {res="#Room_floor_7.png",x=Room_Distance.x+13+94*4,y=0},
+                 {res="#Room_floor_7.png",x=Room_Distance.x+12+94*5,y=0},
+                 {res="#Room_floor_9.png",x=Room_Distance.x-4+94*6,y=0},
+		 },--地板
+        type = 1,   --横跑时的桥梁配置，0：水平方向一致，1：垂直方向一致，2：水平垂直均不一致
+        gap = 60,    --横跑房间之间的间隙
+    }
+
+--6块砖
+RoomBgs[40022]=
+    {
+        wallLeftRight = {},--左右两侧墙壁
+        floor = {
+	         {res="#Room_floor_8.png",x=Room_Distance.x+16,y=0},
+                 {res="#Room_floor_7.png",x=Room_Distance.x+17,y=0},
+		 {res="#Room_floor_7.png",x=Room_Distance.x+16+94,y=0},
+                 {res="#Room_floor_7.png",x=Room_Distance.x+15+94*2,y=0},
+		 {res="#Room_floor_7.png",x=Room_Distance.x+14+94*3,y=0},
+		 {res="#Room_floor_7.png",x=Room_Distance.x+13+94*4,y=0},
+                 {res="#Room_floor_7.png",x=Room_Distance.x+12+94*5,y=0},
+                 {res="#Room_floor_9.png",x=Room_Distance.x-4+94*6,y=0},
+		 },--地板
+             bg = {
+	         {res="#RoomRun_bg.png",x=Room_Distance.x+17,y=0},
+		 {res="#RoomRun_bg.png",x=Room_Distance.x+16+94,y=0},
+                 {res="#RoomRun_bg.png",x=Room_Distance.x+15+94*2,y=0},
+		 {res="#RoomRun_bg.png",x=Room_Distance.x+14+94*3,y=0},
+		 {res="#RoomRun_bg.png",x=Room_Distance.x+13+94*4,y=0},
+                 {res="#RoomRun_bg.png",x=Room_Distance.x+12+94*5,y=0},
+		 },
+		
+        type = 0,   --横跑时的桥梁配置，0：水平方向一致，1：垂直方向一致，2：水平垂直均不一致
+        gap = 60,    --横跑房间之间的间隙
+    }
+
+--6块砖
+RoomBgs[40023]=
+    {
+        wallLeftRight = {},--左右两侧墙壁
+        floor = {
+	         {res="#Room_floor_8.png",x=Room_Distance.x+16,y=0},
+                 {res="#Room_floor_7.png",x=Room_Distance.x+17,y=0},
+		 {res="#Room_floor_7.png",x=Room_Distance.x+16+94,y=0},
+                 {res="#Room_floor_7.png",x=Room_Distance.x+15+94*2,y=0},
+		 {res="#Room_floor_7.png",x=Room_Distance.x+14+94*3,y=0},
+		 {res="#Room_floor_7.png",x=Room_Distance.x+13+94*4,y=0},
+                 {res="#Room_floor_7.png",x=Room_Distance.x+12+94*5,y=0},
+                 {res="#Room_floor_9.png",x=Room_Distance.x-4+94*6,y=0},
+		 },--地板
+	    bg = {
+	         {res="#RoomRun_bg.png",x=Room_Distance.x+17,y=0},
+		 {res="#RoomRun_bg.png",x=Room_Distance.x+16+94,y=0},
+                 {res="#RoomRun_bg.png",x=Room_Distance.x+15+94*2,y=0},
+		 {res="#RoomRun_bg.png",x=Room_Distance.x+14+94*3,y=0},
+		 {res="#RoomRun_bg.png",x=Room_Distance.x+13+94*4,y=0},
+                 {res="#RoomRun_bg.png",x=Room_Distance.x+12+94*5,y=0},
+		 },
+        type = 1,   --横跑时的桥梁配置，0：水平方向一致，1：垂直方向一致，2：水平垂直均不一致
+        gap = 60,    --横跑房间之间的间隙
+    }
+
+--6块砖
+RoomBgs[40024]=
+    {
+        wallLeftRight = {},--左右两侧墙壁
+        floor = {
+	         {res="#Room_floor_8.png",x=Room_Distance.x+16,y=0},
+                 {res="#Room_floor_7.png",x=Room_Distance.x+17,y=0},
+		 {res="#Room_floor_7.png",x=Room_Distance.x+16+94,y=0},
+                 {res="#Room_floor_7.png",x=Room_Distance.x+15+94*2,y=0},
+		 {res="#Room_floor_7.png",x=Room_Distance.x+14+94*3,y=0},
+		 {res="#Room_floor_7.png",x=Room_Distance.x+13+94*4,y=0},
+                 {res="#Room_floor_7.png",x=Room_Distance.x+12+94*5,y=0},
+                 {res="#Room_floor_9.png",x=Room_Distance.x-4+94*6,y=0},
+		 },--地板
+	    bg = {
+	         {res="#RoomRun_bg.png",x=Room_Distance.x+17,y=0},
+		 {res="#RoomRun_bg.png",x=Room_Distance.x+16+94,y=0},
+                 {res="#RoomRun_bg.png",x=Room_Distance.x+15+94*2,y=0},
+		 {res="#RoomRun_bg.png",x=Room_Distance.x+14+94*3,y=0},
+		 {res="#RoomRun_bg.png",x=Room_Distance.x+13+94*4,y=0},
+                 {res="#RoomRun_bg.png",x=Room_Distance.x+12+94*5,y=0},
+		 },
+        type = 2,   --横跑时的桥梁配置，0：水平方向一致，1：垂直方向一致，2：水平垂直均不一致
+        gap = 60,    --横跑房间之间的间隙
+    }
+--5块砖，没地板
 RoomBgs[4003]=
     {
         wallLeftRight = {},--左右两侧墙壁
-        floor = {{res="#Room_floor_7.png",x=Room_Distance.x+17,y=0},
-	         {res="#Room_floor_7.png",x=Room_Distance.x+17+94,y=0},
-                 {res="#Room_floor_7.png",x=Room_Distance.x+17+94*2,y=0},
-	         {res="#Room_floor_7.png",x=Room_Distance.x+17+94*3,y=0},
-                 {res="#Room_floor_7.png",x=Room_Distance.x+17+94*4,y=0},
-	         {res="#Room_floor_7.png",x=Room_Distance.x+17+94*5,y=0},
-                 {res="#Room_floor_7.png",x=Room_Distance.x+17+94*6,y=0}},--地板
+        floor = {
+                 {res="#Room_floor_8.png",x=Room_Distance.x+16,y=0},
+		 {res="#Room_floor_7.png",x=Room_Distance.x+17,y=0},
+                 {res="#Room_floor_7.png",x=Room_Distance.x+16+94,y=0},
+		 {res="#Room_floor_7.png",x=Room_Distance.x+15+94*2,y=0},
+		 {res="#Room_floor_7.png",x=Room_Distance.x+14+94*3,y=0},
+                 {res="#Room_floor_7.png",x=Room_Distance.x+13+94*4,y=0},
+                 {res="#Room_floor_9.png",x=Room_Distance.x-3+94*5,y=0},
+		 },--地板
+        type = 1,   --横跑时的桥梁配置，0：水平方向一致，1：垂直方向一致，2：水平垂直均不一致
+        gap = 60,    --横跑房间之间的间隙
+    }
+
+--5块砖
+RoomBgs[40031]=
+    {
+        wallLeftRight = {},--左右两侧墙壁
+        floor = {
+                 {res="#Room_floor_8.png",x=Room_Distance.x+16,y=0},
+		 {res="#Room_floor_7.png",x=Room_Distance.x+17,y=0},
+                 {res="#Room_floor_7.png",x=Room_Distance.x+16+94,y=0},
+		 {res="#Room_floor_7.png",x=Room_Distance.x+15+94*2,y=0},
+		 {res="#Room_floor_7.png",x=Room_Distance.x+14+94*3,y=0},
+                 {res="#Room_floor_7.png",x=Room_Distance.x+13+94*4,y=0},
+                 {res="#Room_floor_9.png",x=Room_Distance.x-3+94*5,y=0},
+		 },--地板
+	    bg = {
+	         {res="#RoomRun_bg.png",x=Room_Distance.x+17,y=0},
+		 {res="#RoomRun_bg.png",x=Room_Distance.x+16+94,y=0},
+                 {res="#RoomRun_bg.png",x=Room_Distance.x+15+94*2,y=0},
+		 {res="#RoomRun_bg.png",x=Room_Distance.x+14+94*3,y=0},
+		 {res="#RoomRun_bg.png",x=Room_Distance.x+13+94*4,y=0},
+		 },
+        type = 0,   --横跑时的桥梁配置，0：水平方向一致，1：垂直方向一致，2：水平垂直均不一致
+        gap = 60,    --横跑房间之间的间隙
+    }
+
+--5块砖
+RoomBgs[40032]=
+    {
+        wallLeftRight = {},--左右两侧墙壁
+        floor = {
+                 {res="#Room_floor_8.png",x=Room_Distance.x+16,y=0},
+		 {res="#Room_floor_7.png",x=Room_Distance.x+17,y=0},
+                 {res="#Room_floor_7.png",x=Room_Distance.x+16+94,y=0},
+		 {res="#Room_floor_7.png",x=Room_Distance.x+15+94*2,y=0},
+		 {res="#Room_floor_7.png",x=Room_Distance.x+14+94*3,y=0},
+                 {res="#Room_floor_7.png",x=Room_Distance.x+13+94*4,y=0},
+                 {res="#Room_floor_9.png",x=Room_Distance.x-3+94*5,y=0},
+		 },--地板
+             bg = {
+	         {res="#RoomRun_bg.png",x=Room_Distance.x+17,y=0},
+		 {res="#RoomRun_bg.png",x=Room_Distance.x+16+94,y=0},
+                 {res="#RoomRun_bg.png",x=Room_Distance.x+15+94*2,y=0},
+		 {res="#RoomRun_bg.png",x=Room_Distance.x+14+94*3,y=0},
+		 {res="#RoomRun_bg.png",x=Room_Distance.x+13+94*4,y=0},
+		 },
+        type = 1,   --横跑时的桥梁配置，0：水平方向一致，1：垂直方向一致，2：水平垂直均不一致
+        gap = 60,    --横跑房间之间的间隙
+    }
+
+--5块砖
+RoomBgs[40033]=
+    {
+        wallLeftRight = {},--左右两侧墙壁
+        floor = {
+                 {res="#Room_floor_8.png",x=Room_Distance.x+16,y=0},
+		 {res="#Room_floor_7.png",x=Room_Distance.x+17,y=0},
+                 {res="#Room_floor_7.png",x=Room_Distance.x+16+94,y=0},
+		 {res="#Room_floor_7.png",x=Room_Distance.x+15+94*2,y=0},
+		 {res="#Room_floor_7.png",x=Room_Distance.x+14+94*3,y=0},
+                 {res="#Room_floor_7.png",x=Room_Distance.x+13+94*4,y=0},
+                 {res="#Room_floor_9.png",x=Room_Distance.x-3+94*5,y=0},
+		 },--地板
+	    bg = {
+	         {res="#RoomRun_bg.png",x=Room_Distance.x+17,y=0},
+		 {res="#RoomRun_bg.png",x=Room_Distance.x+16+94,y=0},
+                 {res="#RoomRun_bg.png",x=Room_Distance.x+15+94*2,y=0},
+		 {res="#RoomRun_bg.png",x=Room_Distance.x+14+94*3,y=0},
+		 {res="#RoomRun_bg.png",x=Room_Distance.x+13+94*4,y=0},
+		 },
+        type = 2,   --横跑时的桥梁配置，0：水平方向一致，1：垂直方向一致，2：水平垂直均不一致
+        gap = 60,    --横跑房间之间的间隙
+    }
+--4块砖，没地板
+RoomBgs[4004]=
+    {
+        wallLeftRight = {},--左右两侧墙壁
+        floor = {
+	         {res="#Room_floor_8.png",x=Room_Distance.x+16,y=0},
+		 {res="#Room_floor_7.png",x=Room_Distance.x+17,y=0},
+		 {res="#Room_floor_7.png",x=Room_Distance.x+16+94,y=0},
+                 {res="#Room_floor_7.png",x=Room_Distance.x+15+94*2,y=0},
+		 {res="#Room_floor_7.png",x=Room_Distance.x+14+94*3,y=0},
+		 {res="#Room_floor_9.png",x=Room_Distance.x-2+94*4,y=0},
+		 },--地板
+        type = 1,
+	gap = 60,    --横跑房间之间的间隙
+    }
+
+--4块砖
+RoomBgs[40041]=
+    {
+        wallLeftRight = {},--左右两侧墙壁
+        floor = {
+	         {res="#Room_floor_8.png",x=Room_Distance.x+16,y=0},
+		 {res="#Room_floor_7.png",x=Room_Distance.x+17,y=0},
+		 {res="#Room_floor_7.png",x=Room_Distance.x+16+94,y=0},
+                 {res="#Room_floor_7.png",x=Room_Distance.x+15+94*2,y=0},
+		 {res="#Room_floor_7.png",x=Room_Distance.x+14+94*3,y=0},
+		 {res="#Room_floor_9.png",x=Room_Distance.x-2+94*4,y=0},
+		 },--地板
+            bg = {
+	         {res="#RoomRun_bg.png",x=Room_Distance.x+17,y=0},
+		 {res="#RoomRun_bg.png",x=Room_Distance.x+16+94,y=0},
+                 {res="#RoomRun_bg.png",x=Room_Distance.x+15+94*2,y=0},
+		 {res="#RoomRun_bg.png",x=Room_Distance.x+14+94*3,y=0},
+		 },
+        type = 0,
+	gap = 60,    --横跑房间之间的间隙
+    }
+
+--4块砖
+RoomBgs[40042]=
+    {
+        wallLeftRight = {},--左右两侧墙壁
+        floor = {
+	         {res="#Room_floor_8.png",x=Room_Distance.x+16,y=0},
+		 {res="#Room_floor_7.png",x=Room_Distance.x+17,y=0},
+		 {res="#Room_floor_7.png",x=Room_Distance.x+16+94,y=0},
+                 {res="#Room_floor_7.png",x=Room_Distance.x+15+94*2,y=0},
+		 {res="#Room_floor_7.png",x=Room_Distance.x+14+94*3,y=0},
+		 {res="#Room_floor_9.png",x=Room_Distance.x-2+94*4,y=0},
+		 },--地板
+	    bg = {
+	         {res="#RoomRun_bg.png",x=Room_Distance.x+17,y=0},
+		 {res="#RoomRun_bg.png",x=Room_Distance.x+16+94,y=0},
+                 {res="#RoomRun_bg.png",x=Room_Distance.x+15+94*2,y=0},
+		 {res="#RoomRun_bg.png",x=Room_Distance.x+14+94*3,y=0},
+		 },
+        type = 1,
+	gap = 60,    --横跑房间之间的间隙
+    }
+
+--4块砖
+RoomBgs[40043]=
+    {
+        wallLeftRight = {},--左右两侧墙壁
+        floor = {
+	         {res="#Room_floor_8.png",x=Room_Distance.x+16,y=0},
+		 {res="#Room_floor_7.png",x=Room_Distance.x+17,y=0},
+		 {res="#Room_floor_7.png",x=Room_Distance.x+16+94,y=0},
+                 {res="#Room_floor_7.png",x=Room_Distance.x+15+94*2,y=0},
+		 {res="#Room_floor_7.png",x=Room_Distance.x+14+94*3,y=0},
+		 {res="#Room_floor_9.png",x=Room_Distance.x-2+94*4,y=0},
+		 },--地板
+	    bg = {
+	         {res="#RoomRun_bg.png",x=Room_Distance.x+17,y=0},
+		 {res="#RoomRun_bg.png",x=Room_Distance.x+16+94,y=0},
+                 {res="#RoomRun_bg.png",x=Room_Distance.x+15+94*2,y=0},
+		 {res="#RoomRun_bg.png",x=Room_Distance.x+14+94*3,y=0},
+		 },
         type = 2,
-        gap = 30,
+	gap = 60,    --横跑房间之间的间隙
+    }
+
+--3块砖，没地板
+RoomBgs[4005]=  
+    {
+        wallLeftRight = {},--左右两侧墙壁
+        floor = {
+                 {res="#Room_floor_8.png",x=Room_Distance.x+16,y=0},
+	         {res="#Room_floor_7.png",x=Room_Distance.x+17,y=0},
+		 {res="#Room_floor_7.png",x=Room_Distance.x+16+94,y=0},
+                 {res="#Room_floor_7.png",x=Room_Distance.x+15+94*2,y=0},
+		 {res="#Room_floor_9.png",x=Room_Distance.x-1+94*3,y=0},
+		 },--地板
+         type = 1,
+	 gap = 60,    --横跑房间之间的间隙
+    }
+
+--3块砖
+RoomBgs[40051]=  
+    {
+        wallLeftRight = {},--左右两侧墙壁
+        floor = {
+                 {res="#Room_floor_8.png",x=Room_Distance.x+16,y=0},
+	         {res="#Room_floor_7.png",x=Room_Distance.x+17,y=0},
+		 {res="#Room_floor_7.png",x=Room_Distance.x+16+94,y=0},
+                 {res="#Room_floor_7.png",x=Room_Distance.x+15+94*2,y=0},
+		 {res="#Room_floor_9.png",x=Room_Distance.x-1+94*3,y=0},
+		 },--地板
+            bg = {
+	         {res="#RoomRun_bg.png",x=Room_Distance.x+17,y=0},
+		 {res="#RoomRun_bg.png",x=Room_Distance.x+16+94,y=0},
+                 {res="#RoomRun_bg.png",x=Room_Distance.x+15+94*2,y=0},
+		 },
+         type = 0,
+	 gap = 60,    --横跑房间之间的间隙
+    }
+
+--3块砖
+RoomBgs[40052]=  
+    {
+        wallLeftRight = {},--左右两侧墙壁
+        floor = {
+                 {res="#Room_floor_8.png",x=Room_Distance.x+16,y=0},
+	         {res="#Room_floor_7.png",x=Room_Distance.x+17,y=0},
+		 {res="#Room_floor_7.png",x=Room_Distance.x+16+94,y=0},
+                 {res="#Room_floor_7.png",x=Room_Distance.x+15+94*2,y=0},
+		 {res="#Room_floor_9.png",x=Room_Distance.x-1+94*3,y=0},
+		 },--地板
+	    bg = {
+	         {res="#RoomRun_bg.png",x=Room_Distance.x+17,y=0},
+		 {res="#RoomRun_bg.png",x=Room_Distance.x+16+94,y=0},
+                 {res="#RoomRun_bg.png",x=Room_Distance.x+15+94*2,y=0},
+		 },
+         type = 1,
+	 gap = 60,    --横跑房间之间的间隙
     }
     
-RoomBgs[4004]=
+--3块砖
+RoomBgs[40053]=  
+    {
+        wallLeftRight = {},--左右两侧墙壁
+        floor = {
+                 {res="#Room_floor_8.png",x=Room_Distance.x+16,y=0},
+	         {res="#Room_floor_7.png",x=Room_Distance.x+17,y=0},
+		 {res="#Room_floor_7.png",x=Room_Distance.x+16+94,y=0},
+                 {res="#Room_floor_7.png",x=Room_Distance.x+15+94*2,y=0},
+		 {res="#Room_floor_9.png",x=Room_Distance.x-1+94*3,y=0},
+		 },--地板
+	    bg = {
+	         {res="#RoomRun_bg.png",x=Room_Distance.x+17,y=0},
+		 {res="#RoomRun_bg.png",x=Room_Distance.x+16+94,y=0},
+                 {res="#RoomRun_bg.png",x=Room_Distance.x+15+94*2,y=0},
+		 },
+         type = 2,
+	 gap = 60,    --横跑房间之间的间隙
+    }
+
+--2块砖，没地板
+RoomBgs[4006]=  
+    {
+        wallLeftRight = {},--左右两侧墙壁
+        floor = {
+                 {res="#Room_floor_8.png",x=Room_Distance.x+16,y=0},
+	         {res="#Room_floor_7.png",x=Room_Distance.x+17,y=0},
+		 {res="#Room_floor_7.png",x=Room_Distance.x+16+94,y=0},
+		 {res="#Room_floor_9.png",x=Room_Distance.x+94*2,y=0},
+		 },--地板
+         type = 1,
+	 gap = 60,    --横跑房间之间的间隙
+    }
+RoomBgs[4008]=
     {
         wallLeftRight = {{res="#Room_wall.png",x=Room_Distance.x+0,y=16}},--左右两侧墙壁
         floor = {{res="#Room_floor_5.png",x=Room_Distance.x+0,y=0},
@@ -4389,10 +4880,11 @@ RoomBgs[4004]=
 	         {res="#Room_floor_7.png",x=Room_Distance.x+17+94*5,y=0},
                  {res="#Room_floor_7.png",x=Room_Distance.x+17+94*6,y=0},
 	         {res="#Room_floor_6.png",x=Room_Distance.x+10+94*7,y=0},},--地板
+	bg={},
         type = 2,
 	gap = 30,    --横跑房间之间的间隙
     }
-RoomBgs[4005]=
+RoomBgs[4009]=
     {
         wallLeftRight = {{res="#Room_wall.png",x=Room_Distance.x+0,y=16},{res="#Room_wall.png",x=Room_Distance.x+668,y=16},},--左右两侧墙壁
         floor = {{res="#Room_floor_5.png",x=Room_Distance.x+0,y=0},
@@ -4406,5 +4898,18 @@ RoomBgs[4005]=
 	         {res="#Room_floor_6.png",x=Room_Distance.x+10+94*7,y=0},},--地板
         type = 2,
 	gap = 30,    --横跑房间之间的间隙
+    }
+  
+ RoomBgs[4010]=
+    {
+        wallLeftRight = {},--左右两侧墙壁
+        bg = {{res="#RoomRun_bg.png",x=Room_Distance.x+14,y=0},
+            {res="#RoomRun_bg.png",x=Room_Distance.x+14+94,y=0},
+            {res="#RoomRun_bg.png",x=Room_Distance.x+14+94*2,y=0},
+            {res="#RoomRun_bg.png",x=Room_Distance.x+14+94*3,y=0},
+            {res="#RoomRun_bg.png",x=Room_Distance.x+14+94*4,y=0},
+            {res="#RoomRun_bg.png",x=Room_Distance.x+14+94*5,y=0},},
+        type = 2,   --横跑时的桥梁配置，0：水平方向一致，1：垂直方向一致，2：水平垂直均不一致
+        gap = 80,    --横跑房间之间的间隙
     }
     

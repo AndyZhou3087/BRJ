@@ -863,7 +863,7 @@ function MapLayer:onEnterFrame(dt)
             local mx,my = self.m_camera:getPosition()
             if self.curRoomDistance ~= MAPRUNNING_TYPE.Both then
                 if _scaleX == 1 then
-                    if x + _size.width+20 < self.otherX and y-_size.height*0.5 < self.otherY then
+                    if x + _size.width+20 < self.otherX and y+_size.height*0.5 < self.otherY then
                         self:playerDead()
                     end
                     if x-display.width*0.7 < mx and not self.arrival then
@@ -875,7 +875,7 @@ function MapLayer:onEnterFrame(dt)
                         self.bg:setPositionX(x-display.width*0.7)
                     end
                 else
-                    if x - _size.width - 20 > self.otherX and y-_size.height*0.5 < self.otherY then
+                    if x - _size.width - 20 > self.otherX and y+_size.height*0.5 < self.otherY then
                         self:playerDead()
                     end
                     if mx < x-display.width*0.3 and not self.arrival then
@@ -889,8 +889,8 @@ function MapLayer:onEnterFrame(dt)
                 end
             else
                 if _scaleX == 1 then
-                    if x + _size.width+20 < self.otherX and y-_size.height*0.5 < self.otherY then
-                        Tools.printDebug("brj--------执行角色死亡---------: ",x + _size.width+20,self.otherX,y-_size.height*0.5,self.otherY)
+                    if x + _size.width+20 < self.otherX and y+_size.height*0.5 < self.otherY then
+                        Tools.printDebug("brj--------执行角色死亡---------: ",x + _size.width+20,self.otherX,y+_size.height*0.5,self.otherY)
                         self:playerDead()
                     end
                     if x-display.width*0.7 < mx then
@@ -908,7 +908,7 @@ function MapLayer:onEnterFrame(dt)
                     end
                 else
 --                    Tools.printDebug("brj--------横跑条件---------: ",x - _size.width*0.5,self.otherX)
-                    if x - _size.width - 20 > self.otherX and y-_size.height*0.5 < self.otherY then
+                    if x - _size.width - 20 > self.otherX and y+_size.height*0.5 < self.otherY then
                         self:playerDead()
                     end
                     if mx < x-display.width*0.3 then
@@ -1108,7 +1108,7 @@ function MapLayer:collisionBeginCallBack(parameters)
                         end
                     end
                 end
-                self.m_player:setPosition(cc.p(bpx,floorPos.y+_size.height*0.5+self.m_player:getErrorValue()))
+--                self.m_player:setPosition(cc.p(bpx,floorPos.y+_size.height*0.5+self.m_player:getErrorValue()))
 --                Tools.printDebug("----------brj 碰撞检测------------: ",floorPos.y+_size.height*0.5+self.m_player:getErrorValue())
             end
         end
@@ -1304,7 +1304,7 @@ function MapLayer:CoreLogic()
 --                    Tools.printDebug("----------brj 当前方向：222222222222222")
                 end
             end
-            self.otherY = _room:getPositionY()+Room_Size.height
+            self.otherY = _room:getPositionY()--+Room_Size.height
             self.m_lastRoomIdx = roomIndex
         end
         
