@@ -53,10 +53,10 @@ function GameScene:onEnter()
     self:addChild(self.m_fightView,UI_ZORDER.VIEW_ZORDER)
 
     AudioManager.playGroundMusic(AudioManager.Ground_Music_Type.Fight_Bg,true)
-    if GameDataManager.isMusicOpen()==false then
+    if not GameDataManager.isMusicOpen() then
         AudioManager.stop(1)
     end
-    if GameDataManager.isSoundOpen()==false then
+    if not GameDataManager.isSoundOpen() then
         AudioManager.stop(2)
     end
 

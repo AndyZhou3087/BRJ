@@ -20,10 +20,10 @@ function MainScene:initData()
 end
 
 function MainScene:onEnter()
-    if GameDataManager.isMusicOpen()==false then
+    if not GameDataManager.isMusicOpen() then
         AudioManager.stop(1)
     end
-    if GameDataManager.isSoundOpen()==false then
+    if not GameDataManager.isSoundOpen() then
         AudioManager.stop(2)
     end
     AudioManager.playGroundMusic(AudioManager.Ground_Music_Type.Main_Bg,true)

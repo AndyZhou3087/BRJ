@@ -22,11 +22,11 @@ function LoginScene:initData()
 end
 
 function LoginScene:onEnter()
-    if GameDataManager.isMusicOpen()==false then
-        AudioManager.open(1)
+    if not GameDataManager.isMusicOpen()then
+        AudioManager.stop(1)
     end
-    if GameDataManager.isSoundOpen()==false then
-        AudioManager.open(2)
+    if not GameDataManager.isSoundOpen() then
+        AudioManager.stop(2)
     end
     --    AudioManager.playGroundMusic(AudioManager.Ground_Music_Type.Main_Bg,true)
     if not tolua.isnull(self.loading) then
