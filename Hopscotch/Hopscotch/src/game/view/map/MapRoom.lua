@@ -30,7 +30,6 @@ function MapRoom:ctor(_idx,_levelCon,_floorNum,dArr,gFloor)
     self.roomDistance = _levelCon.direction
     
     
---    Tools.printDebug("--------brj 特殊钢架：",_floorNum,_idx,_levelCon.roomType == MAPROOM_TYPE.Special)
     if _levelCon.roomType == MAPROOM_TYPE.Special and _idx == 10 then
         local spRes = SceneConfig[GameDataManager.getFightScene()].specailRes
         if spRes then
@@ -73,9 +72,10 @@ function MapRoom:ctor(_idx,_levelCon,_floorNum,dArr,gFloor)
     end
     self:initDiamonds(_diamonds,isShow)
     local isGoodsShow = false
-    if gFloor and gFloor == _idx then
+    if gFloor and gFloor == _floorNum then
     	isGoodsShow = true
     end
+--    Tools.printDebug("--------brj 火箭楼层：",_floorNum,gFloor)
     self:initGoods(_goods,isGoodsShow)
     
     if _idx == #_levelCon.roomBgs and self.roomType ~= MAPROOM_TYPE.Running then
@@ -233,17 +233,24 @@ end
 --创建道具
 function MapRoom:initGoods(goodCon,isShow)
     if isShow then
-        for var=1,#goodCon do
-            local id = math.random(1,#GoodsConfig)
-            local good=GoodsElement.new(id):addTo(self)
-            local goodSize = good:getCascadeBoundingBox().size
-            local x = math.random(self.firstX+50+goodSize.width,self.lastX+self.lastWidth-50-goodSize.width)
---            Tools.printDebug("-------brj 道具x坐标：",x)
-            good:setPosition(x+goodSize.width*0.5,goodCon[var].y+goodSize.height*0.5)
-            table.insert(self.m_goods,good)
-            table.insert(self.m_blocks,good)
---            GameController.addGoodBody(good)
-        end
+--        for var=1,#goodCon do
+--            local id = math.random(1,#GoodsConfig)
+--            local good=GoodsElement.new(id):addTo(self)
+--            local goodSize = good:getCascadeBoundingBox().size
+--            local x = math.random(self.firstX+50+goodSize.width,self.lastX+self.lastWidth-50-goodSize.width)
+----            Tools.printDebug("-------brj 道具x坐标：",x)
+--            good:setPosition(x+goodSize.width*0.5,goodCon[var].y+goodSize.height*0.5)
+--            table.insert(self.m_goods,good)
+--            table.insert(self.m_blocks,good)
+----            GameController.addGoodBody(good)
+--        end
+        local id = 5
+        local good=GoodsElement.new(id):addTo(self)
+        local goodSize = good:getCascadeBoundingBox().size
+        local x = math.random(self.firstX+50+goodSize.width,self.lastX+self.lastWidth-50-goodSize.width)
+        good:setPosition(x+goodSize.width*0.5,30+goodSize.height*0.5)
+        table.insert(self.m_goods,good)
+        table.insert(self.m_blocks,good)
     end
 end
 

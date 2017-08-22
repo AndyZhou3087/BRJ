@@ -44,6 +44,8 @@ function MapLayer:ctor(parameters)
     self.m_bothOtherRooms = {}   --双向右边房间的type为0类型房间
     self.m_bothMoveRooms = {}    --双向横跑之后的房间缓存表
     
+    self.deadUMArr = {}
+    
     self.jumpFloorNum = 1
     self.backOrigin = false
     self.m_toJump = false
@@ -117,7 +119,7 @@ function MapLayer:touchFunc(event)
     	return
     end
     if event.name == "began" then
-        if (Tools.getSysTime()-lastTouchTime)>=Sequent_Click_Time then
+--        if (Tools.getSysTime()-lastTouchTime)>=Sequent_Click_Time then
             if self.isMapBottom then
                 self.isMapBottom = false
                 GameDispatcher:dispatch(EventNames.EVENT_HIDE_BOTTOM)
@@ -128,7 +130,7 @@ function MapLayer:touchFunc(event)
                 Tools.printDebug("brj 是否可连击跳跃: ",self.isCollision)
                 self:toJump()
             end
-        end
+--        end
         return true
     elseif event.name == "ended" then
         lastTouchTime = Tools.getSysTime()
@@ -143,6 +145,7 @@ function MapLayer:initRooms(parameters)
     self.m_roomsNum = 0
     self._x = 0
     local _y = self.bottomHeight - Room_Size.height
+    self.gFloor = math.random(1,98)
     for k=1, MAP_ROOM_INIT_NUM*0.1 do
         --控制随机数种子
         if k > 1 then
@@ -167,6 +170,7 @@ function MapLayer:initRooms(parameters)
                 end
             end
             Tools.printDebug("------------------------------------brj hop 配置组",k,i)
+            self.deadUMArr = {Map_Grade.floor_D,i}
             if self.m_levelCon.transit then
             	self.transit = true
             end
@@ -179,6 +183,7 @@ function MapLayer:initRooms(parameters)
             local i = GameDataManager.getDataIdByWeight(-1)
             self.m_levelCon = MapFirstGroup[i]
             self.roomType = self.m_levelCon.roomType
+            self.deadUMArr = {Map_Grade.floor_D,i}
 --            Tools.printDebug("brj hop 配置组",k,i)
         end 
         self.curRooms = self.m_levelCon.roomBgs
@@ -194,9 +199,8 @@ function MapLayer:initRooms(parameters)
 
         local dCount = math.random(1,MaxShowCount)
         local dArr = GameController.createRand(dCount,self.m_roomAmount)
-        local gFloor = math.random(1,self.m_roomAmount-2)
         for var=1, self.m_roomAmount do
-            local _room = MapRoom.new(var,self.m_levelCon,var+(k-1)*10,dArr,gFloor)
+            local _room = MapRoom.new(var,self.m_levelCon,var+(k-1)*10,dArr,self.gFloor)
             _room:setAnchorPoint(cc.p(0,0))
             _y = _y + Room_Size.height
             if self.m_levelCon.roomType == MAPROOM_TYPE.Lean then
@@ -235,7 +239,9 @@ function MapLayer:addNewRooms(parameters)
         self.floorNum = 0
         dCount = math.random(1,MaxShowCount)
         dArr = GameController.createRand(dCount,#self.m_levelCon.roomBgs)
-        self.gFloor = math.random(1,#self.m_levelCon.roomBgs-2)
+--        if self.m_roomsNum % 100 == 0 then
+--            self.gFloor = math.random(self.m_roomsNum-99,self.m_roomsNum-2)
+--        end
     elseif self.m_roomsNum % self.runFloorNum == 0 then
         self.runMapFloor = self.m_roomsNum
         local k = GameDataManager.getDataIdByWeight()
@@ -246,7 +252,9 @@ function MapLayer:addNewRooms(parameters)
         self.floorNum = 0
         dCount = math.random(1,MaxShowCount)
         dArr = GameController.createRand(dCount,#self.m_levelCon.roomBgs)
-        self.gFloor = math.random(1,#self.m_levelCon.roomBgs-2)
+--        if self.m_roomsNum % 100 == 0 then
+--            self.gFloor = math.random(self.m_roomsNum-99,self.m_roomsNum-2)
+--        end
     else
         if self.m_roomsNum % 10 == 0 then
             local type,config,group
@@ -313,6 +321,7 @@ function MapLayer:addNewRooms(parameters)
 --                self.m_levelCon = config[i]
 --            end
             Tools.printDebug("-----------------------------brj Hopscotch 普通组组：",self.m_roomsNum,i,type)
+            self.deadUMArr = {type,i}
             if self.m_levelCon.transit then
                 self.transit = true
             end
@@ -324,10 +333,12 @@ function MapLayer:addNewRooms(parameters)
             self.floorNum = 0
             dCount = math.random(1,MaxShowCount)
             dArr = GameController.createRand(dCount,#self.m_levelCon.roomBgs)
-            self.gFloor = math.random(1,#self.m_levelCon.roomBgs-2)
---            Tools.printDebug("-----------------------------brj Hopscotch 普通组层：",self.gFloor)
         end 
     end
+    if self.m_roomsNum % 100 == 1 then
+        self.gFloor = math.random(self.m_roomsNum,self.m_roomsNum+98)
+    end
+    Tools.printDebug("brj jumpHouse 随机出现火箭道具楼层：",self.gFloor)
     
     if self.roomType ~= MAPROOM_TYPE.Running then
         self.floorNum = self.floorNum + 1
@@ -1128,29 +1139,31 @@ function MapLayer:collisionBeginCallBack(parameters)
             local _size = self.m_player:getSize()
             local _scaleX = self.m_player:getScaleX()
             if playerBP.y+_size.height<=obstacleBP.y then
-                if (playerBP.x+_size.width*0.5 >= obstacleBP.x-8 and _scaleX == -1 and (self.openDistance == OpenWallType.Right or self.openDistance == OpenWallType.All)) 
-                    or (playerBP.x-_size.width*0.5 <= obstacleBP.x+8 and _scaleX == 1 and (self.openDistance == OpenWallType.Left or self.openDistance == OpenWallType.All)) then
+                if (playerBP.x+_size.width*0.5 >= obstacleBP.x-8 and obstacleTag==ELEMENT_TAG.WALLRIGHT and _scaleX == -1 and (self.openDistance == OpenWallType.Right or self.openDistance == OpenWallType.All)) 
+                    or (playerBP.x-_size.width*0.5 <= obstacleBP.x+8 and obstacleTag==ELEMENT_TAG.WALLLEFT and _scaleX == 1 and (self.openDistance == OpenWallType.Left or self.openDistance == OpenWallType.All)) then
+--                    Tools.printDebug("brj22222222222222222222222------------碰撞tag: ",_scaleX,playerBP.x+_size.width*0.5,obstacleBP.x-8,self.openDistance,
+--                        playerBP.x-_size.width*0.5,obstacleBP.x+8)
                     self:playerDead()
                     return false
                 else
                     if self.m_player:getJump() then
                         self.m_player:toStopJump()
                     end
-                end  
-            end
-            if playerBP.y+_size.height>obstacleBP.y and playerBP.y-_size.height<obstacleBP.y then
-                if playerBP.x+_size.width*0.5<obstacleBP.x then
-                    player:setVelocity(cc.p(player:getSpeed(),vel.y))
-                    player:setScaleX(math.abs(_scaleX))
-                else
-                    player:setVelocity(cc.p(-player:getSpeed(),vel.y))
-                    player:setScaleX(-math.abs(_scaleX))
                 end
+            else
+                if playerBP.y+_size.height>obstacleBP.y and playerBP.y-_size.height<obstacleBP.y then
+                    if playerBP.x+_size.width*0.5<obstacleBP.x then
+                        player:setVelocity(cc.p(player:getSpeed(),vel.y))
+                        player:setScaleX(math.abs(_scaleX))
+                    else
+                        player:setVelocity(cc.p(-player:getSpeed(),vel.y))
+                        player:setScaleX(-math.abs(_scaleX))
+                    end
+                end 
             end
        end
         
        if obstacleTag==ELEMENT_TAG.SPECIAL_TAG then
---            Tools.printDebug("brj22222222222222222222222------------碰撞tag: ",not tolua.isnull(obstacle))
             if not tolua.isnull(obstacle) then
             	obstacle:collision()
             end
