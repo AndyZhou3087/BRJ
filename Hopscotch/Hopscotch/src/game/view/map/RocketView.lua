@@ -26,15 +26,18 @@ function RocketView:ctor(parameters)
     self.tvRocket:onButtonClicked(function (event)
         AudioManager.playSoundEffect(AudioManager.Sound_Effect_Type.Button_Click_Sound)
         Tools.printDebug("--------brj 看视频冲刺")
-        SDKUtil.getDiamondByVideo({callback=function(_res)
-            if SDKUtil.PayResult.Success == _res then
-                GameDataManager.addStartCount()
-                GameDispatcher:dispatch(EventNames.EVENT_START_ROCKET)
-                self:toClose(true)
-            else
-                GameDispatcher:dispatch(EventNames.EVENT_FLY_TEXT,{text ="冲刺失败"})
-            end
-        end})
+        if not self.touchClick then
+            self.touchClick = true
+            SDKUtil.getDiamondByVideo({callback=function(_res)
+                if SDKUtil.PayResult.Success == _res then
+                    GameDataManager.addStartCount()
+                    GameDispatcher:dispatch(EventNames.EVENT_START_ROCKET)
+                    self:toClose(true)
+                else
+                    GameDispatcher:dispatch(EventNames.EVENT_FLY_TEXT,{text ="冲刺失败"})
+                end
+            end})
+        end
     end)
 
     self.diamondRocket = cc.uiloader:seekNodeByName(self.m_mapView,"diamondRocket")

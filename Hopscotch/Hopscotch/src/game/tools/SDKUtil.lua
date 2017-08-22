@@ -59,7 +59,7 @@ function SDKUtil.getOrderId(_goodsId)
     return "20170310"..tostring(_goodsId)..TimeUtil.getTimeStamp()..os.clock()..math.random(1,10000)
 end
 
-local ocClassName = "MyUnityAdsDelegate"
+local ocClassName = "UnityAdsMana"
 local videoMethodName = "showVungleAds"
 
 --初始化vungleSdk
