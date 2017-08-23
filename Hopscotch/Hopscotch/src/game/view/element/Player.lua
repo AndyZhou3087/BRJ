@@ -71,7 +71,8 @@ function Player:ctor()
     --复活
     GameDispatcher:addListener(EventNames.EVENT_ROLE_REVIVE,handler(self,self.relive))
     
-    self.count = 0
+    --跳跃次数
+    self.jumpCount = 1
 
 end
 
@@ -144,8 +145,8 @@ function Player:toJump(pos,isRunning)
         self:toStopJump()
     end)
     
-    self.count = self.count+1
-    Tools.printDebug("--------------------------------------跳跃次数",self.count)
+    self.jumpCount = self.jumpCount+1
+    Tools.printDebug("--------------------------------------跳跃次数",self.jumpCount)
 
     AudioManager.playSoundEffect(AudioManager.Sound_Effect_Type.Jump_Sound)
 end
@@ -288,6 +289,8 @@ function Player:startRocket(parameters)
         self:getParent():toStartRocket(floor)
     end
     
+    self.jumpCount = floor
+    
     self:addBuff({type=PLAYER_STATE.StartRocket})
     self.m_armature:setVisible(false)
     self:toRocket()
@@ -335,6 +338,8 @@ function Player:springRocket(parameters)
     local roomNextType = self:getParent():getRoomByIdx(curCloseFloor+1):getCurRoomType()
     local roomType = self:getParent():getRoomByIdx(curFloor):getCurRoomType()
     self.toRocketState = 0
+    
+    self.jumpCount = curCloseFloor+10
 
     AudioManager.playSoundEffect(AudioManager.Sound_Effect_Type.Rocket_Sound,true)
     Tools.printDebug("----------brj 跳房子 火箭冲刺：",curFloor,curCloseFloor+10)
@@ -516,6 +521,7 @@ function Player:selfDead()
                 end
                 self.m_body:setCollisionBitmask(0x03)
                 self.jumpSack:setVisible(false)
+                self.jumpCount = 1
             end)
         else
             AudioManager.playSoundEffect(AudioManager.Sound_Effect_Type.GameOver_Sound)
@@ -539,7 +545,7 @@ end
 
 --获取跳跃次数
 function Player:getJumpCount()
-    return self.count
+    return self.jumpCount
 end
 
 --停止移动

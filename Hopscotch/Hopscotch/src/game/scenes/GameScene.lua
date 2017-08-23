@@ -46,6 +46,12 @@ end
 
 function GameScene:onEnter()
 
+    --友盟调用
+    SDKUtil.umentOnEvent(SDKUtil.EventId.Role,GameDataManager.getFightRole())
+    SDKUtil.umentOnEvent(SDKUtil.EventId.Scene,GameDataManager.getFightScene())
+    SDKUtil.umentOnEventEx(SDKUtil.EventId.StartGame)
+    
+
     self.m_map = MapLayer.new()
     self:addChild(self.m_map)
 

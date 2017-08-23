@@ -105,6 +105,7 @@ function SettlementUI:initMiddle()
         Tools.printDebug("brj hopscotch 获取奖励")
         if GameDataManager.getDiamond() >= DiamondSpendReward then
             GameDataManager.costDiamond(DiamondSpendReward)
+            SDKUtil.umentOnEventEx(SDKUtil.EventId.Gift)
         	local type = math.random(1,2)
         	local id
             if type == 1 then
