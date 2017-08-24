@@ -429,6 +429,8 @@ end
 function Player:rocketEffect()
     if not tolua.isnull(self:getParent()) then
         self.m_rocketEffect = RocketElement.new():addTo(self:getParent())
+--        local pos = self:getParent():convertToNodeSpace(cc.p(self:getPosition()))
+--        self.m_rocketEffect:setPosition(cc.p(pos))
         self.m_rocketEffect:setPosition(cc.p(display.cx,display.cy-200))
         self.m_rocketEffect:setCameraMask(2)
         self:getParent():setRocketObj(self.m_rocketEffect)

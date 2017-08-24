@@ -828,13 +828,13 @@ function MapLayer:onEnterFrame(dt)
     local _scaleX=self.m_player:getScaleX()
     local vel=self.m_player:getBody():getVelocity()
     
-    self.m_player:setVelocity(cc.p(-_scaleX/math.abs(_scaleX)*self.m_player:getSpeed(),vel.y))
-
     local _body = self.m_player:getBody()
     local _p = _body:getPosition()
     local _veloc = _body:getVelocity()
     local _scaleX = self.m_player:getScaleX()
     local _add = -1*_scaleX/math.abs(_scaleX)  --因为人物默认是向左的，所以乘以-1
+    self.m_player:setVelocity(cc.p(_add*self.m_player:getSpeed(),vel.y))
+
     if self.m_player:getJump() then
         self.m_physicWorld:rayCast(handler(self,self.rayCastFunc),cc.p(_p.x,_p.y+_size.height*0.5),cc.p(_p.x,_p.y+_size.height*0.5-Raycast_DisY))--起始坐标和结束坐标(是指发出的一条射线)
     else
@@ -844,6 +844,11 @@ function MapLayer:onEnterFrame(dt)
     --左右射线检测(火箭状态不做处理)
     if not self.m_player:isInState(PLAYER_STATE.Rocket) and not self.m_player:isInState(PLAYER_STATE.StartRocket) then
         self.m_physicWorld:rayCast(handler(self,self.rayCastFuncX),cc.p(_p.x,_p.y-_size.height*0.25),cc.p(_p.x+_add*(_size.width*0.5+Raycast_DisX),_p.y-_size.height*0.25))
+    end
+    
+    --钢架类型检测
+    if self.curRoomType == MAPROOM_TYPE.Special then
+        self.m_physicWorld:rayCast(handler(self,self.rayCastFuncSpecialX),cc.p(_p.x,_p.y),cc.p(_p.x+_add*display.right,_p.y))
     end
     
     --=====================幻影效果===================
@@ -1147,8 +1152,6 @@ function MapLayer:collisionBeginCallBack(parameters)
             if playerBP.y+_size.height<=obstacleBP.y then
                 if (playerBP.x+_size.width*0.5 >= obstacleBP.x-8 and obstacleTag==ELEMENT_TAG.WALLRIGHT and _scaleX == -1 and (self.openDistance == OpenWallType.Right or self.openDistance == OpenWallType.All)) 
                     or (playerBP.x-_size.width*0.5 <= obstacleBP.x+8 and obstacleTag==ELEMENT_TAG.WALLLEFT and _scaleX == 1 and (self.openDistance == OpenWallType.Left or self.openDistance == OpenWallType.All)) then
---                    Tools.printDebug("brj22222222222222222222222------------碰撞tag: ",_scaleX,playerBP.x+_size.width*0.5,obstacleBP.x-8,self.openDistance,
---                        playerBP.x-_size.width*0.5,obstacleBP.x+8)
                     self:playerDead()
                     return false
                 else
@@ -1272,6 +1275,33 @@ function MapLayer:rayCastFuncX(_world,_p1,_p2,_p3)
                 _bnode:collision()
             end
        end
+    end
+
+    return true
+end
+
+function MapLayer:rayCastFuncSpecialX(_world,_p1,_p2,_p3)
+
+    local _body = _p1.shape:getBody()
+    local _bnode = _body:getNode()
+    local _tag = _body:getTag()
+    local _scaleX = self.m_player:getScaleX()
+    local playerBP=self.m_player:getBody():getPosition()
+    local obstacleBP=_body:getPosition()
+
+    if (not _bnode) or _tag==ELEMENT_TAG.PLAYER_TAG then
+        return true
+    end
+
+    local cmx,cmy = self.m_camera:getPosition()
+    if _tag==ELEMENT_TAG.SPECIAL_TAG then
+        if not tolua.isnull(_bnode) then
+            if obstacleBP.x <= cmx + display.cx then
+            	self.openDistance = OpenWallType.Right
+            else
+                self.openDistance = OpenWallType.Left
+            end
+        end
     end
 
     return true

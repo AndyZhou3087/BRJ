@@ -41,6 +41,7 @@ function ShopView:ctor(parameters)
     
     --花费钻石获取礼物
     local LeftBtn = cc.uiloader:seekNodeByName(self.m_json,"LeftBtn")
+    LeftBtn:setVisible(false)
     local LeftImg = cc.uiloader:seekNodeByName(self.m_json,"LeftImg")
     LeftImg:setButtonEnabled(false)
     LeftBtn:onButtonPressed(function(_event)    --按下
@@ -91,12 +92,12 @@ function ShopView:ctor(parameters)
             GameDispatcher:dispatch(EventNames.EVENT_FLY_TEXT,{text ="获得"..count.."钻石"})
         elseif type == 2 then
             local id = math.random(1,#RoleConfig)
-            GameDataManager.unLockModle(id,true)
-            GameDispatcher:dispatch(EventNames.EVENT_FLY_TEXT,{text ="获得新角色"})
+            GameDataManager.unLockModle(id)
+            GameDispatcher:dispatch(EventNames.EVENT_FLY_TEXT,{text ="获得新角色"..RoleConfig[id].roleDes})
         elseif type == 3 then
             local id = math.random(1,#SceneConfig)
-            GameDataManager.unLockScene(id,true)
-            GameDispatcher:dispatch(EventNames.EVENT_FLY_TEXT,{text ="获得新场景"})
+            GameDataManager.unLockScene(id)
+            GameDispatcher:dispatch(EventNames.EVENT_FLY_TEXT,{text ="获得新场景"..SceneConfig[id].des})
         end
         self:freeLogic()
         AudioManager.playSoundEffect(AudioManager.Sound_Effect_Type.Button_Click_Sound)
@@ -138,7 +139,7 @@ function ShopView:ctor(parameters)
     end)
     self.roleBuy:onButtonClicked(function (event)
         AudioManager.playSoundEffect(AudioManager.Sound_Effect_Type.Button_Click_Sound)
-        Tools.printDebug("brj hopscotch 购买 角色")
+        Tools.printDebug("brj hopscotch 购买 角色",self.roleMove,self.roleId,not GameDataManager.getRoleModle(self.roleId))
         if not self.roleMove and not GameDataManager.getRoleModle(self.roleId) then
 --            local payId = RoleConfig[self.roleId].payId
 --            local oId = SDKUtil.getOrderId(payId)
@@ -503,6 +504,8 @@ function ShopView:touchListenerRole(event)
         self.roleMove = false
         local headItem = event.item:getContent()
         local id = headItem:getShopTypeID()
+        self.roleId = id
+        Tools.printDebug("brj hopscotch 是否拥有此角色",id,GameDataManager.getRoleModle(id))
         if GameDataManager.getRoleModle(id) then
             GameDataManager.changeRole(id)
             GameDataManager.setCurFightRole(id)
@@ -565,6 +568,7 @@ function ShopView:touchListenerScene(event)
         self.move = false
         local headItem = event.item:getContent()
         local id = headItem:getShopTypeID()
+        self.sceneId = id
         if GameDataManager.getSceneModle(id) then
             GameDataManager.setCurFightScene(id)
             self.sceneBuy:setVisible(false)
@@ -617,6 +621,7 @@ function ShopView:touchListenerDiamond(event)
         self.moveDia = false
         local headItem = event.item:getContent()
         local id = headItem:getShopTypeID()
+        self.diamondId = id
         self.priceImg_diamond:setButtonImage("disabled",DiamondConfig[id].priceRes)
     end
 end

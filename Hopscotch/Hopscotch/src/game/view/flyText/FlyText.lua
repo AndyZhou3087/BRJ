@@ -15,7 +15,7 @@ function FlyText:ctor(parameters)
     local _flyBg =  display.newSprite("ui/pz_bg.png"):addTo(self)
     _flyBg:setPosition(display.cx,display.cy)
 
-    self.m_handles = Tools.delayCallFunc(0.5,function()
+    self.m_handles = Tools.delayCallFunc(2,function()
         local spawn=cc.Spawn:create(cc.MoveBy:create(0.3,cc.p(0,20)),cc.FadeOut:create(0.4))
         local seq=cc.Sequence:create(spawn,cc.CallFunc:create(function()
             self:toClose(true)

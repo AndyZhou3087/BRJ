@@ -174,22 +174,27 @@ function AudioManager.open(parameters)
 --    end
     if parameters==nil then
         GameDataManager.setMusic(true)
-        audio.rewindMusic()
-
         GameDataManager.setSound(true)
-        for key,value in pairs(AudioManager.Sound_Mark) do
-            if value.num>0 then
-                value.handler=audio.playSound(AudioManager.Music_Path..key,true)
+        if not GameController.isInPause() then
+            audio.rewindMusic()
+            for key,value in pairs(AudioManager.Sound_Mark) do
+                if value.num>0 then
+                    value.handler=audio.playSound(AudioManager.Music_Path..key,true)
+                end
             end
         end
     elseif parameters==1 then
         GameDataManager.setMusic(true)
-        audio.rewindMusic()
+        if not GameController.isInPause() then
+            audio.rewindMusic()
+        end
     elseif parameters==2 then
         GameDataManager.setSound(true)
-        for key,value in pairs(AudioManager.Sound_Mark) do
-            if value.num>0 then
-                value.handler=audio.playSound(AudioManager.Music_Path..key,true)
+        if not GameController.isInPause() then
+            for key,value in pairs(AudioManager.Sound_Mark) do
+                if value.num>0 then
+                    value.handler=audio.playSound(AudioManager.Music_Path..key,true)
+                end
             end
         end
     end
