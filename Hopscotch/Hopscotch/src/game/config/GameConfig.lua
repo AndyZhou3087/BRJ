@@ -3,7 +3,7 @@
 MapSize = cc.size(750,1334)
 
 --测试输出
-PrintDebug = false
+PrintDebug = true
 
 --阴影程度
 OPACITY=160
