@@ -3,13 +3,13 @@
 MapSize = cc.size(750,1334)
 
 --测试输出
-PrintDebug = true
+PrintDebug = false
 
 --阴影程度
 OPACITY=160
 
 --初始钻石
-InitDiamond = 200000
+InitDiamond = 20
 
 --获取礼物花费钻石的数量
 DiamondSpendReward = 100
