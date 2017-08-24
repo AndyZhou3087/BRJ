@@ -108,11 +108,11 @@ function SDKUtil.umentOnEventEx(eventId)
     local _params = {eventId = eventId}
     local sigs = "(Ljava/lang/String;)V"
     if luaj then
-        luaj.callStaticMethod(className,"umentOnEvent",params,sigs)
+        luaj.callStaticMethod(className,"umentOnEventEx",params,sigs)
         return
     end
     if luaoc then
-        luaoc.callStaticMethod(ocClassName,"umentOnEvent",_params)
+        luaoc.callStaticMethod(ocClassName,"umentOnEventEx",_params)
         return
     end
 end
