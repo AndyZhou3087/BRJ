@@ -126,7 +126,7 @@ function Player:toJump(pos,isRunning)
     self.curFloorPos = pos
     
     self.checkPos = false
---    self:setPositionY(pos.y+self.m_size.height*0.5+self.errorValue)
+    self:setPositionY(pos.y+self.m_size.height*0.5+self.errorValue)
 --    self.jumpPro = self.m_jump
     self:toStartJump()
     local x,y = self:getPosition()
