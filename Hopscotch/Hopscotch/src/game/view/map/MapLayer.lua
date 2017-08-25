@@ -9,8 +9,6 @@ local BackGroundMove = require("game.view.map.BackGroundMove")
 local LineElement = require("game.view.element.LineElement")
 local PhantomElement = require("game.view.element.PhantomElement")
 
-local LoadingView = require("game.view.loading.LoadingView")
-
 local Raycast_DisY = 20  --探测距离
 local Raycast_DisX = 6 --探测轴方向有无障碍物
 
@@ -101,12 +99,6 @@ function MapLayer:ctor(parameters)
     self:setCameraMask(2)
     
     GameDispatcher:addListener(EventNames.EVENT_GAME_OVER,handler(self,self.playerDead))
-    
-    local loadingView = LoadingView.new({method = 1})
-    self:addChild(loadingView)
-    self.loadingHandler = Tools.delayCallFunc(0.1,function()
-        loadingView:removeFromParent()
-    end)
 
 end
 
@@ -2009,11 +2001,6 @@ function MapLayer:dispose(parameters)
     if self.delayHandler then
         Scheduler.unscheduleGlobal(self.delayHandler)
         self.delayHandler=nil
-    end
-    
-    if self.loadingHandler then
-        Scheduler.unscheduleGlobal(self.loadingHandler)
-        self.loadingHandler=nil
     end
     
     GameDataManager.resetRevive()

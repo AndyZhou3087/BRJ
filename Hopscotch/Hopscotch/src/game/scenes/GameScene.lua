@@ -5,6 +5,8 @@ local MapView = require("game.view.map.MapView")
 local MapLayer = require("game.view.map.MapLayer")
 local scheduler = require("framework.scheduler")
 
+local LoadingView = require("game.view.loading.LoadingView")
+
 local GameScene = class("GameScene", function()
     return display.newPhysicsScene("GameScene")
 end)
@@ -57,6 +59,12 @@ function GameScene:onEnter()
 
     self.m_fightView = MapView.new()
     self:addChild(self.m_fightView,UI_ZORDER.VIEW_ZORDER)
+    
+    local loadingView = LoadingView.new({method = 1})
+    self:addChild(loadingView,UI_ZORDER.VIEW_ZORDER)
+    self.loadingHandler = Tools.delayCallFunc(0.1,function()
+        loadingView:removeFromParent()
+    end)
 
     AudioManager.playGroundMusic(AudioManager.Ground_Music_Type.Fight_Bg,true)
     if not GameDataManager.isMusicOpen() then
@@ -90,6 +98,11 @@ function GameScene:onCleanup()
     if self.m_handlerStart then
         scheduler.unscheduleGlobal(self.m_handlerStart)
         self.m_handlerStart=nil
+    end
+    
+    if self.loadingHandler then
+        scheduler.unscheduleGlobal(self.loadingHandler)
+        self.loadingHandler=nil
     end
 
     if not tolua.isnull(self.m_map) then
