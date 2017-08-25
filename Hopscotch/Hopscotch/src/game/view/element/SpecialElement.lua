@@ -44,6 +44,11 @@ function SpecialElement:addBody(_offset)
     self:setPhysicsBody(self.m_body)
 end
 
+function SpecialElement:resetPosCount()
+    self.moveCount = 1
+    self.lineSprite:resetPosCount()
+end
+
 --被碰触
 function SpecialElement:collision()
     if self.moveCount == #self.arrMove then

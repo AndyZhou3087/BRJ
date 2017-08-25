@@ -34,6 +34,10 @@ function LineElement:ctor(arr)
     
 end
 
+function LineElement:resetPosCount()
+    self.moveCount = 1
+end
+
 function LineElement:moveUp()
     if self.moveCount == #self.arrMove then
         return

@@ -124,12 +124,11 @@ function MapLayer:touchFunc(event)
                 self.isMapBottom = false
                 GameDispatcher:dispatch(EventNames.EVENT_HIDE_BOTTOM)
             end
-            if self.isCollision then
+--            if self.isCollision then
                 self.isCollision = false
---                self.m_jump = false
                 Tools.printDebug("brj 是否可连击跳跃: ",self.isCollision)
                 self:toJump()
-            end
+--            end
         end
         return true
     elseif event.name == "ended" then
@@ -836,14 +835,14 @@ function MapLayer:onEnterFrame(dt)
     self.m_player:setVelocity(cc.p(_add*self.m_player:getSpeed(),vel.y))
 
     if self.m_player:getJump() then
-        self.m_physicWorld:rayCast(handler(self,self.rayCastFunc),cc.p(_p.x,_p.y+_size.height*0.5),cc.p(_p.x,_p.y+_size.height*0.5-Raycast_DisY))--起始坐标和结束坐标(是指发出的一条射线)
+        self.m_physicWorld:rayCast(handler(self,self.rayCastFunc),cc.p(_p.x,_p.y+_size.height*0.5),cc.p(_p.x,_p.y+_size.height*0.5+Raycast_DisY))--起始坐标和结束坐标(是指发出的一条射线)
     else
         self.m_physicWorld:rayCast(handler(self,self.rayCastFunc),cc.p(_p.x,_p.y-_size.height*0.5),cc.p(_p.x,_p.y-_size.height*0.5-Raycast_DisY))
     end
     
     --左右射线检测(火箭状态不做处理)
     if not self.m_player:isInState(PLAYER_STATE.Rocket) and not self.m_player:isInState(PLAYER_STATE.StartRocket) then
-        self.m_physicWorld:rayCast(handler(self,self.rayCastFuncX),cc.p(_p.x,_p.y-_size.height*0.25),cc.p(_p.x+_add*(_size.width*0.5+Raycast_DisX),_p.y-_size.height*0.25))
+        self.m_physicWorld:rayCast(handler(self,self.rayCastFuncX),cc.p(_p.x,_p.y),cc.p(_p.x+_add*(_size.width*0.5+Raycast_DisX),_p.y))
     end
     
     --钢架类型检测
@@ -1168,13 +1167,13 @@ function MapLayer:collisionBeginCallBack(parameters)
                         player:setVelocity(cc.p(-player:getSpeed(),vel.y))
                         player:setScaleX(-math.abs(_scaleX))
                     end
+                    if obstacleTag==ELEMENT_TAG.SPECIAL_TAG then
+                        print("----------brj 碰撞检测------------: ",obstacleTag)
+                        if not tolua.isnull(obstacle) then
+                            obstacle:collision()
+                        end
+                    end
                 end 
-            end
-       end
-        
-       if obstacleTag==ELEMENT_TAG.SPECIAL_TAG then
-            if not tolua.isnull(obstacle) then
-            	obstacle:collision()
             end
        end
        self.isCollision = true
@@ -1272,6 +1271,7 @@ function MapLayer:rayCastFuncX(_world,_p1,_p2,_p3)
                 end
             end
             if _tag==ELEMENT_TAG.SPECIAL_TAG then
+                print("----------brj 不停检测钢架人：",_tag)
                 _bnode:collision()
             end
        end
@@ -1846,6 +1846,7 @@ function MapLayer:backOriginFunc()
             local spBodyArr = self.specialBody[2][var]
             local move = cc.MoveTo:create(0.2,spBodyArr[2])
             spBodyArr[1]:runAction(move)
+            spBodyArr[1]:resetPosCount()
             if not tolua.isnull(spBodyArr[1].lineSprite) then
                 local scale = 8.5-(spBodyArr[3]-1)
                 local scaleX = spBodyArr[1].lineSprite:getScaleX()
