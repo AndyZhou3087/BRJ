@@ -21,12 +21,20 @@ function GoodsElement:ctor(_id)
 --    bg:setPosition(cc.p(23,22))
 
     self.m_img = PhysicSprite.new(self.m_goodsCon.res):addTo(self)
-    self:addBody(cc.p(0,0))
+    if _id == 5 then
+        self.size = cc.size(self.m_img:getCascadeBoundingBox().size.width*0.8,self.m_img:getCascadeBoundingBox().size.height*0.5)
+    end
+    self:addBody(cc.p(0,0),self.size)
 
 end  
 
-function GoodsElement:addBody(_offset)
-    local size=self.m_img:getCascadeBoundingBox()
+function GoodsElement:addBody(_offset,_size)
+    local size
+    if _size then
+        size = _size
+    else
+        size = self.m_img:getCascadeBoundingBox()
+    end
     self.m_body=cc.PhysicsBody:createBox(size,Special_MATERIAL,_offset)
     self.m_body:setCategoryBitmask(0x01)
     self.m_body:setContactTestBitmask(0x1111)
