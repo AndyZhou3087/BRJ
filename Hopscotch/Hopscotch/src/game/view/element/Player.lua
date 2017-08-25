@@ -123,9 +123,10 @@ end
 
 --上跳状态
 function Player:toJump(pos,isRunning)
+    self.curFloorPos = pos
     
     self.checkPos = false
-    self:setPositionY(pos.y+self.m_size.height*0.5+self.errorValue)
+--    self:setPositionY(pos.y+self.m_size.height*0.5+self.errorValue)
 --    self.jumpPro = self.m_jump
     self:toStartJump()
     local x,y = self:getPosition()
@@ -219,6 +220,10 @@ function Player:update(dt,_x,_y)
         _vec.x=-self.m_speed
     end
     self:setBodyVelocity(_vec)
+    
+--    if self.m_jump then
+--    	self.curFloorPos
+--    end
 
 end
 

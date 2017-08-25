@@ -219,7 +219,7 @@ function MapRoom:initDiamonds(diamondCon,isShow)
                     diamond:retain()
                 end
                 local dismondSize = diamond:getCascadeBoundingBox().size
-                local x = math.random(Room_Distance.x+50+dismondSize.width,display.right-Room_Distance.x-50-dismondSize.width)
+                local x = math.random(self.firstX+50+dismondSize.width,self.lastX+self.lastWidth-50-dismondSize.width)
 --                Tools.printDebug("-------brj 房间钻石x坐标：",x)
                 diamond:setPosition(x,_diamondObj.y)
                 diamond:setGroup(self.m_floorNum)
