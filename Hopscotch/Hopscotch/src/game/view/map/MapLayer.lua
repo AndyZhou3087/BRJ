@@ -1168,7 +1168,6 @@ function MapLayer:collisionBeginCallBack(parameters)
                         player:setScaleX(-math.abs(_scaleX))
                     end
                     if obstacleTag==ELEMENT_TAG.SPECIAL_TAG then
-                        print("----------brj 碰撞检测------------: ",obstacleTag)
                         if not tolua.isnull(obstacle) then
                             obstacle:collision()
                         end
@@ -1271,7 +1270,6 @@ function MapLayer:rayCastFuncX(_world,_p1,_p2,_p3)
                 end
             end
             if _tag==ELEMENT_TAG.SPECIAL_TAG then
-                print("----------brj 不停检测钢架人：",_tag)
                 _bnode:collision()
             end
        end
