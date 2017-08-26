@@ -1021,14 +1021,7 @@ function MapLayer:onEnterFrame(dt)
     
     --火箭道具第一种类型
     if not (self.m_player:isInState(PLAYER_STATE.Rocket) and self.m_player:getRocketState()~=1) then
---        if not self.m_player:isInState(PLAYER_STATE.Rocket) and not self.m_player:isInState(PLAYER_STATE.StartRocket) then
---            if self.m_player:getJumpCount() == self.jumpFloorNum then
---                self:CoreLogic()
---            end
---        else
---        Tools.printDebug("------------镜头角色移动跳动---------：")
-            self:CoreLogic()
---        end
+        self:CoreLogic()
     end
     
     if self.rocket then
@@ -1898,6 +1891,10 @@ function MapLayer:backOriginFunc()
     self.m_camera:stopAllActions()
     local move = cc.MoveTo:create(0.5,cc.p(0,0))
     self.m_camera:runAction(move)
+    
+    --回到原点时随机过度值清除
+    self.transit = false
+    self.transit_1 = false
     
     self.isBgMove = false
     self.bgNode:toBackOrigin()
