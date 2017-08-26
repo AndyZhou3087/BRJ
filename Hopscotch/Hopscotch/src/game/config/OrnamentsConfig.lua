@@ -5787,35 +5787,35 @@ Ornaments[450]=
 --钢架楼层第一层
 Ornaments[2001]=
 {
-        bg = {{res="#Room_specialbg_5.png",x=Room_Distance.x+18,y=17},
-	      {res="#Room_specialbg_2.png",x=Room_Distance.x+33,y=16},
-              {res="#Room_specialbg_5.png",x=Room_Distance.x+110,y=17},
-              {res="#Room_specialbg_5.png",x=Room_Distance.x+203,y=17},
-	      {res="#Room_specialbg_2.png",x=Room_Distance.x+219,y=16},
-              {res="#Room_specialbg_5.png",x=Room_Distance.x+294,y=17},
-	      {res="#Room_specialbg_5.png",x=Room_Distance.x+384,y=17},
-	      {res="#Room_specialbg_2.png",x=Room_Distance.x+399,y=16},
-              {res="#Room_specialbg_5.png",x=Room_Distance.x+472,y=17},
-	      {res="#Room_specialbg_5.png",x=Room_Distance.x+564,y=17},
-	      {res="#Room_specialbg_2.png",x=Room_Distance.x+578,y=16},
-              {res="#Room_specialbg_5.png",x=Room_Distance.x+653,y=17},
+        bg = {{res="#Room_specialbg_5.png",x=Room_Distance.x+18,y=16},
+	      {res="#Room_specialbg_2.png",x=Room_Distance.x+33,y=15},
+              {res="#Room_specialbg_5.png",x=Room_Distance.x+110,y=16},
+              {res="#Room_specialbg_5.png",x=Room_Distance.x+203,y=16},
+	      {res="#Room_specialbg_2.png",x=Room_Distance.x+219,y=15},
+              {res="#Room_specialbg_5.png",x=Room_Distance.x+294,y=16},
+	      {res="#Room_specialbg_5.png",x=Room_Distance.x+384,y=16},
+	      {res="#Room_specialbg_2.png",x=Room_Distance.x+399,y=15},
+              {res="#Room_specialbg_5.png",x=Room_Distance.x+472,y=16},
+	      {res="#Room_specialbg_5.png",x=Room_Distance.x+564,y=16},
+	      {res="#Room_specialbg_2.png",x=Room_Distance.x+578,y=15},
+              {res="#Room_specialbg_5.png",x=Room_Distance.x+653,y=16},
 	      },
     }
 
 --钢架楼层第二层
 Ornaments[2002]=
 {
-        bg = {{res="#Room_specialbg_5.png",x=Room_Distance.x+18,y=17},
-	      {res="#Room_specialbg_5.png",x=Room_Distance.x+110,y=17},
-	      {res="#Room_specialbg_2.png",x=Room_Distance.x+126,y=16},
-              {res="#Room_specialbg_5.png",x=Room_Distance.x+203,y=17},
-	      {res="#Room_specialbg_5.png",x=Room_Distance.x+294,y=17},
-	      {res="#Room_specialbg_2.png",x=Room_Distance.x+309,y=16},
-	      {res="#Room_specialbg_5.png",x=Room_Distance.x+384,y=17},
-	      {res="#Room_specialbg_5.png",x=Room_Distance.x+472,y=17},
-	      {res="#Room_specialbg_2.png",x=Room_Distance.x+488,y=16},
-	      {res="#Room_specialbg_5.png",x=Room_Distance.x+564,y=17},
-	      {res="#Room_specialbg_5.png",x=Room_Distance.x+653,y=17},
+        bg = {{res="#Room_specialbg_5.png",x=Room_Distance.x+18,y=16},
+	      {res="#Room_specialbg_5.png",x=Room_Distance.x+110,y=16},
+	      {res="#Room_specialbg_2.png",x=Room_Distance.x+126,y=15},
+              {res="#Room_specialbg_5.png",x=Room_Distance.x+203,y=16},
+	      {res="#Room_specialbg_5.png",x=Room_Distance.x+294,y=16},
+	      {res="#Room_specialbg_2.png",x=Room_Distance.x+309,y=15},
+	      {res="#Room_specialbg_5.png",x=Room_Distance.x+384,y=16},
+	      {res="#Room_specialbg_5.png",x=Room_Distance.x+472,y=16},
+	      {res="#Room_specialbg_2.png",x=Room_Distance.x+488,y=15},
+	      {res="#Room_specialbg_5.png",x=Room_Distance.x+564,y=16},
+	      {res="#Room_specialbg_5.png",x=Room_Distance.x+653,y=16},
 	      },
     }
 
@@ -5824,32 +5824,34 @@ Ornaments[2002]=
 --钢架楼层第一层
 Ornaments[2101]=
 {
-        bg = {{res="#Room_specialbg_5.png",x=Room_Distance.x+62,y=17},
-	      {res="#Room_specialbg_2.png",x=Room_Distance.x+77,y=16},
-              {res="#Room_specialbg_5.png",x=Room_Distance.x+154,y=17},
-              {res="#Room_specialbg_5.png",x=Room_Distance.x+247,y=17},
-	      {res="#Room_specialbg_2.png",x=Room_Distance.x+263,y=16},
-              {res="#Room_specialbg_5.png",x=Room_Distance.x+338,y=17},
-	      {res="#Room_specialbg_5.png",x=Room_Distance.x+428,y=17},
-	      {res="#Room_specialbg_2.png",x=Room_Distance.x+443,y=16},
-              {res="#Room_specialbg_5.png",x=Room_Distance.x+516,y=17},
-	      {res="#Room_specialbg_5.png",x=Room_Distance.x+608,y=17},
+         bg = {
+	      {res="#Room_specialbg_5.png",x=Room_Distance.x+62,y=16},
+	      {res="#Room_specialbg_2.png",x=Room_Distance.x+77,y=15},
+              {res="#Room_specialbg_5.png",x=Room_Distance.x+154,y=16},
+              {res="#Room_specialbg_5.png",x=Room_Distance.x+247,y=16},
+	      {res="#Room_specialbg_2.png",x=Room_Distance.x+263,y=15},
+              {res="#Room_specialbg_5.png",x=Room_Distance.x+338,y=16},
+	      {res="#Room_specialbg_5.png",x=Room_Distance.x+428,y=16},
+	      {res="#Room_specialbg_2.png",x=Room_Distance.x+443,y=15},
+              {res="#Room_specialbg_5.png",x=Room_Distance.x+516,y=16},
+	      {res="#Room_specialbg_5.png",x=Room_Distance.x+606,y=16},
 	      },
     }
 
 --钢架楼层第二层
 Ornaments[2102]=
 {
-        bg = {{res="#Room_specialbg_5.png",x=Room_Distance.x+62,y=17},
-	      {res="#Room_specialbg_5.png",x=Room_Distance.x+154,y=17},
-	      {res="#Room_specialbg_2.png",x=Room_Distance.x+170,y=16},
-              {res="#Room_specialbg_5.png",x=Room_Distance.x+247,y=17},
-	      {res="#Room_specialbg_5.png",x=Room_Distance.x+338,y=17},
-	      {res="#Room_specialbg_2.png",x=Room_Distance.x+353,y=16},
-	      {res="#Room_specialbg_5.png",x=Room_Distance.x+428,y=17},
-	      {res="#Room_specialbg_5.png",x=Room_Distance.x+516,y=17},
-	      {res="#Room_specialbg_2.png",x=Room_Distance.x+532,y=16},
-	      {res="#Room_specialbg_5.png",x=Room_Distance.x+606,y=17},
+         bg = {
+	      {res="#Room_specialbg_5.png",x=Room_Distance.x+62,y=16},
+	      {res="#Room_specialbg_5.png",x=Room_Distance.x+154,y=16},
+	      {res="#Room_specialbg_2.png",x=Room_Distance.x+170,y=15},
+              {res="#Room_specialbg_5.png",x=Room_Distance.x+247,y=16},
+	      {res="#Room_specialbg_5.png",x=Room_Distance.x+338,y=16},
+	      {res="#Room_specialbg_2.png",x=Room_Distance.x+353,y=15},
+	      {res="#Room_specialbg_5.png",x=Room_Distance.x+428,y=16},
+	      {res="#Room_specialbg_5.png",x=Room_Distance.x+516,y=16},
+	      {res="#Room_specialbg_2.png",x=Room_Distance.x+532,y=15},
+	      {res="#Room_specialbg_5.png",x=Room_Distance.x+606,y=16},
 	      },
     }
 
@@ -5858,29 +5860,29 @@ Ornaments[2102]=
 --钢架楼层第一层
 Ornaments[2201]=
 {
-        bg = {{res="#Room_specialbg_5.png",x=Room_Distance.x+107,y=17},
-	      {res="#Room_specialbg_2.png",x=Room_Distance.x+122,y=16},
-              {res="#Room_specialbg_5.png",x=Room_Distance.x+199,y=17},
-              {res="#Room_specialbg_5.png",x=Room_Distance.x+292,y=17},
-	      {res="#Room_specialbg_2.png",x=Room_Distance.x+308,y=16},
-              {res="#Room_specialbg_5.png",x=Room_Distance.x+383,y=17},
-	      {res="#Room_specialbg_5.png",x=Room_Distance.x+473,y=17},
-	      {res="#Room_specialbg_2.png",x=Room_Distance.x+488,y=16},
-              {res="#Room_specialbg_5.png",x=Room_Distance.x+561,y=17},
+        bg = {{res="#Room_specialbg_5.png",x=Room_Distance.x+107,y=16},
+	      {res="#Room_specialbg_2.png",x=Room_Distance.x+122,y=15},
+              {res="#Room_specialbg_5.png",x=Room_Distance.x+199,y=16},
+              {res="#Room_specialbg_5.png",x=Room_Distance.x+292,y=16},
+	      {res="#Room_specialbg_2.png",x=Room_Distance.x+308,y=15},
+              {res="#Room_specialbg_5.png",x=Room_Distance.x+383,y=16},
+	      {res="#Room_specialbg_5.png",x=Room_Distance.x+473,y=16},
+	      {res="#Room_specialbg_2.png",x=Room_Distance.x+488,y=15},
+              {res="#Room_specialbg_5.png",x=Room_Distance.x+561,y=16},
 	      },
     }
 
 --钢架楼层第二层
 Ornaments[2202]=
 {
-        bg = {{res="#Room_specialbg_5.png",x=Room_Distance.x+107,y=17},
-	      {res="#Room_specialbg_5.png",x=Room_Distance.x+198,y=17},
-	      {res="#Room_specialbg_2.png",x=Room_Distance.x+215,y=16},
-              {res="#Room_specialbg_5.png",x=Room_Distance.x+292,y=17},
-	      {res="#Room_specialbg_5.png",x=Room_Distance.x+383,y=17},
-	      {res="#Room_specialbg_2.png",x=Room_Distance.x+398,y=16},
-	      {res="#Room_specialbg_5.png",x=Room_Distance.x+473,y=17},
-	      {res="#Room_specialbg_5.png",x=Room_Distance.x+561,y=17},
+        bg = {{res="#Room_specialbg_5.png",x=Room_Distance.x+107,y=16},
+	      {res="#Room_specialbg_5.png",x=Room_Distance.x+198,y=16},
+	      {res="#Room_specialbg_2.png",x=Room_Distance.x+215,y=15},
+              {res="#Room_specialbg_5.png",x=Room_Distance.x+292,y=16},
+	      {res="#Room_specialbg_5.png",x=Room_Distance.x+383,y=16},
+	      {res="#Room_specialbg_2.png",x=Room_Distance.x+398,y=15},
+	      {res="#Room_specialbg_5.png",x=Room_Distance.x+473,y=16},
+	      {res="#Room_specialbg_5.png",x=Room_Distance.x+561,y=16},
 	      },
     }
 
@@ -5889,26 +5891,26 @@ Ornaments[2202]=
 --钢架楼层第一层
 Ornaments[2301]=
 {
-        bg = {{res="#Room_specialbg_5.png",x=Room_Distance.x+152,y=17},
-	      {res="#Room_specialbg_2.png",x=Room_Distance.x+167,y=16},
-              {res="#Room_specialbg_5.png",x=Room_Distance.x+244,y=17},
-              {res="#Room_specialbg_5.png",x=Room_Distance.x+337,y=17},
-	      {res="#Room_specialbg_2.png",x=Room_Distance.x+353,y=16},
-              {res="#Room_specialbg_5.png",x=Room_Distance.x+428,y=17},
-	      {res="#Room_specialbg_5.png",x=Room_Distance.x+518,y=17},
+        bg = {{res="#Room_specialbg_5.png",x=Room_Distance.x+152,y=16},
+	      {res="#Room_specialbg_2.png",x=Room_Distance.x+167,y=15},
+              {res="#Room_specialbg_5.png",x=Room_Distance.x+244,y=16},
+              {res="#Room_specialbg_5.png",x=Room_Distance.x+337,y=16},
+	      {res="#Room_specialbg_2.png",x=Room_Distance.x+353,y=15},
+              {res="#Room_specialbg_5.png",x=Room_Distance.x+428,y=16},
+	      {res="#Room_specialbg_5.png",x=Room_Distance.x+518,y=16},
 	      },
     }
 
 --钢架楼层第二层
 Ornaments[2302]=
 {
-        bg = {{res="#Room_specialbg_5.png",x=Room_Distance.x+152,y=17},
-	      {res="#Room_specialbg_5.png",x=Room_Distance.x+243,y=17},
-	      {res="#Room_specialbg_2.png",x=Room_Distance.x+259,y=16},
-              {res="#Room_specialbg_5.png",x=Room_Distance.x+337,y=17},
-	      {res="#Room_specialbg_5.png",x=Room_Distance.x+428,y=17},
-	      {res="#Room_specialbg_2.png",x=Room_Distance.x+443,y=16},
-	      {res="#Room_specialbg_5.png",x=Room_Distance.x+518,y=17},
+        bg = {{res="#Room_specialbg_5.png",x=Room_Distance.x+152,y=16},
+	      {res="#Room_specialbg_5.png",x=Room_Distance.x+243,y=16},
+	      {res="#Room_specialbg_2.png",x=Room_Distance.x+259,y=15},
+              {res="#Room_specialbg_5.png",x=Room_Distance.x+337,y=16},
+	      {res="#Room_specialbg_5.png",x=Room_Distance.x+428,y=16},
+	      {res="#Room_specialbg_2.png",x=Room_Distance.x+443,y=15},
+	      {res="#Room_specialbg_5.png",x=Room_Distance.x+518,y=16},
 	      },
     }
 
@@ -5917,27 +5919,27 @@ Ornaments[2302]=
 --钢架楼层第一层
 Ornaments[2401]=
 {
-        bg = {{res="#Room_specialbg_5.png",x=Room_Distance.x+197,y=17},
-	      {res="#Room_specialbg_2.png",x=Room_Distance.x+212,y=16},
-              {res="#Room_specialbg_5.png",x=Room_Distance.x+289,y=17},
-              {res="#Room_specialbg_5.png",x=Room_Distance.x+382,y=17},
-	      {res="#Room_specialbg_2.png",x=Room_Distance.x+398,y=16},
-              {res="#Room_specialbg_5.png",x=Room_Distance.x+473,y=17},
+        bg = {{res="#Room_specialbg_5.png",x=Room_Distance.x+197,y=16},
+	      {res="#Room_specialbg_2.png",x=Room_Distance.x+212,y=15},
+              {res="#Room_specialbg_5.png",x=Room_Distance.x+289,y=16},
+              {res="#Room_specialbg_5.png",x=Room_Distance.x+382,y=16},
+	      {res="#Room_specialbg_2.png",x=Room_Distance.x+398,y=15},
+              {res="#Room_specialbg_5.png",x=Room_Distance.x+473,y=16},
 	      },
     }
 
 --钢架楼层第二层
 Ornaments[2402]=
 {
-        bg = {{res="#Room_specialbg_5.png",x=Room_Distance.x+197,y=17},
-	      {res="#Room_specialbg_5.png",x=Room_Distance.x+290,y=17},
-	      {res="#Room_specialbg_2.png",x=Room_Distance.x+306,y=16},
-              {res="#Room_specialbg_5.png",x=Room_Distance.x+382,y=17},
-	      {res="#Room_specialbg_5.png",x=Room_Distance.x+473,y=17},
+        bg = {{res="#Room_specialbg_5.png",x=Room_Distance.x+197,y=16},
+	      {res="#Room_specialbg_5.png",x=Room_Distance.x+290,y=16},
+	      {res="#Room_specialbg_2.png",x=Room_Distance.x+306,y=15},
+              {res="#Room_specialbg_5.png",x=Room_Distance.x+382,y=16},
+	      {res="#Room_specialbg_5.png",x=Room_Distance.x+473,y=16},
 	      },
     }
 
-
+--==================================================================================
 --横跑楼层，6块砖
 Ornaments[3001]=
 {

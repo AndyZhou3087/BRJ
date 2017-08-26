@@ -321,7 +321,7 @@ function MapLayer:addNewRooms(parameters)
                     end
                 end
             else
-                i = 31
+                i = 10000
                 self.m_levelCon = GameDataManager.getMpaGradeTable(type,group[1])[i]
             end
             Tools.printDebug("-----------------------------brj Hopscotch 普通组组：",self.m_roomsNum,i,type)
@@ -1233,7 +1233,7 @@ function MapLayer:rayCastFunc(_world,_p1,_p2,_p3)
                     end
                 end
 --                Tools.printDebug("----------brj 不停检测角色y轴：",self.jumpFloorNum,floorPos.y)
---                self.m_player:setPosition(cc.p(bpx,floorPos.y+_size.height*0.5+self.m_player:getErrorValue()))
+                self.m_player:setPosition(cc.p(bpx,floorPos.y+_size.height*0.5+self.m_player:getErrorValue()))
 --            end
         end
         self.isCollision = true

@@ -27,7 +27,7 @@ MapFirstGroup={}
 --        roomType = MAPROOM_TYPE.Common,
 --        direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
 --        distance = 0,        --房间x轴倾斜距离(单位：像素)
---        probability = 500,     --权重
+--        probability = 0,     --权重
 --        bgType = ROOMBGSIZE_TYPE.Seven,
 --    } 
 
