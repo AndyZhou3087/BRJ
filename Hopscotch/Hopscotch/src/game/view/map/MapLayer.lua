@@ -1026,6 +1026,7 @@ function MapLayer:onEnterFrame(dt)
 --                self:CoreLogic()
 --            end
 --        else
+        Tools.printDebug("------------镜头角色移动跳动---------：")
             self:CoreLogic() 
 --        end
     end
@@ -1316,7 +1317,7 @@ function MapLayer:CoreLogic()
     local _scaleX = self.m_player:getScaleX()
     local bpx,bpy = self.m_player:getPosition()
     local cmx,cmy = self.m_camera:getPosition()
-    local roomIndex = math.ceil((bpy-self.bottomHeight-_size.height*0.5-10)/Room_Size.height)
+    local roomIndex = math.ceil((bpy-self.bottomHeight-self.m_heightValue-p_y)/Room_Size.height)
 
     if self.m_lastRoomIdx ~= roomIndex then
         local _room
