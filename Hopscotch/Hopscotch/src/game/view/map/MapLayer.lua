@@ -9,7 +9,7 @@ local BackGroundMove = require("game.view.map.BackGroundMove")
 local LineElement = require("game.view.element.LineElement")
 local PhantomElement = require("game.view.element.PhantomElement")
 
-local Raycast_DisY = 10  --探测距离
+local Raycast_DisY = 20  --探测距离
 local Raycast_DisX = 6 --探测轴方向有无障碍物
 
 --用来计算横跑时第一阶层移动的固定值
@@ -55,8 +55,6 @@ function MapLayer:ctor(parameters)
     self.runFloorNum = RunningFloorNum
     self.isBgMove = false
     self.isMapBottom = true
-    
-    self.isCollision = true
     
     self.m_curZOrder = MAP_ZORDER_MAX   --房间当前显示层级
     
@@ -1112,7 +1110,7 @@ function MapLayer:collisionBeginCallBack(parameters)
     
     if obstacleTag == ELEMENT_TAG.FLOOR then
 --        Tools.printDebug("----------brj 碰撞检测------------: ")
---        self.isCollision = true
+        self.isCollision = true
         if not self.m_player:getJump() and self.curRoomType ~= MAPROOM_TYPE.Running and not GameController.isInState(PLAYER_STATE.Rocket) 
             and not GameController.isInState(PLAYER_STATE.StartRocket) then
             local _size = self.m_player:getSize()
@@ -1177,7 +1175,7 @@ function MapLayer:collisionBeginCallBack(parameters)
                 end 
             end
        end
---       self.isCollision = true
+       self.isCollision = true
        
         return true
     elseif obstacleTag == ELEMENT_TAG.GOOD_TAG then

@@ -126,13 +126,13 @@ function Player:toJump(pos,isRunning)
     self.curFloorPos = pos
     
     self.checkPos = false
---    self:setPositionY(pos.y+self.m_size.height*0.5+self.errorValue)
+    self:setPositionY(pos.y+self.m_size.height*0.5+self.errorValue)
 --    self.jumpPro = self.m_jump
     self:toStartJump()
     local x,y = self:getPosition()
 
     local _vec = self.m_body:getVelocity()
---    self:setBodyVelocity(cc.p(_vec.x,0))
+    self:setBodyVelocity(cc.p(_vec.x,0))
     local _scaleX=self:getScaleX()
     if _scaleX<0 then
         _vec.x=self.m_vo.m_speed
