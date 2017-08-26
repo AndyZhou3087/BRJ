@@ -32,7 +32,7 @@ MapGroupD = {ROOMBGSIZE_TYPE.Seven,ROOMBGSIZE_TYPE.Six_1}  --1-50层
 MapGroupConfigD[9999]= 
     { 
         _id=9999, 
-        roomBgs={11,17,15,18,15,9,3,12,5,1}, --房间背景地面
+         roomBgs={11,16,13,16,13,7,3,10,4,6}, --房间背景地面
         ornaments={33,28,19,16,25,7,6,18,14,3}, ---小挂件
         coins={1,1,1,1,1,1,1,1,1,1}, --钻石(随机出现层数、次数和位置)
         roomGoods={1,1,1,1,1,1,1,1,1,1}, ---道具
@@ -187,7 +187,7 @@ MapGroupConfigD[9]=
 MapGroupConfigD[10]= 
     { 
         _id=10, 
-        roomBgs={3,14,13,16,13,16,5,13,10,7}, --房间背景地面
+        roomBgs={3,14,13,16,13,16,5,10,7,9}, --房间背景地面
         ornaments={7,42,37,33,22,11,10,8,7,1}, ---小挂件
         coins={1,1,1,1,1,1,1,1,1,1}, ---钻石
         roomGoods={1,1,1,1,1,1,1,1,1,1}, ---道具
@@ -243,7 +243,7 @@ MapGroupConfigD[13]=
 MapGroupConfigD[14]= 
     { 
         _id=14, 
-        roomBgs={3,11,16,13,7,15,13,16,5,6}, --房间背景地面
+        roomBgs={3,10,16,13,7,15,13,16,5,6}, --房间背景地面
         ornaments={34,28,33,17,10,29,30,45,11,1}, ---小挂件
         coins={1,1,1,1,1,1,1,1,1,1}, ---钻石
         roomGoods={1,1,1,1,1,1,1,1,1,1}, ---道具
@@ -271,7 +271,7 @@ MapGroupConfigD[15]=
 MapGroupConfigD[16]= 
     { 
         _id=16, 
-        roomBgs={9,16,17,5,6,9,11,4,2,6}, --房间背景地面
+        roomBgs={9,15,17,5,6,9,11,4,2,6}, --房间背景地面
         ornaments={33,21,17,10,8,9,42,50,48,2}, ---小挂件
         coins={1,1,1,1,1,1,1,1,1,1}, ---钻石
         roomGoods={1,1,1,1,1,1,1,1,1,1}, ---道具
@@ -349,7 +349,7 @@ MapGroupConfigD[31]=
         roomType = MAPROOM_TYPE.Common,
         direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
         distance = 0,        --房间x轴倾斜距离(单位：像素)
-        probability = 100,     --权重
+        probability = 5,     --权重
         bgType = ROOMBGSIZE_TYPE.Seven,
         transit = true,
     } 
@@ -995,7 +995,7 @@ MapGroupConfigD[82]=
 MapGroupConfigD[83]= 
     { 
         _id=83, 
-        roomBgs={33,32,38,41,33,12,4,32,38,41}, --房间背景地面
+        roomBgs={33,32,38,41,33,10,4,32,38,41}, --房间背景地面
         ornaments={76,87,74,85,72,28,69,100,98,51}, ---小挂件
         coins={1,1,1,1,1,1,1,1,1,1}, ---钻石
         roomGoods={1,1,1,1,1,1,1,1,1,1}, ---道具

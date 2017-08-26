@@ -5188,7 +5188,7 @@ Ornaments[396]=
               {res="#Room_bg_2.png",x=Room_Distance.x+85+94*2+47,y=16,type = RoomBg_Type.Full},
 	      {res="#Room_bg_2.png",x=Room_Distance.x+84+94*3+47,y=16,type = RoomBg_Type.Full},
 	      },--房间背景(背景窗户随机其实是在有背景图的几张图随机抽取一张替换图片为窗户)
-	  ornament = {{res="#Room_ornament_6.png",x=200,y=16},{res="#Room_ornament_2.png",x=440,y=16}}
+	  ornament = {{res="#Room_ornament_6.png",x=280,y=16},{res="#Room_ornament_2.png",x=440,y=16}}
     }
 
 --普通楼层，办公桌-沙发-窗户-沙发

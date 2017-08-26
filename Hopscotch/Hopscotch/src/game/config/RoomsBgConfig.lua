@@ -4214,8 +4214,8 @@ RoomBgs[2046]=
 	         {res="#Room_floor_7.png",x=Room_Distance.x+88+94,y=0},
                  {res="#Room_floor_7.png",x=Room_Distance.x+85+94*2,y=0},
 		 {res="#Room_floor_7.png",x=Room_Distance.x+84+94*3,y=0},
-		 {res="#Room_floor_7.png",x=Room_Distance.x+83+94*4-47,y=0},
-		 {res="#Room_floor_4.png",x=Room_Distance.x+80+94*5-47,y=0},
+		 {res="#Room_floor_7.png",x=Room_Distance.x+83+94*4-45,y=0},
+		 {res="#Room_floor_4.png",x=Room_Distance.x+80+94*5-45,y=0},
 		 },--地板
     }
 
@@ -4251,14 +4251,14 @@ RoomBgs[2048]=
 --右侧有墙壁，下层左边有墙。
 RoomBgs[2049]=
      {
-        wallLeftRight = {{res="#Room_wall.png",x=Room_Distance.x+505,y=15,type = RoomWall_Type.Right},},--左右两侧墙壁
+        wallLeftRight = {{res="#Room_wall.png",x=Room_Distance.x+507,y=15,type = RoomWall_Type.Right},},--左右两侧墙壁
         floor = {
 	         {res="#Room_floor_1.png",x=Room_Distance.x+90+94,y=-2},
                  {res="#Room_floor_7.png",x=Room_Distance.x+106+94,y=0},
                  {res="#Room_floor_7.png",x=Room_Distance.x+105+94*2,y=0},
 		 {res="#Room_floor_7.png",x=Room_Distance.x+104+94*3,y=0},
-		 {res="#Room_floor_7.png",x=Room_Distance.x+103+94*4-67,y=0},
-                 {res="#Room_floor_4.png",x=Room_Distance.x+100+94*5-67,y=0},
+		 {res="#Room_floor_7.png",x=Room_Distance.x+103+94*4-65,y=0},
+                 {res="#Room_floor_4.png",x=Room_Distance.x+100+94*5-65,y=0},
 		 },--地板
     }
 

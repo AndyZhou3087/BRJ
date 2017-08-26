@@ -1121,7 +1121,7 @@ function MapLayer:collisionBeginCallBack(parameters)
             local _size = self.m_player:getSize()
             local bpx,bpy = self.m_player:getPosition()
             local roomIndex = math.ceil((self.m_player:getPositionY()-self.bottomHeight-self.m_heightValue-p_y)/Room_Size.height)
-            if self.m_player:getCheckSign() then
+--            if self.m_player:getCheckSign() then
                 local floorPos
                 if self.floorPos[self.jumpFloorNum].x then
                     floorPos = self.floorPos[self.jumpFloorNum]
@@ -1134,9 +1134,9 @@ function MapLayer:collisionBeginCallBack(parameters)
                         end
                     end
                 end
---                self.m_player:setPosition(cc.p(bpx,floorPos.y+_size.height*0.5+self.m_player:getErrorValue()))
+                self.m_player:setPosition(cc.p(bpx,floorPos.y+_size.height*0.5+self.m_player:getErrorValue()))
 --                Tools.printDebug("----------brj 碰撞检测------------: ",floorPos.y+_size.height*0.5+self.m_player:getErrorValue())
-            end
+--            end
         end
     end
     

@@ -121,12 +121,12 @@ function Player:setGravityEnable(_enable)
 	end
 end
 
---上跳状态
+--上跳状态【先解决第一个版本问题，后续版本还要再改】
 function Player:toJump(pos,isRunning)
     self.curFloorPos = pos
     
     self.checkPos = false
-    self:setPositionY(pos.y+self.m_size.height*0.5+self.errorValue)
+    self:setPositionY(pos.y+self.m_size.height*0.5+self.errorValue)--1、改动处
 --    self.jumpPro = self.m_jump
     self:toStartJump()
     local x,y = self:getPosition()
