@@ -1026,8 +1026,8 @@ function MapLayer:onEnterFrame(dt)
 --                self:CoreLogic()
 --            end
 --        else
-        Tools.printDebug("------------镜头角色移动跳动---------：")
-            self:CoreLogic() 
+--        Tools.printDebug("------------镜头角色移动跳动---------：")
+            self:CoreLogic()
 --        end
     end
     
