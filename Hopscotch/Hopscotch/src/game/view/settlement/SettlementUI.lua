@@ -89,16 +89,31 @@ function SettlementUI:initMiddle()
     self.framebtn2:onButtonClicked(function (event)
         AudioManager.playSoundEffect(AudioManager.Sound_Effect_Type.Button_Click_Sound)
         Tools.printDebug("--------brj 看视频得钻石")
-        SDKUtil.getDiamondByVideo({callback=function(_res)
-            if SDKUtil.PayResult.Success == _res then
-                local diaCount = math.random(VideoDiamond[1],VideoDiamond[2])
-                GameDataManager.addDiamond(diaCount)
-                GameDataManager.addDiamondCount()
-                GameDispatcher:dispatch(EventNames.EVENT_FLY_TEXT,{text ="获得"..diaCount.."钻石"})
-            else
-                GameDispatcher:dispatch(EventNames.EVENT_FLY_TEXT,{text ="获取失败"})
+        if not self.touchClick then
+            self.touchClick = true
+            if GameDataManager.isMusicOpen() then
+                audio.pauseMusic()
             end
-        end})
+            if GameDataManager.isSoundOpen() then
+                audio.pauseAllSounds()
+            end
+            SDKUtil.getDiamondByVideo({callback=function(_res)
+                if GameDataManager.isMusicOpen() then
+                    audio.resumeMusic()
+                end
+                if GameDataManager.isSoundOpen() then
+                    audio.resumeAllSounds()
+                end
+                if SDKUtil.PayResult.Success == _res then
+                    local diaCount = math.random(VideoDiamond[1],VideoDiamond[2])
+                    GameDataManager.addDiamond(diaCount)
+                    GameDataManager.addDiamondCount()
+                    GameDispatcher:dispatch(EventNames.EVENT_FLY_TEXT,{text ="获得"..diaCount.."钻石"})
+                else
+                    GameDispatcher:dispatch(EventNames.EVENT_FLY_TEXT,{text ="获取失败"})
+                end
+            end})
+        end
     end)
     self.framebtn3:onButtonClicked(function (event)
         AudioManager.playSoundEffect(AudioManager.Sound_Effect_Type.Button_Click_Sound)

@@ -65,6 +65,10 @@ MAP_ROOM_OTHER_MAX = 20
 --地图当前ZOder
 MAP_ZORDER_MAX=0
 
+
+--角色跳跃所用时间/跟摄像机移动时间匹配
+RoleJumpCameraMoveTime = 0.22
+
 OpenWallType = 
     {
         Left = 1,

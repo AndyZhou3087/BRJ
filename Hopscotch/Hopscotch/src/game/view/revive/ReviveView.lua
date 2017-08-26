@@ -31,7 +31,19 @@ function ReviveView:ctor(parameters)
         Tools.printDebug("--------brj 看视频冲刺")
         if not self.touchClick then
             self.touchClick = true
+            if GameDataManager.isMusicOpen() then
+                audio.pauseMusic()
+            end
+            if GameDataManager.isSoundOpen() then
+                audio.pauseAllSounds()
+            end
             SDKUtil.getDiamondByVideo({callback=function(_res)
+                if GameDataManager.isMusicOpen() then
+                    audio.resumeMusic()
+                end
+                if GameDataManager.isSoundOpen() then
+                    audio.resumeAllSounds()
+                end
                 if SDKUtil.PayResult.Success == _res then
                     self:toClose(true)
                     GameDispatcher:dispatch(EventNames.EVENT_ROLE_REVIVE)

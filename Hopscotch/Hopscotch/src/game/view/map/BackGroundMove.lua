@@ -129,32 +129,34 @@ end
 --parm@1:当前楼层位置
 --parm@2:位置差(当前背景与楼层相差的距离)
 --parm@3:摄像机当年位置
-function BackGroundMove:bgPortraitMove(_pos,_dis,_mx)
+function BackGroundMove:bgPortraitMove(_pos,_dis,_mx,_value)
+    local value = _value or 1
+
     local x,y = self.Panel_1:getPosition()
     self.Panel_1:stopAllActions()
-    local move1 = cc.MoveTo:create(0.3,cc.p(_pos.x+self.offset[5],self.lastPandelPosY+Room_Size.height*Rdt_2))
+    local move1 = cc.MoveTo:create(RoleJumpCameraMoveTime*value,cc.p(_pos.x+self.offset[5],self.lastPandelPosY+Room_Size.height*Rdt_2))
     self.Panel_1:runAction(move1)
     self.lastPandelPosY = self.lastPandelPosY+Room_Size.height*Rdt_2
 
     local p2x,p2y = self.Panel_2:getPosition()
     self.Panel_2:stopAllActions()
-    local move2 = cc.MoveTo:create(0.3,cc.p(p2x,self.lastPande2PosY+Room_Size.height*Rdt_2))
+    local move2 = cc.MoveTo:create(RoleJumpCameraMoveTime*value,cc.p(p2x,self.lastPande2PosY+Room_Size.height*Rdt_2))
     self.Panel_2:runAction(move2)
     self.lastPande2PosY = self.lastPande2PosY+Room_Size.height*Rdt_2
     local p2x2,p2y2 = self.Panel_2_0:getPosition()
     self.Panel_2_0:stopAllActions()
-    local move2_2 = cc.MoveTo:create(0.3,cc.p(p2x2,self.lastPande2_0PosY+Room_Size.height*Rdt_2))
+    local move2_2 = cc.MoveTo:create(RoleJumpCameraMoveTime*value,cc.p(p2x2,self.lastPande2_0PosY+Room_Size.height*Rdt_2))
     self.Panel_2_0:runAction(move2_2)
     self.lastPande2_0PosY = self.lastPande2_0PosY+Room_Size.height*Rdt_2
 
     local p3x,p3y = self.Panel_3:getPosition()
     self.Panel_3:stopAllActions()
-    local move3 = cc.MoveTo:create(0.3,cc.p(p3x,self.lastPande3PosY+Room_Size.height*Rdt_1))
+    local move3 = cc.MoveTo:create(RoleJumpCameraMoveTime*value,cc.p(p3x,self.lastPande3PosY+Room_Size.height*Rdt_1))
     self.Panel_3:runAction(move3)
     self.lastPande3PosY = self.lastPande3PosY+Room_Size.height*Rdt_2
     local p3x2,p3y2 = self.Panel_3_0:getPosition()
     self.Panel_3_0:stopAllActions()
-    local move3_2 = cc.MoveTo:create(0.3,cc.p(p3x2,self.lastPande3_0PosY+Room_Size.height*Rdt_1))
+    local move3_2 = cc.MoveTo:create(RoleJumpCameraMoveTime*value,cc.p(p3x2,self.lastPande3_0PosY+Room_Size.height*Rdt_1))
     self.Panel_3_0:runAction(move3_2)
     self.lastPande3_0PosY = self.lastPande3_0PosY+Room_Size.height*Rdt_2
 end
@@ -167,25 +169,25 @@ end
 function BackGroundMove:bgPortraitRunningMove(_curPosY,_dis,_mx)
     local p1x,p1y = self.Panel_1:getPosition()
     self.Panel_1:stopAllActions()
-    local move1 = cc.MoveTo:create(0.3,cc.p(_mx+self.offset[5],p1y+Room_Size.height*Rdt_2))
+    local move1 = cc.MoveTo:create(RoleJumpCameraMoveTime,cc.p(_mx+self.offset[5],p1y+Room_Size.height*Rdt_2))
     self.Panel_1:runAction(move1)
 
     local p2x,p2y = self.Panel_2:getPosition()
     self.Panel_2:stopAllActions()
-    local move2 = cc.MoveTo:create(0.3,cc.p(p2x,p2y+Room_Size.height*Rdt_2))
+    local move2 = cc.MoveTo:create(RoleJumpCameraMoveTime,cc.p(p2x,p2y+Room_Size.height*Rdt_2))
     self.Panel_2:runAction(move2)
     local p2x2,p2y2 = self.Panel_2_0:getPosition()
     self.Panel_2_0:stopAllActions()
-    local move2_2 = cc.MoveTo:create(0.3,cc.p(p2x2,p2y2+Room_Size.height*Rdt_2))
+    local move2_2 = cc.MoveTo:create(RoleJumpCameraMoveTime,cc.p(p2x2,p2y2+Room_Size.height*Rdt_2))
     self.Panel_2_0:runAction(move2_2)
     
     local p3x,p3y = self.Panel_3:getPosition()
     self.Panel_3:stopAllActions()
-    local move3 = cc.MoveTo:create(0.3,cc.p(p3x,p3y+Room_Size.height*Rdt_1))
+    local move3 = cc.MoveTo:create(RoleJumpCameraMoveTime,cc.p(p3x,p3y+Room_Size.height*Rdt_1))
     self.Panel_3:runAction(move3)
     local p3x2,p3y2 = self.Panel_3_0:getPosition()
     self.Panel_3_0:stopAllActions()
-    local move3_2 = cc.MoveTo:create(0.3,cc.p(p3x2,p3y2+Room_Size.height*Rdt_1))
+    local move3_2 = cc.MoveTo:create(RoleJumpCameraMoveTime,cc.p(p3x2,p3y2+Room_Size.height*Rdt_1))
     self.Panel_3_0:runAction(move3_2)
 end
 
@@ -195,43 +197,43 @@ end
 function BackGroundMove:toRunCameraMove(_pos,_dis,_floor)
     local p1x,p1y = self.Panel_1:getPosition()
     self.Panel_1:stopAllActions()
-    local mo = cc.MoveBy:create(0.3,cc.p(0,Room_Size.height*Rdt_2))
+    local mo = cc.MoveBy:create(RoleJumpCameraMoveTime,cc.p(0,Room_Size.height*Rdt_2))
     self.Panel_1:runAction(mo)
 
     if _floor % 10 ~= 0 then
         local bx,by = self.Panel_2:getPosition()
         self.Panel_2:stopAllActions()
-        local move = cc.MoveBy:create(0.3,cc.p(0,Room_Size.height*Rdt_2))
+        local move = cc.MoveBy:create(RoleJumpCameraMoveTime,cc.p(0,Room_Size.height*Rdt_2))
         self.Panel_2:runAction(move)
         local bx2,by2 = self.Panel_2_0:getPosition()
         self.Panel_2_0:stopAllActions()
-        local move2 = cc.MoveBy:create(0.3,cc.p(0,Room_Size.height*Rdt_2))
+        local move2 = cc.MoveBy:create(RoleJumpCameraMoveTime,cc.p(0,Room_Size.height*Rdt_2))
         self.Panel_2_0:runAction(move2)
 
         local p3x,p3y = self.Panel_3:getPosition()
         self.Panel_3:stopAllActions()
-        local p_move = cc.MoveBy:create(0.3,cc.p(0,Room_Size.height*Rdt_1))
+        local p_move = cc.MoveBy:create(RoleJumpCameraMoveTime,cc.p(0,Room_Size.height*Rdt_1))
         self.Panel_3:runAction(p_move)
         local p3x2,p3y2 = self.Panel_3_0:getPosition()
         self.Panel_3_0:stopAllActions()
-        local p_move2 = cc.MoveBy:create(0.3,cc.p(0,Room_Size.height*Rdt_1))
+        local p_move2 = cc.MoveBy:create(RoleJumpCameraMoveTime,cc.p(0,Room_Size.height*Rdt_1))
         self.Panel_3_0:runAction(p_move2)
     else
         local bx,by = self.Panel_2:getPosition()
         self.Panel_2:stopAllActions()
-        local move = cc.MoveTo:create(0.3,cc.p(bx,by+Room_Size.height*Rdt_2))
+        local move = cc.MoveTo:create(RoleJumpCameraMoveTime,cc.p(bx,by+Room_Size.height*Rdt_2))
         self.Panel_2:runAction(move)
         local bx2,by2 = self.Panel_2_0:getPosition()
         self.Panel_2_0:stopAllActions()
-        local move2 = cc.MoveTo:create(0.3,cc.p(bx2,by2+Room_Size.height*Rdt_2))
+        local move2 = cc.MoveTo:create(RoleJumpCameraMoveTime,cc.p(bx2,by2+Room_Size.height*Rdt_2))
         self.Panel_2_0:runAction(move2)
         local p3x,p3y = self.Panel_3:getPosition()
         self.Panel_3:stopAllActions()
-        local p_move = cc.MoveTo:create(0.3,cc.p(p3x,p3y+Room_Size.height*Rdt_1))
+        local p_move = cc.MoveTo:create(RoleJumpCameraMoveTime,cc.p(p3x,p3y+Room_Size.height*Rdt_1))
         self.Panel_3:runAction(p_move)
         local p3x2,p3y2 = self.Panel_3_0:getPosition()
         self.Panel_3_0:stopAllActions()
-        local p_move2 = cc.MoveTo:create(0.3,cc.p(p3x2,p3y2+Room_Size.height*Rdt_1))
+        local p_move2 = cc.MoveTo:create(RoleJumpCameraMoveTime,cc.p(p3x2,p3y2+Room_Size.height*Rdt_1))
         self.Panel_3_0:runAction(p_move2)
         self.lastPandelPosY = p1y+Room_Size.height*Rdt_2
         self.lastPande2PosY = by+Room_Size.height*Rdt_2

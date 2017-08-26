@@ -1356,8 +1356,11 @@ function MapLayer:CoreLogic()
             self.jumpFloorNum = roomIndex
             GameDataManager.setPoints(self.jumpFloorNum)
             if self.curRoomType~=MAPROOM_TYPE.Running then
-                self:toCameraMove()
---                Tools.printDebug("----------brj 当前room：111111111111111")
+                if self.m_player:isInState(PLAYER_STATE.StartRocket) or self.m_player:isInState(PLAYER_STATE.Rocket) then
+                	self:toStartRocketCameraMove()
+                else
+                    self:toCameraMove() 
+                end
             else
                 if self.jumpFloorNum % 10 == 1 then
                     self.runningKey = 1
@@ -1589,6 +1592,30 @@ function MapLayer:getRocketData()
     return self.m_camera,self.floorPos,self.jumpFloorNum,self.bottomHeight,self.curRoomKey
 end
 
+--在开局火箭下摄像机移动
+function MapLayer:toStartRocketCameraMove()
+    local _size = self.m_player:getSize()
+    local roomIndex = math.ceil((self.m_player:getPositionY()-self.bottomHeight-_size.height*0.5)/Room_Size.height)
+    self.curState = State_Type.CommonState
+    local pos = self.floorPos[self.jumpFloorNum]
+    if roomIndex >= GameDataManager.getPoints() then
+        self.m_camera:stopAllActions()
+        local mx,my = self.m_camera:getPosition()
+        local move = cc.MoveTo:create(RoleJumpCameraMoveTime*0.2,cc.p(pos.x,pos.y-self.bottomHeight))
+        local callfun = cc.CallFunc:create(function()
+            self.isBgMove = false
+        end)
+        local seq = cc.Sequence:create(move,callfun)
+        self.m_camera:runAction(seq)
+        self.isBgMove = true
+        self.bgNode:bgPortraitMove(pos,self.bottomHeight,mx,0.2)
+
+        self.bg:stopAllActions()
+        local move3 = cc.MoveTo:create(RoleJumpCameraMoveTime*0.2,cc.p(pos.x,pos.y-self.bottomHeight))
+        self.bg:runAction(move3)
+    end 
+end
+
 
 --摄像机移动
 function MapLayer:toCameraMove()
@@ -1608,7 +1635,7 @@ function MapLayer:toCameraMove()
         if roomIndex >= GameDataManager.getPoints() then
             self.m_camera:stopAllActions()
             local mx,my = self.m_camera:getPosition()
-            local move = cc.MoveTo:create(0.3,cc.p(mx,pos.y-self.bottomHeight))
+            local move = cc.MoveTo:create(RoleJumpCameraMoveTime,cc.p(mx,pos.y-self.bottomHeight))
             local callfun = cc.CallFunc:create(function()
                 self.isBgMove = false
             end)
@@ -1618,7 +1645,7 @@ function MapLayer:toCameraMove()
             self.bgNode:bgPortraitRunningMove(pos.y,self.bottomHeight,mx)
 
             self.bg:stopAllActions()
-            local move3 = cc.MoveTo:create(0.3,cc.p(mx,pos.y-self.bottomHeight))
+            local move3 = cc.MoveTo:create(RoleJumpCameraMoveTime,cc.p(mx,pos.y-self.bottomHeight))
             self.bg:runAction(move3)
         end
     else
@@ -1656,7 +1683,7 @@ function MapLayer:toCameraMove()
             self.m_camera:stopAllActions()
             local mx,my = self.m_camera:getPosition()
 --            Tools.printDebug("----------brj 摄像机：",mx)
-            local move = cc.MoveTo:create(0.3,cc.p(pos.x,pos.y-self.bottomHeight))
+            local move = cc.MoveTo:create(RoleJumpCameraMoveTime,cc.p(pos.x,pos.y-self.bottomHeight))
             local callfun = cc.CallFunc:create(function()
                 self.isBgMove = false
             end)
@@ -1666,7 +1693,7 @@ function MapLayer:toCameraMove()
             self.bgNode:bgPortraitMove(pos,self.bottomHeight,mx)
 
             self.bg:stopAllActions()
-            local move3 = cc.MoveTo:create(0.3,cc.p(pos.x,pos.y-self.bottomHeight))
+            local move3 = cc.MoveTo:create(RoleJumpCameraMoveTime,cc.p(pos.x,pos.y-self.bottomHeight))
             self.bg:runAction(move3)
         end 
     end
@@ -1690,7 +1717,7 @@ function MapLayer:toRunCameraMove()
         local mx,my = self.m_camera:getPosition()
         if self.jumpFloorNum % 10 ~= 1 and self.jumpFloorNum % 10 ~= 9 and self.jumpFloorNum % 10 ~= 0 then
             self.m_camera:stopAllActions()
-            local move = cc.MoveBy:create(0.3,cc.p(0,pos.y-self.bottomHeight-my))
+            local move = cc.MoveBy:create(RoleJumpCameraMoveTime,cc.p(0,pos.y-self.bottomHeight-my))
             local callfun = cc.CallFunc:create(function()
                 self.isBgMove = false
 --                self.curState = State_Type.RunningState
@@ -1702,11 +1729,11 @@ function MapLayer:toRunCameraMove()
 
             local bgx,bgy = self.bg:getPosition()
             self.bg:stopAllActions()
-            local move3 = cc.MoveBy:create(0.3,cc.p(0,pos.y-self.bottomHeight-bgy))
+            local move3 = cc.MoveBy:create(RoleJumpCameraMoveTime,cc.p(0,pos.y-self.bottomHeight-bgy))
             self.bg:runAction(move3)
         elseif self.jumpFloorNum % 10 == 0 then
             self.m_camera:stopAllActions()
-            local move = cc.MoveTo:create(0.3,cc.p(pos.x,pos.y-self.bottomHeight))
+            local move = cc.MoveTo:create(RoleJumpCameraMoveTime,cc.p(pos.x,pos.y-self.bottomHeight))
             local callfun = cc.CallFunc:create(function()
                 self.isBgMove = false
             end)
@@ -1717,7 +1744,7 @@ function MapLayer:toRunCameraMove()
             self.bgNode:toRunCameraMove(pos,self.bottomHeight,self.jumpFloorNum)
 
             self.bg:stopAllActions()
-            local move3 = cc.MoveTo:create(0.3,cc.p(pos.x,pos.y-self.bottomHeight))
+            local move3 = cc.MoveTo:create(RoleJumpCameraMoveTime,cc.p(pos.x,pos.y-self.bottomHeight))
             self.bg:runAction(move3)
         end
     end
