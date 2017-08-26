@@ -18,7 +18,7 @@ local moveSpeed = 120
 --角色横跑第一层的理想化x坐标
 local runFirstX = 418
 
-local p_y = 0
+local p_y = -20
 
 math.randomseed(os.time())   --初始化随机种子
 
