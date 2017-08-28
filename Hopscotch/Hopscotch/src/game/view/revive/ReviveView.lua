@@ -45,10 +45,10 @@ function ReviveView:ctor(parameters)
                     audio.resumeAllSounds()
                 end
                 if SDKUtil.PayResult.Success == _res then
-                    self:toClose(true)
                     GameDispatcher:dispatch(EventNames.EVENT_ROLE_REVIVE)
                     GameDataManager.addReviveCount()
                     GameDataManager.setRevive(true)
+                    self:toClose(true)
                 else
                     GameDispatcher:dispatch(EventNames.EVENT_FLY_TEXT,{text ="冲刺失败"})
                 end

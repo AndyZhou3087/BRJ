@@ -127,7 +127,7 @@ function Player:toJump(pos,isRunning)
     
     self.checkPos = false
     self:setPositionY(pos.y+self.m_size.height*0.5+self.errorValue)--1、改动处
---    self.jumpPro = self.m_jump
+
     self:toStartJump()
     local x,y = self:getPosition()
 
@@ -139,29 +139,18 @@ function Player:toJump(pos,isRunning)
     else
         _vec.x=-self.m_vo.m_speed
     end
---    if not self.jumpPro then
-        self:setBodyVelocity(cc.p(_vec.x,260))
-        self.jumpHandler = Tools.delayCallFunc(RoleJumpCameraMoveTime,function()
-            --        self.checkHandler = Tools.delayCallFunc(0.01,function()
-            --            self:setPositionY(pos.y+self.m_size.height*0.5+self.errorValue)
-            self.checkPos = true
-            --        end)
-            self:toStopJump()
-        end)
---    else
---        self:setBodyVelocity(cc.p(_vec.x,180))
---        self.jumpHandler = Tools.delayCallFunc(0.13,function()
---            --        self.checkHandler = Tools.delayCallFunc(0.01,function()
---            --            self:setPositionY(pos.y+self.m_size.height*0.5+self.errorValue)
---            self.checkPos = true
---            --        end)
---            self:toStopJump()
---        end)
---    end
     
+    self:setBodyVelocity(cc.p(_vec.x,260))
+    self.jumpHandler = Tools.delayCallFunc(RoleJumpCameraMoveTime,function()
+        --        self.checkHandler = Tools.delayCallFunc(0.01,function()
+        --            self:setPositionY(pos.y+self.m_size.height*0.5+self.errorValue)
+        self.checkPos = true
+        --        end)
+        self:toStopJump()
+    end)
     
     self.jumpCount = self.jumpCount+1
-    Tools.printDebug("--------------------------------------跳跃坐标：",self:getPositionY())
+--    Tools.printDebug("--------------------------------------跳跃坐标：",self:getPositionY())
 
     AudioManager.playSoundEffect(AudioManager.Sound_Effect_Type.Jump_Sound)
 end
@@ -176,9 +165,6 @@ function Player:toStartJump()
         self.jumpHandler=nil
     end
     self.m_body:setCollisionBitmask(0x06)
---    if self.jumpPro then
---        self:setGravityEnable(false)
---    end
     self:stopAllActions()
     self:createModle(self.m_jumpModle)
     self.m_jump = true
@@ -532,7 +518,7 @@ function Player:selfDead()
         self.m_isDead = true
         if GameDataManager.getPoints() <= 20 then
             AudioManager.playSoundEffect(AudioManager.Sound_Effect_Type.Dead_Sound)
-            Tools.delayCallFunc(0.5,function()
+            self.tobackHandler = Tools.delayCallFunc(0.5,function()
 --                Tools.printDebug("--------brj 角色死亡：")
                 if GameDataManager.getPoints()>=GameDataManager.getRecord() then
                     GameDataManager.saveRecord(GameDataManager.getPoints())
@@ -816,6 +802,10 @@ function Player:dispose(_isDoor)
         self.checkHandler=nil
     end
     
+    if self.tobackHandler then
+        Scheduler.unscheduleGlobal(self.tobackHandler)
+        self.tobackHandler=nil
+    end
 
     GameController.stopDetect()
 

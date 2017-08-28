@@ -9,7 +9,7 @@ local BackGroundMove = require("game.view.map.BackGroundMove")
 local LineElement = require("game.view.element.LineElement")
 local PhantomElement = require("game.view.element.PhantomElement")
 
-local Raycast_DisY = 20  --探测距离
+local Raycast_DisY = 2  --探测距离
 local Raycast_DisX = 6 --探测轴方向有无障碍物
 
 --用来计算横跑时第一阶层移动的固定值
@@ -129,9 +129,9 @@ function MapLayer:touchFunc(event)
                 self.isMapBottom = false
                 GameDispatcher:dispatch(EventNames.EVENT_HIDE_BOTTOM)
             end
-            Tools.printDebug("brj 是否可连击跳跃: ",self.isCollision)
             if self.isCollision then
                 self.isCollision = false
+                Tools.printDebug("brj 是否可连击跳跃: ",self.isCollision)
                 self:toJump()
             end
         --end
@@ -180,6 +180,12 @@ function MapLayer:initRooms(parameters)
             end
             if self.m_levelCon.transit_1 then
             	self.transit_1 = true
+            end
+            if self.transit then
+            	self.initTransit = true
+            end
+            if self.transit_1 then
+                self.initTransit_1 = true
             end
             self.groupType = Map_Grade.floor_D
             self.roomType = self.m_levelCon.roomType
@@ -817,7 +823,7 @@ function MapLayer:onEnterFrame(dt)
 --                Tools.printDebug("brj1111111111111111--------右边死亡---------:",self.jumpFloorNum,bpx,pos.x+display.right+_size.width*0.5)
             end
         end
-        if bpy < pos.y-Room_Size.height*3 then
+        if bpy < pos.y-Room_Size.height*2 then
             self:playerDead()
         end
     end
@@ -839,7 +845,7 @@ function MapLayer:onEnterFrame(dt)
     self.m_player:setVelocity(cc.p(_add*self.m_player:getSpeed(),vel.y))
 
     if self.m_player:getJump() then
-        self.m_physicWorld:rayCast(handler(self,self.rayCastFunc),cc.p(_p.x,_p.y+_size.height*0.5),cc.p(_p.x,_p.y+_size.height*0.5+Raycast_DisY))--起始坐标和结束坐标(是指发出的一条射线)
+        self.m_physicWorld:rayCast(handler(self,self.rayCastFuncJump),cc.p(_p.x,_p.y),cc.p(_p.x,_p.y-Raycast_DisY))--起始坐标和结束坐标(是指发出的一条射线)
     else
         self.m_physicWorld:rayCast(handler(self,self.rayCastFunc),cc.p(_p.x,_p.y-_size.height*0.5),cc.p(_p.x,_p.y-_size.height*0.5-Raycast_DisY))
     end
@@ -1108,14 +1114,14 @@ function MapLayer:collisionBeginCallBack(parameters)
     end
     
     if obstacleTag == ELEMENT_TAG.FLOOR then
---        Tools.printDebug("----------brj 碰撞检测------------: ")
         self.isCollision = true
+--        Tools.printDebug("----------brj isCollisionisCollision----------------: ",self.isCollision)
         if not self.m_player:getJump() and self.curRoomType ~= MAPROOM_TYPE.Running and not GameController.isInState(PLAYER_STATE.Rocket) 
             and not GameController.isInState(PLAYER_STATE.StartRocket) then
             local _size = self.m_player:getSize()
             local bpx,bpy = self.m_player:getPosition()
             local roomIndex = math.ceil((self.m_player:getPositionY()-self.bottomHeight-self.m_heightValue-p_y)/Room_Size.height)
---            if self.m_player:getCheckSign() then
+            if roomIndex == self.jumpFloorNum then
                 local floorPos
                 if self.floorPos[self.jumpFloorNum].x then
                     floorPos = self.floorPos[self.jumpFloorNum]
@@ -1130,7 +1136,7 @@ function MapLayer:collisionBeginCallBack(parameters)
                 end
                 self.m_player:setPosition(cc.p(bpx,floorPos.y+_size.height*0.5+self.m_player:getErrorValue()))
 --                Tools.printDebug("----------brj 碰撞检测------------: ",floorPos.y+_size.height*0.5+self.m_player:getErrorValue())
---            end
+            end
         end
     end
     
@@ -1174,7 +1180,7 @@ function MapLayer:collisionBeginCallBack(parameters)
                 end 
             end
        end
-       self.isCollision = true
+--       self.isCollision = true
        
         return true
     elseif obstacleTag == ELEMENT_TAG.GOOD_TAG then
@@ -1212,7 +1218,7 @@ function MapLayer:rayCastFunc(_world,_p1,_p2,_p3)
         local roomIndex = math.ceil((self.m_player:getPositionY()-self.bottomHeight-self.m_heightValue-p_y)/Room_Size.height)
         if not self.m_player:getJump() and self.curRoomType ~= MAPROOM_TYPE.Running and not GameController.isInState(PLAYER_STATE.Rocket) 
             and not GameController.isInState(PLAYER_STATE.StartRocket)then
---            if roomIndex == self.jumpFloorNum then
+            if roomIndex == self.jumpFloorNum then
                 local floorPos
                 if self.floorPos[self.jumpFloorNum].x then
                     floorPos = self.floorPos[self.jumpFloorNum]
@@ -1227,10 +1233,10 @@ function MapLayer:rayCastFunc(_world,_p1,_p2,_p3)
                 end
 --                Tools.printDebug("----------brj 不停检测角色y轴：",self.jumpFloorNum,floorPos.y)
                 self.m_player:setPosition(cc.p(bpx,floorPos.y+_size.height*0.5+self.m_player:getErrorValue()))
---            end
+            end
         end
-        self.isCollision = true
-        
+--        self.isCollision = true
+
 --        if not GameController.isInState(PLAYER_STATE.Rocket) and not GameController.isInState(PLAYER_STATE.StartRocket) then
 --            self:CoreLogic()
 --        end
@@ -1241,6 +1247,34 @@ function MapLayer:rayCastFunc(_world,_p1,_p2,_p3)
     return true
 end
 
+--跳跃检测射线，从人物中心向下或向上发射一个比自身一半多 Raycast_DisY 像素的探测射线，进行检测有无障碍物
+function MapLayer:rayCastFuncJump(_world,_p1,_p2,_p3)
+    if self.backOrigin then
+        return true
+    end
+
+    local _body = _p1.shape:getBody()
+    local _bnode = _body:getNode()
+    local _tag = _body:getTag()
+    local _vo = self.m_player:getVo()
+    local _hitP = cc.p(_p1.ended.x,_p1.ended.y)
+
+    if tolua.isnull(_bnode) then
+        return false
+    end
+    if _tag==ELEMENT_TAG.PLAYER_TAG then
+        return true
+    end
+
+    if _tag == ELEMENT_TAG.FLOOR then
+        self.isCollision = true
+        Tools.printDebug("----------brj rayCastFuncJump----------------: ",self.isCollision)
+
+        return true
+    end
+
+    return true
+end
 
 function MapLayer:rayCastFuncX(_world,_p1,_p2,_p3)
 
@@ -1893,8 +1927,8 @@ function MapLayer:backOriginFunc()
     self.m_camera:runAction(move)
     
     --回到原点时随机过度值清除
-    self.transit = false
-    self.transit_1 = false
+    self.transit = self.initTransit
+    self.transit_1 = self.initTransit_1
     
     self.isBgMove = false
     self.bgNode:toBackOrigin()

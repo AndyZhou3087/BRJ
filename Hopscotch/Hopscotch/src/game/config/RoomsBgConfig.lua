@@ -107,7 +107,7 @@ RoomBgs[10002]=
 --===========================测试普通断层房间========================
 RoomBgs[10011]=
     {
-        wallLeftRight = {{res="#Room_wall.png",x=Room_Distance.x+0,y=15,type = RoomWall_Type.Left},},--左右两侧墙壁
+        wallLeftRight = {{res="#Room_wall.png",x=Room_Distance.x+0,y=15,type = RoomWall_Type.Left},{res="#Room_wall.png",x=Room_Distance.x+668,y=15,type = RoomWall_Type.Right}},--左右两侧墙壁
         floor = {{res="#Room_floor_7.png",x=Room_Distance.x+17,y=0},
             },--地板
     }
