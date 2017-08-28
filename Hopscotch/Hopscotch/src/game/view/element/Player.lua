@@ -38,10 +38,10 @@ function Player:ctor()
         self:createModle(modle)
         self.m_armature:setScale(0.45)
         if self.m_curModle == 1 or self.m_curModle == 7 then
-            p_size = cc.size(50,75)
+            p_size = cc.size(40,75)
             self.errorValue = 15
         else
-            p_size = cc.size(45,65)
+            p_size = cc.size(40,65)
             self.errorValue = 15
         end
     else

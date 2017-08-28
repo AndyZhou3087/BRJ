@@ -9,7 +9,7 @@ local BackGroundMove = require("game.view.map.BackGroundMove")
 local LineElement = require("game.view.element.LineElement")
 local PhantomElement = require("game.view.element.PhantomElement")
 
-local Raycast_DisY = 2  --探测距离
+local Raycast_DisY = 20  --探测距离
 local Raycast_DisX = 6 --探测轴方向有无障碍物
 
 --用来计算横跑时第一阶层移动的固定值
