@@ -357,7 +357,7 @@ function MapLayer:addNewRooms(parameters)
     if self.m_roomsNum % 100 == 1 then
         self.gFloor = math.random(self.m_roomsNum,self.m_roomsNum+98)
     end
-    Tools.printDebug("brj jumpHouse 随机出现火箭道具楼层：",self.gFloor)
+--    Tools.printDebug("brj jumpHouse 随机出现火箭道具楼层：",self.gFloor)
     
     if self.roomType ~= MAPROOM_TYPE.Running then
         self.floorNum = self.floorNum + 1

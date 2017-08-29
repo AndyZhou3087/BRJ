@@ -135,9 +135,9 @@ function Player:toJump(pos,isRunning)
     self:setBodyVelocity(cc.p(_vec.x,0))
     local _scaleX=self:getScaleX()
     if _scaleX<0 then
-        _vec.x=self.m_vo.m_speed
+        _vec.x=self.m_speed
     else
-        _vec.x=-self.m_vo.m_speed
+        _vec.x=-self.m_speed
     end
     
     self:setBodyVelocity(cc.p(_vec.x,260))
@@ -369,6 +369,7 @@ function Player:springRocket(parameters)
         self.toRocketState = 1
         local move = cc.MoveTo:create(1,cc.p(nextCloseFloorX+display.cx,nextCloseFloorY+self.m_size.height*0.5+30))
         local callfun = cc.CallFunc:create(function()
+            self:setPosition(cc.p(nextCloseFloorX+display.cx,nextCloseFloorY+self.m_size.height*0.5+30))
             self:toStopRocket()
         end)
         local seq = cc.Sequence:create(move,callfun)
@@ -396,6 +397,7 @@ function Player:springRocket(parameters)
         local move = cc.MoveTo:create(time,cc.p(floorPos[curCloseFloor].x+display.cx,floorPos[curCloseFloor].y+self.m_size.height*0.5+30))
         local move2 = cc.MoveTo:create(time2,cc.p(nextCloseFloorX+display.cx,nextCloseFloorY+self.m_size.height*0.5+30))
         local callfun = cc.CallFunc:create(function()
+            self:setPosition(cc.p(nextCloseFloorX+display.cx,nextCloseFloorY+self.m_size.height*0.5+30))
             self:toStopRocket()
         end)
         local seq = cc.Sequence:create(move,move2,callfun)
@@ -422,6 +424,7 @@ function Player:springRocket(parameters)
         local move = cc.MoveTo:create(time,cc.p(curCloseFloorX+display.cx,curCloseFloorY+self.m_size.height*0.5+30))
         local move2 = cc.MoveTo:create(time2,cc.p(floorPos[curCloseFloor+10].x+display.cx,floorPos[curCloseFloor+10].y+self.m_size.height*0.5+30))
         local callfun = cc.CallFunc:create(function()
+            self:setPosition(cc.p(floorPos[curCloseFloor+10].x+display.cx,floorPos[curCloseFloor+10].y+self.m_size.height*0.5+30))
             self:toStopRocket()
         end)
         local seq = cc.Sequence:create(move,move2,callfun)
@@ -473,6 +476,7 @@ function Player:relive(parameters)
     self.m_isDead = false
     self.m_body:setCollisionBitmask(0x03)
     self:addLifeNum(1)
+
     local camera,floorPos,curFloor,dis,curRoomKey
     if not tolua.isnull(self:getParent()) then
         camera,floorPos,curFloor,dis,curRoomKey = self:getParent():getRocketData()
@@ -518,6 +522,7 @@ function Player:selfDead(isTimeOver)
     Tools.printDebug("--------brj 角色死亡：",self.m_vo.m_lifeNum)
     if not self.m_isDead and self.m_vo.m_lifeNum <= 0 then
         self.m_isDead = true
+        
         if GameDataManager.getPoints() <= 20 then
             AudioManager.playSoundEffect(AudioManager.Sound_Effect_Type.Dead_Sound)
             self.tobackHandler = Tools.delayCallFunc(0.5,function()
