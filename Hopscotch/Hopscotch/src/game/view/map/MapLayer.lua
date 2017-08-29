@@ -76,6 +76,15 @@ function MapLayer:ctor(parameters)
     
     self.m_bg = display.newSprite("map/Scene_1/Map_frame_2.png")
     self.bottomHeight = self.m_bg:getCascadeBoundingBox().size.height
+    
+    
+    --下边界
+    self.edgeBottom = display.newNode()
+    local bottomBody = cc.PhysicsBody:createEdgeSegment(cc.p(0,0),cc.p(display.width,0),cc.PhysicsMaterial(0, 0, 0),self.bottomHeight)
+    bottomBody:setTag(ELEMENT_TAG.Edge_Bottom)
+    self.edgeBottom:setPhysicsBody(bottomBody)
+    self:addChild(self.edgeBottom)
+    
 
     --房间层
     self.m_roomNode = display.newNode()
@@ -1430,12 +1439,17 @@ function MapLayer:CoreLogic()
 end
 
 --游戏死亡
-function MapLayer:playerDead()
+function MapLayer:playerDead(parm)
     if self.backOrigin then
     	return
     end
     self.isCollision = false
-    self.m_player:selfDead()
+    if parm and parm.data then
+        self.m_player:selfDead(parm.data)
+    else
+        self.m_player:selfDead()
+    end
+    
 end
 
 --双向横跑时根据编号从右边缓存中取出房间

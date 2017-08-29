@@ -175,6 +175,7 @@ ELEMENT_TAG=
         DIAMOND_TAG = 6,   --金币
         GOOD_TAG = 7,    --道具
         SPECIAL_TAG = 8,  --特殊钢架
+        Edge_Bottom = 9,   --下边界
     }
 
 --缓存元素类型

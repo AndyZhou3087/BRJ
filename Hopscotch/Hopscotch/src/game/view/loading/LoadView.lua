@@ -162,12 +162,13 @@ function LoadView:playerResFinish()
 end
 
 function LoadView:roleMove()
+    local playerY = display.bottom+350
     local res = RoleConfig[1].roleImg
     local _actionName = RoleConfig[1].armatureName
     local jump = RoleConfig[1].jumpName
     
     local node = display.newNode():addTo(self)
-    node:setPosition(cc.p(display.right+100,display.bottom+350))
+    node:setPosition(cc.p(display.right+100,playerY))
     local role = display.newSprite(res):addTo(node)
     
     local animation = cc.AnimationCache:getInstance():getAnimation(_actionName)
@@ -176,7 +177,7 @@ function LoadView:roleMove()
     role:runAction(rf)
     role:setColor(cc.c3b(40,50,66))
 
-    local move = cc.MoveTo:create(1,cc.p(display.cx+100,display.bottom+350))
+    local move = cc.MoveTo:create(1,cc.p(display.cx+100,playerY))
     local toJump = cc.JumpBy:create(0.3,cc.p(0,0),180,1)
     local call = cc.CallFunc:create(function()
 --        role:stopAllActions()
@@ -186,7 +187,7 @@ function LoadView:roleMove()
     end)
     local mm = cc.MoveBy:create(0.3,cc.p(-200,0))
     local spawn = cc.Spawn:create(toJump,call,mm)
-    local move2 = cc.MoveTo:create(1,cc.p(-100,display.bottom+350))
+    local move2 = cc.MoveTo:create(1,cc.p(-100,playerY))
     local call2 = cc.CallFunc:create(function()
         role:stopAllActions()
         local animation3 = cc.AnimationCache:getInstance():getAnimation(_actionName)
@@ -197,7 +198,7 @@ function LoadView:roleMove()
     local spawn2 = cc.Spawn:create(move2,call2)
     local seq = cc.Sequence:create(move,spawn,spawn2)
     local callfunc = cc.CallFunc:create(function()
-        node:setPosition(cc.p(display.right+100,display.bottom+350))
+        node:setPosition(cc.p(display.right+100,playerY))
     end)
     local seq2 = cc.Sequence:create(seq,callfunc)
     local rff = cc.RepeatForever:create(seq2)

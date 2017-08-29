@@ -499,7 +499,7 @@ function Player:relive(parameters)
 end
 
 --角色死亡
-function Player:selfDead()
+function Player:selfDead(isTimeOver)
     if self:isInState(PLAYER_STATE.Rocket) then
         return
     end
@@ -510,7 +510,9 @@ function Player:selfDead()
         return
     end
     
-    self.jumpSack:setVisible(true)
+    if not isTimeOver then
+        self.jumpSack:setVisible(true)
+    end
     self.m_body:setCollisionBitmask(0x04)
     self.m_vo.m_lifeNum = self.m_vo.m_lifeNum - 1
     Tools.printDebug("--------brj 角色死亡：",self.m_vo.m_lifeNum)
