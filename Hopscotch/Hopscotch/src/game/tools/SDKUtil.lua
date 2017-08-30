@@ -88,10 +88,10 @@ function SDKUtil.getDiamondByVideo(_data)
 end
 
 --五星好评
-function SDKUtil.favourableComment(_data)
-    local params = {_data.callback}
-    local _params = {callback = _data.callback}
-    local sigs = "(I)V"
+function SDKUtil.favourableComment()
+    local params = {}
+    local _params = {}
+    local sigs = "()V"
     if luaj then
         luaj.callStaticMethod(className,"favourableComment",params,sigs)
         return
@@ -100,7 +100,21 @@ function SDKUtil.favourableComment(_data)
         luaoc.callStaticMethod(ocClassName,"favourableComment",_params)
         return
     end
-    _data.callback(SDKUtil.PayResult.Success)
+end
+
+--五星好评弹框
+function SDKUtil.favourableCommentAlert()
+    local params = {}
+    local _params = {}
+    local sigs = "()V"
+    if luaj then
+        luaj.callStaticMethod(className,"favourableCommentAlert",params,sigs)
+        return
+    end
+    if luaoc then
+        luaoc.callStaticMethod(ocClassName,"favourableCommentAlert",_params)
+        return
+    end
 end
 
 --eventId 自定义事件ID 

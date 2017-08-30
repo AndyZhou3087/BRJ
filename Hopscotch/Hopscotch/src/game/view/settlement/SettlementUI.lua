@@ -53,6 +53,10 @@ function SettlementUI:initAction()
         local move5 = cc.MoveBy:create(0.2,cc.p(0,216))
         self.bottom:runAction(move5)
     end)
+    self.handler5 = Tools.delayCallFunc(1.2,function()
+        Tools.printDebug("brj hopscotch 五星好评弹框")
+        SDKUtil.favourableCommentAlert()
+    end)
 end
 
 function SettlementUI:initTop()
@@ -143,9 +147,7 @@ function SettlementUI:initMiddle()
     self.framebtn4:onButtonClicked(function (event)
         AudioManager.playSoundEffect(AudioManager.Sound_Effect_Type.Button_Click_Sound)
         Tools.printDebug("brj hopscotch 五星好评")
-        SDKUtil.favourableComment({callback=function(_res)
-            
-        end})
+        SDKUtil.favourableComment()
     end)
     
     self.countDown = 0
