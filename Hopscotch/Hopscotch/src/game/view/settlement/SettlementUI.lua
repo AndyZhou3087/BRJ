@@ -284,6 +284,10 @@ function SettlementUI:onCleanup()
         Scheduler.unscheduleGlobal(self.handler4)
         self.handler4 = nil
     end
+    if self.handler5 then
+        Scheduler.unscheduleGlobal(self.handler5)
+        self.handler5 = nil
+    end
     
     if self.m_Handler then
         Scheduler.unscheduleGlobal(self.m_Handler)
