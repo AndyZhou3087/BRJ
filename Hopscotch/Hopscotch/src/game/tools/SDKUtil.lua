@@ -118,6 +118,7 @@ function SDKUtil.favourableCommentAlert(_data)
         luaoc.callStaticMethod(ocClassName,"favourableCommentAlert",_params)
         return
     end
+    _data.callback(SDKUtil.PayResult.Comment)
 end
 
 --eventId 自定义事件ID 

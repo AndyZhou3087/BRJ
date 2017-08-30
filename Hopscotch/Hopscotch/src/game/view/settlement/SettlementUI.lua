@@ -55,12 +55,12 @@ function SettlementUI:initAction()
         self.bottom:runAction(move5)
     end)
     self.handler5 = Tools.delayCallFunc(1.2,function()
-        Tools.printDebug("brj hopscotch 五星好评弹框")
         if GameDataManager.getGameOverCount() % AlertCommentCount == 0  then
+            Tools.printDebug("brj hopscotch 五星好评弹框",DataPersistence.getAttribute("favourableCommentAlert"))
             if not DataPersistence.getAttribute("favourableCommentAlert") then
                 SDKUtil.favourableCommentAlert({callback=function(_res)
                     if SDKUtil.PayResult.Comment == _res then
-                        DataPersistence.updateAttribute("favourableCommentAlert",true)  
+                        DataPersistence.updateAttribute("favourableCommentAlert",true)
                     end
                 end})
             end
