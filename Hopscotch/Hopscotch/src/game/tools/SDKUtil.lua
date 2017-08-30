@@ -7,6 +7,9 @@ SDKUtil.PayResult=
 {
         Success = "success",
         Fail = "fail",
+        Comment = "Comment",
+        Refuse = "Refuse",
+        Later = "Later",
 }
 
 SDKUtil.EventId = 
@@ -103,10 +106,10 @@ function SDKUtil.favourableComment()
 end
 
 --五星好评弹框
-function SDKUtil.favourableCommentAlert()
-    local params = {}
-    local _params = {}
-    local sigs = "()V"
+function SDKUtil.favourableCommentAlert(_data)
+    local params = {_data.callback}
+    local _params = {callback = _data.callback}
+    local sigs = "(I)V"
     if luaj then
         luaj.callStaticMethod(className,"favourableCommentAlert",params,sigs)
         return

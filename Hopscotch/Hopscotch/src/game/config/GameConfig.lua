@@ -11,6 +11,9 @@ OPACITY=160
 --初始钻石
 InitDiamond = 0
 
+--弹评论框的次数
+AlertCommentCount = 5
+
 --获取礼物花费钻石的数量
 DiamondSpendReward = 100
 --冲刺花费数量

@@ -14,6 +14,7 @@ function SettlementUI:ctor(parameters)
 
     local bg = display.newColorLayer(cc.c4b(0,0,0,OPACITY)):addTo(self)
     
+    GameDataManager.addGamgOverCount()
     AudioManager.stopAudio(1)
 
     self.m_json = cc.uiloader:load("json/SettlementUI.json")
@@ -55,7 +56,15 @@ function SettlementUI:initAction()
     end)
     self.handler5 = Tools.delayCallFunc(1.2,function()
         Tools.printDebug("brj hopscotch 五星好评弹框")
-        SDKUtil.favourableCommentAlert()
+        if GameDataManager.getGameOverCount() % AlertCommentCount == 0  then
+            if not DataPersistence.getAttribute("favourableCommentAlert") then
+                SDKUtil.favourableCommentAlert({callback=function(_res)
+                    if SDKUtil.PayResult.Comment == _res then
+                        DataPersistence.updateAttribute("favourableCommentAlert",true)  
+                    end
+                end})
+            end
+        end
     end)
 end
 

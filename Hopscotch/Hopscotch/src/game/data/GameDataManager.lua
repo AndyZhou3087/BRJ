@@ -182,6 +182,18 @@ function GameDataManager.resetGameDiamond()
     diamond_game = 0
 end
 
+local over_count = 0
+--游戏死亡次数
+function GameDataManager.addGamgOverCount()
+    over_count= over_count+1
+    return true
+end
+
+--获得死亡次数
+function GameDataManager.getGameOverCount()
+    return over_count
+end
+
 --===================End=========================
 
 --========================复活=============================

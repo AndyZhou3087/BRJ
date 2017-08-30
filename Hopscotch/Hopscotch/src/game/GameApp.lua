@@ -91,6 +91,9 @@ function GameApp:ctor()
     DataPersistence.insertAttribute("remain_diamondTime",0) --倒计时回满结束时间戳
     --次数
     DataPersistence.insertAttribute("diamondCount",0)
+    
+    --是否弹好评
+    DataPersistence.insertAttribute("favourableCommentAlert",false)
 end
 
 function GameApp:run()
