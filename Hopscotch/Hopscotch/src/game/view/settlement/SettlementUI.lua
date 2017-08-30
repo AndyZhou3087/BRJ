@@ -59,7 +59,7 @@ function SettlementUI:initAction()
             Tools.printDebug("brj hopscotch 五星好评弹框",DataPersistence.getAttribute("favourableCommentAlert"))
             if not DataPersistence.getAttribute("favourableCommentAlert") then
                 SDKUtil.favourableCommentAlert({callback=function(_res)
-                    if SDKUtil.PayResult.Comment == _res then
+                    if SDKUtil.PayResult.Comment == _res or SDKUtil.PayResult.Refuse == _res then
                         DataPersistence.updateAttribute("favourableCommentAlert",true)
                     end
                 end})
