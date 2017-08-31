@@ -72,4 +72,8 @@
     <Project>ReviveView</Project>
     <GuidesList />
   </GuidesProject>
+  <GuidesProject>
+    <Project>CommentAlert</Project>
+    <GuidesList />
+  </GuidesProject>
 </ArrayOfGuidesProject>

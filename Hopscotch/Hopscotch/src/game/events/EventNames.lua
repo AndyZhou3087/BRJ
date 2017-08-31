@@ -27,6 +27,9 @@ EventNames.EVENT_REVIVE_VIEW = "event_revive_view"
 --打开奖励界面
 EventNames.EVENT_OPEN_REWARD = "event_open_reward"
 
+--五星好评弹框
+EventNames.EVENT_OPEN_COMMENTALERT = "event_open_commentalert"
+
 --=======================刷新功能=======================
 --刷新场景
 EventNames.EVENT_UPDATE_SCENE = "event_update_scene"

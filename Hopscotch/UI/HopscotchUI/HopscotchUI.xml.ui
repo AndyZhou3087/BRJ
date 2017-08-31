@@ -25,6 +25,7 @@
     <string>SceneBg_10.json</string>
     <string>RocketView.json</string>
     <string>ReviveView.json</string>
+    <string>CommentAlert.json</string>
   </JsonList>
   <CanvasSize>
     <Width>750</Width>
@@ -36,5 +37,5 @@
   <imageFileList />
   <imagePngList />
   <JsonSuffix>.json</JsonSuffix>
-  <CurrentUIJson>SceneBg_2.json</CurrentUIJson>
+  <CurrentUIJson>CommentAlert.json</CurrentUIJson>
 </UIProject>

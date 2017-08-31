@@ -9,7 +9,7 @@ PrintDebug = true
 OPACITY=160
 
 --初始钻石
-InitDiamond = 0
+InitDiamond = 200000
 
 --弹评论框的次数
 AlertCommentCount = 5
