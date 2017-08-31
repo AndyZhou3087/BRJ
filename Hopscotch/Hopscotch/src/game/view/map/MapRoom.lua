@@ -65,28 +65,29 @@ function MapRoom:ctor(_idx,_levelCon,_floorNum,dArr,gFloor)
     self:initBlock(_roomBgVo)
     --房间装饰
     self:initOrnament(_ornaments)
+    --房间数字
+    if _idx == #_levelCon.roomBgs and self.roomType ~= MAPROOM_TYPE.Running then
+        local count = cc.LabelAtlas:_create()
+        count:initWithString(_floorNum,"count/Count_6.png",24,35,string.byte("0"))
+        count:setPosition(cc.p(Room_Size.width*0.5+Room_Distance.x,Room_Size.height*0.5+8))
+        count:setAnchorPoint(0.5,0.5)
+        count:setScaleX(1.5)
+        count:setScaleY(1.2)
+        self:addChild(count)
+    end
+    
     --房间内钻石
     local isShow = false
     if dArr and (dArr[1] == _idx or (#dArr == 2 and dArr[2] == _idx) or (#dArr == 3 and dArr[3] == _idx)) then
     	isShow = true
     end
     self:initDiamonds(_diamonds,isShow)
+    --房间内道具
     local isGoodsShow = false
     if gFloor and gFloor == _floorNum then
     	isGoodsShow = true
     end
---    Tools.printDebug("--------brj 火箭楼层：",_floorNum,gFloor)
     self:initGoods(_goods,isGoodsShow)
-    
-    if _idx == #_levelCon.roomBgs and self.roomType ~= MAPROOM_TYPE.Running then
-        local count = cc.LabelAtlas:_create()
-        count:initWithString(_floorNum,"count/Count_4.png",17,25,string.byte("0"))
-        count:setPosition(cc.p(Room_Size.width*0.5+Room_Distance.x,Room_Size.height*0.5+8))
-        count:setAnchorPoint(0.5,0.5)
-        count:setScaleX(2)
-        count:setScaleY(1.5)
-        self:addChild(count)
-    end
     
 end
 
