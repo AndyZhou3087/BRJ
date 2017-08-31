@@ -7,7 +7,7 @@ local CommentAlert = class("CommentAlert",BaseUI)
 function CommentAlert:ctor(parameters)
     CommentAlert.super.ctor(self)
 
-    local bg = display.newColorLayer(cc.c4b(0,0,0,230)):addTo(self)
+    local bg = display.newColorLayer(cc.c4b(0,0,0,OPACITY*0.5)):addTo(self)
 
     self.m_json = cc.uiloader:load("json/CommentAlert.json")
     self:addChild(self.m_json)
