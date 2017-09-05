@@ -58,12 +58,7 @@ function SettlementUI:initAction()
         if GameDataManager.getGameOverCount() % AlertCommentCount == 0  then
             Tools.printDebug("brj hopscotch 五星好评弹框",DataPersistence.getAttribute("favourableCommentAlert"))
             if not DataPersistence.getAttribute("favourableCommentAlert") then
-                GameDispatcher:dispatch(EventNames.EVENT_OPEN_COMMENTALERT)
---                SDKUtil.favourableCommentAlert({callback=function(_res)
---                    if SDKUtil.PayResult.Comment == _res or SDKUtil.PayResult.Refuse == _res then
---                        DataPersistence.updateAttribute("favourableCommentAlert",true)
---                    end
---                end})
+--                GameDispatcher:dispatch(EventNames.EVENT_OPEN_COMMENTALERT)
             end
         end
     end)
@@ -97,7 +92,7 @@ function SettlementUI:initMiddle()
     self.framebtn3 = cc.uiloader:seekNodeByName(self.m_json,"framebtn3")
     self.framebtn4 = cc.uiloader:seekNodeByName(self.m_json,"framebtn4")
     self.frame_1:setVisible(false)
---    self.frame_4:setVisible(false)
+    self.frame_4:setVisible(false)
     
     --
     self.framebtn1:onButtonClicked(function (event)
