@@ -107,7 +107,7 @@ RoomBgs[10002]=
 --===========================测试普通断层房间========================
 RoomBgs[10011]=
     {
-        wallLeftRight = {{res="#Room_wall.png",x=Room_Distance.x+0,y=15,type = RoomWall_Type.Left},{res="#Room_wall.png",x=Room_Distance.x+668,y=15,type = RoomWall_Type.Right}},--左右两侧墙壁
+        wallLeftRight = {{res="#Room_wall.png",x=Room_Distance.x+0,y=15,type = RoomWall_Type.Left},},--左右两侧墙壁
         floor = {{res="#Room_floor_7.png",x=Room_Distance.x+17,y=0},
             },--地板
     }
@@ -4409,6 +4409,30 @@ RoomBgs[3004]=
                  },--地板
     }
 
+--五块半地板钢架 左起3块
+RoomBgs[30041]=
+    {
+        wallLeftRight = {},--左右两侧墙壁
+        floor = {
+		 {res="#Room_special_floor.png",x=Room_Distance.x+72,y=0},
+                 {res="#Room_special_floor.png",x=Room_Distance.x+71+94,y=0},
+		 {res="#Room_special_floor.png",x=Room_Distance.x+70+94*2,y=0},
+                 {res="#Room_special_floor.png",x=Room_Distance.x+69+94*3-40,y=0},
+                 },--地板
+    }
+
+--五块半地板钢架 右起3块
+RoomBgs[30042]=
+    {
+        wallLeftRight = {},--左右两侧墙壁
+        floor = {
+                 {res="#Room_special_floor.png",x=Room_Distance.x+6+94*3,y=0},
+                 {res="#Room_special_floor.png",x=Room_Distance.x+67+94*3,y=0},
+		 {res="#Room_special_floor.png",x=Room_Distance.x+66+94*4,y=0},
+                 {res="#Room_special_floor.png",x=Room_Distance.x+49+94*5,y=0},
+                 },--地板
+    }
+
 --五块地板钢架
 RoomBgs[3005]=
     {
@@ -4423,6 +4447,29 @@ RoomBgs[3005]=
                  },--地板
     }
 
+--五块地板钢架，左起3块
+RoomBgs[30051]=
+    {
+        wallLeftRight = {},--左右两侧墙壁
+        floor = {
+		 {res="#Room_special_floor.png",x=Room_Distance.x+96,y=0},
+                 {res="#Room_special_floor.png",x=Room_Distance.x+95+94,y=0},
+		 {res="#Room_special_floor.png",x=Room_Distance.x+94+94*2,y=0},
+                 {res="#Room_special_floor.png",x=Room_Distance.x+93+94*3-62,y=0},
+                 },--地板
+    }
+
+--五块地板钢架，右起3块。
+RoomBgs[30052]=
+    {
+        wallLeftRight = {},--左右两侧墙壁
+        floor = {
+                 {res="#Room_special_floor.png",x=Room_Distance.x+92+94*2,y=0},
+                 {res="#Room_special_floor.png",x=Room_Distance.x+28+94*3,y=0},
+		 {res="#Room_special_floor.png",x=Room_Distance.x+27+94*4,y=0},
+                 {res="#Room_special_floor.png",x=Room_Distance.x+26+94*5,y=0},
+                 },--地板
+    }
 --四块半地板钢架
 RoomBgs[3006]=
     {
@@ -4433,6 +4480,100 @@ RoomBgs[3006]=
 		 {res="#Room_special_floor.png",x=Room_Distance.x+115+94*2,y=0},
                  {res="#Room_special_floor.png",x=Room_Distance.x+114+94*3,y=0},
 		 {res="#Room_special_floor.png",x=Room_Distance.x+98+94*4,y=0},
+                 },--地板
+    }
+
+--四块半地板钢架，左起2块。
+RoomBgs[30061]=
+    {
+        wallLeftRight = {},--左右两侧墙壁
+        floor = {
+		 {res="#Room_special_floor.png",x=Room_Distance.x+118,y=0},
+                 {res="#Room_special_floor.png",x=Room_Distance.x+116+94,y=0},
+		 {res="#Room_special_floor.png",x=Room_Distance.x+115+94*2,y=0},
+                 },--地板
+    }
+   
+--四块半地板钢架，右起2块。
+RoomBgs[30062]=
+    {
+        wallLeftRight = {},--左右两侧墙壁
+        floor = {
+		 {res="#Room_special_floor.png",x=Room_Distance.x+115+94*2,y=0},
+                 {res="#Room_special_floor.png",x=Room_Distance.x+114+94*3,y=0},
+		 {res="#Room_special_floor.png",x=Room_Distance.x+98+94*4,y=0},
+                 },--地板
+    }
+
+--四块半地板钢架
+RoomBgs[3006]=
+    {
+        wallLeftRight = {},--左右两侧墙壁
+        floor = {
+		 {res="#Room_special_floor.png",x=Room_Distance.x+118,y=0},
+                 {res="#Room_special_floor.png",x=Room_Distance.x+116+94,y=0},
+		 {res="#Room_special_floor.png",x=Room_Distance.x+115+94*2,y=0},
+                 {res="#Room_special_floor.png",x=Room_Distance.x+114+94*3,y=0},
+		 {res="#Room_special_floor.png",x=Room_Distance.x+98+94*4,y=0},
+                 },--地板
+    }
+
+--2块地板钢架，左边半块起（4块砖用）
+RoomBgs[300061]=
+    {
+        wallLeftRight = {},--左右两侧墙壁
+        floor = {
+		 {res="#Room_special_floor.png",x=Room_Distance.x+198,y=0},
+                 {res="#Room_special_floor.png",x=Room_Distance.x+197+94,y=0},
+                 },--地板
+    }
+
+--2块地板钢架，左边1起（4块砖用）
+RoomBgs[300062]=
+    {
+        wallLeftRight = {},--左右两侧墙壁
+        floor = {
+		 {res="#Room_special_floor.png",x=Room_Distance.x+242,y=0},
+                 {res="#Room_special_floor.png",x=Room_Distance.x+241+94,y=0},
+                 },--地板
+    }
+
+--2块地板钢架，左边1块半起（4块砖用）
+RoomBgs[300063]=
+    {
+        wallLeftRight = {},--左右两侧墙壁
+        floor = {
+		 {res="#Room_special_floor.png",x=Room_Distance.x+289,y=0},
+                 {res="#Room_special_floor.png",x=Room_Distance.x+288+94,y=0},
+                 },--地板
+    }
+
+--2块地板钢架，左边2块起（4块砖用）
+RoomBgs[300064]=
+    {
+        wallLeftRight = {},--左右两侧墙壁
+        floor = {{res="#Room_special_floor.png",x=Room_Distance.x+336,y=0},
+                 {res="#Room_special_floor.png",x=Room_Distance.x+335+94,y=0},
+                 },--地板
+    }
+
+--3块地板钢架，左边半块起（4块砖用）
+RoomBgs[300065]=
+    {
+        wallLeftRight = {},--左右两侧墙壁
+        floor = {{res="#Room_special_floor.png",x=Room_Distance.x+198,y=0},
+                 {res="#Room_special_floor.png",x=Room_Distance.x+197+94,y=0},
+                 {res="#Room_special_floor.png",x=Room_Distance.x+196+94*2,y=0},
+                 },--地板
+    }
+
+--3块地板钢架，左边1块起（4块砖用）
+RoomBgs[300066]=
+    {
+        wallLeftRight = {},--左右两侧墙壁
+        floor = {{res="#Room_special_floor.png",x=Room_Distance.x+245,y=0},
+                 {res="#Room_special_floor.png",x=Room_Distance.x+244+94,y=0},
+                 {res="#Room_special_floor.png",x=Room_Distance.x+243+94*2,y=0},
                  },--地板
     }
 
@@ -4471,6 +4612,10 @@ RoomBgs[3009]=
                  {res="#Room_special_floor.png",x=Room_Distance.x+122+94*3,y=0},
                  },--地板
     }
+
+
+
+
 
 --===============================横跑房间===============================
 --横跑第一层，下面没砖

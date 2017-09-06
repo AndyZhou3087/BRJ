@@ -219,6 +219,7 @@ function MapLayer:initRooms(parameters)
         local dCount = math.random(1,MaxShowCount)
         local dArr = GameController.createRand(dCount,self.m_roomAmount)
         for var=1, self.m_roomAmount do
+--            Tools.printDebug("brj error 找不到配置",k,var)
             local _room = MapRoom.new(var,self.m_levelCon,var+(k-1)*10,dArr,self.gFloor)
             _room:setAnchorPoint(cc.p(0,0))
             _y = _y + Room_Size.height
