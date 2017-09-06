@@ -249,7 +249,7 @@ function MapRoom:initGoods(goodCon,isShow)
         local id = 5
         local good=GoodsElement.new(id):addTo(self)
         local goodSize = good:getCascadeBoundingBox().size
-        local x = math.random(self.firstX+50+goodSize.width,self.lastX+self.lastWidth-50-goodSize.width)
+        local x = math.random(self.firstX+goodSize.width*0.5,self.lastX+self.lastWidth-goodSize.width*0.5)
         good:setPosition(x+goodSize.width*0.5,20+goodSize.height*0.5)
         table.insert(self.m_goods,good)
         table.insert(self.m_blocks,good)
