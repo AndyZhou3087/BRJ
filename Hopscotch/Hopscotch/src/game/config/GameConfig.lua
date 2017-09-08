@@ -91,9 +91,9 @@ Map_Grade =
 }
 MAP_SPEED = 
 {
-    floor_D = 120,  --角色初始速度
+    floor_D = 130,  --角色初始速度
     floor_C = 130,
-    floor_B = 130,
+    floor_B = 140,
     floor_A = 140,
     floor_S = 150,
 }

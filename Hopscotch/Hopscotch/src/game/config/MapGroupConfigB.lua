@@ -26,10 +26,10 @@ MapGroupB = {ROOMBGSIZE_TYPE.Six,ROOMBGSIZE_TYPE.Five_1,ROOMBGSIZE_TYPE.Five}  -
 --五块过渡层91-120
 --五块地板普通楼层121-150
 --六块地板钢架楼层151-170
---五块半地板钢架楼层171-190
---五块地板钢架楼层191-210
---五块半向右倾斜211-230
---五块半向左倾斜231-250
+--五块半地板钢架楼层171-1200
+--五块地板钢架楼层2011-230
+--五块半向右倾斜231-240
+--五块半向左倾斜241-250
 
 --==========防止连续出现钢价层特殊楼层
 MapGroupConfigB[9999]= 
@@ -1764,7 +1764,7 @@ MapGroupConfigB[151]=
         lineX = {Room_Distance.x+48,Room_Distance.x+623},    --钢架线离边距的距离
         direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
         distance = 0,        --房间x轴倾斜距离(单位：像素)
-        probability = 50,     --权重
+        probability = 5,     --权重
         bgType = ROOMBGSIZE_TYPE.Six,
     } 
 
@@ -1781,7 +1781,7 @@ MapGroupConfigB[152]=
         lineX = {Room_Distance.x+48,Room_Distance.x+623},    --钢架线离边距的距离
         direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
         distance = 0,        --房间x轴倾斜距离(单位：像素)
-        probability = 50,     --权重
+        probability = 5,     --权重
         bgType = ROOMBGSIZE_TYPE.Six,
     } 
 
@@ -1798,7 +1798,7 @@ MapGroupConfigB[153]=
         lineX = {Room_Distance.x+48,Room_Distance.x+623},    --钢架线离边距的距离
         direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
         distance = 0,        --房间x轴倾斜距离(单位：像素)
-        probability = 50,     --权重
+        probability = 5,     --权重
         bgType = ROOMBGSIZE_TYPE.Six,
     } 
 
@@ -1815,7 +1815,7 @@ MapGroupConfigB[154]=
         lineX = {Room_Distance.x+48,Room_Distance.x+623},    --钢架线离边距的距离
         direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
         distance = 0,        --房间x轴倾斜距离(单位：像素)
-        probability = 50,     --权重
+        probability = 5,     --权重
         bgType = ROOMBGSIZE_TYPE.Six,
     } 
 
@@ -1832,7 +1832,7 @@ MapGroupConfigB[155]=
         lineX = {Room_Distance.x+48,Room_Distance.x+623},    --钢架线离边距的距离
         direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
         distance = 0,        --房间x轴倾斜距离(单位：像素)
-        probability = 50,     --权重
+        probability = 5,     --权重
         bgType = ROOMBGSIZE_TYPE.Six,
     } 
 
@@ -1849,7 +1849,7 @@ MapGroupConfigB[156]=
         lineX = {Room_Distance.x+48,Room_Distance.x+623},    --钢架线离边距的距离
         direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
         distance = 0,        --房间x轴倾斜距离(单位：像素)
-        probability = 50,     --权重
+        probability = 5,     --权重
         bgType = ROOMBGSIZE_TYPE.Six,
     } 
 
@@ -1866,7 +1866,7 @@ MapGroupConfigB[157]=
         lineX = {Room_Distance.x+48,Room_Distance.x+623},    --钢架线离边距的距离
         direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
         distance = 0,        --房间x轴倾斜距离(单位：像素)
-        probability = 50,     --权重
+        probability = 5,     --权重
         bgType = ROOMBGSIZE_TYPE.Six,
     } 
 
@@ -1883,7 +1883,7 @@ MapGroupConfigB[158]=
         lineX = {Room_Distance.x+48,Room_Distance.x+623},    --钢架线离边距的距离
         direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
         distance = 0,        --房间x轴倾斜距离(单位：像素)
-        probability = 50,     --权重
+        probability = 5,     --权重
         bgType = ROOMBGSIZE_TYPE.Six,
     } 
 
@@ -1900,7 +1900,7 @@ MapGroupConfigB[159]=
         lineX = {Room_Distance.x+48,Room_Distance.x+623},    --钢架线离边距的距离
         direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
         distance = 0,        --房间x轴倾斜距离(单位：像素)
-        probability = 50,     --权重
+        probability = 5,     --权重
         bgType = ROOMBGSIZE_TYPE.Six,
     } 
 
@@ -1917,7 +1917,7 @@ MapGroupConfigB[160]=
         lineX = {Room_Distance.x+48,Room_Distance.x+623},    --钢架线离边距的距离
         direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
         distance = 0,        --房间x轴倾斜距离(单位：像素)
-        probability = 50,     --权重
+        probability = 5,     --权重
         bgType = ROOMBGSIZE_TYPE.Six,
     } 
 
@@ -1934,7 +1934,7 @@ MapGroupConfigB[161]=
         lineX = {Room_Distance.x+48,Room_Distance.x+623},    --钢架线离边距的距离
         direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
         distance = 0,        --房间x轴倾斜距离(单位：像素)
-        probability = 50,     --权重
+        probability = 5,     --权重
         bgType = ROOMBGSIZE_TYPE.Six,
     } 
 
@@ -1951,7 +1951,7 @@ MapGroupConfigB[162]=
         lineX = {Room_Distance.x+48,Room_Distance.x+623},    --钢架线离边距的距离
         direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
         distance = 0,        --房间x轴倾斜距离(单位：像素)
-        probability = 50,     --权重
+        probability = 5,     --权重
         bgType = ROOMBGSIZE_TYPE.Six,
     } 
 
@@ -1968,7 +1968,7 @@ MapGroupConfigB[163]=
         lineX = {Room_Distance.x+48,Room_Distance.x+623},    --钢架线离边距的距离
         direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
         distance = 0,        --房间x轴倾斜距离(单位：像素)
-        probability = 50,     --权重
+        probability = 5,     --权重
         bgType = ROOMBGSIZE_TYPE.Six,
     } 
 
@@ -1985,7 +1985,7 @@ MapGroupConfigB[164]=
         lineX = {Room_Distance.x+48,Room_Distance.x+623},    --钢架线离边距的距离
         direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
         distance = 0,        --房间x轴倾斜距离(单位：像素)
-        probability = 50,     --权重
+        probability = 5,     --权重
         bgType = ROOMBGSIZE_TYPE.Six,
     } 
 
@@ -2002,7 +2002,7 @@ MapGroupConfigB[165]=
         lineX = {Room_Distance.x+48,Room_Distance.x+623},    --钢架线离边距的距离
         direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
         distance = 0,        --房间x轴倾斜距离(单位：像素)
-        probability = 50,     --权重
+        probability = 5,     --权重
         bgType = ROOMBGSIZE_TYPE.Six,
     } 
 
@@ -2019,7 +2019,7 @@ MapGroupConfigB[166]=
         lineX = {Room_Distance.x+48,Room_Distance.x+623},    --钢架线离边距的距离
         direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
         distance = 0,        --房间x轴倾斜距离(单位：像素)
-        probability = 50,     --权重
+        probability = 5,     --权重
         bgType = ROOMBGSIZE_TYPE.Six,
     } 
 
@@ -2036,7 +2036,7 @@ MapGroupConfigB[167]=
         lineX = {Room_Distance.x+48,Room_Distance.x+623},    --钢架线离边距的距离
         direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
         distance = 0,        --房间x轴倾斜距离(单位：像素)
-        probability = 50,     --权重
+        probability = 5,     --权重
         bgType = ROOMBGSIZE_TYPE.Six,
     } 
 
@@ -2053,7 +2053,7 @@ MapGroupConfigB[168]=
         lineX = {Room_Distance.x+48,Room_Distance.x+623},    --钢架线离边距的距离
         direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
         distance = 0,        --房间x轴倾斜距离(单位：像素)
-        probability = 50,     --权重
+        probability = 5,     --权重
         bgType = ROOMBGSIZE_TYPE.Six,
     } 
 
@@ -2070,7 +2070,7 @@ MapGroupConfigB[169]=
         lineX = {Room_Distance.x+48,Room_Distance.x+623},    --钢架线离边距的距离
         direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
         distance = 0,        --房间x轴倾斜距离(单位：像素)
-        probability = 50,     --权重
+        probability = 5,     --权重
         bgType = ROOMBGSIZE_TYPE.Six,
     } 
 
@@ -2087,32 +2087,321 @@ MapGroupConfigB[170]=
         lineX = {Room_Distance.x+48,Room_Distance.x+623},    --钢架线离边距的距离
         direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
         distance = 0,        --房间x轴倾斜距离(单位：像素)
-        probability = 50,     --权重
+        probability = 5,     --权重
         bgType = ROOMBGSIZE_TYPE.Six,
     } 
---=======================================================================五块半钢架楼层171-190
+--=======================================================================五块半钢架楼层171-200
 MapGroupConfigB[171]= 
     { 
         _id=171, 
         roomBgs={3004,3004,3004,3004,3004,3004,3004,3004,3004,98}, --房间背景地面
-        ornaments={2201,2202,2201,2202,2201,2202,2201,2202,2201,153}, ---小挂件
+        ornaments={2203,2208,2207,2204,2209,2202,2205,2210,2207,151}, ---小挂件
         coins={1,1,1,1,1,1,1,1,1,1}, --钻石(随机出现层数、次数和位置)
         roomGoods={1,1,1,1,1,1,1,1,1,1}, ---道具
         roomType = MAPROOM_TYPE.Special,
-        left = {3,6,8},     --左边默认停留的楼层位置
-        right = {2,4,9},    --右边默认停留的楼层位置
+        left = {1,4,9},     --左边默认停留的楼层位置
+        right = {2,7,9},    --右边默认停留的楼层位置
         lineX = {Room_Distance.x+70,Room_Distance.x+599},    --钢架线离边距的距离
         direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
         distance = 0,        --房间x轴倾斜距离(单位：像素)
-        probability = 50,     --权重
+        probability = 5,     --权重
         bgType = ROOMBGSIZE_TYPE.Five_1,
     } 
 
-     MapGroupConfigB[172]= 
+MapGroupConfigB[172]= 
     { 
         _id=172, 
         roomBgs={3004,3004,3004,3004,3004,3004,3004,3004,3004,98}, --房间背景地面
-        ornaments={2202,2201,2202,2201,2202,2201,2202,2201,2202,152}, ---小挂件
+        ornaments={2206,2203,2208,2205,2210,2207,2204,2201,2208,152}, ---小挂件
+        coins={1,1,1,1,1,1,1,1,1,1}, --钻石(随机出现层数、次数和位置)
+        roomGoods={1,1,1,1,1,1,1,1,1,1}, ---道具
+        roomType = MAPROOM_TYPE.Special,
+        left = {3,7,8},     --左边默认停留的楼层位置
+        right = {2,4,9},    --右边默认停留的楼层位置
+        lineX = {Room_Distance.x+70,Room_Distance.x+599},    --钢架线离边距的距离
+        direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
+        distance = 0,        --房间x轴倾斜距离(单位：像素)
+        probability = 5,     --权重
+        bgType = ROOMBGSIZE_TYPE.Five_1,
+    } 
+
+MapGroupConfigB[173]= 
+    { 
+        _id=173, 
+        roomBgs={3004,3004,3004,3004,3004,3004,3004,3004,3004,98}, --房间背景地面
+        ornaments={2203,2204,2205,2210,2207,2202,2205,2204,2203,153}, ---小挂件
+        coins={1,1,1,1,1,1,1,1,1,1}, --钻石(随机出现层数、次数和位置)
+        roomGoods={1,1,1,1,1,1,1,1,1,1}, ---道具
+        roomType = MAPROOM_TYPE.Special,
+        left = {4,6,8},     --左边默认停留的楼层位置
+        right = {2,5,9},    --右边默认停留的楼层位置
+        lineX = {Room_Distance.x+70,Room_Distance.x+599},    --钢架线离边距的距离
+        direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
+        distance = 0,        --房间x轴倾斜距离(单位：像素)
+        probability = 5,     --权重
+        bgType = ROOMBGSIZE_TYPE.Five_1,
+    } 
+
+MapGroupConfigB[174]= 
+    { 
+        _id=174, 
+        roomBgs={3004,3004,3004,3004,3004,3004,3004,3004,3004,98}, --房间背景地面
+        ornaments={2208,2201,2206,2207,2210,2203,2206,2205,2208,154}, ---小挂件
+        coins={1,1,1,1,1,1,1,1,1,1}, --钻石(随机出现层数、次数和位置)
+        roomGoods={1,1,1,1,1,1,1,1,1,1}, ---道具
+        roomType = MAPROOM_TYPE.Special,
+        left = {3,5,9},     --左边默认停留的楼层位置
+        right = {1,7,9},    --右边默认停留的楼层位置
+        lineX = {Room_Distance.x+70,Room_Distance.x+599},    --钢架线离边距的距离
+        direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
+        distance = 0,        --房间x轴倾斜距离(单位：像素)
+        probability = 5,     --权重
+        bgType = ROOMBGSIZE_TYPE.Five_1,
+    } 
+
+MapGroupConfigB[175]= 
+    { 
+        _id=175, 
+        roomBgs={3004,3004,3004,3004,3004,3004,3004,3004,3004,98}, --房间背景地面
+        ornaments={2209,2204,2205,2208,2203,2206,2205,2202,2207,151}, ---小挂件
+        coins={1,1,1,1,1,1,1,1,1,1}, --钻石(随机出现层数、次数和位置)
+        roomGoods={1,1,1,1,1,1,1,1,1,1}, ---道具
+        roomType = MAPROOM_TYPE.Special,
+        left = {3,5,7},     --左边默认停留的楼层位置
+        right = {1,6,8},    --右边默认停留的楼层位置
+        lineX = {Room_Distance.x+70,Room_Distance.x+599},    --钢架线离边距的距离
+        direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
+        distance = 0,        --房间x轴倾斜距离(单位：像素)
+        probability = 5,     --权重
+        bgType = ROOMBGSIZE_TYPE.Five_1,
+    } 
+
+MapGroupConfigB[176]= 
+    { 
+        _id=176, 
+        roomBgs={3004,3004,3004,3004,3004,3004,3004,3004,3004,98}, --房间背景地面
+        ornaments={2208,2209,2206,2203,2204,2207,2210,2203,2204,152}, ---小挂件
+        coins={1,1,1,1,1,1,1,1,1,1}, --钻石(随机出现层数、次数和位置)
+        roomGoods={1,1,1,1,1,1,1,1,1,1}, ---道具
+        roomType = MAPROOM_TYPE.Special,
+        left = {3,5,8},     --左边默认停留的楼层位置
+        right = {1,6,9},    --右边默认停留的楼层位置
+        lineX = {Room_Distance.x+70,Room_Distance.x+599},    --钢架线离边距的距离
+        direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
+        distance = 0,        --房间x轴倾斜距离(单位：像素)
+        probability = 5,     --权重
+        bgType = ROOMBGSIZE_TYPE.Five_1,
+    } 
+
+MapGroupConfigB[177]= 
+    { 
+        _id=177, 
+        roomBgs={3004,3004,3004,3004,3004,3004,3004,3004,3004,98}, --房间背景地面
+        ornaments={2205,2208,2203,2210,2209,2206,2205,2208,2203,153}, ---小挂件
+        coins={1,1,1,1,1,1,1,1,1,1}, --钻石(随机出现层数、次数和位置)
+        roomGoods={1,1,1,1,1,1,1,1,1,1}, ---道具
+        roomType = MAPROOM_TYPE.Special,
+        left = {4,8},     --左边默认停留的楼层位置
+        right = {1,6},    --右边默认停留的楼层位置
+        lineX = {Room_Distance.x+70,Room_Distance.x+599},    --钢架线离边距的距离
+        direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
+        distance = 0,        --房间x轴倾斜距离(单位：像素)
+        probability = 5,     --权重
+        bgType = ROOMBGSIZE_TYPE.Five_1,
+    } 
+
+MapGroupConfigB[178]= 
+    { 
+        _id=178, 
+        roomBgs={3004,3004,3004,3004,3004,3004,3004,3004,3004,98}, --房间背景地面
+        ornaments={2204,2203,2206,2207,2208,2209,2210,2202,2206,154}, ---小挂件
+        coins={1,1,1,1,1,1,1,1,1,1}, --钻石(随机出现层数、次数和位置)
+        roomGoods={1,1,1,1,1,1,1,1,1,1}, ---道具
+        roomType = MAPROOM_TYPE.Special,
+        left = {1,6},     --左边默认停留的楼层位置
+        right = {4,8},    --右边默认停留的楼层位置
+        lineX = {Room_Distance.x+70,Room_Distance.x+599},    --钢架线离边距的距离
+        direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
+        distance = 0,        --房间x轴倾斜距离(单位：像素)
+        probability = 5,     --权重
+        bgType = ROOMBGSIZE_TYPE.Five_1,
+    } 
+
+MapGroupConfigB[179]= 
+    { 
+        _id=179, 
+        roomBgs={3004,3004,3004,3004,3004,3004,3004,3004,3004,98}, --房间背景地面
+        ornaments={2209,2202,2203,2206,2205,2204,2207,2208,2203,151}, ---小挂件
+        coins={1,1,1,1,1,1,1,1,1,1}, --钻石(随机出现层数、次数和位置)
+        roomGoods={1,1,1,1,1,1,1,1,1,1}, ---道具
+        roomType = MAPROOM_TYPE.Special,
+        left = {1,4},     --左边默认停留的楼层位置
+        right = {3,7},    --右边默认停留的楼层位置
+        lineX = {Room_Distance.x+70,Room_Distance.x+599},    --钢架线离边距的距离
+        direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
+        distance = 0,        --房间x轴倾斜距离(单位：像素)
+        probability = 5,     --权重
+        bgType = ROOMBGSIZE_TYPE.Five_1,
+    } 
+
+MapGroupConfigB[180]= 
+    { 
+        _id=180, 
+        roomBgs={3004,3004,3004,3004,3004,3004,3004,3004,3004,98}, --房间背景地面
+        ornaments={2210,2203,2206,2205,2208,2207,2206,2201,2204,152}, ---小挂件
+        coins={1,1,1,1,1,1,1,1,1,1}, --钻石(随机出现层数、次数和位置)
+        roomGoods={1,1,1,1,1,1,1,1,1,1}, ---道具
+        roomType = MAPROOM_TYPE.Special,
+        left = {2,5,8},     --左边默认停留的楼层位置
+        right = {4,6,9},    --右边默认停留的楼层位置
+        lineX = {Room_Distance.x+70,Room_Distance.x+599},    --钢架线离边距的距离
+        direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
+        distance = 0,        --房间x轴倾斜距离(单位：像素)
+        probability = 5,     --权重
+        bgType = ROOMBGSIZE_TYPE.Five_1,
+    } 
+
+MapGroupConfigB[181]= 
+    { 
+        _id=181, 
+        roomBgs={3004,3004,3004,3004,3004,3004,3004,3004,3004,98}, --房间背景地面
+        ornaments={2211,2214,2217,2218,2219,2220,2215,2214,2213,153}, ---小挂件
+        coins={1,1,1,1,1,1,1,1,1,1}, --钻石(随机出现层数、次数和位置)
+        roomGoods={1,1,1,1,1,1,1,1,1,1}, ---道具
+        roomType = MAPROOM_TYPE.Special,
+        left = {1,4,8},     --左边默认停留的楼层位置
+        right = {2,6,9},    --右边默认停留的楼层位置
+        lineX = {Room_Distance.x+70,Room_Distance.x+599},    --钢架线离边距的距离
+        direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
+        distance = 0,        --房间x轴倾斜距离(单位：像素)
+        probability = 5,     --权重
+        bgType = ROOMBGSIZE_TYPE.Five_1,
+    } 
+
+MapGroupConfigB[182]= 
+    { 
+        _id=182, 
+        roomBgs={3004,3004,3004,3004,3004,3004,3004,3004,3004,98}, --房间背景地面
+        ornaments={2216,2213,2218,2215,2220,2219,2218,2217,2216,154}, ---小挂件
+        coins={1,1,1,1,1,1,1,1,1,1}, --钻石(随机出现层数、次数和位置)
+        roomGoods={1,1,1,1,1,1,1,1,1,1}, ---道具
+        roomType = MAPROOM_TYPE.Special,
+        left = {2,6,9},     --左边默认停留的楼层位置
+        right = {1,4,8},    --右边默认停留的楼层位置
+        lineX = {Room_Distance.x+70,Room_Distance.x+599},    --钢架线离边距的距离
+        direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
+        distance = 0,        --房间x轴倾斜距离(单位：像素)
+        probability = 5,     --权重
+        bgType = ROOMBGSIZE_TYPE.Five_1,
+    } 
+
+MapGroupConfigB[183]= 
+    { 
+        _id=183, 
+        roomBgs={3004,3004,3004,3004,3004,3004,3004,3004,3004,98}, --房间背景地面
+        ornaments={2211,2216,2215,2218,2219,2212,2215,2220,2211,151}, ---小挂件
+        coins={1,1,1,1,1,1,1,1,1,1}, --钻石(随机出现层数、次数和位置)
+        roomGoods={1,1,1,1,1,1,1,1,1,1}, ---道具
+        roomType = MAPROOM_TYPE.Special,
+        left = {3,5,8},     --左边默认停留的楼层位置
+        right = {2,4,9},    --右边默认停留的楼层位置
+        lineX = {Room_Distance.x+70,Room_Distance.x+599},    --钢架线离边距的距离
+        direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
+        distance = 0,        --房间x轴倾斜距离(单位：像素)
+        probability = 5,     --权重
+        bgType = ROOMBGSIZE_TYPE.Five_1,
+    } 
+
+MapGroupConfigB[184]= 
+    { 
+        _id=184, 
+        roomBgs={3004,3004,3004,3004,3004,3004,3004,3004,3004,98}, --房间背景地面
+        ornaments={2214,2213,2218,2215,2220,2217,2218,2211,2216,152}, ---小挂件
+        coins={1,1,1,1,1,1,1,1,1,1}, --钻石(随机出现层数、次数和位置)
+        roomGoods={1,1,1,1,1,1,1,1,1,1}, ---道具
+        roomType = MAPROOM_TYPE.Special,
+        left = {2,4,8},     --左边默认停留的楼层位置
+        right = {3,5,9},    --右边默认停留的楼层位置
+        lineX = {Room_Distance.x+70,Room_Distance.x+599},    --钢架线离边距的距离
+        direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
+        distance = 0,        --房间x轴倾斜距离(单位：像素)
+        probability = 5,     --权重
+        bgType = ROOMBGSIZE_TYPE.Five_1,
+    } 
+
+MapGroupConfigB[185]= 
+    { 
+        _id=185, 
+        roomBgs={3004,3004,3004,3004,3004,3004,3004,3004,3004,98}, --房间背景地面
+        ornaments={2215,2214,2217,2218,2213,2218,2211,2220,2219,153}, ---小挂件
+        coins={1,1,1,1,1,1,1,1,1,1}, --钻石(随机出现层数、次数和位置)
+        roomGoods={1,1,1,1,1,1,1,1,1,1}, ---道具
+        roomType = MAPROOM_TYPE.Special,
+        left = {1,5,8},     --左边默认停留的楼层位置
+        right = {4,6,9},    --右边默认停留的楼层位置
+        lineX = {Room_Distance.x+70,Room_Distance.x+599},    --钢架线离边距的距离
+        direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
+        distance = 0,        --房间x轴倾斜距离(单位：像素)
+        probability = 5,     --权重
+        bgType = ROOMBGSIZE_TYPE.Five_1,
+    } 
+
+MapGroupConfigB[186]= 
+    { 
+        _id=186, 
+        roomBgs={3004,3004,3004,3004,3004,3004,3004,3004,3004,98}, --房间背景地面
+        ornaments={2218,2211,2216,2213,2218,2215,2220,2213,2214,154}, ---小挂件
+        coins={1,1,1,1,1,1,1,1,1,1}, --钻石(随机出现层数、次数和位置)
+        roomGoods={1,1,1,1,1,1,1,1,1,1}, ---道具
+        roomType = MAPROOM_TYPE.Special,
+        left = {4,6,9},     --左边默认停留的楼层位置
+        right = {1,5,8},    --右边默认停留的楼层位置
+        lineX = {Room_Distance.x+70,Room_Distance.x+599},    --钢架线离边距的距离
+        direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
+        distance = 0,        --房间x轴倾斜距离(单位：像素)
+        probability = 5,     --权重
+        bgType = ROOMBGSIZE_TYPE.Five_1,
+    } 
+
+MapGroupConfigB[187]= 
+    { 
+        _id=187, 
+        roomBgs={3004,3004,3004,3004,3004,3004,3004,3004,3004,98}, --房间背景地面
+        ornaments={2217,2220,2215,2218,2213,2216,2215,2220,2211,151}, ---小挂件
+        coins={1,1,1,1,1,1,1,1,1,1}, --钻石(随机出现层数、次数和位置)
+        roomGoods={1,1,1,1,1,1,1,1,1,1}, ---道具
+        roomType = MAPROOM_TYPE.Special,
+        left = {5,7,9},     --左边默认停留的楼层位置
+        right = {2,6,8},    --右边默认停留的楼层位置
+        lineX = {Room_Distance.x+70,Room_Distance.x+599},    --钢架线离边距的距离
+        direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
+        distance = 0,        --房间x轴倾斜距离(单位：像素)
+        probability = 5,     --权重
+        bgType = ROOMBGSIZE_TYPE.Five_1,
+    } 
+
+MapGroupConfigB[188]= 
+    { 
+        _id=188, 
+        roomBgs={3004,3004,3004,3004,3004,3004,3004,3004,3004,98}, --房间背景地面
+        ornaments={2214,2215,2216,2217,2220,2217,2212,2213,2216,152}, ---小挂件
+        coins={1,1,1,1,1,1,1,1,1,1}, --钻石(随机出现层数、次数和位置)
+        roomGoods={1,1,1,1,1,1,1,1,1,1}, ---道具
+        roomType = MAPROOM_TYPE.Special,
+        left = {2,6,8},     --左边默认停留的楼层位置
+        right = {5,7,9},    --右边默认停留的楼层位置
+        lineX = {Room_Distance.x+70,Room_Distance.x+599},    --钢架线离边距的距离
+        direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
+        distance = 0,        --房间x轴倾斜距离(单位：像素)
+        probability = 5,     --权重
+        bgType = ROOMBGSIZE_TYPE.Five_1,
+    } 
+
+MapGroupConfigB[189]= 
+    { 
+        _id=189, 
+        roomBgs={3004,3004,3004,3004,3004,3004,3004,3004,3004,98}, --房间背景地面
+        ornaments={2215,2216,2217,2212,2219,2214,2213,2216,2211,153}, ---小挂件
         coins={1,1,1,1,1,1,1,1,1,1}, --钻石(随机出现层数、次数和位置)
         roomGoods={1,1,1,1,1,1,1,1,1,1}, ---道具
         roomType = MAPROOM_TYPE.Special,
@@ -2121,33 +2410,373 @@ MapGroupConfigB[171]=
         lineX = {Room_Distance.x+70,Room_Distance.x+599},    --钢架线离边距的距离
         direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
         distance = 0,        --房间x轴倾斜距离(单位：像素)
-        probability = 50,     --权重
+        probability = 5,     --权重
         bgType = ROOMBGSIZE_TYPE.Five_1,
     } 
 
---=======================================================================五块钢架楼层191-210
-MapGroupConfigB[191]= 
+MapGroupConfigB[190]= 
     { 
-        _id=191, 
-        roomBgs={3005,3005,3005,3005,3005,3005,3005,3005,3005,128}, --房间背景地面
-        ornaments={2201,2202,2201,2202,2201,2202,2201,2202,2201,201}, ---小挂件
+        _id=190, 
+        roomBgs={3004,3004,3004,3004,3004,3004,3004,3004,3004,98}, --房间背景地面
+        ornaments={2214,2215,2218,2211,2216,2213,2214,2215,2220,154}, ---小挂件
         coins={1,1,1,1,1,1,1,1,1,1}, --钻石(随机出现层数、次数和位置)
         roomGoods={1,1,1,1,1,1,1,1,1,1}, ---道具
         roomType = MAPROOM_TYPE.Special,
         left = {3,6,8},     --左边默认停留的楼层位置
         right = {2,4,9},    --右边默认停留的楼层位置
-        lineX = {Room_Distance.x+94,Room_Distance.x+575},    --钢架线离边距的距离
+        lineX = {Room_Distance.x+70,Room_Distance.x+599},    --钢架线离边距的距离
         direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
         distance = 0,        --房间x轴倾斜距离(单位：像素)
-        probability = 50,     --权重
-        bgType = ROOMBGSIZE_TYPE.Five,
+        probability = 5,     --权重
+        bgType = ROOMBGSIZE_TYPE.Five_1,
+    } 
+
+MapGroupConfigB[191]= 
+    { 
+        _id=191, 
+        roomBgs={3004,3004,30041,30042,30041,3004,3004,3004,3004,98}, --房间背景地面
+        ornaments={2214,22013,22011,22012,22011,2218,2213,2216,2215,151}, ---小挂件
+        coins={1,1,1,1,1,1,1,1,1,1}, --钻石(随机出现层数、次数和位置)
+        roomGoods={1,1,1,1,1,1,1,1,1,1}, ---道具
+        roomType = MAPROOM_TYPE.Special,
+        left = {3,5,8},     --左边默认停留的楼层位置
+        right = {1,4,7},    --右边默认停留的楼层位置
+        lineX = {Room_Distance.x+70,Room_Distance.x+599},    --钢架线离边距的距离
+        direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
+        distance = 0,        --房间x轴倾斜距离(单位：像素)
+        probability = 15,     --权重
+        bgType = ROOMBGSIZE_TYPE.Five_1,
     } 
 
 MapGroupConfigB[192]= 
     { 
         _id=192, 
+        roomBgs={3004,3004,3004,30042,30041,30042,30042,3004,3004,98}, --房间背景地面
+        ornaments={2216,2213,22014,22012,22011,22012,22012,2218,2213,152}, ---小挂件
+        coins={1,1,1,1,1,1,1,1,1,1}, --钻石(随机出现层数、次数和位置)
+        roomGoods={1,1,1,1,1,1,1,1,1,1}, ---道具
+        roomType = MAPROOM_TYPE.Special,
+        left = {2,5,8},     --左边默认停留的楼层位置
+        right = {4,7,9},    --右边默认停留的楼层位置
+        lineX = {Room_Distance.x+70,Room_Distance.x+599},    --钢架线离边距的距离
+        direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
+        distance = 0,        --房间x轴倾斜距离(单位：像素)
+        probability = 15,     --权重
+        bgType = ROOMBGSIZE_TYPE.Five_1,
+    } 
+
+MapGroupConfigB[193]= 
+    { 
+        _id=193, 
+        roomBgs={3004,30042,30042,30041,30042,3004,3004,3004,3004,98}, --房间背景地面
+        ornaments={22014,22012,22012,22011,22012,2215,2218,2217,2212,153}, ---小挂件
+        coins={1,1,1,1,1,1,1,1,1,1}, --钻石(随机出现层数、次数和位置)
+        roomGoods={1,1,1,1,1,1,1,1,1,1}, ---道具
+        roomType = MAPROOM_TYPE.Special,
+        left = {1,4},     --左边默认停留的楼层位置
+        right = {2,7},    --右边默认停留的楼层位置
+        lineX = {Room_Distance.x+70,Room_Distance.x+599},    --钢架线离边距的距离
+        direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
+        distance = 0,        --房间x轴倾斜距离(单位：像素)
+        probability = 15,     --权重
+        bgType = ROOMBGSIZE_TYPE.Five_1,
+    } 
+
+MapGroupConfigB[194]= 
+    { 
+        _id=194, 
+        roomBgs={3004,3004,30041,30042,30042,30041,30042,30041,3004,98}, --房间背景地面
+        ornaments={2202,22013,22011,22011,22012,22011,22012,22011,2202,154}, ---小挂件
+        coins={1,1,1,1,1,1,1,1,1,1}, --钻石(随机出现层数、次数和位置)
+        roomGoods={1,1,1,1,1,1,1,1,1,1}, ---道具
+        roomType = MAPROOM_TYPE.Special,
+        left = {3,8},     --左边默认停留的楼层位置
+        right = {2,7,9},    --右边默认停留的楼层位置
+        lineX = {Room_Distance.x+70,Room_Distance.x+599},    --钢架线离边距的距离
+        direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
+        distance = 0,        --房间x轴倾斜距离(单位：像素)
+        probability = 15,     --权重
+        bgType = ROOMBGSIZE_TYPE.Five_1,
+    } 
+
+MapGroupConfigB[195]= 
+    { 
+        _id=195, 
+        roomBgs={3004,30042,30041,30041,30042,30041,30042,30041,3004,98}, --房间背景地面
+        ornaments={22014,22012,22011,22011,22012,22011,22012,22011,2201,151}, ---小挂件
+        coins={1,1,1,1,1,1,1,1,1,1}, --钻石(随机出现层数、次数和位置)
+        roomGoods={1,1,1,1,1,1,1,1,1,1}, ---道具
+        roomType = MAPROOM_TYPE.Special,
+        left = {3,6,8},     --左边默认停留的楼层位置
+        right = {2,5,7},    --右边默认停留的楼层位置
+        lineX = {Room_Distance.x+70,Room_Distance.x+599},    --钢架线离边距的距离
+        direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
+        distance = 0,        --房间x轴倾斜距离(单位：像素)
+        probability = 15,     --权重
+        bgType = ROOMBGSIZE_TYPE.Five_1,
+    } 
+
+--=======================================================================五块钢架楼层201-230
+MapGroupConfigB[201]= 
+    { 
+        _id=201, 
         roomBgs={3005,3005,3005,3005,3005,3005,3005,3005,3005,128}, --房间背景地面
-        ornaments={2202,2201,2202,2201,2202,2201,2202,2201,2202,202}, ---小挂件
+        ornaments={2203,2208,2207,2204,2205,2210,2201,2208,2209,201}, ---小挂件
+        coins={1,1,1,1,1,1,1,1,1,1}, --钻石(随机出现层数、次数和位置)
+        roomGoods={1,1,1,1,1,1,1,1,1,1}, ---道具
+        roomType = MAPROOM_TYPE.Special,
+        left = {4,6,9},     --左边默认停留的楼层位置
+        right = {2,5,8},    --右边默认停留的楼层位置
+        lineX = {Room_Distance.x+94,Room_Distance.x+575},    --钢架线离边距的距离
+        direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
+        distance = 0,        --房间x轴倾斜距离(单位：像素)
+        probability = 5,     --权重
+        bgType = ROOMBGSIZE_TYPE.Five,
+    } 
+
+MapGroupConfigB[202]= 
+    { 
+        _id=202, 
+        roomBgs={3005,3005,3005,3005,3005,3005,3005,3005,3005,128}, --房间背景地面
+        ornaments={2206,2203,2208,2205,2204,2209,2210,2201,2204,202}, ---小挂件
+        coins={1,1,1,1,1,1,1,1,1,1}, --钻石(随机出现层数、次数和位置)
+        roomGoods={1,1,1,1,1,1,1,1,1,1}, ---道具
+        roomType = MAPROOM_TYPE.Special,
+        left = {4,6,8},     --左边默认停留的楼层位置
+        right = {2,5,9},    --右边默认停留的楼层位置
+        lineX = {Room_Distance.x+94,Room_Distance.x+575},    --钢架线离边距的距离
+        direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
+        distance = 0,        --房间x轴倾斜距离(单位：像素)
+        probability = 5,     --权重
+        bgType = ROOMBGSIZE_TYPE.Five,
+    } 
+  
+MapGroupConfigB[203]= 
+    { 
+        _id=203, 
+        roomBgs={3005,3005,3005,3005,3005,3005,3005,3005,3005,128}, --房间背景地面
+        ornaments={2207,2206,2203,2208,2207,2202,2209,2204,2205,201}, ---小挂件
+        coins={1,1,1,1,1,1,1,1,1,1}, --钻石(随机出现层数、次数和位置)
+        roomGoods={1,1,1,1,1,1,1,1,1,1}, ---道具
+        roomType = MAPROOM_TYPE.Special,
+        left = {3,7,8},     --左边默认停留的楼层位置
+        right = {1,4,9},    --右边默认停留的楼层位置
+        lineX = {Room_Distance.x+94,Room_Distance.x+575},    --钢架线离边距的距离
+        direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
+        distance = 0,        --房间x轴倾斜距离(单位：像素)
+        probability = 5,     --权重
+        bgType = ROOMBGSIZE_TYPE.Five,
+    } 
+
+MapGroupConfigB[204]= 
+    { 
+        _id=204, 
+        roomBgs={3005,3005,3005,3005,3005,3005,3005,3005,3005,128}, --房间背景地面
+        ornaments={2204,2203,2206,2207,22010,2203,2208,2205,2206,202}, ---小挂件
+        coins={1,1,1,1,1,1,1,1,1,1}, --钻石(随机出现层数、次数和位置)
+        roomGoods={1,1,1,1,1,1,1,1,1,1}, ---道具
+        roomType = MAPROOM_TYPE.Special,
+        left = {3,7,9},     --左边默认停留的楼层位置
+        right = {1,4,8},    --右边默认停留的楼层位置
+        lineX = {Room_Distance.x+94,Room_Distance.x+575},    --钢架线离边距的距离
+        direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
+        distance = 0,        --房间x轴倾斜距离(单位：像素)
+        probability = 5,     --权重
+        bgType = ROOMBGSIZE_TYPE.Five,
+    } 
+
+MapGroupConfigB[205]= 
+    { 
+        _id=205, 
+        roomBgs={3005,3005,3005,3005,3005,3005,3005,3005,3005,128}, --房间背景地面
+        ornaments={2205,2206,2207,2202,2209,2204,2205,2210,2203,201}, ---小挂件
+        coins={1,1,1,1,1,1,1,1,1,1}, --钻石(随机出现层数、次数和位置)
+        roomGoods={1,1,1,1,1,1,1,1,1,1}, ---道具
+        roomType = MAPROOM_TYPE.Special,
+        left = {3,5,8},     --左边默认停留的楼层位置
+        right = {1,4,7},    --右边默认停留的楼层位置
+        lineX = {Room_Distance.x+94,Room_Distance.x+575},    --钢架线离边距的距离
+        direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
+        distance = 0,        --房间x轴倾斜距离(单位：像素)
+        probability = 5,     --权重
+        bgType = ROOMBGSIZE_TYPE.Five,
+    } 
+
+MapGroupConfigB[206]= 
+    { 
+        _id=206, 
+        roomBgs={3005,3005,3005,3005,3005,3005,3005,3005,3005,128}, --房间背景地面
+        ornaments={2206,2203,2208,2205,2210,2209,2206,2203,2202,202}, ---小挂件
+        coins={1,1,1,1,1,1,1,1,1,1}, --钻石(随机出现层数、次数和位置)
+        roomGoods={1,1,1,1,1,1,1,1,1,1}, ---道具
+        roomType = MAPROOM_TYPE.Special,
+        left = {3,6,8},     --左边默认停留的楼层位置
+        right = {1,5,9},    --右边默认停留的楼层位置
+        lineX = {Room_Distance.x+94,Room_Distance.x+575},    --钢架线离边距的距离
+        direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
+        distance = 0,        --房间x轴倾斜距离(单位：像素)
+        probability = 5,     --权重
+        bgType = ROOMBGSIZE_TYPE.Five,
+    } 
+
+MapGroupConfigB[207]= 
+    { 
+        _id=207, 
+        roomBgs={3005,3005,3005,3005,3005,3005,3005,3005,3005,128}, --房间背景地面
+        ornaments={2203,2206,2201,2208,2209,2204,2207,2206,2203,201}, ---小挂件
+        coins={1,1,1,1,1,1,1,1,1,1}, --钻石(随机出现层数、次数和位置)
+        roomGoods={1,1,1,1,1,1,1,1,1,1}, ---道具
+        roomType = MAPROOM_TYPE.Special,
+        left = {3,6,8},     --左边默认停留的楼层位置
+        right = {1,4,8},    --右边默认停留的楼层位置
+        lineX = {Room_Distance.x+94,Room_Distance.x+575},    --钢架线离边距的距离
+        direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
+        distance = 0,        --房间x轴倾斜距离(单位：像素)
+        probability = 5,     --权重
+        bgType = ROOMBGSIZE_TYPE.Five,
+    } 
+
+MapGroupConfigB[208]= 
+    { 
+        _id=208, 
+        roomBgs={3005,3005,3005,3005,3005,3005,3005,3005,3005,128}, --房间背景地面
+        ornaments={2208,2203,2206,2205,2206,2203,2208,2201,2204,202}, ---小挂件
+        coins={1,1,1,1,1,1,1,1,1,1}, --钻石(随机出现层数、次数和位置)
+        roomGoods={1,1,1,1,1,1,1,1,1,1}, ---道具
+        roomType = MAPROOM_TYPE.Special,
+        left = {4,6,8},     --左边默认停留的楼层位置
+        right = {2,5,8},    --右边默认停留的楼层位置
+        lineX = {Room_Distance.x+94,Room_Distance.x+575},    --钢架线离边距的距离
+        direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
+        distance = 0,        --房间x轴倾斜距离(单位：像素)
+        probability = 5,     --权重
+        bgType = ROOMBGSIZE_TYPE.Five,
+    } 
+
+MapGroupConfigB[209]= 
+    { 
+        _id=209, 
+        roomBgs={3005,3005,3005,3005,3005,3005,3005,3005,3005,128}, --房间背景地面
+        ornaments={2205,2208,2203,2206,2207,2210,2203,2206,2207,201}, ---小挂件
+        coins={1,1,1,1,1,1,1,1,1,1}, --钻石(随机出现层数、次数和位置)
+        roomGoods={1,1,1,1,1,1,1,1,1,1}, ---道具
+        roomType = MAPROOM_TYPE.Special,
+        left = {4,6,8},     --左边默认停留的楼层位置
+        right = {1,5,9},    --右边默认停留的楼层位置
+        lineX = {Room_Distance.x+94,Room_Distance.x+575},    --钢架线离边距的距离
+        direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
+        distance = 0,        --房间x轴倾斜距离(单位：像素)
+        probability = 5,     --权重
+        bgType = ROOMBGSIZE_TYPE.Five,
+    } 
+
+MapGroupConfigB[210]= 
+    { 
+        _id=210, 
+        roomBgs={3005,3005,3005,3005,3005,3005,3005,3005,3005,128}, --房间背景地面
+        ornaments={2208,2205,2206,2209,2204,2205,2206,2203,2202,202}, ---小挂件
+        coins={1,1,1,1,1,1,1,1,1,1}, --钻石(随机出现层数、次数和位置)
+        roomGoods={1,1,1,1,1,1,1,1,1,1}, ---道具
+        roomType = MAPROOM_TYPE.Special,
+        left = {4,6,8},     --左边默认停留的楼层位置
+        right = {1,5,9},    --右边默认停留的楼层位置
+        lineX = {Room_Distance.x+94,Room_Distance.x+575},    --钢架线离边距的距离
+        direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
+        distance = 0,        --房间x轴倾斜距离(单位：像素)
+        probability = 5,     --权重
+        bgType = ROOMBGSIZE_TYPE.Five,
+    } 
+
+MapGroupConfigB[211]= 
+    { 
+        _id=211, 
+        roomBgs={3005,3005,3005,3005,3005,3005,3005,3005,3005,128}, --房间背景地面
+        ornaments={2213,2218,2217,2212,2215,2220,2211,2218,2213,201}, ---小挂件
+        coins={1,1,1,1,1,1,1,1,1,1}, --钻石(随机出现层数、次数和位置)
+        roomGoods={1,1,1,1,1,1,1,1,1,1}, ---道具
+        roomType = MAPROOM_TYPE.Special,
+        left = {1,5,8},     --左边默认停留的楼层位置
+        right = {4,7,9},    --右边默认停留的楼层位置
+        lineX = {Room_Distance.x+94,Room_Distance.x+575},    --钢架线离边距的距离
+        direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
+        distance = 0,        --房间x轴倾斜距离(单位：像素)
+        probability = 5,     --权重
+        bgType = ROOMBGSIZE_TYPE.Five,
+    } 
+
+MapGroupConfigB[212]= 
+    { 
+        _id=212, 
+        roomBgs={3005,3005,3005,3005,3005,3005,3005,3005,3005,128}, --房间背景地面
+        ornaments={2218,2211,2216,2219,2214,2217,2212,2215,2214,202}, ---小挂件
+        coins={1,1,1,1,1,1,1,1,1,1}, --钻石(随机出现层数、次数和位置)
+        roomGoods={1,1,1,1,1,1,1,1,1,1}, ---道具
+        roomType = MAPROOM_TYPE.Special,
+        left = {4,7,8},     --左边默认停留的楼层位置
+        right = {2,5,9},    --右边默认停留的楼层位置
+        lineX = {Room_Distance.x+94,Room_Distance.x+575},    --钢架线离边距的距离
+        direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
+        distance = 0,        --房间x轴倾斜距离(单位：像素)
+        probability = 5,     --权重
+        bgType = ROOMBGSIZE_TYPE.Five,
+    } 
+
+MapGroupConfigB[213]= 
+    { 
+        _id=213, 
+        roomBgs={3005,3005,3005,3005,3005,3005,3005,3005,3005,128}, --房间背景地面
+        ornaments={2213,2216,2215,2218,2217,2214,2219,2212,2213,201}, ---小挂件
+        coins={1,1,1,1,1,1,1,1,1,1}, --钻石(随机出现层数、次数和位置)
+        roomGoods={1,1,1,1,1,1,1,1,1,1}, ---道具
+        roomType = MAPROOM_TYPE.Special,
+        left = {4,6,9},     --左边默认停留的楼层位置
+        right = {2,4,8},    --右边默认停留的楼层位置
+        lineX = {Room_Distance.x+94,Room_Distance.x+575},    --钢架线离边距的距离
+        direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
+        distance = 0,        --房间x轴倾斜距离(单位：像素)
+        probability = 5,     --权重
+        bgType = ROOMBGSIZE_TYPE.Five,
+    } 
+
+MapGroupConfigB[214]= 
+    { 
+        _id=214, 
+        roomBgs={3005,3005,3005,3005,3005,3005,3005,3005,3005,128}, --房间背景地面
+        ornaments={2216,2211,2218,2213,2214,2215,2212,2217,2218,202}, ---小挂件
+        coins={1,1,1,1,1,1,1,1,1,1}, --钻石(随机出现层数、次数和位置)
+        roomGoods={1,1,1,1,1,1,1,1,1,1}, ---道具
+        roomType = MAPROOM_TYPE.Special,
+        left = {4,8},     --左边默认停留的楼层位置
+        right = {1,6},    --右边默认停留的楼层位置
+        lineX = {Room_Distance.x+94,Room_Distance.x+575},    --钢架线离边距的距离
+        direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
+        distance = 0,        --房间x轴倾斜距离(单位：像素)
+        probability = 5,     --权重
+        bgType = ROOMBGSIZE_TYPE.Five,
+    } 
+
+MapGroupConfigB[215]= 
+    { 
+        _id=215, 
+        roomBgs={3005,3005,3005,3005,3005,3005,3005,3005,3005,128}, --房间背景地面
+        ornaments={2217,2214,2215,2214,2219,2214,2213,2220,2219,201}, ---小挂件
+        coins={1,1,1,1,1,1,1,1,1,1}, --钻石(随机出现层数、次数和位置)
+        roomGoods={1,1,1,1,1,1,1,1,1,1}, ---道具
+        roomType = MAPROOM_TYPE.Special,
+        left = {4,8},     --左边默认停留的楼层位置
+        right = {2,6},    --右边默认停留的楼层位置
+        lineX = {Room_Distance.x+94,Room_Distance.x+575},    --钢架线离边距的距离
+        direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
+        distance = 0,        --房间x轴倾斜距离(单位：像素)
+        probability = 5,     --权重
+        bgType = ROOMBGSIZE_TYPE.Five,
+    } 
+
+MapGroupConfigB[216]= 
+    { 
+        _id=216, 
+        roomBgs={3005,3005,3005,3005,3005,3005,3005,3005,3005,128}, --房间背景地面
+        ornaments={2208,2203,2206,2209,2204,2203,2208,2205,2206,202}, ---小挂件
         coins={1,1,1,1,1,1,1,1,1,1}, --钻石(随机出现层数、次数和位置)
         roomGoods={1,1,1,1,1,1,1,1,1,1}, ---道具
         roomType = MAPROOM_TYPE.Special,
@@ -2156,14 +2785,167 @@ MapGroupConfigB[192]=
         lineX = {Room_Distance.x+94,Room_Distance.x+575},    --钢架线离边距的距离
         direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
         distance = 0,        --房间x轴倾斜距离(单位：像素)
-        probability = 50,     --权重
+        probability = 5,     --权重
         bgType = ROOMBGSIZE_TYPE.Five,
     } 
 
---==========================================================================五块半向右倾斜211-230
-MapGroupConfigB[211]= 
+MapGroupConfigB[217]= 
     { 
-        _id=211, 
+        _id=217, 
+        roomBgs={3005,3005,3005,3005,3005,3005,3005,3005,3005,128}, --房间背景地面
+        ornaments={2203,2206,2209,2202,2207,2206,2205,2204,2203,201}, ---小挂件
+        coins={1,1,1,1,1,1,1,1,1,1}, --钻石(随机出现层数、次数和位置)
+        roomGoods={1,1,1,1,1,1,1,1,1,1}, ---道具
+        roomType = MAPROOM_TYPE.Special,
+        left = {4,8},     --左边默认停留的楼层位置
+        right = {1,6},    --右边默认停留的楼层位置
+        lineX = {Room_Distance.x+94,Room_Distance.x+575},    --钢架线离边距的距离
+        direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
+        distance = 0,        --房间x轴倾斜距离(单位：像素)
+        probability = 5,     --权重
+        bgType = ROOMBGSIZE_TYPE.Five,
+    } 
+
+MapGroupConfigB[218]= 
+    { 
+        _id=218, 
+        roomBgs={3005,3005,3005,3005,3005,3005,3005,3005,3005,128}, --房间背景地面
+        ornaments={2206,2207,2204,2205,2208,2203,2202,2205,2204,202}, ---小挂件
+        coins={1,1,1,1,1,1,1,1,1,1}, --钻石(随机出现层数、次数和位置)
+        roomGoods={1,1,1,1,1,1,1,1,1,1}, ---道具
+        roomType = MAPROOM_TYPE.Special,
+        left = {5,9},     --左边默认停留的楼层位置
+        right = {2,7},    --右边默认停留的楼层位置
+        lineX = {Room_Distance.x+94,Room_Distance.x+575},    --钢架线离边距的距离
+        direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
+        distance = 0,        --房间x轴倾斜距离(单位：像素)
+        probability = 5,     --权重
+        bgType = ROOMBGSIZE_TYPE.Five,
+    } 
+
+MapGroupConfigB[219]= 
+    { 
+        _id=219, 
+        roomBgs={3005,3005,3005,3005,3005,3005,3005,3005,3005,128}, --房间背景地面
+        ornaments={2203,2208,2207,2206,2205,2204,2203,2202,2209,201}, ---小挂件
+        coins={1,1,1,1,1,1,1,1,1,1}, --钻石(随机出现层数、次数和位置)
+        roomGoods={1,1,1,1,1,1,1,1,1,1}, ---道具
+        roomType = MAPROOM_TYPE.Special,
+        left = {3,6,8},     --左边默认停留的楼层位置
+        right = {2,4,9},    --右边默认停留的楼层位置
+        lineX = {Room_Distance.x+94,Room_Distance.x+575},    --钢架线离边距的距离
+        direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
+        distance = 0,        --房间x轴倾斜距离(单位：像素)
+        probability = 5,     --权重
+        bgType = ROOMBGSIZE_TYPE.Five,
+    } 
+
+MapGroupConfigB[220]= 
+    { 
+        _id=220, 
+        roomBgs={3005,3005,3005,3005,3005,3005,3005,3005,3005,128}, --房间背景地面
+        ornaments={2204,2209,2206,2207,2202,2207,2204,2203,2208,202}, ---小挂件
+        coins={1,1,1,1,1,1,1,1,1,1}, --钻石(随机出现层数、次数和位置)
+        roomGoods={1,1,1,1,1,1,1,1,1,1}, ---道具
+        roomType = MAPROOM_TYPE.Special,
+        left = {3,6,8},     --左边默认停留的楼层位置
+        right = {2,4,9},    --右边默认停留的楼层位置
+        lineX = {Room_Distance.x+94,Room_Distance.x+575},    --钢架线离边距的距离
+        direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
+        distance = 0,        --房间x轴倾斜距离(单位：像素)
+        probability = 5,     --权重
+        bgType = ROOMBGSIZE_TYPE.Five,
+    } 
+
+MapGroupConfigB[221]= 
+    { 
+        _id=221, 
+        roomBgs={3005,30051,30052,30051,30052,30051,3005,3005,3005,128}, --房间背景地面
+        ornaments={22013,22011,22012,22011,22012,22011,2207,2206,2209,201}, ---小挂件
+        coins={1,1,1,1,1,1,1,1,1,1}, --钻石(随机出现层数、次数和位置)
+        roomGoods={1,1,1,1,1,1,1,1,1,1}, ---道具
+        roomType = MAPROOM_TYPE.Special,
+        left = {2,6},     --左边默认停留的楼层位置
+        right = {3,8},    --右边默认停留的楼层位置
+        lineX = {Room_Distance.x+94,Room_Distance.x+575},    --钢架线离边距的距离
+        direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
+        distance = 0,        --房间x轴倾斜距离(单位：像素)
+        probability = 15,     --权重
+        bgType = ROOMBGSIZE_TYPE.Five,
+    } 
+
+MapGroupConfigB[222]= 
+    { 
+        _id=222, 
+        roomBgs={3005,30051,30051,30051,30052,30052,30051,30052,3005,128}, --房间背景地面
+        ornaments={22013,22011,22011,22011,22012,22012,22011,22012,2208,202}, ---小挂件
+        coins={1,1,1,1,1,1,1,1,1,1}, --钻石(随机出现层数、次数和位置)
+        roomGoods={1,1,1,1,1,1,1,1,1,1}, ---道具
+        roomType = MAPROOM_TYPE.Special,
+        left = {3,7},     --左边默认停留的楼层位置
+        right = {5,9},    --右边默认停留的楼层位置
+        lineX = {Room_Distance.x+94,Room_Distance.x+575},    --钢架线离边距的距离
+        direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
+        distance = 0,        --房间x轴倾斜距离(单位：像素)
+        probability = 15,     --权重
+        bgType = ROOMBGSIZE_TYPE.Five,
+    } 
+
+MapGroupConfigB[223]= 
+    { 
+        _id=223, 
+        roomBgs={3005,30052,30051,30052,30051,30051,30052,3005,3005,128}, --房间背景地面
+        ornaments={22014,22012,22011,22012,22011,22011,22012,2206,2203,201}, ---小挂件
+        coins={1,1,1,1,1,1,1,1,1,1}, --钻石(随机出现层数、次数和位置)
+        roomGoods={1,1,1,1,1,1,1,1,1,1}, ---道具
+        roomType = MAPROOM_TYPE.Special,
+        left = {3,6,9},     --左边默认停留的楼层位置
+        right = {2,4,8},    --右边默认停留的楼层位置
+        lineX = {Room_Distance.x+94,Room_Distance.x+575},    --钢架线离边距的距离
+        direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
+        distance = 0,        --房间x轴倾斜距离(单位：像素)
+        probability = 15,     --权重
+        bgType = ROOMBGSIZE_TYPE.Five,
+    } 
+
+MapGroupConfigB[224]= 
+    { 
+        _id=224, 
+        roomBgs={3005,30051,30051,30052,30052,30051,30052,3005,3005,128}, --房间背景地面
+        ornaments={22013,22011,22011,22012,22012,22011,22012,2207,2206,202}, ---小挂件
+        coins={1,1,1,1,1,1,1,1,1,1}, --钻石(随机出现层数、次数和位置)
+        roomGoods={1,1,1,1,1,1,1,1,1,1}, ---道具
+        roomType = MAPROOM_TYPE.Special,
+        left = {3,6},     --左边默认停留的楼层位置
+        right = {4,7},    --右边默认停留的楼层位置
+        lineX = {Room_Distance.x+94,Room_Distance.x+575},    --钢架线离边距的距离
+        direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
+        distance = 0,        --房间x轴倾斜距离(单位：像素)
+        probability = 15,     --权重
+        bgType = ROOMBGSIZE_TYPE.Five,
+    } 
+
+MapGroupConfigB[225]= 
+    { 
+        _id=225, 
+        roomBgs={3005,30052,30052,30051,30052,30051,30051,30052,3005,128}, --房间背景地面
+        ornaments={22014,22012,22012,22011,22012,22011,22011,22012,2208,202}, ---小挂件
+        coins={1,1,1,1,1,1,1,1,1,1}, --钻石(随机出现层数、次数和位置)
+        roomGoods={1,1,1,1,1,1,1,1,1,1}, ---道具
+        roomType = MAPROOM_TYPE.Special,
+        left = {4,7,9},     --左边默认停留的楼层位置
+        right = {2,5,8},    --右边默认停留的楼层位置
+        lineX = {Room_Distance.x+94,Room_Distance.x+575},    --钢架线离边距的距离
+        direction = false,       --当类型为奔跑类型时的方向，非奔跑类型可不加此参数
+        distance = 0,        --房间x轴倾斜距离(单位：像素)
+        probability = 15,     --权重
+        bgType = ROOMBGSIZE_TYPE.Five,
+    } 
+
+--==========================================================================五块半向右倾斜231-240
+MapGroupConfigB[231]= 
+    { 
+        _id=231, 
         roomBgs={1041,1045,1041,1046,1047,1051,1049,1043,1042,98}, --房间背景地面
         ornaments={167,175,186,194,171,187,175,162,198,151}, ---小挂件
         coins={1,1,1,1,1,1,1,1,1,1}, ---钻石
@@ -2175,9 +2957,9 @@ MapGroupConfigB[211]=
         bgType = ROOMBGSIZE_TYPE.Five_1,
     } 
 
-MapGroupConfigB[212]= 
+MapGroupConfigB[232]= 
     { 
-        _id=212, 
+        _id=232, 
         roomBgs={1041,1046,1047,1051,1050,1044,1046,1047,1043,98}, --房间背景地面
         ornaments={179,165,166,174,181,197,185,172,168,151}, ---小挂件
         coins={1,1,1,1,1,1,1,1,1,1}, ---钻石
@@ -2189,9 +2971,9 @@ MapGroupConfigB[212]=
         bgType = ROOMBGSIZE_TYPE.Five_1,
     } 
 
-MapGroupConfigB[213]= 
+MapGroupConfigB[233]= 
     { 
-        _id=213, 
+        _id=233, 
         roomBgs={1048,1043,1046,1051,1049,1051,1049,1043,1042,98}, --房间背景地面
         ornaments={176,165,166,184,191,177,185,162,158,153}, ---小挂件
         coins={1,1,1,1,1,1,1,1,1,1}, ---钻石
@@ -2203,9 +2985,9 @@ MapGroupConfigB[213]=
         bgType = ROOMBGSIZE_TYPE.Five_1,
     } 
 
-MapGroupConfigB[214]= 
+MapGroupConfigB[234]= 
     { 
-        _id=214, 
+        _id=234, 
         roomBgs={1048,1051,1050,1050,1049,1047,1043,1046,1051,98}, --房间背景地面
         ornaments={181,175,196,164,171,157,165,182,198,153}, ---小挂件
         coins={1,1,1,1,1,1,1,1,1,1}, ---钻石
@@ -2217,9 +2999,9 @@ MapGroupConfigB[214]=
         bgType = ROOMBGSIZE_TYPE.Five_1,
     } 
 
-MapGroupConfigB[215]= 
+MapGroupConfigB[235]= 
     { 
-        _id=215, 
+        _id=235, 
         roomBgs={1048,1047,1047,1051,1050,1050,1049,1043,1042,98}, --房间背景地面
         ornaments={183,175,176,164,191,187,155,172,168,152}, ---小挂件
         coins={1,1,1,1,1,1,1,1,1,1}, ---钻石
@@ -2231,10 +3013,10 @@ MapGroupConfigB[215]=
         bgType = ROOMBGSIZE_TYPE.Five_1,
     } 
 
---===========================================================================五块半向左倾斜231-250
-MapGroupConfigB[231]= 
+--===========================================================================五块半向左倾斜241-250
+MapGroupConfigB[241]= 
     { 
-        _id=231, 
+        _id=241, 
         roomBgs={1061,1065,1068,1064,1066,1064,1066,1071,1069,98}, --房间背景地面
         ornaments={187,175,166,194,171,167,155,192,178,152}, ---小挂件
         coins={1,1,1,1,1,1,1,1,1,1}, ---钻石
@@ -2246,9 +3028,9 @@ MapGroupConfigB[231]=
         bgType = ROOMBGSIZE_TYPE.Five_1,
     } 
 
-MapGroupConfigB[232]= 
+MapGroupConfigB[242]= 
     { 
-        _id=232, 
+        _id=242, 
         roomBgs={1061,1062,1066,1066,1071,1070,1069,1064,1070,98}, --房间背景地面
         ornaments={159,165,176,164,191,187,175,162,158,153}, ---小挂件
         coins={1,1,1,1,1,1,1,1,1,1}, ---钻石
@@ -2260,9 +3042,9 @@ MapGroupConfigB[232]=
         bgType = ROOMBGSIZE_TYPE.Five_1,
     } 
 
-MapGroupConfigB[233]= 
+MapGroupConfigB[243]= 
     { 
-        _id=233, 
+        _id=243, 
         roomBgs={1061,1065,1065,1068,1066,1071,1070,1063,1066,98}, --房间背景地面
         ornaments={156,175,166,184,191,197,185,172,178,152}, ---小挂件
         coins={1,1,1,1,1,1,1,1,1,1}, ---钻石
@@ -2274,9 +3056,9 @@ MapGroupConfigB[233]=
         bgType = ROOMBGSIZE_TYPE.Five_1,
     } 
 
-MapGroupConfigB[234]= 
+MapGroupConfigB[244]= 
     { 
-        _id=234, 
+        _id=244, 
         roomBgs={1068,1071,1070,1069,1071,1069,1064,1070,1069,98}, --房间背景地面
         ornaments={181,175,176,164,191,157,155,182,178,154}, ---小挂件
         coins={1,1,1,1,1,1,1,1,1,1}, ---钻石
@@ -2288,9 +3070,9 @@ MapGroupConfigB[234]=
         bgType = ROOMBGSIZE_TYPE.Five_1,
     } 
 
-MapGroupConfigB[235]= 
+MapGroupConfigB[245]= 
     { 
-        _id=235, 
+        _id=245, 
         roomBgs={1068,1071,1070,1069,1071,1069,1071,1069,1071,98}, --房间背景地面
         ornaments={173,165,156,184,171,197,165,182,178,154}, ---小挂件
         coins={1,1,1,1,1,1,1,1,1,1}, ---钻石
