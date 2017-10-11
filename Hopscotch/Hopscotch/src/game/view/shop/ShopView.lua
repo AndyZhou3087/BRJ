@@ -188,8 +188,8 @@ function ShopView:ctor(parameters)
 --                    GameDispatcher:dispatch(EventNames.EVENT_FLY_TEXT,{text ="购买失败"})
 --                end
 --            end})
-            if GameDataManager.getDiamond() >= RoleConfig[self.sceneId].diamond then
-                GameDataManager.costDiamond(RoleConfig[self.sceneId].diamond)
+            if GameDataManager.getDiamond() >= SceneConfig[self.sceneId].diamond then
+                GameDataManager.costDiamond(SceneConfig[self.sceneId].diamond)
                 GameDataManager.unLockScene(self.sceneId)
                 GameDispatcher:dispatch(EventNames.EVENT_FLY_TEXT,{text ="购买成功"})
             else
