@@ -6026,7 +6026,7 @@ Ornaments[2013]=
 	      {res="#Room_specialbg_4.png",x=Room_Distance.x+578,y=15},
               {res="#Room_specialbg_5.png",x=Room_Distance.x+653,y=16},
 	      },
-	 ornament = {{res="#Room_ornament_32.png",x=420,y=16}}
+	 ornament = {{res="#Room_ornament_3.png",x=420,y=16}}
     }
 
 --钢架楼层第二层

@@ -11,7 +11,7 @@ local Scheduler = require("framework.scheduler")
 
 local shopX = {300,450,600,750,900,1050,1200,150,0}
 local sceneX = {340,510,680,850,1020,1190,1360,1530,1700,1870,2040,2210,170,0}
-local roleX = {300,450,600,750,900,1050,1200,1350,1500,1650,1800,1950,150,0}
+local roleX = {300,450,600,750,900,1050,150,0}
 
 function ShopView:ctor(parameters)
     ShopView.super.ctor(self)

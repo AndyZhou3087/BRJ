@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?plist version="1.0"?>
+<dict>
+    <key>animations</key>
+    <dict>
+        <key>RoleJump_11</key>
+        <dict>
+            <key>delay</key>
+            <real>0.35</real>
+            <key>frames</key>
+            <array>
+                <string>RoleJump11_1.png</string>
+                <string>RoleJump11_2.png</string>
+                <string>RoleJump11_3.png</string>
+            </array>
+        </dict>
+        <key>RoleJump_12</key>
+        <dict>
+            <key>delay</key>
+            <real>0.35</real>
+            <key>frames</key>
+            <array>
+                <string>RoleJump12_1.png</string>
+                <string>RoleJump12_2.png</string>
+                <string>RoleJump12_3.png</string>
+            </array>
+        </dict>
+        <key>RoleJump_13</key>
+        <dict>
+            <key>delay</key>
+            <real>0.35</real>
+            <key>frames</key>
+            <array>
+                <string>RoleJump13_1.png</string>
+                <string>RoleJump13_2.png</string>
+                <string>RoleJump13_3.png</string>
+            </array>
+        </dict>
+    </dict>
+</dict>
