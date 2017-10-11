@@ -37,13 +37,13 @@ function Player:ctor()
         self:addChild(self.m_armature,1)
         self:createModle(modle)
         self.m_armature:setScale(0.45)
-        if self.m_curModle == 1 or self.m_curModle == 7 then
+--        if self.m_curModle == 1 or self.m_curModle == 7 then
             p_size = cc.size(40,75)
             self.errorValue = 15
-        else
-            p_size = cc.size(40,65)
-            self.errorValue = 15
-        end
+--        else
+--            p_size = cc.size(40,65)
+--            self.errorValue = 15
+--        end
     else
         self.m_armature = PhysicSprite.new(res):addTo(self)
         self.m_armature:setScale(0.45)
