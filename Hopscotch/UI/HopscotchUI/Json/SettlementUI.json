@@ -590,7 +590,7 @@
               "customProperty": "",
               "flipX": false,
               "flipY": false,
-              "height": 65,
+              "height": 75,
               "ignoreSize": true,
               "layoutParameter": null,
               "opacity": 255,
@@ -607,7 +607,7 @@
               "touchAble": false,
               "useMergedTexture": false,
               "visible": true,
-              "width": 55,
+              "width": 63,
               "x": 574,
               "y": 3,
               "capInsetsHeight": 1,
@@ -621,8 +621,8 @@
                 "resourceType": 0
               },
               "scale9Enable": false,
-              "scale9Height": 65,
-              "scale9Width": 55
+              "scale9Height": 75,
+              "scale9Width": 63
             }
           },
           {
@@ -1046,8 +1046,8 @@
               "ignoreSize": true,
               "layoutParameter": null,
               "opacity": 255,
-              "positionPercentX": 0.600444436,
-              "positionPercentY": 0.0110186031,
+              "positionPercentX": 0.6,
+              "positionPercentY": 0.008264462,
               "positionType": 0,
               "rotation": 0,
               "scaleX": 1.3,
@@ -1306,7 +1306,7 @@
               "customProperty": "",
               "flipX": false,
               "flipY": false,
-              "height": 65,
+              "height": 75,
               "ignoreSize": true,
               "layoutParameter": null,
               "opacity": 255,
@@ -1323,7 +1323,7 @@
               "touchAble": false,
               "useMergedTexture": false,
               "visible": true,
-              "width": 55,
+              "width": 63,
               "x": 675,
               "y": 1,
               "capInsetsHeight": 1,
@@ -1337,8 +1337,8 @@
                 "resourceType": 0
               },
               "scale9Enable": false,
-              "scale9Height": 65,
-              "scale9Width": 55
+              "scale9Height": 75,
+              "scale9Width": 63
             }
           },
           {
