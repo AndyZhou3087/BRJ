@@ -33,7 +33,7 @@ elseif device.platform == "ios" then
     luaoc = require("framework.luaoc")
 end
 
-local ocClassName = "UnityAdsMana"
+local ocClassName = "iosPurchase"
 local className = "com/kxx/util/Util"
 --pay方法(int goodsId,String orderId,int callFunc)
 local methodName = "pay"
@@ -43,15 +43,31 @@ local methodName = "pay"
 function SDKUtil.toPay(_data)
     local params = {_data.goodsId,_data.orderId,_data.callback}
     local sigs = "(Ljava/lang/String;Ljava/lang/String;I)V"
+    local _params = {callback = _data.callback}
 	if luaj then
         luaj.callStaticMethod(className,methodName,params,sigs)
 		return
 	end
     if luaoc then
-        luaoc.callStaticMethod(ocClassName,methodName,params)
+        luaoc.callStaticMethod(ocClassName,"buy",_params)
         return
 	end
     _data.callback(SDKUtil.PayResult.Success)
+end
+
+--初始化vungleSdk
+function SDKUtil.initBuy()
+    local params = {}
+    local _params = {}
+    local sigs = "V"
+    if luaj then
+        luaj.callStaticMethod(className,methodName,params,sigs)
+        return
+    end
+    if luaoc then
+        luaoc.callStaticMethod(ocClassName,"initMyBuy",_params)
+        return
+    end
 end
 
 --获取唯一订单id

@@ -1,5 +1,9 @@
 FruitPaoku/FruitPaoku/.settings
-FruitPaoku/FruitPaoku/frameworks
+FruitPaoku/FruitPaoku/frameworks/cocos2d-x
+FruitPaoku/FruitPaoku/frameworks/runtime-src/proj.win32
+FruitPaoku/FruitPaoku/frameworks/runtime-src/proj.android_no_anysdk
+FruitPaoku/FruitPaoku/frameworks/runtime-src/proj.android
+FruitPaoku/FruitPaoku/frameworks/runtime-src/proj.wp8-xaml
 FruitPaoku/FruitPaoku/runtime
 FruitPaoku/UI/FruitPaokuUI/Backup
 Hopscotch/Hopscotch/.settings

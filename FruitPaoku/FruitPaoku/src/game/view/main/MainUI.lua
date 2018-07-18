@@ -14,6 +14,7 @@ function MainUI:ctor()
     self.productid = nil
     self.giftCount = 0
 
+    SDKUtil.initBuy()
     self:init()
     
     --获取礼包接口
