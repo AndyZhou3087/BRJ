@@ -7,7 +7,7 @@ function __G__TRACKBACK__(errorMessage)
 end
 
 -- 控制游戏是加载加密包还是原始文件 true加密包 false代码文件
-GAME_RELEASE = false
+GAME_RELEASE = true
 
 local fileUtils = cc.FileUtils:getInstance()
 fileUtils:setPopupNotify(false)
