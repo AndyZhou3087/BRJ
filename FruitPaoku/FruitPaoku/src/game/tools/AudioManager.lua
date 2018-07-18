@@ -4,33 +4,33 @@
 local AudioManager = {}
 
 AudioManager.Music_Path = "music/"
---AudioManager.Music_Suffix = ".ogg"
+--AudioManager.Music_Suffix = ".mp3"
 
 --背景音乐类型
 AudioManager.Ground_Music_Type=
     {
         --主界面背景音乐
-        Main_Bg = "bgm_menu.ogg",
+        Main_Bg = "bgm_menu.mp3",
         --关卡背景音乐
-        Select_Bg = "bgm_menu.ogg",
+        Select_Bg = "bgm_menu.mp3",
         --战斗场景音乐
-        Fight_Bg = "bgm_game_02.ogg",
+        Fight_Bg = "bgm_game_02.mp3",
     }
 --音效类型
 AudioManager.Sound_Effect_Type=
     {
-        Button_Click_Sound = "button.ogg",--按钮点击
-        Sprint_Sound = "fevertime.ogg",   --冲刺
-        Get_Prop_Sound = "get_item.ogg",    --获得道具
-        Player_Up_Lv = "u_level_up.ogg",  --角色升级
-        Diamond_Cost = "zuanshixiaohao.ogg",   --消耗钻石
-        Jump_Sound = "jump.ogg",  --跳跃
-        GetGold_Sound = "gold.ogg",  --获得金币
-        Magnet_Sound = "magnet.ogg",  --吸铁石
-        RoleMan_Dead = "nanshoushang.ogg",   --男角色死亡
-        RoleWomen_Dead = "nvshoushang.ogg",  --女角色死亡
-        Dart_Sound = "swish.ogg",  --飞镖
-        Win_Sound = "jiesuan.ogg",  --挑战成功
+        Button_Click_Sound = "button.mp3",--按钮点击
+        Sprint_Sound = "fevertime.mp3",   --冲刺
+        Get_Prop_Sound = "get_item.mp3",    --获得道具
+        Player_Up_Lv = "u_level_up.mp3",  --角色升级
+        Diamond_Cost = "zuanshixiaohao.mp3",   --消耗钻石
+        Jump_Sound = "jump.mp3",  --跳跃
+        GetGold_Sound = "gold.mp3",  --获得金币
+        Magnet_Sound = "magnet.mp3",  --吸铁石
+        RoleMan_Dead = "nanshoushang.mp3",   --男角色死亡
+        RoleWomen_Dead = "nvshoushang.mp3",  --女角色死亡
+        Dart_Sound = "swish.mp3",  --飞镖
+        Win_Sound = "jiesuan.mp3",  --挑战成功
     }
 
 --游戏战斗中的音效，加此项是为了在游戏中弹出界面时要屏蔽战斗音效

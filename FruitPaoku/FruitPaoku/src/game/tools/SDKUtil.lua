@@ -33,7 +33,7 @@ elseif device.platform == "ios" then
     luaoc = require("framework.luaoc")
 end
 
-local ocClassName = "iosPurchase"
+local ocClassName = "UnityAdsMana"
 local className = "com/kxx/util/Util"
 --pay方法(int goodsId,String orderId,int callFunc)
 local methodName = "pay"
@@ -43,7 +43,7 @@ local methodName = "pay"
 function SDKUtil.toPay(_data)
     local params = {_data.goodsId,_data.orderId,_data.callback}
     local sigs = "(Ljava/lang/String;Ljava/lang/String;I)V"
-    local _params = {callback = _data.callback}
+    local _params = {goodsId=_data.goodsId,callback = _data.callback}
 	if luaj then
         luaj.callStaticMethod(className,methodName,params,sigs)
 		return
@@ -65,7 +65,7 @@ function SDKUtil.initBuy()
         return
     end
     if luaoc then
-        luaoc.callStaticMethod(ocClassName,"initMyBuy",_params)
+        luaoc.callStaticMethod(ocClassName,"initBuy",_params)
         return
     end
 end
