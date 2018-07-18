@@ -37,7 +37,7 @@ function ShopView:ctor(isPause)
 
     if #GameController.getShopCodeList() <= 0 then
         local cadeList = {}
-        for var=9, #ShopConfig do
+        for var=1, #ShopConfig do
             cadeList[#cadeList+1] = ShopConfig[var]
         end
         GameController.setShopListCode(cadeList)

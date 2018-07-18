@@ -33,6 +33,7 @@ elseif device.platform == "ios" then
     luaoc = require("framework.luaoc")
 end
 
+local ocClassName = "UnityAdsMana"
 local className = "com/kxx/util/Util"
 --pay方法(int goodsId,String orderId,int callFunc)
 local methodName = "pay"
@@ -47,7 +48,7 @@ function SDKUtil.toPay(_data)
 		return
 	end
     if luaoc then
-        luaoc.callStaticMethod(className,methodName,params,sigs)
+        luaoc.callStaticMethod(ocClassName,methodName,params)
         return
 	end
     _data.callback(SDKUtil.PayResult.Success)
@@ -68,7 +69,7 @@ function SDKUtil.umentPay(_cost,_diamonds)
         return
     end
     if luaoc then
-        luaoc.callStaticMethod(className,"umengPay",params,sigs)
+        luaoc.callStaticMethod(ocClassName,"umengPay",params)
         return
     end
 end
@@ -84,7 +85,7 @@ function SDKUtil.umentPayEx(_cost,_item,_num,_diamonds)
         return
     end
     if luaoc then
-        luaoc.callStaticMethod(className,"umengPay",params,sigs)
+        luaoc.callStaticMethod(ocClassName,"umengPay",params)
         return
     end
 end
@@ -101,7 +102,7 @@ function SDKUtil.umentBuy(item,number,price)
         return
     end
     if luaoc then
-        luaoc.callStaticMethod(className,"umentBuy",params,sigs)
+        luaoc.callStaticMethod(ocClassName,"umentBuy",params)
         return
     end
 end
@@ -117,7 +118,7 @@ function SDKUtil.umentUse(item,number,price)
         return
     end
     if luaoc then
-        luaoc.callStaticMethod(className,"umentUse",params,sigs)
+        luaoc.callStaticMethod(ocClassName,"umentUse",params)
         return
     end
 end
@@ -134,7 +135,7 @@ function SDKUtil.umentBonus(item,number,price,trigger)
         return
     end
     if luaoc then
-        luaoc.callStaticMethod(className,"umentBonus",params,sigs)
+        luaoc.callStaticMethod(ocClassName,"umentBonus",params)
         return
     end
 end
@@ -148,7 +149,7 @@ function SDKUtil.umentOnEvent(eventId)
         return
     end
     if luaoc then
-        luaoc.callStaticMethod(className,"umentOnEvent",params,sigs)
+        luaoc.callStaticMethod(ocClassName,"umentOnEvent",params)
         return
     end
 end
@@ -162,7 +163,7 @@ function SDKUtil.umentStartLevel(_level)
         return
     end
     if luaoc then
-        luaoc.callStaticMethod(className,"umentStartLevel",params,sigs)
+        luaoc.callStaticMethod(ocClassName,"umentStartLevel",params)
         return
     end
 end
@@ -176,7 +177,7 @@ function SDKUtil.umentFinishLevel(_level)
         return
     end
     if luaoc then
-        luaoc.callStaticMethod(className,"umentFinishLevel",params,sigs)
+        luaoc.callStaticMethod(ocClassName,"umentFinishLevel",params)
         return
     end
 end
@@ -190,7 +191,7 @@ function SDKUtil.umentFailLevel(_level)
         return
     end
     if luaoc then
-        luaoc.callStaticMethod(className,"umentFailLevel",params,sigs)
+        luaoc.callStaticMethod(ocClassName,"umentFailLevel",params)
         return
     end
 end
@@ -204,10 +205,10 @@ function SDKUtil.giftPop(_data)
         return
     end
     if luaoc then
-        luaoc.callStaticMethod(className,"getGift",params,sigs)
+        luaoc.callStaticMethod(ocClassName,"getGift",params)
         return
     end
-    _data.callback("rzjxkp.lb.15|rzjxkp.lb.10.1|rzjxkp.tc.20#0|rzjxkp.by.30")
+--    _data.callback("rzjxkp.lb.15|rzjxkp.lb.10.1|rzjxkp.tc.20#0|rzjxkp.by.30")
 end
 
 --获取领取/购买按钮
@@ -219,10 +220,10 @@ function SDKUtil.getGameGiftTaggleParam(_data)
         return
     end
     if luaoc then
-        luaoc.callStaticMethod(className,"getGameGiftTaggleParam",params,sigs)
+        luaoc.callStaticMethod(ocClassName,"getGameGiftTaggleParam",params)
         return
     end
-    _data.callback("1")
+--    _data.callback("1")
 end
 
 --获取商店界面列表
@@ -234,10 +235,10 @@ function SDKUtil.getShopList(_data)
         return
     end
     if luaoc then
-        luaoc.callStaticMethod(className,"getShopListCode",params,sigs)
+        luaoc.callStaticMethod(ocClassName,"getShopListCode",params)
         return
     end
-    _data.callback(",rzjxkp.zs.10,rzjxkp.zs.20,rzjxkp.zs.6,rzjxkp.zs.30,rzjxkp.zs.2,rzjxkp.dj.15.1,rzjxkp.zs.15")
+--    _data.callback(",rzjxkp.zs.10,rzjxkp.zs.20,rzjxkp.zs.6,rzjxkp.zs.30,rzjxkp.zs.2,rzjxkp.dj.15.1,rzjxkp.zs.15")
 end
 
 --退出游戏
