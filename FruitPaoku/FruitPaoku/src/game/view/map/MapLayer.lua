@@ -386,15 +386,15 @@ function MapLayer:onEnterFrame(dt)
 --    Tools.printDebug("-----------多少像素：",self.miles)
     
     --游戏内弹礼包
-    if not DataPersistence.getAttribute("first_into") and GAME_TYPE_CONTROL == GAME_TYPE.LevelMode and not self.isGiftPop then
-        if self.m_levelCon.giftGap and self.miles >= self.m_levelCon.giftGap then
-            self.isGiftPop = true
-            local id,gId,eid = GameController.getCurGiftId()
-            if GiftConfig[gId] then
-                GameDispatcher:dispatch(EventNames.EVENT_OPEN_COMMONGIFT,{giftId = gId,animation = true,isGame = true})
-            end
-    	end
-    end
+--    if not DataPersistence.getAttribute("first_into") and GAME_TYPE_CONTROL == GAME_TYPE.LevelMode and not self.isGiftPop then
+--        if self.m_levelCon.giftGap and self.miles >= self.m_levelCon.giftGap then
+--            self.isGiftPop = true
+--            local id,gId,eid = GameController.getCurGiftId()
+--            if GiftConfig[gId] then
+--                GameDispatcher:dispatch(EventNames.EVENT_OPEN_COMMONGIFT,{giftId = gId,animation = true,isGame = true})
+--            end
+--    	end
+--    end
    
    if GAME_TYPE_CONTROL == GAME_TYPE.EndlessMode then
         if self.pexel >= EndlessMode.DistanceS.move then
