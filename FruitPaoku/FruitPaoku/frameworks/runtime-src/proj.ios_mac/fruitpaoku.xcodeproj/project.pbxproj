@@ -65,6 +65,12 @@
 		521A8E7119F0C3D200D177D7 /* Default-736h@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 521A8E6F19F0C3D200D177D7 /* Default-736h@3x.png */; };
 		721940BF20FF20D500071BFC /* IOSPurchase.mm in Sources */ = {isa = PBXBuildFile; fileRef = 721940BC20FF20D400071BFC /* IOSPurchase.mm */; };
 		721940C220FF216700071BFC /* UnityAdsMana.mm in Sources */ = {isa = PBXBuildFile; fileRef = 721940C120FF216600071BFC /* UnityAdsMana.mm */; };
+		721940CB20FF478700071BFC /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 721940CA20FF478600071BFC /* CoreTelephony.framework */; };
+		721940CD20FF479E00071BFC /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 721940CC20FF479D00071BFC /* libz.tbd */; };
+		721940CF20FF47EB00071BFC /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 721940CE20FF47EA00071BFC /* libsqlite3.tbd */; };
+		721940D120FF47F700071BFC /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 721940D020FF47F700071BFC /* SystemConfiguration.framework */; };
+		721940D320FF494400071BFC /* UMCommon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 721940D220FF494400071BFC /* UMCommon.framework */; };
+		721940D520FF51A600071BFC /* UMAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 721940D420FF51A500071BFC /* UMAnalytics.framework */; };
 		9F598A0819F5F3A6006015D6 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F598A0719F5F3A6006015D6 /* SystemConfiguration.framework */; };
 		9F598A0B19F5F4F4006015D6 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F598A0A19F5F4F4006015D6 /* StoreKit.framework */; };
 		9F9106B419F5614900AD5CAB /* libbase64.c in Sources */ = {isa = PBXBuildFile; fileRef = 9F9105AC19F5614800AD5CAB /* libbase64.c */; };
@@ -346,6 +352,12 @@
 		721940BC20FF20D400071BFC /* IOSPurchase.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = IOSPurchase.mm; path = ios/IOSPurchase.mm; sourceTree = "<group>"; };
 		721940C020FF216600071BFC /* UnityAdsMana.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UnityAdsMana.h; path = ios/UnityAdsMana.h; sourceTree = "<group>"; };
 		721940C120FF216600071BFC /* UnityAdsMana.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = UnityAdsMana.mm; path = ios/UnityAdsMana.mm; sourceTree = "<group>"; };
+		721940CA20FF478600071BFC /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.4.sdk/System/Library/Frameworks/CoreTelephony.framework; sourceTree = DEVELOPER_DIR; };
+		721940CC20FF479D00071BFC /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.4.sdk/usr/lib/libz.tbd; sourceTree = DEVELOPER_DIR; };
+		721940CE20FF47EA00071BFC /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.4.sdk/usr/lib/libsqlite3.tbd; sourceTree = DEVELOPER_DIR; };
+		721940D020FF47F700071BFC /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.4.sdk/System/Library/Frameworks/SystemConfiguration.framework; sourceTree = DEVELOPER_DIR; };
+		721940D220FF494400071BFC /* UMCommon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = UMCommon.framework; sourceTree = "<group>"; };
+		721940D420FF51A500071BFC /* UMAnalytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = UMAnalytics.framework; sourceTree = "<group>"; };
 		9F598A0719F5F3A6006015D6 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.1.sdk/System/Library/Frameworks/SystemConfiguration.framework; sourceTree = DEVELOPER_DIR; };
 		9F598A0A19F5F4F4006015D6 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.1.sdk/System/Library/Frameworks/StoreKit.framework; sourceTree = DEVELOPER_DIR; };
 		9F9105A719F5614800AD5CAB /* HelperFunc.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HelperFunc.cpp; sourceTree = "<group>"; };
@@ -602,7 +614,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				721940D120FF47F700071BFC /* SystemConfiguration.framework in Frameworks */,
+				721940CF20FF47EB00071BFC /* libsqlite3.tbd in Frameworks */,
+				721940CD20FF479E00071BFC /* libz.tbd in Frameworks */,
+				721940CB20FF478700071BFC /* CoreTelephony.framework in Frameworks */,
 				9F598A0B19F5F4F4006015D6 /* StoreKit.framework in Frameworks */,
+				721940D320FF494400071BFC /* UMCommon.framework in Frameworks */,
 				9F598A0819F5F3A6006015D6 /* SystemConfiguration.framework in Frameworks */,
 				15427CD5198F222200DC375D /* libluacocos2d iOS.a in Frameworks */,
 				15427CD3198F221400DC375D /* libcocos2d iOS.a in Frameworks */,
@@ -614,6 +631,7 @@
 				F293B3CD15EB7BE500256477 /* QuartzCore.framework in Frameworks */,
 				F293B3D115EB7BE500256477 /* OpenAL.framework in Frameworks */,
 				F293B3D315EB7BE500256477 /* AudioToolbox.framework in Frameworks */,
+				721940D520FF51A600071BFC /* UMAnalytics.framework in Frameworks */,
 				F293B3D515EB7BE500256477 /* AVFoundation.framework in Frameworks */,
 				F293B3D915EB7BE500256477 /* Foundation.framework in Frameworks */,
 				F293B3DB15EB7BE500256477 /* CoreGraphics.framework in Frameworks */,
@@ -1181,6 +1199,8 @@
 		F293B3BD15EB7BE500256477 = {
 			isa = PBXGroup;
 			children = (
+				721940D420FF51A500071BFC /* UMAnalytics.framework */,
+				721940D220FF494400071BFC /* UMCommon.framework */,
 				C03781AE18BF654500FE4F13 /* cocos2d_lua_bindings.xcodeproj */,
 				15A8A4031834BDA200142BE0 /* cocos2d_libs.xcodeproj */,
 				5023810617EBBCAC00990C9B /* ios */,
@@ -1204,6 +1224,10 @@
 		F293B3CB15EB7BE500256477 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				721940D020FF47F700071BFC /* SystemConfiguration.framework */,
+				721940CE20FF47EA00071BFC /* libsqlite3.tbd */,
+				721940CC20FF479D00071BFC /* libz.tbd */,
+				721940CA20FF478600071BFC /* CoreTelephony.framework */,
 				9F598A0A19F5F4F4006015D6 /* StoreKit.framework */,
 				9F598A0719F5F3A6006015D6 /* SystemConfiguration.framework */,
 				9F91078819F5628A00AD5CAB /* SystemConfiguration.framework */,
@@ -1765,6 +1789,10 @@
 				COMPRESS_PNG_FILES = NO;
 				DEVELOPMENT_TEAM = 4XUL6A3335;
 				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ios/Prefix.pch;
@@ -1795,6 +1823,10 @@
 				COMPRESS_PNG_FILES = NO;
 				DEVELOPMENT_TEAM = 4XUL6A3335;
 				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ios/Prefix.pch;
 				GCC_PREPROCESSOR_DEFINITIONS = (

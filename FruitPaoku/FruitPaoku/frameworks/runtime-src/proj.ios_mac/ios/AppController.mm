@@ -30,6 +30,7 @@
 #import "AppDelegate.h"
 #import "RootViewController.h"
 #import "platform/ios/CCEAGLView-ios.h"
+#import <UMCommon/UMCommon.h>
 
 @implementation AppController
 
@@ -46,6 +47,8 @@ static AppDelegate s_sharedApplication;
     app->initGLContextAttrs();
     cocos2d::GLViewImpl::convertAttrs();
 
+    [UMConfigure initWithAppkey:@"5b4f0d83f43e4853cd000014" channel:@"App Store"];
+    
     // Override point for customization after application launch.
 
     // Add the view controller's view to the window and display.

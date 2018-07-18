@@ -23,7 +23,7 @@ SDKUtil.EventId =
         RoleUpgrade = "RoleUpgrade",
 }
 
-local UMPaySource = 21 --友盟付费来源，友盟后台定义21代表爱贝支付
+local UMPaySource = 1 --友盟付费来源 1--App Store
 
 local luaj,luaoc
 
@@ -55,7 +55,7 @@ function SDKUtil.toPay(_data)
     _data.callback(SDKUtil.PayResult.Success)
 end
 
---初始化vungleSdk
+--初始化
 function SDKUtil.initBuy()
     local params = {}
     local _params = {}
@@ -80,12 +80,13 @@ end
 function SDKUtil.umentPay(_cost,_diamonds)
     local params = {_cost,_diamonds,UMPaySource}
     local sigs = "(III)V"
+    local _parms = {cash=_cost,source=UMPaySource,coin=_diamonds}
     if luaj then
         luaj.callStaticMethod(className,"umengPay",params,sigs)
         return
     end
     if luaoc then
-        luaoc.callStaticMethod(ocClassName,"umengPay",params)
+        luaoc.callStaticMethod(ocClassName,"umengPay",_parms)
         return
     end
 end
@@ -96,12 +97,13 @@ end
 function SDKUtil.umentPayEx(_cost,_item,_num,_diamonds)
     local params = {_cost,_item,_num,_diamonds,UMPaySource}
     local sigs = "(ILjava/lang/String;III)V"
+    local _parms = {cash=_cost,source=UMPaySource,price=_diamonds,item=_item,amount=_num}
     if luaj then
         luaj.callStaticMethod(className,"umengPay",params,sigs)
         return
     end
     if luaoc then
-        luaoc.callStaticMethod(ocClassName,"umengPay",params)
+        luaoc.callStaticMethod(ocClassName,"umengPayEx",_parms)
         return
     end
 end
@@ -113,12 +115,13 @@ end
 function SDKUtil.umentBuy(item,number,price)
     local params = {item,number,price}
     local sigs = "(Ljava/lang/String;II)V"
+    local _parms = {price=price,item=item,amount=number}
     if luaj then
         luaj.callStaticMethod(className,"umentBuy",params,sigs)
         return
     end
     if luaoc then
-        luaoc.callStaticMethod(ocClassName,"umentBuy",params)
+        luaoc.callStaticMethod(ocClassName,"umentBuy",_parms)
         return
     end
 end
@@ -129,12 +132,13 @@ end
 function SDKUtil.umentUse(item,number,price)
     local params = {item,number,price}
     local sigs = "(Ljava/lang/String;II)V"
+    local _parms = {price=price,item=item,amount=number}
     if luaj then
         luaj.callStaticMethod(className,"umentUse",params,sigs)
         return
     end
     if luaoc then
-        luaoc.callStaticMethod(ocClassName,"umentUse",params)
+        luaoc.callStaticMethod(ocClassName,"umentUse",_parms)
         return
     end
 end
@@ -146,12 +150,13 @@ end
 function SDKUtil.umentBonus(item,number,price,trigger)
     local params = {item,number,price,trigger}
     local sigs = "(Ljava/lang/String;III)V"
+    local _parms = {price=price,item=item,amount=number,source=trigger}
     if luaj then
         luaj.callStaticMethod(className,"umentBonus",params,sigs)
         return
     end
     if luaoc then
-        luaoc.callStaticMethod(ocClassName,"umentBonus",params)
+        luaoc.callStaticMethod(ocClassName,"umentBonus",_parms)
         return
     end
 end
@@ -160,12 +165,13 @@ end
 function SDKUtil.umentOnEvent(eventId)
     local params = {eventId}
     local sigs = "(Ljava/lang/String;)V"
+    local _parms = {event = eventId}
     if luaj then
         luaj.callStaticMethod(className,"umentOnEvent",params,sigs)
         return
     end
     if luaoc then
-        luaoc.callStaticMethod(ocClassName,"umentOnEvent",params)
+        luaoc.callStaticMethod(ocClassName,"umentOnEvent",_parms)
         return
     end
 end
@@ -174,12 +180,13 @@ end
 function SDKUtil.umentStartLevel(_level)
     local params = {_level}
     local sigs = "(I)V"
+    local _parms = {level = _level}
     if luaj then
         luaj.callStaticMethod(className,"umentStartLevel",params,sigs)
         return
     end
     if luaoc then
-        luaoc.callStaticMethod(ocClassName,"umentStartLevel",params)
+        luaoc.callStaticMethod(ocClassName,"umentStartLevel",_parms)
         return
     end
 end
@@ -188,12 +195,13 @@ end
 function SDKUtil.umentFinishLevel(_level)
     local params = {_level}
     local sigs = "(I)V"
+    local _parms = {level = _level}
     if luaj then
         luaj.callStaticMethod(className,"umentFinishLevel",params,sigs)
         return
     end
     if luaoc then
-        luaoc.callStaticMethod(ocClassName,"umentFinishLevel",params)
+        luaoc.callStaticMethod(ocClassName,"umentFinishLevel",_parms)
         return
     end
 end
@@ -202,12 +210,13 @@ end
 function SDKUtil.umentFailLevel(_level)
     local params = {_level}
     local sigs = "(I)V"
+    local _parms = {level = _level}
     if luaj then
         luaj.callStaticMethod(className,"umentFailLevel",params,sigs)
         return
     end
     if luaoc then
-        luaoc.callStaticMethod(ocClassName,"umentFailLevel",params)
+        luaoc.callStaticMethod(ocClassName,"umentFailLevel",_parms)
         return
     end
 end
