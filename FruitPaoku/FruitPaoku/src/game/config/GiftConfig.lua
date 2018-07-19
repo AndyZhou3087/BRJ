@@ -43,7 +43,7 @@ GiftConfig[2] =
         roleDes = "忍者老师用户专属礼包",
         roleHead = "ui/RoleHead_4.png",
         rewardImg = "ui/RoleCost_2.png",
-        price = 10,
+        price = 12,
         reward = {role = 3,dayDiamond = 10},
         payId = Payment.RoleGift_2,
     }
@@ -61,7 +61,7 @@ GiftConfig[3] =
         roleDes = "精英忍者用户专属礼包",
         roleHead = "ui/RoleHead_3.png",
         rewardImg = "ui/RoleCost_3.png",
-        price = 15,
+        price = 18,
         reward = {role = 4,dayDiamond = 20},
         payId = Payment.RoleGift_3,
     }
@@ -79,7 +79,7 @@ GiftConfig[4] =
         roleDes = "忍者教授用户专属礼包",
         roleHead = "ui/RoleHead_2.png",
         rewardImg = "ui/RoleCost_4.png",
-        price = 20,
+        price = 25,
         reward = {role = 5,dayDiamond = 30},
         payId = Payment.RoleGift_4,
     }

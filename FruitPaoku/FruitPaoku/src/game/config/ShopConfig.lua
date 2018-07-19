@@ -63,7 +63,7 @@ ShopConfig[7]=
         titleRes = "20钻石",    --商品标题名称
         res = "ui/ShopDiamond_1.png",   --商品资源
         describe = "颗钻石",  --描述
-        price = {type=SHOPITEM_BUY.RMB,rate=2,payId = Payment.Diamond_1},   --价格
+        price = {type=SHOPITEM_BUY.RMB,rate=1,payId = Payment.Diamond_1},   --价格
         content = 20,
 --        initPrice = 20,
     }
@@ -76,7 +76,7 @@ ShopConfig[6]=
         titleRes = "66钻石",    --商品标题名称
         res = "ui/ShopDiamond_2.png",   --商品资源
         describe = "颗钻石",  --描述
-        price = {type=SHOPITEM_BUY.RMB,rate=6,payId = Payment.Diamond_2},   --价格
+        price = {type=SHOPITEM_BUY.RMB,rate=3,payId = Payment.Diamond_2},   --价格
         content = 66,
 --        initPrice = 20,
     }
@@ -101,7 +101,7 @@ ShopConfig[4]=
         titleRes = "188钻石",    --商品标题名称
         res = "ui/ShopDiamond_4.png",   --商品资源
         describe = "颗钻石",  --描述
-        price = {type=SHOPITEM_BUY.RMB,rate=10,payId = Payment.Diamond_4},   --价格
+        price = {type=SHOPITEM_BUY.RMB,rate=12,payId = Payment.Diamond_4},   --价格
         content = 188,
     }
 
@@ -161,7 +161,7 @@ ShopConfig[8]=
         titleRes = "无限体力",    --商品标题名称
         res = "ui/ShopPowerimg.png",   --商品资源
         describe = "立即获得无限体力，信息15费元",  --描述
-        price = {type=SHOPITEM_BUY.RMB,rate=15,payId = Payment.Power_1},   --价格
+        price = {type=SHOPITEM_BUY.RMB,rate=18,payId = Payment.Power_1},   --价格
         content = 1000000000,   --无限体力数
     }
 
@@ -173,7 +173,7 @@ ShopConfig[3]=
         titleRes = "288钻石",    --商品标题名称
         res = "ui/ShopDiamond_4.png",   --商品资源
         describe = "颗钻石",  --描述
-        price = {type=SHOPITEM_BUY.RMB,rate=15,payId = Payment.Diamond_5},   --价格
+        price = {type=SHOPITEM_BUY.RMB,rate=18,payId = Payment.Diamond_5},   --价格
         content = 288,
     }
     
@@ -185,7 +185,7 @@ ShopConfig[2]=
         titleRes = "388钻石",    --商品标题名称
         res = "ui/ShopDiamond_4.png",   --商品资源
         describe = "颗钻石",  --描述
-        price = {type=SHOPITEM_BUY.RMB,rate=20,payId = Payment.Diamond_6},   --价格
+        price = {type=SHOPITEM_BUY.RMB,rate=25,payId = Payment.Diamond_6},   --价格
         content = 388,
     }
     

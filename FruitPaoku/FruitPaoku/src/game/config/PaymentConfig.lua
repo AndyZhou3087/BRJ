@@ -3,31 +3,31 @@
 ]]
 Payment=
 {
-        Diamond_1 = "rzjxkp.zs.2", --2元20钻商品
-        Diamond_2 = "rzjxkp.zs.6", --6元66钻商品
-        Diamond_3 = "rzjxkp.zs.8", --8元128钻商品
-        Diamond_4 = "rzjxkp.zs.10", --10元188钻商品
-        Diamond_5 = "rzjxkp.zs.15", --15元288钻商品
-        Diamond_6 = "rzjxkp.zs.20", --20元388钻商品
-        Diamond_7 = "rzjxkp.zs.30", --30元588钻商品
-        Gift_1 = "rzjxkp.lb.2", --2元金币礼包
-        Gift_2 = "rzjxkp.lb.30", --30元钻石礼包
-        Power_1 = "rzjxkp.dj.15.1", --无限体力
+        Diamond_1 = "rz001", --1元20钻商品
+        Diamond_2 = "rz002", --3元66钻商品
+        Diamond_3 = "rz003", --8元128钻商品
+        Diamond_4 = "rz004", --12元188钻商品
+        Diamond_5 = "rz014", --18元288钻商品
+        Diamond_6 = "rz015", --25元388钻商品
+        Diamond_7 = "rz016", --30元588钻商品
+        Gift_1 = "rz006", --1元金币礼包
+        Gift_2 = "rz007", --30元钻石礼包
+        Power_1 = "rz005", --无限体力
         Power_2 = 8, --1点体力
         Revive = 9,  --复活6元
         
         --角色满级支付id
-        RoleLevel_1 = "rzjxkp.dj.6.1",  --6元
-        RoleLevel_2 = "rzjxkp.dj.6.1",
-        RoleLevel_3 = "rzjxkp.dj.6.1",
-        RoleLevel_4 = "rzjxkp.dj.6.1",
-        RoleLevel_5 = "rzjxkp.dj.6.1",       
+        RoleLevel_1 = "rz012",  --6元
+        RoleLevel_2 = "rz012",
+        RoleLevel_3 = "rz012",
+        RoleLevel_4 = "rz012",
+        RoleLevel_5 = "rz012",       
         
         --购买角色礼包支付id
-        RoleGift_1 = "rzjxkp.dj.6",  --6元
-        RoleGift_2 = "rzjxkp.dj.10",  --10元
-        RoleGift_3 = "rzjxkp.dj.15",  --15元
-        RoleGift_4 = "rzjxkp.dj.20",  --20元
+        RoleGift_1 = "rz008",  --6元
+        RoleGift_2 = "rz009",  --12元
+        RoleGift_3 = "rz010",  --18元
+        RoleGift_4 = "rz011",  --25元
         
         --vip礼包支付
         VipGift_1 = "rzjxkp.by.8", --8元
