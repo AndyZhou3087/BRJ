@@ -78,10 +78,10 @@ function GiftView:ctor(parm)
     local PriceLabel=cc.uiloader:seekNodeByName(GiftView,"PriceLabel")
     if GameController.buyOrReceive == 0 then
         if config.reward.diamond then
-            PriceLabel:setString("信息费"..config.price.."元")
+            PriceLabel:setString("价格"..config.price.."元")
         end
         if config.reward.dayDiamond then
-            PriceLabel:setString("信息费"..config.price.."元,购买后可每日领取钻石x"..config.reward.dayDiamond)
+            PriceLabel:setString("价格"..config.price.."元,购买后可每日领取钻石x"..config.reward.dayDiamond)
         end
     else
         if config.reward.diamond then
