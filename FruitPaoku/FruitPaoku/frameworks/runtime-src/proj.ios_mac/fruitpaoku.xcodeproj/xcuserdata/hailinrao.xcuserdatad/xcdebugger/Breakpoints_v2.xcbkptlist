@@ -74,7 +74,7 @@
                   moduleName = "FruitPaoku iOS"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/hailinrao/Desktop/FruitPaoku/frameworks/runtime-src/proj.ios_mac/ios/IOSPurchase.mm"
-                  timestampString = "553662042.648326"
+                  timestampString = "553672053.444332"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "29"
@@ -89,7 +89,7 @@
                   moduleName = "FruitPaoku iOS"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/hailinrao/Desktop/FruitPaoku/frameworks/runtime-src/proj.ios_mac/ios/IOSPurchase.mm"
-                  timestampString = "553662042.650054"
+                  timestampString = "553672053.446086"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "29"
@@ -102,15 +102,15 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ios/UnityAdsMana.mm"
-            timestampString = "553605431.039205"
+            timestampString = "553672053.230641"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "59"
-            endingLineNumber = "59"
+            startingLineNumber = "60"
+            endingLineNumber = "60"
             landmarkName = "+umentUse:"
             landmarkType = "7">
          </BreakpointContent>

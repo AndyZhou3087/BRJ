@@ -10,6 +10,7 @@
 #include "IOSPurchase.h"
 #import <UMCommon/UMCommon.h>
 #import <UMAnalytics/MobClickGameAnalytics.h>
+#import <UMAnalytics/MobClick.h>
 
 IOSPurchase * iosPurchase;
 @implementation UnityAdsMana
@@ -75,7 +76,7 @@ IOSPurchase * iosPurchase;
 + (void)umentOnEvent:(NSDictionary*)dict {
     NSString* _event =[dict objectForKey:@"event"];
     
-    [MobClickGameAnalytics event:_event];
+    [MobClick event:_event];
 }
 
 + (void)umentStartLevel:(NSDictionary*)dict {

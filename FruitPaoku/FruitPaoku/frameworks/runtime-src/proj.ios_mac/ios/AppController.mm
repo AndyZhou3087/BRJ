@@ -47,6 +47,7 @@ static AppDelegate s_sharedApplication;
     app->initGLContextAttrs();
     cocos2d::GLViewImpl::convertAttrs();
 
+//    [UMConfigure setLogEnabled:YES];//设置打开日志
     [UMConfigure initWithAppkey:@"5b4f0d83f43e4853cd000014" channel:@"App Store"];
     
     // Override point for customization after application launch.

@@ -324,10 +324,10 @@
 		521A8E6E19F0C3D200D177D7 /* Default-667h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-667h@2x.png"; sourceTree = "<group>"; };
 		521A8E6F19F0C3D200D177D7 /* Default-736h@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-736h@3x.png"; sourceTree = "<group>"; };
 		7205990C210030320069B9CC /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		721940BA20FF20D400071BFC /* IOSPurchase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IOSPurchase.h; path = ios/IOSPurchase.h; sourceTree = "<group>"; };
-		721940BC20FF20D400071BFC /* IOSPurchase.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = IOSPurchase.mm; path = ios/IOSPurchase.mm; sourceTree = "<group>"; };
-		721940C020FF216600071BFC /* UnityAdsMana.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UnityAdsMana.h; path = ios/UnityAdsMana.h; sourceTree = "<group>"; };
-		721940C120FF216600071BFC /* UnityAdsMana.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = UnityAdsMana.mm; path = ios/UnityAdsMana.mm; sourceTree = "<group>"; };
+		721940BA20FF20D400071BFC /* IOSPurchase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOSPurchase.h; sourceTree = "<group>"; };
+		721940BC20FF20D400071BFC /* IOSPurchase.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = IOSPurchase.mm; sourceTree = "<group>"; };
+		721940C020FF216600071BFC /* UnityAdsMana.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnityAdsMana.h; sourceTree = "<group>"; };
+		721940C120FF216600071BFC /* UnityAdsMana.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = UnityAdsMana.mm; sourceTree = "<group>"; };
 		721940CA20FF478600071BFC /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.4.sdk/System/Library/Frameworks/CoreTelephony.framework; sourceTree = DEVELOPER_DIR; };
 		721940CC20FF479D00071BFC /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.4.sdk/usr/lib/libz.tbd; sourceTree = DEVELOPER_DIR; };
 		721940CE20FF47EA00071BFC /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.4.sdk/usr/lib/libsqlite3.tbd; sourceTree = DEVELOPER_DIR; };
@@ -663,6 +663,10 @@
 		5023810617EBBCAC00990C9B /* ios */ = {
 			isa = PBXGroup;
 			children = (
+				721940BA20FF20D400071BFC /* IOSPurchase.h */,
+				721940BC20FF20D400071BFC /* IOSPurchase.mm */,
+				721940C020FF216600071BFC /* UnityAdsMana.h */,
+				721940C120FF216600071BFC /* UnityAdsMana.mm */,
 				7205990C210030320069B9CC /* Images.xcassets */,
 				521A8E6E19F0C3D200D177D7 /* Default-667h@2x.png */,
 				521A8E6F19F0C3D200D177D7 /* Default-736h@3x.png */,
@@ -1213,10 +1217,6 @@
 		F293BB7C15EB830F00256477 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				721940BA20FF20D400071BFC /* IOSPurchase.h */,
-				721940BC20FF20D400071BFC /* IOSPurchase.mm */,
-				721940C020FF216600071BFC /* UnityAdsMana.h */,
-				721940C120FF216600071BFC /* UnityAdsMana.mm */,
 				9F91057419F5614700AD5CAB /* quick-src */,
 				15427CE2198F237300DC375D /* lua_module_register.h */,
 				C00FD4891938512100C6382D /* runtime */,
